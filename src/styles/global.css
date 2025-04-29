@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: Pretendard;
+  font-display: block;
+  src: url("../assets/font/PretendardVariable.woff2") format("woff2");
+}
+
+@theme {
+  /* Main color */
+
+  /* Sub color */
+
+  /* Neutral color */
+  --color-neutral-900: #13151a;
+  --color-neutral-800: #373b49;
+  --color-neutral-700: #5b6177;
+  --color-neutral-600: #7a839e;
+  --color-neutral-500: #969fbe;
+  --color-neutral-400: #adb7d6;
+  --color-neutral-300: #c3cbe7;
+  --color-neutral-200: #c2c9d5;
+  --color-neutral-100: #d6ddf3;
+  --color-neutral-0: #f7f9ff;
+
+  /* Fonts */
+  --font-pretendard: "Pretendard", sans-serif;
+}
+
+@layer components {
+  body {
+    @apply flex justify-center bg-gray-100 box-border font-pretendard;
+    color: var(--color-neutral-900);
+  }
+
+  *:focus {
+    outline: none;
+  }
+
+  @keyframes flash {
+    0% {
+      background-color: var(--color-neutral-300);
+      box-shadow:
+        32px 0 var(--color-neutral-300),
+        -32px 0 #fff;
+    }
+    50% {
+      background-color: #fff;
+      box-shadow:
+        32px 0 var(--color-neutral-300),
+        -32px 0 var(--color-neutral-300);
+    }
+    100% {
+      background-color: var(--color-neutral-300);
+      box-shadow:
+        32px 0 #fff,
+        -32px 0 var(--color-neutral-300);
+    }
+  }
+}
