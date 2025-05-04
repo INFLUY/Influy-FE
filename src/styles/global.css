@@ -15,16 +15,16 @@
 
   /* 그레이 계열 */
   --color-black: #17171b;
-  --color-gray10: #3e3e3e;
-  --color-gray09: #575757;
-  --color-gray08: #757575;
-  --color-gray07: #939393;
-  --color-gray06: #adadad;
-  --color-gray05: #c4c4c4;
-  --color-gray04: #d3d3d3;
-  --color-gray03: #e5e5e4;
-  --color-gray02: #f1f1f1;
-  --color-gray01: #f8f8f9;
+  --color-grey10: #3e3e3e;
+  --color-grey09: #575757;
+  --color-grey08: #757575;
+  --color-grey07: #939393;
+  --color-grey06: #adadad;
+  --color-grey05: #c4c4c4;
+  --color-grey04: #d3d3d3;
+  --color-grey03: #e5e5e4;
+  --color-grey02: #f1f1f1;
+  --color-grey01: #f8f8f9;
   --color-white: #ffffff;
 
   /* Fonts */
@@ -33,7 +33,7 @@
 
 @layer components {
   body {
-    @apply flex justify-center bg-gray-100 text-black box-border font-pretendard;
+    @apply flex justify-center bg-grey-100 text-black box-border font-pretendard;
   }
 
   *:focus {
