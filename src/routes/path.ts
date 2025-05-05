@@ -3,4 +3,7 @@ export const PATH = {
   HOME: {
     base: "/home",
   },
+  SELLER_PROFILE: {
+    base: "/seller/:sellerId",
+  },
 } as const;

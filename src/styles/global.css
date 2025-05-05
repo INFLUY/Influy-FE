@@ -33,7 +33,7 @@
 
 @layer components {
   body {
-    @apply flex justify-center bg-grey-100 text-black box-border font-pretendard;
+    @apply flex justify-center bg-grey01 text-black box-border font-pretendard;
   }
 
   *:focus {
