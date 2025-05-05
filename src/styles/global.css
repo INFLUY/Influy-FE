@@ -12,16 +12,20 @@
   /* Sub color */
 
   /* Neutral color */
-  --color-neutral-900: #13151a;
-  --color-neutral-800: #373b49;
-  --color-neutral-700: #5b6177;
-  --color-neutral-600: #7a839e;
-  --color-neutral-500: #969fbe;
-  --color-neutral-400: #adb7d6;
-  --color-neutral-300: #c3cbe7;
-  --color-neutral-200: #c2c9d5;
-  --color-neutral-100: #d6ddf3;
-  --color-neutral-0: #f7f9ff;
+
+  /* 그레이 계열 */
+  --color-black: #17171b;
+  --color-grey10: #3e3e3e;
+  --color-grey09: #575757;
+  --color-grey08: #757575;
+  --color-grey07: #939393;
+  --color-grey06: #adadad;
+  --color-grey05: #c4c4c4;
+  --color-grey04: #d3d3d3;
+  --color-grey03: #e5e5e4;
+  --color-grey02: #f1f1f1;
+  --color-grey01: #f8f8f9;
+  --color-white: #ffffff;
 
   /* Fonts */
   --font-pretendard: "Pretendard", sans-serif;
@@ -29,12 +33,59 @@
 
 @layer components {
   body {
-    @apply flex justify-center bg-gray-100 box-border font-pretendard;
-    color: var(--color-neutral-900);
+    @apply flex justify-center bg-grey-100 text-black box-border font-pretendard;
   }
 
   *:focus {
     outline: none;
+  }
+
+  .headline1 {
+    @apply text-[1.75rem] leading-[155%] font-bold tracking-[-0.001em];
+  }
+
+  .headline2 {
+    @apply text-[1.5rem] leading-[155%] font-bold tracking-[-0.001em];
+  }
+
+  .headline3 {
+    @apply text-[1.5rem] leading-[155%] font-semibold tracking-[-0.001em];
+  }
+
+  .subhead-b {
+    @apply text-[1.125rem] leading-[150%] font-bold tracking-[-0.001em];
+  }
+
+  .subhead-m {
+    @apply text-[1.125rem] leading-[150%] font-medium tracking-[-0.001em];
+  }
+
+  .body1-b {
+    @apply text-[1rem] leading-[150%] font-bold tracking-[-0.001em];
+  }
+
+  .body1-m {
+    @apply text-[1rem] leading-[150%] font-medium tracking-[-0.001em];
+  }
+
+  .body2-b {
+    @apply text-[0.875rem] leading-[150%] font-bold tracking-[-0.001em];
+  }
+
+  .body2-m {
+    @apply text-[0.875rem] leading-[150%] font-medium tracking-[-0.001em];
+  }
+
+  .body2-r {
+    @apply text-[0.875rem] leading-[150%] font-normal tracking-[-0.001em];
+  }
+
+  .caption-b {
+    @apply text-[0.75rem] leading-[140%] font-bold tracking-[-0.001em];
+  }
+
+  .caption-m {
+    @apply text-[0.75rem] leading-[140%] font-medium tracking-[-0.001em];
   }
 
   @keyframes flash {
