@@ -56,6 +56,10 @@
     @apply text-[1.125rem] leading-[150%] font-bold tracking-[-0.001em];
   }
 
+  .subhead-sb {
+    @apply text-[1.125rem] leading-[150%] font-semibold tracking-[-0.001em];
+  }
+
   .subhead-m {
     @apply text-[1.125rem] leading-[150%] font-medium tracking-[-0.001em];
   }
@@ -86,6 +90,10 @@
 
   .caption-m {
     @apply text-[0.75rem] leading-[140%] font-medium tracking-[-0.001em];
+  }
+
+  .caption-small-m {
+    @apply text-[.625rem] leading-[140%] font-medium tracking-[-0.001em];
   }
 
   @keyframes flash {
