@@ -1,5 +1,8 @@
 import { ProductList, ProductGrid } from '@/components/user/Product';
 import { useState } from 'react';
+import LayoutButton from '@/assets/icon/common/LayoutButton.svg?react';
+import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
+import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
 
 const SellerProfile = () => {
   const PRODUCT_LIST = [
@@ -52,11 +55,38 @@ const SellerProfile = () => {
     },
   ];
 
-  const [isGrid, setIsGrid] = useState(true);
+  const [isGrid, setIsGrid] = useState<boolean>(true);
+  const [inProgress, setInProgress] = useState<boolean>(false);
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInProgress(e.target.checked);
+  };
 
   return (
     <>
-      <button onClick={() => setIsGrid((prev) => !prev)}>토글</button>
+      <span className="flex w-full justify-between px-5">
+        <span className="flex cursor-pointer items-center gap-[.375rem]">
+          <input
+            type="checkbox"
+            id="filterProductInProgress"
+            hidden
+            checked={inProgress}
+            onChange={handleCheckboxChange}
+          />
+          <label
+            htmlFor="filterProductInProgress"
+            className="text-grey08 caption-m flex cursor-pointer items-center gap-[.375rem]"
+          >
+            {inProgress ? <CheckBoxOn /> : <CheckBoxOff />}
+            진행 중인 상품만 보기
+          </label>
+        </span>
+        <LayoutButton
+          onClick={() => setIsGrid((prev) => !prev)}
+          aria-label="레이아웃 변경 버튼"
+          className="cursor-pointer"
+        />
+      </span>
       {isGrid ? (
         <ul className="flex flex-wrap content-start items-start gap-x-[.6875rem] gap-y-5">
           {PRODUCT_LIST?.map((product) => (
