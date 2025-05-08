@@ -22,8 +22,7 @@ const SellerProfile = () => {
       productId: 1,
       title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
       name: '@dfkjdkfjdkfj',
-      content:
-        '🖤완판 재진행🖤 너무 예쁜 가디건🖤완판 재진행🖤너무 예쁜 가디건',
+      content: '🖤완판 재진행🖤너무 예쁜 가디건',
       thumbnail: '/img1.png',
       open: '2025-04-30T18:00:00Z',
       deadline: '2025-05-01T23:00:00Z',
@@ -34,8 +33,7 @@ const SellerProfile = () => {
       productId: 2,
       title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
       name: '@dfkjdkfjdkfj',
-      content:
-        '🖤완판 재진행🖤 너무 예쁜 가디건🖤완판 재진행🖤너무 예쁜 가디건',
+      content: '🖤완판 재진행🖤 너무 예쁜 가디건',
       thumbnail: '/img1.png',
       open: '2025-03-20T18:00:00Z',
       deadline: '2025-04-30T18:30:00Z',
@@ -64,7 +62,7 @@ const SellerProfile = () => {
 
   return (
     <>
-      <span className="flex w-full justify-between px-5">
+      <span className="flex w-full justify-between px-5 pt-[1.125rem] pb-[2.375rem]">
         <span className="flex cursor-pointer items-center gap-[.375rem]">
           <input
             type="checkbox"
@@ -88,13 +86,13 @@ const SellerProfile = () => {
         />
       </span>
       {isGrid ? (
-        <ul className="flex flex-wrap content-start items-start gap-x-[.6875rem] gap-y-5">
+        <ul className="grid grid-cols-2 content-start items-start gap-x-[.6875rem] gap-y-5 px-[1.125rem] pb-[11rem]">
           {PRODUCT_LIST?.map((product) => (
             <ProductGrid key={product?.productId} product={product} />
           ))}
         </ul>
       ) : (
-        <ul className="flex flex-col items-start gap-4 self-stretch">
+        <ul className="flex flex-col items-start gap-4 self-stretch pb-[11rem]">
           {PRODUCT_LIST?.map((product) => (
             <ProductList key={product?.productId} product={product} />
           ))}

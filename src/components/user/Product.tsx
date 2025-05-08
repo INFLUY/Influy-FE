@@ -35,7 +35,9 @@ export const ProductList = ({ product }: { product: ProductType }) => {
             </span>
             <span className="flex flex-col items-start gap-[.125rem] self-stretch">
               <h1 className="body2-m line-clamp-2">{product?.title}</h1>
-              <p className="text-grey09 caption-m">{product?.content}</p>
+              <p className="text-grey09 caption-m line-clamp-1">
+                {product?.content}
+              </p>
             </span>
           </span>
           {/* 칩 */}
@@ -58,7 +60,7 @@ export const ProductList = ({ product }: { product: ProductType }) => {
 
 export const ProductGrid = ({ product }: { product: ProductType }) => {
   return (
-    <li className="flex w-[10.125rem] cursor-pointer flex-col gap-[.625rem] self-start">
+    <li className="flex w-full cursor-pointer flex-col gap-[.625rem] self-start">
       {/* 썸네일 */}
       <div className="relative flex aspect-square w-full shrink-0 justify-end p-2">
         <img
@@ -77,13 +79,15 @@ export const ProductGrid = ({ product }: { product: ProductType }) => {
         </div>
       </div>
       <div className="flex flex-col items-start gap-2">
-        <div className="flex flex-shrink-0 flex-grow basis-0 flex-col justify-between align-middle">
-          <span className="gap-1">
+        <div className="flex flex-shrink-0 flex-grow basis-0 flex-col justify-between gap-2 align-middle">
+          <span className="flex flex-col gap-1">
             <span className="text-grey07 caption-m line-clamp-1">
               {product?.name}
             </span>
-            <h1 className="body2-m">{product?.title}</h1>
-            <p className="text-grey09 caption-m">{product?.content}</p>
+            <h1 className="body2-m line-clamp-2">{product?.title}</h1>
+            <p className="text-grey09 caption-m line-clamp-1">
+              {product?.content}
+            </p>
           </span>
           {/* 칩 */}
           <span className="flex">
