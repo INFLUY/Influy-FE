@@ -1,7 +1,9 @@
 const GlobalLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex flex-1 flex-col h-screen min-w-[20rem] w-screen max-w-[40rem] bg-white md:w-[28rem] overflow-auto scrollbar-hide">
-      <main className="flex relative flex-1 flex-col">{children}</main>
+    <div className="scrollbar-hide flex h-screen w-screen max-w-[40rem] min-w-[20rem] flex-1 flex-col overflow-auto bg-white md:w-[28rem]">
+      <main className="scrollbar-hide relative flex flex-1 flex-col">
+        {children}
+      </main>
     </div>
   );
 };

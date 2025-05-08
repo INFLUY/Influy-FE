@@ -1,9 +1,9 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @font-face {
   font-family: Pretendard;
   font-display: block;
-  src: url("../assets/font/PretendardVariable.woff2") format("woff2");
+  src: url('../assets/font/PretendardVariable.woff2') format('woff2');
 }
 
 @theme {
@@ -28,12 +28,12 @@
   --color-white: #ffffff;
 
   /* Fonts */
-  --font-pretendard: "Pretendard", sans-serif;
+  --font-pretendard: 'Pretendard', sans-serif;
 }
 
 @layer components {
   body {
-    @apply flex justify-center bg-grey01 text-black box-border font-pretendard;
+    @apply bg-grey01 font-pretendard box-border flex justify-center text-black;
   }
 
   *:focus {
@@ -114,6 +114,16 @@
       box-shadow:
         32px 0 #fff,
         -32px 0 var(--color-neutral-300);
+    }
+  }
+
+  @layer utilities {
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   }
 }
