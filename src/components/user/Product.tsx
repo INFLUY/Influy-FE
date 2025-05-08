@@ -66,10 +66,15 @@ export const ProductGrid = ({ product }: { product: ProductType }) => {
           alt="상품 썸네일"
           className="absolute inset-0 object-cover"
         />
-        <ScrapButton scrapped={product?.scrapped} handleClickSave={() => {}} />
-        {/* <div className="absolute inset-0 bg-black/40 pointer-events-none flex justify-center items-center text-white">
+        <ScrapButton
+          scrapped={product?.scrapped}
+          handleClickSave={() => {
+            console.log('saved');
+          }}
+        />
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
           마감
-        </div> */}
+        </div>
       </div>
       <div className="flex flex-col items-start gap-2">
         <div className="flex flex-shrink-0 flex-grow basis-0 flex-col justify-between align-middle">

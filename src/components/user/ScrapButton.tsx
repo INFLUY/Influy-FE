@@ -1,5 +1,5 @@
-import Heart from "@/assets/icon/user/Heart.svg?react";
-import ActiveHeart from "@/assets/icon/user/HeartActive.svg?react";
+import Heart from '@/assets/icon/user/Heart.svg?react';
+import ActiveHeart from '@/assets/icon/user/HeartActive.svg?react';
 
 const ScrapButton = ({
   scrapped,
@@ -8,17 +8,22 @@ const ScrapButton = ({
   scrapped: boolean;
   handleClickSave: () => void;
 }) => {
+  const handleClickScrapButton = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    handleClickSave();
+  };
+
   return (
     <>
       {scrapped ? (
         <Heart
-          className="text-grey03 w-6 h-6 z-10 cursor-pointer"
-          onClick={handleClickSave}
+          className="text-grey03 z-10 h-6 w-6 cursor-pointer"
+          onClick={handleClickScrapButton}
         />
       ) : (
         <ActiveHeart
-          className="text-black w-6 h-6 z-10 cursor-pointer"
-          onClick={handleClickSave}
+          className="z-10 h-6 w-6 cursor-pointer text-black"
+          onClick={handleClickScrapButton}
         />
       )}
     </>
