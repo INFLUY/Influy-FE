@@ -3,9 +3,10 @@ import { useState } from 'react';
 import LayoutButton from '@/assets/icon/common/LayoutButton.svg?react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
+import { ProductType } from '@/types/types';
 
 const SellerProfile = () => {
-  const PRODUCT_LIST = [
+  const PRODUCT_LIST: ProductType[] = [
     {
       productId: 0,
       title:
@@ -62,7 +63,7 @@ const SellerProfile = () => {
 
   return (
     <>
-      <span className="flex w-full justify-between px-5 pt-[1.125rem] pb-[2.375rem]">
+      <span className="flex w-full justify-between px-5 pt-[1.125rem]">
         <span className="flex cursor-pointer items-center gap-[.375rem]">
           <input
             type="checkbox"
@@ -85,18 +86,24 @@ const SellerProfile = () => {
           className="cursor-pointer"
         />
       </span>
-      {isGrid ? (
-        <ul className="grid grid-cols-2 content-start items-start gap-x-[.6875rem] gap-y-5 px-[1.125rem] pb-[11rem]">
-          {PRODUCT_LIST?.map((product) => (
-            <ProductGrid key={product?.productId} product={product} />
-          ))}
-        </ul>
+      {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 ? (
+        isGrid ? (
+          <ul className="grid grid-cols-2 content-start items-start gap-x-[.6875rem] gap-y-5 px-[1.125rem] pt-[2.375rem] pb-[11rem]">
+            {PRODUCT_LIST?.map((product) => (
+              <ProductGrid key={product?.productId} product={product} />
+            ))}
+          </ul>
+        ) : (
+          <ul className="flex flex-col items-start gap-4 self-stretch pt-[2.375rem] pb-[11rem]">
+            {PRODUCT_LIST?.map((product) => (
+              <ProductList key={product?.productId} product={product} />
+            ))}
+          </ul>
+        )
       ) : (
-        <ul className="flex flex-col items-start gap-4 self-stretch pb-[11rem]">
-          {PRODUCT_LIST?.map((product) => (
-            <ProductList key={product?.productId} product={product} />
-          ))}
-        </ul>
+        <span className="text-grey06 body-2-m flex w-full justify-center pt-[5.6875rem]">
+          아직 등록한 상품이 없습니다.
+        </span>
       )}
     </>
   );
