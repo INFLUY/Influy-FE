@@ -83,7 +83,15 @@ export const SoldOutChip = () => {
   return <Chip>SOLDOUT</Chip>;
 };
 
-export const ExtendChip = ({ deadline }: { deadline: string }) => {
+export const ExtendChip = ({
+  extend,
+  deadline,
+}: {
+  extend: boolean;
+  deadline: string;
+}) => {
+  if (!extend) return;
+
   const today = new Date();
   const closeTime = new Date(deadline);
   const timeLeftUntilClose = closeTime.getTime() - today.getTime();

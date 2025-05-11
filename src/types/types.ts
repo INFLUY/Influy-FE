@@ -7,5 +7,6 @@ export type ItemType = {
   open: string;
   deadline: string;
   scrapped: boolean;
+  extend?: boolean;
   soldOut?: boolean;
 };

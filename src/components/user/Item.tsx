@@ -1,5 +1,5 @@
 import ScrapButton from '@/components/user/ScrapButton';
-import { ExtendChip, SoldOutChip, TimeChip } from './Chip';
+import { ExtendChip, SoldOutChip, TimeChip } from '@/components/user/Chip';
 import { ItemType } from '@/types/types';
 
 export const ItemList = ({ item }: { item: ItemType }) => {
@@ -36,7 +36,10 @@ export const ItemList = ({ item }: { item: ItemType }) => {
             ) : (
               <span className="flex gap-1">
                 <TimeChip open={item?.open} deadline={item?.deadline} />
-                <ExtendChip deadline={item?.deadline} />
+                <ExtendChip
+                  extend={item?.extend || false}
+                  deadline={item?.deadline}
+                />
               </span>
             )}
           </span>
@@ -85,7 +88,10 @@ export const ItemGrid = ({ item }: { item: ItemType }) => {
             ) : (
               <span className="flex gap-1">
                 <TimeChip open={item?.open} deadline={item?.deadline} />
-                <ExtendChip deadline={item?.deadline} />
+                <ExtendChip
+                  extend={item?.extend || false}
+                  deadline={item?.deadline}
+                />
               </span>
             )}
           </span>
