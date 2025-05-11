@@ -7,7 +7,7 @@ import {
 import { Suspense } from "react";
 import { PATH } from "@/routes/path";
 import { GlobalLayout, Loading } from "@/components";
-import { NotFound, Home } from "@/pages";
+import { NotFound, Home, SellerProfile } from "@/pages";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +31,16 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <Home />,
+          },
+        ],
+      },
+      {
+        path: PATH.SELLER_PROFILE.base,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <SellerProfile />,
           },
         ],
       },

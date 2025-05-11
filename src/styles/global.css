@@ -1,9 +1,9 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @font-face {
   font-family: Pretendard;
   font-display: block;
-  src: url("../assets/font/PretendardVariable.woff2") format("woff2");
+  src: url('../assets/font/PretendardVariable.woff2') format('woff2');
 }
 
 @theme {
@@ -28,12 +28,12 @@
   --color-white: #ffffff;
 
   /* Fonts */
-  --font-pretendard: "Pretendard", sans-serif;
+  --font-pretendard: 'Pretendard', sans-serif;
 }
 
 @layer components {
   body {
-    @apply flex justify-center bg-grey-100 text-black box-border font-pretendard;
+    @apply bg-grey01 font-pretendard box-border flex justify-center text-black;
   }
 
   *:focus {
@@ -56,6 +56,10 @@
     @apply text-[1.125rem] leading-[150%] font-bold tracking-[-0.001em];
   }
 
+  .subhead-sb {
+    @apply text-[1.125rem] leading-[150%] font-semibold tracking-[-0.001em];
+  }
+
   .subhead-m {
     @apply text-[1.125rem] leading-[150%] font-medium tracking-[-0.001em];
   }
@@ -66,6 +70,10 @@
 
   .body1-m {
     @apply text-[1rem] leading-[150%] font-medium tracking-[-0.001em];
+  }
+
+  .body2-sb {
+    @apply text-[0.875rem] leading-[150%] font-semibold tracking-[-0.001em];
   }
 
   .body2-b {
@@ -88,6 +96,10 @@
     @apply text-[0.75rem] leading-[140%] font-medium tracking-[-0.001em];
   }
 
+  .caption-small-m {
+    @apply text-[.625rem] leading-[140%] font-medium tracking-[-0.001em];
+  }
+
   @keyframes flash {
     0% {
       background-color: var(--color-neutral-300);
@@ -106,6 +118,16 @@
       box-shadow:
         32px 0 #fff,
         -32px 0 var(--color-neutral-300);
+    }
+  }
+
+  @layer utilities {
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   }
 }
