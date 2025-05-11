@@ -15,7 +15,7 @@ export const SaveButton = ({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        'body2-m flex h-[3.0625rem] w-[20.9375rem] items-center justify-center rounded-sm text-white',
+        'body2-m flex h-[3.0625rem] w-full items-center justify-center rounded-sm text-white',
         disabled ? disabledColor : activeColor,
         additionalStyles
       )}
