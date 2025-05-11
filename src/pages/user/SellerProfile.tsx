@@ -1,14 +1,14 @@
-import { ProductList, ProductGrid } from '@/components/user/Product';
+import { ItemList, ItemGrid } from '@/components/user/Item';
 import { useState } from 'react';
 import LayoutButton from '@/assets/icon/common/LayoutButton.svg?react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
-import { ProductType } from '@/types/types';
+import { ItemType } from '@/types/types';
 
 const SellerProfile = () => {
-  const PRODUCT_LIST: ProductType[] = [
+  const PRODUCT_LIST: ItemType[] = [
     {
-      productId: 0,
+      itemId: 0,
       title:
         '[프리따픽] VT 컬러 리들샷 마스크팩 2차 재진행 / 메종마르지엘라 이벤트까지',
       name: '@dfkjdkfjdkfj',
@@ -20,7 +20,7 @@ const SellerProfile = () => {
       soldOut: false,
     },
     {
-      productId: 1,
+      itemId: 1,
       title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
       name: '@dfkjdkfjdkfj',
       content: '🖤완판 재진행🖤너무 예쁜 가디건',
@@ -31,7 +31,7 @@ const SellerProfile = () => {
       soldOut: false,
     },
     {
-      productId: 2,
+      itemId: 2,
       title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
       name: '@dfkjdkfjdkfj',
       content: '🖤완판 재진행🖤 너무 예쁜 가디건',
@@ -42,7 +42,7 @@ const SellerProfile = () => {
       soldOut: true,
     },
     {
-      productId: 3,
+      itemId: 3,
       title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
       name: '@dfkjdkfjdkfj',
       content: '🖤완판 재진행🖤',
@@ -67,13 +67,13 @@ const SellerProfile = () => {
         <span className="flex cursor-pointer items-center gap-[.375rem]">
           <input
             type="checkbox"
-            id="filterProductInProgress"
+            id="filterItemInProgress"
             hidden
             checked={inProgress}
             onChange={handleCheckboxChange}
           />
           <label
-            htmlFor="filterProductInProgress"
+            htmlFor="filterItemInProgress"
             className="text-grey08 caption-m flex cursor-pointer items-center gap-[.375rem]"
           >
             {inProgress ? <CheckBoxOn /> : <CheckBoxOff />}
@@ -89,14 +89,14 @@ const SellerProfile = () => {
       {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 ? (
         isGrid ? (
           <ul className="grid grid-cols-2 content-start items-start gap-x-[.6875rem] gap-y-5 px-[1.125rem] pt-[2.375rem] pb-[11rem]">
-            {PRODUCT_LIST?.map((product) => (
-              <ProductGrid key={product?.productId} product={product} />
+            {PRODUCT_LIST?.map((item) => (
+              <ItemGrid key={item?.itemId} item={item} />
             ))}
           </ul>
         ) : (
           <ul className="flex flex-col items-start gap-4 self-stretch pt-[2.375rem] pb-[11rem]">
-            {PRODUCT_LIST?.map((product) => (
-              <ProductList key={product?.productId} product={product} />
+            {PRODUCT_LIST?.map((item) => (
+              <ItemList key={item?.itemId} item={item} />
             ))}
           </ul>
         )

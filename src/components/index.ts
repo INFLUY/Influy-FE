@@ -1,6 +1,6 @@
-export { default as GlobalLayout } from "./layout/GlobalLayout";
+export { default as GlobalLayout } from './layout/GlobalLayout';
 
-export { default as Loading } from "./loading/Loading";
+export { default as Loading } from './loading/Loading';
 
-export { ProductList, ProductGrid } from "./user/Product";
-export { TimeChip, SoldOutChip, ExtendChip } from "./user/Chip";
+export { ItemList, ItemGrid } from './user/Item';
+export { TimeChip, SoldOutChip, ExtendChip } from './user/Chip';

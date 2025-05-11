@@ -1,5 +1,5 @@
-export type ProductType = {
-  productId: number;
+export type ItemType = {
+  itemId: number;
   title: string;
   name: string;
   content: string;
