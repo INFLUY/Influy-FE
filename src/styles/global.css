@@ -72,6 +72,10 @@
     @apply text-[1rem] leading-[150%] font-medium tracking-[-0.001em];
   }
 
+  .body2-sb {
+    @apply text-[0.875rem] leading-[150%] font-semibold tracking-[-0.001em];
+  }
+
   .body2-b {
     @apply text-[0.875rem] leading-[150%] font-bold tracking-[-0.001em];
   }
