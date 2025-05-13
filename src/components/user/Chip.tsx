@@ -12,8 +12,8 @@ export const TimeChip = ({
   open,
   deadline,
 }: {
-  open: string; // "2025-05-20T18:00:00Z"
-  deadline: string; // "2025-05-20T18:00:00Z"
+  open: string; // "2025-05-20T18:00:00"
+  deadline: string; // "2025-05-20T18:00:00"
 }) => {
   const [timeLeftUntilOpen, setTimeLeftUntilOpen] = useState<number>(0);
   const [timeLeftUntilClose, setTimeLeftUntilClose] = useState<number>(0);
@@ -98,6 +98,6 @@ export const ExtendChip = ({
 
   // 데드라인 안 지났을 경우에만 뜸.
   if (timeLeftUntilClose > 0) {
-    return <Chip>연장</Chip>;
+    return <Chip>기간 연장</Chip>;
   }
 };
