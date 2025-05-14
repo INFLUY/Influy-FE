@@ -15,6 +15,7 @@
 
   /* 그레이 계열 */
   --color-black: #17171b;
+  --color-grey11: #2b2b2b;
   --color-grey10: #3e3e3e;
   --color-grey09: #575757;
   --color-grey08: #757575;
@@ -66,6 +67,10 @@
 
   .body1-b {
     @apply text-[1rem] leading-[150%] font-bold tracking-[-0.001em];
+  }
+
+  .body1-sb {
+    @apply text-[1rem] leading-[150%] font-semibold tracking-[-0.001em];
   }
 
   .body1-m {
