@@ -1,6 +1,7 @@
 import ScrapButton from '@/components/user/ScrapButton';
 import { ExtendChip, SoldOutChip, TimeChip } from '@/components/user/Chip';
 import { ItemType } from '@/types/types';
+import cn from '@/utils/cn';
 
 export const ItemList = ({ item }: { item: ItemType }) => {
   return (
@@ -70,7 +71,11 @@ export const ItemGrid = ({ item }: { item: ItemType }) => {
           마감
         </div>
       </div>
-      <div className="flex flex-col items-start gap-2">
+      <div
+        className={cn('flex flex-col items-start gap-2', {
+          'h-[7rem] justify-between gap-0': !item?.content,
+        })}
+      >
         <div className="flex flex-shrink-0 flex-grow basis-0 flex-col justify-between gap-2 align-middle">
           <span className="flex flex-col gap-1">
             <span className="text-grey07 caption-m line-clamp-1">
