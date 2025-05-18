@@ -1,9 +1,15 @@
 export const PATH = {
-  ROOT: "/",
+  ROOT: '/',
   HOME: {
-    base: "/home",
+    base: '/home',
   },
   SELLER_PROFILE: {
-    base: "/seller/:sellerId",
+    base: '/seller/:sellerId',
+  },
+  SELLER: {
+    base: '/my',
+    mypage: {
+      profile: 'profile',
+    },
   },
 } as const;

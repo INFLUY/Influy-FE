@@ -3,11 +3,11 @@ import {
   Navigate,
   Outlet,
   RouterProvider,
-} from "react-router-dom";
-import { Suspense } from "react";
-import { PATH } from "@/routes/path";
-import { GlobalLayout, Loading } from "@/components";
-import { NotFound, Home, SellerProfile } from "@/pages";
+} from 'react-router-dom';
+import { Suspense } from 'react';
+import { PATH } from '@/routes/path';
+import { GlobalLayout, Loading } from '@/components';
+import { NotFound, Home, SellerProfile, SellerMyPage } from '@/pages';
 
 const router = createBrowserRouter([
   {
@@ -45,7 +45,21 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "*",
+        path: PATH.SELLER.base,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <Navigate to={PATH.SELLER.mypage.profile} replace />,
+          },
+          {
+            path: PATH.SELLER.mypage.profile,
+            element: <SellerMyPage />,
+          },
+        ],
+      },
+      {
+        path: '*',
         element: <NotFound />,
       },
     ],
