@@ -1,11 +1,14 @@
 import { ItemList, ItemGrid } from '@/components/user/Item';
 import { useState } from 'react';
-import LayoutButton from '@/assets/icon/common/LayoutButton.svg?react';
+import LayoutListButton from '@/assets/icon/common/LayoutListButton.svg?react';
+import LayoutAlbumButton from '@/assets/icon/common/LayoutAlbumButton.svg?react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
 import { ItemType } from '@/types/types';
+import { Tab, Tabs } from '@/components/common/Tab';
 
 const SellerProfile = () => {
+  const [activeTab, setActiveTab] = useState<number>(0);
   const PRODUCT_LIST: ItemType[] = [
     {
       itemId: 0,
@@ -62,49 +65,77 @@ const SellerProfile = () => {
     setInProgress(e.target.checked);
   };
 
+  const LayoutButton = isGrid ? LayoutAlbumButton : LayoutListButton;
+
   return (
     <>
-      <span className="flex w-full justify-between px-5 pt-[1.125rem]">
-        <span className="flex cursor-pointer items-center gap-[.375rem]">
-          <input
-            type="checkbox"
-            id="filterItemInProgress"
-            hidden
-            checked={inProgress}
-            onChange={handleCheckboxChange}
-          />
-          <label
-            htmlFor="filterItemInProgress"
-            className="text-grey08 caption-m flex cursor-pointer items-center gap-[.375rem]"
-          >
-            {inProgress ? <CheckBoxOn /> : <CheckBoxOff />}
-            진행 중인 상품만 보기
-          </label>
-        </span>
-        <LayoutButton
-          onClick={() => setIsGrid((prev) => !prev)}
-          aria-label="레이아웃 변경 버튼"
-          className="cursor-pointer"
-        />
-      </span>
-      {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 ? (
-        isGrid ? (
-          <ul className="grid grid-cols-2 content-start items-start gap-x-[.6875rem] gap-y-5 px-[1.125rem] pt-[2.375rem] pb-[11rem]">
-            {PRODUCT_LIST?.map((item) => (
-              <ItemGrid key={item?.itemId} item={item} />
-            ))}
-          </ul>
-        ) : (
-          <ul className="flex flex-col items-start gap-4 self-stretch pt-[2.375rem] pb-[11rem]">
-            {PRODUCT_LIST?.map((item) => (
-              <ItemList key={item?.itemId} item={item} />
-            ))}
-          </ul>
-        )
-      ) : (
-        <span className="text-grey06 body-2-m flex w-full justify-center pt-[5.6875rem]">
-          아직 등록한 상품이 없습니다.
-        </span>
+      <Tabs>
+        <Tab
+          handleClickTab={() => setActiveTab(0)}
+          isTabActive={activeTab === 0}
+        >
+          SELECTION(4)
+        </Tab>
+        <Tab
+          handleClickTab={() => setActiveTab(1)}
+          isTabActive={activeTab === 1}
+        >
+          REVIEW(0)
+        </Tab>
+      </Tabs>
+      {/* Selection Tab */}
+      {activeTab === 0 && (
+        <section className="flex w-full flex-col gap-4 pt-5 pb-36">
+          <span className="flex w-full justify-between px-5">
+            <span className="flex cursor-pointer items-center gap-[.375rem]">
+              <input
+                type="checkbox"
+                id="filterItemInProgress"
+                hidden
+                checked={inProgress}
+                onChange={handleCheckboxChange}
+              />
+              <label
+                htmlFor="filterItemInProgress"
+                className="text-grey08 caption-m flex cursor-pointer items-center gap-[.375rem]"
+              >
+                {inProgress ? <CheckBoxOn /> : <CheckBoxOff />}
+                진행 중인 상품만 보기
+              </label>
+            </span>
+            <LayoutButton
+              onClick={() => setIsGrid((prev) => !prev)}
+              aria-label="레이아웃 변경 버튼"
+              className="cursor-pointer"
+            />
+          </span>
+          {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 ? (
+            isGrid ? (
+              <ul className="grid grid-cols-2 content-start items-start gap-x-[.6875rem] gap-y-5 px-[1.125rem]">
+                {PRODUCT_LIST?.map((item) => (
+                  <ItemGrid key={item?.itemId} item={item} />
+                ))}
+              </ul>
+            ) : (
+              <ul className="flex flex-col items-start gap-4 self-stretch">
+                {PRODUCT_LIST?.map((item) => (
+                  <ItemList key={item?.itemId} item={item} />
+                ))}
+              </ul>
+            )
+          ) : (
+            <span className="text-grey06 body-2-m flex w-full justify-center pt-[5.8125rem]">
+              아직 등록된 상품이 없습니다.
+            </span>
+          )}
+        </section>
+      )}
+      {activeTab === 1 && (
+        <section className="flex flex-1">
+          <span className="text-grey06 body-2-m flex w-full justify-center pt-[5.8125rem]">
+            준비 중입니다.
+          </span>
+        </section>
       )}
     </>
   );
