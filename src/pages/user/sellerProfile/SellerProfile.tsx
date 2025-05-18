@@ -13,20 +13,35 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
   const { pathname } = location;
 
+  // 임시 링크
+  const LINKS = [
+    { id: 0, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
+    { id: 1, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
+    { id: 2, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
+    { id: 3, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
+  ];
+
   return (
     <>
-      <Tabs>
-        {TABS.map((tab) => (
-          <Tab
-            key={tab.name}
-            handleClickTab={() => navigate(tab.path)}
-            isTabActive={pathname.includes(tab.path)}
-          >
-            {tab.name}
-          </Tab>
-        ))}
-      </Tabs>
-      {children}
+      <section className="divide-grey02 flex flex-col divide-y-[12px]">
+        <div className="scrollbar-hide flex items-start gap-[.625rem] self-stretch overflow-x-auto px-5 py-3">
+          {LINKS.map((link) => (
+            <Link key={link.id} name={link.name} url={link.url} />
+          ))}
+        </div>
+        <Tabs>
+          {TABS.map((tab) => (
+            <Tab
+              key={tab.name}
+              handleClickTab={() => navigate(tab.path)}
+              isTabActive={pathname.includes(tab.path)}
+            >
+              {tab.name}
+            </Tab>
+          ))}
+        </Tabs>
+        {children}
+      </section>
     </>
   );
 };
