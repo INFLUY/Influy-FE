@@ -12,6 +12,7 @@ export const Tab = ({
 }) => {
   return (
     <button
+      type="button"
       className={cn(
         'body2-m z-10 -mb-[2px] flex w-full cursor-pointer flex-col items-center gap-2 border-b-2 py-3 text-center',
         {

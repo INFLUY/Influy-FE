@@ -5,7 +5,6 @@ import LayoutAlbumButton from '@/assets/icon/common/LayoutAlbumButton.svg?react'
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
 import { ItemType } from '@/types/types';
-import { Tab, Tabs } from '@/components/common/Tab';
 
 const SelectionTab = () => {
   const PRODUCT_LIST: ItemType[] = [

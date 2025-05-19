@@ -2,7 +2,12 @@ import { ReactNode } from 'react';
 import { Tab, Tabs } from '@/components/common/Tab';
 import { PATH } from '@/routes/path';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Link, Notice, SellerProfileHeader } from '@/components';
+import {
+  Link,
+  Notice,
+  SellerProfileCard,
+  SellerProfileHeader,
+} from '@/components';
 
 const SellerProfile = ({ children }: { children: ReactNode }) => {
   const TABS = [
@@ -26,6 +31,7 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
       <div className="realtive flex h-[7.0625rem] w-full flex-col bg-[#8B8B8D]">
         <SellerProfileHeader name={'소현'} id={'xoyeone_'} />
       </div>
+      <SellerProfileCard />
       {/* 공지 */}
       <div className="bg-grey02 flex w-full px-5 py-3">
         <Notice
@@ -33,7 +39,6 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
             '🍎부스터 프로🍎 이틀 연장합니다! D-4! 주문 서둘러 주세요!!!!'
           }
           count={2}
-          seller={true}
           onClickNotice={() => {}}
         />
       </div>
