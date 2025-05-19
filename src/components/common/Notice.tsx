@@ -27,7 +27,7 @@ const Notice = ({
       return (
         <article
           onClick={onClickNotice}
-          className="flex h-[2.3125rem] w-full shrink-0 cursor-pointer items-center justify-center gap-2 rounded-[.1875rem] bg-white px-2 text-center"
+          className="flex h-[2.3125rem] w-full shrink-0 cursor-pointer items-center justify-between gap-2 rounded-[.1875rem] bg-white px-2 text-center"
         >
           <span className="flex items-center gap-[.125rem] truncate">
             <span className="body2-b shrink-0 text-center">[공지]</span>
@@ -54,12 +54,14 @@ const Notice = ({
   return (
     <article
       onClick={onClickNotice}
-      className="flex h-[2.3125rem] w-full shrink-0 cursor-pointer items-center justify-center gap-[.125rem] rounded-[.1875rem] bg-white px-[11.5px] text-center"
+      className="flex h-[2.3125rem] w-full shrink-0 cursor-pointer items-center justify-between rounded-[.1875rem] bg-white px-2 text-center"
     >
-      <span className="body2-b shrink-0 text-center">[공지]</span>
-      <span className="text-grey09 caption-m truncate text-center">
-        {children}
-      </span>
+      <div className="flex items-center gap-[.125rem] truncate text-center">
+        <span className="body2-b shrink-0 text-center">[공지]</span>
+        <span className="text-grey09 caption-m truncate text-center">
+          {children}
+        </span>
+      </div>
       {count > 1 && (
         <span className="text-grey07 body2-m shrink-0 text-center">
           +{count}
