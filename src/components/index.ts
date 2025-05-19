@@ -8,3 +8,4 @@ export { TimeChip, SoldOutChip, ExtendChip } from './user/Chip';
 export { SaveButton, DefaultButton } from './common/Button';
 
 export { LimitedTextInput } from './seller/item/registration/DetailInput';
+export { TipTooltip } from './common/TipTooltip';
