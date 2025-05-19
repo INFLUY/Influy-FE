@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Tab, Tabs } from '@/components/common/Tab';
 import { PATH } from '@/routes/path';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Link, Notice } from '@/components';
+import { Link, Notice, SellerProfileHeader } from '@/components';
 
 const SellerProfile = ({ children }: { children: ReactNode }) => {
   const TABS = [
@@ -22,7 +22,10 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
   ];
 
   return (
-    <>
+    <div className="flex h-full w-full flex-1 flex-col">
+      <div className="realtive flex h-[7.0625rem] w-full flex-col bg-[#8B8B8D]">
+        <SellerProfileHeader name={'소현'} id={'xoyeone_'} />
+      </div>
       {/* 공지 */}
       <div className="bg-grey02 flex w-full px-5 py-3">
         <Notice
@@ -35,16 +38,18 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
         />
       </div>
       <section className="divide-grey02 flex flex-col divide-y-[12px]">
+        {/* 링크 */}
         <div className="scrollbar-hide flex items-start gap-[.625rem] self-stretch overflow-x-auto px-5 py-3">
           {LINKS.map((link) => (
             <Link key={link.id} name={link.name} url={link.url} />
           ))}
         </div>
+        {/* 탭 */}
         <Tabs>
           {TABS.map((tab) => (
             <Tab
               key={tab.name}
-              handleClickTab={() => navigate(tab.path)}
+              handleClickTab={() => navigate(tab.path, { replace: true })}
               isTabActive={pathname.includes(tab.path)}
             >
               {tab.name}
@@ -53,7 +58,7 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
         </Tabs>
         {children}
       </section>
-    </>
+    </div>
   );
 };
 
