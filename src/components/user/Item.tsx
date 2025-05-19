@@ -35,7 +35,7 @@ export const ItemList = ({ item }: { item: ItemType }) => {
             {item?.soldOut ? (
               <SoldOutChip />
             ) : (
-              <span className="flex gap-1">
+              <span className="flex flex-wrap gap-1">
                 <TimeChip open={item?.open} deadline={item?.deadline} />
                 <ExtendChip
                   extend={item?.extend || false}
@@ -91,7 +91,7 @@ export const ItemGrid = ({ item }: { item: ItemType }) => {
             {item?.soldOut ? (
               <SoldOutChip />
             ) : (
-              <span className="flex gap-1">
+              <span className="flex flex-wrap gap-1">
                 <TimeChip open={item?.open} deadline={item?.deadline} />
                 <ExtendChip
                   extend={item?.extend || false}
