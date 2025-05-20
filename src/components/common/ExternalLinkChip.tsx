@@ -7,7 +7,7 @@ interface LinkProps {
   edit?: boolean;
 }
 
-const Link = ({ name, url, edit = false }: LinkProps) => {
+const ExternalLinkChip = ({ name, url, edit = false }: LinkProps) => {
   const ButtonClass =
     'border-grey04 bg-grey02 flex cursor-pointer items-center justify-center gap-1 rounded-[1.5625rem] border px-3 py-2 shrink-0';
   if (edit) {
@@ -27,4 +27,4 @@ const Link = ({ name, url, edit = false }: LinkProps) => {
   );
 };
 
-export default Link;
+export default ExternalLinkChip;

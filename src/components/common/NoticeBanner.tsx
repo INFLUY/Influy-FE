@@ -1,12 +1,12 @@
 import Chevron from '@/assets/icon/common/Chevron.svg?react';
 
-const Notice = ({
-  children = '',
+const NoticeBanner = ({
+  title = '',
   count,
   onClickNotice,
   seller = false,
 }: {
-  children?: string;
+  title?: string;
   count: number;
   onClickNotice: () => void;
   seller?: boolean;
@@ -32,7 +32,7 @@ const Notice = ({
           <span className="flex items-center gap-[.125rem] truncate">
             <span className="body2-b shrink-0 text-center">[공지]</span>
             <span className="text-grey09 caption-m truncate text-center">
-              {children}
+              {title}
             </span>
           </span>
           <Chevron className="text-grey07 flex h-4 w-4 shrink-0" />
@@ -59,7 +59,7 @@ const Notice = ({
       <div className="flex items-center gap-[.125rem] truncate text-center">
         <span className="body2-b shrink-0 text-center">[공지]</span>
         <span className="text-grey09 caption-m truncate text-center">
-          {children}
+          {title}
         </span>
       </div>
       {count > 1 && (
@@ -71,4 +71,4 @@ const Notice = ({
   );
 };
 
-export default Notice;
+export default NoticeBanner;
