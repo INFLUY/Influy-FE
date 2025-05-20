@@ -1,3 +1,4 @@
+import cn from '@/utils/cn';
 import { ReactNode, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -108,6 +109,7 @@ const BottomSheet = ({
 
       metrics.current.isContentAreaTouched = false;
     };
+
     node.addEventListener('touchstart', handleTouchStart);
     node.addEventListener('touchmove', handleTouchMove);
     node.addEventListener('touchend', handleTouchEnd);
@@ -124,7 +126,10 @@ const BottomSheet = ({
       <div className="modal">
         <div className="modal-bg-layout" onClick={onClose}>
           <div
-            className="flex h-fit flex-col items-center rounded-t-[12px] bg-white"
+            className={cn(
+              'flex h-fit flex-col items-center rounded-t-[12px] bg-white',
+              { 'animate-slide-up': isBottomSheetOpen }
+            )}
             onClick={(e) => e.stopPropagation()}
             ref={handleBarRef}
           >
