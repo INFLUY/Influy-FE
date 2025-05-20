@@ -64,7 +64,10 @@ const BottomSheet = ({
     if (!isBottomSheetOpen) return;
     const node = handleBarRef.current;
     if (!node) return;
-    const handleTouchStart = (e: TouchEvent) => {
+
+    const isDragging = { current: false };
+
+    const handleTouchStart = (e: TouchEvent | MouseEvent) => {
       const { touchStart } = metrics.current;
 
       const target = e.target as HTMLElement;
@@ -73,15 +76,27 @@ const BottomSheet = ({
       metrics.current.isContentAreaTouched = !!isScrollable; // boolean으로 명시적 반환(요소가 있으면 true)
 
       touchStart.sheetY = node.getBoundingClientRect().y;
-      touchStart.touchY = e.touches[0].clientY;
+      if (e instanceof TouchEvent) {
+        touchStart.touchY = e.touches[0].clientY;
+      } else {
+        touchStart.touchY = e.clientY;
+      }
+
+      isDragging.current = true;
       metrics.current.snap =
         touchStart.sheetY + (node.getBoundingClientRect().height / 4) * 1;
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
+    const handleTouchMove = (e: TouchEvent | MouseEvent) => {
       const { touchStart, isContentAreaTouched } = metrics.current;
-      const currentTouch = e.touches[0];
 
+      if (!isDragging.current) return;
+      let currentTouch;
+      if (e instanceof TouchEvent) {
+        currentTouch = e.touches[0];
+      } else {
+        currentTouch = e;
+      }
       if (!isContentAreaTouched) {
         e.preventDefault();
         const touchOffset = currentTouch.clientY - touchStart.touchY;
@@ -107,17 +122,24 @@ const BottomSheet = ({
         node.style.setProperty('transform', 'translateY(0px)');
       }
 
+      isDragging.current = false;
       metrics.current.isContentAreaTouched = false;
     };
 
     node.addEventListener('touchstart', handleTouchStart);
     node.addEventListener('touchmove', handleTouchMove);
     node.addEventListener('touchend', handleTouchEnd);
+    node.addEventListener('mousedown', handleTouchStart);
+    node.addEventListener('mousemove', handleTouchMove);
+    node.addEventListener('mouseup', handleTouchEnd);
 
     return () => {
       node.removeEventListener('touchstart', handleTouchStart);
       node.removeEventListener('touchmove', handleTouchMove);
       node.removeEventListener('touchend', handleTouchEnd);
+      node.removeEventListener('mousedown', handleTouchStart);
+      node.removeEventListener('mousemove', handleTouchMove);
+      node.removeEventListener('mouseup', handleTouchEnd);
     };
   }, [isBottomSheetOpen]);
 

@@ -69,6 +69,12 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
       date: '2025.05.01',
       content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
     },
+    {
+      id: 5,
+      title: '입접 이벤트🤔💕',
+      date: '2025.05.01',
+      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
+    },
   ];
 
   return (
