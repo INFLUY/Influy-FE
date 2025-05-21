@@ -34,7 +34,19 @@
 
 @layer components {
   body {
-    @apply bg-grey01 font-pretendard box-border flex justify-center text-black;
+    @apply bg-grey01 font-pretendard relative box-border flex justify-center text-black;
+  }
+
+  .modal {
+    @apply fixed inset-0 top-0 right-0 bottom-0 left-0 z-50 flex flex-1 flex-col items-center justify-center;
+  }
+
+  .modal-bg-layout {
+    @apply flex h-screen w-screen max-w-[40rem] min-w-[20rem] flex-1 flex-col justify-end bg-[rgba(0,0,0,0.6)] md:w-[28rem];
+  }
+
+  .animate-slide-up {
+    animation: slide-up 350ms ease-out;
   }
 
   *:focus {
@@ -105,24 +117,12 @@
     @apply text-[.625rem] leading-[140%] font-medium tracking-[-0.001em];
   }
 
-  @keyframes flash {
-    0% {
-      background-color: var(--color-neutral-300);
-      box-shadow:
-        32px 0 var(--color-neutral-300),
-        -32px 0 #fff;
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
     }
-    50% {
-      background-color: #fff;
-      box-shadow:
-        32px 0 var(--color-neutral-300),
-        -32px 0 var(--color-neutral-300);
-    }
-    100% {
-      background-color: var(--color-neutral-300);
-      box-shadow:
-        32px 0 #fff,
-        -32px 0 var(--color-neutral-300);
+    to {
+      transform: translateY(0rem);
     }
   }
 
