@@ -1,11 +1,9 @@
 import cn from '@/utils/cn';
-import { useState, memo } from 'react';
-
-interface CategoryChipProps {
-  text: string;
-  isSelected: boolean;
-  onToggle: () => void;
-}
+import { memo } from 'react';
+import {
+  CategoryMultiSelectorProps,
+  CategoryChipProps,
+} from './CategoryMultiSelector.types';
 
 // 이 카테고리를 여기에 놔둘까요 아니면 constants/categories.ts 따로 만들어서 사용하는게 좋을까요?
 const PRODUCT_CATEGORIES = [
@@ -39,50 +37,49 @@ const CategoryChip = ({ text, isSelected, onToggle }: CategoryChipProps) => {
   );
 };
 
-export const CategoryMultiSelector = memo(() => {
-  const [selectedList, setSelectedList] = useState<string[]>([]);
-  console.log(selectedList);
+export const CategoryMultiSelector = memo(
+  ({ selectedList, setSelectedList }: CategoryMultiSelectorProps) => {
+    const handleClickCategory = (category: string) => {
+      if (selectedList.includes(category)) {
+        setSelectedList(selectedList.filter((item) => item !== category));
+      } else if (selectedList.length < 3) {
+        setSelectedList([...selectedList, category]);
+      }
+    };
 
-  const handleClickCategory = (category: string) => {
-    if (selectedList.includes(category)) {
-      setSelectedList(selectedList.filter((item) => item !== category));
-    } else if (selectedList.length < 3) {
-      setSelectedList([...selectedList, category]);
-    }
-  };
-
-  return (
-    <article className="flex w-full flex-col gap-y-4">
-      <div className="flex w-full justify-center gap-x-3">
-        {PRODUCT_CATEGORIES.slice(0, 5).map((category, index) => (
-          <CategoryChip
-            key={index}
-            text={category}
-            isSelected={selectedList.includes(category)}
-            onToggle={() => handleClickCategory(category)}
-          />
-        ))}
-      </div>
-      <div className="flex w-full justify-center gap-x-3">
-        {PRODUCT_CATEGORIES.slice(5, 9).map((category, index) => (
-          <CategoryChip
-            key={index}
-            text={category}
-            isSelected={selectedList.includes(category)}
-            onToggle={() => handleClickCategory(category)}
-          />
-        ))}
-      </div>
-      <div className="flex w-full justify-center gap-x-3">
-        {PRODUCT_CATEGORIES.slice(9).map((category, index) => (
-          <CategoryChip
-            key={index}
-            text={category}
-            isSelected={selectedList.includes(category)}
-            onToggle={() => handleClickCategory(category)}
-          />
-        ))}
-      </div>
-    </article>
-  );
-});
+    return (
+      <article className="flex w-full flex-col gap-y-4">
+        <div className="flex w-full justify-center gap-x-3">
+          {PRODUCT_CATEGORIES.slice(0, 5).map((category, index) => (
+            <CategoryChip
+              key={index}
+              text={category}
+              isSelected={selectedList.includes(category)}
+              onToggle={() => handleClickCategory(category)}
+            />
+          ))}
+        </div>
+        <div className="flex w-full justify-center gap-x-3">
+          {PRODUCT_CATEGORIES.slice(5, 9).map((category, index) => (
+            <CategoryChip
+              key={index}
+              text={category}
+              isSelected={selectedList.includes(category)}
+              onToggle={() => handleClickCategory(category)}
+            />
+          ))}
+        </div>
+        <div className="flex w-full justify-center gap-x-3">
+          {PRODUCT_CATEGORIES.slice(9).map((category, index) => (
+            <CategoryChip
+              key={index}
+              text={category}
+              isSelected={selectedList.includes(category)}
+              onToggle={() => handleClickCategory(category)}
+            />
+          ))}
+        </div>
+      </article>
+    );
+  }
+);
