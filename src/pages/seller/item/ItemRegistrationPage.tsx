@@ -4,12 +4,19 @@ import {
   LimitedTextInput,
   TipTooltip,
   CategoryMultiSelector,
+  RegularTextInput,
 } from '@/components';
 
 import { useState } from 'react';
 
 export const ItemRegistrationPage = () => {
   const [titleText, setTitleText] = useState('');
+  const [linkText, setLinkText] = useState('');
+
+  const [selectedCategoryList, setSelectedCategoryList] = useState<string[]>(
+    []
+  );
+
   const handleSaveClick = () => {};
   return (
     <div className="box-border flex flex-col gap-y-10 px-5">
@@ -28,8 +35,16 @@ export const ItemRegistrationPage = () => {
         maxLength={45}
         placeHolderContent="상품의 이름을 입력해 주세요."
       />
+      <RegularTextInput
+        text={linkText}
+        setText={setLinkText}
+        placeHolderContent="링크 URL을 입력해 주세요."
+      />
       <TipTooltip text={'최대 3가지 카테고리를 선택할 수 있습니다!'} />
-      <CategoryMultiSelector />
+      <CategoryMultiSelector
+        selectedList={selectedCategoryList}
+        setSelectedList={setSelectedCategoryList}
+      />
     </div>
   );
 };

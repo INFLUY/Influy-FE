@@ -9,6 +9,7 @@ export { default as ExternalLinkChip } from './common/ExternalLinkChip';
 export { Tab, Tabs } from './common/Tab';
 export { SaveButton, DefaultButton } from './common/Button';
 export { TipTooltip } from './common/TipTooltip';
+export { LimitedTextInput, RegularTextInput } from './common/DetailInput';
 
 //user
 export { default as SellerProfileHeader } from './user/SellerProfileHeader';
@@ -16,5 +17,4 @@ export { ItemList, ItemGrid } from './user/Item';
 export { TimeChip, SoldOutChip, ExtendChip } from './user/Chip';
 
 //seller
-export { LimitedTextInput } from './seller/item/registration/DetailInput';
 export { CategoryMultiSelector } from './seller/item/registration/CategoryMultiSelector';
