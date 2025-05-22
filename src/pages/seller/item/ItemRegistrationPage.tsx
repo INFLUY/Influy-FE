@@ -4,7 +4,9 @@ import {
   LimitedTextInput,
   TipTooltip,
   CategoryMultiSelector,
-  RegularTextInput,
+  LinkInput,
+  CategoryChip,
+  WideTextArea,
 } from '@/components';
 
 import { useState } from 'react';
@@ -18,10 +20,12 @@ export const ItemRegistrationPage = () => {
   );
 
   const handleSaveClick = () => {};
+
   return (
     <div className="box-border flex flex-col gap-y-10 px-5">
+      <CategoryChip text={'뷰티'} />
       <SaveButton onClick={handleSaveClick} />
-      <div className="flex h-[5.5rem] w-[23.4375rem] shrink-0 items-center justify-center gap-[.4375rem] px-5 pt-[.4375rem] pb-8 [background:var(--Grey01,#F8F8F9)]">
+      <div className="flex h-[5.5rem] w-full shrink-0 items-center justify-center gap-[.4375rem] px-5 pt-[.4375rem] pb-8 [background:var(--Grey01,#F8F8F9)]">
         <DefaultButton
           onClick={handleSaveClick}
           disabled={false}
@@ -34,13 +38,25 @@ export const ItemRegistrationPage = () => {
         setText={setTitleText}
         maxLength={45}
         placeHolderContent="상품의 이름을 입력해 주세요."
+        isRequired={true}
       />
-      <RegularTextInput
+      <LinkInput
         text={linkText}
         setText={setLinkText}
         placeHolderContent="링크 URL을 입력해 주세요."
+        isRequired={true}
       />
-      <TipTooltip text={'최대 3가지 카테고리를 선택할 수 있습니다!'} />
+      <WideTextArea
+        text={linkText}
+        setText={setLinkText}
+        placeHolderContent="링크 URL을 입력해 주세요."
+        isRequired={true}
+      />
+      <TipTooltip
+        text={
+          '최대 3가지 카테고리를 선택할 수 있습니다!최대 3가지 카테고리를 선택할 수 있습니다!최대 3가지 카테고리를 선택할 수 있습니다!'
+        }
+      />
       <CategoryMultiSelector
         selectedList={selectedCategoryList}
         setSelectedList={setSelectedCategoryList}
