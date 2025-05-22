@@ -1,9 +1,5 @@
-import cn from '@/utils/cn';
 import { memo } from 'react';
-import {
-  CategoryMultiSelectorProps,
-  CategoryChipProps,
-} from './CategoryMultiSelector.types';
+import CategoryChip from '../../common/CategoryChip';
 
 // 이 카테고리를 여기에 놔둘까요 아니면 constants/categories.ts 따로 만들어서 사용하는게 좋을까요?
 const PRODUCT_CATEGORIES = [
@@ -23,19 +19,10 @@ const PRODUCT_CATEGORIES = [
   '기타',
 ] as const;
 
-const CategoryChip = ({ text, isSelected, onToggle }: CategoryChipProps) => {
-  return (
-    <button
-      onClick={onToggle}
-      className={cn(
-        'body2-m flex h-fit w-fit items-center justify-center gap-2.5 rounded-[1.25rem] px-2.5 py-1',
-        isSelected ? 'bg-grey10 text-white' : 'bg-grey03 text-black'
-      )}
-    >
-      {text}
-    </button>
-  );
-};
+interface CategoryMultiSelectorProps {
+  selectedList: string[];
+  setSelectedList: React.Dispatch<React.SetStateAction<string[]>>;
+}
 
 export const CategoryMultiSelector = memo(
   ({ selectedList, setSelectedList }: CategoryMultiSelectorProps) => {
