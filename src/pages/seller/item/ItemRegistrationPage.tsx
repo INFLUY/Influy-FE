@@ -14,6 +14,7 @@ import { useState } from 'react';
 export const ItemRegistrationPage = () => {
   const [titleText, setTitleText] = useState('');
   const [linkText, setLinkText] = useState('');
+  const [commentText, setCommentText] = useState('');
 
   const [selectedCategoryList, setSelectedCategoryList] = useState<string[]>(
     []
@@ -47,9 +48,9 @@ export const ItemRegistrationPage = () => {
         isRequired={true}
       />
       <WideTextArea
-        text={linkText}
-        setText={setLinkText}
-        placeHolderContent="링크 URL을 입력해 주세요."
+        text={commentText}
+        setText={setCommentText}
+        placeHolderContent="제품 선택 이유, 특징, 사용 경험 등 제품의 매력을 보여줄 수 있는 내용을 자유롭게 작성해 주세요."
         isRequired={true}
       />
       <TipTooltip

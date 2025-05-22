@@ -133,11 +133,6 @@ export const WideTextArea = memo(
             placeholder={placeHolderContent}
             className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
             rows={7}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault(); // Enter 키 입력 방지
-              }
-            }}
           />
         </div>
       </div>
