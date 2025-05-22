@@ -1,56 +1,58 @@
-import { ProductList, ProductGrid } from '@/components/user/Product';
+import { ItemList, ItemGrid } from '@/components/user/Item';
 import { useState } from 'react';
-import LayoutButton from '@/assets/icon/common/LayoutButton.svg?react';
+import LayoutListButton from '@/assets/icon/common/LayoutListButton.svg?react';
+import LayoutAlbumButton from '@/assets/icon/common/LayoutAlbumButton.svg?react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
-import { ProductType } from '@/types/types';
+import { ItemType } from '@/types/types';
 
-const SellerProfile = () => {
-  const PRODUCT_LIST: ProductType[] = [
+const SelectionTab = () => {
+  const PRODUCT_LIST: ItemType[] = [
     {
-      productId: 0,
+      itemId: 0,
       title:
         '[프리따픽] VT 컬러 리들샷 마스크팩 2차 재진행 / 메종마르지엘라 이벤트까지',
       name: '@dfkjdkfjdkfj',
       content: '🖤완판 재진행🖤 너무 예쁜 가디건',
       thumbnail: '/img1.png',
-      open: '2025-05-09T06:00:00Z',
-      deadline: '2025-05-20T18:00:00Z',
+      open: '2025-05-09T06:00:00',
+      deadline: '2025-05-20T18:00:00',
+      extend: true,
       scrapped: false,
       soldOut: false,
     },
     {
-      productId: 1,
+      itemId: 1,
       title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
       name: '@dfkjdkfjdkfj',
       content: '🖤완판 재진행🖤너무 예쁜 가디건',
       thumbnail: '/img1.png',
-      open: '2025-04-30T18:00:00Z',
-      deadline: '2025-05-01T23:00:00Z',
+      open: '2025-04-30T18:00:00',
+      deadline: '2025-05-01T23:00:00',
+      extend: true,
       scrapped: true,
       soldOut: false,
     },
     {
-      productId: 2,
-      title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
+      itemId: 2,
+      title: '소현X비비안웨스트우드 가디건 (색상 5가지)소현X비비안웨스트우드',
       name: '@dfkjdkfjdkfj',
       content: '🖤완판 재진행🖤 너무 예쁜 가디건',
       thumbnail: '/img1.png',
-      open: '2025-03-20T18:00:00Z',
-      deadline: '2025-04-30T18:30:00Z',
+      open: '2025-03-20T18:00:00',
+      deadline: '2025-04-30T18:30:00',
       scrapped: true,
       soldOut: true,
     },
     {
-      productId: 3,
+      itemId: 3,
       title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
       name: '@dfkjdkfjdkfj',
-      content: '🖤완판 재진행🖤',
       thumbnail: '/img1.png',
-      open: '2025-04-20T18:00:00Z',
-      deadline: '2025-05-08T18:30:00Z',
+      open: '2025-04-20T18:00:00',
+      deadline: '2025-05-08T18:30:00',
       scrapped: true,
-      soldOut: false,
+      soldOut: true,
     },
   ];
 
@@ -61,19 +63,21 @@ const SellerProfile = () => {
     setInProgress(e.target.checked);
   };
 
+  const LayoutButton = isGrid ? LayoutAlbumButton : LayoutListButton;
+
   return (
-    <>
-      <span className="flex w-full justify-between px-5 pt-[1.125rem]">
+    <section className="flex w-full flex-col gap-4 pt-5 pb-36">
+      <span className="flex w-full justify-between px-5">
         <span className="flex cursor-pointer items-center gap-[.375rem]">
           <input
             type="checkbox"
-            id="filterProductInProgress"
+            id="filterItemInProgress"
             hidden
             checked={inProgress}
             onChange={handleCheckboxChange}
           />
           <label
-            htmlFor="filterProductInProgress"
+            htmlFor="filterItemInProgress"
             className="text-grey08 caption-m flex cursor-pointer items-center gap-[.375rem]"
           >
             {inProgress ? <CheckBoxOn /> : <CheckBoxOff />}
@@ -88,25 +92,25 @@ const SellerProfile = () => {
       </span>
       {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 ? (
         isGrid ? (
-          <ul className="grid grid-cols-2 content-start items-start gap-x-[.6875rem] gap-y-5 px-[1.125rem] pt-[2.375rem] pb-[11rem]">
-            {PRODUCT_LIST?.map((product) => (
-              <ProductGrid key={product?.productId} product={product} />
+          <ul className="grid grid-cols-2 content-start items-start gap-x-[.6875rem] gap-y-5 px-[1.125rem]">
+            {PRODUCT_LIST?.map((item) => (
+              <ItemGrid key={item?.itemId} item={item} />
             ))}
           </ul>
         ) : (
-          <ul className="flex flex-col items-start gap-4 self-stretch pt-[2.375rem] pb-[11rem]">
-            {PRODUCT_LIST?.map((product) => (
-              <ProductList key={product?.productId} product={product} />
+          <ul className="flex flex-col items-start gap-4 self-stretch">
+            {PRODUCT_LIST?.map((item) => (
+              <ItemList key={item?.itemId} item={item} />
             ))}
           </ul>
         )
       ) : (
-        <span className="text-grey06 body-2-m flex w-full justify-center pt-[5.6875rem]">
-          아직 등록한 상품이 없습니다.
+        <span className="text-grey06 body-2-m flex w-full justify-center pt-[5.8125rem]">
+          아직 등록된 상품이 없습니다.
         </span>
       )}
-    </>
+    </section>
   );
 };
 
-export default SellerProfile;
+export default SelectionTab;

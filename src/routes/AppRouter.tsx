@@ -7,7 +7,15 @@ import {
 import { Suspense } from 'react';
 import { PATH } from '@/routes/path';
 import { GlobalLayout, Loading } from '@/components';
-import { NotFound, Home, SellerProfile, ItemRegistrationPage } from '@/pages';
+import {
+  NotFound,
+  Home,
+  SellerProfile,
+  SellerMyPage,
+  SelectionTab,
+  ReviewTab,
+  ItemRegistrationPage,
+} from '@/pages';
 
 const router = createBrowserRouter([
   {
@@ -36,15 +44,44 @@ const router = createBrowserRouter([
       },
       {
         path: PATH.SELLER_PROFILE.base,
-        element: <Outlet />,
+        element: (
+          <SellerProfile>
+            <Outlet />
+          </SellerProfile>
+        ),
         children: [
           {
             index: true,
-            element: <SellerProfile />,
+            element: (
+              <Navigate to={PATH.SELLER_PROFILE.tabs.selection} replace />
+            ),
+          },
+          {
+            path: PATH.SELLER_PROFILE.tabs.selection,
+            element: <SelectionTab />,
+          },
+          {
+            path: PATH.SELLER_PROFILE.tabs.review,
+            element: <ReviewTab />,
           },
         ],
       },
       {
+        path: PATH.SELLER.base,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <Navigate to={PATH.SELLER.mypage.profile} replace />,
+          },
+          {
+            path: PATH.SELLER.mypage.profile,
+            element: <SellerMyPage />,
+          },
+        ],
+      },
+      {
+        path: '*',
         path: PATH.SELLER_ITEM_REGISTRATION.base,
         element: <Outlet />,
         children: [
