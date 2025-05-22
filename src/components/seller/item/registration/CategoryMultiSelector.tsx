@@ -1,5 +1,5 @@
 import cn from '@/utils/cn';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 interface CategoryChipProps {
   text: string;
@@ -39,7 +39,7 @@ const CategoryChip = ({ text, isSelected, onToggle }: CategoryChipProps) => {
   );
 };
 
-export const CategoryMultiSelector = () => {
+export const CategoryMultiSelector = memo(() => {
   const [selectedList, setSelectedList] = useState<string[]>([]);
   console.log(selectedList);
 
@@ -85,4 +85,4 @@ export const CategoryMultiSelector = () => {
       </div>
     </article>
   );
-};
+});
