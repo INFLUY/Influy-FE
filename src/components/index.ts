@@ -19,7 +19,8 @@ export { SaveButton, DefaultButton } from './seller/common/Button';
 export { TipTooltip } from './seller/common/TipTooltip';
 export {
   LimitedTextInput,
-  RegularTextInput,
+  LinkInput,
+  WideTextArea,
 } from './seller/common/DetailInput';
 export { default as CategoryChip } from './seller/common/CategoryChip';
 //item
