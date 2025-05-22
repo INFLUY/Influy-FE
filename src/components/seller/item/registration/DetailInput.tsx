@@ -1,7 +1,13 @@
 import { useRef, useEffect } from 'react';
 import cn from '@/utils/cn';
 import WarningIcon from '@/assets/icon/common/Warning.svg?react';
-import { LimitedTextInputProps } from './Registration.types';
+
+interface LimitedTextInputProps {
+  text: string;
+  setText: React.Dispatch<React.SetStateAction<string>>;
+  maxLength: number;
+  placeHolderContent: string;
+}
 
 export const LimitedTextInput = ({
   text,

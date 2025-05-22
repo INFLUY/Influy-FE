@@ -17,3 +17,4 @@ export { TimeChip, SoldOutChip, ExtendChip } from './user/Chip';
 
 //seller
 export { LimitedTextInput } from './seller/item/registration/DetailInput';
+export { CategoryMultiSelector } from './seller/item/registration/CategoryMultiSelector';
