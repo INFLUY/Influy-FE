@@ -1,7 +1,7 @@
 import { useRef, memo } from 'react';
 import cn from '@/utils/cn';
 import WarningIcon from '@/assets/icon/common/Warning.svg?react';
-import { isValidURL } from '@/utils/validationFunction';
+import { isValidURL } from '@/utils/validation';
 import useAutoResizeTextArea from '@/hooks/useAutoResizeTextArea';
 
 interface TextInputProps {
@@ -33,7 +33,7 @@ export const LimitedTextInput = memo(
           className={cn(
             'flex h-fit w-full items-center justify-center gap-2.5 rounded-sm border px-3.5 py-2.5',
             text.length > maxLength
-              ? 'border-[#FF6060]'
+              ? 'border-error'
               : 'border-grey03 focus-within:border-grey05'
           )}
         >
@@ -51,7 +51,7 @@ export const LimitedTextInput = memo(
             }}
           />
           <div className="caption-m text-grey06 h-full">
-            <span className={cn(text.length > maxLength && 'text-[#FF6060]')}>
+            <span className={cn(text.length > maxLength && 'text-error')}>
               {text.length}
             </span>
             <span>/{maxLength}</span>
@@ -60,7 +60,7 @@ export const LimitedTextInput = memo(
         {text.length > maxLength && (
           <div className="mt-1 flex items-center space-x-1">
             <WarningIcon />
-            <span className="caption-m text-[#FF6060]">
+            <span className="caption-m text-error">
               {maxLength}자 이내로 작성해주세요.
             </span>
           </div>
@@ -83,7 +83,7 @@ export const LinkInput = memo(
             'flex h-fit w-full items-center justify-center gap-2.5 rounded-sm border px-3.5 py-2.5',
             (!text && text.length == 0) || isValidURL(text)
               ? 'border-grey03 focus-within:border-grey05'
-              : 'border-[#FF6060]'
+              : 'border-error'
           )}
         >
           <textarea
@@ -103,7 +103,7 @@ export const LinkInput = memo(
         {text && !isValidURL(text) && (
           <div className="mt-1 flex items-center space-x-1">
             <WarningIcon />
-            <span className="caption-m text-[#FF6060]">
+            <span className="caption-m text-error">
               올바른 양식으로 입력해 주세요.
             </span>
           </div>
