@@ -26,7 +26,7 @@ export const ItemRegistrationPage = () => {
     <div className="box-border flex flex-col gap-y-10 px-5">
       <CategoryChip text={'뷰티'} />
       <SaveButton onClick={handleSaveClick} />
-      <div className="flex h-[5.5rem] w-full shrink-0 items-center justify-center gap-[.4375rem] px-5 pt-[.4375rem] pb-8 [background:var(--Grey01,#F8F8F9)]">
+      <div className="bg-grey01 flex h-[5.5rem] w-full shrink-0 items-center justify-center gap-[.4375rem] px-5 pt-[.4375rem] pb-8">
         <DefaultButton
           onClick={handleSaveClick}
           disabled={false}
