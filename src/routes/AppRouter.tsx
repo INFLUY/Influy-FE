@@ -14,6 +14,7 @@ import {
   SellerMyPage,
   SelectionTab,
   ReviewTab,
+  ItemRegistrationPage,
 } from '@/pages';
 
 const router = createBrowserRouter([
@@ -76,6 +77,16 @@ const router = createBrowserRouter([
           {
             path: PATH.SELLER.mypage.profile,
             element: <SellerMyPage />,
+          },
+        ],
+      },
+      {
+        path: PATH.SELLER_ITEM_REGISTRATION.base,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <ItemRegistrationPage />,
           },
         ],
       },

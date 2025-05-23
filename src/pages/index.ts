@@ -7,3 +7,5 @@ export { default as SellerProfile } from './user/sellerProfile/SellerProfile';
 export { default as SellerMyPage } from './seller/SellerMyPage';
 
 export { default as NotFound } from './error/NotFound';
+
+export { ItemRegistrationPage } from './seller/item/ItemRegistrationPage';

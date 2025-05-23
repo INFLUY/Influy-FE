@@ -16,4 +16,7 @@ export const PATH = {
       profile: 'profile',
     },
   },
+  SELLER_ITEM_REGISTRATION: {
+    base: '/seller/item/registration',
+  },
 } as const;
