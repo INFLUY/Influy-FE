@@ -23,7 +23,7 @@ export const LimitedTextInput = memo(
 
     placeHolderContent,
   }: LimitedTextInputProps) => {
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
     useAutoResizeTextArea(textareaRef, text);
 
@@ -72,7 +72,7 @@ export const LimitedTextInput = memo(
 
 export const LinkInput = memo(
   ({ text, setText, placeHolderContent }: TextInputProps) => {
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
     useAutoResizeTextArea(textareaRef, text);
 
@@ -115,7 +115,7 @@ export const LinkInput = memo(
 
 export const WideTextArea = memo(
   ({ text, setText, placeHolderContent }: TextInputProps) => {
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
     useAutoResizeTextArea(textareaRef, text);
 
