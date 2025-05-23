@@ -29,6 +29,7 @@ export const LimitedTextInput = ({
   return (
     <div className="flex w-full flex-col">
       <div
+        onClick={() => textareaRef.current?.focus()}
         className={cn(
           'flex h-fit w-full items-center justify-center gap-2.5 rounded-sm border px-3.5 py-2.5',
           text.length > maxLength
@@ -80,6 +81,7 @@ export const LinkInput = ({
   return (
     <div className="flex w-full flex-col">
       <div
+        onClick={() => textareaRef.current?.focus()}
         className={cn(
           'flex h-fit w-full items-center justify-center gap-2.5 rounded-sm border px-3.5 py-2.5',
           (!text && text.length == 0) || isValidURL(text)
@@ -125,6 +127,7 @@ export const WideTextArea = ({
   return (
     <div className="flex w-full flex-col">
       <div
+        onClick={() => textareaRef.current?.focus()}
         className={cn(
           'focus-within:border-grey05 border-grey03 flex h-fit w-full items-center justify-center gap-2.5 rounded-sm border px-3.5 py-2.5'
         )}
