@@ -1,23 +1,6 @@
 import { memo } from 'react';
 import CategoryChip from '../../common/CategoryChip';
-
-// 이 카테고리를 여기에 놔둘까요 아니면 constants/categories.ts 따로 만들어서 사용하는게 좋을까요?
-const PRODUCT_CATEGORIES = [
-  '뷰티',
-  '패션',
-  '푸드',
-  '라이프',
-  '디지털',
-  '패션소품',
-  '주얼리',
-  '키즈',
-  '스포츠/레저',
-  '선물',
-  '명품',
-  '여행',
-  '기념일',
-  '기타',
-] as const;
+import PRODUCT_CATEGORIES from '@/constants/productCategories';
 
 interface CategoryMultiSelectorProps {
   selectedList: string[];
