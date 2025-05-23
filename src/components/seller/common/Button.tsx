@@ -15,7 +15,7 @@ export const SaveButton = ({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        'body2-m flex h-[3.0625rem] w-full items-center justify-center rounded-sm text-white',
+        'body2-m flex h-fit w-full items-center justify-center rounded-sm py-3.5 text-white',
         disabled ? disabledColor : activeColor,
         additionalStyles
       )}
@@ -40,7 +40,7 @@ export const DefaultButton = ({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        'body2-m flex h-[3.0625rem] flex-1 items-center justify-center rounded-sm text-white',
+        'body2-m box-border flex h-fit flex-1 items-center justify-center rounded-sm py-3.5 text-white',
         disabled ? disabledColor + ' cursor-not-allowed' : activeColor,
         additionalStyles
       )}
