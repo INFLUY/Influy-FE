@@ -11,6 +11,7 @@ import {
   PriceInput,
   SalePriceInput,
   PeriodDropdown,
+  DateTimePicker,
 } from '@/components';
 
 import { useState } from 'react';
@@ -33,6 +34,7 @@ export const ItemRegistrationPage = () => {
   return (
     <div className="box-border flex flex-col gap-y-10 px-5">
       <CategoryChip text={'뷰티'} />
+      <DateTimePicker />
       <SaveButton onClick={handleSaveClick} />
       <div className="bg-grey01 flex h-[5.5rem] w-full shrink-0 items-center justify-center gap-[.4375rem] px-5 pt-[.4375rem] pb-8">
         <DefaultButton
