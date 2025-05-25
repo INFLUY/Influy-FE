@@ -14,6 +14,7 @@ import {
   SellerMyProfile,
   SelectionTab,
   ReviewTab,
+  ItemRegistrationPage,
   MySelectionTab,
   MyItemReviewTab,
   MyStoredItemTab,
@@ -91,6 +92,26 @@ const router = createBrowserRouter([
           {
             path: PATH.SELLER.tabs.review,
             element: <MyItemReviewTab />,
+          },
+        ],
+      },
+      {
+        path: PATH.SELLER_ITEM_REGISTRATION.base,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <ItemRegistrationPage />,
+          },
+        ],
+      },
+      {
+        path: PATH.SELLER_ITEM_REGISTRATION.base,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <ItemRegistrationPage />,
           },
         ],
       },

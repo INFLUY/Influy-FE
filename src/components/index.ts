@@ -1,17 +1,27 @@
 export { default as GlobalLayout } from './layout/GlobalLayout';
-
 export { default as Loading } from './loading/Loading';
-export { default as BottomSheet } from './common/BottomSheet';
 
+// common
+export { default as BottomSheet } from './common/BottomSheet';
 export { default as SellerProfileCard } from './common/SellerProfileCard';
 export { default as NoticeBanner } from './common/NoticeBanner';
 export { default as ExternalLinkChip } from './common/ExternalLinkChip';
 export { Tab, Tabs } from './common/Tab';
 
-// 유저
+//user
 export { default as SellerProfileHeader } from './user/SellerProfileHeader';
 export { ItemList, ItemGrid } from './user/Item';
 export { TimeChip, SoldOutChip, ExtendChip } from './user/Chip';
-
-// 셀러
+//seller
+//common
+export { SaveButton, DefaultButton } from './seller/common/Button';
+export { TipTooltip } from './seller/common/TipTooltip';
+export {
+  LimitedTextInput,
+  LinkInput,
+  WideTextArea,
+} from './seller/common/DetailInput';
+export { default as CategoryChip } from './seller/common/CategoryChip';
+//item
+export { CategoryMultiSelector } from './seller/item/registration/CategoryMultiSelector';
 export { EditTimeChip, EditSoldOutChip } from './seller/mypage/EditStatusChip';

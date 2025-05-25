@@ -18,4 +18,7 @@ export const PATH = {
       review: 'review',
     },
   },
+  SELLER_ITEM_REGISTRATION: {
+    base: '/seller/item/registration',
+  },
 } as const;

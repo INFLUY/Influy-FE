@@ -13,3 +13,5 @@ export { default as MyStoredItemTab } from './seller/sellerMyPage/MyStoredItemTa
 export { default as MyItemReviewTab } from './seller/sellerMyPage/MyItemReviewTab';
 
 export { default as NotFound } from './error/NotFound';
+
+export { ItemRegistrationPage } from './seller/item/ItemRegistrationPage';

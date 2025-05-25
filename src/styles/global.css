@@ -28,6 +28,8 @@
   --color-grey01: #f8f8f9;
   --color-white: #ffffff;
 
+  --color-error: #ff6060;
+
   /* Fonts */
   --font-pretendard: 'Pretendard', sans-serif;
 }
