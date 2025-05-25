@@ -27,6 +27,7 @@ export {
   LimitedTextInput,
   LinkInput,
   WideTextArea,
+  PriceInput,
 } from './seller/common/DetailInput';
 export { default as CategoryChip } from './seller/common/CategoryChip';
 export { default as RadioInputSelector } from './seller/common/RadioInputSelector';
