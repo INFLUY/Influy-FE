@@ -9,13 +9,7 @@ import {
   SellerProfileHeader,
   BottomSheet,
 } from '@/components';
-
-type NoticeType = {
-  id: number;
-  title: string;
-  date: string;
-  content: string;
-};
+import { NoticeType } from '@/types/types';
 
 const SellerProfile = ({ children }: { children: ReactNode }) => {
   const TABS = [

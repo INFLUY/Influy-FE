@@ -23,3 +23,10 @@ export type MyItem = {
   pending: number;
   answered: number;
 };
+
+export type NoticeType = {
+  id: number;
+  title: string;
+  date: string;
+  content: string;
+};
