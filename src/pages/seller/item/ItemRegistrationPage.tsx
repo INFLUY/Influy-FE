@@ -9,6 +9,7 @@ import {
   WideTextArea,
   ItemImageUploader,
   PriceInput,
+  SalePriceInput,
 } from '@/components';
 
 import { useState } from 'react';
@@ -19,6 +20,8 @@ export const ItemRegistrationPage = () => {
   const [commentText, setCommentText] = useState('');
   const [images, setImages] = useState<string[]>([]);
   const [price, setPrice] = useState<number | undefined>(undefined);
+  const [salePrice, setSalePrice] = useState<number | undefined>(undefined);
+
   const [selectedCategoryList, setSelectedCategoryList] = useState<string[]>(
     []
   );
@@ -57,6 +60,12 @@ export const ItemRegistrationPage = () => {
         isRequired={true}
       />
       <PriceInput price={price} setPrice={setPrice} />
+
+      <SalePriceInput
+        regularPrice={price}
+        salePrice={salePrice}
+        setSalePrice={setSalePrice}
+      />
 
       <ItemImageUploader
         images={images}
