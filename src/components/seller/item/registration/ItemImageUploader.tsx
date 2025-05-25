@@ -23,7 +23,14 @@ export const ItemImageUploader = ({
       {/* 사진 추가 박스 */}
       <label className="bg-grey03 m-1 flex h-[3.75rem] w-[3.75rem] shrink-0 cursor-pointer flex-col items-center justify-center rounded-[.1875rem]">
         <CameraIcon />
-        <span className="text-grey07 caption-m mt-0.5">{images.length}/10</span>
+        <span
+          className={cn(
+            'caption-m mt-0.5',
+            images.length == 0 ? 'text-grey07' : 'text-grey10'
+          )}
+        >
+          {images.length}/10
+        </span>
         <input
           type="file"
           accept="image/*"
