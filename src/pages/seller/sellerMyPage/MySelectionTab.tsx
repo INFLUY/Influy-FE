@@ -5,6 +5,10 @@ import { MyItem } from '@/types/types';
 import { Item } from '@/components/seller/mypage/Item';
 import PlusIcon from '@/assets/icon/common/PlusIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
+import { BottomSheet, RadioInputSelector, SaveButton } from '@/components';
+import Arrow from '@/assets/icon/common/Chevron.svg?react';
+import cn from '@/utils/cn';
+import { RadioInputList } from '@/components/seller/common/RadioInput.types';
 
 const MySelectionTab = () => {
   const navigate = useNavigate();
@@ -58,9 +62,24 @@ const MySelectionTab = () => {
   ];
 
   const [inProgress, setInProgress] = useState<boolean>(false);
+  const [isSortByOpen, setIsSortByOpen] = useState(false);
+  const [sortSelected, setSortSelected] = useState(0);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInProgress(e.target.checked);
+  };
+
+  // 임시 정렬 상태
+  const SORT_BY = '등록순';
+
+  const SORT_BY_LIST: RadioInputList[] = [
+    { id: 0, text: '마감일 빠른 순' },
+    { id: 1, text: '등록 순' },
+  ];
+
+  const handleClickSaveSortBy = () => {
+    // 저장 로직 추가 - sortSelected가 id
+    setIsSortByOpen(false);
   };
 
   return (
@@ -84,12 +103,46 @@ const MySelectionTab = () => {
         </span>
         <button
           type="button"
-          onClick={() => {}}
-          className="caption-m text-grey08 cursor-pointer text-center"
+          onClick={() => setIsSortByOpen(true)}
+          className="caption-m text-grey08 flex cursor-pointer items-center gap-1 px-[.625rem] py-[.1875rem] text-center"
         >
-          정렬 방식 :{' '}
+          정렬 방식 : <span className="caption-b text-grey09">{SORT_BY}</span>{' '}
+          <Arrow
+            className={cn('text-grey07 h-3 w-3 rotate-90', {
+              '-rotate-90': isSortByOpen,
+            })}
+          />
         </button>
       </span>
+
+      {isSortByOpen && (
+        <BottomSheet
+          onClose={() => setIsSortByOpen(false)}
+          isBottomSheetOpen={isSortByOpen}
+        >
+          <div className="flex flex-col items-center">
+            <span className="flex flex-col items-center gap-[2px]">
+              <h1 className="subhead-b text-grey10 w-full text-center">
+                정렬방식
+              </h1>
+              <p className="text-grey07 caption-m">
+                설정한 정렬대로 유저에게 보여집니다.
+              </p>
+            </span>
+            <div className="scrollbar-hide flex w-full flex-col overflow-y-auto px-5 pb-8">
+              <div className="flex w-full items-center py-4">
+                <RadioInputSelector
+                  name="sort"
+                  list={SORT_BY_LIST}
+                  selected={sortSelected}
+                  setSelected={setSortSelected}
+                />
+              </div>
+              <SaveButton onClick={handleClickSaveSortBy} />
+            </div>
+          </div>
+        </BottomSheet>
+      )}
 
       {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 && (
         <ul className="flex flex-col items-start gap-5 self-stretch pb-1">

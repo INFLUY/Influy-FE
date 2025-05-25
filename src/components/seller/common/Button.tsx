@@ -3,7 +3,7 @@ import type { SaveButtonProps } from './Button.types';
 
 export const SaveButton = ({
   onClick,
-  disabled = true,
+  disabled = false,
   activeColor = 'bg-black',
   disabledColor = 'bg-grey05',
   text = '저장하기',
@@ -15,7 +15,7 @@ export const SaveButton = ({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        'body2-m flex h-fit w-full items-center justify-center rounded-sm py-3.5 text-white',
+        'body2-m flex h-fit w-full cursor-pointer items-center justify-center rounded-sm py-3.5 text-white',
         disabled ? disabledColor : activeColor,
         additionalStyles
       )}
