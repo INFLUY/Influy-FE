@@ -81,7 +81,7 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: PATH.SELLER_ITEM_REGISTRATION.base,
+        path: PATH.SELLER_ITEM_NEW.base,
         element: <Outlet />,
         children: [
           {
