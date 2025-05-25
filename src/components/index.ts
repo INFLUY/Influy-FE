@@ -29,3 +29,4 @@ export { default as CategoryChip } from './seller/common/CategoryChip';
 export { CategoryMultiSelector } from './seller/item/registration/CategoryMultiSelector';
 export { ItemImageUploader } from './seller/item/registration/ItemImageUploader';
 export { PeriodDropdown } from './seller/item/registration/PeriodDropdown';
+export { DateTimePicker } from './seller/item/registration/DateTimePicker';
