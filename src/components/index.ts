@@ -22,6 +22,7 @@ export {
   LinkInput,
   WideTextArea,
   PriceInput,
+  SalePriceInput,
 } from './seller/common/DetailInput';
 export { default as CategoryChip } from './seller/common/CategoryChip';
 //item
