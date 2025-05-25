@@ -149,9 +149,9 @@ const MySelectionTab = () => {
           {PRODUCT_LIST?.map((item) => <Item key={item?.itemId} item={item} />)}
         </ul>
       )}
-      <div className="flex px-5">
+      <div className="flex w-full px-5">
         <button
-          className="text-grey07 body2-m border-grey03 flex h-[6.125rem] w-[20.9375rem] items-center justify-center gap-1 border"
+          className="text-grey07 body2-m border-grey03 flex h-[6.125rem] w-full cursor-pointer items-center justify-center gap-1 border"
           onClick={() => navigate('')}
         >
           <PlusIcon />
