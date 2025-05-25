@@ -3,8 +3,12 @@ import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
 import { MyItem } from '@/types/types';
 import { Item } from '@/components/seller/mypage/Item';
+import PlusIcon from '@/assets/icon/common/PlusIcon.svg?react';
+import { useNavigate } from 'react-router-dom';
 
 const MySelectionTab = () => {
+  const navigate = useNavigate();
+
   const PRODUCT_LIST: MyItem[] = [
     {
       itemId: 0,
@@ -87,15 +91,20 @@ const MySelectionTab = () => {
         </button>
       </span>
 
-      {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 ? (
-        <ul className="flex flex-col items-start gap-5 self-stretch">
+      {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 && (
+        <ul className="flex flex-col items-start gap-5 self-stretch pb-1">
           {PRODUCT_LIST?.map((item) => <Item key={item?.itemId} item={item} />)}
         </ul>
-      ) : (
-        <span className="text-grey06 body-2-m flex w-full justify-center pt-[5.8125rem]">
-          아직 등록된 상품이 없습니다.
-        </span>
       )}
+      <div className="flex px-5">
+        <button
+          className="text-grey07 body2-m border-grey03 flex h-[6.125rem] w-[20.9375rem] items-center justify-center gap-1 border"
+          onClick={() => navigate('')}
+        >
+          <PlusIcon />
+          <span>상품 추가</span>
+        </button>
+      </div>
     </section>
   );
 };
