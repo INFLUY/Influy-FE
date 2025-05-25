@@ -7,6 +7,7 @@ import {
   LinkInput,
   CategoryChip,
   WideTextArea,
+  ItemImageUploader,
 } from '@/components';
 
 import { useState } from 'react';
@@ -15,6 +16,7 @@ export const ItemRegistrationPage = () => {
   const [titleText, setTitleText] = useState('');
   const [linkText, setLinkText] = useState('');
   const [commentText, setCommentText] = useState('');
+  const [images, setImages] = useState<string[]>([]);
 
   const [selectedCategoryList, setSelectedCategoryList] = useState<string[]>(
     []
@@ -52,6 +54,16 @@ export const ItemRegistrationPage = () => {
         setText={setCommentText}
         placeHolderContent="제품 선택 이유, 특징, 사용 경험 등 제품의 매력을 보여줄 수 있는 내용을 자유롭게 작성해 주세요."
         isRequired={true}
+      />
+      <ItemImageUploader
+        images={images}
+        onAddImage={(file) => {
+          const url = URL.createObjectURL(file);
+          setImages((prev) => [...prev, url]);
+        }}
+        onRemoveImage={(index) => {
+          setImages((prev) => prev.filter((_, i) => i !== index));
+        }}
       />
       <TipTooltip
         text={
