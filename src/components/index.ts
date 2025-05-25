@@ -22,6 +22,7 @@ export {
   WideTextArea,
 } from './seller/common/DetailInput';
 export { default as CategoryChip } from './seller/common/CategoryChip';
+export { default as RadioInputSelector } from './seller/common/RadioInputSelector';
 //item
 export { CategoryMultiSelector } from './seller/item/registration/CategoryMultiSelector';
 export { EditTimeChip, EditSoldOutChip } from './seller/mypage/EditStatusChip';
