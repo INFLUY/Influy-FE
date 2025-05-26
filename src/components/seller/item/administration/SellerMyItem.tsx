@@ -48,10 +48,6 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
       <div className="flex h-full flex-shrink-0 flex-grow basis-0 items-start justify-between">
         <div className="flex h-full flex-shrink-0 flex-grow basis-0 flex-col justify-between gap-3 align-middle">
           <div className="flex flex-col gap-[.375rem]">
-            {/* 셀러 name */}
-            <span className="text-grey07 caption-m line-clamp-1">
-              {item?.name}
-            </span>
             {/* 제목 */}
             <h1 className="body2-m line-clamp-2">{item?.title}</h1>
             {/* 기간 */}

@@ -15,7 +15,6 @@ const MySelectionTab = () => {
   const PRODUCT_LIST: MyItem[] = [
     {
       itemId: 0,
-      name: '@dfkjdkfjdkfj',
       title:
         '[프리따픽] VT 컬러 리들샷 마스크팩 2차 재진행 / 메종마르지엘라 이벤트까지',
       thumbnail: '/img1.png',
@@ -27,7 +26,6 @@ const MySelectionTab = () => {
     },
     {
       itemId: 1,
-      name: '@dfkjdkfjdkfj',
       title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
       thumbnail: '/img1.png',
       open: '2025-04-30T18:00:00',
@@ -38,7 +36,6 @@ const MySelectionTab = () => {
     },
     {
       itemId: 2,
-      name: '@dfkjdkfjdkfj',
       title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
       thumbnail: '/img1.png',
       open: '2025-03-20T18:00:00',
@@ -49,7 +46,6 @@ const MySelectionTab = () => {
     },
     {
       itemId: 3,
-      name: '@dfkjdkfjdkfj',
       title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
       thumbnail: '/img1.png',
       open: '2025-04-20T18:00:00',
