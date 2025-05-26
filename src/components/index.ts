@@ -26,5 +26,10 @@ export { default as CategoryChip } from './seller/common/CategoryChip';
 export { default as RadioInputSelector } from './seller/common/RadioInputSelector';
 //item
 export { CategoryMultiSelector } from './seller/item/registration/CategoryMultiSelector';
-export { EditTimeChip, EditSoldOutChip } from './seller/mypage/EditStatusChip';
+export {
+  EditTimeChip,
+  EditSoldOutChip,
+} from './seller/item/administration/EditStatusChip';
 export { default as ExternalLinkBottomSheet } from './seller/item/administration/ExternalLinkBottomSheet';
+export { default as AdminItemBottomSheet } from './seller/item/administration/AdminItemBottomSheet';
+export { default as SellerMyItem } from './seller/item/administration/SellerMyItem';

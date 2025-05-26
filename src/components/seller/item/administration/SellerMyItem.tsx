@@ -2,10 +2,18 @@ import { MyItem } from '@/types/types';
 import {
   EditSoldOutChip,
   EditTimeChip,
-} from '@/components/seller/mypage/EditStatusChip';
+} from '@/components/seller/item/administration/EditStatusChip';
 import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
+import { useState } from 'react';
+import AdminItemBottomSheet from './AdminItemBottomSheet';
 
-export const Item = ({ item }: { item: MyItem }) => {
+const SellerMyItem = ({ item }: { item: MyItem }) => {
+  const [isEditItemOpen, setIsEditItemOpen] = useState<boolean>(false);
+
+  const handleEditMyItem = () => {
+    setIsEditItemOpen(true);
+  };
+
   return (
     <li className="flex cursor-pointer items-center justify-center gap-3 self-stretch px-5">
       {/* 썸네일 */}
@@ -57,9 +65,18 @@ export const Item = ({ item }: { item: MyItem }) => {
         </div>
         <KebabIcon
           className="flex shrink-0 cursor-pointer"
-          onClick={() => {}}
+          onClick={handleEditMyItem}
         />
       </div>
+      {isEditItemOpen && (
+        <AdminItemBottomSheet
+          itemId={item.itemId}
+          isOpen={isEditItemOpen}
+          setIsOpen={setIsEditItemOpen}
+        />
+      )}
     </li>
   );
 };
+
+export default SellerMyItem;
