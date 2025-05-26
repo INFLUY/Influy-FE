@@ -121,7 +121,7 @@ const MySelectionTab = () => {
           isBottomSheetOpen={isSortByOpen}
         >
           <div className="flex flex-col items-center">
-            <span className="flex flex-col items-center gap-[2px]">
+            <span className="flex flex-col items-center gap-[.125rem]">
               <h1 className="subhead-b text-grey10 w-full text-center">
                 정렬방식
               </h1>
