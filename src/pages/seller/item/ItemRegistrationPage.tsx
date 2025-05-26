@@ -11,10 +11,14 @@ import {
   PriceInput,
   SalePriceInput,
   PeriodDropdown,
+  DatePickerCalender,
+  TimePickerWheel,
   DateTimePicker,
 } from '@/components';
+import CalendarIcon from '@/assets/icon/common/Calendar.svg?react';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import BottomSheet from '@/components/common/BottomSheet';
 
 export const ItemRegistrationPage = () => {
   const [titleText, setTitleText] = useState('');
@@ -24,17 +28,55 @@ export const ItemRegistrationPage = () => {
   const [price, setPrice] = useState<number | undefined>(undefined);
   const [salePrice, setSalePrice] = useState<number | undefined>(undefined);
   const [period, setPeriod] = useState<number | null>(null);
-
   const [selectedCategoryList, setSelectedCategoryList] = useState<string[]>(
     []
   );
 
-  const handleSaveClick = () => {};
+  const [startDateTime, setStartDateTime] = useState<Date | null>(null);
+  const [endDateTime, setEndDateTime] = useState<Date | null>(null);
 
+  const [isStartDateTimeSheetOpen, setIsStartDateTimeSheetOpen] =
+    useState(false);
+  const [isEndDateTimeSheetOpen, setIsEndDateTimeSheetOpen] = useState(false);
+
+  const handleSaveClick = () => {};
+  useEffect(() => {
+    console.log(isStartDateTimeSheetOpen);
+  }, [isStartDateTimeSheetOpen]);
   return (
     <div className="box-border flex flex-col gap-y-10 px-5">
       <CategoryChip text={'뷰티'} />
-      <DateTimePicker />
+
+      {/* 날짜 */}
+      {isStartDateTimeSheetOpen && (
+        <BottomSheet
+          onClose={() => setIsStartDateTimeSheetOpen(false)}
+          isBottomSheetOpen={isStartDateTimeSheetOpen}
+        >
+          <DateTimePicker
+            initialDateTime={startDateTime}
+            onSave={setStartDateTime}
+            type="시작일"
+            onClose={() => setIsStartDateTimeSheetOpen(false)}
+          />
+        </BottomSheet>
+      )}
+
+      {/* 날짜 */}
+      {isEndDateTimeSheetOpen && (
+        <BottomSheet
+          onClose={() => setIsEndDateTimeSheetOpen(false)}
+          isBottomSheetOpen={isEndDateTimeSheetOpen}
+        >
+          <DateTimePicker
+            initialDateTime={endDateTime}
+            onSave={setEndDateTime}
+            type="시작일"
+            onClose={() => setIsEndDateTimeSheetOpen(false)}
+          />
+        </BottomSheet>
+      )}
+
       <SaveButton onClick={handleSaveClick} />
       <div className="bg-grey01 flex h-[5.5rem] w-full shrink-0 items-center justify-center gap-[.4375rem] px-5 pt-[.4375rem] pb-8">
         <DefaultButton
