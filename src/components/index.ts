@@ -17,6 +17,7 @@ export { TimeChip, SoldOutChip, ExtendChip } from './user/Chip';
 export { SaveButton, DefaultButton } from './seller/common/Button';
 export { TipTooltip } from './seller/common/TipTooltip';
 export {
+  TextInput,
   LimitedTextInput,
   LinkInput,
   WideTextArea,
