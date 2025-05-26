@@ -8,6 +8,7 @@ import {
   Tab,
   Tabs,
   SellerMyProfileHeader,
+  SnackBar,
 } from '@/components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { NoticeType } from '@/types/types';
@@ -15,9 +16,11 @@ import PlusIcon from '@/assets/icon/common/PlusIcon.svg?react';
 import cn from '@/utils/cn';
 
 const SellerMyProfile = ({ children }: { children: ReactNode }) => {
+  const [isLinkSnackBarOpen, setIsLinkSnackBarOpen] = useState<boolean>(false);
   const [isAddLinkOpen, setIsAddLinkOpen] = useState<boolean>(false);
   const [isEditLinkOpen, setIsEditLinkOpen] = useState<boolean>(false);
   const [selectedLinkId, setSelectedLinkId] = useState<number | null>(null);
+
   const TABS = [
     { id: 0, name: '상품', path: PATH.SELLER.tabs.selection },
     { id: 2, name: '보관', path: PATH.SELLER.tabs.stored },
@@ -33,7 +36,16 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
     { id: 1, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
     { id: 2, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
     { id: 3, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
+    { id: 4, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
   ];
+
+  const handleAddLink = () => {
+    if (LINKS.length < 5) {
+      setIsAddLinkOpen(true);
+    } else {
+      setIsLinkSnackBarOpen(true);
+    }
+  };
 
   const handleEditLink = (linkId: number) => {
     setSelectedLinkId(linkId);
@@ -96,11 +108,16 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
           <button
             type="button"
             className="bg-grey02 border-grey04 flex shrink-0 cursor-pointer items-center gap-2.5 rounded-full border p-[.4375rem]"
-            onClick={() => setIsAddLinkOpen(true)}
+            onClick={handleAddLink}
           >
             <PlusIcon className="text-grey07" />
           </button>
         </div>
+        {isLinkSnackBarOpen && (
+          <SnackBar handleSnackBarClose={() => setIsLinkSnackBarOpen(false)}>
+            링크는 최대 5개까지만 추가할 수 있습니다.
+          </SnackBar>
+        )}
         {isEditLinkOpen && (
           <ExternalLinkBottomSheet
             linkId={selectedLinkId}
