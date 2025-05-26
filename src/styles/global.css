@@ -56,7 +56,7 @@
   }
 
   .animate-fade-in-out {
-    animation: fadeInOut ease-in-out;
+    animation: fadeInOut ease-in-out forwards;
   }
 
   *:focus {
