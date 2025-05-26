@@ -43,7 +43,7 @@ const ExternalLinkBottomSheet = ({
       <div className="flex w-full flex-col items-center">
         <span className="flex w-full flex-col items-center gap-[.125rem]">
           <h1 className="subhead-b text-grey10 w-full text-center">
-            {linkId ? '링크 수정' : '링크 추가'}
+            {linkId === undefined ? '링크 추가' : '링크 수정'}
           </h1>
           <div className="divide-grey02 flex w-full flex-col justify-start gap-1 divide-y px-5">
             <div className="flex w-full flex-col gap-[.625rem] pt-3 pb-6">
@@ -66,7 +66,7 @@ const ExternalLinkBottomSheet = ({
           </div>
         </span>
         <div className="scrollbar-hide flex w-full gap-[.4375rem] overflow-y-auto px-5 pt-1 pb-8">
-          {linkId && (
+          {linkId !== undefined && (
             <SaveButton
               text="삭제하기"
               activeColor="bg-grey07"
