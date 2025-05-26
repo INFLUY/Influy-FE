@@ -7,9 +7,9 @@ import {
   SellerProfileCard,
   Tab,
   Tabs,
+  SellerMyProfileHeader,
 } from '@/components';
 import { useLocation, useNavigate } from 'react-router-dom';
-import SellerMyProfileHeader from './SellerMyProfileHeader';
 import { NoticeType } from '@/types/types';
 import PlusIcon from '@/assets/icon/common/PlusIcon.svg?react';
 import cn from '@/utils/cn';

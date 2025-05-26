@@ -1,5 +1,4 @@
-import ScrapButton from '@/components/user/ScrapButton';
-import { ExtendChip, SoldOutChip, TimeChip } from '@/components/user/Chip';
+import { ScrapButton, ExtendChip, SoldOutChip, TimeChip } from '@/components';
 import { ItemType } from '@/types/types';
 import cn from '@/utils/cn';
 

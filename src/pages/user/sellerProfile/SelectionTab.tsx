@@ -1,4 +1,4 @@
-import { ItemList, ItemGrid } from '@/components/user/Item';
+import { ItemList, ItemGrid } from '@/components/user/common/Item';
 import { useState } from 'react';
 import LayoutListButton from '@/assets/icon/common/LayoutListButton.svg?react';
 import LayoutAlbumButton from '@/assets/icon/common/LayoutAlbumButton.svg?react';
