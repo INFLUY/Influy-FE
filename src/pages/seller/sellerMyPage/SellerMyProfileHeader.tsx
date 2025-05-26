@@ -35,16 +35,16 @@ const SellerMyProfileHeader = () => {
         className={cn(
           'fixed top-0 z-20 flex w-screen max-w-[40rem] min-w-[20rem] justify-end overflow-visible px-5 py-[.9375rem] text-white md:w-[28rem]',
           {
-            'text-grey09 bg-black': scrolled,
+            'bg-black': scrolled,
           }
         )}
       >
         <span className="flex shrink-0 gap-3">
           <button
             type="button"
-            className="bg-grey02 flex items-center gap-[.125rem] rounded-[.125rem] px-2 py-[.1875rem]"
+            className="bg-grey02 flex cursor-pointer items-center gap-[.125rem] rounded-[.125rem] px-2 py-[.1875rem]"
           >
-            <EyeIcon />
+            <EyeIcon className="text-grey06 h-[.875rem] w-[.875rem]" />
             <span
               className="caption-m text-grey08"
               onClick={() => navigate('')}
@@ -52,8 +52,8 @@ const SellerMyProfileHeader = () => {
               미리보기
             </span>
           </button>
-          <ShareIcon className="h-6 w-6 cursor-pointer" />
-          <SettingsIcon className="h-6 w-6 cursor-pointer" />
+          <ShareIcon className="h-6 w-6 cursor-pointer text-white" />
+          <SettingsIcon className="h-6 w-6 cursor-pointer text-white" />
         </span>
       </header>
     </>
