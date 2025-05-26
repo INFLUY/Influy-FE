@@ -4,7 +4,7 @@ import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
 import { MyItem } from '@/types/types';
 import PlusIcon from '@/assets/icon/common/PlusIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { SellerMyItem, SortByBottomSheet } from '@/components';
+import { RadioBottomSheet, SellerMyItem } from '@/components';
 import Arrow from '@/assets/icon/common/Chevron.svg?react';
 import cn from '@/utils/cn';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
@@ -110,7 +110,9 @@ const MySelectionTab = () => {
 
       {/* 정렬 방식 설정 모달 */}
       {isSortByOpen && (
-        <SortByBottomSheet
+        <RadioBottomSheet
+          title="정렬방식"
+          description="설정한 정렬대로 유저에게 보여집니다."
           list={SORT_BY_LIST}
           isOpen={isSortByOpen}
           setIsOpen={setIsSortByOpen}

@@ -32,5 +32,5 @@ export {
 } from './seller/item/administration/EditStatusChip';
 export { default as ExternalLinkBottomSheet } from './seller/item/administration/ExternalLinkBottomSheet';
 export { default as AdminItemBottomSheet } from './seller/item/administration/AdminItemBottomSheet';
-export { default as SortByBottomSheet } from './seller/item/administration/SortByBottomSheet';
+export { default as RadioBottomSheet } from './seller/common/RadioBottomSheet';
 export { default as SellerMyItem } from './seller/item/administration/SellerMyItem';

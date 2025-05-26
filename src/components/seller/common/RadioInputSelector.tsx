@@ -17,7 +17,7 @@ const RadioInput = ({
   const isSelected = selected === item.id;
   return (
     <div
-      className="flex w-full cursor-pointer gap-[.625rem] py-4"
+      className="flex w-full cursor-pointer items-start gap-[.625rem] py-4"
       onClick={() => setSelected(item.id)}
     >
       <input
@@ -29,12 +29,19 @@ const RadioInput = ({
         checked={isSelected}
         onChange={() => setSelected(item.id)}
       />
-      {isSelected ? <RadioButtonChecked /> : <RadioButtonUnChecked />}
+      {isSelected ? (
+        <RadioButtonChecked className="shrink-0" />
+      ) : (
+        <RadioButtonUnChecked className="shrink-0" />
+      )}
       <label
         htmlFor={item.text}
-        className="body1-m cursor-pointer text-center text-black"
+        className="flex cursor-pointer flex-col gap-1 break-words whitespace-break-spaces"
       >
-        {item.text}
+        <h1 className="body1-m text-black">{item.text}</h1>
+        {item.description && (
+          <p className="text-grey07 body2-m">{item.description}</p>
+        )}
       </label>
     </div>
   );
@@ -55,6 +62,7 @@ const RadioInputSelector = ({
     <div className="caption-m divide-grey02 flex w-full shrink-0 flex-col items-start justify-center divide-y rounded-[.1875rem]">
       {list?.map((item) => (
         <RadioInput
+          key={item.id}
           name={name}
           item={item}
           selected={selected}
