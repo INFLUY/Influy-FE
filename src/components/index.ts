@@ -14,7 +14,7 @@ export { ItemList, ItemGrid } from './user/Item';
 export { TimeChip, SoldOutChip, ExtendChip } from './user/Chip';
 //seller
 //common
-export { SaveButton, DefaultButton } from './seller/common/Button';
+export { SaveButton, DefaultButton, ModalButton } from './seller/common/Button';
 export { TipTooltip } from './seller/common/TipTooltip';
 export {
   TextInput,

@@ -1,3 +1,5 @@
+import { SetStateAction } from 'react';
+
 export type ItemType = {
   itemId: number;
   title: string;
@@ -30,3 +32,15 @@ export type NoticeType = {
   date: string;
   content: string;
 };
+
+// 모달 props
+export interface SellerModalProps {
+  text: string;
+  description?: string;
+  leftButtonText?: string;
+  leftButtonClick?: () => void;
+  rightButtonText?: string;
+  rightButtonClick: () => void;
+  onClose?: () => void;
+  setIsModalOpen: React.Dispatch<SetStateAction<boolean>>;
+}

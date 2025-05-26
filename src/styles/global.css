@@ -43,8 +43,12 @@
     @apply fixed inset-0 top-0 right-0 bottom-0 left-0 z-50 flex flex-1 flex-col items-center justify-center;
   }
 
-  .modal-bg-layout {
+  .modal-bg-bottomsheet-layout {
     @apply flex h-screen w-screen max-w-[40rem] min-w-[20rem] flex-1 flex-col justify-end bg-[rgba(0,0,0,0.6)] md:w-[28rem];
+  }
+
+  .modal-bg-layout {
+    @apply flex h-screen w-screen max-w-[40rem] min-w-[20rem] flex-1 flex-col items-center justify-center bg-[rgba(0,0,0,0.6)] px-11 md:w-[28rem];
   }
 
   .animate-slide-up {
