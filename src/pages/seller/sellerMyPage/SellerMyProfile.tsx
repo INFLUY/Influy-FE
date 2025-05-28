@@ -80,7 +80,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
         <NoticeBanner
           title={NOTICES[0]?.title}
           count={NOTICES?.length}
-          onClickNotice={() => navigate('')}
+          onClickNotice={() => navigate(`./${PATH.SELLER.notice.base}`)}
           seller={true}
         />
       </div>
