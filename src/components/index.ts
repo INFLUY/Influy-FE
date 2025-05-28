@@ -30,6 +30,7 @@ export {
 } from './seller/common/DetailInput';
 export { default as CategoryChip } from './seller/common/CategoryChip';
 export { default as RadioInputSelector } from './seller/common/RadioInputSelector';
+export { default as SellerModal } from './seller/common/SellerModal';
 
 //item
 export { CategoryMultiSelector } from './seller/item/registration/CategoryMultiSelector';
@@ -44,3 +45,4 @@ export { default as SellerMyItem } from './seller/item/administration/SellerMyIt
 
 //my
 export { default as SellerMyProfileHeader } from './seller/my/SellerMyProfileHeader';
+export { default as AddNoticeBottomSheet } from './seller/my/AddNoticeBottomSheet';
