@@ -11,7 +11,7 @@ export { default as SellerMyProfileHeader } from '../components/seller/my/Seller
 export { default as MySelectionTab } from './seller/sellerMyPage/MySelectionTab';
 export { default as MyStoredItemTab } from './seller/sellerMyPage/MyStoredItemTab';
 export { default as MyItemReviewTab } from './seller/sellerMyPage/MyItemReviewTab';
-export { default as Notice } from './seller/my/notice/NoticePage';
+export { default as Notice } from './seller/notice/NoticePage';
 
 export { default as NotFound } from './error/NotFound';
 
