@@ -52,3 +52,4 @@ export {
   TimePickerWheel,
   DateTimePicker,
 } from './seller/item/registration/DateTimePicker';
+export { ItemSection } from './seller/item/registration/ItemSection';
