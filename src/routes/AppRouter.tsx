@@ -18,6 +18,7 @@ import {
   MySelectionTab,
   MyItemReviewTab,
   MyStoredItemTab,
+  Notice,
 } from '@/pages';
 
 const router = createBrowserRouter([
@@ -96,22 +97,34 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: PATH.SELLER_ITEM_REGISTRATION.base,
+        path: PATH.SELLER.base,
         element: <Outlet />,
         children: [
           {
-            index: true,
-            element: <ItemRegistrationPage />,
+            path: PATH.SELLER.notice.base,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: <Notice />,
+              },
+            ],
           },
-        ],
-      },
-      {
-        path: PATH.SELLER_ITEM_REGISTRATION.base,
-        element: <Outlet />,
-        children: [
           {
-            index: true,
-            element: <ItemRegistrationPage />,
+            path: PATH.SELLER.items.base,
+            element: <Outlet />,
+            children: [
+              {
+                path: PATH.SELLER.items.item.registration,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    element: <ItemRegistrationPage />,
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
