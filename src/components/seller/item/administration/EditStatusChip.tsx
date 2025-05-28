@@ -51,19 +51,17 @@ export const EditTimeChip = ({
     return d1.toDateString() === d2.toDateString();
   };
 
+  let chipText = '';
+
   // 오픈 전
   if (timeLeftUntilOpen > 0) {
     if (!isToday(openTime)) {
       // 오픈 전 - D-n
       const dDay = Math.ceil(timeLeftUntilOpen / (1000 * 60 * 60 * 24));
-      return <EditStatusChip onClick={onClick}>{`D-${dDay}`}</EditStatusChip>;
+      chipText = `D-${dDay}`;
     } else {
       // 오픈 당일 - 18:00 OPEN
-      return (
-        <EditStatusChip
-          onClick={onClick}
-        >{`${openTime.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })} OPEN`}</EditStatusChip>
-      );
+      chipText = `${openTime.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })} OPEN`;
     }
   }
   // 오픈 후
@@ -73,7 +71,7 @@ export const EditTimeChip = ({
     );
     // 오픈 ~ 마감 전 24시간 - NOW OPEN
     if (daysLeftUntilClose >= 1) {
-      return <EditStatusChip onClick={onClick}>NOW OPEN</EditStatusChip>;
+      chipText = 'NOW OPEN';
     }
     // 마감 전 24시간 ~ 마감 - 23:59:59 LEFT
     else if (daysLeftUntilClose === 0 && timeLeftUntilClose > 0) {
@@ -86,14 +84,12 @@ export const EditTimeChip = ({
       const secondsLeftUntilClose = Math.floor(
         (timeLeftUntilClose % (1000 * 60)) / 1000
       );
-      return (
-        <EditStatusChip
-          onClick={onClick}
-        >{`${hoursLeftUntilClose.toString().padStart(2, '0')}:${minutesLeftUntilClose.toString().padStart(2, '0')}:${secondsLeftUntilClose.toString().padStart(2, '0')} LEFT`}</EditStatusChip>
-      );
+      chipText = `${hoursLeftUntilClose.toString().padStart(2, '0')}:${minutesLeftUntilClose.toString().padStart(2, '0')}:${secondsLeftUntilClose.toString().padStart(2, '0')} LEFT`;
+    } else {
+      return; // 마감 이후에는 칩이 뜨지 않음
     }
-    // 마감 이후에는 칩이 뜨지 않음
   }
+  return <EditStatusChip onClick={onClick}>{chipText}</EditStatusChip>;
 };
 
 export const EditSoldOutChip = ({ onClick }: { onClick: () => void }) => {
