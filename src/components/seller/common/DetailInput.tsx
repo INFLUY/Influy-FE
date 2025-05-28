@@ -8,18 +8,50 @@ interface TextInputProps {
   text: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
   placeHolderContent: string;
-  isRequired: boolean;
+  isRequired?: boolean;
 }
 
 interface LimitedTextInputProps extends TextInputProps {
   maxLength: number;
 }
 
+export const TextInput = ({
+  text,
+  setText,
+  placeHolderContent,
+}: TextInputProps) => {
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useAutoResizeTextArea(textareaRef, text);
+
+  return (
+    <div className="flex w-full flex-col">
+      <div
+        onClick={() => textareaRef.current?.focus()}
+        className="border-grey03 focus-within:border-grey05 flex h-fit w-full items-center justify-center gap-2.5 rounded-sm border px-3.5 py-2.5"
+      >
+        <textarea
+          ref={textareaRef}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder={placeHolderContent}
+          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
+          rows={1}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault(); // Enter 키 입력 방지
+            }
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
 export const LimitedTextInput = ({
   text,
   setText,
   maxLength,
-
   placeHolderContent,
 }: LimitedTextInputProps) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);

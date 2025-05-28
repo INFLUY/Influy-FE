@@ -1,13 +1,7 @@
 import useBottomSheetGesture from '@/hooks/useBottomSheetGesture';
 import cn from '@/utils/cn';
 import { ReactNode, useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
-
-export const ModalPortal = ({ children }: { children: ReactNode }) => {
-  const root = document.getElementById('modal');
-  if (!root) return;
-  return ReactDOM.createPortal(children, root);
-};
+import ModalPortal from './ModalPortal';
 
 const BottomSheet = ({
   children,
@@ -33,7 +27,7 @@ const BottomSheet = ({
   return (
     <ModalPortal>
       <div className="modal">
-        <div className="modal-bg-layout" onClick={onClose}>
+        <div className="modal-bg-bottomsheet-layout" onClick={onClose}>
           <div
             className={cn(
               'flex h-fit flex-col items-center rounded-t-[12px] bg-white',

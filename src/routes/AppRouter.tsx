@@ -11,10 +11,13 @@ import {
   NotFound,
   Home,
   SellerProfile,
-  SellerMyPage,
+  SellerMyProfile,
   SelectionTab,
   ReviewTab,
   ItemRegistrationPage,
+  MySelectionTab,
+  MyItemReviewTab,
+  MyStoredItemTab,
 } from '@/pages';
 
 const router = createBrowserRouter([
@@ -68,15 +71,37 @@ const router = createBrowserRouter([
       },
       {
         path: PATH.SELLER.base,
+        element: (
+          <SellerMyProfile>
+            <Outlet />
+          </SellerMyProfile>
+        ),
+        children: [
+          {
+            index: true,
+            element: <Navigate to={PATH.SELLER.tabs.selection} replace />,
+          },
+          {
+            path: PATH.SELLER.tabs.selection,
+            element: <MySelectionTab />,
+          },
+          {
+            path: PATH.SELLER.tabs.stored,
+            element: <MyStoredItemTab />,
+          },
+          {
+            path: PATH.SELLER.tabs.review,
+            element: <MyItemReviewTab />,
+          },
+        ],
+      },
+      {
+        path: PATH.SELLER_ITEM_REGISTRATION.base,
         element: <Outlet />,
         children: [
           {
             index: true,
-            element: <Navigate to={PATH.SELLER.mypage.profile} replace />,
-          },
-          {
-            path: PATH.SELLER.mypage.profile,
-            element: <SellerMyPage />,
+            element: <ItemRegistrationPage />,
           },
         ],
       },

@@ -9,3 +9,9 @@ export interface SaveButtonProps {
   // 추가적인 테일윈드 요소
   additionalStyles?: string;
 }
+
+export interface ModalButtonProps {
+  onClick: MouseEventHandler<HTMLButtonElement>;
+  theme?: 'black' | 'white' | 'red';
+  text: string;
+}

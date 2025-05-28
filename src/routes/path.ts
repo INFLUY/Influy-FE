@@ -12,8 +12,10 @@ export const PATH = {
   },
   SELLER: {
     base: '/my',
-    mypage: {
-      profile: 'profile',
+    tabs: {
+      selection: 'selection',
+      stored: 'stored',
+      review: 'review',
     },
   },
   SELLER_ITEM_REGISTRATION: {

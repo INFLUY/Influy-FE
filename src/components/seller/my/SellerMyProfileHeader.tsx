@@ -1,15 +1,15 @@
-import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
+import EyeIcon from '@/assets/icon/common/EyeIcon.svg?react';
+import SettingsIcon from '@/assets/icon/common/SettingsIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
+import { SnackBar } from '@/components';
 import cn from '@/utils/cn';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SnackBar } from '@/components';
 
-const SellerProfileHeader = ({ name, id }: { name: string; id: string }) => {
+const SellerMyProfileHeader = () => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState<boolean>(false);
-  const triggerRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef(null);
   const [isLinkCopiedSnackBarOpen, setIsLinkCopiedSnackBarOpen] =
     useState<boolean>(false);
 
@@ -41,28 +41,30 @@ const SellerProfileHeader = ({ name, id }: { name: string; id: string }) => {
       <div ref={triggerRef} className="h-2 w-full bg-[#8B8B8D]" />
       <header
         className={cn(
-          'fixed top-0 z-20 flex w-screen max-w-[40rem] min-w-[20rem] justify-between overflow-visible px-5 py-[.9375rem] text-white md:w-[28rem]',
+          'fixed top-0 z-20 flex w-screen max-w-[40rem] min-w-[20rem] justify-end overflow-visible px-5 py-[.9375rem] text-white md:w-[28rem]',
           {
-            'text-grey09 bg-white': scrolled,
+            'bg-black': scrolled,
           }
         )}
       >
-        <ArrowIcon
-          className="h-6 w-6 shrink-0 cursor-pointer"
-          onClick={() => navigate(-1)}
-        />
-        {scrolled && (
-          <span className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
-            <h1 className="body2-m text-grey10 text-center">{name}</h1>
-            <p className="caption-m text-grey06 text-center">@{id}</p>
-          </span>
-        )}
         <span className="flex shrink-0 gap-3">
-          <SearchIcon className="h-6 w-6 cursor-pointer" />
+          <button
+            type="button"
+            className="bg-grey02 flex cursor-pointer items-center gap-[.125rem] rounded-[.125rem] px-2 py-[.1875rem]"
+          >
+            <EyeIcon className="text-grey06 h-[.875rem] w-[.875rem]" />
+            <span
+              className="caption-m text-grey08"
+              onClick={() => navigate('')}
+            >
+              미리보기
+            </span>
+          </button>
           <ShareIcon
             onClick={handleLinkCopy}
-            className="h-6 w-6 cursor-pointer"
+            className="h-6 w-6 cursor-pointer text-white"
           />
+          <SettingsIcon className="h-6 w-6 cursor-pointer text-white" />
         </span>
       </header>
       {isLinkCopiedSnackBarOpen && (
@@ -76,4 +78,4 @@ const SellerProfileHeader = ({ name, id }: { name: string; id: string }) => {
   );
 };
 
-export default SellerProfileHeader;
+export default SellerMyProfileHeader;

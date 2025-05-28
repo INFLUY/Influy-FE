@@ -1,3 +1,5 @@
+import { SetStateAction } from 'react';
+
 export type ItemType = {
   itemId: number;
   title: string;
@@ -15,14 +17,29 @@ export type ItemType = {
 export type MyItem = {
   itemId: number;
   title: string;
-  content: string;
   thumbnail: string | null;
-  range: VisibilityOption[];
   open: string;
   deadline: string;
-  status: 'basic' | 'extend' | 'sold out';
+  status: 'basic' | 'sold out';
   pending: number;
   answered: number;
 };
 
-export type VisibilityOption = 'recommend' | 'search';
+export type NoticeType = {
+  id: number;
+  title: string;
+  date: string;
+  content: string;
+};
+
+// 모달 props
+export interface SellerModalProps {
+  text: string;
+  description?: string;
+  leftButtonText?: string;
+  leftButtonClick?: () => void;
+  rightButtonText?: string;
+  rightButtonClick: () => void;
+  onClose?: () => void;
+  setIsModalOpen: React.Dispatch<SetStateAction<boolean>>;
+}

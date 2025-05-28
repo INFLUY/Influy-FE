@@ -1,9 +1,9 @@
 import cn from '@/utils/cn';
-import type { SaveButtonProps } from './Button.types';
+import type { ModalButtonProps, SaveButtonProps } from './Button.types';
 
 export const SaveButton = ({
   onClick,
-  disabled = true,
+  disabled = false,
   activeColor = 'bg-black',
   disabledColor = 'bg-grey05',
   text = '저장하기',
@@ -15,7 +15,7 @@ export const SaveButton = ({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        'body2-m flex h-fit w-full items-center justify-center rounded-sm py-3.5 text-white',
+        'body2-m flex h-fit w-full cursor-pointer items-center justify-center rounded-sm py-3.5 text-white',
         disabled ? disabledColor : activeColor,
         additionalStyles
       )}
@@ -43,6 +43,30 @@ export const DefaultButton = ({
         'body2-m box-border flex h-fit flex-1 items-center justify-center rounded-sm py-3.5 text-white',
         disabled ? disabledColor + ' cursor-not-allowed' : activeColor,
         additionalStyles
+      )}
+    >
+      {text}
+    </button>
+  );
+};
+
+// 모달 버튼
+export const ModalButton = ({
+  onClick,
+  theme = 'black',
+  text,
+}: ModalButtonProps) => {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        'body2-m box-border flex h-fit w-full items-center justify-center rounded-[.1875rem] p-[.625rem]',
+        {
+          'border border-black bg-black text-white': theme === 'black',
+          'border-grey03 text-grey10 border bg-white': theme === 'white',
+          'border-error bg-error border text-white': theme === 'red',
+        }
       )}
     >
       {text}
