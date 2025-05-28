@@ -24,6 +24,7 @@ const AdminItemBottomSheet = ({
   // 상품 수정
   const handleItemEdit = () => {
     // itemId 이용하여 navigate
+    console.log(itemId);
     navigate('');
   };
 
