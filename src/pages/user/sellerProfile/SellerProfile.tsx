@@ -72,7 +72,7 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
   ];
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col">
+    <div className="flex w-full flex-1 flex-col">
       <div className="realtive flex h-[7.0625rem] w-full flex-col bg-[#8B8B8D]">
         <SellerProfileHeader name={'소현'} id={'xoyeone_'} />
       </div>
