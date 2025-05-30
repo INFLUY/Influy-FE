@@ -8,11 +8,15 @@ import { useState } from 'react';
 import AdminItemBottomSheet from './AdminItemBottomSheet';
 import RadioBottomSheet from '@/components/seller/common/RadioBottomSheet';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
+import SnackBar from '@/components/common/SnackBar';
 
 const SellerMyItem = ({ item }: { item: MyItem }) => {
   const [isEditItemOpen, setIsEditItemOpen] = useState<boolean>(false);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState<boolean>(false);
-
+  const [isItemDeletedSnackBarOpen, setIsItemDeletedSnackBarOpen] =
+    useState<boolean>(false);
+  const [isItemStoredSnackBarOpen, setIsItemStoredSnackBarOpen] =
+    useState<boolean>(false);
   const STATUS_LIST: RadioInputList[] = [
     {
       id: 0,
@@ -26,10 +30,6 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
       description: '마감 기한 전 완판 되었을 경우, 품절을 표기합니다.',
     },
   ];
-
-  const handleEditMyItem = () => {
-    setIsEditItemOpen(true);
-  };
 
   return (
     <li className="flex cursor-pointer items-center justify-center gap-3 self-stretch px-5">
@@ -94,7 +94,7 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
         </div>
         <KebabIcon
           className="flex shrink-0 cursor-pointer"
-          onClick={handleEditMyItem}
+          onClick={() => setIsEditItemOpen(true)}
         />
       </div>
       {isEditItemOpen && (
@@ -102,7 +102,24 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
           itemId={item.itemId}
           isOpen={isEditItemOpen}
           setIsOpen={setIsEditItemOpen}
+          setIsItemDeletedSnackBarOpen={setIsItemDeletedSnackBarOpen}
+          setIsItemStoredSnackBarOpen={setIsItemStoredSnackBarOpen}
         />
+      )}
+      {/* 스낵바 */}
+      {isItemStoredSnackBarOpen && (
+        <SnackBar
+          handleSnackBarClose={() => setIsItemStoredSnackBarOpen(false)}
+        >
+          상품이 보관함으로 이동했습니다.
+        </SnackBar>
+      )}
+      {isItemDeletedSnackBarOpen && (
+        <SnackBar
+          handleSnackBarClose={() => setIsItemDeletedSnackBarOpen(false)}
+        >
+          상품이 삭제되었습니다.
+        </SnackBar>
       )}
     </li>
   );
