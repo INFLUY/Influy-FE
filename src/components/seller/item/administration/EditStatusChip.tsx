@@ -24,32 +24,36 @@ export const EditTimeChip = ({
   deadline,
   onClick,
 }: {
-  open: string; // "2025-05-20T18:00:00"
-  deadline: string; // "2025-05-20T18:00:00"
+  open: string; // "2025-05-29T06:34:07.837159"
+  deadline: string; // "2025-05-29T06:34:07.837159"
   onClick: () => void;
 }) => {
-  const [timeLeftUntilOpen, setTimeLeftUntilOpen] = useState<number>(0);
-  const [timeLeftUntilClose, setTimeLeftUntilClose] = useState<number>(0);
+  const [, forceUpdate] = useState(0); // 강제 리렌더링을 위함
 
-  const openTime = new Date(open);
-  const closeTime = new Date(deadline);
+  const openTime = new Date(open.split('.')[0]);
+  const closeTime = new Date(deadline.split('.')[0]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const now = new Date();
-      const leftUntilOpen = openTime.getTime() - now.getTime();
-      const leftUntilClose = closeTime.getTime() - now.getTime();
-      setTimeLeftUntilOpen(leftUntilOpen);
-      setTimeLeftUntilClose(leftUntilClose);
+      forceUpdate((prev) => prev + 1); // 1초마다 리렌더링 트리거
     }, 1000);
-
     return () => clearInterval(interval);
   }, []);
 
+  const now = new Date();
+  const timeLeftUntilOpen = openTime.getTime() - now.getTime();
+  const timeLeftUntilClose = closeTime.getTime() - now.getTime();
+
   const isToday = (d1: Date) => {
     const d2 = new Date();
-    return d1.toDateString() === d2.toDateString();
+    return (
+      d1.getFullYear() === d2.getFullYear() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getDate() === d2.getDate()
+    );
   };
+
+  if (timeLeftUntilOpen === 0 && timeLeftUntilClose === 0) return null;
 
   let chipText = '';
 
@@ -86,7 +90,8 @@ export const EditTimeChip = ({
       );
       chipText = `${hoursLeftUntilClose.toString().padStart(2, '0')}:${minutesLeftUntilClose.toString().padStart(2, '0')}:${secondsLeftUntilClose.toString().padStart(2, '0')} LEFT`;
     } else {
-      return; // 마감 이후에는 칩이 뜨지 않음
+      // 마감
+      chipText = `CLOSED`;
     }
   }
   return <EditStatusChip onClick={onClick}>{chipText}</EditStatusChip>;

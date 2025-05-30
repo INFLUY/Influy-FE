@@ -16,7 +16,7 @@ const SelectionTab = () => {
       content: '🖤완판 재진행🖤 너무 예쁜 가디건',
       thumbnail: '/img1.png',
       open: '2025-05-09T06:00:00',
-      deadline: '2025-05-20T18:00:00',
+      deadline: '2025-05-30T20:00:00',
       extend: true,
       scrapped: false,
       soldOut: false,
