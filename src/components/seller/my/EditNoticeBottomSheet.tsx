@@ -1,29 +1,23 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import { SetStateAction, useState } from 'react';
-import { SellerModal, SnackBar } from '@/components';
+import { SellerModal } from '@/components';
 
 const EditNoticeBottomSheet = ({
   noticeId,
   isOpen,
   setIsOpen,
   setIsEditNoticeOpen,
+  setIsNoticeSavedSnackBarOpen,
 }: {
   noticeId: number;
   isOpen: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
   setIsEditNoticeOpen: React.Dispatch<SetStateAction<boolean>>;
+  setIsNoticeSavedSnackBarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [isUnpinModalOpen, setIsUnpinModalOpen] = useState<boolean>(false);
-  const [isNoticeSavedSnackBarOpen, setIsNoticeSavedSnackBarOpen] =
-    useState<boolean>(false);
   const [isNoticeDeleteModalOpen, setIsNoticeDeleteModalOpen] =
     useState<boolean>(false);
-
-  // 스낵바 닫을 때 bottom sheet도 닫아줘야함
-  const handleStoredSnackBarClose = () => {
-    setIsNoticeSavedSnackBarOpen(false);
-    setIsOpen(false);
-  };
 
   // 핀 고정 해제
   const handleUnpin = () => {
@@ -35,6 +29,7 @@ const EditNoticeBottomSheet = ({
     // 삭제 로직 연동 -> 삭제 버튼 클릭 시 itemId 이용하여 삭제
     console.log(noticeId);
     setIsUnpinModalOpen(false);
+    setIsOpen(false);
     setIsNoticeSavedSnackBarOpen(true); // 스낵바
   };
 
@@ -57,6 +52,7 @@ const EditNoticeBottomSheet = ({
   // 공지 삭제 모달 -> 확인
   const handleDeleteNoticeConfirm = () => {
     setIsNoticeDeleteModalOpen(false);
+    setIsOpen(false);
     setIsNoticeSavedSnackBarOpen(true);
   };
 
@@ -68,7 +64,7 @@ const EditNoticeBottomSheet = ({
 
   return (
     <>
-      {!isUnpinModalOpen && !isNoticeSavedSnackBarOpen && (
+      {!isUnpinModalOpen && !isNoticeDeleteModalOpen && (
         <BottomSheet
           onClose={() => setIsOpen(false)}
           isBottomSheetOpen={isOpen}
@@ -98,12 +94,7 @@ const EditNoticeBottomSheet = ({
           </div>
         </BottomSheet>
       )}
-      {/* 스낵바 */}
-      {isNoticeSavedSnackBarOpen && (
-        <SnackBar handleSnackBarClose={handleStoredSnackBarClose}>
-          변경사항이 저장되었습니다.
-        </SnackBar>
-      )}
+
       {/* 고정 해제 모달  */}
       {isUnpinModalOpen && (
         <SellerModal

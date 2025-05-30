@@ -3,6 +3,7 @@ import {
   AddNoticeButton,
   EditNoticeBottomSheet,
   PageHeader,
+  SnackBar,
 } from '@/components';
 import { useState } from 'react';
 import { NoticeType } from '@/types/types';
@@ -14,6 +15,8 @@ const NoticePage = () => {
   const [isAdminNoticeOpen, setIsAdminNoticeOpen] = useState<boolean>(false);
   const [isEditNoticeOpen, setIsEditNoticeOpen] = useState<boolean>(false);
   const [selectedNotice, setSelectedNotice] = useState<number | null>(null);
+  const [isNoticeSavedSnackBarOpen, setIsNoticeSavedSnackBarOpen] =
+    useState<boolean>(false);
 
   // 임시 공지사항
   const NOTICES: NoticeType[] = [
@@ -133,6 +136,7 @@ const NoticePage = () => {
         <AddNoticeBottomSheet
           isOpen={isAddNoticeOpen}
           setIsOpen={setIsAddNoticeOpen}
+          setIsNoticeSavedSnackBarOpen={setIsNoticeSavedSnackBarOpen}
         />
       )}
       {isAdminNoticeOpen && selectedNotice !== null && (
@@ -141,6 +145,7 @@ const NoticePage = () => {
           isOpen={isAdminNoticeOpen}
           setIsOpen={setIsAdminNoticeOpen}
           setIsEditNoticeOpen={setIsEditNoticeOpen}
+          setIsNoticeSavedSnackBarOpen={setIsNoticeSavedSnackBarOpen}
         />
       )}
       {isEditNoticeOpen && selectedNotice !== null && (
@@ -148,7 +153,16 @@ const NoticePage = () => {
           noticeId={selectedNotice}
           isOpen={isEditNoticeOpen}
           setIsOpen={setIsEditNoticeOpen}
+          setIsNoticeSavedSnackBarOpen={setIsNoticeSavedSnackBarOpen}
         />
+      )}
+      {/* 스낵바 */}
+      {isNoticeSavedSnackBarOpen && (
+        <SnackBar
+          handleSnackBarClose={() => setIsNoticeSavedSnackBarOpen(false)}
+        >
+          변경사항이 저장되었습니다.
+        </SnackBar>
       )}
     </div>
   );
