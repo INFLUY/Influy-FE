@@ -13,11 +13,11 @@ export const ItemRegistrationPage = () => {
     defaultValues: {
       titleText: '',
       selectedCategoryList: [],
+      hasStartDate: false,
+      hasEndDate: false,
       startISODateTime: null,
       endISODateTime: null,
       summaryText: '',
-      price: 0,
-      salePrice: 0,
       linkText: null,
       period: null,
       commentText: null,
@@ -32,7 +32,7 @@ export const ItemRegistrationPage = () => {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <ItemForm mode="create" />
-        {/* <button type="submit">저장</button> */}
+        <button type="submit">저장</button>
       </form>
     </FormProvider>
   );
