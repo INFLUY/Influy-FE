@@ -5,21 +5,28 @@ export const itemSchema = z.object({
   titleText: z
     .string()
     .min(1, '상품의 이름을 입력해 주세요.')
-    .max(40, '45자 이내로 작성해 주세요.'),
+    .max(40, '40자 이내로 작성해 주세요.'),
   // 상품 카테고리
-  selectedCategoryList: z.array(z.string()).max(3, '최대 3개 선택 가능'),
-  //시작일 offset 추가..?
+  selectedCategoryList: z
+    .array(z.string())
+    .max(3)
+    .min(1, '하나 이상 선택해주세요'),
+  //시작일 여부
+  hasStartDate: z.boolean('시작일을 선택해주세요.'),
+  //마감일 여부
+  hasEndDate: z.boolean(),
+  //시작일
   startISODateTime: z.iso.datetime().nullable(),
   // 마감일
   endISODateTime: z.iso.datetime().nullable(),
   // 한 줄 소개
-  summaryText: z.string().max(18, '18자 이내로 작성해 주세요.'),
+  summaryText: z.string().max(18, '18자 이내로 작성해 주세요.').nullable(),
   // 가격 정가
   price: z.coerce.number().gt(0),
   // 가격 할인가
   salePrice: z.coerce.number().gt(0),
   // 판매 링크
-  linkText: z.url('유효한 링크를 입력해주세요').nullable(),
+  linkText: z.url('올바른 양식으로 입력해 주세요.').nullable(),
   //진행 회차
   period: z.number().nullable(),
   // 코멘트
