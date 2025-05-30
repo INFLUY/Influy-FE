@@ -58,3 +58,10 @@ export {
   DateTimePicker,
 } from './seller/item/registration/DateTimePicker';
 export { ItemSection } from './seller/item/registration/ItemSection';
+export {
+  FormWideTextArea,
+  FormLimitedTextInput,
+  FormLinkInput,
+  FormPriceInput,
+  FormSalePriceInput,
+} from './seller/item/registration/FormTextInput';
