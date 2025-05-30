@@ -8,6 +8,7 @@ import cn from '@/utils/cn';
 import CalendarIcon from '@/assets/icon/common/Calendar.svg?react';
 import { SaveButton } from '@/components';
 import { useFormContext, useController } from 'react-hook-form';
+import { useFormContext, useController } from 'react-hook-form';
 
 interface DateTimePickerProps {
   selectedDateTime: Date | null;
@@ -192,40 +193,25 @@ export const TimePickerWheel = ({
 };
 
 export const DateTimePicker = ({
-  dateTimeName,
-  hasDateName,
+  name,
   type,
   onClose,
 }: {
-  dateTimeName: string;
-  hasDateName: string;
+  name: string;
   type: string;
   onClose: () => void;
 }) => {
   const { control } = useFormContext();
 
   const {
-    field: { value: ISODateTime, onChange },
+    field: { value: selectedDateTime, onChange },
   } = useController({
-    name: dateTimeName,
-    control,
-  });
-
-  const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(
-    ISODateTime ? new Date(ISODateTime) : null
-  );
-
-  const {
-    field: { onChange: onHasDateChange },
-  } = useController({
-    name: hasDateName,
+    name,
     control,
   });
 
   const handleSaveClick = () => {
     if (selectedDateTime) {
-      onChange(selectedDateTime.toISOString());
-      onHasDateChange(true);
       onClose();
     }
   };
@@ -243,12 +229,12 @@ export const DateTimePicker = ({
           </div>
           <DatePickerCalender
             selectedDateTime={selectedDateTime}
-            setSelectedDateTime={setSelectedDateTime}
+            setSelectedDateTime={onChange}
           />
           {selectedDateTime && (
             <TimePickerWheel
               selectedDateTime={selectedDateTime}
-              setSelectedDateTime={setSelectedDateTime}
+              setSelectedDateTime={onChange}
             />
           )}
         </div>
