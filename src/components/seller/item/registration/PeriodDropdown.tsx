@@ -1,18 +1,27 @@
 import { useState } from 'react';
 import DropdownArrowIcon from '@/assets/icon/common/DropdownArrow.svg?react';
 import cn from '@/utils/cn';
+import { useFormContext, useController } from 'react-hook-form';
 
 interface DropdownProps {
-  period: number | null;
-  setPeriod: React.Dispatch<React.SetStateAction<number | null>>;
+  name: string;
 }
 
-export const PeriodDropdown = ({ period, setPeriod }: DropdownProps) => {
+export const PeriodDropdown = ({ name }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const { control } = useFormContext();
+
+  const {
+    field: { value: period, onChange },
+  } = useController({
+    name,
+    control,
+  });
+
   const handleSelect = (option: number) => {
-    if (option == period) setPeriod(null);
-    else setPeriod(option);
+    if (option == period) onChange(null);
+    else onChange(option);
     setIsOpen(false);
   };
 
