@@ -30,7 +30,7 @@ export type NoticeType = {
   title: string;
   date: string;
   content: string;
-  isPrimary?: boolean;
+  isPrimary: boolean;
 };
 
 // 모달 props

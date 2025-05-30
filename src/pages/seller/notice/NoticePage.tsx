@@ -15,6 +15,8 @@ const NoticePage = () => {
   const [isAdminNoticeOpen, setIsAdminNoticeOpen] = useState<boolean>(false);
   const [isEditNoticeOpen, setIsEditNoticeOpen] = useState<boolean>(false);
   const [selectedNotice, setSelectedNotice] = useState<number | null>(null);
+  const [isSelectedNoticePrimary, setIsSelectedNoticePrimary] =
+    useState<boolean>(false);
   const [isNoticeSavedSnackBarOpen, setIsNoticeSavedSnackBarOpen] =
     useState<boolean>(false);
 
@@ -32,6 +34,7 @@ const NoticePage = () => {
       title: '제작 오픈 이벤트',
       date: '2025.05.01',
       content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
+      isPrimary: false,
     },
     {
       id: 1243420,
@@ -39,12 +42,14 @@ const NoticePage = () => {
       date: '2025.05.01',
       content:
         '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!',
+      isPrimary: false,
     },
     {
       id: 11234,
       title: '제작 오픈 이벤트',
       date: '2025.05.01',
       content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
+      isPrimary: false,
     },
     {
       id: 1023142134,
@@ -52,18 +57,21 @@ const NoticePage = () => {
       date: '2025.05.01',
       content:
         '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!',
+      isPrimary: false,
     },
     {
       id: 121415,
       title: '제작 오픈 이벤트',
       date: '2025.05.01',
       content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
+      isPrimary: false,
     },
     {
       id: 1121414334,
       title: '제작 오픈 이벤트',
       date: '2025.05.01',
       content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
+      isPrimary: false,
     },
     {
       id: 1023142,
@@ -71,17 +79,20 @@ const NoticePage = () => {
       date: '2025.05.01',
       content:
         '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!',
+      isPrimary: false,
     },
     {
       id: 1211431415,
       title: '제작 오픈 이벤트',
       date: '2025.05.01',
       content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
+      isPrimary: false,
     },
   ];
 
-  const handleEditNotice = (noticeId: number) => {
+  const handleEditNotice = (noticeId: number, isPrimary: boolean) => {
     setSelectedNotice(noticeId);
+    setIsSelectedNoticePrimary(isPrimary);
     setIsAdminNoticeOpen(true);
     console.log(noticeId);
   };
@@ -117,7 +128,9 @@ const NoticePage = () => {
                       )}
                       <KebabIcon
                         className="text-grey08 h-5 w-5 cursor-pointer"
-                        onClick={() => handleEditNotice(notice.id)}
+                        onClick={() =>
+                          handleEditNotice(notice.id, notice.isPrimary)
+                        }
                       />
                     </div>
                   </div>
@@ -142,6 +155,7 @@ const NoticePage = () => {
       {isAdminNoticeOpen && selectedNotice !== null && (
         <EditNoticeBottomSheet
           noticeId={selectedNotice}
+          isPrimary={isSelectedNoticePrimary}
           isOpen={isAdminNoticeOpen}
           setIsOpen={setIsAdminNoticeOpen}
           setIsEditNoticeOpen={setIsEditNoticeOpen}

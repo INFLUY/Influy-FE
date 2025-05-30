@@ -4,6 +4,7 @@ import { SellerModal } from '@/components';
 
 const EditNoticeBottomSheet = ({
   noticeId,
+  isPrimary,
   isOpen,
   setIsOpen,
   setIsEditNoticeOpen,
@@ -11,6 +12,7 @@ const EditNoticeBottomSheet = ({
 }: {
   noticeId: number;
   isOpen: boolean;
+  isPrimary: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
   setIsEditNoticeOpen: React.Dispatch<SetStateAction<boolean>>;
   setIsNoticeSavedSnackBarOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,8 +22,14 @@ const EditNoticeBottomSheet = ({
     useState<boolean>(false);
 
   // 핀 고정 해제
-  const handleUnpin = () => {
-    setIsUnpinModalOpen(true); // 삭제 모달
+  const handlePin = () => {
+    if (isPrimary)
+      setIsUnpinModalOpen(true); // 핀 고정 해제 모달
+    else {
+      // 핀 고정 연동
+      setIsOpen(false);
+      setIsNoticeSavedSnackBarOpen(true);
+    }
   };
 
   // 핀 고정 해제 모달 -> 확인
@@ -73,9 +81,9 @@ const EditNoticeBottomSheet = ({
             <button
               type="button"
               className="body1-b text-grey10 w-full cursor-pointer py-4 text-center"
-              onClick={handleUnpin}
+              onClick={handlePin}
             >
-              상단 고정하기
+              {isPrimary ? '상단고정해제' : '상단고정하기'}
             </button>
             <button
               type="button"
