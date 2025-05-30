@@ -7,6 +7,7 @@ import Picker from 'react-mobile-picker';
 import cn from '@/utils/cn';
 import CalendarIcon from '@/assets/icon/common/Calendar.svg?react';
 import { SaveButton } from '@/components';
+import { useFormContext, useController } from 'react-hook-form';
 
 interface DateTimePickerProps {
   selectedDateTime: Date | null;
@@ -155,7 +156,6 @@ export const TimePickerWheel = ({
     updatedDate.setMilliseconds(0);
 
     setSelectedDateTime(updatedDate);
-    console.log(selectedDateTime);
   }, [pickerValue]);
 
   return (
@@ -192,22 +192,25 @@ export const TimePickerWheel = ({
 };
 
 export const DateTimePicker = ({
-  initialDateTime,
-  onSave,
+  name,
   type,
   onClose,
 }: {
-  initialDateTime: Date | null;
-  onSave: (date: Date) => void;
+  name: string;
   type: string;
   onClose: () => void;
 }) => {
-  const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(
-    initialDateTime
-  );
+  const { control } = useFormContext();
+
+  const {
+    field: { value: selectedDateTime, onChange },
+  } = useController({
+    name,
+    control,
+  });
+
   const handleSaveClick = () => {
     if (selectedDateTime) {
-      onSave(selectedDateTime);
       onClose();
     }
   };
@@ -225,12 +228,12 @@ export const DateTimePicker = ({
           </div>
           <DatePickerCalender
             selectedDateTime={selectedDateTime}
-            setSelectedDateTime={setSelectedDateTime}
+            setSelectedDateTime={onChange}
           />
           {selectedDateTime && (
             <TimePickerWheel
               selectedDateTime={selectedDateTime}
-              setSelectedDateTime={setSelectedDateTime}
+              setSelectedDateTime={onChange}
             />
           )}
         </div>
