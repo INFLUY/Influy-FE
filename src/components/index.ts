@@ -17,13 +17,7 @@ export { TimeChip, SoldOutChip, ExtendChip } from './user/Chip';
 //common
 export { SaveButton, DefaultButton } from './seller/common/Button';
 export { TipTooltip } from './seller/common/TipTooltip';
-export {
-  LimitedTextInput,
-  LinkInput,
-  WideTextArea,
-  PriceInput,
-  SalePriceInput,
-} from './seller/common/DetailInput';
+export { LimitedTextInput, WideTextArea } from './seller/common/DetailInput';
 export { default as CategoryChip } from './seller/common/CategoryChip';
 //item
 export { CategoryMultiSelector } from './seller/item/registration/CategoryMultiSelector';
@@ -35,3 +29,10 @@ export {
   DateTimePicker,
 } from './seller/item/registration/DateTimePicker';
 export { ItemSection } from './seller/item/registration/ItemSection';
+export {
+  FormWideTextArea,
+  FormLimitedTextInput,
+  FormLinkInput,
+  FormPriceInput,
+  FormSalePriceInput,
+} from './seller/item/registration/FormTextInput';

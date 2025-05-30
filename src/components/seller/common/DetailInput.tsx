@@ -1,7 +1,6 @@
-import { useRef, useMemo, useEffect, useState } from 'react';
+import { useRef } from 'react';
 import cn from '@/utils/cn';
 import WarningIcon from '@/assets/icon/common/Warning.svg?react';
-import { isValidURL } from '@/utils/validation';
 import useAutoResizeTextArea from '@/hooks/useAutoResizeTextArea';
 
 interface TextInputProps {
@@ -13,17 +12,6 @@ interface TextInputProps {
 
 interface LimitedTextInputProps extends TextInputProps {
   maxLength: number;
-}
-
-interface PriceInputProps {
-  price?: number;
-  setPrice: React.Dispatch<React.SetStateAction<number | undefined>>;
-}
-
-interface SalePriceInputProps {
-  regularPrice?: number;
-  salePrice?: number;
-  setSalePrice: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 export const LimitedTextInput = ({
@@ -80,52 +68,6 @@ export const LimitedTextInput = ({
   );
 };
 
-export const LinkInput = ({
-  text,
-  setText,
-  placeHolderContent,
-}: TextInputProps) => {
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useAutoResizeTextArea(textareaRef, text);
-
-  return (
-    <div className="flex w-full flex-col">
-      <div
-        onClick={() => textareaRef.current?.focus()}
-        className={cn(
-          'flex h-fit w-full items-center justify-center gap-2.5 rounded-sm border px-3.5 py-2.5',
-          (!text && text.length == 0) || isValidURL(text)
-            ? 'border-grey03 focus-within:border-grey05'
-            : 'border-error'
-        )}
-      >
-        <textarea
-          ref={textareaRef}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder={placeHolderContent}
-          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
-          rows={1}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault(); // Enter 키 입력 방지
-            }
-          }}
-        />
-      </div>
-      {text && !isValidURL(text) && (
-        <div className="mt-1 flex items-center space-x-1">
-          <WarningIcon />
-          <span className="caption-m text-error">
-            올바른 양식으로 입력해 주세요.
-          </span>
-        </div>
-      )}
-    </div>
-  );
-};
-
 export const WideTextArea = ({
   text,
   setText,
@@ -152,138 +94,6 @@ export const WideTextArea = ({
           rows={7}
         />
       </div>
-    </div>
-  );
-};
-
-export const PriceInput = ({ price, setPrice }: PriceInputProps) => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const spanRef = useRef<HTMLSpanElement | null>(null);
-  const [inputWidth, setInputWidth] = useState<number>(50); // 최소 너비
-
-  // 숫자 세개마다 컴마
-  const formattedPrice = useMemo(() => {
-    if (price === undefined) return '';
-    return price.toLocaleString();
-  }, [price]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let rawValue = e.target.value.replace(/[^0-9]/g, '');
-
-    // 자리수 제한
-    if (rawValue.length > 12) {
-      return;
-    }
-
-    const numericValue = rawValue === '' ? undefined : Number(rawValue);
-    setPrice(numericValue);
-  };
-
-  //input width 조절
-  useEffect(() => {
-    if (spanRef.current) {
-      const spanWidth = spanRef.current.offsetWidth;
-      setInputWidth(spanWidth + 12);
-    }
-  }, [formattedPrice]);
-
-  return (
-    <div
-      onClick={() => inputRef.current?.focus()}
-      className="border-grey03 focus-within:border-grey05 flex h-fit items-center justify-start rounded-sm border px-[.8125rem] py-2.5"
-    >
-      <input
-        ref={inputRef}
-        value={formattedPrice}
-        type="text"
-        inputMode="numeric"
-        onChange={handleChange}
-        placeholder="정가를 입력해 주세요."
-        className="body2-m placeholder:text-grey06 overflow-hidden break-keep outline-none"
-        style={{ width: `${inputWidth}px` }}
-      />
-      {price && <span className="body2-m">원</span>}
-
-      {/* 숨겨진 span으로 width 측정 */}
-      <span ref={spanRef} className="body2-m invisible absolute whitespace-pre">
-        {formattedPrice || '정가를 입력해 주세요.'}
-      </span>
-    </div>
-  );
-};
-
-export const SalePriceInput = ({
-  regularPrice,
-  salePrice,
-  setSalePrice,
-}: SalePriceInputProps) => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const spanRef = useRef<HTMLSpanElement | null>(null);
-  const [inputWidth, setInputWidth] = useState<number>(100); // 최소 너비
-
-  // 숫자 세개마다 컴마
-  const formattedPrice = useMemo(() => {
-    if (salePrice === undefined) return '';
-    return salePrice.toLocaleString();
-  }, [salePrice]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let rawValue = e.target.value.replace(/[^0-9]/g, '');
-
-    // 자리수 제한
-    if (rawValue.length > 12) {
-      return;
-    }
-
-    const numericValue = rawValue === '' ? undefined : Number(rawValue);
-    setSalePrice(numericValue);
-  };
-
-  //input width 조절
-  useEffect(() => {
-    if (spanRef.current) {
-      const spanWidth = spanRef.current.offsetWidth;
-      setInputWidth(spanWidth + 12);
-    }
-  }, [formattedPrice]);
-
-  //할인율 계산
-  const calculateDiscountRate = useMemo(() => {
-    if (salePrice === undefined || regularPrice === undefined) return '';
-    else if (salePrice > regularPrice) {
-      return '할인가가 정가보다 높습니다.';
-    } else {
-      const discountRate = Math.round(
-        ((regularPrice - salePrice) / regularPrice) * 100
-      );
-      return discountRate + '% 할인';
-    }
-  }, [salePrice, regularPrice]);
-
-  return (
-    <div
-      onClick={() => inputRef.current?.focus()}
-      className="border-grey03 focus-within:border-grey05 relative flex h-fit items-center justify-start rounded-sm border px-[.8125rem] py-2.5"
-    >
-      <input
-        ref={inputRef}
-        value={formattedPrice}
-        type="text"
-        inputMode="numeric"
-        onChange={handleChange}
-        placeholder="할인가를 입력하면, 자동으로 할인율이 계산됩니다."
-        className="body2-m placeholder:text-grey06 overflow-hidden break-keep outline-none"
-        style={{ width: `${inputWidth}px` }}
-      />
-      {salePrice && <span className="body2-m">원</span>}
-
-      {/* 숨겨진 span으로 width 측정 */}
-      <span ref={spanRef} className="body2-m invisible absolute whitespace-pre">
-        {formattedPrice || '할인가를 입력하면, 자동으로 할인율이 계산됩니다.'}
-      </span>
-      <span className="text-error body2-m absolute right-[1.5rem]">
-        {calculateDiscountRate}
-      </span>
     </div>
   );
 };
