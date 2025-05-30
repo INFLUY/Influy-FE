@@ -22,14 +22,7 @@ export { default as SellerProfileHeader } from './user/SellerProfileHeader';
 //common
 export { SaveButton, DefaultButton, ModalButton } from './seller/common/Button';
 export { TipTooltip } from './seller/common/TipTooltip';
-export {
-  TextInput,
-  LimitedTextInput,
-  LinkInput,
-  WideTextArea,
-  PriceInput,
-  SalePriceInput,
-} from './seller/common/DetailInput';
+export { LimitedTextInput, WideTextArea } from './seller/common/DetailInput';
 export { default as CategoryChip } from './seller/common/CategoryChip';
 export { default as RadioInputSelector } from './seller/common/RadioInputSelector';
 export { default as SellerModal } from './seller/common/SellerModal';
