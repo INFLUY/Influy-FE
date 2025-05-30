@@ -46,4 +46,5 @@ export { default as SellerMyItem } from './seller/item/administration/SellerMyIt
 //my
 export { default as SellerMyProfileHeader } from './seller/my/SellerMyProfileHeader';
 export { default as AddNoticeBottomSheet } from './seller/my/AddNoticeBottomSheet';
+export { default as EditNoticeBottomSheet } from './seller/my/EditNoticeBottomSheet';
 export { default as AddNoticeButton } from './seller/my/AddNoticeButton';

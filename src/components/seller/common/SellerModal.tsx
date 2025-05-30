@@ -37,7 +37,7 @@ const SellerModal = ({
             className="flex h-fit w-fit flex-col gap-7 rounded-[.1875rem] bg-white px-4 pt-[2.125rem] pb-4 text-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 break-words whitespace-break-spaces">
               <h1 className="body1-b break-words whitespace-break-spaces">
                 {text}
               </h1>

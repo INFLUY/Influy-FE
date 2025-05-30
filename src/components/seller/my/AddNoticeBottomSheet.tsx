@@ -9,15 +9,19 @@ import {
 } from '@/components';
 
 const AddNoticeBottomSheet = ({
+  noticeId,
   isOpen,
   setIsOpen,
 }: {
+  noticeId?: number;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [isNoticeCancelModalOpen, setIsNoticeCancelModalOpen] =
+    useState<boolean>(false);
+  const [isNoticeEditCancelModalOpen, setIsNoticeEditCancelModalOpen] =
     useState<boolean>(false);
   const [isNoticeSavedSnackBarOpen, setIsNoticeSavedSnackBarOpen] =
     useState<boolean>(false);
@@ -60,7 +64,7 @@ const AddNoticeBottomSheet = ({
           <div className="flex w-full flex-col items-center">
             <span className="flex w-full flex-col items-center gap-[.125rem]">
               <h1 className="subhead-b text-grey10 w-full text-center">
-                공지사항 추가
+                {noticeId !== undefined ? '공지사항 수정' : '공지사항 추가'}
               </h1>
               <div className="divide-grey02 flex w-full flex-col justify-start gap-1 divide-y px-5">
                 <div className="flex w-full flex-col gap-[.625rem] pt-3 pb-6">
@@ -93,7 +97,7 @@ const AddNoticeBottomSheet = ({
         </BottomSheet>
       )}
 
-      {/* 상품 상태  */}
+      {/* 공지사항 작성 취소 시 모달  */}
       {isNoticeCancelModalOpen && (
         <SellerModal
           text={`작성을 취소하시겠습니까?\n현재 내용은 모두 삭제됩니다.`}
@@ -101,6 +105,17 @@ const AddNoticeBottomSheet = ({
           rightButtonClick={handleNoticeCancelConfirm}
           onClose={() => setIsNoticeCancelModalOpen(false)}
           setIsModalOpen={setIsNoticeCancelModalOpen}
+        />
+      )}
+
+      {/* 공지사항 수정 취소 시 모달  */}
+      {isNoticeEditCancelModalOpen && (
+        <SellerModal
+          text={`작성을 취소하시겠습니까?\n수정한 내용은 반영되지 않습니다.`}
+          leftButtonClick={handleCancelNoticeModalClose}
+          rightButtonClick={handleNoticeCancelConfirm}
+          onClose={() => setIsNoticeEditCancelModalOpen(false)}
+          setIsModalOpen={setIsNoticeEditCancelModalOpen}
         />
       )}
 

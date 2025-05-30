@@ -1,14 +1,19 @@
 import {
   AddNoticeBottomSheet,
   AddNoticeButton,
+  EditNoticeBottomSheet,
   PageHeader,
 } from '@/components';
 import { useState } from 'react';
 import { NoticeType } from '@/types/types';
 import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
+import PinIcon from '@/assets/icon/common/DarkPinIcon.svg?react';
 
 const NoticePage = () => {
   const [isAddNoticeOpen, setIsAddNoticeOpen] = useState<boolean>(false);
+  const [isAdminNoticeOpen, setIsAdminNoticeOpen] = useState<boolean>(false);
+  const [isEditNoticeOpen, setIsEditNoticeOpen] = useState<boolean>(false);
+  const [selectedNotice, setSelectedNotice] = useState<number | null>(null);
 
   // 임시 공지사항
   const NOTICES: NoticeType[] = [
@@ -17,6 +22,7 @@ const NoticePage = () => {
       title: '인플루이 파이팅',
       date: '2025.05.29',
       content: '이스터에그🪺',
+      isPrimary: true,
     },
     {
       id: 1,
@@ -71,6 +77,12 @@ const NoticePage = () => {
     },
   ];
 
+  const handleEditNotice = (noticeId: number) => {
+    setSelectedNotice(noticeId);
+    setIsAdminNoticeOpen(true);
+    console.log(noticeId);
+  };
+
   return (
     <div className="flex h-full w-full flex-1 flex-col">
       <PageHeader>공지사항 편집</PageHeader>
@@ -89,11 +101,22 @@ const NoticePage = () => {
         <div className="scrollbar-hide flex h-full w-full flex-col items-center gap-4 overflow-y-auto pt-2 pb-24">
           <div className="flex w-full flex-col items-center">
             {NOTICES.map((notice) => (
-              <div className="border-grey03 flex w-full cursor-pointer flex-col gap-2 border-b px-5 pt-4 pb-5">
+              <div
+                key={notice.id}
+                className="border-grey03 flex w-full cursor-pointer flex-col gap-2 border-b px-5 pt-4 pb-5"
+              >
                 <div className="flex w-full flex-col">
                   <div className="flex w-full justify-between">
                     <h1 className="body1-m">{notice.title}</h1>
-                    <KebabIcon className="text-grey08 h-5 w-5 cursor-pointer" />
+                    <div className="flex items-center gap-[.125rem]">
+                      {notice?.isPrimary && (
+                        <PinIcon className="h-6 w-6 text-black" />
+                      )}
+                      <KebabIcon
+                        className="text-grey08 h-5 w-5 cursor-pointer"
+                        onClick={() => handleEditNotice(notice.id)}
+                      />
+                    </div>
                   </div>
                   <div className="text-grey05 caption-m">{notice.date}</div>
                 </div>
@@ -110,6 +133,21 @@ const NoticePage = () => {
         <AddNoticeBottomSheet
           isOpen={isAddNoticeOpen}
           setIsOpen={setIsAddNoticeOpen}
+        />
+      )}
+      {isAdminNoticeOpen && selectedNotice !== null && (
+        <EditNoticeBottomSheet
+          noticeId={selectedNotice}
+          isOpen={isAdminNoticeOpen}
+          setIsOpen={setIsAdminNoticeOpen}
+          setIsEditNoticeOpen={setIsEditNoticeOpen}
+        />
+      )}
+      {isEditNoticeOpen && selectedNotice !== null && (
+        <AddNoticeBottomSheet
+          noticeId={selectedNotice}
+          isOpen={isEditNoticeOpen}
+          setIsOpen={setIsEditNoticeOpen}
         />
       )}
     </div>
