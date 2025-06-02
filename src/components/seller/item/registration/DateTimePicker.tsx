@@ -192,25 +192,40 @@ export const TimePickerWheel = ({
 };
 
 export const DateTimePicker = ({
-  name,
+  dateTimeName,
+  hasDateName,
   type,
   onClose,
 }: {
-  name: string;
+  dateTimeName: string;
+  hasDateName: string;
   type: string;
   onClose: () => void;
 }) => {
   const { control } = useFormContext();
 
   const {
-    field: { value: selectedDateTime, onChange },
+    field: { value: ISODateTime, onChange },
   } = useController({
-    name,
+    name: dateTimeName,
+    control,
+  });
+
+  const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(
+    ISODateTime ? new Date(ISODateTime) : null
+  );
+
+  const {
+    field: { onChange: onHasDateChange },
+  } = useController({
+    name: hasDateName,
     control,
   });
 
   const handleSaveClick = () => {
     if (selectedDateTime) {
+      onChange(selectedDateTime.toISOString());
+      onHasDateChange(true);
       onClose();
     }
   };
@@ -228,12 +243,12 @@ export const DateTimePicker = ({
           </div>
           <DatePickerCalender
             selectedDateTime={selectedDateTime}
-            setSelectedDateTime={onChange}
+            setSelectedDateTime={setSelectedDateTime}
           />
           {selectedDateTime && (
             <TimePickerWheel
               selectedDateTime={selectedDateTime}
-              setSelectedDateTime={onChange}
+              setSelectedDateTime={setSelectedDateTime}
             />
           )}
         </div>
