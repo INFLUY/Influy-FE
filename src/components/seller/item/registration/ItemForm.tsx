@@ -1,12 +1,7 @@
 import {
-  SaveButton,
-  DefaultButton,
-  LimitedTextInput,
   TipTooltip,
   CategoryMultiSelector,
   FormLinkInput,
-  CategoryChip,
-  WideTextArea,
   ItemImageUploader,
   FormPriceInput,
   FormSalePriceInput,
@@ -18,7 +13,7 @@ import {
 } from '@/components';
 import BottomSheet from '@/components/common/BottomSheet';
 import CalendarIcon from '@/assets/icon/common/Calendar.svg?react';
-import { useState, useEffect, use } from 'react';
+import { useState } from 'react';
 import { useFormContext, useController } from 'react-hook-form';
 import { ItemFormValues } from '@/types/item.types';
 import CheckBoxOnIcon from '@/assets/icon/common/CheckBox24On.svg?react';
@@ -34,7 +29,7 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
     useState(false);
   const [isEndDateTimeSheetOpen, setIsEndDateTimeSheetOpen] = useState(false);
 
-  const { control, setValue } = useFormContext<ItemFormValues>();
+  const { control } = useFormContext<ItemFormValues>();
 
   // 1. startISODateTime 용 useController
   const {
@@ -44,7 +39,7 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
     control,
   });
 
-  // 2. hasStartDate(“시작일이 없어요”) 용 useController
+  // 2. hasStartDate 용 useController
   const {
     field: { value: hasStartDate, onChange: onHasStartDateChange },
   } = useController({
@@ -59,7 +54,7 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
     name: 'endISODateTime',
     control,
   });
-  // 4. hasEndDate(“마감일이 없어요”) 용 useController
+  // 4. hasEndDate 용 useController
   const {
     field: { value: hasEndDate, onChange: onHasEndDateChange },
   } = useController({
@@ -103,10 +98,6 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
       hour12: true,
     });
   };
-  useEffect(() => {
-    console.log('시작일:', startISODateTime);
-    console.log('시작일이 없어요:', hasStartDate);
-  }, [startISODateTime, hasStartDate]);
 
   return (
     <section className="box-border flex flex-col items-start gap-8">
@@ -192,7 +183,7 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
           </div>
         </div>
       </ItemSection>
-      {/* 날짜 바텀 시트 */}
+      {/* 시작일 날짜 바텀 시트 */}
       {isStartDateTimeSheetOpen && (
         <BottomSheet
           onClose={() => setIsStartDateTimeSheetOpen(false)}
@@ -207,7 +198,7 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
         </BottomSheet>
       )}
 
-      {/* 날짜 */}
+      {/* 마감일 바텀 시트 */}
       {isEndDateTimeSheetOpen && (
         <BottomSheet
           onClose={() => setIsEndDateTimeSheetOpen(false)}
@@ -265,98 +256,3 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
     </section>
   );
 };
-
-// /////////////
-
-// export const ItemRegistrationTest = () => {
-//   const [titleText, setTitleText] = useState('');
-//   const [linkText, setLinkText] = useState('');
-//   const [commentText, setCommentText] = useState('');
-//   const [images, setImages] = useState<string[]>([]);
-//   const [price, setPrice] = useState<number | undefined>(undefined);
-//   const [salePrice, setSalePrice] = useState<number | undefined>(undefined);
-//   const [period, setPeriod] = useState<number | null>(null);
-//   const [selectedCategoryList, setSelectedCategoryList] = useState<string[]>(
-//     []
-//   );
-
-//   const [startDateTime, setStartDateTime] = useState<Date | null>(null);
-//   const [endDateTime, setEndDateTime] = useState<Date | null>(null);
-
-//   const [isStartDateTimeSheetOpen, setIsStartDateTimeSheetOpen] =
-//     useState(false);
-//   const [isEndDateTimeSheetOpen, setIsEndDateTimeSheetOpen] = useState(false);
-
-//   const handleSaveClick = () => {};
-//   useEffect(() => {
-//     console.log(isStartDateTimeSheetOpen);
-//   }, [isStartDateTimeSheetOpen]);
-//   return (
-//     <div className="box-border flex flex-col gap-y-10 px-5">
-//       <CategoryChip text={'뷰티'} />
-
-//       {/* 날짜 */}
-//       {isStartDateTimeSheetOpen && (
-//         <BottomSheet
-//           onClose={() => setIsStartDateTimeSheetOpen(false)}
-//           isBottomSheetOpen={isStartDateTimeSheetOpen}
-//         >
-//           <DateTimePicker
-//             name="startISODateTime"
-//             type="시작일"
-//             onClose={() => setIsStartDateTimeSheetOpen(false)}
-//           />
-//         </BottomSheet>
-//       )}
-
-//       {/* 날짜 */}
-//       {isEndDateTimeSheetOpen && (
-//         <BottomSheet
-//           onClose={() => setIsEndDateTimeSheetOpen(false)}
-//           isBottomSheetOpen={isEndDateTimeSheetOpen}
-//         >
-//           <DateTimePicker
-//             name="endISODateTime"
-//             type="마감일"
-//             onClose={() => setIsEndDateTimeSheetOpen(false)}
-//           />
-//         </BottomSheet>
-//       )}
-
-//       <SaveButton onClick={handleSaveClick} />
-//       <div className="bg-grey01 flex h-[5.5rem] w-full shrink-0 items-center justify-center gap-[.4375rem] px-5 pt-[.4375rem] pb-8">
-//         <DefaultButton
-//           onClick={handleSaveClick}
-//           disabled={false}
-//           activeColor="bg-red-300"
-//         />
-//         <DefaultButton onClick={handleSaveClick} />
-//       </div>
-//       <LimitedTextInput
-//         text={titleText}
-//         setText={setTitleText}
-//         maxLength={45}
-//         placeHolderContent="상품의 이름을 입력해 주세요."
-//         isRequired={true}
-//       />
-//       <LinkInput
-//         text={linkText}
-//         setText={setLinkText}
-//         placeHolderContent="링크 URL을 입력해 주세요."
-//         isRequired={true}
-//       />
-//       <WideTextArea
-//         text={commentText}
-//         setText={setCommentText}
-//         placeHolderContent="제품 선택 이유, 특징, 사용 경험 등 제품의 매력을 보여줄 수 있는 내용을 자유롭게 작성해 주세요."
-//         isRequired={true}
-//       />
-
-//       <TipTooltip
-//         text={
-//           '최대 3가지 카테고리를 선택할 수 있습니다!최대 3가지 카테고리를 선택할 수 있습니다!최대 3가지 카테고리를 선택할 수 있습니다!'
-//         }
-//       />
-//     </div>
-//   );
-// };

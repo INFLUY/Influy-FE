@@ -47,9 +47,9 @@
   align-items: center;
 }
 /* 오늘 */
-.react-datepicker__day--today {
+/* .react-datepicker__day--today {
   color: #c4c4c4 !important;
-}
+} */
 
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
