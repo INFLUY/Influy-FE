@@ -33,10 +33,11 @@ export const DefaultButton = ({
   disabledColor = 'bg-grey05 ',
   text = '저장하기',
   additionalStyles,
+  type = 'button',
 }: SaveButtonProps) => {
   return (
     <button
-      type="button"
+      type={type}
       onClick={onClick}
       disabled={disabled}
       className={cn(
