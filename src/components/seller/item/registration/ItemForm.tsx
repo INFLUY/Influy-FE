@@ -100,21 +100,12 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
   };
 
   return (
-    <section className="box-border flex flex-col items-start gap-8">
+    <section className="mb-[11.25rem] box-border flex flex-col items-start gap-8">
       {/* 사진 업로드 */}
-
       <article className="flex h-fit w-full flex-col items-start">
         <p className="body1-b w-full px-5 py-0 text-black">사진 *</p>
-        <ItemImageUploader
-          images={images}
-          onAddImage={(file) => {
-            const url = URL.createObjectURL(file);
-            setImages((prev) => [...prev, url]);
-          }}
-          onRemoveImage={(index) => {
-            setImages((prev) => prev.filter((_, i) => i !== index));
-          }}
-        />
+        <ItemImageUploader name="images" />
+
         <div className="w-full px-5">
           <TipTooltip text="첫 번째로 선택한 사진이 대표 사진으로 등록돼요!" />
         </div>

@@ -1,21 +1,33 @@
 import CameraIcon from '@/assets/icon/common/Camera.svg?react';
 import cn from '@/utils/cn';
+import { useFormContext, useController } from 'react-hook-form';
 
 interface ItemImageUploaderProps {
-  images: string[]; // 미리보기용 URL 배열
-  onAddImage: (file: File) => void;
-  onRemoveImage: (index: number) => void;
+  name: string;
 }
 
-export const ItemImageUploader = ({
-  images,
-  onAddImage,
-  onRemoveImage,
-}: ItemImageUploaderProps) => {
+export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
+  const { control } = useFormContext();
+
+  const {
+    field: { value: images, onChange },
+  } = useController({
+    name,
+    control,
+  });
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      onAddImage(e.target.files[0]);
+      const url = URL.createObjectURL(e.target.files[0]);
+      if (images.length >= 10) {
+        alert('이미지는 최대 10개까지 업로드할 수 있습니다.');
+        return;
+      }
+      onChange([...images, url]);
     }
+  };
+
+  const handleRemoveImage = (index: number) => {
+    onChange(images.filter((_: string, i: number) => i !== index));
   };
 
   return (
@@ -41,7 +53,7 @@ export const ItemImageUploader = ({
 
       {/* 사진 미리보기 */}
 
-      {images.map((url, index) => (
+      {images.map((url: string, index: number) => (
         <div
           key={index}
           className={cn(
@@ -56,7 +68,7 @@ export const ItemImageUploader = ({
           />
           <button
             type="button"
-            onClick={() => onRemoveImage(index)}
+            onClick={() => handleRemoveImage(index)}
             className="bg-grey09 absolute -top-2 -right-2 h-4 w-4 rounded-full text-[.5rem] text-white"
           >
             ✕
