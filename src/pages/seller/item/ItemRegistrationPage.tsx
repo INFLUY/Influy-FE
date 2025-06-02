@@ -6,11 +6,13 @@ import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { itemSchema } from '@/schemas/itemSchema';
 import { ItemFormValues } from '@/types/item.types';
 import { ItemForm } from '@/components/seller/item/registration/ItemForm';
+import { DefaultButton } from '@/components';
 
 export const ItemRegistrationPage = () => {
   const methods = useForm<ItemFormValues>({
     resolver: standardSchemaResolver(itemSchema),
     defaultValues: {
+      images: [],
       titleText: '',
       selectedCategoryList: [],
       hasStartDate: false,
@@ -24,15 +26,44 @@ export const ItemRegistrationPage = () => {
     },
   });
 
-  const onSubmit = (data: ItemFormValues) => {
-    console.log('제출된 값:', data);
+  const onSubmit = async (formData: ItemFormValues) => {
+    console.log('원본 form 데이터:', formData);
+
+    // ✅ 서버 제출용 데이터로 가공
+    const payload = {
+      itemImgList: JSON.stringify(formData.images), // 예: ["xxx.png", "yyy.png"]
+      name: formData.titleText,
+      itemCategoryList: formData.selectedCategoryList, // 예: ["뷰티", "패션"]
+      startDate: formData.startISODateTime,
+      endDate: formData.endISODateTime,
+      tagline: formData.summaryText,
+      regularPrice: formData.price,
+      salePrice: formData.salePrice,
+      marketLink: formData.linkText,
+      itemPeriod: formData.period,
+      comment: formData.commentText,
+      isArchived: false, // 신규 등록은 기본 false
+    };
+
+    console.log('제출 payload:', payload);
+  };
+  const onSave = () => {
+    console.log('보관하기 버튼 클릭');
+    // 보관하기 로직 추가
   };
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <ItemForm mode="create" />
-        <button type="submit">저장</button>
+        <article className="border-t-grey02 absolute bottom-0 left-0 flex h-24 w-full shrink-0 items-center justify-center gap-6 border-t border-solid bg-white px-5 pt-2.5 pb-2">
+          <DefaultButton onClick={onSave} text="보관하기" />
+          <DefaultButton
+            type="submit"
+            text="게시하기"
+            disabled={methods.formState.isSubmitting}
+          />
+        </article>
       </form>
     </FormProvider>
   );

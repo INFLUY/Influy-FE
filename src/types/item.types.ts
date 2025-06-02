@@ -1,4 +1,5 @@
 export interface ItemFormValues {
+  images: string[];
   titleText: string;
   selectedCategoryList: string[];
   hasStartDate: boolean;

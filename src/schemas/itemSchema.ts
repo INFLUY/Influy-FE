@@ -1,6 +1,10 @@
 import { z } from 'zod/v4';
 
 export const itemSchema = z.object({
+  // 이미지
+  images: z
+    .array(z.string('올바른 이미지 URL을 입력해 주세요.'))
+    .max(10, '이미지는 최대 10개까지 업로드 가능합니다.'),
   // 제목
   titleText: z
     .string()
