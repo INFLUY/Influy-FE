@@ -9,6 +9,8 @@ import { useState } from 'react';
 import { NoticeType } from '@/types/common/NoticeType.types';
 import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
 import PinIcon from '@/assets/icon/common/DarkPinIcon.svg?react';
+import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
+import { useNavigate } from 'react-router-dom';
 
 const NoticePage = () => {
   const [isAddNoticeOpen, setIsAddNoticeOpen] = useState<boolean>(false);
@@ -19,6 +21,7 @@ const NoticePage = () => {
     useState<boolean>(false);
   const [isNoticeSavedSnackBarOpen, setIsNoticeSavedSnackBarOpen] =
     useState<boolean>(false);
+  const navigate = useNavigate();
 
   // 임시 공지사항
   const NOTICES: NoticeType[] = [
@@ -99,7 +102,16 @@ const NoticePage = () => {
 
   return (
     <div className="flex h-full w-full flex-1 flex-col">
-      <PageHeader>공지사항 편집</PageHeader>
+      <PageHeader
+        leftIcons={[
+          <ArrowIcon
+            className="h-6 w-6 cursor-pointer text-black"
+            onClick={() => navigate(-1)}
+          />,
+        ]}
+      >
+        공지사항 편집
+      </PageHeader>
       {NOTICES?.length === 0 && (
         <div className="flex h-full w-full flex-col items-center justify-center gap-10">
           <div className="flex flex-col items-center justify-center gap-6 text-center">
