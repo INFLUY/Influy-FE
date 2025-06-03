@@ -154,7 +154,7 @@ export const WideTextArea = ({
 }: TextInputProps) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  useAutoResizeTextArea(textareaRef, text);
+  useAutoResizeTextArea(textareaRef, text, 6);
 
   return (
     <div className="flex w-full flex-col">

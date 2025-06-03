@@ -4,21 +4,27 @@ export const PATH = {
     base: '/home',
   },
   SELLER_PROFILE: {
-    base: '/seller/:sellerId',
+    base: '/market/:marketId',
     tabs: {
       selection: 'selection',
       review: 'review',
     },
   },
   SELLER: {
-    base: '/my',
+    base: '/my-market',
     tabs: {
       selection: 'selection',
       stored: 'stored',
       review: 'review',
     },
-  },
-  SELLER_ITEM_REGISTRATION: {
-    base: '/seller/item/registration',
+    notice: {
+      base: 'notice',
+    },
+    items: {
+      base: 'item',
+      item: {
+        registration: 'new',
+      },
+    },
   },
 } as const;

@@ -8,14 +8,16 @@ import { useEffect, RefObject } from 'react';
  */
 const useAutoResizeTextArea = (
   ref: RefObject<HTMLTextAreaElement | null>,
-  value: string
+  value: string,
+  maxLines?: number
 ) => {
   useEffect(() => {
-    if (ref.current) {
+    if (ref?.current) {
+      const maxHeight = maxLines ? 21 * maxLines : Infinity;
       ref.current.style.height = 'auto'; // 높이 초기화
-      ref.current.style.height = `${ref.current.scrollHeight}px`; // 스크롤 높이에 맞춰 자동 조절
+      ref.current.style.height = `${Math.min(maxHeight, ref.current.scrollHeight)}px`; // 스크롤 높이에 맞춰 자동 조절
     }
-  }, [value, ref]);
+  }, [value, ref, maxLines]);
 };
 
 export default useAutoResizeTextArea;

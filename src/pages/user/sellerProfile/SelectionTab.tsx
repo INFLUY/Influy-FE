@@ -4,7 +4,7 @@ import LayoutListButton from '@/assets/icon/common/LayoutListButton.svg?react';
 import LayoutAlbumButton from '@/assets/icon/common/LayoutAlbumButton.svg?react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
-import { ItemType } from '@/types/types';
+import { ItemType } from '@/types/common/ItemType.types';
 
 const SelectionTab = () => {
   const PRODUCT_LIST: ItemType[] = [
@@ -15,9 +15,9 @@ const SelectionTab = () => {
       name: '@dfkjdkfjdkfj',
       content: '🖤완판 재진행🖤 너무 예쁜 가디건',
       thumbnail: '/img1.png',
-      open: '2025-05-09T06:00:00',
-      deadline: '2025-05-20T18:00:00',
-      extend: true,
+      open: '2025-07-10T06:34:07.837159',
+      deadline: '2025-07-30T19:00:07.837159',
+      extend: false,
       scrapped: false,
       soldOut: false,
     },
@@ -27,8 +27,8 @@ const SelectionTab = () => {
       name: '@dfkjdkfjdkfj',
       content: '🖤완판 재진행🖤너무 예쁜 가디건',
       thumbnail: '/img1.png',
-      open: '2025-04-30T18:00:00',
-      deadline: '2025-05-01T23:00:00',
+      open: '2025-05-29T06:34:07.837159',
+      deadline: '2025-06-10T19:00:07.837159',
       extend: true,
       scrapped: true,
       soldOut: false,
@@ -39,8 +39,8 @@ const SelectionTab = () => {
       name: '@dfkjdkfjdkfj',
       content: '🖤완판 재진행🖤 너무 예쁜 가디건',
       thumbnail: '/img1.png',
-      open: '2025-03-20T18:00:00',
-      deadline: '2025-04-30T18:30:00',
+      open: '2025-06-03T23:59:07.837159',
+      deadline: '2025-06-10T19:00:07.837159',
       scrapped: true,
       soldOut: true,
     },
@@ -49,10 +49,30 @@ const SelectionTab = () => {
       title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
       name: '@dfkjdkfjdkfj',
       thumbnail: '/img1.png',
-      open: '2025-04-20T18:00:00',
-      deadline: '2025-05-08T18:30:00',
+      open: '2025-05-29T06:34:07.837159',
+      deadline: '2025-05-30T19:00:07.837159',
+      scrapped: false,
+      soldOut: false,
+    },
+    {
+      itemId: 4,
+      title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
+      name: '@dfkjdkfjdkfj',
+      thumbnail: '/img1.png',
+      open: '2025-06-03T23:59:07.837159',
+      deadline: '2025-06-10T19:00:07.837159',
       scrapped: true,
-      soldOut: true,
+      soldOut: false,
+    },
+    {
+      itemId: 5,
+      title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
+      name: '@dfkjdkfjdkfj',
+      thumbnail: '/img1.png',
+      open: '2025-06-02T23:59:07.837159',
+      deadline: '2025-06-04T18:00:07.837159',
+      scrapped: true,
+      soldOut: false,
     },
   ];
 
