@@ -6,9 +6,16 @@ import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { itemSchema } from '@/schemas/itemSchema';
 import { ItemFormValues } from '@/types/item.types';
 import { ItemForm } from '@/components/seller/item/registration/ItemForm';
-import { DefaultButton } from '@/components';
+import { DefaultButton, Tab, Tabs } from '@/components';
+import { useState } from 'react';
 
 export const ItemRegistrationPage = () => {
+  const [activeTab, setActiveTab] = useState(0);
+  // 탭 목록 정의
+  const TABS = [
+    { id: 0, name: '상품 상세 정보' },
+    { id: 1, name: 'FAQ' },
+  ];
   const methods = useForm<ItemFormValues>({
     resolver: standardSchemaResolver(itemSchema),
     defaultValues: {
@@ -56,9 +63,26 @@ export const ItemRegistrationPage = () => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <ItemForm mode="create" />
-        <article className="border-t-grey02 absolute bottom-0 left-0 flex h-24 w-full shrink-0 items-center justify-center gap-6 border-t border-solid bg-white px-5 pt-2.5 pb-2">
+      <form
+        onSubmit={methods.handleSubmit(onSubmit)}
+        className="relative flex min-h-full w-full flex-col"
+      >
+        <Tabs>
+          {TABS.map((tab) => (
+            <Tab
+              key={tab.id}
+              isTabActive={activeTab === tab.id}
+              handleClickTab={() => setActiveTab(tab.id)}
+            >
+              {tab.name}
+            </Tab>
+          ))}
+        </Tabs>
+        <div className="pt-5">
+          {activeTab === 0 && <ItemForm mode="create" />}
+          {activeTab === 1 && <span>FAQ 내용 준비 중입니다.</span>}
+        </div>
+        <article className="border-t-grey02 absolute bottom-0 left-0 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
           <DefaultButton onClick={onSave} text="보관하기" />
           <DefaultButton
             type="submit"
