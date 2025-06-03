@@ -1,4 +1,4 @@
-import { MyItem } from '@/types/types';
+import { MyItem } from '@/types/common/types';
 import {
   EditSoldOutChip,
   EditTimeChip,

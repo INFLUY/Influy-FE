@@ -6,7 +6,7 @@ import {
   SnackBar,
 } from '@/components';
 import { useState } from 'react';
-import { NoticeType } from '@/types/types';
+import { NoticeType } from '@/types/common/NoticeType.types';
 import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
 import PinIcon from '@/assets/icon/common/DarkPinIcon.svg?react';
 

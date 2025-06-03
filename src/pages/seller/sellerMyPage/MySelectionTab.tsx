@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
-import { MyItem } from '@/types/types';
+import { MyItem } from '@/types/seller/MyItem.types';
 import PlusIcon from '@/assets/icon/common/PlusIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { RadioBottomSheet, SellerMyItem } from '@/components';

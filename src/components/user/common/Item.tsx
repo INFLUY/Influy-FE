@@ -1,5 +1,5 @@
 import { ScrapButton, ExtendChip, SoldOutChip, TimeChip } from '@/components';
-import { ItemType } from '@/types/types';
+import { ItemType } from '@/types/common/types';
 import cn from '@/utils/cn';
 
 export const ItemList = ({ item }: { item: ItemType }) => {
