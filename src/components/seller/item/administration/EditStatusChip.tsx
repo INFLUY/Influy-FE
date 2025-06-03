@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react';
 import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
+import {
+  formatTime,
+  getDday,
+  getTimeLeft,
+  isToday,
+  parseISOString,
+} from '@/utils/formatDate';
 
 const EditStatusChip = ({
   children,
@@ -30,8 +37,8 @@ export const EditTimeChip = ({
 }) => {
   const [, forceUpdate] = useState(0); // 강제 리렌더링을 위함
 
-  const openTime = new Date(open.split('.')[0]);
-  const closeTime = new Date(deadline.split('.')[0]);
+  const openTime = parseISOString(open);
+  const closeTime = parseISOString(deadline);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -44,15 +51,6 @@ export const EditTimeChip = ({
   const timeLeftUntilOpen = openTime.getTime() - now.getTime();
   const timeLeftUntilClose = closeTime.getTime() - now.getTime();
 
-  const isToday = (d1: Date) => {
-    const d2 = new Date();
-    return (
-      d1.getFullYear() === d2.getFullYear() &&
-      d1.getMonth() === d2.getMonth() &&
-      d1.getDate() === d2.getDate()
-    );
-  };
-
   if (timeLeftUntilOpen === 0 && timeLeftUntilClose === 0) return null;
 
   let chipText = '';
@@ -61,34 +59,24 @@ export const EditTimeChip = ({
   if (timeLeftUntilOpen > 0) {
     if (!isToday(openTime)) {
       // 오픈 전 - D-n
-      const dDay = Math.ceil(timeLeftUntilOpen / (1000 * 60 * 60 * 24));
+      const dDay = getDday(closeTime);
       chipText = `D-${dDay}`;
     } else {
       // 오픈 당일 - 18:00 OPEN
-      chipText = `${openTime.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })} OPEN`;
+      chipText = `${formatTime(openTime)} OPEN`;
     }
   }
   // 오픈 후
   else {
-    const daysLeftUntilClose = Math.floor(
-      timeLeftUntilClose / (1000 * 60 * 60 * 24)
-    );
+    const daysLeftUntilClose = getDday(closeTime) - 1;
     // 오픈 ~ 마감 전 24시간 - NOW OPEN
     if (daysLeftUntilClose >= 1) {
       chipText = 'NOW OPEN';
     }
     // 마감 전 24시간 ~ 마감 - 23:59:59 LEFT
     else if (daysLeftUntilClose === 0 && timeLeftUntilClose > 0) {
-      const hoursLeftUntilClose = Math.floor(
-        timeLeftUntilClose / (1000 * 60 * 60)
-      );
-      const minutesLeftUntilClose = Math.floor(
-        (timeLeftUntilClose % (1000 * 60 * 60)) / (1000 * 60)
-      );
-      const secondsLeftUntilClose = Math.floor(
-        (timeLeftUntilClose % (1000 * 60)) / 1000
-      );
-      chipText = `${hoursLeftUntilClose.toString().padStart(2, '0')}:${minutesLeftUntilClose.toString().padStart(2, '0')}:${secondsLeftUntilClose.toString().padStart(2, '0')} LEFT`;
+      const { hours, minutes, seconds } = getTimeLeft(closeTime);
+      chipText = `${hours}:${minutes}:${seconds} LEFT`;
     } else {
       // 마감
       chipText = `CLOSED`;
