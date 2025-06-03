@@ -1,5 +1,5 @@
 import ModalPortal from '@/components/common/ModalPortal';
-import { SellerModalProps } from '@/types/common/types';
+import { SellerModalProps } from '@/types/seller/SellerModalProps.types';
 import { useEffect } from 'react';
 import { ModalButton } from './Button';
 
