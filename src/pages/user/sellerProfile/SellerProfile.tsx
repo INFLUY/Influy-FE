@@ -13,8 +13,8 @@ import { NoticeType } from '@/types/common/NoticeType.types';
 
 const SellerProfile = ({ children }: { children: ReactNode }) => {
   const TABS = [
-    { id: 0, name: 'SELECTION', path: PATH.SELLER_PROFILE.tabs.selection },
-    { id: 2, name: 'REVIEW', path: PATH.SELLER_PROFILE.tabs.review },
+    { id: 0, name: 'SELECTION', path: PATH.USER.tabs.selection },
+    { id: 2, name: 'REVIEW', path: PATH.USER.tabs.review },
   ];
   const navigate = useNavigate();
   const location = useLocation();

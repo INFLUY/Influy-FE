@@ -3,7 +3,7 @@ export const PATH = {
   HOME: {
     base: '/home',
   },
-  SELLER_PROFILE: {
+  USER: {
     base: '/market/:marketId',
     tabs: {
       selection: 'selection',
