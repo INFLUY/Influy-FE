@@ -8,9 +8,16 @@ import { ItemFormValues } from '@/types/item.types';
 import { ItemForm } from '@/components/seller/item/registration/ItemForm';
 import { DefaultButton, Tab, Tabs } from '@/components';
 import { useState } from 'react';
-
+import { PageHeader } from '@/components';
+import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
+import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
+import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
+import { useNavigate } from 'react-router-dom';
 export const ItemRegistrationPage = () => {
+  const navigate = useNavigate();
+
   const [activeTab, setActiveTab] = useState(0);
+
   // 탭 목록 정의
   const TABS = [
     { id: 0, name: '상품 상세 정보' },
@@ -18,8 +25,10 @@ export const ItemRegistrationPage = () => {
   ];
   const methods = useForm<ItemFormValues>({
     resolver: standardSchemaResolver(itemSchema),
-    // mode: 'onBlur',
-    // reValidateMode: 'onBlur',
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+    shouldFocusError: false,
+
     defaultValues: {
       images: [],
       titleText: '',
@@ -35,10 +44,14 @@ export const ItemRegistrationPage = () => {
     },
   });
 
+  const {
+    formState: { isSubmitting, isValid, isDirty },
+  } = methods;
+
   const onSubmit = async (formData: ItemFormValues) => {
     console.log('원본 form 데이터:', formData);
 
-    // ✅ 서버 제출용 데이터로 가공
+    // 서버 제출용 데이터로 가공
     const payload = {
       itemImgList: JSON.stringify(formData.images), // 예: ["xxx.png", "yyy.png"]
       name: formData.titleText,
@@ -56,6 +69,7 @@ export const ItemRegistrationPage = () => {
 
     console.log('제출 payload:', payload);
   };
+
   const onSave = () => {
     console.log('보관하기 버튼 클릭');
     // 보관하기 로직 추가
@@ -63,10 +77,21 @@ export const ItemRegistrationPage = () => {
 
   return (
     <FormProvider {...methods}>
-      <form
-        onSubmit={methods.handleSubmit(onSubmit)}
-        className="relative flex min-h-full w-fit min-w-full flex-col"
-      >
+      <section className="sticky top-0 z-50 w-full bg-white">
+        <PageHeader
+          leftIcons={[
+            <ArrowIcon
+              className="h-6 w-6 cursor-pointer text-black"
+              onClick={() => navigate(-1)}
+            />,
+          ]}
+          rightIcons={[
+            <ShareIcon className="h-6 w-6 cursor-pointer text-black" />,
+            <StatisticIcon className="h-6 w-6 cursor-pointer text-black" />,
+          ]}
+        >
+          <div className="h-[1.6875rem]" />
+        </PageHeader>
         <Tabs>
           {TABS.map((tab) => (
             <Tab
@@ -78,18 +103,24 @@ export const ItemRegistrationPage = () => {
             </Tab>
           ))}
         </Tabs>
-        <div className="pt-5">
+      </section>
+
+      <form
+        onSubmit={methods.handleSubmit(onSubmit)}
+        className="relative flex min-h-full min-w-full flex-col"
+      >
+        <section className="pt-5">
           {activeTab === 0 && <ItemForm mode="create" />}
           {activeTab === 1 && <span>FAQ 내용 준비 중입니다.</span>}
-        </div>
-        <article className="border-t-grey02 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
+        </section>
+        <section className="border-t-grey02 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
           <DefaultButton onClick={onSave} text="보관하기" />
           <DefaultButton
             type="submit"
             text="게시하기"
-            disabled={methods.formState.isSubmitting}
+            disabled={isSubmitting || !isValid}
           />
-        </article>
+        </section>
       </form>
     </FormProvider>
   );

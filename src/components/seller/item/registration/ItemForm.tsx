@@ -24,7 +24,6 @@ interface ItemFormProps {
 }
 
 export const ItemForm = ({ mode }: ItemFormProps) => {
-  const [images, setImages] = useState<string[]>([]);
   const [isStartDateTimeSheetOpen, setIsStartDateTimeSheetOpen] =
     useState(false);
   const [isEndDateTimeSheetOpen, setIsEndDateTimeSheetOpen] = useState(false);
@@ -84,8 +83,6 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
     }
   };
 
-  const handleSaveClick = () => {};
-
   const formatDate = (dateString: string | null) => {
     if (!dateString) return '달력에서 시작일과 시간을 선택하세요.';
     const date = new Date(dateString);
@@ -141,6 +138,7 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
               <CalendarIcon onClick={() => setIsStartDateTimeSheetOpen(true)} />
             </div>
           </div>
+
           {/* 시작 없어요 체크박스 */}
           <div className="text-grey10 body2-m flex items-center gap-[0.5rem]">
             <button onClick={handleNoStartDate} className="cursor-pointer">
@@ -161,6 +159,7 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
               <CalendarIcon onClick={() => setIsEndDateTimeSheetOpen(true)} />
             </div>
           </div>
+
           {/* 마감일 없어요 체크박스 */}
           <div className="text-grey10 body2-m flex items-center gap-[0.5rem]">
             <button onClick={handleNoEndDate} className="cursor-pointer">
@@ -174,6 +173,7 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
           </div>
         </div>
       </ItemSection>
+
       {/* 시작일 날짜 바텀 시트 */}
       {isStartDateTimeSheetOpen && (
         <BottomSheet
