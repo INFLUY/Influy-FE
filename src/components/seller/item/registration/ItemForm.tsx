@@ -100,7 +100,7 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
   };
 
   return (
-    <section className="mb-[11.25rem] box-border flex flex-col items-start gap-8">
+    <section className="mb-[8.25rem] box-border flex flex-col items-start gap-8">
       {/* 사진 업로드 */}
       <article className="flex h-fit w-full flex-col items-start">
         <p className="body1-b w-full px-5 py-0 text-black">사진 *</p>

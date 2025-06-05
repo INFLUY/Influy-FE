@@ -26,8 +26,6 @@ export const ItemRegistrationPage = () => {
       selectedCategoryList: [],
       hasStartDate: false,
       hasEndDate: false,
-      hasStartDate: false,
-      hasEndDate: false,
       startISODateTime: null,
       endISODateTime: null,
       summaryText: '',
@@ -67,7 +65,7 @@ export const ItemRegistrationPage = () => {
     <FormProvider {...methods}>
       <form
         onSubmit={methods.handleSubmit(onSubmit)}
-        className="relative flex min-h-full w-full flex-col"
+        className="relative flex min-h-full w-fit min-w-full flex-col"
       >
         <Tabs>
           {TABS.map((tab) => (
@@ -84,7 +82,7 @@ export const ItemRegistrationPage = () => {
           {activeTab === 0 && <ItemForm mode="create" />}
           {activeTab === 1 && <span>FAQ 내용 준비 중입니다.</span>}
         </div>
-        <article className="border-t-grey02 absolute bottom-0 left-0 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
+        <article className="border-t-grey02 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
           <DefaultButton onClick={onSave} text="보관하기" />
           <DefaultButton
             type="submit"
