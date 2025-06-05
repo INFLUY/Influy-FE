@@ -49,8 +49,6 @@ export const ItemRegistrationPage = () => {
   } = methods;
 
   const onSubmit = async (formData: ItemFormValues) => {
-    console.log('원본 form 데이터:', formData);
-
     // 서버 제출용 데이터로 가공
     const payload = {
       itemImgList: JSON.stringify(formData.images), // 예: ["xxx.png", "yyy.png"]
@@ -66,12 +64,9 @@ export const ItemRegistrationPage = () => {
       comment: formData.commentText,
       isArchived: false, // 신규 등록은 기본 false
     };
-
-    console.log('제출 payload:', payload);
   };
 
   const onSave = () => {
-    console.log('보관하기 버튼 클릭');
     // 보관하기 로직 추가
   };
 
