@@ -18,6 +18,8 @@ export const ItemRegistrationPage = () => {
   ];
   const methods = useForm<ItemFormValues>({
     resolver: standardSchemaResolver(itemSchema),
+    // mode: 'onBlur',
+    // reValidateMode: 'onBlur',
     defaultValues: {
       images: [],
       titleText: '',
