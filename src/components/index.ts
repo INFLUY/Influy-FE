@@ -2,6 +2,7 @@ export { default as GlobalLayout } from './layout/GlobalLayout';
 export { default as Loading } from './loading/Loading';
 
 // common
+export { default as LoadingSpinner } from './common/LoadingSpinner';
 export { default as BottomSheet } from './common/BottomSheet';
 export { default as SellerProfileCard } from './common/SellerProfileCard';
 export { default as NoticeBanner } from './common/NoticeBanner';

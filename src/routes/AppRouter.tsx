@@ -4,9 +4,8 @@ import {
   Outlet,
   RouterProvider,
 } from 'react-router-dom';
-import { Suspense } from 'react';
 import { PATH } from '@/routes/path';
-import { GlobalLayout, Loading } from '@/components';
+import { GlobalLayout } from '@/components';
 import {
   NotFound,
   Home,
@@ -25,11 +24,9 @@ const router = createBrowserRouter([
   {
     path: PATH.ROOT,
     element: (
-      <Suspense fallback={<Loading />}>
-        <GlobalLayout>
-          <Outlet />
-        </GlobalLayout>
-      </Suspense>
+      <GlobalLayout>
+        <Outlet />
+      </GlobalLayout>
     ),
     children: [
       {

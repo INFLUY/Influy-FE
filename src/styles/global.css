@@ -59,6 +59,10 @@
     animation: fadeInOut ease-in-out forwards;
   }
 
+  .animate-rotation {
+    animation: rotation 1.4s linear infinite;
+  }
+
   *:focus {
     outline: none;
   }
@@ -148,6 +152,15 @@
     }
     100% {
       opacity: 0;
+    }
+  }
+
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
     }
   }
 }
