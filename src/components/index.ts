@@ -25,8 +25,8 @@ export { TipTooltip } from './seller/common/TipTooltip';
 export {
   TextInput,
   LimitedTextInput,
-  LinkInput,
   WideTextArea,
+  LinkInput,
 } from './seller/common/DetailInput';
 export { default as CategoryChip } from './seller/common/CategoryChip';
 export { default as RadioInputSelector } from './seller/common/RadioInputSelector';
