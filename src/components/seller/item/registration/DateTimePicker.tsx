@@ -114,7 +114,7 @@ export const TimePickerWheel = ({
 }: TimePickerProps) => {
   const [pickerValue, setPickerValue] = useState({
     amPm: '오후',
-    hour: '4',
+    hour: '12',
     minute: '00',
   });
 
