@@ -1,13 +1,14 @@
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DateTimePicker.css';
-import { ko } from 'date-fns/locale';
+import { is, ko } from 'date-fns/locale';
 import ChevronIcon from '@/assets/icon/common/Chevron.svg?react';
 import Picker from 'react-mobile-picker';
 import cn from '@/utils/cn';
 import CalendarIcon from '@/assets/icon/common/Calendar.svg?react';
 import { SaveButton } from '@/components';
 import { useFormContext, useController } from 'react-hook-form';
+import { isToday, formatTime, formatDate } from '@/utils/formatDate';
 
 interface DateTimePickerProps {
   selectedDateTime: Date | null;
@@ -28,15 +29,8 @@ export const DatePickerCalender = ({
         calendarClassName="custom-calendar"
         dayClassName={(date) => {
           const isSameDay =
-            selectedDate &&
-            date.getDate() === selectedDate.getDate() &&
-            date.getMonth() === selectedDate.getMonth() &&
-            date.getFullYear() === selectedDate.getFullYear();
-
-          const isSameMonth =
-            date.getMonth() === (selectedDate?.getMonth() ?? -1);
-
-          if (isSameDay && isSameMonth) {
+            selectedDate && isToday({ d1: date, d2: selectedDate });
+          if (isSameDay) {
             return 'custom-selected-day'; // 내가 지정한 검은 동그라미 스타일
           }
           return '';
@@ -86,21 +80,8 @@ export const DatePickerCalender = ({
       {/*상단 선택한 날짜 시간 표시*/}
       {selectedDate && (
         <div className="border-t-grey03 body1-m flex items-center justify-between border-t-1 px-4 py-3">
-          <span className="text-black">
-            {selectedDate.toLocaleDateString('ko-KR', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              weekday: 'short',
-            })}
-          </span>
-          <span>
-            {selectedDate.toLocaleTimeString('ko-KR', {
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: true,
-            })}
-          </span>
+          <span className="text-black">{formatDate(selectedDate)}</span>
+          <span>{formatTime({ date: selectedDate })}</span>
         </div>
       )}
     </div>
