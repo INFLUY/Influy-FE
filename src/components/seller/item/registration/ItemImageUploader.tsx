@@ -67,7 +67,7 @@ export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
   return (
     <article className="flex w-full flex-nowrap items-center gap-x-1.5 pl-5">
       {/* 사진 추가 박스 */}
-      <label className="bg-grey03 m-1 flex h-[3.75rem] w-[3.75rem] shrink-0 cursor-pointer flex-col items-center justify-center rounded-[.1875rem]">
+      <label className="bg-grey03 mt-[1.125rem] mb-5 flex h-[3.75rem] w-[3.75rem] shrink-0 cursor-pointer flex-col items-center justify-center rounded-[.1875rem]">
         <CameraIcon />
         <span
           className={cn(
