@@ -15,7 +15,6 @@ export const CategoryMultiSelector = memo(
 
     const {
       field: { value: selectedList, onChange },
-      fieldState: { error },
     } = useController({
       name,
       control,
@@ -29,9 +28,9 @@ export const CategoryMultiSelector = memo(
     };
 
     return (
-      <article className="flex w-full flex-col gap-y-4" ref={ref}>
+      <article className="flex w-full flex-col gap-y-3" ref={ref}>
         {/* 수정 필요 */}
-        <div className="flex w-full justify-center gap-4">
+        <div className="flex w-full justify-center gap-[.625rem]">
           {PRODUCT_CATEGORIES.slice(0, 5).map((category) => (
             <CategoryChip
               key={category}
@@ -61,14 +60,6 @@ export const CategoryMultiSelector = memo(
             />
           ))}
         </div>
-        {/* 에러 메세지 형식 수정 필요 */}
-        {error && (
-          <div className="mt-1 flex items-center space-x-1">
-            <span className="caption-m text-error">
-              {error?.message?.toString()}
-            </span>
-          </div>
-        )}
       </article>
     );
   }

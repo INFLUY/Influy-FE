@@ -212,27 +212,26 @@ export const DateTimePicker = ({
   };
 
   return (
-    <div className="h-fit w-full px-5 pb-8">
-      <p className="subhead-b text-center">기간 설정</p>
-      <article className="mt-7 mb-8 flex w-full justify-between gap-5">
-        <label className="body1-m py-2.5">{type}</label>
-        <div className="relative flex flex-1 flex-col gap-2">
-          {/* 상단 날짜 선택 박스 */}
-          <div className="border-grey03 body2-m text-grey06 flex w-full shrink-0 items-center justify-between rounded-sm border border-solid px-[.8125rem] py-2.5">
-            달력에서 {type}을 선택하세요
-            <CalendarIcon />
-          </div>
-          <DatePickerCalender
+    <div className="scrollbar-hide relative h-[32.8125rem] w-full overflow-scroll px-5 pb-8">
+      <p className="subhead-b sticky top-0 z-1 h-[2.375rem] bg-white text-center">
+        {type} 설정
+      </p>
+      <article className="relative mt-7 mb-8 flex w-full flex-col justify-between gap-2">
+        {/* 상단 날짜 선택 박스 */}
+        <div className="border-grey03 body2-m text-grey06 flex w-full shrink-0 items-center justify-between rounded-sm border border-solid px-[.8125rem] py-2.5">
+          달력에서 {type}을 선택하세요
+          <CalendarIcon />
+        </div>
+        <DatePickerCalender
+          selectedDateTime={selectedDateTime}
+          setSelectedDateTime={setSelectedDateTime}
+        />
+        {selectedDateTime && (
+          <TimePickerWheel
             selectedDateTime={selectedDateTime}
             setSelectedDateTime={setSelectedDateTime}
           />
-          {selectedDateTime && (
-            <TimePickerWheel
-              selectedDateTime={selectedDateTime}
-              setSelectedDateTime={setSelectedDateTime}
-            />
-          )}
-        </div>
+        )}
       </article>
       <SaveButton disabled={!selectedDateTime} onClick={handleSaveClick} />
     </div>

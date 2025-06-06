@@ -10,8 +10,8 @@ export const ItemSection = ({
   children,
   tooltipText,
 }: ItemSectionProps) => (
-  <article className="flex h-fit w-full flex-col items-start gap-[1.25rem] px-[1.25rem]">
-    <div className="flex w-full flex-col gap-[.625rem]">
+  <article className="flex h-fit w-full flex-col items-start gap-[1rem] px-[1.25rem]">
+    <div className="flex w-full flex-col gap-[.875rem]">
       <h2 className="body1-b w-full py-0 text-black">{label}</h2>
       {children}
     </div>

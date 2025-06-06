@@ -87,7 +87,7 @@ export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
       </label>
 
       {/* 사진 미리보기 */}
-      <div className="scrollbar-hide flex gap-x-1.5 overflow-x-scroll py-4 pr-5">
+      <div className="scrollbar-hide flex gap-x-1.5 overflow-x-scroll pt-[.875rem] pr-5 pb-4">
         {images.map((url: string, index: number) => (
           <div
             key={index}
