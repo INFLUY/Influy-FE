@@ -32,9 +32,9 @@ export const CategoryMultiSelector = memo(
       <article className="flex w-full flex-col gap-y-4" ref={ref}>
         {/* 수정 필요 */}
         <div className="flex w-full justify-center gap-4">
-          {PRODUCT_CATEGORIES.slice(0, 5).map((category, index) => (
+          {PRODUCT_CATEGORIES.slice(0, 5).map((category) => (
             <CategoryChip
-              key={index}
+              key={category}
               text={category}
               isSelected={selectedList.includes(category)}
               onToggle={() => handleClickCategory(category)}
