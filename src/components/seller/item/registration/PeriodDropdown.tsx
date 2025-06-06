@@ -20,7 +20,7 @@ export const PeriodDropdown = ({ name }: DropdownProps) => {
   });
 
   const handleSelect = (option: number) => {
-    if (option == period) onChange(null);
+    if (option === period) onChange(null);
     else onChange(option);
     setIsOpen(false);
   };
@@ -29,6 +29,7 @@ export const PeriodDropdown = ({ name }: DropdownProps) => {
     <div className="border-grey03 bg-grey01 h-fit max-h-[19.5rem] w-full rounded border">
       <button
         onClick={() => setIsOpen(!isOpen)}
+        type="button"
         className={cn(
           'body2-m flex w-full justify-between px-[.8125rem] py-2.5 text-left',
           period ? 'text-black' : 'text-grey06'
@@ -43,9 +44,7 @@ export const PeriodDropdown = ({ name }: DropdownProps) => {
             <li
               key={option}
               onClick={() => handleSelect(option + 1)}
-              className={cn(
-                'hover:bg-grey02 body2-m flex h-fit cursor-pointer items-center gap-2 px-[.8125rem] py-2.5'
-              )}
+              className="hover:bg-grey02 body2-m flex h-fit cursor-pointer items-center gap-2 px-[.8125rem] py-2.5"
             >
               <div
                 className={cn(
