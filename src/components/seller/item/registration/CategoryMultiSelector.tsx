@@ -6,10 +6,11 @@ import { useFormContext, useController } from 'react-hook-form';
 
 interface CategoryMultiSelectorProps {
   name: keyof ItemFormValues; // 폼 필드 이름
+  ref: React.RefObject<HTMLDivElement | null>; // 스크롤 이동을 위한 ref
 }
 
 export const CategoryMultiSelector = memo(
-  ({ name }: CategoryMultiSelectorProps) => {
+  ({ name, ref }: CategoryMultiSelectorProps) => {
     const { control } = useFormContext();
 
     const {
@@ -28,7 +29,7 @@ export const CategoryMultiSelector = memo(
     };
 
     return (
-      <article className="flex w-full flex-col gap-y-4">
+      <article className="flex w-full flex-col gap-y-4" ref={ref}>
         {/* 수정 필요 */}
         <div className="flex w-full justify-center gap-4">
           {PRODUCT_CATEGORIES.slice(0, 5).map((category, index) => (

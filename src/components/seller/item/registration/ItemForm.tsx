@@ -13,7 +13,7 @@ import {
 } from '@/components';
 import BottomSheet from '@/components/common/BottomSheet';
 import CalendarIcon from '@/assets/icon/common/Calendar.svg?react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormContext, useController } from 'react-hook-form';
 import { ItemFormValues } from '@/types/item.types';
 import CheckBoxOnIcon from '@/assets/icon/common/CheckBox24On.svg?react';
@@ -21,9 +21,19 @@ import CheckBoxOffIcon from '@/assets/icon/common/CheckBox24Off.svg?react';
 
 interface ItemFormProps {
   mode: 'create' | 'edit';
+  imagesWrapperRef: React.RefObject<HTMLDivElement | null>;
+  categoryWrapperRef: React.RefObject<HTMLDivElement | null>;
+  startDateWrapperRef: React.RefObject<HTMLDivElement | null>;
+  endDateWrapperRef: React.RefObject<HTMLDivElement | null>;
 }
 
-export const ItemForm = ({ mode }: ItemFormProps) => {
+export const ItemForm = ({
+  mode,
+  imagesWrapperRef,
+  categoryWrapperRef,
+  startDateWrapperRef,
+  endDateWrapperRef,
+}: ItemFormProps) => {
   const [isStartDateTimeSheetOpen, setIsStartDateTimeSheetOpen] =
     useState(false);
   const [isEndDateTimeSheetOpen, setIsEndDateTimeSheetOpen] = useState(false);
@@ -66,6 +76,7 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
       onStartISOChange(null);
     } else if (hasStartDate && !startISODateTime) {
       onHasStartDateChange(false);
+      onStartISOChange(undefined);
     } else {
       onHasStartDateChange(true);
       onStartISOChange(null);
@@ -77,6 +88,7 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
       onEndISOChange(null);
     } else if (hasEndDate && !endISODateTime) {
       onHasEndDateChange(false);
+      onEndISOChange(undefined);
     } else {
       onHasEndDateChange(true);
       onEndISOChange(null);
@@ -99,7 +111,11 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
   return (
     <section className="mb-[8.25rem] box-border flex flex-col items-start gap-8">
       {/* 사진 업로드 */}
-      <article className="flex h-fit w-full flex-col items-start">
+      <article
+        ref={imagesWrapperRef}
+        tabIndex={-1}
+        className="flex h-fit w-full flex-col items-start"
+      >
         <p className="body1-b w-full px-5 py-0 text-black">사진 *</p>
         <ItemImageUploader name="images" />
 
@@ -122,26 +138,42 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
         label="상품 카테고리 *"
         tooltipText="1개 이상, 최대 3가지의 카테고리를 선택할 수 있습니다!"
       >
-        <CategoryMultiSelector name="selectedCategoryList" />
+        <CategoryMultiSelector
+          name="selectedCategoryList"
+          ref={categoryWrapperRef}
+        />
       </ItemSection>
 
       {/* 기간 */}
       <ItemSection label="기간 *">
         <div className="flex w-full flex-col items-start gap-4">
           {/* 시작일 */}
-          <div className="flex w-full flex-col items-start justify-center gap-1.5">
+          <div
+            ref={startDateWrapperRef}
+            tabIndex={-1}
+            className="flex w-full flex-col items-start justify-center gap-1.5"
+          >
             <p className="caption-m">시작일</p>
             <div className="body2-m border-grey03 flex h-fit w-full items-center justify-between rounded-sm border px-3.5 py-2.5">
               <span className="text-grey06">
                 {formatDate(startISODateTime)}
               </span>
-              <CalendarIcon onClick={() => setIsStartDateTimeSheetOpen(true)} />
+              <button
+                type="button"
+                onClick={() => setIsStartDateTimeSheetOpen(true)}
+              >
+                <CalendarIcon />
+              </button>
             </div>
           </div>
 
           {/* 시작 없어요 체크박스 */}
           <div className="text-grey10 body2-m flex items-center gap-[0.5rem]">
-            <button onClick={handleNoStartDate} className="cursor-pointer">
+            <button
+              onClick={handleNoStartDate}
+              type="button"
+              className="cursor-pointer"
+            >
               {!startISODateTime && hasStartDate ? (
                 <CheckBoxOnIcon />
               ) : (
@@ -152,7 +184,11 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
           </div>
 
           {/* 마감일 */}
-          <div className="flex w-full flex-col items-start justify-center gap-1.5">
+          <div
+            ref={endDateWrapperRef}
+            tabIndex={-1}
+            className="flex w-full flex-col items-start justify-center gap-1.5"
+          >
             <p className="caption-m">마감일</p>
             <div className="body2-m border-grey03 flex h-fit w-full items-center justify-between rounded-sm border px-3.5 py-2.5">
               <span className="text-grey06">{formatDate(endISODateTime)}</span>
@@ -162,7 +198,11 @@ export const ItemForm = ({ mode }: ItemFormProps) => {
 
           {/* 마감일 없어요 체크박스 */}
           <div className="text-grey10 body2-m flex items-center gap-[0.5rem]">
-            <button onClick={handleNoEndDate} className="cursor-pointer">
+            <button
+              onClick={handleNoEndDate}
+              className="cursor-pointer"
+              type="button"
+            >
               {!endISODateTime && hasEndDate ? (
                 <CheckBoxOnIcon />
               ) : (

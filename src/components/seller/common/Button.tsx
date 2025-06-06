@@ -34,15 +34,16 @@ export const DefaultButton = ({
   text = '저장하기',
   additionalStyles,
   type = 'button',
+  useDisabled = true,
 }: SaveButtonProps) => {
   return (
     <button
       type={type}
       onClick={onClick}
-      disabled={disabled}
+      disabled={useDisabled ? disabled : false}
       className={cn(
-        'body2-m box-border flex h-fit flex-1 items-center justify-center rounded-sm py-3.5 text-white',
-        disabled ? disabledColor + ' cursor-not-allowed' : activeColor,
+        'body2-m box-border flex h-fit flex-1 cursor-pointer items-center justify-center rounded-sm py-3.5 text-white',
+        disabled ? disabledColor : activeColor,
         additionalStyles
       )}
     >

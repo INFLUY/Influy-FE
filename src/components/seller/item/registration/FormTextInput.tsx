@@ -9,6 +9,8 @@ interface FormLimitedTextInputProps {
   name: keyof ItemFormValues; // 폼 필드 이름 ('titleText' 같은 것)
   maxLength: number;
   placeHolderContent: string;
+  ref?: React.RefObject<HTMLDivElement>;
+  tabIndex?: number;
 }
 
 interface FormInputProps {
