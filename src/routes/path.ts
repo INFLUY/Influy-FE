@@ -3,7 +3,7 @@ export const PATH = {
   HOME: {
     base: '/home',
   },
-  SELLER_PROFILE: {
+  USER: {
     base: '/market/:marketId',
     tabs: {
       selection: 'selection',
@@ -24,6 +24,9 @@ export const PATH = {
       base: 'item',
       item: {
         registration: 'new',
+        administration: {
+          base: ':itemId',
+        },
       },
     },
   },

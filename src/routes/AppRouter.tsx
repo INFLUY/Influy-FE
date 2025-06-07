@@ -19,6 +19,7 @@ import {
   MyItemReviewTab,
   MyStoredItemTab,
   Notice,
+  SellerItemDetailPage,
 } from '@/pages';
 
 const router = createBrowserRouter([
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: PATH.SELLER_PROFILE.base,
+        path: PATH.USER.base,
         element: (
           <SellerProfile>
             <Outlet />
@@ -56,16 +57,14 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: (
-              <Navigate to={PATH.SELLER_PROFILE.tabs.selection} replace />
-            ),
+            element: <Navigate to={PATH.USER.tabs.selection} replace />,
           },
           {
-            path: PATH.SELLER_PROFILE.tabs.selection,
+            path: PATH.USER.tabs.selection,
             element: <SelectionTab />,
           },
           {
-            path: PATH.SELLER_PROFILE.tabs.review,
+            path: PATH.USER.tabs.review,
             element: <ReviewTab />,
           },
         ],
@@ -116,11 +115,15 @@ const router = createBrowserRouter([
             children: [
               {
                 path: PATH.SELLER.items.item.registration,
+                element: <ItemRegistrationPage />,
+              },
+              {
+                path: PATH.SELLER.items.item.administration.base,
                 element: <Outlet />,
                 children: [
                   {
                     index: true,
-                    element: <ItemRegistrationPage />,
+                    element: <SellerItemDetailPage />, // (임시) 상품 조회 페이지
                   },
                 ],
               },
