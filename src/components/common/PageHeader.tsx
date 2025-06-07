@@ -1,18 +1,26 @@
 import React from 'react';
+import cn from '@/utils/cn';
 
 interface PagerHeaderProps {
   leftIcons?: React.ReactNode[];
   rightIcons?: React.ReactNode[];
   children: React.ReactNode;
+  backgroundColor?: string;
 }
 
 const PageHeader = ({
   leftIcons = [],
   rightIcons = [],
   children,
+  backgroundColor = 'bg-white',
 }: PagerHeaderProps) => {
   return (
-    <header className="text-grey10 subhead-sb border-grey03 sticky w-full items-center justify-center border-b px-5 py-[.875rem] text-center">
+    <header
+      className={cn(
+        'text-grey10 subhead-sb border-grey03 sticky w-full items-center justify-center border-b px-5 py-[.875rem] text-center',
+        backgroundColor
+      )}
+    >
       <div className="absolute top-1/2 left-5 flex -translate-y-1/2 items-center gap-3">
         {leftIcons.map((icon, idx) => (
           <React.Fragment key={idx}>{icon}</React.Fragment>

@@ -10,8 +10,9 @@ const CategoryChip = ({ text, isSelected, onToggle }: CategoryChipProps) => {
   return (
     <button
       onClick={onToggle}
+      type="button"
       className={cn(
-        'body2-m flex h-fit w-fit items-center justify-center gap-2.5 rounded-[1.25rem] px-2.5 py-1',
+        'body2-m flex h-fit w-fit cursor-pointer items-center justify-center gap-2.5 rounded-[1.25rem] px-2.5 py-1',
         isSelected ? 'bg-grey10 text-white' : 'bg-grey03 text-black'
       )}
     >
