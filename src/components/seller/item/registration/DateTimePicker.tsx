@@ -1,12 +1,12 @@
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DateTimePicker.css';
-import { is, ko } from 'date-fns/locale';
+import { ko } from 'date-fns/locale';
 import ChevronIcon from '@/assets/icon/common/Chevron.svg?react';
 import Picker from 'react-mobile-picker';
 import cn from '@/utils/cn';
 import CalendarIcon from '@/assets/icon/common/Calendar.svg?react';
-import { SaveButton } from '@/components';
+import { DefaultButton } from '@/components';
 import { useFormContext, useController } from 'react-hook-form';
 import { isToday, formatTime, formatDate } from '@/utils/formatDate';
 
@@ -233,7 +233,7 @@ export const DateTimePicker = ({
           />
         )}
       </article>
-      <SaveButton disabled={!selectedDateTime} onClick={handleSaveClick} />
+      <DefaultButton disabled={!selectedDateTime} onClick={handleSaveClick} />
     </div>
   );
 };

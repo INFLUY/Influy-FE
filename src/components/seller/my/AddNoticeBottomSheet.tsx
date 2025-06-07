@@ -1,6 +1,11 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import { useState } from 'react';
-import { SaveButton, SellerModal, TextInput, WideTextArea } from '@/components';
+import {
+  DefaultButton,
+  SellerModal,
+  TextInput,
+  WideTextArea,
+} from '@/components';
 
 const AddNoticeBottomSheet = ({
   noticeId,
@@ -70,12 +75,12 @@ const AddNoticeBottomSheet = ({
             </div>
           </span>
           <div className="scrollbar-hide flex w-full gap-[.4375rem] overflow-y-auto px-5 pt-1 pb-8">
-            <SaveButton
+            <DefaultButton
               text="취소하기"
               activeColor="bg-grey07"
               onClick={handleClickCancel}
             />
-            <SaveButton text="저장하기" onClick={handleClickSave} />
+            <DefaultButton text="저장하기" onClick={handleClickSave} />
           </div>
         </div>
       </BottomSheet>
