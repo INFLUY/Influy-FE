@@ -36,7 +36,7 @@ export const PeriodDropdown = ({ name }: DropdownProps) => {
         )}
       >
         {period ? period + '회차' : '회차 선택'}
-        <DropdownArrowIcon />
+        <DropdownArrowIcon className="text-grey06" />
       </button>
       {isOpen && (
         <ul className="divide-grey03 border-t-grey03 z-1 flex h-[16.5rem] w-full flex-col divide-y-1 overflow-scroll border-t-1">
