@@ -20,6 +20,7 @@ import {
   MyStoredItemTab,
   Notice,
   FaqRegistrationCategoryPage,
+  SellerItemDetailPage,
 } from '@/pages';
 
 const router = createBrowserRouter([
@@ -123,7 +124,7 @@ const router = createBrowserRouter([
                 children: [
                   {
                     index: true,
-                    element: <FaqRegistrationCategoryPage />, // (임시) 상품 조회 페이지
+                    element: <SellerItemDetailPage />, // (임시) 상품 조회 페이지
                   },
                   {
                     path: PATH.SELLER.items.item.administration.faq.base,
