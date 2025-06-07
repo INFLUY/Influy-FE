@@ -19,6 +19,7 @@ import {
   MyItemReviewTab,
   MyStoredItemTab,
   Notice,
+  FaqRegistrationCategoryPage,
 } from '@/pages';
 
 const router = createBrowserRouter([
@@ -114,11 +115,49 @@ const router = createBrowserRouter([
             children: [
               {
                 path: PATH.SELLER.items.item.registration,
+                element: <ItemRegistrationPage />,
+              },
+              {
+                path: PATH.SELLER.items.item.administration.base,
                 element: <Outlet />,
                 children: [
                   {
                     index: true,
-                    element: <ItemRegistrationPage />,
+                    element: <FaqRegistrationCategoryPage />, // (임시) 상품 조회 페이지
+                  },
+                  {
+                    path: PATH.SELLER.items.item.administration.faq.base,
+                    element: <Outlet />,
+                    children: [
+                      {
+                        index: true,
+                        element: <FaqRegistrationCategoryPage />, // (임시) faq 조회 페이지
+                      },
+                      {
+                        path: PATH.SELLER.items.item.administration.faq
+                          .registration.base,
+                        element: <Outlet />,
+                        children: [
+                          {
+                            index: true,
+                            element: (
+                              <Navigate
+                                to={
+                                  PATH.SELLER.items.item.administration.faq
+                                    .registration.category
+                                }
+                                replace
+                              />
+                            ),
+                          },
+                          {
+                            path: PATH.SELLER.items.item.administration.faq
+                              .registration.category,
+                            element: <FaqRegistrationCategoryPage />,
+                          },
+                        ],
+                      },
+                    ],
                   },
                 ],
               },
