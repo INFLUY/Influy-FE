@@ -126,6 +126,7 @@ export const ItemRegistrationPage = () => {
       itemPeriod: formData.period,
       comment: formData.commentText,
     };
+    console.log(payload); // declared but its value is never read. 에러 해결을 위함
     try {
       // TODO: 실제 API 호출
     } catch (error) {}
