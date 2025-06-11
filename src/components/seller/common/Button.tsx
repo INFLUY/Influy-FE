@@ -73,3 +73,33 @@ export const ModalButton = ({
     </button>
   );
 };
+
+import PlusIcon from '@/assets/icon/common/PlusIcon.svg?react';
+
+// 추가 버튼
+export const AddButton = ({
+  handleOnClick,
+  size = 'base',
+  children,
+}: {
+  handleOnClick: () => void;
+  size?: 'base' | 'large';
+  children: React.ReactNode;
+}) => {
+  return (
+    <button
+      type="button"
+      className={cn(
+        'text-grey07 body2-m border-grey03 flex w-full cursor-pointer items-center justify-center gap-1 border',
+        {
+          'py-[2.4063rem]': size === 'large',
+          'py-[.875rem]': size === 'base',
+        }
+      )}
+      onClick={() => handleOnClick()}
+    >
+      <PlusIcon className="text-grey07 h-5 w-5" />
+      <span>{children}</span>
+    </button>
+  );
+};

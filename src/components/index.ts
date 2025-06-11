@@ -20,7 +20,12 @@ export { default as SellerProfileHeader } from './user/SellerProfileHeader';
 
 //seller
 //common
-export { SaveButton, DefaultButton, ModalButton } from './seller/common/Button';
+export {
+  SaveButton,
+  DefaultButton,
+  ModalButton,
+  AddButton,
+} from './seller/common/Button';
 export { TipTooltip } from './seller/common/TipTooltip';
 export {
   TextInput,
