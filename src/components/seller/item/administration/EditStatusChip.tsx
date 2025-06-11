@@ -57,13 +57,13 @@ export const EditTimeChip = ({
 
   // 오픈 전
   if (timeLeftUntilOpen > 0) {
-    if (!isToday(openTime)) {
+    if (!isToday({ d1: openTime })) {
       // 오픈 전 - D-n
       const dDay = getDday(closeTime);
       chipText = `D-${dDay}`;
     } else {
       // 오픈 당일 - 18:00 OPEN
-      chipText = `${formatTime(openTime)} OPEN`;
+      chipText = `${formatTime({ date: openTime })} OPEN`;
     }
   }
   // 오픈 후

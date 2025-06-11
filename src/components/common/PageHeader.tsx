@@ -4,7 +4,7 @@ import React from 'react';
 interface PagerHeaderProps {
   leftIcons?: React.ReactNode[];
   rightIcons?: React.ReactNode[];
-  children: React.ReactNode;
+  children?: React.ReactNode;
   additionalStyles?: string;
 }
 

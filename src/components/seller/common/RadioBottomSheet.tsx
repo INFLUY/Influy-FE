@@ -1,6 +1,6 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import RadioInputSelector from '@/components/seller/common/RadioInputSelector';
-import { SaveButton } from '@/components/seller/common/Button';
+import { DefaultButton } from '@/components/seller/common/Button';
 import { SetStateAction, useState } from 'react';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
 
@@ -42,7 +42,7 @@ const RadioBottomSheet = ({
               setSelected={setSortSelected}
             />
           </div>
-          <SaveButton onClick={handleClickSaveSortBy} />
+          <DefaultButton onClick={handleClickSaveSortBy} />
         </div>
       </div>
     </BottomSheet>
