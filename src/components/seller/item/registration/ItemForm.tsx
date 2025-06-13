@@ -13,6 +13,7 @@ import {
 } from '@/components';
 import BottomSheet from '@/components/common/BottomSheet';
 import CalendarIcon from '@/assets/icon/common/Calendar.svg?react';
+import PRODUCT_CATEGORIES from '@/constants/productCategories';
 import { useState } from 'react';
 import { useFormContext, useController } from 'react-hook-form';
 import { ItemFormValues } from '@/types/item.types';
@@ -142,6 +143,7 @@ export const ItemForm = ({
       >
         <CategoryMultiSelector
           name="selectedCategoryList"
+          categoryList={PRODUCT_CATEGORIES}
           ref={categoryWrapperRef}
         />
       </ItemSection>

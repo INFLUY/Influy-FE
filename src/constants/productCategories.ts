@@ -1,18 +1,20 @@
-const PRODUCT_CATEGORIES = [
-  '뷰티',
-  '패션',
-  '푸드',
-  '라이프',
-  '디지털',
-  '패션소품',
-  '주얼리',
-  '키즈',
-  '스포츠/레저',
-  '선물',
-  '명품',
-  '여행',
-  '기념일',
-  '기타',
+import { CategoryType } from '@/types/common/CategoryType.types';
+
+const PRODUCT_CATEGORIES: CategoryType[] = [
+  { id: 0, category: '뷰티' },
+  { id: 1, category: '패션' },
+  { id: 2, category: '푸드' },
+  { id: 3, category: '라이프' },
+  { id: 4, category: '디지털' },
+  { id: 5, category: '패션소품' },
+  { id: 6, category: '주얼리' },
+  { id: 7, category: '키즈' },
+  { id: 8, category: '스포츠/레저' },
+  { id: 9, category: '선물' },
+  { id: 10, category: '명품' },
+  { id: 11, category: '여행' },
+  { id: 12, category: '기념일' },
+  { id: 13, category: '기타' },
 ] as const;
 
 export default PRODUCT_CATEGORIES;
