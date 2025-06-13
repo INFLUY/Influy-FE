@@ -1,6 +1,6 @@
 import type { MouseEventHandler } from 'react';
 
-export interface SaveButtonProps {
+export interface DefaultButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
   activeColor?: string;
@@ -9,7 +9,6 @@ export interface SaveButtonProps {
   // 추가적인 테일윈드 요소
   additionalStyles?: string;
   type?: 'button' | 'submit' | 'reset';
-  useDisabled?: boolean;
 }
 
 export interface ModalButtonProps {

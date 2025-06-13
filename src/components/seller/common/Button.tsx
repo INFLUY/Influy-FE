@@ -1,25 +1,25 @@
 import cn from '@/utils/cn';
-import type { ModalButtonProps, SaveButtonProps } from './Button.types';
+import type { ModalButtonProps, DefaultButtonProps } from './Button.types';
 
-// flex-1,버튼 2개 나란히 있는 곳 용도. div(flex) 안에 버튼 2개 넣어서 사용
 export const DefaultButton = ({
   onClick,
   disabled = false,
-  activeColor = 'bg-black ',
-  disabledColor = 'bg-grey05 ',
+  activeColor = 'bg-black',
+  disabledColor = 'bg-grey05',
   text = '저장하기',
   additionalStyles,
   type = 'button',
-  useDisabled = true,
-}: SaveButtonProps) => {
+}: DefaultButtonProps) => {
   return (
     <button
       type={type}
       onClick={onClick}
-      disabled={useDisabled ? disabled : false}
+      disabled={disabled}
       className={cn(
-        'body2-m box-border flex h-fit w-full flex-1 cursor-pointer items-center justify-center rounded-sm py-3.5 text-white',
-        disabled ? disabledColor : activeColor,
+        'body2-m box-border flex h-fit w-full items-center justify-center rounded-sm py-3.5 text-white',
+        disabled
+          ? `${disabledColor} cursor-default`
+          : `${activeColor} cursor-pointer`,
         additionalStyles
       )}
     >

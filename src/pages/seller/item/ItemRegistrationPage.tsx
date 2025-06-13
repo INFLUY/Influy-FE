@@ -206,7 +206,6 @@ export const ItemRegistrationPage = () => {
             type="submit"
             text="게시하기"
             disabled={isSubmitting || isSubmitButtonDisabled}
-            useDisabled={false}
           />
         </section>
       </form>
