@@ -1,18 +1,30 @@
-import { AddButton, DefaultButton, PageHeader, TipTooltip } from '@/components';
+import {
+  AddButton,
+  DefaultButton,
+  PageHeader,
+  TipTooltip,
+  VanillaCategoryMultiSelector,
+} from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import FolderIcon from '@/assets/icon/seller/FolderIcon.svg?react';
 import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { CategoryType } from '@/types/common/CategoryType.types';
 
 const FaqRegistrationCategoryPage = () => {
   const navigate = useNavigate();
-  const CATEGORIES = [
+
+  const CATEGORIES: CategoryType[] = [
     { id: 1, category: '색상' },
     { id: 2, category: '구성' },
     { id: 3, category: '디테일' },
+    { id: 4, category: '사이즈' },
+    { id: 5, category: '가격' },
+    { id: 6, category: '진행일정' },
+    { id: 7, category: '재고/수량' },
   ];
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<number[]>([]);
 
   return (
     <div className="flex flex-1 flex-col">
@@ -53,6 +65,8 @@ const FaqRegistrationCategoryPage = () => {
           <main className="flex h-full flex-col gap-4 px-5 py-[2.125rem]">
             <div className="flex w-full justify-between">
               <h2 className="body1-b text-black">FAQ 카테고리</h2>
+
+              {/* 카테고리 수정 버튼 */}
               <button
                 type="button"
                 className="text-grey06 body2-m flex cursor-pointer items-center gap-1"
@@ -61,14 +75,21 @@ const FaqRegistrationCategoryPage = () => {
                 <EditIcon />
               </button>
             </div>
+
+            {/* FAQ 카테고리 */}
+            <VanillaCategoryMultiSelector
+              categoryList={CATEGORIES}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+            />
           </main>
         </>
       )}
-      <div className="px-5 pt-[.625rem] pb-5">
+      <div className="px-5 pt-[.625rem] pb-4">
         <DefaultButton
           text="다음"
-          disabled={selectedCategory === null}
-          onClick={() => navigate('')}
+          disabled={selectedCategory.length === 0}
+          onClick={() => console.log(...selectedCategory)}
         />
       </div>
     </div>
