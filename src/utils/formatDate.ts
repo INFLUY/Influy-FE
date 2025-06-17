@@ -42,3 +42,9 @@ export const formatTime = (date: Date) => {
 export const parseISOString = (isoString: string) => {
   return new Date(isoString.split('.')[0]);
 };
+
+// 2025.05.10
+// 2025.05.10T00:00:00Z 형태의 문자열을 2025.05.10 형태의 string으로 변환
+export const parseDateString = (dateString: string) => {
+  return dateString.split('T')[0].replace(/-/g, '.');
+};

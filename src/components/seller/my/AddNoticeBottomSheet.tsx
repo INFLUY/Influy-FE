@@ -4,12 +4,12 @@ import { SaveButton, SellerModal, TextInput, WideTextArea } from '@/components';
 import { usePostNotification } from '@/state/mutation/notification/usePostNotification';
 
 const AddNoticeBottomSheet = ({
-  noticeId,
+  announcementId,
   isOpen,
   setIsOpen,
   setIsNoticeSavedSnackBarOpen,
 }: {
-  noticeId?: number;
+  announcementId?: number;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsNoticeSavedSnackBarOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -53,7 +53,7 @@ const AddNoticeBottomSheet = ({
         <div className="flex w-full flex-col items-center">
           <span className="flex w-full flex-col items-center gap-[.125rem]">
             <h1 className="subhead-b text-grey10 w-full text-center">
-              {noticeId !== undefined ? '공지사항 수정' : '공지사항 추가'}
+              {announcementId !== undefined ? '공지사항 수정' : '공지사항 추가'}
             </h1>
             <div className="divide-grey02 flex w-full flex-col justify-start gap-1 divide-y px-5">
               <div className="flex w-full flex-col gap-[.625rem] pt-3 pb-6">

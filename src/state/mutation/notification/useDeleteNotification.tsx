@@ -1,13 +1,13 @@
-import { postNotification } from '@/api/notification/handleNotification.api';
+import { deleteNotification } from '@/api/notification/handleNotification.api';
 import { QUERY_KEYS } from '@/constants/api';
-import { NoticePostType } from '@/types/common/NoticeType.types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export const usePostNotification = (onSuccessCallback?: () => void) => {
+export const useDeleteNotification = (onSuccessCallback?: () => void) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: NoticePostType) => postNotification({ data }),
+    mutationFn: ({ announcementId }: { announcementId: number }) =>
+      deleteNotification({ announcementId }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_MY_ANNOUNCEMENT],
@@ -15,7 +15,7 @@ export const usePostNotification = (onSuccessCallback?: () => void) => {
       if (onSuccessCallback) onSuccessCallback();
     },
     onError: () => {
-      //
+      // TODO
     },
   });
 };

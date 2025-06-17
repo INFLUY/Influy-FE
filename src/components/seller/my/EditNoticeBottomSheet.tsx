@@ -1,16 +1,17 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import { SetStateAction, useState } from 'react';
 import { SellerModal } from '@/components';
+import { useDeleteNotification } from '@/state/mutation/notification/useDeleteNotification';
 
 const EditNoticeBottomSheet = ({
-  noticeId,
+  announcementId,
   isPrimary,
   isOpen,
   setIsOpen,
   setIsEditNoticeOpen,
   setIsNoticeSavedSnackBarOpen,
 }: {
-  noticeId: number;
+  announcementId: number;
   isOpen: boolean;
   isPrimary: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -35,7 +36,6 @@ const EditNoticeBottomSheet = ({
   // 핀 고정 해제 모달 -> 확인
   const handleUnpinConfirm = () => {
     // 삭제 로직 연동 -> 삭제 버튼 클릭 시 itemId 이용하여 삭제
-    console.log(noticeId);
     setIsUnpinModalOpen(false);
     setIsOpen(false);
     setIsNoticeSavedSnackBarOpen(true); // 스낵바
@@ -57,11 +57,15 @@ const EditNoticeBottomSheet = ({
     setIsNoticeDeleteModalOpen(true);
   };
 
+  const { mutate: deleteNotice } = useDeleteNotification(() =>
+    setIsNoticeSavedSnackBarOpen(true)
+  );
+
   // 공지 삭제 모달 -> 확인
   const handleDeleteNoticeConfirm = () => {
     setIsNoticeDeleteModalOpen(false);
     setIsOpen(false);
-    setIsNoticeSavedSnackBarOpen(true);
+    deleteNotice({ announcementId });
   };
 
   // 공지 삭제 모달 -> 취소

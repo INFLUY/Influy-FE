@@ -6,7 +6,7 @@ export type NoticePostType = {
 export type NoticeType = {
   id: number;
   title: string;
-  date: string;
+  createdAt: string;
   content: string;
   isPrimary?: boolean;
 };

@@ -11,6 +11,8 @@ import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
 import PinIcon from '@/assets/icon/common/DarkPinIcon.svg?react';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
+import { useGetNotification } from '@/state/query/notification/useGetNotification';
+import { parseDateString } from '@/utils/formatDate';
 
 const NoticePage = () => {
   const [isAddNoticeOpen, setIsAddNoticeOpen] = useState<boolean>(false);
@@ -24,80 +26,14 @@ const NoticePage = () => {
   const navigate = useNavigate();
 
   // 임시 공지사항
-  const NOTICES: NoticeType[] = [
-    {
-      id: 0,
-      title: '인플루이 파이팅',
-      date: '2025.05.29',
-      content: '이스터에그🪺',
-      isPrimary: true,
-    },
-    {
-      id: 1,
-      title: '제작 오픈 이벤트',
-      date: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-    {
-      id: 1243420,
-      title: '🍎부스터 프로🍎 이틀 연장합니다! D-4! ',
-      date: '2025.05.01',
-      content:
-        '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!',
-      isPrimary: false,
-    },
-    {
-      id: 11234,
-      title: '제작 오픈 이벤트',
-      date: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-    {
-      id: 1023142134,
-      title: '🍎부스터 프로🍎 이틀 연장합니다! D-4! ',
-      date: '2025.05.01',
-      content:
-        '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!',
-      isPrimary: false,
-    },
-    {
-      id: 121415,
-      title: '제작 오픈 이벤트',
-      date: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-    {
-      id: 1121414334,
-      title: '제작 오픈 이벤트',
-      date: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-    {
-      id: 1023142,
-      title: '🍎부스터 프로🍎 이틀 연장합니다! D-4! ',
-      date: '2025.05.01',
-      content:
-        '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!',
-      isPrimary: false,
-    },
-    {
-      id: 1211431415,
-      title: '제작 오픈 이벤트',
-      date: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-  ];
 
-  const handleEditNotice = (noticeId: number, isPrimary: boolean) => {
-    setSelectedNotice(noticeId);
+  const { data: NOTICES } = useGetNotification();
+
+  const handleEditNotice = (announcementId: number, isPrimary: boolean) => {
+    setSelectedNotice(announcementId);
     setIsSelectedNoticePrimary(isPrimary);
     setIsAdminNoticeOpen(true);
-    console.log(noticeId);
+    console.log(announcementId);
   };
 
   return (
@@ -112,7 +48,7 @@ const NoticePage = () => {
       >
         공지사항 편집
       </PageHeader>
-      {NOTICES?.length === 0 && (
+      {NOTICES?.announcements?.length === 0 && (
         <div className="flex h-full w-full flex-col items-center justify-center gap-10">
           <div className="flex flex-col items-center justify-center gap-6 text-center">
             <div className="bg-grey03 h-[5.6875rem] w-[8.0625rem]" />
@@ -123,32 +59,38 @@ const NoticePage = () => {
           />
         </div>
       )}
-      {NOTICES?.length > 0 && (
+      {NOTICES?.announcements?.length > 0 && (
         <div className="scrollbar-hide flex h-full w-full flex-col items-center gap-4 overflow-y-auto pt-2 pb-24">
           <div className="flex w-full flex-col items-center">
-            {NOTICES.map((notice) => (
+            {NOTICES?.announcements?.map((notice: NoticeType) => (
               <div
                 key={notice.id}
                 className="border-grey03 flex w-full cursor-pointer flex-col gap-2 border-b px-5 pt-4 pb-5"
               >
                 <div className="flex w-full flex-col">
-                  <div className="flex w-full justify-between">
-                    <h1 className="body1-m">{notice.title}</h1>
-                    <div className="flex items-center gap-[.125rem]">
+                  <div className="flex w-full items-start justify-between">
+                    <h1 className="body1-m min-w-0 flex-1 break-words whitespace-break-spaces">
+                      {notice.title}
+                    </h1>
+                    <div className="flex w-fit shrink-0 items-center gap-[.125rem]">
                       {notice?.isPrimary && (
-                        <PinIcon className="h-6 w-6 text-black" />
+                        <PinIcon className="h-6 w-6 shrink-0 text-black" />
                       )}
                       <KebabIcon
-                        className="text-grey08 h-5 w-5 cursor-pointer"
+                        className="text-grey08 h-5 w-5 shrink-0 cursor-pointer"
                         onClick={() =>
                           handleEditNotice(notice.id, notice.isPrimary!)
                         }
                       />
                     </div>
                   </div>
-                  <div className="text-grey05 caption-m">{notice.date}</div>
+                  <div className="text-grey05 caption-m">
+                    {parseDateString(notice.createdAt)}
+                  </div>
                 </div>
-                <div className="body2-r">{notice.content}</div>
+                <div className="body2-r break-words whitespace-break-spaces">
+                  {notice.content}
+                </div>
               </div>
             ))}
           </div>
@@ -166,7 +108,7 @@ const NoticePage = () => {
       )}
       {isAdminNoticeOpen && selectedNotice !== null && (
         <EditNoticeBottomSheet
-          noticeId={selectedNotice}
+          announcementId={selectedNotice}
           isPrimary={isSelectedNoticePrimary}
           isOpen={isAdminNoticeOpen}
           setIsOpen={setIsAdminNoticeOpen}
@@ -176,7 +118,7 @@ const NoticePage = () => {
       )}
       {isEditNoticeOpen && selectedNotice !== null && (
         <AddNoticeBottomSheet
-          noticeId={selectedNotice}
+          announcementId={selectedNotice}
           isOpen={isEditNoticeOpen}
           setIsOpen={setIsEditNoticeOpen}
           setIsNoticeSavedSnackBarOpen={setIsNoticeSavedSnackBarOpen}
