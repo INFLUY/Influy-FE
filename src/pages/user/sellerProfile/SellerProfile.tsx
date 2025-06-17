@@ -35,7 +35,7 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
     {
       id: 0,
       title: '🍎부스터 프로🍎 이틀 연장합니다! D-4! ',
-      date: '2025.05.01',
+      createdAt: '2025.05.01',
       content:
         '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!',
       isPrimary: true,
@@ -43,35 +43,35 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
     {
       id: 1,
       title: '제작 오픈 이벤트',
-      date: '2025.05.01',
+      createdAt: '2025.05.01',
       content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
       isPrimary: false,
     },
     {
       id: 2,
       title: '입접 이벤트🤔💕',
-      date: '2025.05.01',
+      createdAt: '2025.05.01',
       content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
       isPrimary: false,
     },
     {
       id: 3,
       title: '입접 이벤트🤔💕',
-      date: '2025.05.01',
+      createdAt: '2025.05.01',
       content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
       isPrimary: false,
     },
     {
       id: 4,
       title: '입접 이벤트🤔💕',
-      date: '2025.05.01',
+      createdAt: '2025.05.01',
       content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
       isPrimary: false,
     },
     {
       id: 5,
       title: '입접 이벤트🤔💕',
-      date: '2025.05.01',
+      createdAt: '2025.05.01',
       content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
       isPrimary: false,
     },
@@ -116,7 +116,7 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
                     <div className="flex flex-col">
                       <h2 className="body1-m text-grey10">{notice.title}</h2>
                       <span className="caption-m text-grey05">
-                        {notice.date}
+                        {notice.createdAt}
                       </span>
                     </div>
                     <p className="body2-r text-grey09">{notice.content}</p>
