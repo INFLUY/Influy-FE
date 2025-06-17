@@ -141,7 +141,7 @@ const NoticePage = () => {
                       <KebabIcon
                         className="text-grey08 h-5 w-5 cursor-pointer"
                         onClick={() =>
-                          handleEditNotice(notice.id, notice.isPrimary)
+                          handleEditNotice(notice.id, notice.isPrimary!)
                         }
                       />
                     </div>

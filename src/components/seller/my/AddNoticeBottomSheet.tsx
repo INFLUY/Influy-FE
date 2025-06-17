@@ -1,6 +1,7 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import { useState } from 'react';
 import { SaveButton, SellerModal, TextInput, WideTextArea } from '@/components';
+import { usePostNotification } from '@/state/mutation/notification/usePostNotification';
 
 const AddNoticeBottomSheet = ({
   noticeId,
@@ -20,10 +21,14 @@ const AddNoticeBottomSheet = ({
   const [isNoticeEditCancelModalOpen, setIsNoticeEditCancelModalOpen] =
     useState<boolean>(false);
 
+  const { mutate: postNotice } = usePostNotification(() => {
+    setIsNoticeSavedSnackBarOpen(true);
+  });
+
   // 공지 저장
   const handleClickSave = () => {
     setIsOpen(false);
-    setIsNoticeSavedSnackBarOpen(true); // 스낵바
+    postNotice({ title, content });
   };
 
   // 공지 작성 취소
