@@ -8,5 +8,5 @@ export type NoticeType = {
   title: string;
   createdAt: string;
   content: string;
-  isPrimary?: boolean;
+  isPrimary: boolean;
 };

@@ -2,17 +2,15 @@ import {
   AddNoticeBottomSheet,
   AddNoticeButton,
   EditNoticeBottomSheet,
+  Notice,
   PageHeader,
   SnackBar,
 } from '@/components';
 import { useState } from 'react';
 import { NoticeType } from '@/types/common/NoticeType.types';
-import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
-import PinIcon from '@/assets/icon/common/DarkPinIcon.svg?react';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useGetNotification } from '@/state/query/notification/useGetNotification';
-import { parseDateString } from '@/utils/formatDate';
 
 const NoticePage = () => {
   const [isAddNoticeOpen, setIsAddNoticeOpen] = useState<boolean>(false);
@@ -25,16 +23,20 @@ const NoticePage = () => {
     useState<boolean>(false);
   const navigate = useNavigate();
 
-  // 임시 공지사항
-
   const { data: NOTICES } = useGetNotification();
 
   const handleEditNotice = (announcementId: number, isPrimary: boolean) => {
     setSelectedNotice(announcementId);
     setIsSelectedNoticePrimary(isPrimary);
     setIsAdminNoticeOpen(true);
-    console.log(announcementId);
   };
+
+  const primaryNotice = NOTICES?.announcements?.find(
+    (notice: NoticeType) => notice.isPrimary
+  );
+  const otherNotices = NOTICES?.announcements?.filter(
+    (notice: NoticeType) => !notice.isPrimary
+  );
 
   return (
     <div className="flex h-full w-full flex-1 flex-col">
@@ -61,39 +63,22 @@ const NoticePage = () => {
       )}
       {NOTICES?.announcements?.length > 0 && (
         <div className="scrollbar-hide flex h-full w-full flex-col items-center gap-4 overflow-y-auto pt-2 pb-24">
-          <div className="flex w-full flex-col items-center">
-            {NOTICES?.announcements?.map((notice: NoticeType) => (
-              <div
+          <ul className="flex w-full flex-col items-center">
+            {primaryNotice && (
+              <Notice
+                key={primaryNotice.id}
+                notice={primaryNotice}
+                handleEditNotice={handleEditNotice}
+              />
+            )}
+            {otherNotices?.map((notice: NoticeType) => (
+              <Notice
                 key={notice.id}
-                className="border-grey03 flex w-full cursor-pointer flex-col gap-2 border-b px-5 pt-4 pb-5"
-              >
-                <div className="flex w-full flex-col">
-                  <div className="flex w-full items-start justify-between">
-                    <h1 className="body1-m min-w-0 flex-1 break-words whitespace-break-spaces">
-                      {notice.title}
-                    </h1>
-                    <div className="flex w-fit shrink-0 items-center gap-[.125rem]">
-                      {notice?.isPrimary && (
-                        <PinIcon className="h-6 w-6 shrink-0 text-black" />
-                      )}
-                      <KebabIcon
-                        className="text-grey08 h-5 w-5 shrink-0 cursor-pointer"
-                        onClick={() =>
-                          handleEditNotice(notice.id, notice.isPrimary!)
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="text-grey05 caption-m">
-                    {parseDateString(notice.createdAt)}
-                  </div>
-                </div>
-                <div className="body2-r break-words whitespace-break-spaces">
-                  {notice.content}
-                </div>
-              </div>
+                notice={notice}
+                handleEditNotice={handleEditNotice}
+              />
             ))}
-          </div>
+          </ul>
           <AddNoticeButton
             handleAddNoticeClick={() => setIsAddNoticeOpen(true)}
           />

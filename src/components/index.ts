@@ -44,6 +44,9 @@ export { default as AdminItemBottomSheet } from './seller/item/administration/Ad
 export { default as RadioBottomSheet } from './seller/common/RadioBottomSheet';
 export { default as SellerMyItem } from './seller/item/administration/SellerMyItem';
 
+//notice
+export { default as Notice } from './seller/myMarket/notice/Notice';
+
 //my
 export { default as SellerMyProfileHeader } from './seller/my/SellerMyProfileHeader';
 export { default as AddNoticeBottomSheet } from './seller/my/AddNoticeBottomSheet';
