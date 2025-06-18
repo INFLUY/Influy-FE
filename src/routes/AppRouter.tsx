@@ -5,7 +5,7 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { GlobalLayout } from '@/components';
+import { GlobalLayout, LoadingSpinner } from '@/components';
 import {
   NotFound,
   Home,
@@ -18,15 +18,22 @@ import {
   MyItemReviewTab,
   MyStoredItemTab,
   Notice,
+  ErrorPage,
 } from '@/pages';
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const router = createBrowserRouter([
   {
     path: PATH.ROOT,
     element: (
-      <GlobalLayout>
-        <Outlet />
-      </GlobalLayout>
+      <ErrorBoundary FallbackComponent={ErrorPage}>
+        <Suspense fallback={<LoadingSpinner />}>
+          <GlobalLayout>
+            <Outlet />
+          </GlobalLayout>
+        </Suspense>
+      </ErrorBoundary>
     ),
     children: [
       {

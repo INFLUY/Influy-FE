@@ -1,5 +1,6 @@
 export { default as GlobalLayout } from './layout/GlobalLayout';
 export { default as Loading } from './loading/Loading';
+export { default as ErrorContent } from './error/ErrorContent';
 
 // common
 export { default as LoadingSpinner } from './common/LoadingSpinner';

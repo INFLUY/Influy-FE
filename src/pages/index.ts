@@ -13,5 +13,6 @@ export { default as MyItemReviewTab } from './seller/sellerMyPage/MyItemReviewTa
 export { default as Notice } from './seller/notice/NoticePage';
 
 export { default as NotFound } from './error/NotFound';
+export { default as ErrorPage } from './error/ErrorPage';
 
 export { ItemRegistrationPage } from './seller/item/ItemRegistrationPage';
