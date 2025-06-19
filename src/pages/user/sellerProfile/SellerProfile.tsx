@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { Tab, Tabs } from '@/components/common/Tab';
 import { PATH } from '@/routes/path';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   ExternalLinkChip,
   NoticeBanner,
@@ -10,6 +10,7 @@ import {
   BottomSheet,
 } from '@/components';
 import { NoticeType } from '@/types/common/NoticeType.types';
+import { useGetNotification } from '@/state/query/notification/useGetNotification';
 
 const SellerProfile = ({ children }: { children: ReactNode }) => {
   const TABS = [
@@ -30,52 +31,12 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
     { id: 3, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
   ];
 
-  // 임시 공지사항
-  const NOTICES: NoticeType[] = [
-    {
-      id: 0,
-      title: '🍎부스터 프로🍎 이틀 연장합니다! D-4! ',
-      createdAt: '2025.05.01',
-      content:
-        '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!',
-      isPrimary: true,
-    },
-    {
-      id: 1,
-      title: '제작 오픈 이벤트',
-      createdAt: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-    {
-      id: 2,
-      title: '입접 이벤트🤔💕',
-      createdAt: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-    {
-      id: 3,
-      title: '입접 이벤트🤔💕',
-      createdAt: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-    {
-      id: 4,
-      title: '입접 이벤트🤔💕',
-      createdAt: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-    {
-      id: 5,
-      title: '입접 이벤트🤔💕',
-      createdAt: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-  ];
+  const { marketId } = useParams();
+  const { data: NOTICES } = useGetNotification({ sellerId: Number(marketId) });
+
+  const primaryNotice = NOTICES?.announcements?.find(
+    (notice: NoticeType) => notice.isPrimary
+  );
 
   return (
     <div className="flex w-full flex-1 flex-col">
@@ -86,8 +47,8 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
       {/* 공지 */}
       <div className="bg-grey02 flex w-full px-5 py-3">
         <NoticeBanner
-          title={NOTICES[0]?.title}
-          count={NOTICES?.length}
+          title={primaryNotice?.title}
+          count={NOTICES?.announcements?.length}
           onClickNotice={() => setIsBottomSheetOpen(true)}
         />
       </div>
@@ -101,14 +62,14 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
               공지사항
             </h1>
             <div className="scrollbar-hide flex h-[70vh] flex-col gap-4 overflow-y-auto pb-8">
-              {NOTICES?.length === 0 ? (
+              {NOTICES?.announcements?.length === 0 ? (
                 <div className="flex h-full items-center">
                   <span className="body2-m text-grey06 pb-20">
                     아직 등록된 공지가 없습니다.
                   </span>
                 </div>
               ) : (
-                NOTICES?.map((notice) => (
+                NOTICES?.announcements?.map((notice: NoticeType) => (
                   <div
                     key={notice.id}
                     className="border-grey03 flex h-fit w-full flex-col gap-2 border-b px-5 pb-5"
