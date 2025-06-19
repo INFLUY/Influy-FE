@@ -15,6 +15,7 @@ import { NoticeType } from '@/types/common/NoticeType.types';
 import PlusIcon from '@/assets/icon/common/PlusIcon.svg?react';
 import cn from '@/utils/cn';
 import { useGetNotification } from '@/state/query/notification/useGetNotification';
+import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 
 const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const [isLinkSnackBarOpen, setIsLinkSnackBarOpen] = useState<boolean>(false);
@@ -53,7 +54,8 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
     setIsEditLinkOpen(true);
   };
 
-  const { data: NOTICES } = useGetNotification();
+  const sellerId = useStrictSellerId();
+  const { data: NOTICES } = useGetNotification({ sellerId });
 
   const primaryNotice = NOTICES?.announcements?.find(
     (notice: NoticeType) => notice.isPrimary

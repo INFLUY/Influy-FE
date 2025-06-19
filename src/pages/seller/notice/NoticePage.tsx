@@ -11,6 +11,7 @@ import { NoticeType } from '@/types/common/NoticeType.types';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useGetNotification } from '@/state/query/notification/useGetNotification';
+import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 
 const NoticePage = () => {
   const [isAddNoticeOpen, setIsAddNoticeOpen] = useState<boolean>(false);
@@ -23,7 +24,8 @@ const NoticePage = () => {
     useState<boolean>(false);
   const navigate = useNavigate();
 
-  const { data: NOTICES } = useGetNotification();
+  const sellerId = useStrictSellerId();
+  const { data: NOTICES } = useGetNotification({ sellerId });
 
   const handleEditNotice = (announcementId: number, isPrimary: boolean) => {
     setSelectedNotice(announcementId);

@@ -35,7 +35,8 @@ const EditNoticeBottomSheet = ({
 
   // 핀 고정 해제 모달 -> 확인
   const handleUnpinConfirm = () => {
-    // 삭제 로직 연동 -> 삭제 버튼 클릭 시 itemId 이용하여 삭제
+    // 삭제 로직 연동 -> 삭제 버튼 클릭 시 announcementId를 이용하여 삭제
+
     setIsUnpinModalOpen(false);
     setIsOpen(false);
     setIsNoticeSavedSnackBarOpen(true); // 스낵바

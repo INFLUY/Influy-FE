@@ -1,11 +1,11 @@
 import { getNotification } from '@/api/notification/handleNotification.api';
 import { QUERY_KEYS } from '@/constants/api';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
-export const useGetNotification = () => {
-  const query = useQuery({
-    queryFn: () => getNotification(),
-    queryKey: [QUERY_KEYS.SELLER_MY_ANNOUNCEMENT],
+export const useGetNotification = ({ sellerId }: { sellerId: number }) => {
+  const query = useSuspenseQuery({
+    queryFn: () => getNotification({ sellerId }),
+    queryKey: [QUERY_KEYS.SELLER_ANNOUNCEMENT, sellerId],
   });
 
   return query;

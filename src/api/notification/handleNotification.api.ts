@@ -11,8 +11,24 @@ export const postNotification = async ({ data }: { data: NoticePostType }) => {
   return response.data.result;
 };
 
-export const getNotification = async () => {
-  const response = await instance.get(API_DOMAINS.SELLER_MY_ANNOUNCEMENT);
+export const patchNotification = async ({
+  data,
+  announcementId,
+}: {
+  data: NoticePostType;
+  announcementId: number;
+}) => {
+  const response = await instance.patch(
+    generateApiPath(API_DOMAINS.SELLER_MY_ANNOUNCEMENT, { announcementId }),
+    data
+  );
+  return response.data.result;
+};
+
+export const getNotification = async ({ sellerId }: { sellerId: number }) => {
+  const response = await instance.get(
+    generateApiPath(API_DOMAINS.SELLER_ANNOUNCEMENT, { sellerId })
+  );
   return response.data.result;
 };
 
