@@ -53,6 +53,7 @@ export { default as SellerMyProfileHeader } from './seller/my/SellerMyProfileHea
 export { default as AddNoticeBottomSheet } from './seller/my/AddNoticeBottomSheet';
 export { default as EditNoticeBottomSheet } from './seller/my/EditNoticeBottomSheet';
 export { default as AddNoticeButton } from './seller/my/AddNoticeButton';
+
 export { ItemImageUploader } from './seller/item/registration/ItemImageUploader';
 export { PeriodDropdown } from './seller/item/registration/PeriodDropdown';
 export {
@@ -68,9 +69,3 @@ export {
   FormPriceInput,
   FormSalePriceInput,
 } from './seller/item/registration/FormTextInput';
-
-//my
-export { default as SellerMyProfileHeader } from './seller/my/SellerMyProfileHeader';
-export { default as AddNoticeBottomSheet } from './seller/my/AddNoticeBottomSheet';
-export { default as EditNoticeBottomSheet } from './seller/my/EditNoticeBottomSheet';
-export { default as AddNoticeButton } from './seller/my/AddNoticeButton';
