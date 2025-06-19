@@ -11,7 +11,7 @@ const ErrorPage = ({ error }: FallbackProps) => {
     if (error instanceof UIError || message) {
       return {
         message,
-        buttonText: error?.buttonText || '홈으로',
+        buttonText: error?.buttonText || '홈으로 이동',
         onClickHandler:
           error?.onClickHandler ||
           (() => window.location.replace(PATH.HOME.base)),
@@ -21,9 +21,9 @@ const ErrorPage = ({ error }: FallbackProps) => {
     switch (status) {
       case 400:
         return {
-          message: '잘못된 요청입니다.\n잠시 후 다시 시도해주세요.',
-          buttonText: '다시 시도',
-          onClickHandler: () => window.location.reload(),
+          message: '잘못된 요청입니다.\n요청 내용을 확인해주세요.',
+          buttonText: '홈으로 이동',
+          onClickHandler: () => window.location.replace(PATH.HOME.base),
         };
       case 401:
         return {
@@ -34,14 +34,14 @@ const ErrorPage = ({ error }: FallbackProps) => {
       case 403:
         return {
           message: '접근 권한이 없습니다.\n권한을 확인해주세요.',
-          buttonText: '홈으로',
+          buttonText: '홈으로 이동',
           onClickHandler: () => window.location.replace(PATH.HOME.base),
         };
       case 404:
         return {
           message:
             '요청한 데이터를 찾을 수 없습니다.\n삭제되었거나 접근 권한이 없을 수 있습니다.',
-          buttonText: '홈으로',
+          buttonText: '홈으로 이동',
           onClickHandler: () => window.location.replace(PATH.HOME.base),
         };
       case 500:
