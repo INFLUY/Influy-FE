@@ -24,4 +24,12 @@ export interface ItemDetail {
   itemImgList: string[];
   itemCategoryList: string[];
   comment: string;
+  sellerInfo: SellerCard;
+}
+
+export interface SellerCard {
+  id: number;
+  nickname: string;
+  profileImg: string;
+  instagram: string;
 }

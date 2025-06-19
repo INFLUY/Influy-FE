@@ -1,5 +1,5 @@
 import { ItemDetail } from '@/types/common/ItemType.types';
-import { ItmeDetailProfile } from '@/components';
+import { ItemDetailProfile } from '@/components';
 import { useState } from 'react';
 import cn from '@/utils/cn';
 import DowndownArrowIcon from '@/assets/icon/common/DropdownArrow.svg?react';
@@ -21,7 +21,7 @@ export const ItemDetailInfo = ({ data }: { data: ItemDetail }) => {
           alt="상품 대표 이미지"
         />
       </div>
-      <ItmeDetailProfile />
+      <ItemDetailProfile seller={data.sellerInfo} />
       <article className="mt-5 flex h-fit w-full flex-col gap-4 px-5">
         <div className="caption-b flex h-[22px] w-fit items-center justify-center rounded-[1px] bg-[#FFEEEE] px-2.5 text-[#FF6666]">
           18:00 OPEN
@@ -49,7 +49,7 @@ export const ItemDetailInfo = ({ data }: { data: ItemDetail }) => {
         <p className="body1-b text-grey11">COMMENT</p>
         <div className="flex flex-col items-start gap-2.5 self-stretch">
           <p className="body2-sb text-[#45ABEB]">
-            @xoyeone_님이 직접 등록한 정보예요!
+            @{data.sellerInfo.instagram}님이 직접 등록한 정보예요!
           </p>
           <p
             className={cn(

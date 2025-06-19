@@ -13,7 +13,7 @@ export { default as PageHeader } from './common/PageHeader';
 
 // common/item
 export { ItemDetailInfo } from './common/item/ItemDetailInfo';
-export { ItmeDetailProfile } from './common/item/ItemDetailProfile';
+export { ItemDetailProfile } from './common/item/ItemDetailProfile';
 //user
 //common
 export { ItemList, ItemGrid } from './user/common/Item';
