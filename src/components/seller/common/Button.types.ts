@@ -9,6 +9,7 @@ export interface DefaultButtonProps {
   // 추가적인 테일윈드 요소
   additionalStyles?: string;
   type?: 'button' | 'submit' | 'reset';
+  useDisabled?: boolean;
 }
 
 export interface ModalButtonProps {

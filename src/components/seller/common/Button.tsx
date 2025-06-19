@@ -5,6 +5,7 @@ export const DefaultButton = ({
   onClick,
   disabled = false,
   activeColor = 'bg-black',
+  useDisabled = true,
   disabledColor = 'bg-grey05',
   text = '저장하기',
   additionalStyles,
@@ -14,7 +15,7 @@ export const DefaultButton = ({
     <button
       type={type}
       onClick={onClick}
-      disabled={disabled}
+      disabled={useDisabled ? disabled : false}
       className={cn(
         'body2-m box-border flex h-fit w-full items-center justify-center rounded-sm py-3.5 text-white',
         disabled
