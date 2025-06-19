@@ -6,15 +6,22 @@ import { FallbackProps } from 'react-error-boundary';
 const ErrorPage = ({ error }: FallbackProps) => {
   const getErrorConfig = () => {
     const status = error?.status || error?.response?.status;
-    const message = error?.message;
 
-    if (error instanceof UIError || message) {
+    if (error instanceof UIError) {
       return {
-        message,
+        message: error?.message,
         buttonText: error?.buttonText || '홈으로 이동',
         onClickHandler:
           error?.onClickHandler ||
           (() => window.location.replace(PATH.HOME.base)),
+      };
+    }
+
+    if (!status) {
+      return {
+        message: '서버에 연결할 수 없습니다.\n잠시 후 다시 시도해주세요.',
+        buttonText: '다시 시도',
+        onClickHandler: () => window.location.reload(),
       };
     }
 
