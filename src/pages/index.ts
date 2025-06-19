@@ -15,3 +15,4 @@ export { default as Notice } from './seller/notice/NoticePage';
 export { default as NotFound } from './error/NotFound';
 
 export { ItemRegistrationPage } from './seller/item/ItemRegistrationPage';
+export { default as FaqRegistrationCategoryPage } from './seller/item/faq/FaqRegistrationCategoryPage';

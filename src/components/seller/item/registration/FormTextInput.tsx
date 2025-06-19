@@ -176,7 +176,7 @@ export const FormPriceInput = ({ name }: FormInputProps) => {
 
   const {
     field: { value: price, onChange, ref },
-    fieldState: { error },
+    // fieldState: { error },
   } = useController({
     name,
     control,
@@ -246,7 +246,7 @@ export const FormSalePriceInput = ({ name }: FormInputProps) => {
 
   const {
     field: { value: salePrice, onChange, ref },
-    fieldState: { error },
+    // fieldState: { error },
   } = useController({
     name,
     control,

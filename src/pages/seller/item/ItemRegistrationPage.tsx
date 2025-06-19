@@ -126,6 +126,7 @@ export const ItemRegistrationPage = () => {
       itemPeriod: formData.period,
       comment: formData.commentText,
     };
+    console.log(payload); // declared but its value is never read. 에러 해결을 위함
     try {
       // TODO: 실제 API 호출
     } catch (error) {}
@@ -168,9 +169,8 @@ export const ItemRegistrationPage = () => {
             <ShareIcon className="h-6 w-6 cursor-pointer text-black" />,
             <StatisticIcon className="h-6 w-6 cursor-pointer text-black" />,
           ]}
-        >
-          <div className="h-[1.6875rem]" />
-        </PageHeader>
+          additionalStyles="h-[3.375rem]"
+        />
         <Tabs>
           {TABS.map((tab) => (
             <Tab

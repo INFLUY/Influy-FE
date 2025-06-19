@@ -1,6 +1,6 @@
 import type { MouseEventHandler } from 'react';
 
-export interface SaveButtonProps {
+export interface DefaultButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
   activeColor?: string;

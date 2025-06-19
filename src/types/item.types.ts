@@ -1,7 +1,7 @@
 export interface ItemFormValues {
   images: string[];
   titleText: string;
-  selectedCategoryList: string[];
+  selectedCategoryList: number[];
   hasStartDate: boolean;
   startISODateTime: string | null;
   hasEndDate: boolean;

@@ -1,24 +1,24 @@
-import React from 'react';
 import cn from '@/utils/cn';
+import React from 'react';
 
 interface PagerHeaderProps {
   leftIcons?: React.ReactNode[];
   rightIcons?: React.ReactNode[];
-  children: React.ReactNode;
-  backgroundColor?: string;
+  children?: React.ReactNode;
+  additionalStyles?: string;
 }
 
 const PageHeader = ({
   leftIcons = [],
   rightIcons = [],
   children,
-  backgroundColor = 'bg-white',
+  additionalStyles,
 }: PagerHeaderProps) => {
   return (
     <header
       className={cn(
         'text-grey10 subhead-sb border-grey03 sticky w-full items-center justify-center border-b px-5 py-[.875rem] text-center',
-        backgroundColor
+        additionalStyles
       )}
     >
       <div className="absolute top-1/2 left-5 flex -translate-y-1/2 items-center gap-3">

@@ -20,7 +20,7 @@ export { default as SellerProfileHeader } from './user/SellerProfileHeader';
 
 //seller
 //common
-export { DefaultButton, ModalButton } from './seller/common/Button';
+export { DefaultButton, ModalButton, AddButton } from './seller/common/Button';
 export { TipTooltip } from './seller/common/TipTooltip';
 export {
   TextInput,
@@ -42,6 +42,8 @@ export { default as ExternalLinkBottomSheet } from './seller/item/administration
 export { default as AdminItemBottomSheet } from './seller/item/administration/AdminItemBottomSheet';
 export { default as RadioBottomSheet } from './seller/common/RadioBottomSheet';
 export { default as SellerMyItem } from './seller/item/administration/SellerMyItem';
+// faq
+export { default as VanillaCategoryMultiSelector } from './seller/item/faq/VanillaCategoryMultiSelector';
 
 //my
 export { default as SellerMyProfileHeader } from './seller/my/SellerMyProfileHeader';

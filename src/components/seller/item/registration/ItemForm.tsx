@@ -13,7 +13,8 @@ import {
 } from '@/components';
 import BottomSheet from '@/components/common/BottomSheet';
 import CalendarIcon from '@/assets/icon/common/Calendar.svg?react';
-import { useEffect, useState } from 'react';
+import PRODUCT_CATEGORIES from '@/constants/productCategories';
+import { useState } from 'react';
 import { useFormContext, useController } from 'react-hook-form';
 import { ItemFormValues } from '@/types/item.types';
 import CheckBoxOnIcon from '@/assets/icon/common/CheckBox24On.svg?react';
@@ -35,6 +36,7 @@ export const ItemForm = ({
   startDateWrapperRef,
   endDateWrapperRef,
 }: ItemFormProps) => {
+  console.log(mode); // 'mode' is declared but its value is never read. 에러 해결을 위함
   const [isStartDateTimeSheetOpen, setIsStartDateTimeSheetOpen] =
     useState(false);
   const [isEndDateTimeSheetOpen, setIsEndDateTimeSheetOpen] = useState(false);
@@ -141,6 +143,7 @@ export const ItemForm = ({
       >
         <CategoryMultiSelector
           name="selectedCategoryList"
+          categoryList={PRODUCT_CATEGORIES}
           ref={categoryWrapperRef}
         />
       </ItemSection>
