@@ -1,10 +1,23 @@
 import { ErrorContent } from '@/components';
+import { UIError } from '@/libs/error/UIError';
 import { PATH } from '@/routes/path';
 import { FallbackProps } from 'react-error-boundary';
 
 const ErrorPage = ({ error }: FallbackProps) => {
   const getErrorConfig = () => {
     const status = error?.status || error?.response?.status;
+    const message = error?.message;
+
+    if (error instanceof UIError || message) {
+      return {
+        message,
+        buttonText: error?.buttonText || '홈으로',
+        onClickHandler:
+          error?.onClickHandler ||
+          (() => window.location.replace(PATH.HOME.base)),
+      };
+    }
+
     switch (status) {
       case 400:
         return {
