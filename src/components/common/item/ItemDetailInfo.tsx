@@ -3,6 +3,8 @@ import { ItemDetailProfile } from '@/components';
 import { useState } from 'react';
 import cn from '@/utils/cn';
 import DowndownArrowIcon from '@/assets/icon/common/DropdownArrow.svg?react';
+import { getTimeChipText } from '@/components/user/common/Chip';
+import { formatFullDateWithDay } from '@/utils/formatDate';
 
 export const ItemDetailInfo = ({ data }: { data: ItemDetail }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -23,8 +25,8 @@ export const ItemDetailInfo = ({ data }: { data: ItemDetail }) => {
       </div>
       <ItemDetailProfile seller={data.sellerInfo} />
       <article className="mt-5 flex h-fit w-full flex-col gap-4 px-5">
-        <div className="caption-b flex h-[22px] w-fit items-center justify-center rounded-[1px] bg-[#FFEEEE] px-2.5 text-[#FF6666]">
-          18:00 OPEN
+        <div className="caption-b flex h-[1.375rem] w-fit items-center justify-center rounded-[1px] bg-[#FFEEEE] px-2.5 text-[#FF6666]">
+          {getTimeChipText({ open: data.startDate, deadline: data.endDate })}
         </div>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-4">
@@ -33,7 +35,11 @@ export const ItemDetailInfo = ({ data }: { data: ItemDetail }) => {
               <p className="body1-m">{data.tagline}</p>
             </div>
             <p className="body2-m text-grey08">
-              2025.04.11. (화) 19:00 ~ 04.16. (토) 20:00
+              {formatFullDateWithDay({ isoString: data.startDate })} ~{' '}
+              {formatFullDateWithDay({
+                isoString: data.startDate,
+                includeYear: false,
+              })}
             </p>
           </div>
           <div className="flex flex-col items-start">

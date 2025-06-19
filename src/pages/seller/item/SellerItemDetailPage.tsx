@@ -17,7 +17,7 @@ const dummyItem: ItemDetail = {
   itemPeriod: 1,
   itemName: '헤이드 리본 레이어드 티',
   startDate: '2025-06-07T09:00:00.660Z',
-  endDate: '2025-06-07T09:00:00.660Z',
+  endDate: '2025-07-07T09:00:00.660Z',
   tagline: '[소현X아로셀] 제작 / 살안타템',
   currentStatus: 'DEFAULT',
   marketLink: 'xxxx.com',
