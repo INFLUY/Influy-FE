@@ -22,6 +22,7 @@ import {
 } from '@/pages';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { SellerAuthInterceptor } from './AuthInterceptor';
 
 const router = createBrowserRouter([
   {
@@ -78,7 +79,7 @@ const router = createBrowserRouter([
         path: PATH.SELLER.base,
         element: (
           <SellerMyProfile>
-            <Outlet />
+            <SellerAuthInterceptor />
           </SellerMyProfile>
         ),
         children: [
