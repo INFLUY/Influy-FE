@@ -17,7 +17,7 @@ export const ItemDetailInfo = ({
 
   return (
     <section className="flex w-full flex-col">
-      <div className="relative h-[381px] w-full bg-amber-300">
+      <div className="relative h-[23.8125rem] w-full bg-amber-300">
         {status === 'published' && (
           <div className="body2-sb absolute top-[.875rem] left-[.875rem] flex h-[1.6875rem] items-center justify-center rounded-[.0767rem] bg-[#45ABEB] px-[.7671rem] text-white">
             {data.itemPeriod}차 진행
@@ -34,7 +34,7 @@ export const ItemDetailInfo = ({
       </div>
       <ItemDetailProfile seller={data.sellerInfo} />
       <article className="mt-5 flex h-fit w-full flex-col gap-4 px-5">
-        <div className="caption-b flex h-[1.375rem] w-fit items-center justify-center rounded-[1px] bg-[#FFEEEE] px-2.5 text-[#FF6666]">
+        <div className="caption-b flex h-[1.375rem] w-fit items-center justify-center rounded-[.0625rem] bg-[#FFEEEE] px-2.5 text-[#FF6666]">
           {getTimeChipText({ open: data.startDate, deadline: data.endDate })}
         </div>
         <div className="flex flex-col gap-4">
