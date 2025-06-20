@@ -24,6 +24,8 @@ export interface ItemDetail {
   itemImgList: string[];
   itemCategoryList: string[];
   comment: string;
+  regularPrice: number;
+  salePrice: number;
   sellerInfo: SellerCard;
 }
 

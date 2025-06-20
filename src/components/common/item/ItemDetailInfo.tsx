@@ -15,6 +15,10 @@ export const ItemDetailInfo = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const discountRate = Math.round(
+    ((data.regularPrice - data.salePrice) / data.regularPrice) * 100
+  );
+
   return (
     <section className="flex w-full flex-col">
       <div className="relative h-[23.8125rem] w-full bg-amber-300">
@@ -52,10 +56,14 @@ export const ItemDetailInfo = ({
             </p>
           </div>
           <div className="flex flex-col items-start">
-            <span className="text-grey06 body2-m line-through">339,000</span>
+            <span className="text-grey06 body2-m line-through">
+              {data.salePrice.toLocaleString()}
+            </span>
             <div className="headline3 flex flex-wrap content-center items-center gap-1">
-              <h3 className="text-[#F43232]">41% </h3>
-              <h3 className="text-black">199,000 원</h3>
+              <h3 className="text-[#F43232]">{discountRate}% </h3>
+              <h3 className="text-black">
+                {data.regularPrice.toLocaleString()}원
+              </h3>
             </div>
           </div>
         </div>
