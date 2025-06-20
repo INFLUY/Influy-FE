@@ -129,6 +129,10 @@ export const ItemRegistrationPage = () => {
     console.log(payload); // declared but its value is never read. 에러 해결을 위함
     try {
       // TODO: 실제 API 호출
+      const itemId: number = 1;
+
+      //if success
+      navigate(`/my-market/item/${itemId}?status=saved`);
     } catch (error) {}
   };
 
@@ -153,6 +157,11 @@ export const ItemRegistrationPage = () => {
 
   const onSave = () => {
     // 보관하기 로직 추가
+    //임시
+    const itemId: number = 1;
+
+    //if success
+    navigate(`/my-market/item/${itemId}?status=saved`);
   };
 
   return (
