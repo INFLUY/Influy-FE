@@ -3,19 +3,23 @@ import { SellerCard } from '@/types/common/ItemType.types';
 
 export const ItemDetailProfile = ({ seller }: { seller: SellerCard }) => {
   return (
-    <div className="bg-grey01 flex h-fit w-full items-center justify-between px-5 py-3">
+    <button
+      className="bg-grey01 flex h-fit w-full cursor-pointer items-center justify-between px-5 py-3"
+      type="button"
+      aria-label="판매자 프로필"
+    >
       <div className="flex h-full w-full items-center gap-3">
         <img
           src={seller.profileImg}
-          alt="seller profile"
+          alt="판매자 프로필"
           className="h-[3.75rem] w-[3.75rem] rounded-full object-cover"
         />
-        <div className="flex flex-col">
+        <div className="flex flex-col text-left">
           <span className="body1-b text-black">{seller.nickname}</span>
           <span className="body2-m text-grey08">@{seller.instagram}</span>
         </div>
       </div>
       <ArrowRightIcon className="h-4 w-4" />
-    </div>
+    </button>
   );
 };
