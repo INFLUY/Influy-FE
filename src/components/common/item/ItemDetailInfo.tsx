@@ -1,4 +1,4 @@
-import { ItemDetail } from '@/types/common/ItemType.types';
+import { ItemDetail, ItemStatus } from '@/types/common/ItemType.types';
 import { ItemDetailProfile } from '@/components';
 import { useState } from 'react';
 import cn from '@/utils/cn';
@@ -6,15 +6,24 @@ import DowndownArrowIcon from '@/assets/icon/common/DropdownArrow.svg?react';
 import { getTimeChipText } from '@/components/user/common/Chip';
 import { formatFullDateWithDay } from '@/utils/formatDate';
 
-export const ItemDetailInfo = ({ data }: { data: ItemDetail }) => {
+export const ItemDetailInfo = ({
+  data,
+  status,
+}: {
+  data: ItemDetail;
+  status: ItemStatus;
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <section className="flex w-full flex-col">
       <div className="relative h-[381px] w-full bg-amber-300">
-        <div className="body2-sb absolute top-[.875rem] left-[.875rem] flex h-[1.6875rem] items-center justify-center rounded-[.0767rem] bg-[#45ABEB] px-[.7671rem] text-white">
-          {data.itemPeriod}차 진행
-        </div>
+        {status === 'published' && (
+          <div className="body2-sb absolute top-[.875rem] left-[.875rem] flex h-[1.6875rem] items-center justify-center rounded-[.0767rem] bg-[#45ABEB] px-[.7671rem] text-white">
+            {data.itemPeriod}차 진행
+          </div>
+        )}
+
         <img
           src={data.itemImgList[0]}
           className="h-full w-full object-cover"

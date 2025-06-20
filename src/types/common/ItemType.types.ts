@@ -27,6 +27,8 @@ export interface ItemDetail {
   sellerInfo: SellerCard;
 }
 
+export type ItemStatus = 'saved' | 'published';
+
 export interface SellerCard {
   id: number;
   nickname: string;

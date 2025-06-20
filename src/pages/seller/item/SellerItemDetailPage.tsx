@@ -3,7 +3,13 @@ import { ItemDetailInfo, PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
 import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
-import { ItemDetail, SellerCard } from '@/types/common/ItemType.types';
+import {
+  ItemDetail,
+  SellerCard,
+  ItemStatus,
+} from '@/types/common/ItemType.types';
+import { SnackBar } from '@/components';
+import { useState, useEffect } from 'react';
 
 const dummySellerInfo: SellerCard = {
   id: 1,
@@ -27,15 +33,36 @@ const dummyItem: ItemDetail = {
   sellerInfo: dummySellerInfo,
   //comment 백에서 넘겨주는 데이터 형식에는 없음. 문의 필요
   comment:
-    '10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는 퀄리티로10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는 퀄리티로10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는화점 명품 브랜드에 밀리지 않는 화점 명품 브랜드에 밀리지',
+    '10분만에 품절된 원피스 다시가져왔어요!10분만에 품절된 원피스 다시가져왔어요!10분만에 품절된 원피스 다시가져왔어요!10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는 퀄리티로10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는 퀄리티로10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는화점 명품 브랜드에 밀리지 않는 화점 명품 브랜드에 밀리지',
 };
 
 const SellerItemDetailPage = () => {
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
+    open: false,
+    message: '',
+  });
   const navigate = useNavigate();
-  // const location = useLocation();
-  // const { pathname } = location;
+  const location = useLocation();
+  const rawStatus = new URLSearchParams(location.search).get('status');
+
+  const isValidStatus = (value: string | null): value is ItemStatus => {
+    return value === 'saved' || value === 'published';
+  };
+
+  if (!isValidStatus(rawStatus)) return null; // 조건에 안 맞으면 아무 것도 렌더링하지 않음
+  const status: ItemStatus = rawStatus;
+
+  useEffect(() => {
+    const message: string =
+      status === 'published'
+        ? '상품이 게시되었습니다.'
+        : '상품이 보관되었습니다.';
+    setSnackbar({ open: true, message });
+  }, []);
+
   return (
     <>
+      {/* 헤더 */}
       <PageHeader
         leftIcons={[
           <ArrowIcon
@@ -50,7 +77,14 @@ const SellerItemDetailPage = () => {
       >
         <div className="h-[1.6875rem]" />
       </PageHeader>
-      <ItemDetailInfo data={dummyItem} />
+      {/* 상단 상품 정보 파트 */}
+      <ItemDetailInfo data={dummyItem} status={status} />
+      {/* 스낵바 */}
+      <SnackBar
+        handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
+      >
+        {snackbar.message}
+      </SnackBar>
     </>
   );
 };
