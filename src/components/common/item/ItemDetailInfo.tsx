@@ -15,13 +15,15 @@ export const ItemDetailInfo = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const discountRate = Math.round(
-    ((data.regularPrice - data.salePrice) / data.regularPrice) * 100
-  );
+  const discountRate =
+    data.salePrice &&
+    Math.round(
+      ((data.regularPrice - data.salePrice) / data.regularPrice) * 100
+    );
 
   return (
     <section className="flex w-full flex-col">
-      <div className="relative h-[23.8125rem] w-full bg-amber-300">
+      <div className="relative h-[23.8125rem] w-full">
         {status === 'published' && (
           <div className="body2-sb absolute top-[.875rem] left-[.875rem] flex h-[1.6875rem] items-center justify-center rounded-[.0767rem] bg-[#45ABEB] px-[.7671rem] text-white">
             {data.itemPeriod}차 진행
@@ -37,30 +39,51 @@ export const ItemDetailInfo = ({
         />
       </div>
       <ItemDetailProfile seller={data.sellerInfo} />
-      <article className="mt-5 flex h-fit w-full flex-col gap-4 px-5">
+      <article className="border-grey02 mt-5 flex h-fit w-full flex-col gap-4 border-b-1 px-5 pb-6">
+        {/* Time chip */}
         <div className="caption-b flex h-[1.375rem] w-fit items-center justify-center rounded-[.0625rem] bg-[#FFEEEE] px-2.5 text-[#FF6666]">
-          {getTimeChipText({ open: data.startDate, deadline: data.endDate })}
+          {data.startDate && data.endDate
+            ? getTimeChipText({ open: data.startDate, deadline: data.endDate })
+            : '임시(디자인 수정 필요)'}
         </div>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col items-start gap-0.5 text-black">
+              {/* 상품 이름 */}
               <h2 className="subhead-sb">{data.itemName}</h2>
-              <p className="body1-m">{data.tagline}</p>
+              {/* 한줄소개 */}
+              {data.tagline && <p className="body1-m">{data.tagline}</p>}
             </div>
-            <p className="body2-m text-grey08">
-              {formatFullDateWithDay({ isoString: data.startDate })} ~{' '}
-              {formatFullDateWithDay({
-                isoString: data.startDate,
-                includeYear: false,
-              })}
-            </p>
+            {(data.startDate || data.endDate) && (
+              <p className="body2-m text-grey08">
+                {data.startDate &&
+                  formatFullDateWithDay({ isoString: data.startDate })}{' '}
+                ~{' '}
+                {data.endDate &&
+                  (data.startDate
+                    ? formatFullDateWithDay({
+                        isoString: data.endDate,
+                        includeYear: false,
+                      })
+                    : formatFullDateWithDay({
+                        isoString: data.endDate,
+                      }))}
+              </p>
+            )}
           </div>
+
+          {/* 가격 */}
           <div className="flex flex-col items-start">
-            <span className="text-grey06 body2-m line-through">
-              {data.salePrice.toLocaleString()}
-            </span>
+            {data.salePrice && (
+              <span className="text-grey06 body2-m line-through">
+                {data.salePrice.toLocaleString()}
+              </span>
+            )}
+
             <div className="headline3 flex flex-wrap content-center items-center gap-1">
-              <h3 className="text-[#F43232]">{discountRate}% </h3>
+              {data.salePrice && (
+                <h3 className="text-[#F43232]">{discountRate}% </h3>
+              )}
               <h3 className="text-black">
                 {data.regularPrice.toLocaleString()}원
               </h3>
@@ -68,35 +91,39 @@ export const ItemDetailInfo = ({
           </div>
         </div>
       </article>
-      <article className="border-grey02 mt-6 w-full border-t-1 px-5 pt-6">
-        <p className="body1-b text-grey11">COMMENT</p>
-        <div className="flex flex-col items-start gap-2.5 self-stretch">
-          <p className="body2-sb text-[#45ABEB]">
-            @{data.sellerInfo.instagram}님이 직접 등록한 정보예요!
-          </p>
-          <p
-            className={cn(
-              'body2-m whitespace-pre-line text-black transition-all duration-3000',
-              !isExpanded && 'line-clamp-4'
-            )}
-          >
-            {data.comment}
-          </p>
-          <button
-            onClick={() => setIsExpanded((prev) => !prev)}
-            type="button"
-            className="body2-m border-grey03 bg-grey01 mt-2.5 flex w-full cursor-pointer items-center justify-center gap-2 rounded-[.0625rem] border px-0 py-2"
-          >
-            COMMENT {isExpanded ? '접기' : '더보기'}
-            <DowndownArrowIcon
+
+      {/* comment */}
+      {data.comment && (
+        <article className="w-full px-5 pt-6">
+          <p className="body1-b text-grey11">COMMENT</p>
+          <div className="flex flex-col items-start gap-2.5 self-stretch">
+            <p className="body2-sb text-[#45ABEB]">
+              @{data.sellerInfo.instagram}님이 직접 등록한 정보예요!
+            </p>
+            <p
               className={cn(
-                'h-6 w-6 shrink-0 stroke-black',
-                isExpanded && 'rotate-180'
+                'body2-m whitespace-pre-line text-black transition-all duration-3000',
+                !isExpanded && 'line-clamp-4'
               )}
-            />
-          </button>
-        </div>
-      </article>
+            >
+              {data.comment}
+            </p>
+            <button
+              onClick={() => setIsExpanded((prev) => !prev)}
+              type="button"
+              className="body2-m border-grey03 bg-grey01 mt-1.5 flex w-full cursor-pointer items-center justify-center gap-2 rounded-[.0625rem] border px-0 py-2"
+            >
+              COMMENT {isExpanded ? '접기' : '더보기'}
+              <DowndownArrowIcon
+                className={cn(
+                  'h-6 w-6 shrink-0 stroke-black',
+                  isExpanded && 'rotate-180'
+                )}
+              />
+            </button>
+          </div>
+        </article>
+      )}
     </section>
   );
 };

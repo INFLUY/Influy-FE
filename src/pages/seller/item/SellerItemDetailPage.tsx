@@ -24,7 +24,7 @@ const dummyItem: ItemDetail = {
   itemName: '헤이드 리본 레이어드 티',
   startDate: '2025-06-07T09:00:00.660Z',
   endDate: '2025-07-07T09:00:00.660Z',
-  tagline: '[소현X아로셀] 제작 / 살안타템',
+  tagline: null,
   currentStatus: 'DEFAULT',
   marketLink: 'xxxx.com',
   isArchived: false,
@@ -35,7 +35,7 @@ const dummyItem: ItemDetail = {
   comment:
     '10분만에 품절된 원피스 다시가져왔어요!10분만에 품절된 원피스 다시가져왔어요!10분만에 품절된 원피스 다시가져왔어요!10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는 퀄리티로10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는 퀄리티로10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는화점 명품 브랜드에 밀리지 않는 화점 명품 브랜드에 밀리지',
   regularPrice: 339000,
-  salePrice: 199000,
+  salePrice: null,
 };
 
 const SellerItemDetailPage = () => {

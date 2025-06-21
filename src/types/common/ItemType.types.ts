@@ -15,17 +15,17 @@ export interface ItemDetail {
   itemId: number;
   itemPeriod: number;
   itemName: string;
-  startDate: string; // ISO string
-  endDate: string; // ISO string
-  tagline: string;
+  startDate: string | null; // ISO string
+  endDate: string | null; // ISO string
+  tagline: string | null;
   currentStatus: 'DEFAULT' | 'ON_SALE' | 'CLOSED'; // 예시: 상태 enum 확장 가능
   marketLink: string;
   isArchived: boolean;
   itemImgList: string[];
   itemCategoryList: string[];
-  comment: string;
+  comment: string | null;
   regularPrice: number;
-  salePrice: number;
+  salePrice: number | null;
   sellerInfo: SellerCard;
 }
 
