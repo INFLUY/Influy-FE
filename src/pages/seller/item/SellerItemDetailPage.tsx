@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { ItemDetailInfo, PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
@@ -43,25 +43,32 @@ const SellerItemDetailPage = () => {
     open: false,
     message: '',
   });
-  const navigate = useNavigate();
+
   const location = useLocation();
-  const rawStatus = new URLSearchParams(location.search).get('status');
+  const navigate = useNavigate();
 
-  const isValidStatus = (value: string | null): value is ItemStatus => {
-    return value === 'saved' || value === 'published';
-  };
-
-  if (!isValidStatus(rawStatus)) return null; // 조건에 안 맞으면 아무 것도 렌더링하지 않음
-  const status: ItemStatus = rawStatus;
+  const status = location.pathname.endsWith('/saved')
+    ? 'saved'
+    : location.pathname.endsWith('/published')
+      ? 'published'
+      : null;
 
   useEffect(() => {
-    const message: string =
-      status === 'published'
-        ? '상품이 게시되었습니다.'
-        : '상품이 보관되었습니다.';
-    setSnackbar({ open: true, message });
-  }, []);
+    if (location.state?.isSnackbar == true) {
+      const message: string =
+        status === 'published'
+          ? '상품이 게시되었습니다.'
+          : '상품이 보관되었습니다.';
+      setSnackbar({ open: true, message });
+      //state 초기화
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
+  // 잘못된 값이면 404
+  if (status !== 'saved' && status !== 'published') {
+    return <Navigate to="/not-found" replace />; //임시 에러 처리
+  }
   return (
     <>
       {/* 헤더 */}
@@ -86,11 +93,13 @@ const SellerItemDetailPage = () => {
       <ItemDetailInfo data={dummyItem} status={status} />
 
       {/* 스낵바 */}
-      <SnackBar
-        handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-      >
-        {snackbar.message}
-      </SnackBar>
+      {snackbar.open && (
+        <SnackBar
+          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
+        >
+          {snackbar.message}
+        </SnackBar>
+      )}
     </>
   );
 };

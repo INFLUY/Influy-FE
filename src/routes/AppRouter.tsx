@@ -124,7 +124,15 @@ const router = createBrowserRouter([
                 children: [
                   {
                     index: true,
-                    element: <SellerItemDetailPage />, // (임시) 상품 조회 페이지
+                    path: PATH.SELLER.items.item.administration.itemDetail
+                      .published,
+                    element: <SellerItemDetailPage />, // 게시한 상품 조회 페이지
+                  },
+                  {
+                    index: true,
+                    path: PATH.SELLER.items.item.administration.itemDetail
+                      .saved,
+                    element: <SellerItemDetailPage />, // 보관한 상품 조회 페이지
                   },
                   {
                     path: PATH.SELLER.items.item.administration.faq.base,

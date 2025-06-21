@@ -26,6 +26,10 @@ export const PATH = {
         registration: 'new',
         administration: {
           base: ':itemId',
+          itemDetail: {
+            saved: 'saved',
+            published: 'published',
+          },
           faq: {
             base: 'faq',
             registration: {
