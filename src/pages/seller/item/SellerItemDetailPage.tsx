@@ -70,17 +70,21 @@ const SellerItemDetailPage = () => {
           <ArrowIcon
             className="h-6 w-6 cursor-pointer text-black"
             onClick={() => navigate(-1)}
+            role="button"
+            aria-label="뒤로 가기"
           />,
         ]}
         rightIcons={[
           <ShareIcon className="h-6 w-6 cursor-pointer text-black" />,
           <StatisticIcon className="h-6 w-6 cursor-pointer text-black" />,
         ]}
+        additionalStyles="bg-white"
       >
         <div className="h-[1.6875rem]" />
       </PageHeader>
       {/* 상단 상품 정보 파트 */}
       <ItemDetailInfo data={dummyItem} status={status} />
+
       {/* 스낵바 */}
       <SnackBar
         handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
