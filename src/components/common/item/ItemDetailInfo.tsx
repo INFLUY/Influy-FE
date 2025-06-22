@@ -24,42 +24,45 @@ export const ItemDetailInfo = ({
 
   const discountRate =
     data.salePrice &&
+    data.regularPrice &&
     Math.round(
       ((data.regularPrice - data.salePrice) / data.regularPrice) * 100
     );
   return (
     <section className="flex w-full flex-col">
       <div className="relative h-[23.8125rem] w-full">
-        <Swiper
-          className="z-0 h-full"
-          centeredSlides={true}
-          grabCursor={true}
-          modules={[A11y, Navigation]}
-          spaceBetween={0}
-          slidesPerView={1}
-          mousewheel={true}
-          navigation
-          onSlideChange={(swiper) => setCurrentImgIndex(swiper.realIndex)}
-        >
-          {data.itemImgList.map((img, i) => (
-            <SwiperSlide key={i} className="z-0 h-full">
-              <img
-                src={img}
-                className="h-full w-full object-cover"
-                decoding="async"
-                role="img"
-                alt="상품 대표 이미지"
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {data.itemImgList && (
+          <Swiper
+            className="z-0 h-full"
+            centeredSlides={true}
+            grabCursor={true}
+            modules={[A11y, Navigation]}
+            spaceBetween={0}
+            slidesPerView={1}
+            mousewheel={true}
+            navigation
+            onSlideChange={(swiper) => setCurrentImgIndex(swiper.realIndex)}
+          >
+            {data.itemImgList.map((img, i) => (
+              <SwiperSlide key={i} className="z-0 h-full">
+                <img
+                  src={img}
+                  className="h-full w-full object-cover"
+                  decoding="async"
+                  role="img"
+                  alt={'상품 이미지 ' + (i + 1)}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
 
-        {status === 'published' && (
+        {status === 'published' && data.itemPeriod && data.itemPeriod > 1 && (
           <div className="body2-sb absolute top-[.875rem] left-[.875rem] z-1 flex h-[1.6875rem] items-center justify-center rounded-[.0767rem] bg-[#45ABEB] px-[.7671rem] text-white">
             {data.itemPeriod}차 진행
           </div>
         )}
-        {data.itemImgList.length > 1 && (
+        {data.itemImgList && data.itemImgList.length > 1 && (
           <div className="body2-r absolute right-5 bottom-5 z-1 flex h-7 w-[3.25rem] items-center justify-center gap-2.5 rounded-[.1875rem] bg-[rgba(0,0,0,0.40)] py-[.1875rem] text-[#D6D6D6]">
             {currentImgIndex + 1} / {data.itemImgList.length}
           </div>
@@ -100,22 +103,24 @@ export const ItemDetailInfo = ({
           </div>
 
           {/* 가격 */}
-          <div className="flex flex-col items-start">
-            {data.salePrice && (
-              <span className="text-grey06 body2-m line-through">
-                {data.salePrice.toLocaleString()}
-              </span>
-            )}
-
-            <div className="headline3 flex flex-wrap content-center items-center gap-1">
+          {data.regularPrice && (
+            <div className="flex flex-col items-start">
               {data.salePrice && (
-                <h3 className="text-[#F43232]">{discountRate}% </h3>
+                <span className="text-grey06 body2-m line-through">
+                  {data.salePrice.toLocaleString()}
+                </span>
               )}
-              <h3 className="text-black">
-                {data.regularPrice.toLocaleString()}원
-              </h3>
+
+              <div className="headline3 flex flex-wrap content-center items-center gap-1">
+                {data.salePrice && (
+                  <h3 className="text-[#F43232]">{discountRate}% </h3>
+                )}
+                <h3 className="text-black">
+                  {data.regularPrice.toLocaleString()}원
+                </h3>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </article>
 

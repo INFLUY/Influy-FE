@@ -13,23 +13,23 @@ export type ItemType = {
 
 export interface ItemDetail {
   itemId: number;
-  itemPeriod: number;
+  itemPeriod: number | null;
   itemName: string;
   startDate: string | null; // ISO string
   endDate: string | null; // ISO string
   tagline: string | null;
   currentStatus: 'DEFAULT' | 'ON_SALE' | 'CLOSED'; // 예시: 상태 enum 확장 가능
-  marketLink: string;
+  marketLink: string | null;
   isArchived: boolean;
-  itemImgList: string[];
-  itemCategoryList: string[];
+  itemImgList: string[] | null;
+  itemCategoryList: string[] | null;
   comment: string | null;
-  regularPrice: number;
+  regularPrice: number | null;
   salePrice: number | null;
   sellerInfo: SellerCard;
 }
 
-export type ItemStatus = 'archived' | 'published';
+export type ItemStatus = 'archived' | 'published' | null;
 
 export interface SellerCard {
   id: number;

@@ -1,4 +1,4 @@
-import { useNavigate, useLocation, Navigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ItemDetailInfo, PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
@@ -16,7 +16,7 @@ const dummySellerInfo: SellerCard = {
 
 const dummyItem: ItemDetail = {
   itemId: 1,
-  itemPeriod: 1,
+  itemPeriod: 2,
   itemName: '헤이드 리본 레이어드 티',
   startDate: '2025-06-07T09:00:00.660Z',
   endDate: '2025-07-07T09:00:00.660Z',
@@ -30,8 +30,8 @@ const dummyItem: ItemDetail = {
   //comment, 할인가, 정상가 백에서 넘겨주는 데이터 형식에는 없음. 문의 필요
   comment:
     '10분만에 품절된 원피스 다시가져왔어요!10분만에 품절된 원피스 다시가져왔어요!10분만에 품절된 원피스 다시가져왔어요!10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는 퀄리티로10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는 퀄리티로10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는화점 명품 브랜드에 밀리지 않는 화점 명품 브랜드에 밀리지',
-  regularPrice: 339000,
-  salePrice: 199000,
+  regularPrice: null,
+  salePrice: null,
 };
 
 const SellerItemDetailPage = () => {
@@ -61,10 +61,6 @@ const SellerItemDetailPage = () => {
     }
   }, [location.state]);
 
-  // 잘못된 값이면 404
-  if (status !== 'archived' && status !== 'published') {
-    return <Navigate to="/not-found" replace />; //임시 에러 처리
-  }
   return (
     <>
       {/* 헤더 */}
