@@ -15,61 +15,58 @@ const Chip = ({ children }: { children: string }) => {
   );
 };
 
+export const getTimeChipText = ({
+  open,
+  deadline,
+}: {
+  open: string;
+  deadline: string;
+}): string => {
+  const now = new Date();
+  const openTime = parseISOString(open);
+  const closeTime = parseISOString(deadline);
+
+  const timeUntilOpen = openTime.getTime() - now.getTime();
+  const timeUntilClose = closeTime.getTime() - now.getTime();
+
+  if (timeUntilOpen <= 0 && timeUntilClose <= 0) return 'CLOSED';
+
+  // 오픈 전
+  if (timeUntilOpen > 0) {
+    return isToday({ d1: openTime })
+      ? `${formatTime({ date: openTime })} OPEN`
+      : `D-${getDday(closeTime)}`;
+  }
+
+  // 오픈 후
+  const daysUntilClose = getDday(closeTime) - 1;
+  if (daysUntilClose >= 1) return 'NOW OPEN';
+
+  if (daysUntilClose === 0 && timeUntilClose > 0) {
+    const { hours, minutes, seconds } = getTimeLeft(closeTime);
+    return `${hours}:${minutes}:${seconds} LEFT`;
+  }
+
+  return 'CLOSED';
+};
+
 export const TimeChip = ({
   open,
   deadline,
 }: {
-  open: string; // "2025-05-20T18:00:00"
-  deadline: string; // "2025-05-20T18:00:00"
+  open: string;
+  deadline: string;
 }) => {
-  const [, forceUpdate] = useState(0); // 강제 리렌더링을 위함
-
-  const openTime = parseISOString(open);
-  const closeTime = parseISOString(deadline);
-
+  const [, forceUpdate] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {
-      forceUpdate((prev) => prev + 1); // 1초마다 리렌더링 트리거
+      forceUpdate((prev) => prev + 1);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
 
-  const now = new Date();
-  const timeLeftUntilOpen = openTime.getTime() - now.getTime();
-  const timeLeftUntilClose = closeTime.getTime() - now.getTime();
-
-  if (timeLeftUntilOpen === 0 && timeLeftUntilClose === 0) return null;
-
-  let chipText = '';
-
-  // 오픈 전
-  if (timeLeftUntilOpen > 0) {
-    if (!isToday({ d1: openTime })) {
-      // 오픈 전 - D-n
-      const dDay = getDday(closeTime);
-      chipText = `D-${dDay}`;
-    } else {
-      // 오픈 당일 - 18:00 OPEN
-      chipText = `${formatTime({ date: openTime })} OPEN`;
-    }
-  }
-  // 오픈 후
-  else {
-    const daysLeftUntilClose = getDday(closeTime) - 1;
-    // 오픈 ~ 마감 전 24시간 - NOW OPEN
-    if (daysLeftUntilClose >= 1) {
-      chipText = 'NOW OPEN';
-    }
-    // 마감 전 24시간 ~ 마감 - 23:59:59 LEFT
-    else if (daysLeftUntilClose === 0 && timeLeftUntilClose > 0) {
-      const { hours, minutes, seconds } = getTimeLeft(closeTime);
-      chipText = `${hours}:${minutes}:${seconds} LEFT`;
-    } else {
-      // 마감 이후 CLOSED
-      chipText = 'CLOSED';
-    }
-  }
-  return <Chip>{chipText}</Chip>;
+  const text = getTimeChipText({ open, deadline });
+  return <Chip>{text}</Chip>;
 };
 
 export const SoldOutChip = () => {

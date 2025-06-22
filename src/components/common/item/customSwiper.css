@@ -1,0 +1,11 @@
+.swiper-button-prev,
+.swiper-button-next,
+.swiper-button-disabled {
+  height: 100% !important;
+  width: 15% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  top: 0 !important;
+  right: 0 !important;
+  opacity: 0 !important;
+}

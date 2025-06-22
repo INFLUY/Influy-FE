@@ -14,9 +14,11 @@ import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
 import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { SnackBar } from '@/components';
+import { PATH } from '@/routes/path';
 
 export const ItemRegistrationPage = () => {
   const navigate = useNavigate();
+
   const [activeTab, setActiveTab] = useState(0);
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
     open: false,
@@ -110,6 +112,12 @@ export const ItemRegistrationPage = () => {
     },
   ];
 
+  // 상품 보관, 게시에 따른 이동 경로 정의
+  const buildItemDetailPath = (
+    itemId: number,
+    status: 'archived' | 'published'
+  ) => `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${status}`;
+
   // 필수 항목 4개 다 있을 시 실행
   const onValid = async (formData: ItemFormValues) => {
     // 서버 제출용 데이터로 가공
@@ -129,6 +137,12 @@ export const ItemRegistrationPage = () => {
     console.log(payload); // declared but its value is never read. 에러 해결을 위함
     try {
       // TODO: 실제 API 호출
+      const itemId: number = 1;
+
+      //if success
+      navigate(buildItemDetailPath(itemId, 'published'), {
+        state: { isSnackbar: true },
+      });
     } catch (error) {}
   };
 
@@ -153,6 +167,13 @@ export const ItemRegistrationPage = () => {
 
   const onSave = () => {
     // 보관하기 로직 추가
+    //임시
+    const itemId: number = 1;
+
+    //if success
+    navigate(buildItemDetailPath(itemId, 'archived'), {
+      state: { isSnackbar: true },
+    });
   };
 
   return (
@@ -163,11 +184,21 @@ export const ItemRegistrationPage = () => {
             <ArrowIcon
               className="h-6 w-6 cursor-pointer text-black"
               onClick={() => navigate(-1)}
+              role="button"
+              aria-label="뒤로 가기"
             />,
           ]}
           rightIcons={[
-            <ShareIcon className="h-6 w-6 cursor-pointer text-black" />,
-            <StatisticIcon className="h-6 w-6 cursor-pointer text-black" />,
+            <ShareIcon
+              className="h-6 w-6 cursor-pointer text-black"
+              role="button"
+              aria-label="공유하기"
+            />,
+            <StatisticIcon
+              className="h-6 w-6 cursor-pointer text-black"
+              role="button"
+              aria-label="통계 보기"
+            />,
           ]}
           additionalStyles="h-[3.375rem]"
         />
