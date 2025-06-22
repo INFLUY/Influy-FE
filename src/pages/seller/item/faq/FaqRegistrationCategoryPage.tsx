@@ -4,6 +4,7 @@ import {
   ItemBanner,
   PageHeader,
   TipTooltip,
+  ToggleButton,
   VanillaCategoryMultiSelector,
 } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
@@ -41,6 +42,8 @@ const FaqRegistrationCategoryPage = () => {
     comment: '이렇게 빤짝이는 드레스 흔하지 않아요 어렵게 구해왔어요',
     isArchived: false,
   };
+
+  const [isPinned, setIsPinned] = useState<boolean>(false);
 
   return (
     <div className="flex flex-1 flex-col">
@@ -122,13 +125,18 @@ const FaqRegistrationCategoryPage = () => {
               </h2>
             </div>
             {/* 고정하기 */}
-            <div className="flex h-fit flex-col justify-between">
+            <div className="flex h-fit items-center justify-between">
               <div className="flex flex-col gap-[.375rem]">
                 <h2 className="body1-b text-black">고정하기</h2>
                 <span className="body2-m text-grey07">
                   해당 카테고리의 가장 앞에 노출됩니다.
                 </span>
               </div>
+              <ToggleButton
+                name="핀 버튼"
+                isChecked={isPinned}
+                setIsChecked={setIsPinned}
+              />
             </div>
           </section>
         </div>
