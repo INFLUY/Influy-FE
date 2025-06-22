@@ -3,11 +3,7 @@ import { ItemDetailInfo, PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
 import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
-import {
-  ItemDetail,
-  SellerCard,
-  ItemStatus,
-} from '@/types/common/ItemType.types';
+import { ItemDetail, SellerCard } from '@/types/common/ItemType.types';
 import { SnackBar } from '@/components';
 import { useState, useEffect } from 'react';
 

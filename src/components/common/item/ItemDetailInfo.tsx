@@ -5,6 +5,12 @@ import cn from '@/utils/cn';
 import DowndownArrowIcon from '@/assets/icon/common/DropdownArrow.svg?react';
 import { getTimeChipText } from '@/components/user/common/Chip';
 import { formatFullDateWithDay } from '@/utils/formatDate';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { A11y, Navigation } from 'swiper/modules';
+import './customSwiper.css';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 export const ItemDetailInfo = ({
   data,
@@ -14,29 +20,50 @@ export const ItemDetailInfo = ({
   status: ItemStatus;
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [currentImgIndex, setCurrentImgIndex] = useState(0);
 
   const discountRate =
     data.salePrice &&
     Math.round(
       ((data.regularPrice - data.salePrice) / data.regularPrice) * 100
     );
-
   return (
     <section className="flex w-full flex-col">
       <div className="relative h-[23.8125rem] w-full">
+        <Swiper
+          className="z-0 h-full"
+          centeredSlides={true}
+          grabCursor={true}
+          modules={[A11y, Navigation]}
+          spaceBetween={0}
+          slidesPerView={1}
+          mousewheel={true}
+          navigation
+          onSlideChange={(swiper) => setCurrentImgIndex(swiper.realIndex)}
+        >
+          {data.itemImgList.map((img, i) => (
+            <SwiperSlide key={i} className="z-0 h-full">
+              <img
+                src={img}
+                className="h-full w-full object-cover"
+                decoding="async"
+                role="img"
+                alt="상품 대표 이미지"
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
         {status === 'published' && (
-          <div className="body2-sb absolute top-[.875rem] left-[.875rem] flex h-[1.6875rem] items-center justify-center rounded-[.0767rem] bg-[#45ABEB] px-[.7671rem] text-white">
+          <div className="body2-sb absolute top-[.875rem] left-[.875rem] z-1 flex h-[1.6875rem] items-center justify-center rounded-[.0767rem] bg-[#45ABEB] px-[.7671rem] text-white">
             {data.itemPeriod}차 진행
           </div>
         )}
-
-        <img
-          src={data.itemImgList[0]}
-          className="h-full w-full object-cover"
-          decoding="async"
-          role="img"
-          alt="상품 대표 이미지"
-        />
+        {data.itemImgList.length > 1 && (
+          <div className="body2-r absolute right-5 bottom-5 z-1 flex h-7 w-[3.25rem] items-center justify-center gap-2.5 rounded-[.1875rem] bg-[rgba(0,0,0,0.40)] py-[.1875rem] text-[#D6D6D6]">
+            {currentImgIndex + 1} / {data.itemImgList.length}
+          </div>
+        )}
       </div>
       <ItemDetailProfile seller={data.sellerInfo} />
       <article className="border-grey02 mt-5 flex h-fit w-full flex-col gap-4 border-b-1 px-5 pb-6">
