@@ -1,6 +1,7 @@
 import {
   AddButton,
   DefaultButton,
+  ItemBanner,
   PageHeader,
   TipTooltip,
   VanillaCategoryMultiSelector,
@@ -26,6 +27,21 @@ const FaqRegistrationCategoryPage = () => {
   ];
   const [selectedCategory, setSelectedCategory] = useState<number[]>([]);
 
+  const itemData = {
+    itemImgList: ['xxx.png', 'xxxxx.png', 'xxxxxx.png'],
+    name: '제작 원피스',
+    itemCategoryList: ['뷰티', '패션'],
+    startDate: '2025-06-22T08:57:56.040Z',
+    endDate: '2025-06-22T08:57:56.040Z',
+    tagline: '빤짝거리는 원피스입니다',
+    regularPrice: 100000,
+    salePrice: 80000,
+    marketLink: 'xxxx.com',
+    itemPeriod: 1,
+    comment: '이렇게 빤짝이는 드레스 흔하지 않아요 어렵게 구해왔어요',
+    isArchived: false,
+  };
+
   return (
     <div className="flex flex-1 flex-col">
       <PageHeader
@@ -35,12 +51,12 @@ const FaqRegistrationCategoryPage = () => {
             onClick={() => navigate(-1)}
           />,
         ]}
-        additionalStyles="border-none text-grey10"
+        additionalStyles="text-grey10"
       >
         카테고리 선택
       </PageHeader>
       {CATEGORIES.length === 0 ? (
-        <section className="flex h-full flex-col justify-center gap-[1.375rem] px-5 py-[2.125rem]">
+        <section className="flex h-full flex-1 flex-col justify-center gap-[1.375rem] px-5 py-[2.125rem]">
           <div className="flex flex-col items-center gap-6">
             <FolderIcon />
             <span className="body1-sb">아직 카테고리가 없어요</span>
@@ -56,13 +72,13 @@ const FaqRegistrationCategoryPage = () => {
           </AddButton>
         </section>
       ) : (
-        <>
-          <div className="text-grey08 caption-m bg-grey01 flex w-full items-center justify-center px-[.625rem] py-2 text-center">
-            등록할 FAQ의 카테고리를 1개 지정해 주세요.
-          </div>
-          <section className="flex h-full flex-col gap-4 px-5 py-[2.125rem]">
+        <div className="flex flex-1 flex-col gap-6 px-5">
+          <ItemBanner name={itemData?.name} tagline={itemData?.tagline} />
+          <section className="flex h-full flex-col gap-4">
             <div className="flex w-full justify-between">
-              <h2 className="body1-b text-black">FAQ 카테고리</h2>
+              <h2 className="body1-b text-black">
+                FAQ 카테고리 <span className="text-[#F43232]">*</span>
+              </h2>
 
               {/* 카테고리 수정 버튼 */}
               <button
@@ -81,9 +97,9 @@ const FaqRegistrationCategoryPage = () => {
               setSelectedCategory={setSelectedCategory}
             />
           </section>
-        </>
+        </div>
       )}
-      <div className="px-5 pt-[.625rem] pb-4">
+      <div className="sticky bottom-0 bg-white px-5 pt-[.625rem] pb-4">
         <DefaultButton
           text="다음"
           disabled={selectedCategory.length === 0}
