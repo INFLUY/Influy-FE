@@ -56,6 +56,7 @@ const FaqRegistrationCategoryPage = () => {
         카테고리 선택
       </PageHeader>
       {CATEGORIES.length === 0 ? (
+        // 카테고리 없을 때
         <section className="flex h-full flex-1 flex-col justify-center gap-[1.375rem] px-5 py-[2.125rem]">
           <div className="flex flex-col items-center gap-6">
             <FolderIcon />
@@ -72,36 +73,69 @@ const FaqRegistrationCategoryPage = () => {
           </AddButton>
         </section>
       ) : (
-        <div className="flex flex-1 flex-col gap-6 px-5">
+        // 카테고리 있을 때
+        <div className="flex flex-1 flex-col gap-6 px-5 pb-[5.1875rem]">
           <ItemBanner name={itemData?.name} tagline={itemData?.tagline} />
-          <section className="flex h-full flex-col gap-4">
-            <div className="flex w-full justify-between">
-              <h2 className="body1-b text-black">
-                FAQ 카테고리 <span className="text-[#F43232]">*</span>
-              </h2>
-
-              {/* 카테고리 수정 버튼 */}
-              <button
-                type="button"
-                className="text-grey06 body2-m flex cursor-pointer items-center gap-1"
-              >
-                카테고리 수정
-                <EditIcon />
-              </button>
+          <section className="flex flex-col gap-[1.875rem]">
+            {/* 카테고리 */}
+            <div className="flex h-fit flex-col gap-4">
+              <div className="flex w-full justify-between">
+                <h2 className="body1-b text-black">
+                  FAQ 카테고리 <span className="text-[#F43232]">*</span>
+                </h2>
+                {/* 카테고리 수정 버튼 */}
+                <button
+                  type="button"
+                  className="text-grey06 body2-m flex cursor-pointer items-center gap-1"
+                >
+                  카테고리 수정
+                  <EditIcon />
+                </button>
+              </div>
+              {/* FAQ 카테고리 */}
+              <VanillaCategoryMultiSelector
+                categoryList={CATEGORIES}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+              />
             </div>
-
-            {/* FAQ 카테고리 */}
-            <VanillaCategoryMultiSelector
-              categoryList={CATEGORIES}
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-            />
+            {/* 사진 */}
+            <div className="flex h-fit flex-col gap-4">
+              <h2 className="body1-b text-black">사진</h2>
+              <TipTooltip
+                text={`답변에 도움이 될만한 사진을 한 장 첨부해 주세요.\n사진을 첨부하지 않으면 기본 이미지가 제공됩니다.`}
+                bgColor="bg-grey01"
+                tipColor="text-black"
+                textColor="text-grey08"
+              />
+            </div>
+            {/* 질문 */}
+            <div className="flex h-fit flex-col gap-4">
+              <h2 className="body1-b text-black">
+                질문 <span className="text-[#F43232]">*</span>
+              </h2>
+            </div>
+            {/* 답변 */}
+            <div className="flex h-fit flex-col gap-4">
+              <h2 className="body1-b text-black">
+                답변 <span className="text-[#F43232]">*</span>
+              </h2>
+            </div>
+            {/* 고정하기 */}
+            <div className="flex h-fit flex-col justify-between">
+              <div className="flex flex-col gap-[.375rem]">
+                <h2 className="body1-b text-black">고정하기</h2>
+                <span className="body2-m text-grey07">
+                  해당 카테고리의 가장 앞에 노출됩니다.
+                </span>
+              </div>
+            </div>
           </section>
         </div>
       )}
       <div className="sticky bottom-0 bg-white px-5 pt-[.625rem] pb-4">
         <DefaultButton
-          text="다음"
+          text="등록하기"
           disabled={selectedCategory.length === 0}
           onClick={() => console.log(...selectedCategory)}
         />
