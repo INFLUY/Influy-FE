@@ -29,7 +29,7 @@ export interface ItemDetail {
   sellerInfo: SellerCard;
 }
 
-export type ItemStatus = 'saved' | 'published';
+export type ItemStatus = 'archived' | 'published';
 
 export interface SellerCard {
   id: number;

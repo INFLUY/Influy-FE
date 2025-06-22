@@ -27,7 +27,7 @@ export const PATH = {
         administration: {
           base: ':itemId',
           itemDetail: {
-            saved: 'saved',
+            archived: 'archived',
             published: 'published',
           },
           faq: {

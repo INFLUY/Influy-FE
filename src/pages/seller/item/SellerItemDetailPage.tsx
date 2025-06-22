@@ -43,8 +43,8 @@ const SellerItemDetailPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const status = location.pathname.endsWith('/saved')
-    ? 'saved'
+  const status = location.pathname.endsWith('/archived')
+    ? 'archived'
     : location.pathname.endsWith('/published')
       ? 'published'
       : null;
@@ -62,7 +62,7 @@ const SellerItemDetailPage = () => {
   }, [location.state]);
 
   // 잘못된 값이면 404
-  if (status !== 'saved' && status !== 'published') {
+  if (status !== 'archived' && status !== 'published') {
     return <Navigate to="/not-found" replace />; //임시 에러 처리
   }
   return (

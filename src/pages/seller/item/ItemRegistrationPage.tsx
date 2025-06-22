@@ -113,8 +113,10 @@ export const ItemRegistrationPage = () => {
   ];
 
   // 상품 보관, 게시에 따른 이동 경로 정의
-  const buildItemDetailPath = (itemId: number, status: 'saved' | 'published') =>
-    `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${status}`;
+  const buildItemDetailPath = (
+    itemId: number,
+    status: 'archived' | 'published'
+  ) => `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${status}`;
 
   // 필수 항목 4개 다 있을 시 실행
   const onValid = async (formData: ItemFormValues) => {
@@ -169,7 +171,7 @@ export const ItemRegistrationPage = () => {
     const itemId: number = 1;
 
     //if success
-    navigate(buildItemDetailPath(itemId, 'saved'), {
+    navigate(buildItemDetailPath(itemId, 'archived'), {
       state: { isSnackbar: true },
     });
   };

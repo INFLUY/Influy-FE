@@ -131,7 +131,7 @@ const router = createBrowserRouter([
                   {
                     index: true,
                     path: PATH.SELLER.items.item.administration.itemDetail
-                      .saved,
+                      .archived,
                     element: <SellerItemDetailPage />, // 보관한 상품 조회 페이지
                   },
                   {
