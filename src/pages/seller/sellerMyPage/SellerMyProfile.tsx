@@ -89,31 +89,35 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
 
       <section className="divide-grey02 flex flex-col divide-y-[12px]">
         {/* 링크 */}
-        <div
-          className={cn(
-            'scrollbar-hide flex items-center gap-[.625rem] self-stretch overflow-x-auto px-5 py-3',
-            {
-              'justify-end': LINKS.length === 0,
-            }
-          )}
-        >
-          {LINKS.map((link) => (
-            <ExternalLinkChip
-              key={link.id}
-              linkId={link.id}
-              name={link.name}
-              url={link.url}
-              handleEditLink={handleEditLink}
-            />
-          ))}
-          {/* 링크 추가 버튼 */}
-          <button
-            type="button"
-            className="bg-grey02 border-grey04 flex shrink-0 cursor-pointer items-center gap-2.5 rounded-full border p-[.4375rem]"
-            onClick={handleAddLink}
+        <div className="relative flex w-full">
+          <div
+            className={cn(
+              'scrollbar-hide flex w-full items-center gap-[.625rem] self-stretch overflow-x-auto py-3 pr-[4.5rem] pl-5',
+              {
+                'justify-end': LINKS.length === 0,
+              }
+            )}
           >
-            <PlusIcon className="text-grey07" />
-          </button>
+            {LINKS.map((link) => (
+              <ExternalLinkChip
+                key={link.id}
+                linkId={link.id}
+                name={link.name}
+                url={link.url}
+                handleEditLink={handleEditLink}
+              />
+            ))}
+          </div>
+          {/* 링크 추가 버튼 */}
+          <div className="absolute right-0 z-10 flex h-full w-[4.5rem] shrink-0 flex-col items-end justify-center gap-2.5 py-2.5 pr-5 pl-3 [background:linear-gradient(90deg,rgba(248,248,249,0.00)_0%,#FFFFFF_30.56%)]">
+            <button
+              type="button"
+              className="bg-grey02 border-grey04 flex h-fit w-fit shrink-0 cursor-pointer items-center gap-2.5 rounded-full border p-[.4375rem]"
+              onClick={handleAddLink}
+            >
+              <PlusIcon className="text-grey07 h-4 w-4" />
+            </button>
+          </div>
         </div>
         {isLinkSnackBarOpen && (
           <SnackBar handleSnackBarClose={() => setIsLinkSnackBarOpen(false)}>
