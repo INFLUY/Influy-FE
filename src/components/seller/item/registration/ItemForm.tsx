@@ -279,7 +279,7 @@ export const ItemForm = ({
       </ItemSection>
 
       {/* 가격 */}
-      <ItemSection label="가격 *">
+      <ItemSection label="가격">
         <div className="flex w-full flex-col items-start gap-3">
           <div className="flex w-full flex-col items-start justify-center gap-1.5">
             <p className="caption-m">정가</p>

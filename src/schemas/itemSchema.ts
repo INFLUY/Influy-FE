@@ -6,7 +6,7 @@ export const itemSchema = z
     images: z
       .array(z.string())
       .min(1, { message: '사진을 1장 이상 등록해 주세요.' })
-      .max(10, { message: '이미지는 최대 10개까지 업로드 가능합니다.' }),
+      .max(10),
     // 제목
     titleText: z
       .string()

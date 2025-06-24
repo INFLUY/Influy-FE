@@ -7,23 +7,25 @@ import { itemSchema } from '@/schemas/itemSchema';
 import { ItemFormValues } from '@/types/item.types';
 import { ItemForm } from '@/components/seller/item/registration/ItemForm';
 import { DefaultButton, Tab, Tabs } from '@/components';
-import { useState, useRef, RefObject } from 'react';
+import { useState, useRef, RefObject, useEffect } from 'react';
 import { PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
-import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { SnackBar } from '@/components';
 import { PATH } from '@/routes/path';
 
 export const ItemRegistrationPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [activeTab, setActiveTab] = useState(0);
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
     open: false,
     message: '',
   });
+
+  const isFirstLoad = useRef(true);
+
   // useForm에 Zod 스키마 적용
   const methods = useForm<ItemFormValues>({
     resolver: standardSchemaResolver(itemSchema),
@@ -146,7 +148,7 @@ export const ItemRegistrationPage = () => {
     } catch (error) {}
   };
 
-  // 필수 항목 미입력 시 실행
+  // 필수 항목 미입력 / 유효성 조건 미충족 시 실행
   const onInvalid = (fieldErrors: Record<string, any>) => {
     for (const field of scrollFields) {
       if (fieldErrors[field.name]) {
@@ -188,18 +190,6 @@ export const ItemRegistrationPage = () => {
               aria-label="뒤로 가기"
             />,
           ]}
-          rightIcons={[
-            <ShareIcon
-              className="h-6 w-6 cursor-pointer text-black"
-              role="button"
-              aria-label="공유하기"
-            />,
-            <StatisticIcon
-              className="h-6 w-6 cursor-pointer text-black"
-              role="button"
-              aria-label="통계 보기"
-            />,
-          ]}
           additionalStyles="h-[3.375rem] border-0"
         />
         <Tabs>
@@ -217,7 +207,7 @@ export const ItemRegistrationPage = () => {
 
       <form
         onSubmit={handleSubmit(onValid, onInvalid)}
-        className="relative flex min-h-full min-w-full flex-col"
+        className="relative flex h-fit min-h-full min-w-full flex-col"
       >
         <section className="pt-8">
           {activeTab === 0 && (
@@ -231,7 +221,8 @@ export const ItemRegistrationPage = () => {
           )}
           {activeTab === 1 && <span>FAQ 내용 준비 중입니다.</span>}
         </section>
-        <section className="border-t-grey02 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
+        {/* 하단 버튼 */}
+        <section className="border-t-grey02 sticky right-0 bottom-0 z-50 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
           <DefaultButton onClick={onArchive} text="보관하기" />
           <DefaultButton
             type="submit"
