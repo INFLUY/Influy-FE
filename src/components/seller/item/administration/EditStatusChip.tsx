@@ -17,7 +17,7 @@ const EditStatusChip = ({
 }) => {
   return (
     <div
-      className="bg-grey03 text-grey09 caption-m inline-flex w-fit items-center justify-center gap-[.125rem] rounded-[.125rem] px-2 py-[.1875rem]"
+      className="bg-grey03 text-grey09 caption-m inline-flex w-fit cursor-pointer items-center justify-center gap-[.125rem] rounded-[.125rem] px-2 py-1"
       onClick={onClick}
     >
       {children}
