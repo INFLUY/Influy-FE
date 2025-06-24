@@ -165,7 +165,7 @@ export const ItemRegistrationPage = () => {
     }
   };
 
-  const onSave = () => {
+  const onArchive = () => {
     // 보관하기 로직 추가
     //임시
     const itemId: number = 1;
@@ -200,7 +200,7 @@ export const ItemRegistrationPage = () => {
               aria-label="통계 보기"
             />,
           ]}
-          additionalStyles="h-[3.375rem]"
+          additionalStyles="h-[3.375rem] border-0"
         />
         <Tabs>
           {TABS.map((tab) => (
@@ -219,7 +219,7 @@ export const ItemRegistrationPage = () => {
         onSubmit={handleSubmit(onValid, onInvalid)}
         className="relative flex min-h-full min-w-full flex-col"
       >
-        <section className="pt-5">
+        <section className="pt-8">
           {activeTab === 0 && (
             <ItemForm
               mode="create"
@@ -232,7 +232,7 @@ export const ItemRegistrationPage = () => {
           {activeTab === 1 && <span>FAQ 내용 준비 중입니다.</span>}
         </section>
         <section className="border-t-grey02 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
-          <DefaultButton onClick={onSave} text="보관하기" />
+          <DefaultButton onClick={onArchive} text="보관하기" />
           <DefaultButton
             type="submit"
             text="게시하기"
