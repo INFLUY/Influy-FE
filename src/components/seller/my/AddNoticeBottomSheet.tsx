@@ -2,20 +2,22 @@ import BottomSheet from '@/components/common/BottomSheet';
 import { useState } from 'react';
 import { SaveButton, SellerModal, TextInput, WideTextArea } from '@/components';
 import { usePostNotification } from '@/state/mutation/notification/usePostNotification';
+import { NoticeType } from '@/types/common/NoticeType.types';
+import { usePatchNotification } from '@/state/mutation/notification/usePatchNotification';
 
 const AddNoticeBottomSheet = ({
-  announcementId,
+  announcement,
   isOpen,
   setIsOpen,
   setIsNoticeSavedSnackBarOpen,
 }: {
-  announcementId?: number;
+  announcement?: NoticeType;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsNoticeSavedSnackBarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [title, setTitle] = useState<string>('');
-  const [content, setContent] = useState<string>('');
+  const [title, setTitle] = useState<string>(announcement?.title || '');
+  const [content, setContent] = useState<string>(announcement?.content || '');
   const [isNoticeCancelModalOpen, setIsNoticeCancelModalOpen] =
     useState<boolean>(false);
   const [isNoticeEditCancelModalOpen, setIsNoticeEditCancelModalOpen] =
@@ -25,10 +27,21 @@ const AddNoticeBottomSheet = ({
     setIsNoticeSavedSnackBarOpen(true);
   });
 
-  // 공지 저장
+  const { mutate: patchNotice } = usePatchNotification(() => {
+    setIsNoticeSavedSnackBarOpen(true);
+  });
+
+  // 공지 저장(수정)
   const handleClickSave = () => {
     setIsOpen(false);
-    postNotice({ title, content });
+    if (announcement) {
+      patchNotice({
+        data: { title, content },
+        announcementId: announcement.id,
+      }); // 공지사항 수정
+    } else {
+      postNotice({ title, content }); // 공지사항 추가
+    }
   };
 
   // 공지 작성 취소
@@ -53,7 +66,7 @@ const AddNoticeBottomSheet = ({
         <div className="flex w-full flex-col items-center">
           <span className="flex w-full flex-col items-center gap-[.125rem]">
             <h1 className="subhead-b text-grey10 w-full text-center">
-              {announcementId !== undefined ? '공지사항 수정' : '공지사항 추가'}
+              {announcement !== undefined ? '공지사항 수정' : '공지사항 추가'}
             </h1>
             <div className="divide-grey02 flex w-full flex-col justify-start gap-1 divide-y px-5">
               <div className="flex w-full flex-col gap-[.625rem] pt-3 pb-6">

@@ -3,16 +3,17 @@ import { SetStateAction, useState } from 'react';
 import { SellerModal } from '@/components';
 import { useDeleteNotification } from '@/state/mutation/notification/useDeleteNotification';
 import { usePatchNotification } from '@/state/mutation/notification/usePatchNotification';
+import { NoticeType } from '@/types/common/NoticeType.types';
 
 const EditNoticeBottomSheet = ({
-  announcementId,
+  announcement,
   isPrimary,
   isOpen,
   setIsOpen,
   setIsEditNoticeOpen,
   setIsNoticeSavedSnackBarOpen,
 }: {
-  announcementId: number;
+  announcement: NoticeType;
   isOpen: boolean;
   isPrimary: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -33,14 +34,14 @@ const EditNoticeBottomSheet = ({
       setIsUnpinModalOpen(true); // 핀 고정 해제 모달
     else {
       // 핀 고정 연동
-      patchNotice({ announcementId, isPrimary: true });
+      patchNotice({ announcementId: announcement.id, isPrimary: true });
       setIsOpen(false);
     }
   };
 
   // 핀 고정 해제 모달 -> 확인
   const handleUnpinConfirm = () => {
-    patchNotice({ announcementId, isPrimary: false });
+    patchNotice({ announcementId: announcement.id, isPrimary: false });
     setIsUnpinModalOpen(false);
     setIsOpen(false);
   };
@@ -69,7 +70,7 @@ const EditNoticeBottomSheet = ({
   const handleDeleteNoticeConfirm = () => {
     setIsNoticeDeleteModalOpen(false);
     setIsOpen(false);
-    deleteNotice({ announcementId });
+    deleteNotice({ announcementId: announcement.id });
   };
 
   // 공지 삭제 모달 -> 취소

@@ -17,7 +17,7 @@ const NoticePage = () => {
   const [isAddNoticeOpen, setIsAddNoticeOpen] = useState<boolean>(false);
   const [isAdminNoticeOpen, setIsAdminNoticeOpen] = useState<boolean>(false);
   const [isEditNoticeOpen, setIsEditNoticeOpen] = useState<boolean>(false);
-  const [selectedNotice, setSelectedNotice] = useState<number | null>(null);
+  const [selectedNotice, setSelectedNotice] = useState<NoticeType | null>(null);
   const [isSelectedNoticePrimary, setIsSelectedNoticePrimary] =
     useState<boolean>(false);
   const [isNoticeSavedSnackBarOpen, setIsNoticeSavedSnackBarOpen] =
@@ -27,9 +27,9 @@ const NoticePage = () => {
   const sellerId = useStrictSellerId();
   const { data: notices } = useGetNotification({ sellerId });
 
-  const handleEditNotice = (announcementId: number, isPrimary: boolean) => {
-    setSelectedNotice(announcementId);
-    setIsSelectedNoticePrimary(isPrimary);
+  const handleEditNotice = (announcement: NoticeType) => {
+    setSelectedNotice(announcement);
+    setIsSelectedNoticePrimary(announcement.isPrimary);
     setIsAdminNoticeOpen(true);
   };
 
@@ -52,7 +52,7 @@ const NoticePage = () => {
       >
         공지사항 편집
       </PageHeader>
-      {notices?.listSize === 0 && (
+      {notices?.totalElements === 0 && (
         <div className="flex h-full w-full flex-col items-center justify-center gap-10">
           <div className="flex flex-col items-center justify-center gap-6 text-center">
             <div className="bg-grey03 h-[5.6875rem] w-[8.0625rem]" />
@@ -63,7 +63,7 @@ const NoticePage = () => {
           />
         </div>
       )}
-      {notices?.listSize > 0 && (
+      {notices?.totalElements > 0 && (
         <div className="scrollbar-hide flex h-full w-full flex-col items-center gap-4 overflow-y-auto pt-2 pb-24">
           <ul className="flex w-full flex-col items-center">
             {primaryNotice && (
@@ -95,7 +95,7 @@ const NoticePage = () => {
       )}
       {isAdminNoticeOpen && selectedNotice !== null && (
         <EditNoticeBottomSheet
-          announcementId={selectedNotice}
+          announcement={selectedNotice}
           isPrimary={isSelectedNoticePrimary}
           isOpen={isAdminNoticeOpen}
           setIsOpen={setIsAdminNoticeOpen}
@@ -105,7 +105,7 @@ const NoticePage = () => {
       )}
       {isEditNoticeOpen && selectedNotice !== null && (
         <AddNoticeBottomSheet
-          announcementId={selectedNotice}
+          announcement={selectedNotice}
           isOpen={isEditNoticeOpen}
           setIsOpen={setIsEditNoticeOpen}
           setIsNoticeSavedSnackBarOpen={setIsNoticeSavedSnackBarOpen}

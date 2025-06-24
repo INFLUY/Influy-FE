@@ -22,7 +22,7 @@ const SellerNoticeBottomSheet = ({
       <div className="flex flex-col items-center gap-7">
         <h1 className="subhead-b text-grey10 w-full text-center">공지사항</h1>
         <div className="scrollbar-hide flex h-[70vh] w-full flex-col gap-4 overflow-y-auto pb-8">
-          {notices?.listSize === 0 ? (
+          {notices?.totalElements === 0 ? (
             <div className="flex h-full items-center">
               <span className="body2-m text-grey06 pb-20">
                 아직 등록된 공지가 없습니다.

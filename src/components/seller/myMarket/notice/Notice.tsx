@@ -8,7 +8,7 @@ const Notice = ({
   handleEditNotice,
 }: {
   notice: NoticeType;
-  handleEditNotice: (id: number, isPrimary: boolean) => void;
+  handleEditNotice: (announcement: NoticeType) => void;
 }) => {
   return (
     <li className="border-grey03 flex w-full cursor-pointer flex-col gap-2 border-b px-5 pt-4 pb-5">
@@ -23,7 +23,7 @@ const Notice = ({
             )}
             <KebabIcon
               className="text-grey08 h-5 w-5 shrink-0 cursor-pointer"
-              onClick={() => handleEditNotice(notice.id, notice.isPrimary!)}
+              onClick={() => handleEditNotice(notice)}
             />
           </div>
         </div>
