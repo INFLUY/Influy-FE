@@ -41,7 +41,7 @@ export const FormLimitedTextInput = ({
       <div
         onClick={() => textareaRef.current?.focus()}
         className={cn(
-          'flex h-fit w-full items-center justify-center gap-2.5 rounded-sm border px-3.5 py-2.5',
+          'flex h-fit w-full items-start justify-center gap-2.5 rounded-[.125rem] border px-3.5 py-2.5',
           value.length > maxLength || error
             ? 'border-error'
             : 'border-grey03 focus-within:border-grey05'
@@ -58,7 +58,7 @@ export const FormLimitedTextInput = ({
           className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
           rows={1}
         />
-        <div className="caption-m text-grey06 h-full">
+        <div className="caption-m text-grey06 flex h-[1.3125rem] items-center">
           <span
             className={cn((value.length > maxLength || error) && 'text-error')}
           >
@@ -99,7 +99,7 @@ export const FormWideTextArea = ({ name }: { name: string }) => {
       <div
         onClick={() => textareaRef.current?.focus()}
         className={cn(
-          'focus-within:border-grey05 border-grey03 flex h-fit w-full items-center justify-center gap-2.5 rounded-sm border px-3.5 py-2.5'
+          'focus-within:border-grey05 border-grey03 flex h-fit w-full items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5'
         )}
       >
         <textarea
@@ -138,7 +138,7 @@ export const FormLinkInput = ({ name }: FormInputProps) => {
       <div
         onClick={() => textareaRef.current?.focus()}
         className={cn(
-          'flex h-fit w-full items-center justify-center gap-2.5 rounded-sm border px-3.5 py-2.5',
+          'flex h-fit w-full items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5',
           error ? 'border-error' : 'border-grey03 focus-within:border-grey05'
         )}
       >
@@ -149,7 +149,7 @@ export const FormLinkInput = ({ name }: FormInputProps) => {
           }}
           value={text}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="링크 URL을 입력해 주세요."
+          placeholder="https://"
           className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
           rows={1}
           onKeyDown={(e) => {
@@ -212,7 +212,7 @@ export const FormPriceInput = ({ name }: FormInputProps) => {
   return (
     <div
       onClick={() => inputRef.current?.focus()}
-      className="border-grey03 focus-within:border-grey05 flex h-fit w-full items-center justify-start rounded-sm border px-[.8125rem] py-2.5"
+      className="border-grey03 focus-within:border-grey05 flex h-fit w-full items-center justify-start rounded-xs border px-[.8125rem] py-2.5"
     >
       <input
         ref={(e) => {
@@ -283,7 +283,7 @@ export const FormSalePriceInput = ({ name }: FormInputProps) => {
   const calculateDiscountRate = useMemo(() => {
     if (salePrice === undefined || regularPrice === undefined) return '';
     else if (salePrice > regularPrice) {
-      return '할인가가 정가보다 높습니다.';
+      return null;
     } else {
       const discountRate = Math.round(
         ((regularPrice - salePrice) / regularPrice) * 100
@@ -293,32 +293,50 @@ export const FormSalePriceInput = ({ name }: FormInputProps) => {
   }, [salePrice, regularPrice]);
 
   return (
-    <div
-      onClick={() => inputRef.current?.focus()}
-      className="border-grey03 focus-within:border-grey05 relative flex h-fit w-full items-center justify-start rounded-sm border px-[.8125rem] py-2.5"
-    >
-      <input
-        ref={(e) => {
-          inputRef.current = e;
-          ref(e);
-        }}
-        value={formattedPrice}
-        type="text"
-        inputMode="numeric"
-        onChange={handleChange}
-        placeholder="할인가를 입력하면, 자동으로 할인율이 계산됩니다."
-        className="body2-m placeholder:text-grey06 overflow-hidden break-keep outline-none"
-        style={{ width: `${inputWidth}px` }}
-      />
-      {salePrice && <span className="body2-m">원</span>}
+    <div className="flex w-full flex-col">
+      <div
+        onClick={() => inputRef.current?.focus()}
+        className={cn(
+          'relative flex h-fit w-full items-center justify-start rounded-xs border px-[.8125rem] py-2.5',
+          salePrice > regularPrice
+            ? 'border-error'
+            : 'border-grey03 focus-within:border-grey05'
+        )}
+      >
+        <input
+          ref={(e) => {
+            inputRef.current = e;
+            ref(e);
+          }}
+          value={formattedPrice}
+          type="text"
+          inputMode="numeric"
+          onChange={handleChange}
+          placeholder="할인가를 입력하면, 자동으로 할인율이 계산됩니다."
+          className="body2-m placeholder:text-grey06 overflow-hidden break-keep outline-none"
+          style={{ width: `${inputWidth}px` }}
+        />
+        {salePrice && <span className="body2-m">원</span>}
 
-      {/* 숨겨진 span으로 width 측정 */}
-      <span ref={spanRef} className="body2-m invisible absolute whitespace-pre">
-        {formattedPrice || '할인가를 입력하면, 자동으로 할인율이 계산됩니다.'}
-      </span>
-      <span className="text-error body2-m absolute right-[1.5rem]">
-        {calculateDiscountRate}
-      </span>
+        {/* 숨겨진 span으로 width 측정 */}
+        <span
+          ref={spanRef}
+          className="body2-m invisible absolute whitespace-pre"
+        >
+          {formattedPrice || '할인가를 입력하면, 자동으로 할인율이 계산됩니다.'}
+        </span>
+        <span className="text-error body2-m absolute right-[1.5rem]">
+          {calculateDiscountRate}
+        </span>
+      </div>
+      {salePrice > regularPrice && (
+        <div className="mt-1 flex items-center space-x-1">
+          <WarningIcon />
+          <span className="caption-m text-error">
+            할인가가 정가보다 높습니다.
+          </span>
+        </div>
+      )}
     </div>
   );
 };

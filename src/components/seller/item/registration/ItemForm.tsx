@@ -158,7 +158,7 @@ export const ItemForm = ({
             className="flex w-full flex-col items-start justify-center gap-1.5"
           >
             <p className="caption-m">시작일</p>
-            <div className="body2-m border-grey03 flex h-fit w-full items-center justify-between rounded-sm border px-3.5 py-2.5">
+            <div className="body2-m border-grey03 flex h-fit w-full items-center justify-between rounded-xs border px-3.5 py-2.5">
               <span
                 className={cn(startISODateTime ? 'text-black' : 'text-grey06')}
               >
@@ -174,19 +174,24 @@ export const ItemForm = ({
           </div>
 
           {/* 시작 없어요 체크박스 */}
-          <div className="text-grey10 body2-m flex items-center gap-[0.5rem]">
-            <button
-              onClick={handleNoStartDate}
-              type="button"
-              className="cursor-pointer"
-            >
-              {!startISODateTime && hasStartDate ? (
-                <CheckBoxOnIcon />
-              ) : (
-                <CheckBoxOffIcon />
-              )}
-            </button>
-            시작일이 없어요
+          <div className="flex flex-col gap-1">
+            <div className="text-grey10 body2-b flex items-center gap-[0.5rem]">
+              <button
+                onClick={handleNoStartDate}
+                type="button"
+                className="cursor-pointer"
+              >
+                {!startISODateTime && hasStartDate ? (
+                  <CheckBoxOnIcon className="h-4 w-4" />
+                ) : (
+                  <CheckBoxOffIcon className="h-4 w-4" />
+                )}
+              </button>
+              시작일이 없어요
+            </div>
+            <span className="text-grey07 body2-m">
+              시작일이 없는 경우 체크해 주세요.
+            </span>
           </div>
 
           {/* 마감일 */}
@@ -196,7 +201,7 @@ export const ItemForm = ({
             className="flex w-full flex-col items-start justify-center gap-1.5"
           >
             <p className="caption-m">마감일</p>
-            <div className="body2-m border-grey03 flex h-fit w-full items-center justify-between rounded-sm border px-3.5 py-2.5">
+            <div className="body2-m border-grey03 flex h-fit w-full items-center justify-between rounded-xs border px-3.5 py-2.5">
               <span
                 className={cn(endISODateTime ? 'text-black' : 'text-grey06')}
               >
@@ -207,19 +212,24 @@ export const ItemForm = ({
           </div>
 
           {/* 마감일 없어요 체크박스 */}
-          <div className="text-grey10 body2-m flex items-center gap-[0.5rem]">
-            <button
-              onClick={handleNoEndDate}
-              className="cursor-pointer"
-              type="button"
-            >
-              {!endISODateTime && hasEndDate ? (
-                <CheckBoxOnIcon />
-              ) : (
-                <CheckBoxOffIcon />
-              )}
-            </button>
-            마감일이 없어요
+          <div className="flex flex-col gap-1">
+            <div className="text-grey10 body2-b flex items-center gap-[0.5rem]">
+              <button
+                onClick={handleNoEndDate}
+                className="cursor-pointer"
+                type="button"
+              >
+                {!endISODateTime && hasEndDate ? (
+                  <CheckBoxOnIcon className="h-4 w-4" />
+                ) : (
+                  <CheckBoxOffIcon className="h-4 w-4" />
+                )}
+              </button>
+              마감일이 없어요
+            </div>
+            <span className="text-grey07 body2-m">
+              마감일이 없는 경우 체크해 주세요.
+            </span>
           </div>
         </div>
       </ItemSection>
@@ -233,8 +243,9 @@ export const ItemForm = ({
           <DateTimePicker
             dateTimeName="startISODateTime"
             hasDateName="hasStartDate"
-            type="시작일"
+            type="start"
             onClose={() => setIsStartDateTimeSheetOpen(false)}
+            mode={mode}
           />
         </BottomSheet>
       )}
@@ -248,8 +259,9 @@ export const ItemForm = ({
           <DateTimePicker
             dateTimeName="endISODateTime"
             hasDateName="hasEndDate"
-            type="마감일"
+            type="end"
             onClose={() => setIsEndDateTimeSheetOpen(false)}
+            mode={mode}
           />
         </BottomSheet>
       )}

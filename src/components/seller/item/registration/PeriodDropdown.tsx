@@ -26,12 +26,12 @@ export const PeriodDropdown = ({ name }: DropdownProps) => {
   };
 
   return (
-    <div className="border-grey03 bg-grey01 h-fit max-h-[19.5rem] w-full rounded border">
+    <div className="border-grey03 h-fit max-h-[19.5rem] w-full rounded-xs border">
       <button
         onClick={() => setIsOpen(!isOpen)}
         type="button"
         className={cn(
-          'body2-m flex w-full justify-between px-[.8125rem] py-2.5 text-left',
+          'body2-m flex w-full items-center justify-between px-[.8125rem] py-2.5 text-left',
           period ? 'text-black' : 'text-grey06'
         )}
       >
@@ -50,7 +50,7 @@ export const PeriodDropdown = ({ name }: DropdownProps) => {
                 className={cn(
                   'h-[1.25rem] w-[1.25rem] rounded-full border-1 p-1',
                   period == option + 1
-                    ? 'border-black bg-black'
+                    ? 'border-[.3125rem] border-black bg-white'
                     : 'border-grey04 bg-grey02'
                 )}
               />
