@@ -37,6 +37,8 @@
 @layer components {
   body {
     @apply bg-grey01 font-pretendard relative box-border flex justify-center text-black;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   .modal {
