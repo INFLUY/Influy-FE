@@ -38,9 +38,9 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
         <img
           src={item?.thumbnail ?? undefined}
           alt="상품 썸네일"
-          className="object-cover"
+          className="rounded-[.1875rem] object-cover"
         />
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-[.1875rem] bg-black/40 text-white">
           마감
         </div>
       </div>

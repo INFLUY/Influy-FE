@@ -10,9 +10,9 @@ export const ItemList = ({ item }: { item: ItemType }) => {
         <img
           src={item?.thumbnail ?? undefined}
           alt="상품 썸네일"
-          className="object-cover"
+          className="rounded-[.25rem] object-cover"
         />
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-[.25rem] bg-black/40 text-white">
           마감
         </div>
       </div>
@@ -58,7 +58,7 @@ export const ItemGrid = ({ item }: { item: ItemType }) => {
         <img
           src={item?.thumbnail ?? undefined}
           alt="상품 썸네일"
-          className="absolute inset-0 object-cover"
+          className="absolute inset-0 rounded-[.25rem] object-cover"
         />
         <ScrapButton
           scrapped={item?.scrapped}
@@ -66,7 +66,7 @@ export const ItemGrid = ({ item }: { item: ItemType }) => {
             console.log('saved');
           }}
         />
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-[.25rem] bg-black/40 text-white">
           마감
         </div>
       </div>
