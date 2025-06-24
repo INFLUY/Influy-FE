@@ -1,5 +1,7 @@
 import { z } from 'zod/v4';
 
+export const CATEGORY_MAX_COUNT = 3; // 카테고리 최대 선택 개수
+
 export const itemSchema = z
   .object({
     // 이미지
@@ -15,7 +17,7 @@ export const itemSchema = z
     // 상품 카테고리
     selectedCategoryList: z
       .array(z.string())
-      .max(3)
+      .max(CATEGORY_MAX_COUNT)
       .min(1, { message: '카테고리를 1개 이상 선택해 주세요.' }),
     //시작일 여부
     hasStartDate: z.boolean().refine((val) => val === true, {
@@ -36,13 +38,13 @@ export const itemSchema = z
     // 가격 정가
     price: z.coerce.number().gt(0).nullable(),
     // 가격 할인가
-    salePrice: z.coerce.number().gt(0).nullable(),
+    salePrice: z.coerce.number().nullable().optional(),
     // 판매 링크
     linkText: z
       .union([z.literal(''), z.url()], {
         message: '올바른 양식으로 입력해 주세요.',
       })
-      .optional(),
+      .nullable(),
     //진행 회차
     period: z.number().nullable(),
     // 코멘트
@@ -52,3 +54,18 @@ export const itemSchema = z
     // hasStartDate === (startISODateTime !== null)
     return (data.startISODateTime !== null) === data.hasStartDate;
   });
+
+// zod.pick으로 필요한 필드만 따로 검증 가능
+export const requiredFieldsSchema = itemSchema.pick({
+  images: true,
+  titleText: true,
+  selectedCategoryList: true,
+  hasStartDate: true,
+  hasEndDate: true,
+});
+
+export const validationErrorSchema = itemSchema.pick({
+  salePrice: true,
+  commentText: true,
+  linkText: true,
+});
