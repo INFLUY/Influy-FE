@@ -9,8 +9,11 @@ import AdminItemBottomSheet from './AdminItemBottomSheet';
 import RadioBottomSheet from '@/components/seller/common/RadioBottomSheet';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
 import SnackBar from '@/components/common/SnackBar';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/routes/path';
 
 const SellerMyItem = ({ item }: { item: MyItem }) => {
+  const navigate = useNavigate();
   const [isEditItemOpen, setIsEditItemOpen] = useState<boolean>(false);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState<boolean>(false);
   const [isItemDeletedSnackBarOpen, setIsItemDeletedSnackBarOpen] =
@@ -31,8 +34,17 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
     },
   ];
 
+  // 상품 보관, 게시에 따른 이동 경로 정의
+  const buildItemDetailPath = (
+    itemId: number,
+    status: 'archived' | 'published'
+  ) => `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${status}`;
+
   return (
-    <li className="flex cursor-pointer items-center justify-center gap-3 self-stretch px-5">
+    <li
+      className="flex cursor-pointer items-center justify-center gap-3 self-stretch px-5"
+      onClick={() => navigate(buildItemDetailPath(item.itemId, 'published'))}
+    >
       {/* 썸네일 */}
       <div className="relative flex h-[9.125rem] w-30 shrink-0">
         <img
