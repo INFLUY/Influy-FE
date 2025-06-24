@@ -25,7 +25,7 @@ const NoticePage = () => {
   const navigate = useNavigate();
 
   const sellerId = useStrictSellerId();
-  const { data: NOTICES } = useGetNotification({ sellerId });
+  const { data: notices } = useGetNotification({ sellerId });
 
   const handleEditNotice = (announcementId: number, isPrimary: boolean) => {
     setSelectedNotice(announcementId);
@@ -33,10 +33,10 @@ const NoticePage = () => {
     setIsAdminNoticeOpen(true);
   };
 
-  const primaryNotice = NOTICES?.announcements?.find(
+  const primaryNotice = notices?.announcements?.find(
     (notice: NoticeType) => notice.isPrimary
   );
-  const otherNotices = NOTICES?.announcements?.filter(
+  const otherNotices = notices?.announcements?.filter(
     (notice: NoticeType) => !notice.isPrimary
   );
 
@@ -52,7 +52,7 @@ const NoticePage = () => {
       >
         공지사항 편집
       </PageHeader>
-      {NOTICES?.announcements?.length === 0 && (
+      {notices?.announcements?.length === 0 && (
         <div className="flex h-full w-full flex-col items-center justify-center gap-10">
           <div className="flex flex-col items-center justify-center gap-6 text-center">
             <div className="bg-grey03 h-[5.6875rem] w-[8.0625rem]" />
@@ -63,7 +63,7 @@ const NoticePage = () => {
           />
         </div>
       )}
-      {NOTICES?.announcements?.length > 0 && (
+      {notices?.listSize > 0 && (
         <div className="scrollbar-hide flex h-full w-full flex-col items-center gap-4 overflow-y-auto pt-2 pb-24">
           <ul className="flex w-full flex-col items-center">
             {primaryNotice && (

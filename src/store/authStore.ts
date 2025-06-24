@@ -7,7 +7,7 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  sellerId: 0, // 로그인 구현 전 개발을 위한 Default value
+  sellerId: 1, // 로그인 구현 전 개발을 위한 Default value
   setSellerId: (id) => set({ sellerId: id }),
   logout: () => set({ sellerId: null }),
 }));

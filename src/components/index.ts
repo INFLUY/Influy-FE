@@ -18,7 +18,8 @@ export { default as PageHeader } from './common/PageHeader';
 export { ItemList, ItemGrid } from './user/common/Item';
 export { TimeChip, SoldOutChip, ExtendChip } from './user/common/Chip';
 //seller
-export { default as SellerProfileHeader } from './user/SellerProfileHeader';
+export { default as SellerProfileHeader } from './user/seller/SellerProfileHeader';
+export { default as SellerNoticeBottomSheet } from './user/seller/SellerNoticeBottomSheet';
 
 //seller
 //common

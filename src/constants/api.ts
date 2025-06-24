@@ -3,6 +3,8 @@ export const ACCESS_TOKEN_KEY = 'InfluyAccessToken';
 export const API_DOMAINS = {
   //common
   SELLER_ANNOUNCEMENT: '/seller/:sellerId/announcements',
+  SELLER_PRIMARY_ANNOUNCEMENT:
+    '/seller/:sellerId/announcements/primary-announcement',
 
   // seller
   SELLER_MY_ANNOUNCEMENT: '/seller/announcements',

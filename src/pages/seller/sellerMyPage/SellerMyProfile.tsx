@@ -11,11 +11,10 @@ import {
   SnackBar,
 } from '@/components';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { NoticeType } from '@/types/common/NoticeType.types';
 import PlusIcon from '@/assets/icon/common/PlusIcon.svg?react';
 import cn from '@/utils/cn';
-import { useGetNotification } from '@/state/query/notification/useGetNotification';
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
+import { useGetPrimaryNotification } from '@/state/query/notification/useGetPrimaryNotification';
 
 const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const [isLinkSnackBarOpen, setIsLinkSnackBarOpen] = useState<boolean>(false);
@@ -55,11 +54,10 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   };
 
   const sellerId = useStrictSellerId();
-  const { data: NOTICES } = useGetNotification({ sellerId });
 
-  const primaryNotice = NOTICES?.announcements?.find(
-    (notice: NoticeType) => notice.isPrimary
-  );
+  const { data: primaryNotice } = useGetPrimaryNotification({
+    sellerId: Number(sellerId),
+  });
 
   return (
     <div className="flex w-full flex-1 flex-col">
@@ -71,7 +69,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
       <div className="bg-grey02 flex w-full px-5 py-3">
         <NoticeBanner
           title={primaryNotice?.title}
-          count={NOTICES?.announcements?.length}
+          count={primaryNotice?.totalAnnouncements}
           onClickNotice={() => navigate(`./${PATH.SELLER.notice.base}`)}
           seller={true}
         />

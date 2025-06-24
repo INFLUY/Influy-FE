@@ -7,10 +7,9 @@ import {
   NoticeBanner,
   SellerProfileCard,
   SellerProfileHeader,
-  BottomSheet,
+  SellerNoticeBottomSheet,
 } from '@/components';
-import { NoticeType } from '@/types/common/NoticeType.types';
-import { useGetNotification } from '@/state/query/notification/useGetNotification';
+import { useGetPrimaryNotification } from '@/state/query/notification/useGetPrimaryNotification';
 
 const SellerProfile = ({ children }: { children: ReactNode }) => {
   const TABS = [
@@ -32,11 +31,10 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
   ];
 
   const { marketId } = useParams();
-  const { data: NOTICES } = useGetNotification({ sellerId: Number(marketId) });
 
-  const primaryNotice = NOTICES?.announcements?.find(
-    (notice: NoticeType) => notice.isPrimary
-  );
+  const { data: primaryNotice } = useGetPrimaryNotification({
+    sellerId: Number(marketId!),
+  });
 
   return (
     <div className="flex w-full flex-1 flex-col">
@@ -48,45 +46,16 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
       <div className="bg-grey02 flex w-full px-5 py-3">
         <NoticeBanner
           title={primaryNotice?.title}
-          count={NOTICES?.announcements?.length}
+          count={primaryNotice?.totalAnnouncements}
           onClickNotice={() => setIsBottomSheetOpen(true)}
         />
       </div>
       {isBottomSheetOpen && (
-        <BottomSheet
-          onClose={() => setIsBottomSheetOpen(false)}
+        <SellerNoticeBottomSheet
+          marketId={Number(marketId!)}
           isBottomSheetOpen={isBottomSheetOpen}
-        >
-          <div className="flex flex-col items-center gap-7">
-            <h1 className="subhead-b text-grey10 w-full text-center">
-              공지사항
-            </h1>
-            <div className="scrollbar-hide flex h-[70vh] flex-col gap-4 overflow-y-auto pb-8">
-              {NOTICES?.announcements?.length === 0 ? (
-                <div className="flex h-full items-center">
-                  <span className="body2-m text-grey06 pb-20">
-                    아직 등록된 공지가 없습니다.
-                  </span>
-                </div>
-              ) : (
-                NOTICES?.announcements?.map((notice: NoticeType) => (
-                  <div
-                    key={notice.id}
-                    className="border-grey03 flex h-fit w-full flex-col gap-2 border-b px-5 pb-5"
-                  >
-                    <div className="flex flex-col">
-                      <h2 className="body1-m text-grey10">{notice.title}</h2>
-                      <span className="caption-m text-grey05">
-                        {notice.createdAt}
-                      </span>
-                    </div>
-                    <p className="body2-r text-grey09">{notice.content}</p>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-        </BottomSheet>
+          setIsBottomSheetOpen={setIsBottomSheetOpen}
+        />
       )}
       <section className="divide-grey02 flex flex-col divide-y-[12px]">
         {/* 링크 */}

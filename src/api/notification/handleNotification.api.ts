@@ -32,6 +32,17 @@ export const getNotification = async ({ sellerId }: { sellerId: number }) => {
   return response.data.result;
 };
 
+export const getPrimaryNotification = async ({
+  sellerId,
+}: {
+  sellerId: number;
+}) => {
+  const response = await instance.get(
+    generateApiPath(API_DOMAINS.SELLER_PRIMARY_ANNOUNCEMENT, { sellerId })
+  );
+  return response.data.result;
+};
+
 export const deleteNotification = async ({
   announcementId,
 }: {
