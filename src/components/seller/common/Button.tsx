@@ -77,7 +77,12 @@ export const AddButton = ({
       )}
       onClick={() => handleOnClick()}
     >
-      <PlusIcon className="text-grey07 h-5 w-5" />
+      <PlusIcon
+        className={cn('text-grey07', {
+          'h-6 w-6': size === 'large',
+          'h-5 w-5': size === 'base',
+        })}
+      />
       <span>{children}</span>
     </button>
   );
