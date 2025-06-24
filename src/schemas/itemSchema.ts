@@ -10,7 +10,7 @@ export const itemSchema = z
     // 제목
     titleText: z
       .string()
-      .min(1, { message: '상품의 이름을 입력해 주세요.' })
+      .min(1, { message: '제목을 입력해 주세요.' })
       .max(40, { message: '40자 이내로 작성해 주세요.' }),
     // 상품 카테고리
     selectedCategoryList: z

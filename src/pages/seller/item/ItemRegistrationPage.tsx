@@ -10,21 +10,27 @@ import { DefaultButton, Tab, Tabs } from '@/components';
 import { useState, useRef, RefObject, useEffect } from 'react';
 import { PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SnackBar } from '@/components';
 import { PATH } from '@/routes/path';
 
 export const ItemRegistrationPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+
+  const scrollViewRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    scrollViewRef?.current?.scrollIntoView({
+      behavior: 'instant',
+      block: 'center',
+    });
+  }, []);
 
   const [activeTab, setActiveTab] = useState(0);
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
     open: false,
     message: '',
   });
-
-  const isFirstLoad = useRef(true);
 
   // useForm에 Zod 스키마 적용
   const methods = useForm<ItemFormValues>({
@@ -204,34 +210,38 @@ export const ItemRegistrationPage = () => {
           ))}
         </Tabs>
       </section>
-
-      <form
-        onSubmit={handleSubmit(onValid, onInvalid)}
-        className="relative flex h-fit min-h-full min-w-full flex-col"
-      >
-        <section className="pt-8">
-          {activeTab === 0 && (
-            <ItemForm
-              mode="create"
-              imagesWrapperRef={imagesContainerRef}
-              categoryWrapperRef={categoryContainerRef}
-              startDateWrapperRef={startDateContainerRef}
-              endDateWrapperRef={endDateContainerRef}
+      <div className="flex flex-col">
+        <div className="invisible" ref={scrollViewRef} />
+        {/* 폼 */}
+        <form
+          onSubmit={handleSubmit(onValid, onInvalid)}
+          className="relative flex h-fit min-w-full flex-col"
+        >
+          <section className="pt-8">
+            {activeTab === 0 && (
+              <ItemForm
+                mode="create"
+                imagesWrapperRef={imagesContainerRef}
+                categoryWrapperRef={categoryContainerRef}
+                startDateWrapperRef={startDateContainerRef}
+                endDateWrapperRef={endDateContainerRef}
+              />
+            )}
+            {activeTab === 1 && <span>FAQ 내용 준비 중입니다.</span>}
+          </section>
+          {/* 하단 버튼 */}
+          <section className="border-t-grey02 sticky right-0 bottom-0 z-50 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
+            <DefaultButton onClick={onArchive} text="보관하기" />
+            <DefaultButton
+              type="submit"
+              text="게시하기"
+              disabled={isSubmitting || isSubmitButtonDisabled}
+              useDisabled={false}
             />
-          )}
-          {activeTab === 1 && <span>FAQ 내용 준비 중입니다.</span>}
-        </section>
-        {/* 하단 버튼 */}
-        <section className="border-t-grey02 sticky right-0 bottom-0 z-50 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
-          <DefaultButton onClick={onArchive} text="보관하기" />
-          <DefaultButton
-            type="submit"
-            text="게시하기"
-            disabled={isSubmitting || isSubmitButtonDisabled}
-            useDisabled={false}
-          />
-        </section>
-      </form>
+          </section>
+        </form>
+      </div>
+
       {snackbar.open && (
         <SnackBar
           handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
