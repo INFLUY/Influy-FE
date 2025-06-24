@@ -14,13 +14,18 @@ export const postNotification = async ({ data }: { data: NoticePostType }) => {
 export const patchNotification = async ({
   data,
   announcementId,
+  isPrimary,
 }: {
-  data: NoticePostType;
+  data?: NoticePostType;
   announcementId: number;
+  isPrimary?: boolean;
 }) => {
   const response = await instance.patch(
-    generateApiPath(API_DOMAINS.SELLER_MY_ANNOUNCEMENT, { announcementId }),
-    data
+    generateApiPath(API_DOMAINS.SELLER_MY_ANNOUNCEMENT_DETAIL, {
+      announcementId,
+    }),
+    data || {},
+    { params: isPrimary !== undefined ? { isPrimary } : undefined }
   );
   return response.data.result;
 };

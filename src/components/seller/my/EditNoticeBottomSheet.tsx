@@ -2,6 +2,7 @@ import BottomSheet from '@/components/common/BottomSheet';
 import { SetStateAction, useState } from 'react';
 import { SellerModal } from '@/components';
 import { useDeleteNotification } from '@/state/mutation/notification/useDeleteNotification';
+import { usePatchNotification } from '@/state/mutation/notification/usePatchNotification';
 
 const EditNoticeBottomSheet = ({
   announcementId,
@@ -22,24 +23,26 @@ const EditNoticeBottomSheet = ({
   const [isNoticeDeleteModalOpen, setIsNoticeDeleteModalOpen] =
     useState<boolean>(false);
 
+  const { mutate: patchNotice } = usePatchNotification(() => {
+    setIsNoticeSavedSnackBarOpen(true);
+  });
+
   // 핀 고정 해제
   const handlePin = () => {
     if (isPrimary)
       setIsUnpinModalOpen(true); // 핀 고정 해제 모달
     else {
       // 핀 고정 연동
+      patchNotice({ announcementId, isPrimary: true });
       setIsOpen(false);
-      setIsNoticeSavedSnackBarOpen(true);
     }
   };
 
   // 핀 고정 해제 모달 -> 확인
   const handleUnpinConfirm = () => {
-    // 삭제 로직 연동 -> 삭제 버튼 클릭 시 announcementId를 이용하여 삭제
-
+    patchNotice({ announcementId, isPrimary: false });
     setIsUnpinModalOpen(false);
     setIsOpen(false);
-    setIsNoticeSavedSnackBarOpen(true); // 스낵바
   };
 
   // 핀 고정 해제 모달 -> 취소

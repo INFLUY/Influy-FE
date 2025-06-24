@@ -52,7 +52,7 @@ const NoticePage = () => {
       >
         공지사항 편집
       </PageHeader>
-      {notices?.announcements?.length === 0 && (
+      {notices?.listSize === 0 && (
         <div className="flex h-full w-full flex-col items-center justify-center gap-10">
           <div className="flex flex-col items-center justify-center gap-6 text-center">
             <div className="bg-grey03 h-[5.6875rem] w-[8.0625rem]" />
