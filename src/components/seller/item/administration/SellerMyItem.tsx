@@ -43,7 +43,10 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
   return (
     <li
       className="flex cursor-pointer items-center justify-center gap-3 self-stretch px-5"
-      onClick={() => navigate(buildItemDetailPath(item.itemId, 'published'))}
+      onClick={(e) => {
+        e.stopPropagation();
+        navigate(buildItemDetailPath(item.itemId, 'published'));
+      }}
     >
       {/* 썸네일 */}
       <div className="relative flex h-[9.125rem] w-30 shrink-0">
@@ -106,7 +109,10 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
         </div>
         <KebabIcon
           className="flex shrink-0 cursor-pointer"
-          onClick={() => setIsEditItemOpen(true)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsEditItemOpen(true);
+          }}
         />
       </div>
       {isEditItemOpen && (

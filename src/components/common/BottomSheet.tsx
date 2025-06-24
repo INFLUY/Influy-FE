@@ -27,7 +27,13 @@ const BottomSheet = ({
   return (
     <ModalPortal>
       <div className="modal">
-        <div className="modal-bg-bottomsheet-layout" onClick={onClose}>
+        <div
+          className="modal-bg-bottomsheet-layout"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+        >
           <div
             className={cn(
               'flex h-fit flex-col items-center rounded-t-[12px] bg-white',

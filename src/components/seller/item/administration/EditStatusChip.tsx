@@ -18,7 +18,10 @@ const EditStatusChip = ({
   return (
     <div
       className="bg-grey03 text-grey09 caption-m inline-flex w-fit cursor-pointer items-center justify-center gap-[.125rem] rounded-[.125rem] px-2 py-1"
-      onClick={onClick}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
     >
       {children}
       <EditIcon className="text-grey06 h-[.875rem] w-[.875rem]" />

@@ -19,7 +19,7 @@ export const Tab = ({
         'body2-m z-10 -mb-[2px] flex w-full cursor-pointer flex-col items-center gap-2 border-b-2 py-3 text-center',
         additionalStyles,
         {
-          'text-grey03 border-grey03': !isTabActive,
+          'text-grey05 border-grey03': !isTabActive,
         }
       )}
       onClick={handleClickTab}
