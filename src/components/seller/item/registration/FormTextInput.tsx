@@ -71,8 +71,7 @@ export const FormLimitedTextInput = ({
         <div className="mt-1 flex items-center space-x-1">
           <WarningIcon />
           <span className="caption-m text-error">
-            {error?.message?.toString() ||
-              `${maxLength}자 이내로 작성해주세요.`}
+            {maxLength}자 이내로 작성해주세요.
           </span>
         </div>
       )}
@@ -163,7 +162,7 @@ export const FormLinkInput = ({ name }: FormInputProps) => {
         <div className="mt-1 flex items-center space-x-1">
           <WarningIcon />
           <span className="caption-m text-error">
-            {error?.message?.toString()}
+            올바른 양식으로 입력해 주세요.
           </span>
         </div>
       )}

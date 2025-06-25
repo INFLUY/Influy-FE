@@ -93,6 +93,7 @@ export const ItemRegistrationPage = () => {
     selectedCategoryList,
     hasStartDate,
     hasEndDate,
+    price,
     salePrice,
     commentText,
     linkText,
@@ -104,6 +105,7 @@ export const ItemRegistrationPage = () => {
       'selectedCategoryList',
       'hasStartDate',
       'hasEndDate',
+      'price',
       'salePrice',
       'commentText',
       'linkText',
@@ -127,6 +129,7 @@ export const ItemRegistrationPage = () => {
   };
 
   const validationFields = {
+    price,
     salePrice,
     commentText,
     linkText,
@@ -159,8 +162,9 @@ export const ItemRegistrationPage = () => {
   ];
 
   const validationFieldsRef: fieldsToCheck<keyof ItemFormValues>[] = [
+    { name: 'price' },
     { name: 'salePrice' },
-    { name: 'commentText' },
+    { name: 'summaryText' },
     { name: 'linkText' },
   ];
 
@@ -195,7 +199,7 @@ export const ItemRegistrationPage = () => {
   // 필수 항목 미입력 / 유효성 조건 미충족 시 실행
   const handleSubmitFailed = (fieldErrors: Record<string, any>) => {
     // 필수항목 미입력
-    console.log('실패');
+
     for (const field of requiredFieldsRef) {
       if (fieldErrors[field.name]) {
         if (field.name !== 'titleText' && field.ref?.current) {
@@ -210,10 +214,14 @@ export const ItemRegistrationPage = () => {
         const message =
           fieldErrors[field.name]?.message || field.name + ' error';
         setSnackbar({ open: true, message });
-        break;
+        return;
       }
     }
     for (const field of validationFieldsRef) {
+      console.log('실패');
+      console.log(field);
+      console.log('에러: ', fieldErrors);
+
       if (fieldErrors[field.name]) {
         console.log('에러 이름', fieldErrors[field.name]);
 
@@ -221,7 +229,7 @@ export const ItemRegistrationPage = () => {
         const message =
           fieldErrors[field.name]?.message || field.name + ' error';
         setSnackbar({ open: true, message });
-        break;
+        return;
       }
     }
   };

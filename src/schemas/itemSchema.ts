@@ -34,15 +34,18 @@ export const itemSchema = z
     // 마감일
     endISODateTime: z.iso.datetime().nullable(),
     // 한 줄 소개
-    summaryText: z.string().max(18, '18자 이내로 작성해 주세요.').nullable(),
+    summaryText: z
+      .string()
+      .max(18, '한 줄 소개를 18자 이내로 작성해 주세요')
+      .nullable(),
     // 가격 정가
-    price: z.coerce.number().gt(0).nullable(),
+    price: z.union([z.coerce.number().nullable().optional(), z.nan()]),
     // 가격 할인가
-    salePrice: z.coerce.number().nullable().optional(),
+    salePrice: z.union([z.coerce.number().nullable().optional(), z.nan()]),
     // 판매 링크
     linkText: z
       .union([z.literal(''), z.url()], {
-        message: '올바른 양식으로 입력해 주세요.',
+        message: '판매링크를 올바르게 입력해 주세요.',
       })
       .nullable(),
     //진행 회차
@@ -53,7 +56,40 @@ export const itemSchema = z
   .refine((data) => {
     // hasStartDate === (startISODateTime !== null)
     return (data.startISODateTime !== null) === data.hasStartDate;
-  });
+  })
+  .refine((val) => !(val.salePrice && !val.price), {
+    path: ['price'],
+    message: '정가를 입력해주세요.',
+  })
+  .refine(
+    ({ salePrice, price }) =>
+      salePrice == null || // 할인가가 없으면 검사 건너뛰기
+      price == null || // 정가가 없으면 검사 건너뛰기
+      salePrice <= price, // 둘 다 있으면 할인가 ≤ 정가 이어야 통과
+    {
+      path: ['salePrice'],
+      message: '할인가가 정가보다 높습니다.',
+    }
+  );
+// .check((ctx) => {
+//   console.log('itemSchema check', ctx.value);
+//   if (ctx.value.salePrice == null) return; // 입력 없으면 OK
+//   if (ctx.value.price == null && ctx.value.salePrice != null) {
+//     console.warn('price is null, skipping salePrice validation');
+//     ctx.issues.push({
+//       code: 'custom',
+//       message: `No duplicates allowed.`,
+//       input: ctx.value,
+//     });
+//   }
+// else if (salePrice >= price) {
+//   ctx.addIssue({
+//     path: ['salePrice'],
+//     code: z.ZodIssueCode.custom,
+//     message: '할인가가 정가보다 작아야 합니다.',
+//   });
+// }
+// });
 
 // zod.pick으로 필요한 필드만 따로 검증 가능
 export const requiredFieldsSchema = itemSchema.pick({
