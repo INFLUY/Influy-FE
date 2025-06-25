@@ -87,30 +87,17 @@ export const ItemRegistrationPage = () => {
   ];
 
   // 유효성 검사 대상 필드 값 구독 (사진, 제목, 카테고리, 시작일 마감일 ... )
-  const [
-    images,
-    titleText,
-    selectedCategoryList,
-    hasStartDate,
-    hasEndDate,
-    price,
-    salePrice,
-    commentText,
-    linkText,
-  ] = useWatch({
-    control,
-    name: [
-      'images',
-      'titleText',
-      'selectedCategoryList',
-      'hasStartDate',
-      'hasEndDate',
-      'price',
-      'salePrice',
-      'commentText',
-      'linkText',
-    ] as const,
-  });
+  const [images, titleText, selectedCategoryList, hasStartDate, hasEndDate] =
+    useWatch({
+      control,
+      name: [
+        'images',
+        'titleText',
+        'selectedCategoryList',
+        'hasStartDate',
+        'hasEndDate',
+      ] as const,
+    });
 
   /*
    * 게시하기 버튼 정리
@@ -128,13 +115,7 @@ export const ItemRegistrationPage = () => {
     hasEndDate,
   };
 
-  const validationFields = {
-    price,
-    salePrice,
-    commentText,
-    linkText,
-  };
-
+  // 게시하기 버튼 활성화 조건 : 필수항목 4개 입력
   const isRequiredIncomplete =
     !requiredFieldsSchema.safeParse(requiredFields).success;
 
@@ -199,7 +180,6 @@ export const ItemRegistrationPage = () => {
   // 필수 항목 미입력 / 유효성 조건 미충족 시 실행
   const handleSubmitFailed = (fieldErrors: Record<string, any>) => {
     // 필수항목 미입력
-
     for (const field of requiredFieldsRef) {
       if (fieldErrors[field.name]) {
         if (field.name !== 'titleText' && field.ref?.current) {
@@ -217,14 +197,10 @@ export const ItemRegistrationPage = () => {
         return;
       }
     }
+
+    // 필드 에러
     for (const field of validationFieldsRef) {
-      console.log('실패');
-      console.log(field);
-      console.log('에러: ', fieldErrors);
-
       if (fieldErrors[field.name]) {
-        console.log('에러 이름', fieldErrors[field.name]);
-
         setFocus(field.name);
         const message =
           fieldErrors[field.name]?.message || field.name + ' error';
@@ -236,6 +212,7 @@ export const ItemRegistrationPage = () => {
 
   const onArchive = () => {
     // 보관하기 로직 추가
+
     //임시
     const itemId: number = 1;
 

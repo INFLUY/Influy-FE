@@ -74,6 +74,8 @@ export const ItemForm = ({
     control,
   });
 
+  // startISODateTime null: "시작일 없음" 체크 상태 (유효한 상태)
+  // startISODateTime undefined: 시작일 상태 자체를 선택 안 한 상태 (유효하지 않은 상태)
   const handleNoStartDate = () => {
     if (startISODateTime) {
       onStartISOChange(null);
@@ -86,6 +88,7 @@ export const ItemForm = ({
     }
   };
 
+  console.log('시작일: ', startISODateTime, ' --- has: ', hasStartDate);
   const handleNoEndDate = () => {
     if (endISODateTime) {
       onEndISOChange(null);

@@ -13,7 +13,7 @@ export const itemSchema = z
     titleText: z
       .string()
       .min(1, { message: '제목을 입력해 주세요.' })
-      .max(40, { message: '40자 이내로 작성해 주세요.' }),
+      .max(40, { message: '제목은 40자 이내로 작성해 주세요.' }),
     // 상품 카테고리
     selectedCategoryList: z
       .array(z.string())
@@ -53,10 +53,6 @@ export const itemSchema = z
     // 코멘트
     commentText: z.string().nullable(),
   })
-  .refine((data) => {
-    // hasStartDate === (startISODateTime !== null)
-    return (data.startISODateTime !== null) === data.hasStartDate;
-  })
   .refine((val) => !(val.salePrice && !val.price), {
     path: ['price'],
     message: '정가를 입력해주세요.',
@@ -71,25 +67,6 @@ export const itemSchema = z
       message: '할인가가 정가보다 높습니다.',
     }
   );
-// .check((ctx) => {
-//   console.log('itemSchema check', ctx.value);
-//   if (ctx.value.salePrice == null) return; // 입력 없으면 OK
-//   if (ctx.value.price == null && ctx.value.salePrice != null) {
-//     console.warn('price is null, skipping salePrice validation');
-//     ctx.issues.push({
-//       code: 'custom',
-//       message: `No duplicates allowed.`,
-//       input: ctx.value,
-//     });
-//   }
-// else if (salePrice >= price) {
-//   ctx.addIssue({
-//     path: ['salePrice'],
-//     code: z.ZodIssueCode.custom,
-//     message: '할인가가 정가보다 작아야 합니다.',
-//   });
-// }
-// });
 
 // zod.pick으로 필요한 필드만 따로 검증 가능
 export const requiredFieldsSchema = itemSchema.pick({
@@ -98,10 +75,4 @@ export const requiredFieldsSchema = itemSchema.pick({
   selectedCategoryList: true,
   hasStartDate: true,
   hasEndDate: true,
-});
-
-export const validationErrorSchema = itemSchema.pick({
-  salePrice: true,
-  commentText: true,
-  linkText: true,
 });
