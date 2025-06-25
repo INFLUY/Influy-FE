@@ -3,7 +3,11 @@ import { useForm, FormProvider, useWatch } from 'react-hook-form';
  * 추후 hookform/resolvers 업데이트 상황 보고 업데이트 필요
  */ //github.com/react-hook-form/resolvers/issues/768
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
-import { itemSchema, requiredFieldsSchema } from '@/schemas/itemSchema';
+import {
+  itemSchema,
+  requiredFieldsSchema,
+  requiredTitleSchema,
+} from '@/schemas/itemSchema';
 import { ItemFormValues } from '@/types/item.types';
 import { ItemForm } from '@/components/seller/item/registration/ItemForm';
 import { DefaultButton, Tab, Tabs } from '@/components';
@@ -13,6 +17,8 @@ import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { SnackBar } from '@/components';
 import { PATH } from '@/routes/path';
+import { error } from 'zod/v4/locales/ar.js';
+import { ZodError } from 'zod/v4';
 
 //필수 항목 타입 정의
 type fieldsToCheck<FieldNames extends string> = {
@@ -210,8 +216,21 @@ export const ItemRegistrationPage = () => {
     }
   };
 
+  // 보관하기 버튼 활성화 조건: 제목 입력
+  const titleValidationResult = itemSchema
+    .pick({
+      titleText: true,
+    })
+    .safeParse({ titleText });
+
   const onArchive = () => {
-    // 보관하기 로직 추가
+    if (!titleValidationResult.success) {
+      const message =
+        titleValidationResult.error.issues[0].message ?? '제목 오류';
+      console.log(message);
+      setSnackbar({ open: true, message });
+      return;
+    }
 
     //임시
     const itemId: number = 1;
@@ -269,7 +288,12 @@ export const ItemRegistrationPage = () => {
           </section>
           {/* 하단 버튼 */}
           <section className="border-t-grey02 sticky right-0 bottom-0 z-50 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
-            <DefaultButton onClick={onArchive} text="보관하기" />
+            <DefaultButton
+              onClick={onArchive}
+              text="보관하기"
+              disabled={!titleValidationResult.success}
+              useDisabled={false}
+            />
             <DefaultButton
               type="submit"
               text="게시하기"

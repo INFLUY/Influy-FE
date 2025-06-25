@@ -68,11 +68,15 @@ export const itemSchema = z
     }
   );
 
-// zod.pick으로 필요한 필드만 따로 검증 가능
+// zod.pick으로 필요한 필드만 따로 검증
 export const requiredFieldsSchema = itemSchema.pick({
   images: true,
   titleText: true,
   selectedCategoryList: true,
   hasStartDate: true,
   hasEndDate: true,
+});
+
+export const requiredTitleSchema = itemSchema.pick({
+  titleText: true,
 });
