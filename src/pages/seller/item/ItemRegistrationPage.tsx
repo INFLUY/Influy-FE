@@ -296,7 +296,7 @@ export const ItemRegistrationPage = () => {
             />
             <DefaultButton
               type="submit"
-              text="게시하기"
+              text="이대로 게시하기"
               disabled={isSubmitting || isRequiredIncomplete}
               useDisabled={false}
             />

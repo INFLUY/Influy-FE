@@ -57,9 +57,10 @@ export const ItemDetailInfo = ({
           </Swiper>
         )}
 
+        {/* 진행 회차 뱃지 */}
         {status === 'published' && data.itemPeriod && data.itemPeriod > 1 && (
-          <div className="body2-sb absolute top-[.875rem] left-[.875rem] z-1 flex h-[1.6875rem] items-center justify-center rounded-[.0767rem] bg-[#45ABEB] px-[.7671rem] text-white">
-            {data.itemPeriod}차 진행
+          <div className="body2-sb bg-grey10 absolute top-0 left-0 z-1 flex h-[1.6875rem] items-center justify-center rounded-[.0767rem] px-[.7671rem] text-white">
+            {data.itemPeriod}차
           </div>
         )}
         {data.itemImgList && data.itemImgList.length > 1 && (
