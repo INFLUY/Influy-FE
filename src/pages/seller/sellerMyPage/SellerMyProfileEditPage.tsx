@@ -128,6 +128,8 @@ const SellerMyProfileEditPage = () => {
             <FormEmailInput<SellerProfileEditValues> name="email" />
           </ProfileEditWrapper>
         </div>
+
+        {/* 저장하기 버튼 */}
         <section className="fixed bottom-0 z-50 flex w-screen max-w-[40rem] min-w-[20rem] shrink-0 items-center justify-center gap-[.4375rem] border-0 bg-white px-5 pt-2.5 pb-4 md:w-[28rem]">
           <DefaultButton
             type="submit"

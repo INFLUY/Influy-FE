@@ -1,6 +1,6 @@
 import { ItemDetail, ItemStatus } from '@/types/common/ItemType.types';
 import { ItemDetailProfile } from '@/components';
-import { RefObject, useState } from 'react';
+import { useState } from 'react';
 import cn from '@/utils/cn';
 import DowndownArrowIcon from '@/assets/icon/common/DropdownArrow.svg?react';
 import { getTimeChipText } from '@/components/user/common/Chip';
