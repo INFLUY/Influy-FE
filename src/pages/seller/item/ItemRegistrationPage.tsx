@@ -190,7 +190,6 @@ export const ItemRegistrationPage = () => {
         } else {
           setFocus(field.name);
         }
-        console.log(fieldErrors[field.name]);
         const message =
           fieldErrors[field.name]?.message || field.name + ' error';
         setSnackbar({ open: true, message });
@@ -221,7 +220,6 @@ export const ItemRegistrationPage = () => {
     if (!titleValidationResult.success) {
       const message =
         titleValidationResult.error.issues[0].message ?? '제목 오류';
-      console.log(message);
       setSnackbar({ open: true, message });
       return;
     }

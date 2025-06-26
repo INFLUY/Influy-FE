@@ -88,7 +88,6 @@ export const ItemForm = ({
     }
   };
 
-  console.log('시작일: ', startISODateTime, ' --- has: ', hasStartDate);
   const handleNoEndDate = () => {
     if (endISODateTime) {
       onEndISOChange(null);
