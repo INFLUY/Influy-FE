@@ -19,6 +19,7 @@ import {
   MyItemReviewTab,
   MyStoredItemTab,
   Notice,
+  SellerMyProfileEditPage,
   FaqRegistrationCategoryPage,
   SellerItemDetailPage,
 } from '@/pages';
@@ -107,6 +108,16 @@ const router = createBrowserRouter([
               {
                 index: true,
                 element: <Notice />,
+              },
+            ],
+          },
+          {
+            path: PATH.SELLER.edit.base,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: <SellerMyProfileEditPage />,
               },
             ],
           },
