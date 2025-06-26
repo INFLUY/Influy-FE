@@ -10,6 +10,7 @@ import { BottomNavItem } from '@/components/common/BottomNavBar';
 import Link2Icon from '@/assets/icon/common/Link2Icon.svg?react';
 import LockIcon from '@/assets/icon/common/LockIcon.svg?react';
 import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 
 const dummySellerInfo: SellerCard = {
   id: 1,
@@ -90,6 +91,7 @@ const SellerItemDetailPage = () => {
       aria: '상품 수정',
     }, //추후 상품 페이지로 이동하도록 수정 필요
   ];
+  const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
 
   return (
     <>
@@ -111,6 +113,10 @@ const SellerItemDetailPage = () => {
       >
         <div className="h-[1.6875rem]" />
       </PageHeader>
+
+      {/* 상단 스크롤을 위한 ref */}
+      <div className="invisible" ref={scrollViewRef} />
+
       {/* 상단 상품 정보 파트 */}
       <ItemDetailInfo data={dummyItem} status={status} />
 

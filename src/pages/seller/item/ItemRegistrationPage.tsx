@@ -13,6 +13,7 @@ import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { SnackBar } from '@/components';
 import { PATH } from '@/routes/path';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 
 //필수 항목 타입 정의
 type fieldsToCheck<FieldNames extends string> = {
@@ -29,9 +30,6 @@ export const ItemRegistrationPage = () => {
 
   const navigate = useNavigate();
 
-  //페이지 진입시 상단 스크롤을 위한 ref
-  const entryScrollAnchorRef = useRef<HTMLDivElement | null>(null);
-
   // 필수 요소 미입력시 스크롤 이동을 위한 ref
   const imagesFieldRef = useRef<HTMLDivElement | null>(null);
   const categoryFieldRef = useRef<HTMLDivElement | null>(null);
@@ -39,12 +37,7 @@ export const ItemRegistrationPage = () => {
   const endDateFieldRef = useRef<HTMLDivElement | null>(null);
 
   // 페이지 진입시 스크롤 상단으로 이동
-  useEffect(() => {
-    entryScrollAnchorRef?.current?.scrollIntoView({
-      behavior: 'instant',
-      block: 'center',
-    });
-  }, []);
+  const scrollViewRef = useScrollToTop();
 
   // 상품 보관, 게시에 따른 이동 경로 정의
   const buildItemDetailPath = (
@@ -260,7 +253,7 @@ export const ItemRegistrationPage = () => {
         </Tabs>
       </section>
       <div className="flex flex-col">
-        <div className="invisible" ref={entryScrollAnchorRef} />
+        <div className="invisible" ref={scrollViewRef} />
         {/* 폼 */}
         <form
           onSubmit={handleSubmit(handleSubmitSuccess, handleSubmitFailed)}
