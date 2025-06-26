@@ -7,7 +7,7 @@ import { itemSchema, requiredFieldsSchema } from '@/schemas/itemSchema';
 import { ItemFormValues } from '@/types/item.types';
 import { ItemForm } from '@/components/seller/item/registration/ItemForm';
 import { DefaultButton, Tab, Tabs } from '@/components';
-import { useState, useRef, RefObject, useEffect } from 'react';
+import { useState, useRef, RefObject } from 'react';
 import { PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
