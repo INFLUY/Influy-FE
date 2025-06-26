@@ -1,12 +1,17 @@
-import { useFormContext, useController } from 'react-hook-form';
+import {
+  useFormContext,
+  useController,
+  FieldValues,
+  Path,
+} from 'react-hook-form';
 import useAutoResizeTextArea from '@/hooks/useAutoResizeTextArea';
 import cn from '@/utils/cn';
 import WarningIcon from '@/assets/icon/common/Warning.svg?react';
 import { ItemFormValues } from '@/types/item.types';
 import { useRef, useMemo, useEffect, useState } from 'react';
 
-interface FormLimitedTextInputProps {
-  name: keyof ItemFormValues; // 폼 필드 이름 ('titleText' 같은 것)
+interface FormLimitedTextInputProps<T extends FieldValues> {
+  name: Path<T>; // 폼 필드 이름 ('titleText' 같은 것)
   maxLength: number;
   placeHolderContent: string;
   ref?: React.RefObject<HTMLDivElement>;
@@ -17,12 +22,12 @@ interface FormInputProps {
   name: keyof ItemFormValues;
 }
 
-export const FormLimitedTextInput = ({
+export const FormLimitedTextInput = <T extends FieldValues>({
   name,
   maxLength,
   placeHolderContent,
-}: FormLimitedTextInputProps) => {
-  const { control } = useFormContext();
+}: FormLimitedTextInputProps<T>) => {
+  const { control } = useFormContext<T>();
 
   const {
     field: { value, onChange, ref },

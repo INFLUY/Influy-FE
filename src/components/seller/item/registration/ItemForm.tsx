@@ -131,7 +131,7 @@ export const ItemForm = ({
 
       {/* 제목 */}
       <ItemSection label="제목 *">
-        <FormLimitedTextInput
+        <FormLimitedTextInput<ItemFormValues>
           name="titleText"
           maxLength={40}
           placeHolderContent="상품의 이름을 입력해 주세요."
@@ -273,7 +273,7 @@ export const ItemForm = ({
         label="한 줄 소개 *"
         tooltipText="제품의 특징을 간단하게 소개해 주세요!"
       >
-        <FormLimitedTextInput
+        <FormLimitedTextInput<ItemFormValues>
           name="summaryText"
           maxLength={18}
           placeHolderContent="제품 한 줄 소개를 입력해 주세요."
