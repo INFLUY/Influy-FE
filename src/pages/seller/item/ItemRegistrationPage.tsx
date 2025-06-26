@@ -214,6 +214,7 @@ export const ItemRegistrationPage = () => {
       const message =
         titleValidationResult.error.issues[0].message ?? '제목 오류';
       setSnackbar({ open: true, message });
+      setFocus('titleText');
       return;
     }
 
