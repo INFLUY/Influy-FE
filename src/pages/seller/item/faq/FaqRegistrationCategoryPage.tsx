@@ -7,7 +7,7 @@ import {
 } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import FolderIcon from '@/assets/icon/seller/FolderIcon.svg?react';
-import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
+import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { CategoryType } from '@/types/common/CategoryType.types';

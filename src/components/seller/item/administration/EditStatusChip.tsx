@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
+import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import {
   formatTime,
   getDday,
