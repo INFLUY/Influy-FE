@@ -29,7 +29,7 @@ export const ItemDetailInfo = ({
       ((data.regularPrice - data.salePrice) / data.regularPrice) * 100
     );
   return (
-    <section className="flex w-full flex-col">
+    <section className="mb-20 flex w-full flex-col">
       <div className="relative h-[23.8125rem] w-full">
         {data.itemImgList && (
           <Swiper

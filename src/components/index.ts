@@ -10,6 +10,7 @@ export { Tab, Tabs } from './common/Tab';
 export { default as SnackBar } from './common/SnackBar';
 export { default as ScrapButton } from './common/ScrapButton';
 export { default as PageHeader } from './common/PageHeader';
+export { BottomNavBar } from './common/BottomNavBar';
 
 // common/item
 export { ItemDetailInfo } from './common/item/ItemDetailInfo';
