@@ -74,6 +74,8 @@ export const ItemForm = ({
     control,
   });
 
+  // startISODateTime null: "시작일 없음" 체크 상태 (유효한 상태)
+  // startISODateTime undefined: 시작일 상태 자체를 선택 안 한 상태 (유효하지 않은 상태)
   const handleNoStartDate = () => {
     if (startISODateTime) {
       onStartISOChange(null);
@@ -279,7 +281,7 @@ export const ItemForm = ({
       </ItemSection>
 
       {/* 가격 */}
-      <ItemSection label="가격 *">
+      <ItemSection label="가격">
         <div className="flex w-full flex-col items-start gap-3">
           <div className="flex w-full flex-col items-start justify-center gap-1.5">
             <p className="caption-m">정가</p>

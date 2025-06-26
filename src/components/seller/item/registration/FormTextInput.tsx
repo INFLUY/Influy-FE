@@ -34,8 +34,6 @@ export const FormLimitedTextInput = ({
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  useAutoResizeTextArea(textareaRef, value);
-
   return (
     <div className="flex w-full flex-col">
       <div
@@ -52,11 +50,10 @@ export const FormLimitedTextInput = ({
             ref(e);
             textareaRef.current = e;
           }}
-          value={value}
+          rows={2}
           onChange={onChange}
           placeholder={placeHolderContent}
           className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
-          rows={1}
         />
         <div className="caption-m text-grey06 flex h-[1.3125rem] items-center">
           <span
@@ -71,8 +68,7 @@ export const FormLimitedTextInput = ({
         <div className="mt-1 flex items-center space-x-1">
           <WarningIcon />
           <span className="caption-m text-error">
-            {error?.message?.toString() ||
-              `${maxLength}자 이내로 작성해주세요.`}
+            {maxLength}자 이내로 작성해주세요.
           </span>
         </div>
       )}
@@ -163,7 +159,7 @@ export const FormLinkInput = ({ name }: FormInputProps) => {
         <div className="mt-1 flex items-center space-x-1">
           <WarningIcon />
           <span className="caption-m text-error">
-            {error?.message?.toString()}
+            올바른 양식으로 입력해 주세요.
           </span>
         </div>
       )}

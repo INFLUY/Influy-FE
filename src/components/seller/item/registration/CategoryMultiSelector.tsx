@@ -3,7 +3,7 @@ import CategoryChip from '../../common/CategoryChip';
 import { ItemFormValues } from '@/types/item.types';
 import { useFormContext, useController } from 'react-hook-form';
 import { CategoryType } from '@/types/common/CategoryType.types';
-
+import { CATEGORY_MAX_COUNT } from '@/schemas/itemSchema';
 interface CategoryMultiSelectorProps {
   name: keyof ItemFormValues; // 폼 필드 이름
   categoryList: CategoryType[];
@@ -20,11 +20,11 @@ export const CategoryMultiSelector = memo(
       name,
       control,
     });
-    const handleClickCategory = (categoryId: number) => {
-      if (selectedList.includes(categoryId)) {
-        onChange(selectedList.filter((item: number) => item !== categoryId));
-      } else if (selectedList.length < 3) {
-        onChange([...selectedList, categoryId]);
+    const handleClickCategory = (category: string) => {
+      if (selectedList.includes(category)) {
+        onChange(selectedList.filter((item: string) => item !== category));
+      } else if (selectedList.length < CATEGORY_MAX_COUNT) {
+        onChange([...selectedList, category]);
       }
     };
 
@@ -36,8 +36,8 @@ export const CategoryMultiSelector = memo(
             <CategoryChip
               key={category.id}
               text={category.category}
-              isSelected={selectedList.includes(category.id)}
-              onToggle={() => handleClickCategory(category.id)}
+              isSelected={selectedList.includes(category.category)}
+              onToggle={() => handleClickCategory(category.category)}
             />
           ))}
         </div>
@@ -46,8 +46,8 @@ export const CategoryMultiSelector = memo(
             <CategoryChip
               key={category.id}
               text={category.category}
-              isSelected={selectedList.includes(category.id)}
-              onToggle={() => handleClickCategory(category.id)}
+              isSelected={selectedList.includes(category.category)}
+              onToggle={() => handleClickCategory(category.category)}
             />
           ))}
         </div>
@@ -56,8 +56,8 @@ export const CategoryMultiSelector = memo(
             <CategoryChip
               key={category.id}
               text={category.category}
-              isSelected={selectedList.includes(category.id)}
-              onToggle={() => handleClickCategory(category.id)}
+              isSelected={selectedList.includes(category.category)}
+              onToggle={() => handleClickCategory(category.category)}
             />
           ))}
         </div>
