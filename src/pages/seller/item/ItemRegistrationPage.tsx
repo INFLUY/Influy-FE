@@ -3,11 +3,7 @@ import { useForm, FormProvider, useWatch } from 'react-hook-form';
  * 추후 hookform/resolvers 업데이트 상황 보고 업데이트 필요
  */ //github.com/react-hook-form/resolvers/issues/768
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
-import {
-  itemSchema,
-  requiredFieldsSchema,
-  requiredTitleSchema,
-} from '@/schemas/itemSchema';
+import { itemSchema, requiredFieldsSchema } from '@/schemas/itemSchema';
 import { ItemFormValues } from '@/types/item.types';
 import { ItemForm } from '@/components/seller/item/registration/ItemForm';
 import { DefaultButton, Tab, Tabs } from '@/components';
@@ -17,8 +13,6 @@ import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { SnackBar } from '@/components';
 import { PATH } from '@/routes/path';
-import { error } from 'zod/v4/locales/ar.js';
-import { ZodError } from 'zod/v4';
 
 //필수 항목 타입 정의
 type fieldsToCheck<FieldNames extends string> = {
