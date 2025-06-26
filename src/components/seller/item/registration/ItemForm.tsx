@@ -285,18 +285,18 @@ export const ItemForm = ({
         <div className="flex w-full flex-col items-start gap-3">
           <div className="flex w-full flex-col items-start justify-center gap-1.5">
             <p className="caption-m">정가</p>
-            <FormPriceInput name="price" />
+            <FormPriceInput<ItemFormValues> name="price" />
           </div>
           <div className="flex w-full flex-col items-start justify-center gap-1.5">
             <p className="caption-m">할인가</p>
-            <FormSalePriceInput name="salePrice" />
+            <FormSalePriceInput<ItemFormValues> name="salePrice" />
           </div>
         </div>
       </ItemSection>
 
       {/* 판매 링크 */}
       <ItemSection label="판매 링크">
-        <FormLinkInput name="linkText" />
+        <FormLinkInput<ItemFormValues> name="linkText" />
       </ItemSection>
 
       {/* 진행 회차 */}
