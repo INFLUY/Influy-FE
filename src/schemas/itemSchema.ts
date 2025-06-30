@@ -36,7 +36,7 @@ export const itemSchema = z
     // 한 줄 소개
     summaryText: z
       .string()
-      .max(40, '한 줄 소개를 40자 이내로 작성해 주세요')
+      .max(18, '한 줄 소개를 18자 이내로 작성해 주세요')
       .nullable(),
     // 가격 정가
     price: z.union([z.coerce.number().nullable().optional(), z.nan()]),

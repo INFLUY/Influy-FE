@@ -2,7 +2,6 @@ import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
 import HeartIcon from '@/assets/icon/common/HeartNavbar.svg?react';
 import CalendarIcon from '@/assets/icon/common/CalendarNavbar.svg?react';
 import MyIcon from '@/assets/icon/common/MyNavbar.svg?react';
-import { PATH } from '@/routes/path';
 
 import { NavLink } from 'react-router-dom';
 import cn from '@/utils/cn';
@@ -22,25 +21,25 @@ interface BottomNavBarProps {
 
 const navItems: BottomNavItem[] = [
   {
-    to: PATH.SELLER.base, // 임시, 수정 필요
+    to: '/my-market',
     label: '홈',
     icon: <HomeIcon className="h-6 w-6" />,
     aria: '홈',
   },
   {
-    to: PATH.SELLER.base, // 임시, 수정 필요
+    to: '/my-market',
     label: '찜',
     icon: <HeartIcon className="h-6 w-6" />,
     aria: '찜',
   },
   {
-    to: PATH.SELLER.base, // 임시, 수정 필요
+    to: '/my-market',
     label: '캘린더',
     icon: <CalendarIcon className="h-6 w-6" />,
     aria: '캘린더',
   },
   {
-    to: PATH.SELLER.tabs.selection,
+    to: '/my-market',
     label: '마이',
     icon: <MyIcon className="h-6 w-6" />,
     aria: '마이',
@@ -53,7 +52,7 @@ export const BottomNavBar = ({
 }: BottomNavBarProps) => {
   return (
     <nav
-      className="border-t-grey03 bg-grey01 fixed bottom-0 z-40 flex w-full max-w-[40rem] min-w-[20rem] flex-col items-start border-t border-solid px-[1.375rem] pt-2.5 pb-[1.5625rem] md:w-[28rem]"
+      className="border-t-grey03 bg-grey01 fixed bottom-0 z-50 flex w-full max-w-[40rem] min-w-[20rem] flex-col items-start border-t border-solid px-[1.375rem] pt-2.5 pb-[1.5625rem] md:w-[28rem]"
       aria-label="하단 네비게이션 바"
       role="navigation"
     >

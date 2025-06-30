@@ -126,7 +126,7 @@ export const FormLinkInput = <T extends FieldValues>({
   const { control } = useFormContext<T>();
 
   const {
-    field: { value: text, onChange },
+    field: { value: text, onChange, ref },
     fieldState: { error },
   } = useController({
     name,
@@ -134,6 +134,8 @@ export const FormLinkInput = <T extends FieldValues>({
   });
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useAutoResizeTextArea(textareaRef, text);
 
   return (
     <div className="flex w-full flex-col">
@@ -145,12 +147,15 @@ export const FormLinkInput = <T extends FieldValues>({
         )}
       >
         <textarea
-          ref={textareaRef}
+          ref={(e) => {
+            ref(e);
+            textareaRef.current = e;
+          }}
           value={text}
           onChange={(e) => onChange(e.target.value)}
           placeholder="https://"
           className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
-          rows={2}
+          rows={1}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault(); // Enter 키 입력 방지
