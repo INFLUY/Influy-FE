@@ -131,7 +131,7 @@ export const ItemForm = ({
 
       {/* 제목 */}
       <ItemSection label="제목 *">
-        <FormLimitedTextInput
+        <FormLimitedTextInput<ItemFormValues>
           name="titleText"
           maxLength={40}
           placeHolderContent="상품의 이름을 입력해 주세요."
@@ -273,9 +273,9 @@ export const ItemForm = ({
         label="한 줄 소개 *"
         tooltipText="제품의 특징을 간단하게 소개해 주세요!"
       >
-        <FormLimitedTextInput
+        <FormLimitedTextInput<ItemFormValues>
           name="summaryText"
-          maxLength={40}
+          maxLength={18}
           placeHolderContent="제품 한 줄 소개를 입력해 주세요."
         />
       </ItemSection>
@@ -285,18 +285,18 @@ export const ItemForm = ({
         <div className="flex w-full flex-col items-start gap-3">
           <div className="flex w-full flex-col items-start justify-center gap-1.5">
             <p className="caption-m">정가</p>
-            <FormPriceInput name="price" />
+            <FormPriceInput<ItemFormValues> name="price" />
           </div>
           <div className="flex w-full flex-col items-start justify-center gap-1.5">
             <p className="caption-m">할인가</p>
-            <FormSalePriceInput name="salePrice" />
+            <FormSalePriceInput<ItemFormValues> name="salePrice" />
           </div>
         </div>
       </ItemSection>
 
       {/* 판매 링크 */}
       <ItemSection label="판매 링크">
-        <FormLinkInput name="linkText" />
+        <FormLinkInput<ItemFormValues> name="linkText" />
       </ItemSection>
 
       {/* 진행 회차 */}

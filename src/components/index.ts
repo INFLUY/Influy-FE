@@ -36,7 +36,15 @@ export { default as CategoryChip } from './seller/common/CategoryChip';
 export { default as RadioInputSelector } from './seller/common/RadioInputSelector';
 export { default as SellerModal } from './seller/common/SellerModal';
 export { default as RadioBottomSheet } from './seller/common/RadioBottomSheet';
-
+export {
+  FormWideTextArea,
+  FormLimitedTextInput,
+  FormLinkInput,
+  FormPriceInput,
+  FormSalePriceInput,
+  FormEmailInput,
+  FormSNSInput,
+} from './common/FormTextInput';
 //item
 export { CategoryMultiSelector } from './seller/item/registration/CategoryMultiSelector';
 export {
@@ -54,7 +62,11 @@ export { default as SellerMyProfileHeader } from './seller/my/SellerMyProfileHea
 export { default as AddNoticeBottomSheet } from './seller/my/AddNoticeBottomSheet';
 export { default as EditNoticeBottomSheet } from './seller/my/EditNoticeBottomSheet';
 export { default as AddNoticeButton } from './seller/my/AddNoticeButton';
-
+export {
+  ProfileEditWrapper,
+  ProfileImageUploader,
+  BackgroundImageUploader,
+} from './seller/my/SellerMyProfileEdit';
 export { ItemImageUploader } from './seller/item/registration/ItemImageUploader';
 export { PeriodDropdown } from './seller/item/registration/PeriodDropdown';
 export {
@@ -63,10 +75,3 @@ export {
   DateTimePicker,
 } from './seller/item/registration/DateTimePicker';
 export { ItemSection } from './seller/item/registration/ItemSection';
-export {
-  FormWideTextArea,
-  FormLimitedTextInput,
-  FormLinkInput,
-  FormPriceInput,
-  FormSalePriceInput,
-} from './seller/item/registration/FormTextInput';

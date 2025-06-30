@@ -1,28 +1,33 @@
-import { useFormContext, useController } from 'react-hook-form';
+import {
+  useFormContext,
+  useController,
+  FieldValues,
+  Path,
+} from 'react-hook-form';
 import useAutoResizeTextArea from '@/hooks/useAutoResizeTextArea';
 import cn from '@/utils/cn';
 import WarningIcon from '@/assets/icon/common/Warning.svg?react';
-import { ItemFormValues } from '@/types/item.types';
 import { useRef, useMemo, useEffect, useState } from 'react';
 
-interface FormLimitedTextInputProps {
-  name: keyof ItemFormValues; // 폼 필드 이름 ('titleText' 같은 것)
+interface FormLimitedTextInputProps<T extends FieldValues> {
+  name: Path<T>; // 폼 필드 이름 ('titleText' 같은 것)
   maxLength: number;
   placeHolderContent: string;
   ref?: React.RefObject<HTMLDivElement>;
-  tabIndex?: number;
+  rows?: number;
 }
 
-interface FormInputProps {
-  name: keyof ItemFormValues;
+interface FormInputProps<T extends FieldValues> {
+  name: Path<T>;
 }
 
-export const FormLimitedTextInput = ({
+export const FormLimitedTextInput = <T extends FieldValues>({
   name,
   maxLength,
   placeHolderContent,
-}: FormLimitedTextInputProps) => {
-  const { control } = useFormContext();
+  rows = 2,
+}: FormLimitedTextInputProps<T>) => {
+  const { control } = useFormContext<T>();
 
   const {
     field: { value, onChange, ref },
@@ -50,7 +55,8 @@ export const FormLimitedTextInput = ({
             ref(e);
             textareaRef.current = e;
           }}
-          rows={2}
+          rows={rows}
+          value={value}
           onChange={onChange}
           placeholder={placeHolderContent}
           className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
@@ -114,11 +120,13 @@ export const FormWideTextArea = ({ name }: { name: string }) => {
   );
 };
 
-export const FormLinkInput = ({ name }: FormInputProps) => {
-  const { control } = useFormContext();
+export const FormLinkInput = <T extends FieldValues>({
+  name,
+}: FormInputProps<T>) => {
+  const { control } = useFormContext<T>();
 
   const {
-    field: { value: text, onChange },
+    field: { value: text, onChange, ref },
     fieldState: { error },
   } = useController({
     name,
@@ -126,6 +134,8 @@ export const FormLinkInput = ({ name }: FormInputProps) => {
   });
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useAutoResizeTextArea(textareaRef, text);
 
   return (
     <div className="flex w-full flex-col">
@@ -137,12 +147,15 @@ export const FormLinkInput = ({ name }: FormInputProps) => {
         )}
       >
         <textarea
-          ref={textareaRef}
+          ref={(e) => {
+            ref(e);
+            textareaRef.current = e;
+          }}
           value={text}
           onChange={(e) => onChange(e.target.value)}
           placeholder="https://"
           className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
-          rows={2}
+          rows={1}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault(); // Enter 키 입력 방지
@@ -162,8 +175,10 @@ export const FormLinkInput = ({ name }: FormInputProps) => {
   );
 };
 
-export const FormPriceInput = ({ name }: FormInputProps) => {
-  const { control } = useFormContext();
+export const FormPriceInput = <T extends FieldValues>({
+  name,
+}: FormInputProps<T>) => {
+  const { control } = useFormContext<T>();
 
   const {
     field: { value: price, onChange, ref },
@@ -178,7 +193,8 @@ export const FormPriceInput = ({ name }: FormInputProps) => {
   const [inputWidth, setInputWidth] = useState<number>(50); // 최소 너비
 
   // 숫자 세개마다 컴마
-  const formattedPrice = price === undefined ? '' : price.toLocaleString();
+  const formattedPrice =
+    typeof price === 'number' ? price.toLocaleString() : '';
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let rawValue = e.target.value.replace(/[^0-9]/g, '');
@@ -228,12 +244,14 @@ export const FormPriceInput = ({ name }: FormInputProps) => {
   );
 };
 
-export const FormSalePriceInput = ({ name }: FormInputProps) => {
+export const FormSalePriceInput = <T extends FieldValues>({
+  name,
+}: FormInputProps<T>) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const spanRef = useRef<HTMLSpanElement | null>(null);
   const [inputWidth, setInputWidth] = useState<number>(100); // 최소 너비
 
-  const { control } = useFormContext();
+  const { control } = useFormContext<T>();
 
   const {
     field: { value: salePrice, onChange, ref },
@@ -248,7 +266,7 @@ export const FormSalePriceInput = ({ name }: FormInputProps) => {
 
   // 숫자 세개마다 컴마
   const formattedPrice =
-    salePrice === undefined ? '' : salePrice.toLocaleString();
+    typeof salePrice === 'number' ? salePrice.toLocaleString() : '';
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let rawValue = e.target.value.replace(/[^0-9]/g, '');
@@ -325,6 +343,87 @@ export const FormSalePriceInput = ({ name }: FormInputProps) => {
           <WarningIcon />
           <span className="caption-m text-error">
             할인가가 정가보다 높습니다.
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const FormEmailInput = <T extends FieldValues>({
+  name,
+}: FormInputProps<T>) => {
+  const { control } = useFormContext<T>();
+
+  const {
+    field: { value, onChange },
+    fieldState: { error },
+  } = useController({
+    name,
+    control,
+  });
+
+  return (
+    <div className="flex w-full flex-col">
+      <input
+        className={cn(
+          'body2-m placeholder:text-grey06 w-full flex-1 resize-none overflow-hidden rounded-xs border px-3.5 py-2.5 break-keep',
+          error ? 'border-error' : 'border-grey03 focus-within:border-grey05'
+        )}
+        value={value}
+        placeholder="링크 URL을 입력해 주세요."
+        onChange={(e) => onChange(e.target.value)}
+        aria-label={name}
+      />
+
+      {error && (
+        <div className="mt-1 flex items-center space-x-1">
+          <WarningIcon />
+          <span className="caption-m text-error">
+            올바른 양식으로 입력해 주세요.
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const FormSNSInput = <T extends FieldValues>({
+  name,
+  placeholder,
+  icon,
+}: {
+  name: Path<T>;
+  placeholder: string;
+  icon: React.ReactNode;
+}) => {
+  const { control } = useFormContext();
+  const {
+    field: { value, onChange },
+    fieldState: { error },
+  } = useController({
+    name,
+    control,
+  });
+  return (
+    <div className="grid h-fit w-full grid-cols-[1.5rem_auto] grid-rows-[auto_auto] items-center gap-x-4 gap-y-1">
+      {icon}
+      <input
+        className={cn(
+          'body2-m placeholder:text-grey06 w-full flex-1 resize-none overflow-hidden rounded-xs border px-3.5 py-2.5 break-keep',
+          error ? 'border-error' : 'border-grey03 focus-within:border-grey05'
+        )}
+        value={value}
+        placeholder={placeholder}
+        onChange={(e) => onChange(e.target.value)}
+        aria-label={name + ' 링크 입력'}
+        id={name}
+      />
+      {error && (
+        <div className="col-start-2 row-start-2 mt-1 flex items-center space-x-1">
+          <WarningIcon />
+          <span className="caption-m text-error">
+            올바른 양식으로 입력해 주세요.
           </span>
         </div>
       )}

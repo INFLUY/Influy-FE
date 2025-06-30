@@ -14,6 +14,7 @@ export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
     open: false,
     message: '',
   });
+
   const {
     field: { value: images = [], onChange },
   } = useController({

@@ -17,7 +17,7 @@ export const DefaultButton = ({
       onClick={onClick}
       disabled={useDisabled ? disabled : false}
       className={cn(
-        'body2-m box-border flex h-fit w-full items-center justify-center rounded-sm py-3.5 text-white',
+        'body2-m box-border flex h-fit w-full items-center justify-center rounded-xs py-3.5 text-white',
         disabled
           ? `${disabledColor} cursor-default`
           : `${activeColor} cursor-pointer`,
