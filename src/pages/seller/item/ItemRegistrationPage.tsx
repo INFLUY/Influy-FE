@@ -212,7 +212,8 @@ export const ItemRegistrationPage = () => {
   const onArchive = () => {
     if (!titleValidationResult.success) {
       const message =
-        titleValidationResult.error.issues[0].message ?? '제목 오류';
+        titleValidationResult.error.issues[0].message ??
+        '제목을 확인해 주세요.';
       setSnackbar({ open: true, message });
       setFocus('titleText');
       return;
