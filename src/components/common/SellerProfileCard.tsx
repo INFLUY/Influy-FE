@@ -1,6 +1,6 @@
 import HeartIcon from '@/assets/icon/user/Heart.svg?react';
 import PlaceHolderIcon from '@/assets/icon/common/PlaceHolderIcon.svg?react';
-import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
+import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { formatNumber } from '@/utils/formatNumber';
 import cn from '@/utils/cn';
 

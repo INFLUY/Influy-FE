@@ -1,6 +1,6 @@
 import { ItemDetail, ItemStatus } from '@/types/common/ItemType.types';
 import { ItemDetailProfile } from '@/components';
-import { useState } from 'react';
+import { RefObject, useState } from 'react';
 import cn from '@/utils/cn';
 import DowndownArrowIcon from '@/assets/icon/common/DropdownArrow.svg?react';
 import { getTimeChipText } from '@/components/user/common/Chip';
@@ -29,7 +29,7 @@ export const ItemDetailInfo = ({
       ((data.regularPrice - data.salePrice) / data.regularPrice) * 100
     );
   return (
-    <section className="flex w-full flex-col">
+    <section className="mb-20 flex w-full flex-col">
       <div className="relative h-[23.8125rem] w-full">
         {data.itemImgList && (
           <Swiper
@@ -57,9 +57,10 @@ export const ItemDetailInfo = ({
           </Swiper>
         )}
 
+        {/* 진행 회차 뱃지 */}
         {status === 'published' && data.itemPeriod && data.itemPeriod > 1 && (
-          <div className="body2-sb absolute top-[.875rem] left-[.875rem] z-1 flex h-[1.6875rem] items-center justify-center rounded-[.0767rem] bg-[#45ABEB] px-[.7671rem] text-white">
-            {data.itemPeriod}차 진행
+          <div className="body2-sb bg-grey10 absolute top-0 left-0 z-1 flex h-[1.6875rem] items-center justify-center rounded-[.0767rem] px-[.7671rem] text-white">
+            {data.itemPeriod}차
           </div>
         )}
         {data.itemImgList && data.itemImgList.length > 1 && (
