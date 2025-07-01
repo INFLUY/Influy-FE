@@ -54,6 +54,7 @@ export {
 export { default as ExternalLinkBottomSheet } from './seller/item/administration/ExternalLinkBottomSheet';
 export { default as AdminItemBottomSheet } from './seller/item/administration/AdminItemBottomSheet';
 export { default as SellerMyItem } from './seller/item/administration/SellerMyItem';
+export { default as ItemDetailFaqCard } from './common/item/ItemDetailFaqCard';
 // faq
 export { default as VanillaCategoryMultiSelector } from './seller/item/faq/VanillaCategoryMultiSelector';
 

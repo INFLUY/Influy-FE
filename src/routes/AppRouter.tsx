@@ -112,11 +112,12 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: PATH.SELLER.edit.base,
+            path: PATH.SELLER.profile.base,
             element: <Outlet />,
             children: [
               {
                 index: true,
+                path: PATH.SELLER.profile.edit,
                 element: <SellerMyProfileEditPage />,
               },
             ],
