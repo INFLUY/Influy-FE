@@ -23,8 +23,8 @@ const ItemDetailFaqCard = ({ faqList }: { faqList: FAQCardList[] }) => {
         navigation
         pagination={{
           clickable: true,
-          renderBullet: (index, className) => {
-            return `<span class="${className} custom-bullet"></span>`;
+          renderBullet: (index: number, className: string) => {
+            return `<div class="${className} custom-bullet" tabindex=${index}  ></div>`;
           },
         }}
       >

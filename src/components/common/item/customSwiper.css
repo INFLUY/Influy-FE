@@ -12,13 +12,13 @@
 
 .swiper-pagination {
   position: absolute;
-  top: 363px !important;
+  top: 22.6875rem !important;
   left: 0;
   width: 100% !important;
   display: flex !important;
   justify-content: center !important;
   /* gap: auto; */
-  padding: 0 1.125rem;
+  padding: 0 0.875rem;
   z-index: 1;
   bottom: auto !important;
 }
