@@ -10,12 +10,6 @@ import 'swiper/css/pagination';
 import './customSwiper.css';
 
 const ItemDetailFaqCard = ({ faqList }: { faqList: FAQCardList[] }) => {
-  const pagination = {
-    clickable: true,
-    renderBullet: function (index: number, className: string) {
-      return '<span class="' + className + '">' + (index + 1) + '</span>';
-    },
-  };
   return (
     <section className="mb-[16.375rem] flex w-full flex-col">
       <Swiper
