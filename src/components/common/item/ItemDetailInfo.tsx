@@ -1,6 +1,6 @@
 import { ItemDetail, ItemStatus } from '@/types/common/ItemType.types';
 import { ItemDetailProfile } from '@/components';
-import { useState } from 'react';
+import { RefObject, useState } from 'react';
 import cn from '@/utils/cn';
 import DowndownArrowIcon from '@/assets/icon/common/DropdownArrow.svg?react';
 import { getTimeChipText } from '@/components/user/common/Chip';
@@ -15,9 +15,11 @@ import 'swiper/css/navigation';
 export const ItemDetailInfo = ({
   data,
   status,
+  ref,
 }: {
   data: ItemDetail;
   status: ItemStatus;
+  ref: RefObject<HTMLElement | null>;
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
@@ -29,7 +31,7 @@ export const ItemDetailInfo = ({
       ((data.regularPrice - data.salePrice) / data.regularPrice) * 100
     );
   return (
-    <section className="flex w-full flex-col pb-[.6875rem]">
+    <section className="flex w-full flex-col pb-[.6875rem]" ref={ref}>
       <div className="relative h-[23.8125rem] w-full">
         {data.itemImgList && (
           <Swiper
