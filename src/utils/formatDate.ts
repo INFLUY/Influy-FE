@@ -34,12 +34,18 @@ export const getTimeLeft = (targetDate: Date) => {
   };
 };
 
-export const formatDate = (date: Date) => {
+export const formatDate = ({
+  date,
+  includeWeekday = true,
+}: {
+  date: Date;
+  includeWeekday?: boolean;
+}) => {
   return date.toLocaleDateString('ko-KR', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
-    weekday: 'short',
+    ...(includeWeekday && { weekday: 'short' }),
   });
 };
 

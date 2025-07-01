@@ -20,8 +20,9 @@ export const PATH = {
     notice: {
       base: 'notice',
     },
-    edit: {
-      base: 'edit-profile',
+    profile: {
+      base: 'profile',
+      edit: 'edit',
     },
     items: {
       base: 'item',

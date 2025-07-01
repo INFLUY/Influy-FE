@@ -1,5 +1,10 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ItemDetailInfo, PageHeader, BottomNavBar } from '@/components';
+import {
+  ItemDetailInfo,
+  PageHeader,
+  BottomNavBar,
+  ItemDetailFaqCard,
+} from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
 import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
@@ -11,6 +16,8 @@ import Link2Icon from '@/assets/icon/common/Link2Icon.svg?react';
 import LockIcon from '@/assets/icon/common/LockIcon.svg?react';
 import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
+import { CategoryType } from '@/types/common/CategoryType.types';
+import { FAQCardList } from '@/types/common/FAQ.types';
 
 const dummySellerInfo: SellerCard = {
   id: 1,
@@ -38,6 +45,130 @@ const dummyItem: ItemDetail = {
   regularPrice: null,
   salePrice: null,
 };
+
+const dummyCategory: CategoryType[] = [
+  { id: 0, category: '사이즈' },
+  { id: 1, category: '색상' },
+  { id: 2, category: '디테일' },
+  { id: 3, category: '배송관련' },
+  { id: 4, category: '색상1' },
+  { id: 5, category: '색상2' },
+  { id: 6, category: '사이즈1' },
+  { id: 7, category: '사이즈2' },
+];
+
+const dummyFaq: FAQCardList[] = [
+  {
+    id: 1,
+    pinned: true,
+    questionContent: '키 160, 몸무게 60이면 L사이즈 맞을까요?',
+    answerContent:
+      '키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?',
+    adjustImg: false,
+    backgroundImgLink: '/product.png',
+    faqCategory: '사이즈',
+    updatedAt: '2025-06-07T09:00:00.660Z',
+  },
+  {
+    id: 2,
+    pinned: false,
+    questionContent: '상품은 언제 배송되나요?',
+    answerContent:
+      '222222키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?',
+    adjustImg: false,
+    backgroundImgLink: '/img1.png',
+    faqCategory: '사이즈',
+    updatedAt: '2025-06-07T09:00:00.660Z',
+  },
+  {
+    id: 3,
+    pinned: false,
+    questionContent: '상품은 언제 배송되나요?',
+    answerContent:
+      '33333333키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?',
+    adjustImg: false,
+    backgroundImgLink: '/product.png',
+    faqCategory: '사이즈',
+    updatedAt: '2025-06-07T09:00:00.660Z',
+  },
+  {
+    id: 3,
+    pinned: false,
+    questionContent: '상품은 언제 배송되나요?',
+    answerContent:
+      '33333333키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?',
+    adjustImg: false,
+    backgroundImgLink: '/product.png',
+    faqCategory: '사이즈',
+    updatedAt: '2025-06-07T09:00:00.660Z',
+  },
+  {
+    id: 3,
+    pinned: false,
+    questionContent: '상품은 언제 배송되나요?',
+    answerContent:
+      '33333333키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?',
+    adjustImg: false,
+    backgroundImgLink: '/product.png',
+    faqCategory: '사이즈',
+    updatedAt: '2025-06-07T09:00:00.660Z',
+  },
+  {
+    id: 3,
+    pinned: false,
+    questionContent: '상품은 언제 배송되나요?',
+    answerContent:
+      '33333333키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?',
+    adjustImg: false,
+    backgroundImgLink: '/product.png',
+    faqCategory: '사이즈',
+    updatedAt: '2025-06-07T09:00:00.660Z',
+  },
+  {
+    id: 3,
+    pinned: false,
+    questionContent: '상품은 언제 배송되나요?',
+    answerContent:
+      '33333333키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?',
+    adjustImg: false,
+    backgroundImgLink: '/product.png',
+    faqCategory: '사이즈',
+    updatedAt: '2025-06-07T09:00:00.660Z',
+  },
+  {
+    id: 3,
+    pinned: false,
+    questionContent: '상품은 언제 배송되나요?',
+    answerContent:
+      '33333333키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?',
+    adjustImg: false,
+    backgroundImgLink: '/product.png',
+    faqCategory: '사이즈',
+    updatedAt: '2025-06-07T09:00:00.660Z',
+  },
+  {
+    id: 3,
+    pinned: false,
+    questionContent: '상품은 언제 배송되나요?',
+    answerContent:
+      '33333333키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?',
+    adjustImg: false,
+    backgroundImgLink: '/product.png',
+    faqCategory: '사이즈',
+    updatedAt: '2025-06-07T09:00:00.660Z',
+  },
+  {
+    id: 3,
+    pinned: false,
+    questionContent: '상품은 언제 배송되나요?',
+    answerContent:
+      '33333333키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?',
+    adjustImg: false,
+    backgroundImgLink: '/product.png',
+    faqCategory: '사이즈',
+    updatedAt: '2025-06-07T09:00:00.660Z',
+  },
+];
 
 const SellerItemDetailPage = () => {
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
@@ -119,6 +250,8 @@ const SellerItemDetailPage = () => {
 
       {/* 상단 상품 정보 파트 */}
       <ItemDetailInfo data={dummyItem} status={status} />
+
+      <ItemDetailFaqCard faqList={dummyFaq} />
 
       {/* 스낵바 */}
       {snackbar.open && (

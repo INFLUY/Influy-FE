@@ -81,7 +81,9 @@ export const DatePickerCalender = ({
       {/*상단 선택한 날짜 시간 표시*/}
       {selectedDate && (
         <div className="border-t-grey03 body1-m flex items-center justify-between border-t-1 px-4 py-3">
-          <span className="text-black">{formatDate(selectedDate)}</span>
+          <span className="text-black">
+            {formatDate({ date: selectedDate })}
+          </span>
           <span>{formatTime({ date: selectedDate })}</span>
         </div>
       )}
