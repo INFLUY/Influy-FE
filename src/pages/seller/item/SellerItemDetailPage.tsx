@@ -4,6 +4,7 @@ import {
   PageHeader,
   BottomNavBar,
   ItemDetailFaqCard,
+  VanillaCategoryMultiSelector,
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
@@ -175,6 +176,7 @@ const SellerItemDetailPage = () => {
     open: false,
     message: '',
   });
+  const [selectedCategory, setSelectedCategory] = useState<number[]>([]);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -251,7 +253,20 @@ const SellerItemDetailPage = () => {
       {/* 상단 상품 정보 파트 */}
       <ItemDetailInfo data={dummyItem} status={status} />
 
-      <ItemDetailFaqCard faqList={dummyFaq} />
+      {/* FAQ 파트 */}
+      <section className="mt-8 flex w-full flex-col gap-4">
+        <article className="flex flex-col">
+          <h2 className="text-grey11 body1-b px-5">FAQ</h2>
+          <div className="px-5">
+            <VanillaCategoryMultiSelector
+              categoryList={dummyCategory}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+            />
+          </div>
+        </article>
+        <ItemDetailFaqCard faqList={dummyFaq} />
+      </section>
 
       {/* 스낵바 */}
       {snackbar.open && (
