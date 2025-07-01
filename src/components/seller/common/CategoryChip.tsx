@@ -18,7 +18,7 @@ const CategoryChip = ({
       onClick={onToggle}
       type="button"
       className={cn(
-        'body2-m flex h-fit w-fit cursor-pointer items-center justify-center',
+        'body2-m flex h-[33px] w-fit shrink-0 cursor-pointer items-center justify-center',
         theme === 'item' && 'rounded-[1.25rem] px-2.5 py-1',
         theme === 'item' &&
           (isSelected ? 'bg-grey10 text-white' : 'bg-grey03 text-black'),
