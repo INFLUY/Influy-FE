@@ -39,6 +39,7 @@ export { default as SellerModal } from './seller/common/SellerModal';
 export { default as RadioBottomSheet } from './seller/common/RadioBottomSheet';
 export {
   FormWideTextArea,
+  FormLimitedWideTextArea,
   FormLimitedTextInput,
   FormLinkInput,
   FormPriceInput,

@@ -82,11 +82,18 @@ export const FormLimitedTextInput = <T extends FieldValues>({
   );
 };
 
-export const FormWideTextArea = ({ name }: { name: string }) => {
-  const { control } = useFormContext();
+export const FormWideTextArea = <T extends FieldValues>({
+  name,
+  placeHolderContent,
+}: {
+  name: Path<T>;
+  placeHolderContent?: string;
+}) => {
+  const { control } = useFormContext<T>();
 
   const {
     field: { value: text, onChange, ref },
+    fieldState: { error },
   } = useController({
     name,
     control,
@@ -101,20 +108,78 @@ export const FormWideTextArea = ({ name }: { name: string }) => {
       <div
         onClick={() => textareaRef.current?.focus()}
         className={cn(
-          'focus-within:border-grey05 border-grey03 flex h-fit w-full items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5'
+          'flex h-fit w-full items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5',
+          error ? 'border-error' : 'border-grey03 focus-within:border-grey05'
         )}
       >
         <textarea
+          id={name}
           ref={(e) => {
             textareaRef.current = e;
             ref(e);
           }}
           value={text}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="제품 선택 이유, 특징, 사용 경험 등 제품의 매력을 보여줄 수 있는 내용을 자유롭게 작성해 주세요."
+          placeholder={placeHolderContent}
           className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
           rows={7}
         />
+      </div>
+    </div>
+  );
+};
+
+export const FormLimitedWideTextArea = <T extends FieldValues>({
+  name,
+  maxLength,
+  placeHolderContent,
+  rows = 7,
+}: FormLimitedTextInputProps<T>) => {
+  const { control } = useFormContext<T>();
+
+  const {
+    field: { value: text, onChange, ref },
+    fieldState: { error },
+  } = useController({
+    name,
+    control,
+  });
+
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useAutoResizeTextArea(textareaRef, text, rows);
+
+  return (
+    <div className="flex w-full flex-col">
+      <div
+        onClick={() => textareaRef.current?.focus()}
+        className={cn(
+          'relative flex h-fit w-full items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5',
+          text.length > maxLength || error
+            ? 'border-error'
+            : 'border-grey03 focus-within:border-grey05'
+        )}
+      >
+        <textarea
+          id={name}
+          ref={(e) => {
+            textareaRef.current = e;
+            ref(e);
+          }}
+          value={text}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeHolderContent}
+          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
+          rows={rows}
+        />
+        <div className="caption-m text-grey06 absolute right-3.5 bottom-2.5 flex h-[1.3125rem] items-center">
+          <span
+            className={cn((text.length > maxLength || error) && 'text-error')}
+          >
+            {text.length}
+          </span>
+          <span>/{maxLength}</span>
+        </div>
       </div>
     </div>
   );
