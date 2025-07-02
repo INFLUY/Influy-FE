@@ -16,5 +16,5 @@ export { default as SellerMyProfileEditPage } from './seller/sellerMyPage/Seller
 export { default as NotFound } from './error/NotFound';
 
 export { ItemRegistrationPage } from './seller/item/ItemRegistrationPage';
-export { default as FaqRegistrationCategoryPage } from './seller/item/faq/FaqRegistrationCategoryPage';
+export { default as FaqRegistrationCategoryPage } from './seller/item/faq/FaqRegistrationPage';
 export { default as SellerItemDetailPage } from './seller/item/SellerItemDetailPage';
