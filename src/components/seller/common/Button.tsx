@@ -10,6 +10,7 @@ export const DefaultButton = ({
   text = '저장하기',
   additionalStyles,
   type = 'button',
+  theme,
 }: DefaultButtonProps) => {
   return (
     <button
@@ -17,10 +18,14 @@ export const DefaultButton = ({
       onClick={onClick}
       disabled={useDisabled ? disabled : false}
       className={cn(
-        'body2-m box-border flex h-fit w-full items-center justify-center rounded-xs py-3.5 text-white',
+        'body2-m box-border flex h-[3.0625rem] w-full items-center justify-center rounded-xs text-white',
         disabled
           ? `${disabledColor} cursor-default`
           : `${activeColor} cursor-pointer`,
+        {
+          'bg-black text-white': theme === 'black',
+          'border border-black bg-white text-black': theme === 'white',
+        },
         additionalStyles
       )}
     >

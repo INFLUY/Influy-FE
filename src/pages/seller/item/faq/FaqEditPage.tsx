@@ -14,11 +14,7 @@ import { useEffect, useState } from 'react';
 import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
-import {
-  formatDate,
-  parseDateString,
-  parseISOString,
-} from '@/utils/formatDate';
+import { parseDateString } from '@/utils/formatDate';
 
 const FaqEditPage = () => {
   const navigate = useNavigate();
@@ -113,6 +109,10 @@ const FaqEditPage = () => {
     console.log('폼 제출됨:', data);
   };
 
+  const handleDelete = () => {
+    alert('아이템이 삭제되었습니다.');
+  };
+
   return (
     <div className="flex flex-1 flex-col">
       <PageHeader
@@ -127,7 +127,7 @@ const FaqEditPage = () => {
         {faqCategory}
       </PageHeader>
       <FormProvider {...methods}>
-        <div className="flex flex-1 flex-col gap-6 pt-4 pb-[5.1875rem]">
+        <div className="flex flex-1 flex-col gap-6 pt-4 pb-[8.25rem]">
           <div className="body2-m text-grey06 flex flex-col gap-4">
             <span className="flex px-5">
               등록일자 {parseDateString(updatedAt)}
@@ -186,13 +186,13 @@ const FaqEditPage = () => {
             </div>
           </form>
         </div>
-        <div className="sticky bottom-0 z-20 bg-white px-5 pt-[.625rem] pb-4">
+        <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">
+          <DefaultButton text="삭제하기" theme="white" onClick={handleDelete} />
           <DefaultButton
             type="submit"
-            text="등록하기"
+            text="저장하기"
             disabled={isSubmitting || !isValid}
             useDisabled={false}
-            onClick={handleSubmit(onSubmit, onError)}
           />
         </div>
       </FormProvider>

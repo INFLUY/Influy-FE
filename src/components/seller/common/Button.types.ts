@@ -10,6 +10,7 @@ export interface DefaultButtonProps {
   additionalStyles?: string;
   type?: 'button' | 'submit' | 'reset';
   useDisabled?: boolean;
+  theme?: 'black' | 'white';
 }
 
 export interface ModalButtonProps {
