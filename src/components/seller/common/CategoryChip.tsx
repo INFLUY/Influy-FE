@@ -5,6 +5,7 @@ interface CategoryChipProps {
   isSelected?: boolean;
   onToggle?: () => void;
   theme?: 'item' | 'faq';
+  disabled?: boolean;
 }
 
 const CategoryChip = ({
@@ -12,6 +13,7 @@ const CategoryChip = ({
   isSelected,
   onToggle,
   theme = 'item',
+  disabled = false,
 }: CategoryChipProps) => {
   return (
     <button
@@ -25,7 +27,11 @@ const CategoryChip = ({
           (isSelected ? 'bg-grey10 text-white' : 'bg-grey03 text-black'),
         theme === 'faq' && 'rounded-[2.5rem] px-3 py-[.375rem]',
         theme === 'faq' &&
-          (isSelected ? 'bg-grey10 text-white' : 'bg-grey01 text-black')
+          (isSelected
+            ? 'bg-grey10 text-white'
+            : disabled
+              ? 'bg-grey01 text-black opacity-40'
+              : 'bg-grey01 text-black')
       )}
     >
       {text}
