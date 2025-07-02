@@ -166,7 +166,7 @@ const SellerItemDetailPage = () => {
             {/* ref */}
             <div
               ref={categoryAnchorRef}
-              className="absolute bottom-0 z-19 h-[1px] w-60 bg-black"
+              className="absolute bottom-0 left-0 z-19 h-[1px] w-60"
             />
 
             <article className="flex w-full flex-wrap gap-2">
@@ -180,6 +180,9 @@ const SellerItemDetailPage = () => {
                 />
               ))}
             </article>
+            {isFaqCategoryTop && (
+              <div className="absolute top-0 z-1 h-full w-full bg-white" />
+            )}
           </div>
         </article>
         <ItemDetailFaqCard faqList={dummyFaq} />
