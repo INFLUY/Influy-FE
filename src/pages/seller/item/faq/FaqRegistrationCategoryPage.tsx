@@ -77,9 +77,9 @@ const FaqRegistrationCategoryPage = () => {
         </section>
       ) : (
         // 카테고리 있을 때
-        <div className="flex flex-1 flex-col gap-6 px-5 pb-[5.1875rem]">
+        <div className="flex flex-1 flex-col gap-6 pb-[5.1875rem]">
           <ItemBanner name={itemData?.name} tagline={itemData?.tagline} />
-          <section className="flex flex-col gap-[1.875rem]">
+          <section className="flex flex-col gap-[1.875rem] px-5">
             {/* 카테고리 */}
             <div className="flex h-fit flex-col gap-4">
               <div className="flex w-full justify-between">
@@ -92,7 +92,7 @@ const FaqRegistrationCategoryPage = () => {
                   className="text-grey06 body2-m flex cursor-pointer items-center gap-1"
                 >
                   카테고리 수정
-                  <EditIcon />
+                  <EditIcon className="h-[.875rem] w-[.875rem]" />
                 </button>
               </div>
               {/* FAQ 카테고리 */}
@@ -100,16 +100,6 @@ const FaqRegistrationCategoryPage = () => {
                 categoryList={CATEGORIES}
                 selectedCategory={selectedCategory}
                 setSelectedCategory={setSelectedCategory}
-              />
-            </div>
-            {/* 사진 */}
-            <div className="flex h-fit flex-col gap-4">
-              <h2 className="body1-b text-black">사진</h2>
-              <TipTooltip
-                text={`답변에 도움이 될만한 사진을 한 장 첨부해 주세요.\n사진을 첨부하지 않으면 기본 이미지가 제공됩니다.`}
-                bgColor="bg-grey01"
-                tipColor="text-black"
-                textColor="text-grey08"
               />
             </div>
             {/* 질문 */}
@@ -123,6 +113,16 @@ const FaqRegistrationCategoryPage = () => {
               <h2 className="body1-b text-black">
                 답변 <span className="text-[#F43232]">*</span>
               </h2>
+            </div>
+            {/* 사진 */}
+            <div className="flex h-fit flex-col gap-4">
+              <h2 className="body1-b text-black">사진</h2>
+              <TipTooltip
+                text={`답변에 도움이 될만한 사진을 한 장 첨부해 주세요.\n사진을 첨부하지 않으면 기본 이미지가 제공됩니다.`}
+                bgColor="bg-grey01"
+                tipColor="text-black"
+                textColor="text-grey08"
+              />
             </div>
             {/* 고정하기 */}
             <div className="flex h-fit items-center justify-between">
