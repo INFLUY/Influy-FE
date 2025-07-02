@@ -17,7 +17,7 @@ const PageHeader = ({
   return (
     <header
       className={cn(
-        'text-grey10 subhead-sb border-grey02 sticky top-0 z-10 w-full items-center justify-center border-b bg-white px-5 py-[.875rem] text-center',
+        'subhead-sb border-grey02 sticky top-0 z-10 w-full items-center justify-center border-b bg-white px-5 py-[.875rem] text-center text-black',
         additionalStyles
       )}
     >
