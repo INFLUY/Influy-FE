@@ -59,6 +59,7 @@ export { default as ExternalLinkBottomSheet } from './seller/item/administration
 export { default as AdminItemBottomSheet } from './seller/item/administration/AdminItemBottomSheet';
 export { default as SellerMyItem } from './seller/item/administration/SellerMyItem';
 export { default as ItemDetailFaqCard } from './common/item/ItemDetailFaqCard';
+export { default as FaqListEdit } from './seller/item/registration/FaqListEdit';
 // faq
 export { default as VanillaCategoryMultiSelector } from './seller/item/faq/VanillaCategoryMultiSelector';
 export { default as FaqItemBanner } from './seller/item/faq/FaqItemBanner';

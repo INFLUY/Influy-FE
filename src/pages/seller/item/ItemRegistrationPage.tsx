@@ -6,7 +6,7 @@ import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { itemSchema, requiredFieldsSchema } from '@/schemas/itemSchema';
 import { ItemFormValues } from '@/types/item.types';
 import { ItemForm } from '@/components/seller/item/registration/ItemForm';
-import { DefaultButton, Tab, Tabs } from '@/components';
+import { DefaultButton, Tab, Tabs, FaqListEdit } from '@/components';
 import { useState, useRef, RefObject } from 'react';
 import { PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
@@ -253,14 +253,14 @@ export const ItemRegistrationPage = () => {
           ))}
         </Tabs>
       </section>
-      <div className="flex flex-col">
+      <div className="flex h-full flex-col">
         <div className="invisible" ref={scrollViewRef} />
         {/* 폼 */}
         <form
           onSubmit={handleSubmit(handleSubmitSuccess, handleSubmitFailed)}
-          className="relative flex h-fit min-w-full flex-col"
+          className="relative flex min-w-full flex-1 flex-col"
         >
-          <section className="pt-8">
+          <div className="flex-1 pt-8">
             {activeTab === 0 && (
               <ItemForm
                 mode="create"
@@ -270,8 +270,8 @@ export const ItemRegistrationPage = () => {
                 endDateWrapperRef={endDateFieldRef}
               />
             )}
-            {activeTab === 1 && <span>FAQ 내용 준비 중입니다.</span>}
-          </section>
+            {activeTab === 1 && <FaqListEdit />}
+          </div>
           {/* 하단 버튼 */}
           <section className="border-t-grey02 sticky right-0 bottom-0 z-50 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
             <DefaultButton
