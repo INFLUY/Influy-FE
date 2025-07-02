@@ -58,6 +58,7 @@ export { default as SellerMyItem } from './seller/item/administration/SellerMyIt
 // faq
 export { default as VanillaCategoryMultiSelector } from './seller/item/faq/VanillaCategoryMultiSelector';
 export { default as ItemBanner } from './seller/item/faq/ItemBanner';
+export { default as FaqImageUploader } from './seller/item/faq/FaqImageUploader';
 
 //my
 export { default as SellerMyProfileHeader } from './seller/my/SellerMyProfileHeader';
