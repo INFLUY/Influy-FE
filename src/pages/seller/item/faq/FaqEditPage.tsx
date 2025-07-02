@@ -7,6 +7,7 @@ import {
   PageHeader,
   SnackBar,
   ToggleButton,
+  VanillaCategoryMultiSelector,
 } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -15,10 +16,12 @@ import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 import { parseDateString } from '@/utils/formatDate';
+import { CategoryType } from '@/types/common/CategoryType.types';
+import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 
 const FaqEditPage = () => {
   const navigate = useNavigate();
-  const [faqCategory, setFaqCategory] = useState<string>('');
+  const [faqCategory, setFaqCategory] = useState<number[]>([]);
   const [updatedAt, setUpdatedAt] = useState<string>('');
   const [isPinned, setIsPinned] = useState<boolean>(false);
   const [adjustImg, setAdjustImg] = useState<boolean>(false);
@@ -26,6 +29,16 @@ const FaqEditPage = () => {
     open: false,
     message: '',
   });
+
+  const CATEGORIES: CategoryType[] = [
+    { id: 1, category: '색상' },
+    { id: 2, category: '구성' },
+    { id: 3, category: '디테일' },
+    { id: 4, category: '사이즈' },
+    { id: 5, category: '가격' },
+    { id: 6, category: '진행일정' },
+    { id: 7, category: '재고/수량' },
+  ];
 
   const methods = useForm<FaqFormValues>({
     resolver: zodResolver(faqSchema(true)),
@@ -52,7 +65,7 @@ const FaqEditPage = () => {
       questionContent: '모야요??',
       answerContent: '이건 이거입니당',
       backgroundImgLink: '',
-      faqCategory: '색상',
+      faqCategoryId: 1,
       updatedAt: '2025-07-02T10:06:38.189Z',
     };
     methods.reset({
@@ -64,7 +77,7 @@ const FaqEditPage = () => {
     });
     setAdjustImg(faq.adjustImg);
     setIsPinned(faq.pinned);
-    setFaqCategory(faq.faqCategory);
+    setFaqCategory([faq.faqCategoryId]);
     setUpdatedAt(faq.updatedAt);
   }, []);
 
@@ -129,7 +142,7 @@ const FaqEditPage = () => {
           ]}
           additionalStyles="text-grey10"
         >
-          {faqCategory}
+          FAQ 수정
         </PageHeader>
         <div className="flex flex-1 flex-col gap-6 pt-4 pb-[8.25rem]">
           <div className="body2-m text-grey06 flex flex-col gap-4">
@@ -139,6 +152,27 @@ const FaqEditPage = () => {
             <ItemBanner name={itemData?.name} tagline={itemData?.tagline} />
           </div>
           <div className="flex flex-col gap-[1.875rem]">
+            <div className="flex h-fit flex-col gap-4 px-5">
+              <div className="flex w-full justify-between">
+                <h2 className="body1-b text-black">
+                  FAQ 카테고리 <span className="text-[#F43232]">*</span>
+                </h2>
+                {/* 카테고리 수정 버튼 */}
+                <button
+                  type="button"
+                  className="text-grey06 body2-m flex cursor-pointer items-center gap-1"
+                >
+                  카테고리 수정
+                  <EditIcon className="h-[.875rem] w-[.875rem]" />
+                </button>
+              </div>
+              {/* FAQ 카테고리 */}
+              <VanillaCategoryMultiSelector
+                disabled={true}
+                categoryList={CATEGORIES}
+                selectedCategory={faqCategory}
+              />
+            </div>
             {/* 질문 */}
             <div className="flex h-fit flex-col gap-4 px-5">
               <h2 className="body1-b text-black">
