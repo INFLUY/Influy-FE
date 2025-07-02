@@ -1,7 +1,8 @@
 import BottomSheet from '@/components/common/BottomSheet';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { useGetNotification } from '@/state/query/notification/useGetNotification';
 import { NoticeType } from '@/types/common/NoticeType.types';
-import { SetStateAction } from 'react';
+import { SetStateAction, useEffect, useRef } from 'react';
 
 const SellerNoticeBottomSheet = ({
   marketId,
@@ -12,7 +13,31 @@ const SellerNoticeBottomSheet = ({
   isBottomSheetOpen: boolean;
   setIsBottomSheetOpen: React.Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { data: notices } = useGetNotification({ sellerId: Number(marketId) });
+  const {
+    data: notices,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetNotification(marketId);
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!observerRef.current || !hasNextPage || isFetchingNextPage) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(observerRef.current);
+
+    return () => observer.disconnect();
+  }, [hasNextPage, fetchNextPage, isFetchingNextPage]);
 
   return (
     <BottomSheet
@@ -43,6 +68,15 @@ const SellerNoticeBottomSheet = ({
                 <p className="body2-r text-grey09">{notice.content}</p>
               </div>
             ))
+          )}
+          {hasNextPage && (
+            <div ref={observerRef} className="h-4 w-full">
+              {isFetchingNextPage && (
+                <div className="flex justify-center">
+                  <LoadingSpinner />
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>

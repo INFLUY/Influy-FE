@@ -30,9 +30,20 @@ export const patchNotification = async ({
   return response.data.result;
 };
 
-export const getNotification = async ({ sellerId }: { sellerId: number }) => {
+export const getNotification = async ({
+  sellerId,
+  page,
+  size,
+}: {
+  sellerId: number;
+  page: number;
+  size: number;
+}) => {
   const response = await instance.get(
-    generateApiPath(API_DOMAINS.SELLER_ANNOUNCEMENT, { sellerId })
+    generateApiPath(API_DOMAINS.SELLER_ANNOUNCEMENT, { sellerId }),
+    {
+      params: { page, size },
+    }
   );
   return response.data.result;
 };

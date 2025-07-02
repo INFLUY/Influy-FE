@@ -2,11 +2,12 @@ import {
   AddNoticeBottomSheet,
   AddNoticeButton,
   EditNoticeBottomSheet,
+  LoadingSpinner,
   Notice,
   PageHeader,
   SnackBar,
 } from '@/components';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NoticeType } from '@/types/common/NoticeType.types';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +26,31 @@ const NoticePage = () => {
   const navigate = useNavigate();
 
   const sellerId = useStrictSellerId();
-  const { data: notices } = useGetNotification({ sellerId });
+  const {
+    data: notices,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetNotification(sellerId);
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!observerRef.current || !hasNextPage || isFetchingNextPage) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(observerRef.current);
+
+    return () => observer.disconnect();
+  }, [hasNextPage, fetchNextPage, isFetchingNextPage]);
 
   const handleEditNotice = (announcement: NoticeType) => {
     setSelectedNotice(announcement);
@@ -81,6 +106,15 @@ const NoticePage = () => {
               />
             ))}
           </ul>
+          {hasNextPage && (
+            <div ref={observerRef} className="h-4 w-full">
+              {isFetchingNextPage && (
+                <div className="flex justify-center">
+                  <LoadingSpinner />
+                </div>
+              )}
+            </div>
+          )}
           <AddNoticeButton
             handleAddNoticeClick={() => setIsAddNoticeOpen(true)}
           />
