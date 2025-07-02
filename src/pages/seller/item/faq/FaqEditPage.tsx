@@ -109,6 +109,11 @@ const FaqEditPage = () => {
     console.log('폼 제출됨:', data);
   };
 
+  const handleFaqDelete = () => {
+    // TODO: 디자인 추가되면 경고 modal 추가해야 함
+    alert('faq가 삭제되었습니다.');
+  };
+
   return (
     <FormProvider {...methods}>
       <form
@@ -193,6 +198,13 @@ const FaqEditPage = () => {
           </SnackBar>
         )}
         <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">
+          <DefaultButton
+            type="button"
+            activeTheme="white"
+            text="삭제하기"
+            disabled={isSubmitting}
+            onClick={handleFaqDelete}
+          />
           <DefaultButton
             type="submit"
             text="등록하기"
