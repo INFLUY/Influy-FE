@@ -40,6 +40,12 @@ export const PATH = {
               question: 'question',
               answer: 'answer',
             },
+            administration: {
+              base: ':faqId',
+              faqDetail: {
+                edit: 'edit',
+              },
+            },
           },
         },
       },

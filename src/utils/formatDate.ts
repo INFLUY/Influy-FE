@@ -81,3 +81,9 @@ export const formatFullDateWithDay = ({
 
   return `${includeYear ? `${year}.` : ''}${month}.${day}. (${dayOfWeek}) ${hour}:${minute}`;
 };
+
+// 2025.05.10
+// 2025.05.10T00:00:00Z 형태의 문자열을 2025.05.10 형태의 string으로 변환
+export const parseDateString = (dateString: string) => {
+  return dateString.split('T')[0].replace(/-/g, '.');
+};

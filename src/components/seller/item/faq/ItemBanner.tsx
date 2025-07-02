@@ -1,6 +1,6 @@
 const ItemBanner = ({ name, tagline }: { name: string; tagline: string }) => {
   return (
-    <article className="border-grey02 flex w-full items-start justify-start gap-[.5625rem] border-b px-5 pt-4 pb-[.875rem]">
+    <article className="border-grey02 flex w-full items-start justify-start gap-[.5625rem] border-b px-5 pb-[.875rem]">
       <img
         src="/img1.png"
         alt={`${name} 이미지`}

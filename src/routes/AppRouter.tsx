@@ -22,6 +22,7 @@ import {
   SellerMyProfileEditPage,
   FaqRegistrationPage,
   SellerItemDetailPage,
+  FaqEditPage,
 } from '@/pages';
 
 const router = createBrowserRouter([
@@ -157,6 +158,30 @@ const router = createBrowserRouter([
                         path: PATH.SELLER.items.item.administration.faq
                           .registration.base,
                         element: <FaqRegistrationPage />,
+                      },
+                      {
+                        path: PATH.SELLER.items.item.administration.faq
+                          .administration.base,
+                        element: <Outlet />,
+                        children: [
+                          {
+                            index: true,
+                            element: (
+                              <Navigate
+                                to={
+                                  PATH.SELLER.items.item.administration.faq
+                                    .administration.faqDetail.edit
+                                }
+                                replace
+                              />
+                            ),
+                          },
+                          {
+                            path: PATH.SELLER.items.item.administration.faq
+                              .administration.faqDetail.edit,
+                            element: <FaqEditPage />, // 개별 faq 수정 페이지
+                          },
+                        ],
                       },
                     ],
                   },

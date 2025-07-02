@@ -21,7 +21,7 @@ import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 
-const FaqRegistrationCategoryPage = () => {
+const FaqRegistrationPage = () => {
   const navigate = useNavigate();
 
   const CATEGORIES: CategoryType[] = [
@@ -33,6 +33,7 @@ const FaqRegistrationCategoryPage = () => {
     { id: 6, category: '진행일정' },
     { id: 7, category: '재고/수량' },
   ];
+
   const [selectedCategory, setSelectedCategory] = useState<number[]>([]);
   const [isPinned, setIsPinned] = useState<boolean>(false);
   const [adjustImg, setAdjustImg] = useState<boolean>(false);
@@ -59,7 +60,7 @@ const FaqRegistrationCategoryPage = () => {
   };
 
   const methods = useForm<FaqFormValues>({
-    resolver: zodResolver(faqSchema),
+    resolver: zodResolver(faqSchema(false)),
     mode: 'onChange',
     reValidateMode: 'onChange',
     shouldFocusError: false,
@@ -159,7 +160,7 @@ const FaqRegistrationCategoryPage = () => {
       ) : (
         // 카테고리 있을 때
         <FormProvider {...methods}>
-          <div className="flex flex-1 flex-col gap-6 pb-[5.1875rem]">
+          <div className="flex flex-1 flex-col gap-6 pt-4 pb-[5.1875rem]">
             <ItemBanner name={itemData?.name} tagline={itemData?.tagline} />
             <form
               onSubmit={handleSubmit(onSubmit, onError)}
@@ -266,4 +267,4 @@ const FaqRegistrationCategoryPage = () => {
   );
 };
 
-export default FaqRegistrationCategoryPage;
+export default FaqRegistrationPage;
