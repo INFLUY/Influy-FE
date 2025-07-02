@@ -6,6 +6,7 @@ import {
   FormWideTextArea,
   ItemBanner,
   PageHeader,
+  SnackBar,
   TipTooltip,
   ToggleButton,
   VanillaCategoryMultiSelector,
@@ -33,6 +34,14 @@ const FaqRegistrationCategoryPage = () => {
     { id: 7, category: '재고/수량' },
   ];
   const [selectedCategory, setSelectedCategory] = useState<number[]>([]);
+  const [isPinned, setIsPinned] = useState<boolean>(false);
+  const [adjustImg, setAdjustImg] = useState<boolean>(false);
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
+    open: false,
+    message: '',
+  });
+
+  const categoryRef = useRef<HTMLDivElement | null>(null);
 
   const itemData = {
     itemImgList: ['xxx.png', 'xxxxx.png', 'xxxxxx.png'],
@@ -48,13 +57,6 @@ const FaqRegistrationCategoryPage = () => {
     comment: '이렇게 빤짝이는 드레스 흔하지 않아요 어렵게 구해왔어요',
     isArchived: false,
   };
-
-  const [isPinned, setIsPinned] = useState<boolean>(false);
-  const [adjustImg, setAdjustImg] = useState<boolean>(false);
-
-  const categoryRef = useRef<HTMLDivElement | null>(null);
-  const questionRef = useRef<HTMLDivElement | null>(null);
-  const answerRef = useRef<HTMLDivElement | null>(null);
 
   const methods = useForm<FaqFormValues>({
     resolver: zodResolver(faqSchema),
@@ -83,15 +85,27 @@ const FaqRegistrationCategoryPage = () => {
         behavior: 'smooth',
         block: 'center',
       });
+      setSnackbar({
+        open: true,
+        message: errors.category.message || '카테고리를 확인해 주세요.',
+      });
       return;
     }
     if (errors.question) {
       document.getElementById('question')?.focus();
+      setSnackbar({
+        open: true,
+        message: errors.question.message || '질문을 확인해 주세요.',
+      });
       return;
     }
 
     if (errors.answer) {
       document.getElementById('answer')?.focus();
+      setSnackbar({
+        open: true,
+        message: errors.answer.message || '답변을 확인해 주세요.',
+      });
       return;
     }
   };
@@ -240,6 +254,14 @@ const FaqRegistrationCategoryPage = () => {
           onClick={handleSubmit(onSubmit, onError)}
         />
       </div>
+      {snackbar.open && (
+        <SnackBar
+          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
+          additionalStyles="bottom-[5.6875rem]"
+        >
+          {snackbar.message}
+        </SnackBar>
+      )}
     </div>
   );
 };
