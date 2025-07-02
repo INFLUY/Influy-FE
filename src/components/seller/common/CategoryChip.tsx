@@ -17,6 +17,7 @@ const CategoryChip = ({
     <button
       onClick={onToggle}
       type="button"
+      tabIndex={0}
       className={cn(
         'body2-m flex h-fit w-fit cursor-pointer items-center justify-center',
         theme === 'item' && 'rounded-[1.25rem] px-2.5 py-1',

@@ -10,6 +10,7 @@ import WarningIcon from '@/assets/icon/common/Warning.svg?react';
 import { useRef, useMemo, useEffect, useState } from 'react';
 
 interface FormLimitedTextInputProps<T extends FieldValues> {
+  id?: string;
   name: Path<T>; // 폼 필드 이름 ('titleText' 같은 것)
   maxLength: number;
   placeHolderContent: string;
@@ -83,9 +84,11 @@ export const FormLimitedTextInput = <T extends FieldValues>({
 };
 
 export const FormWideTextArea = <T extends FieldValues>({
+  id,
   name,
   placeHolderContent,
 }: {
+  id?: string;
   name: Path<T>;
   placeHolderContent?: string;
 }) => {
@@ -113,7 +116,7 @@ export const FormWideTextArea = <T extends FieldValues>({
         )}
       >
         <textarea
-          id={name}
+          id={id ?? name}
           ref={(e) => {
             textareaRef.current = e;
             ref(e);
@@ -130,6 +133,7 @@ export const FormWideTextArea = <T extends FieldValues>({
 };
 
 export const FormLimitedWideTextArea = <T extends FieldValues>({
+  id,
   name,
   maxLength,
   placeHolderContent,
@@ -161,7 +165,7 @@ export const FormLimitedWideTextArea = <T extends FieldValues>({
         )}
       >
         <textarea
-          id={name}
+          id={id ?? name}
           ref={(e) => {
             textareaRef.current = e;
             ref(e);

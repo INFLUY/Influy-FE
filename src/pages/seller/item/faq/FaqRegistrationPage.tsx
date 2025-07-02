@@ -14,9 +14,9 @@ import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import FolderIcon from '@/assets/icon/seller/FolderIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CategoryType } from '@/types/common/CategoryType.types';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 
@@ -52,8 +52,15 @@ const FaqRegistrationCategoryPage = () => {
   const [isPinned, setIsPinned] = useState<boolean>(false);
   const [adjustImg, setAdjustImg] = useState<boolean>(false);
 
+  const categoryRef = useRef<HTMLDivElement | null>(null);
+  const questionRef = useRef<HTMLDivElement | null>(null);
+  const answerRef = useRef<HTMLDivElement | null>(null);
+
   const methods = useForm<FaqFormValues>({
     resolver: zodResolver(faqSchema),
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    shouldFocusError: false,
     defaultValues: {
       category: [],
       question: '',
@@ -63,6 +70,31 @@ const FaqRegistrationCategoryPage = () => {
       adjustImg: false,
     },
   });
+
+  const {
+    handleSubmit,
+    formState: { isSubmitting, isValid },
+  } = methods;
+
+  // 카테고리가 input이나 textArea가 아니라서 수동 제어
+  const onError = (errors: FieldErrors<FaqFormValues>) => {
+    if (errors.category) {
+      categoryRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+      return;
+    }
+    if (errors.question) {
+      document.getElementById('question')?.focus();
+      return;
+    }
+
+    if (errors.answer) {
+      document.getElementById('answer')?.focus();
+      return;
+    }
+  };
 
   useEffect(() => {
     methods.setValue('category', selectedCategory);
@@ -116,11 +148,11 @@ const FaqRegistrationCategoryPage = () => {
           <div className="flex flex-1 flex-col gap-6 pb-[5.1875rem]">
             <ItemBanner name={itemData?.name} tagline={itemData?.tagline} />
             <form
-              onSubmit={methods.handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(onSubmit, onError)}
               className="flex flex-col gap-[1.875rem]"
             >
               {/* 카테고리 */}
-              <div className="flex h-fit flex-col gap-4 px-5">
+              <div className="flex h-fit flex-col gap-4 px-5" ref={categoryRef}>
                 <div className="flex w-full justify-between">
                   <h2 className="body1-b text-black">
                     FAQ 카테고리 <span className="text-[#F43232]">*</span>
@@ -147,6 +179,7 @@ const FaqRegistrationCategoryPage = () => {
                   질문 <span className="text-[#F43232]">*</span>
                 </h2>
                 <FormLimitedWideTextArea<FaqFormValues>
+                  id="question"
                   name="question"
                   placeHolderContent=""
                   maxLength={150}
@@ -158,6 +191,7 @@ const FaqRegistrationCategoryPage = () => {
                   답변 <span className="text-[#F43232]">*</span>
                 </h2>
                 <FormWideTextArea<FaqFormValues>
+                  id="answer"
                   name="answer"
                   placeHolderContent="질문에 대한 답변을 입력해 주세요."
                 />
@@ -199,10 +233,11 @@ const FaqRegistrationCategoryPage = () => {
       )}
       <div className="sticky bottom-0 z-20 bg-white px-5 pt-[.625rem] pb-4">
         <DefaultButton
+          type="submit"
           text="등록하기"
-          disabled={selectedCategory.length === 0}
+          disabled={isSubmitting || !isValid}
           useDisabled={false}
-          onClick={methods.handleSubmit(onSubmit)}
+          onClick={handleSubmit(onSubmit, onError)}
         />
       </div>
     </div>
