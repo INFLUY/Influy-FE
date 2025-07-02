@@ -20,7 +20,7 @@ import {
   MyStoredItemTab,
   Notice,
   SellerMyProfileEditPage,
-  FaqRegistrationCategoryPage,
+  FaqRegistrationPage,
   SellerItemDetailPage,
 } from '@/pages';
 
@@ -151,31 +151,12 @@ const router = createBrowserRouter([
                     children: [
                       {
                         index: true,
-                        element: <FaqRegistrationCategoryPage />, // (임시) faq 조회 페이지
+                        element: <FaqRegistrationPage />, // (임시) faq 조회 페이지
                       },
                       {
                         path: PATH.SELLER.items.item.administration.faq
                           .registration.base,
-                        element: <Outlet />,
-                        children: [
-                          {
-                            index: true,
-                            element: (
-                              <Navigate
-                                to={
-                                  PATH.SELLER.items.item.administration.faq
-                                    .registration.category
-                                }
-                                replace
-                              />
-                            ),
-                          },
-                          {
-                            path: PATH.SELLER.items.item.administration.faq
-                              .registration.category,
-                            element: <FaqRegistrationCategoryPage />,
-                          },
-                        ],
+                        element: <FaqRegistrationPage />,
                       },
                     ],
                   },
