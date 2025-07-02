@@ -137,7 +137,7 @@ const FaqRegistrationCategoryPage = () => {
         ]}
         additionalStyles="text-grey10"
       >
-        카테고리 선택
+        FAQ 등록
       </PageHeader>
       {CATEGORIES.length === 0 ? (
         // 카테고리 없을 때
