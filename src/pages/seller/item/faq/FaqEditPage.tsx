@@ -27,10 +27,24 @@ const FaqEditPage = () => {
     message: '',
   });
 
+  const methods = useForm<FaqFormValues>({
+    resolver: zodResolver(faqSchema(true)),
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    shouldFocusError: false,
+    defaultValues: {
+      question: '',
+      answer: '',
+      image: '',
+      isPinned: false,
+      adjustImg: false,
+    },
+  });
+
   const { itemId, faqId } = useParams();
 
   useEffect(() => {
-    console.log(itemId, faqId); // 백 연동
+    console.log('아이템 아이디: ', itemId, 'faq 아이디: ', faqId); // 백 연동
     const faq = {
       id: 1,
       pinned: true,
@@ -69,20 +83,6 @@ const FaqEditPage = () => {
     isArchived: false,
   };
 
-  const methods = useForm<FaqFormValues>({
-    resolver: zodResolver(faqSchema(true)),
-    mode: 'onChange',
-    reValidateMode: 'onChange',
-    shouldFocusError: false,
-    defaultValues: {
-      question: '',
-      answer: '',
-      image: '',
-      isPinned: false,
-      adjustImg: false,
-    },
-  });
-
   const {
     handleSubmit,
     formState: { isSubmitting, isValid },
@@ -99,18 +99,14 @@ const FaqEditPage = () => {
 
   useEffect(() => {
     methods.setValue('isPinned', isPinned);
-  }, [isPinned]);
+  }, [isPinned, methods]);
 
   useEffect(() => {
     methods.setValue('adjustImg', adjustImg);
-  }, [adjustImg]);
+  }, [adjustImg, methods]);
 
   const onSubmit = (data: FaqFormValues) => {
     console.log('폼 제출됨:', data);
-  };
-
-  const handleDelete = () => {
-    alert('아이템이 삭제되었습니다.');
   };
 
   return (
@@ -127,17 +123,17 @@ const FaqEditPage = () => {
         {faqCategory}
       </PageHeader>
       <FormProvider {...methods}>
-        <div className="flex flex-1 flex-col gap-6 pt-4 pb-[8.25rem]">
+        <form
+          className="flex flex-1 flex-col gap-6 pt-4 pb-[8.25rem]"
+          onSubmit={handleSubmit(onSubmit, onError)}
+        >
           <div className="body2-m text-grey06 flex flex-col gap-4">
             <span className="flex px-5">
               등록일자 {parseDateString(updatedAt)}
             </span>
             <ItemBanner name={itemData?.name} tagline={itemData?.tagline} />
           </div>
-          <form
-            onSubmit={handleSubmit(onSubmit, onError)}
-            className="flex flex-col gap-[1.875rem]"
-          >
+          <div className="flex flex-col gap-[1.875rem]">
             {/* 질문 */}
             <div className="flex h-fit flex-col gap-4 px-5">
               <h2 className="body1-b text-black">
@@ -146,7 +142,7 @@ const FaqEditPage = () => {
               <FormLimitedWideTextArea<FaqFormValues>
                 id="question"
                 name="question"
-                placeHolderContent=""
+                placeHolderContent="질문을 입력해 주세요."
                 maxLength={150}
               />
             </div>
@@ -165,7 +161,7 @@ const FaqEditPage = () => {
             <div className="flex h-fit flex-col gap-4">
               <h2 className="body1-b px-5 text-black">사진</h2>
               <FaqImageUploader
-                name={`faqImageUploader`}
+                name={'image'}
                 adjustImg={adjustImg}
                 setAdjustImg={setAdjustImg}
               />
@@ -184,17 +180,16 @@ const FaqEditPage = () => {
                 setIsChecked={setIsPinned}
               />
             </div>
-          </form>
-        </div>
-        <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">
-          <DefaultButton text="삭제하기" theme="white" onClick={handleDelete} />
-          <DefaultButton
-            type="submit"
-            text="저장하기"
-            disabled={isSubmitting || !isValid}
-            useDisabled={false}
-          />
-        </div>
+          </div>
+          <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">
+            <DefaultButton
+              type="submit"
+              text="등록하기"
+              disabled={isSubmitting || !isValid}
+              useDisabled={false}
+            />
+          </div>
+        </form>
       </FormProvider>
       {snackbar.open && (
         <SnackBar

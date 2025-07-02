@@ -112,16 +112,16 @@ const FaqRegistrationPage = () => {
   };
 
   useEffect(() => {
-    methods.setValue('category', selectedCategory);
-  }, [selectedCategory]);
+    methods.setValue('category', selectedCategory, { shouldValidate: true });
+  }, [selectedCategory, methods]);
 
   useEffect(() => {
     methods.setValue('isPinned', isPinned);
-  }, [isPinned]);
+  }, [isPinned, methods]);
 
   useEffect(() => {
     methods.setValue('adjustImg', adjustImg);
-  }, [adjustImg]);
+  }, [adjustImg, methods]);
 
   const onSubmit = (data: FaqFormValues) => {
     console.log('폼 제출됨:', data);
@@ -196,7 +196,7 @@ const FaqRegistrationPage = () => {
                 <FormLimitedWideTextArea<FaqFormValues>
                   id="question"
                   name="question"
-                  placeHolderContent=""
+                  placeHolderContent="질문을 입력해 주세요."
                   maxLength={150}
                 />
               </div>
@@ -223,7 +223,7 @@ const FaqRegistrationPage = () => {
                   />
                 </span>
                 <FaqImageUploader
-                  name={`faqImageUploader`}
+                  name={'image'}
                   adjustImg={adjustImg}
                   setAdjustImg={setAdjustImg}
                 />
