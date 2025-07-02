@@ -75,10 +75,10 @@ export const FaqImageUploader = ({
               adjustImg ? 'object-contain' : 'object-cover'
             )}
           />
-          <div className="z-10 flex h-fit w-full min-w-0 justify-between gap-3">
+          <div className="z-10 flex h-fit w-full min-w-0 justify-between gap-[.625rem]">
             <button
               type="button"
-              className="bg-grey11 flex h-fit w-full cursor-pointer items-center justify-center gap-1 rounded-[.125rem] px-[2.125rem] py-[.875rem] text-white"
+              className="bg-grey11 flex h-fit w-full cursor-pointer items-center justify-center gap-1 rounded-[.125rem] px-5 py-[.875rem] text-white"
               onClick={removeFile}
             >
               <Delete2Icon />
@@ -86,7 +86,7 @@ export const FaqImageUploader = ({
             </button>
             <label
               htmlFor="background-upload"
-              className="bg-grey07 flex h-fit w-full cursor-pointer items-center justify-center gap-1 rounded-[.125rem] px-[2.125rem] py-[.875rem] text-white"
+              className="bg-grey07 flex h-fit w-full cursor-pointer items-center justify-center gap-1 rounded-[.125rem] px-5 py-[.875rem] text-white"
             >
               <Edit2Icon />
               <span>사진 변경하기</span>
