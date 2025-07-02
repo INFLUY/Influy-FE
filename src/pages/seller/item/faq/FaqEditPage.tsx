@@ -110,23 +110,23 @@ const FaqEditPage = () => {
   };
 
   return (
-    <div className="flex flex-1 flex-col">
-      <PageHeader
-        leftIcons={[
-          <XIcon
-            className="text-grey10 h-6 w-6"
-            onClick={() => navigate(-1)}
-          />,
-        ]}
-        additionalStyles="text-grey10"
+    <FormProvider {...methods}>
+      <form
+        className="flex flex-1 flex-col"
+        onSubmit={handleSubmit(onSubmit, onError)}
       >
-        {faqCategory}
-      </PageHeader>
-      <FormProvider {...methods}>
-        <form
-          className="flex flex-1 flex-col gap-6 pt-4 pb-[8.25rem]"
-          onSubmit={handleSubmit(onSubmit, onError)}
+        <PageHeader
+          leftIcons={[
+            <XIcon
+              className="text-grey10 h-6 w-6"
+              onClick={() => navigate(-1)}
+            />,
+          ]}
+          additionalStyles="text-grey10"
         >
+          {faqCategory}
+        </PageHeader>
+        <div className="flex flex-1 flex-col gap-6 pt-4 pb-[8.25rem]">
           <div className="body2-m text-grey06 flex flex-col gap-4">
             <span className="flex px-5">
               등록일자 {parseDateString(updatedAt)}
@@ -181,25 +181,27 @@ const FaqEditPage = () => {
               />
             </div>
           </div>
-          <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">
-            <DefaultButton
-              type="submit"
-              text="등록하기"
-              disabled={isSubmitting || !isValid}
-              useDisabled={false}
-            />
-          </div>
-        </form>
-      </FormProvider>
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-          additionalStyles="bottom-[5.6875rem]"
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
-    </div>
+        </div>
+        {snackbar.open && (
+          <SnackBar
+            handleSnackBarClose={() =>
+              setSnackbar({ open: false, message: '' })
+            }
+            additionalStyles="bottom-[5.6875rem]"
+          >
+            {snackbar.message}
+          </SnackBar>
+        )}
+        <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">
+          <DefaultButton
+            type="submit"
+            text="등록하기"
+            disabled={isSubmitting || !isValid}
+            useDisabled={false}
+          />
+        </div>
+      </form>
+    </FormProvider>
   );
 };
 
