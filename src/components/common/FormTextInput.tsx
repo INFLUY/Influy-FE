@@ -91,6 +91,7 @@ export const FormWideTextArea = <T extends FieldValues>({
   id?: string;
   name: Path<T>;
   placeHolderContent?: string;
+  rows?: number;
 }) => {
   const { control } = useFormContext<T>();
 
@@ -103,8 +104,6 @@ export const FormWideTextArea = <T extends FieldValues>({
   });
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useAutoResizeTextArea(textareaRef, text);
 
   return (
     <div className="flex w-full flex-col">
@@ -137,7 +136,6 @@ export const FormLimitedWideTextArea = <T extends FieldValues>({
   name,
   maxLength,
   placeHolderContent,
-  rows = 7,
 }: FormLimitedTextInputProps<T>) => {
   const { control } = useFormContext<T>();
 
@@ -150,8 +148,6 @@ export const FormLimitedWideTextArea = <T extends FieldValues>({
   });
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useAutoResizeTextArea(textareaRef, text, rows);
 
   return (
     <div className="flex w-full flex-col">
@@ -174,7 +170,7 @@ export const FormLimitedWideTextArea = <T extends FieldValues>({
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeHolderContent}
           className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
-          rows={rows}
+          rows={7}
         />
         <div className="caption-m text-grey06 absolute right-3.5 bottom-2.5 flex h-[1.3125rem] items-center">
           <span
