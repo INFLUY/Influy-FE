@@ -58,7 +58,7 @@ export { default as AdminItemBottomSheet } from './seller/item/administration/Ad
 export { default as SellerMyItem } from './seller/item/administration/SellerMyItem';
 // faq
 export { default as VanillaCategoryMultiSelector } from './seller/item/faq/VanillaCategoryMultiSelector';
-export { default as ItemBanner } from './seller/item/faq/ItemBanner';
+export { default as FaqItemBanner } from './seller/item/faq/FaqItemBanner';
 export { default as FaqImageUploader } from './seller/item/faq/FaqImageUploader';
 
 //my

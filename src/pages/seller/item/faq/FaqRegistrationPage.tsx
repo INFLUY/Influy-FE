@@ -4,7 +4,7 @@ import {
   FaqImageUploader,
   FormLimitedWideTextArea,
   FormWideTextArea,
-  ItemBanner,
+  FaqItemBanner,
   PageHeader,
   SnackBar,
   TipTooltip,
@@ -161,7 +161,7 @@ const FaqRegistrationPage = () => {
         // 카테고리 있을 때
         <FormProvider {...methods}>
           <div className="flex flex-1 flex-col gap-6 pt-4 pb-[5.1875rem]">
-            <ItemBanner name={itemData?.name} tagline={itemData?.tagline} />
+            <FaqItemBanner name={itemData?.name} tagline={itemData?.tagline} />
             <form
               onSubmit={handleSubmit(onSubmit, onError)}
               className="flex flex-col gap-[1.875rem]"

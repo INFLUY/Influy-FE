@@ -3,7 +3,7 @@ import {
   FaqImageUploader,
   FormLimitedWideTextArea,
   FormWideTextArea,
-  ItemBanner,
+  FaqItemBanner,
   PageHeader,
   SnackBar,
   ToggleButton,
@@ -149,7 +149,7 @@ const FaqEditPage = () => {
             <span className="flex px-5">
               등록일자 {parseDateString(updatedAt)}
             </span>
-            <ItemBanner name={itemData?.name} tagline={itemData?.tagline} />
+            <FaqItemBanner name={itemData?.name} tagline={itemData?.tagline} />
           </div>
           <div className="flex flex-col gap-[1.875rem]">
             <div className="flex h-fit flex-col gap-4 px-5">

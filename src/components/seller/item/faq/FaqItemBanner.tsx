@@ -1,4 +1,10 @@
-const ItemBanner = ({ name, tagline }: { name: string; tagline: string }) => {
+const FaqItemBanner = ({
+  name,
+  tagline,
+}: {
+  name: string;
+  tagline: string;
+}) => {
   return (
     <article className="border-grey02 flex w-full items-start justify-start gap-[.5625rem] border-b px-5 pb-[.875rem]">
       <img
@@ -14,4 +20,4 @@ const ItemBanner = ({ name, tagline }: { name: string; tagline: string }) => {
   );
 };
 
-export default ItemBanner;
+export default FaqItemBanner;
