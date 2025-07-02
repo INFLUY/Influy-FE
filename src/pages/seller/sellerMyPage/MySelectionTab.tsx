@@ -7,6 +7,7 @@ import { AddButton, RadioBottomSheet, SellerMyItem } from '@/components';
 import Arrow from '@/assets/icon/common/Chevron.svg?react';
 import cn from '@/utils/cn';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
+import { PATH } from '@/routes/path';
 
 const MySelectionTab = () => {
   const navigate = useNavigate();
@@ -132,7 +133,14 @@ const MySelectionTab = () => {
         </ul>
       )}
       <div className="flex w-full px-5">
-        <AddButton size="large" handleOnClick={() => navigate('')}>
+        <AddButton
+          size="large"
+          handleOnClick={() =>
+            navigate(
+              `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${PATH.SELLER.items.item.registration}`
+            )
+          }
+        >
           상품 추가
         </AddButton>
       </div>

@@ -11,8 +11,10 @@ export { default as MySelectionTab } from './seller/sellerMyPage/MySelectionTab'
 export { default as MyStoredItemTab } from './seller/sellerMyPage/MyStoredItemTab';
 export { default as MyItemReviewTab } from './seller/sellerMyPage/MyItemReviewTab';
 export { default as Notice } from './seller/notice/NoticePage';
+export { default as SellerMyProfileEditPage } from './seller/sellerMyPage/SellerMyProfileEditPage';
 
 export { default as NotFound } from './error/NotFound';
 
 export { ItemRegistrationPage } from './seller/item/ItemRegistrationPage';
 export { default as FaqRegistrationCategoryPage } from './seller/item/faq/FaqRegistrationCategoryPage';
+export { default as SellerItemDetailPage } from './seller/item/SellerItemDetailPage';

@@ -20,12 +20,19 @@ export const PATH = {
     notice: {
       base: 'notice',
     },
+    edit: {
+      base: 'edit-profile',
+    },
     items: {
       base: 'item',
       item: {
         registration: 'new',
         administration: {
           base: ':itemId',
+          itemDetail: {
+            archived: 'archived',
+            published: 'published',
+          },
           faq: {
             base: 'faq',
             registration: {

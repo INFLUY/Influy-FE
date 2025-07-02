@@ -19,7 +19,9 @@ import {
   MyItemReviewTab,
   MyStoredItemTab,
   Notice,
+  SellerMyProfileEditPage,
   FaqRegistrationCategoryPage,
+  SellerItemDetailPage,
 } from '@/pages';
 
 const router = createBrowserRouter([
@@ -110,6 +112,16 @@ const router = createBrowserRouter([
             ],
           },
           {
+            path: PATH.SELLER.edit.base,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: <SellerMyProfileEditPage />,
+              },
+            ],
+          },
+          {
             path: PATH.SELLER.items.base,
             element: <Outlet />,
             children: [
@@ -123,7 +135,15 @@ const router = createBrowserRouter([
                 children: [
                   {
                     index: true,
-                    element: <FaqRegistrationCategoryPage />, // (임시) 상품 조회 페이지
+                    path: PATH.SELLER.items.item.administration.itemDetail
+                      .published,
+                    element: <SellerItemDetailPage />, // 게시한 상품 조회 페이지
+                  },
+                  {
+                    index: true,
+                    path: PATH.SELLER.items.item.administration.itemDetail
+                      .archived,
+                    element: <SellerItemDetailPage />, // 보관한 상품 조회 페이지
                   },
                   {
                     path: PATH.SELLER.items.item.administration.faq.base,

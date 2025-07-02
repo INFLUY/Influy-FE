@@ -15,7 +15,7 @@ export const TipTooltip = ({
     <div
       className={cn(
         'caption-m flex w-full shrink-0 items-start justify-center gap-1 rounded-[.1875rem] px-2.5 py-2 break-words whitespace-break-spaces',
-        bgColor || 'bg-grey02'
+        bgColor || 'bg-grey01'
       )}
     >
       <span className={cn('text-center', textColor || 'text-grey08')}>

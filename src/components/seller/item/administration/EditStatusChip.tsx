@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
+import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import {
   formatTime,
   getDday,
@@ -17,8 +17,11 @@ const EditStatusChip = ({
 }) => {
   return (
     <div
-      className="bg-grey03 text-grey09 caption-m inline-flex w-fit items-center justify-center gap-[.125rem] rounded-[.125rem] px-2 py-[.1875rem]"
-      onClick={onClick}
+      className="bg-grey03 text-grey09 caption-m inline-flex w-fit cursor-pointer items-center justify-center gap-[.125rem] rounded-[.125rem] px-2 py-1"
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
     >
       {children}
       <EditIcon className="text-grey06 h-[.875rem] w-[.875rem]" />

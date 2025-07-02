@@ -28,7 +28,7 @@ export const TextInput = ({
     <div className="flex w-full flex-col">
       <div
         onClick={() => textareaRef.current?.focus()}
-        className="border-grey03 focus-within:border-grey05 flex h-fit w-full items-center justify-center gap-2.5 rounded-sm border px-3.5 py-2.5"
+        className="border-grey03 focus-within:border-grey05 flex h-fit w-full items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5"
       >
         <textarea
           ref={textareaRef}
@@ -62,7 +62,7 @@ export const LinkInput = ({
       <div
         onClick={() => textareaRef.current?.focus()}
         className={cn(
-          'flex h-fit w-full items-center justify-center gap-2.5 rounded-sm border px-3.5 py-2.5',
+          'flex h-fit w-full items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5',
           (!text && text.length == 0) || isValidURL(text)
             ? 'border-grey03 focus-within:border-grey05'
             : 'border-error'
@@ -109,7 +109,7 @@ export const LimitedTextInput = ({
       <div
         onClick={() => textareaRef.current?.focus()}
         className={cn(
-          'flex h-fit w-full items-center justify-center gap-2.5 rounded-sm border px-3.5 py-2.5',
+          'flex h-fit w-full items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5',
           text.length > maxLength
             ? 'border-error'
             : 'border-grey03 focus-within:border-grey05'
@@ -161,7 +161,7 @@ export const WideTextArea = ({
       <div
         onClick={() => textareaRef.current?.focus()}
         className={cn(
-          'focus-within:border-grey05 border-grey03 flex h-fit w-full items-center justify-center gap-2.5 rounded-sm border px-3.5 py-2.5'
+          'focus-within:border-grey05 border-grey03 flex h-fit w-full items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5'
         )}
       >
         <textarea

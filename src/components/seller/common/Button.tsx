@@ -17,7 +17,7 @@ export const DefaultButton = ({
       onClick={onClick}
       disabled={useDisabled ? disabled : false}
       className={cn(
-        'body2-m box-border flex h-fit w-full items-center justify-center rounded-sm py-3.5 text-white',
+        'body2-m box-border flex h-fit w-full items-center justify-center rounded-xs py-3.5 text-white',
         disabled
           ? `${disabledColor} cursor-default`
           : `${activeColor} cursor-pointer`,
@@ -71,13 +71,18 @@ export const AddButton = ({
       className={cn(
         'text-grey07 body2-m border-grey03 flex w-full cursor-pointer items-center justify-center gap-1 border',
         {
-          'py-[2.4063rem]': size === 'large',
-          'py-[.875rem]': size === 'base',
+          'h-[6.125rem]': size === 'large',
+          'h-[3.0625rem]': size === 'base',
         }
       )}
       onClick={() => handleOnClick()}
     >
-      <PlusIcon className="text-grey07 h-5 w-5" />
+      <PlusIcon
+        className={cn('text-grey07', {
+          'h-6 w-6': size === 'large',
+          'h-5 w-5': size === 'base',
+        })}
+      />
       <span>{children}</span>
     </button>
   );

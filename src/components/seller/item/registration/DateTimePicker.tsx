@@ -9,7 +9,8 @@ import CalendarIcon from '@/assets/icon/common/Calendar.svg?react';
 import { DefaultButton } from '@/components';
 import { useFormContext, useController } from 'react-hook-form';
 import { isToday, formatTime, formatDate } from '@/utils/formatDate';
-
+import CheckBoxOnIcon from '@/assets/icon/common/CheckBox24On.svg?react';
+import CheckBoxOffIcon from '@/assets/icon/common/CheckBox24Off.svg?react';
 interface DateTimePickerProps {
   selectedDateTime: Date | null;
   setSelectedDateTime: React.Dispatch<React.SetStateAction<Date | null>>;
@@ -177,12 +178,15 @@ export const DateTimePicker = ({
   hasDateName,
   type,
   onClose,
+  mode,
 }: {
   dateTimeName: string;
   hasDateName: string;
-  type: string;
+  type: 'start' | 'end';
   onClose: () => void;
+  mode: 'create' | 'edit';
 }) => {
+  const [extendPeriod, setExtendPeriod] = useState(false);
   const { control } = useFormContext();
 
   const {
@@ -214,23 +218,47 @@ export const DateTimePicker = ({
   return (
     <div className="scrollbar-hide relative h-[32.8125rem] w-full overflow-scroll px-5 pb-8">
       <p className="subhead-b sticky top-0 z-1 h-[2.375rem] bg-white text-center">
-        {type} 설정
+        {type === 'start' ? '시작일' : '마감일'} 설정
       </p>
       <article className="relative mt-7 mb-8 flex w-full flex-col justify-between gap-2">
         {/* 상단 날짜 선택 박스 */}
-        <div className="border-grey03 body2-m text-grey06 flex w-full shrink-0 items-center justify-between rounded-sm border border-solid px-[.8125rem] py-2.5">
-          달력에서 {type}을 선택하세요
+        <div className="border-grey03 body2-m text-grey06 flex w-full shrink-0 items-center justify-between rounded-xs border border-solid px-[.8125rem] py-2.5">
+          달력에서 {type === 'start' ? '시작일' : '마감일'}을 선택하세요
           <CalendarIcon />
         </div>
         <DatePickerCalender
           selectedDateTime={selectedDateTime}
           setSelectedDateTime={setSelectedDateTime}
         />
+
         {selectedDateTime && (
-          <TimePickerWheel
-            selectedDateTime={selectedDateTime}
-            setSelectedDateTime={setSelectedDateTime}
-          />
+          <div className="flex h-fit w-full flex-col gap-4">
+            <TimePickerWheel
+              selectedDateTime={selectedDateTime}
+              setSelectedDateTime={setSelectedDateTime}
+            />
+            {mode === 'create' && type === 'end' && (
+              <div className="flex flex-col gap-1">
+                <div className="text-grey10 body2-b flex items-center gap-[0.5rem]">
+                  <button
+                    onClick={() => setExtendPeriod(!extendPeriod)}
+                    className="cursor-pointer"
+                    type="button"
+                  >
+                    {extendPeriod ? (
+                      <CheckBoxOnIcon className="h-4 w-4" />
+                    ) : (
+                      <CheckBoxOffIcon className="h-4 w-4" />
+                    )}
+                  </button>
+                  연장 표기하기 (임시, 디자인 확인을 위함 )
+                </div>
+                <span className="text-grey07 body2-m">
+                  상품 썸네일의 상태표시가 ‘연장'으로 변경됩니다. (임시)
+                </span>
+              </div>
+            )}
+          </div>
         )}
       </article>
       <DefaultButton disabled={!selectedDateTime} onClick={handleSaveClick} />
