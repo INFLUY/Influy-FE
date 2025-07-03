@@ -4,7 +4,6 @@ import {
   FieldValues,
   Path,
 } from 'react-hook-form';
-import useAutoResizeTextArea from '@/hooks/useAutoResizeTextArea';
 import cn from '@/utils/cn';
 import WarningIcon from '@/assets/icon/common/Warning.svg?react';
 import { useRef, useMemo, useEffect, useState } from 'react';
@@ -96,7 +95,7 @@ export const FormWideTextArea = <T extends FieldValues>({
   const { control } = useFormContext<T>();
 
   const {
-    field: { value: text, onChange, ref },
+    field: { value: text, onChange },
     fieldState: { error },
   } = useController({
     name,
@@ -116,10 +115,7 @@ export const FormWideTextArea = <T extends FieldValues>({
       >
         <textarea
           id={id ?? name}
-          ref={(e) => {
-            textareaRef.current = e;
-            ref(e);
-          }}
+          ref={textareaRef}
           value={text}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeHolderContent}
@@ -140,7 +136,7 @@ export const FormLimitedWideTextArea = <T extends FieldValues>({
   const { control } = useFormContext<T>();
 
   const {
-    field: { value: text, onChange, ref },
+    field: { value: text, onChange },
     fieldState: { error },
   } = useController({
     name,
@@ -162,10 +158,7 @@ export const FormLimitedWideTextArea = <T extends FieldValues>({
       >
         <textarea
           id={id ?? name}
-          ref={(e) => {
-            textareaRef.current = e;
-            ref(e);
-          }}
+          ref={textareaRef}
           value={text}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeHolderContent}
@@ -199,8 +192,6 @@ export const FormLinkInput = <T extends FieldValues>({
   });
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useAutoResizeTextArea(textareaRef, text);
 
   return (
     <div className="flex w-full flex-col">
