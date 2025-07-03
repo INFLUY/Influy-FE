@@ -18,7 +18,9 @@ interface DisabledOnlyProps extends BaseProps {
 // setSelectedCategory 있는 경우 disabled 없음
 interface InteractiveProps extends BaseProps {
   disabled?: false;
-  setSelectedCategory: React.Dispatch<SetStateAction<number[]>>;
+  setSelectedCategory:
+    | React.Dispatch<SetStateAction<number[]>>
+    | ((value: number[]) => void);
 }
 
 type CategoryMultiSelectorProps = DisabledOnlyProps | InteractiveProps;

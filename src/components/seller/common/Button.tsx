@@ -19,7 +19,7 @@ export const DefaultButton = ({
       className={cn(
         'body2-m box-border flex h-[3.0625rem] w-full items-center justify-center rounded-xs bg-black text-white',
         {
-          'bg-grey cursor-default': disabled && disabledTheme === 'base',
+          'bg-grey05 cursor-default': disabled && disabledTheme === 'base',
           'cursor-pointer bg-black text-white':
             !disabled && activeTheme === 'black',
           'cursor-pointer border border-black bg-white text-black':

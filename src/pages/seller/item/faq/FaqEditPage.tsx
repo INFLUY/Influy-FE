@@ -23,8 +23,6 @@ const FaqEditPage = () => {
   const navigate = useNavigate();
   const [faqCategory, setFaqCategory] = useState<number[]>([]);
   const [updatedAt, setUpdatedAt] = useState<string>('');
-  const [isPinned, setIsPinned] = useState<boolean>(false);
-  const [adjustImg, setAdjustImg] = useState<boolean>(false);
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
     open: false,
     message: '',
@@ -75,8 +73,8 @@ const FaqEditPage = () => {
       isPinned: faq.pinned || false,
       adjustImg: faq.adjustImg || false,
     });
-    setAdjustImg(faq.adjustImg);
-    setIsPinned(faq.pinned);
+    setValue('adjustImg', faq.adjustImg);
+    setValue('isPinned', faq.pinned);
     setFaqCategory([faq.faqCategoryId]);
     setUpdatedAt(faq.updatedAt);
   }, []);
@@ -98,6 +96,8 @@ const FaqEditPage = () => {
 
   const {
     handleSubmit,
+    getValues,
+    setValue,
     formState: { isSubmitting, isValid },
   } = methods;
 
@@ -109,14 +109,6 @@ const FaqEditPage = () => {
       return;
     }
   };
-
-  useEffect(() => {
-    methods.setValue('isPinned', isPinned);
-  }, [isPinned, methods]);
-
-  useEffect(() => {
-    methods.setValue('adjustImg', adjustImg);
-  }, [adjustImg, methods]);
 
   const onSubmit = (data: FaqFormValues) => {
     console.log('폼 제출됨:', data);
@@ -201,8 +193,10 @@ const FaqEditPage = () => {
               <h2 className="body1-b px-5 text-black">사진</h2>
               <FaqImageUploader
                 name={'image'}
-                adjustImg={adjustImg}
-                setAdjustImg={setAdjustImg}
+                adjustImg={getValues('adjustImg')}
+                setAdjustImg={(value: boolean) =>
+                  setValue('adjustImg', value, { shouldValidate: true })
+                }
               />
             </article>
             {/* 고정하기 */}
@@ -215,8 +209,10 @@ const FaqEditPage = () => {
               </div>
               <ToggleButton
                 name="핀 버튼"
-                isChecked={isPinned}
-                setIsChecked={setIsPinned}
+                isChecked={getValues('isPinned')}
+                setIsChecked={(value: boolean) =>
+                  setValue('isPinned', value, { shouldValidate: true })
+                }
               />
             </article>
           </div>

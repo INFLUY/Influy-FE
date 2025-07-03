@@ -15,7 +15,9 @@ export const FaqImageUploader = ({
 }: {
   name: string;
   adjustImg: boolean;
-  setAdjustImg: React.Dispatch<SetStateAction<boolean>>;
+  setAdjustImg:
+    | React.Dispatch<SetStateAction<boolean>>
+    | ((value: boolean) => void);
 }) => {
   const { control } = useFormContext();
 

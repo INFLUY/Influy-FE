@@ -8,7 +8,9 @@ const ToggleButton = ({
 }: {
   name: string;
   isChecked: boolean;
-  setIsChecked: React.Dispatch<SetStateAction<boolean>>;
+  setIsChecked:
+    | React.Dispatch<SetStateAction<boolean>>
+    | ((value: boolean) => void);
 }) => {
   return (
     <div className="relative h-6 w-[2.875rem]">

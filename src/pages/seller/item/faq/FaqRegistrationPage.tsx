@@ -15,9 +15,14 @@ import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import FolderIcon from '@/assets/icon/seller/FolderIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { CategoryType } from '@/types/common/CategoryType.types';
-import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
+import {
+  useForm,
+  FormProvider,
+  FieldErrors,
+  useFormContext,
+} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 
@@ -34,9 +39,6 @@ const FaqRegistrationPage = () => {
     { id: 7, category: '재고/수량' },
   ];
 
-  const [selectedCategory, setSelectedCategory] = useState<number[]>([]);
-  const [isPinned, setIsPinned] = useState<boolean>(false);
-  const [adjustImg, setAdjustImg] = useState<boolean>(false);
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
     open: false,
     message: '',
@@ -76,6 +78,8 @@ const FaqRegistrationPage = () => {
 
   const {
     handleSubmit,
+    getValues,
+    setValue,
     formState: { isSubmitting, isValid },
   } = methods;
 
@@ -110,18 +114,6 @@ const FaqRegistrationPage = () => {
       return;
     }
   };
-
-  useEffect(() => {
-    methods.setValue('category', selectedCategory, { shouldValidate: true });
-  }, [selectedCategory, methods]);
-
-  useEffect(() => {
-    methods.setValue('isPinned', isPinned);
-  }, [isPinned, methods]);
-
-  useEffect(() => {
-    methods.setValue('adjustImg', adjustImg);
-  }, [adjustImg, methods]);
 
   const onSubmit = (data: FaqFormValues) => {
     console.log('폼 제출됨:', data);
@@ -187,8 +179,10 @@ const FaqRegistrationPage = () => {
                 {/* FAQ 카테고리 */}
                 <VanillaCategoryMultiSelector
                   categoryList={CATEGORIES}
-                  selectedCategory={selectedCategory}
-                  setSelectedCategory={setSelectedCategory}
+                  selectedCategory={(getValues('category') ?? []).map(Number)}
+                  setSelectedCategory={(value: number[]) =>
+                    setValue('category', value, { shouldValidate: true })
+                  }
                 />
               </article>
               {/* 질문 */}
@@ -227,8 +221,10 @@ const FaqRegistrationPage = () => {
                 </span>
                 <FaqImageUploader
                   name={'image'}
-                  adjustImg={adjustImg}
-                  setAdjustImg={setAdjustImg}
+                  adjustImg={getValues('adjustImg')}
+                  setAdjustImg={(value: boolean) =>
+                    setValue('adjustImg', value, { shouldValidate: true })
+                  }
                 />
               </article>
               {/* 고정하기 */}
@@ -241,8 +237,10 @@ const FaqRegistrationPage = () => {
                 </div>
                 <ToggleButton
                   name="핀 버튼"
-                  isChecked={isPinned}
-                  setIsChecked={setIsPinned}
+                  isChecked={getValues('isPinned')}
+                  setIsChecked={(value: boolean) =>
+                    setValue('isPinned', value, { shouldValidate: true })
+                  }
                 />
               </article>
             </form>
