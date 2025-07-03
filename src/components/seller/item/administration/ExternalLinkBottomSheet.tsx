@@ -69,7 +69,7 @@ const ExternalLinkBottomSheet = ({
           {linkId !== undefined && (
             <DefaultButton
               text="삭제하기"
-              activeColor="bg-grey07"
+              activeTheme="white"
               onClick={handleClickDelete}
             />
           )}

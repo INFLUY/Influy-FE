@@ -4,9 +4,9 @@ import type { ModalButtonProps, DefaultButtonProps } from './Button.types';
 export const DefaultButton = ({
   onClick,
   disabled = false,
-  activeColor = 'bg-black',
+  activeTheme = 'black',
+  disabledTheme = 'base',
   useDisabled = true,
-  disabledColor = 'bg-grey05',
   text = '저장하기',
   additionalStyles,
   type = 'button',
@@ -17,10 +17,16 @@ export const DefaultButton = ({
       onClick={onClick}
       disabled={useDisabled ? disabled : false}
       className={cn(
-        'body2-m box-border flex h-fit w-full items-center justify-center rounded-xs py-3.5 text-white',
-        disabled
-          ? `${disabledColor} cursor-default`
-          : `${activeColor} cursor-pointer`,
+        'body2-m box-border flex h-[3.0625rem] w-full items-center justify-center rounded-xs bg-black text-white',
+        {
+          'bg-grey05 cursor-default': disabled && disabledTheme === 'base',
+          'cursor-pointer bg-black text-white':
+            !disabled && activeTheme === 'black',
+          'cursor-pointer border border-black bg-white text-black':
+            !disabled && activeTheme === 'white',
+          'bg-grey04 cursor-pointer text-black':
+            !disabled && activeTheme === 'grey',
+        },
         additionalStyles
       )}
     >

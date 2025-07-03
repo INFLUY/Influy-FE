@@ -41,5 +41,13 @@ export const useSingleImageUploader = (onChange: (value: string) => void) => {
     };
   }, []);
 
-  return { handleFileChange, snackbar, setSnackbar };
+  const removeFile = () => {
+    if (imageUrlRef.current) {
+      URL.revokeObjectURL(imageUrlRef.current);
+      imageUrlRef.current = null;
+    }
+    onChange('');
+  };
+
+  return { handleFileChange, removeFile, snackbar, setSnackbar };
 };

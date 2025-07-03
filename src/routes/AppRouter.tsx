@@ -20,8 +20,9 @@ import {
   MyStoredItemTab,
   Notice,
   SellerMyProfileEditPage,
-  FaqRegistrationCategoryPage,
+  FaqRegistrationPage,
   SellerItemDetailPage,
+  FaqEditPage,
 } from '@/pages';
 
 const router = createBrowserRouter([
@@ -151,11 +152,16 @@ const router = createBrowserRouter([
                     children: [
                       {
                         index: true,
-                        element: <FaqRegistrationCategoryPage />, // (임시) faq 조회 페이지
+                        element: <FaqRegistrationPage />, // (임시) faq 조회 페이지
                       },
                       {
                         path: PATH.SELLER.items.item.administration.faq
                           .registration.base,
+                        element: <FaqRegistrationPage />,
+                      },
+                      {
+                        path: PATH.SELLER.items.item.administration.faq
+                          .administration.base,
                         element: <Outlet />,
                         children: [
                           {
@@ -164,7 +170,7 @@ const router = createBrowserRouter([
                               <Navigate
                                 to={
                                   PATH.SELLER.items.item.administration.faq
-                                    .registration.category
+                                    .administration.faqDetail.edit
                                 }
                                 replace
                               />
@@ -172,8 +178,8 @@ const router = createBrowserRouter([
                           },
                           {
                             path: PATH.SELLER.items.item.administration.faq
-                              .registration.category,
-                            element: <FaqRegistrationCategoryPage />,
+                              .administration.faqDetail.edit,
+                            element: <FaqEditPage />, // 개별 faq 수정 페이지
                           },
                         ],
                       },

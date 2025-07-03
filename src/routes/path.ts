@@ -37,9 +37,14 @@ export const PATH = {
             base: 'faq',
             registration: {
               base: 'new',
-              category: 'category',
               question: 'question',
               answer: 'answer',
+            },
+            administration: {
+              base: ':faqId',
+              faqDetail: {
+                edit: 'edit',
+              },
             },
           },
         },

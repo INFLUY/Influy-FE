@@ -306,7 +306,10 @@ export const ItemForm = ({
 
       {/* COMMENT */}
       <ItemSection label="COMMENT">
-        <FormWideTextArea name={'commentText'} />
+        <FormWideTextArea
+          name={'commentText'}
+          placeHolderContent="제품 선택 이유, 특징, 사용 경험 등 제품의 매력을 보여줄 수 있는 내용을 자유롭게 작성해 주세요."
+        />
       </ItemSection>
     </section>
   );
