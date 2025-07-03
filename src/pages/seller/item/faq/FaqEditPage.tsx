@@ -144,7 +144,7 @@ const FaqEditPage = () => {
         >
           FAQ 수정
         </PageHeader>
-        <div className="flex flex-1 flex-col gap-6 pt-4 pb-[8.25rem]">
+        <section className="flex flex-1 flex-col gap-6 pt-4 pb-[8.25rem]">
           <div className="body2-m text-grey06 flex flex-col gap-4">
             <span className="flex px-5">
               등록일자 {parseDateString(updatedAt)}
@@ -152,7 +152,7 @@ const FaqEditPage = () => {
             <FaqItemBanner name={itemData?.name} tagline={itemData?.tagline} />
           </div>
           <div className="flex flex-col gap-[1.875rem]">
-            <div className="flex h-fit flex-col gap-4 px-5">
+            <article className="flex h-fit flex-col gap-4 px-5">
               <div className="flex w-full justify-between">
                 <h2 className="body1-b text-black">
                   FAQ 카테고리 <span className="text-[#F43232]">*</span>
@@ -172,9 +172,9 @@ const FaqEditPage = () => {
                 categoryList={CATEGORIES}
                 selectedCategory={faqCategory}
               />
-            </div>
+            </article>
             {/* 질문 */}
-            <div className="flex h-fit flex-col gap-4 px-5">
+            <article className="flex h-fit flex-col gap-4 px-5">
               <h2 className="body1-b text-black">
                 질문 <span className="text-[#F43232]">*</span>
               </h2>
@@ -184,9 +184,9 @@ const FaqEditPage = () => {
                 placeHolderContent="질문을 입력해 주세요."
                 maxLength={150}
               />
-            </div>
+            </article>
             {/* 답변 */}
-            <div className="flex h-fit flex-col gap-4 px-5">
+            <article className="flex h-fit flex-col gap-4 px-5">
               <h2 className="body1-b text-black">
                 답변 <span className="text-[#F43232]">*</span>
               </h2>
@@ -195,18 +195,18 @@ const FaqEditPage = () => {
                 name="answer"
                 placeHolderContent="질문에 대한 답변을 입력해 주세요."
               />
-            </div>
+            </article>
             {/* 사진 */}
-            <div className="flex h-fit flex-col gap-4">
+            <article className="flex h-fit flex-col gap-4">
               <h2 className="body1-b px-5 text-black">사진</h2>
               <FaqImageUploader
                 name={'image'}
                 adjustImg={adjustImg}
                 setAdjustImg={setAdjustImg}
               />
-            </div>
+            </article>
             {/* 고정하기 */}
-            <div className="flex h-fit items-center justify-between px-5">
+            <article className="flex h-fit items-center justify-between px-5">
               <div className="flex flex-col gap-[.375rem]">
                 <h2 className="body1-b text-black">고정하기</h2>
                 <span className="body2-m text-grey07">
@@ -218,9 +218,9 @@ const FaqEditPage = () => {
                 isChecked={isPinned}
                 setIsChecked={setIsPinned}
               />
-            </div>
+            </article>
           </div>
-        </div>
+        </section>
         {snackbar.open && (
           <SnackBar
             handleSnackBarClose={() =>

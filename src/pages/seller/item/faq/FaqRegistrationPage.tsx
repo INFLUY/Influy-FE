@@ -167,7 +167,10 @@ const FaqRegistrationPage = () => {
               className="flex flex-col gap-[1.875rem]"
             >
               {/* 카테고리 */}
-              <div className="flex h-fit flex-col gap-4 px-5" ref={categoryRef}>
+              <article
+                className="flex h-fit flex-col gap-4 px-5"
+                ref={categoryRef}
+              >
                 <div className="flex w-full justify-between">
                   <h2 className="body1-b text-black">
                     FAQ 카테고리 <span className="text-[#F43232]">*</span>
@@ -187,9 +190,9 @@ const FaqRegistrationPage = () => {
                   selectedCategory={selectedCategory}
                   setSelectedCategory={setSelectedCategory}
                 />
-              </div>
+              </article>
               {/* 질문 */}
-              <div className="flex h-fit flex-col gap-4 px-5">
+              <article className="flex h-fit flex-col gap-4 px-5">
                 <h2 className="body1-b text-black">
                   질문 <span className="text-[#F43232]">*</span>
                 </h2>
@@ -199,9 +202,9 @@ const FaqRegistrationPage = () => {
                   placeHolderContent="질문을 입력해 주세요."
                   maxLength={150}
                 />
-              </div>
+              </article>
               {/* 답변 */}
-              <div className="flex h-fit flex-col gap-4 px-5">
+              <article className="flex h-fit flex-col gap-4 px-5">
                 <h2 className="body1-b text-black">
                   답변 <span className="text-[#F43232]">*</span>
                 </h2>
@@ -210,9 +213,9 @@ const FaqRegistrationPage = () => {
                   name="answer"
                   placeHolderContent="질문에 대한 답변을 입력해 주세요."
                 />
-              </div>
+              </article>
               {/* 사진 */}
-              <div className="flex h-fit flex-col gap-4">
+              <article className="flex h-fit flex-col gap-4">
                 <span className="flex flex-col gap-4 px-5">
                   <h2 className="body1-b text-black">사진</h2>
                   <TipTooltip
@@ -227,9 +230,9 @@ const FaqRegistrationPage = () => {
                   adjustImg={adjustImg}
                   setAdjustImg={setAdjustImg}
                 />
-              </div>
+              </article>
               {/* 고정하기 */}
-              <div className="flex h-fit items-center justify-between px-5">
+              <article className="flex h-fit items-center justify-between px-5">
                 <div className="flex flex-col gap-[.375rem]">
                   <h2 className="body1-b text-black">고정하기</h2>
                   <span className="body2-m text-grey07">
@@ -241,7 +244,7 @@ const FaqRegistrationPage = () => {
                   isChecked={isPinned}
                   setIsChecked={setIsPinned}
                 />
-              </div>
+              </article>
             </form>
           </div>
         </FormProvider>
