@@ -2,8 +2,9 @@ import FolderIcon from '@/assets/icon/seller/FolderIcon.svg?react';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { CategoryChip, AddButton, TextInput } from '@/components';
-import { useState } from 'react';
-import { BottomSheet } from '@/components';
+import { SetStateAction, useState } from 'react';
+import { BottomSheet, DefaultButton } from '@/components';
+import MinusIcon from '@/assets/icon/common/MinusIcon.svg?react';
 
 type SheetMode = 'none' | 'add' | 'editText' | 'editList';
 
@@ -73,7 +74,7 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
 
   return (
     <>
-      {categories.length !== 0 ? (
+      {categories.length == 0 ? (
         <NoCategory openAddSheet={openAddSheet} />
       ) : (
         <section className="box-border flex h-full w-full flex-col items-start justify-start gap-6">
@@ -107,17 +108,39 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
 
       {/* 카테고리 추가하기 바텀시트 */}
       {sheetMode === 'add' && (
-        <BottomSheet
-          onClose={handleSaveAdd}
-          isBottomSheetOpen={sheetMode === 'add'}
-        >
-          <article className="flex w-full flex-col gap-3">
-            <h2 className="subhead-b w-full text-center text-black">
-              카테고리 추가
-            </h2>
-            <div className="flex w-full justify-between"></div>
-          </article>
-        </BottomSheet>
+        // <BottomSheet
+        //   onClose={handleSaveAdd}
+        //   isBottomSheetOpen={sheetMode === 'add'}
+        // >
+        //   <article className="mb-5 flex w-full flex-col gap-4">
+        //     <div className="flex w-full flex-col gap-3">
+        //       {/* 제목 */}
+        //       <h2 className="subhead-b w-full text-center text-black">
+        //         카테고리 추가
+        //       </h2>
+        //       {/* 입력칸 */}
+        //       <div className="flex w-full items-center justify-between gap-[.9375rem] px-5">
+        //         <TextInput
+        //           text={draftName}
+        //           setText={setDraftName}
+        //           placeHolderContent="카테고리명을 입력해 주세요."
+        //         />
+        //         <MinusIcon className="h-5 w-5" />
+        //       </div>
+        //       {/* 저장하기 버튼 */}
+        //       <div className="w-full px-5">
+        //         <DefaultButton onClick={handleSaveAdd} disabled={!draftName} />
+        //       </div>
+        //     </div>
+        //   </article>
+        // </BottomSheet>
+        <CategoryUpsertSheet
+          handleSave={handleSaveAdd}
+          isBottomSheetOpen={sheetMode == 'add'}
+          draftName={draftName}
+          setDraftName={setDraftName}
+          onClose={() => setSheetMode('none')}
+        />
       )}
     </>
   );
@@ -140,5 +163,45 @@ const NoCategory = ({ openAddSheet }: { openAddSheet: () => void }) => {
       {/* 카테고리 추가하기 버튼 */}
       <AddButton handleOnClick={openAddSheet}>카테고리 추가하기</AddButton>
     </section>
+  );
+};
+
+const CategoryUpsertSheet = ({
+  handleSave,
+  isBottomSheetOpen,
+  draftName,
+  setDraftName,
+  onClose,
+}: {
+  handleSave: () => void;
+  isBottomSheetOpen: boolean;
+  draftName: string;
+  setDraftName: React.Dispatch<SetStateAction<string>>;
+  onClose: () => void;
+}) => {
+  return (
+    <BottomSheet onClose={onClose} isBottomSheetOpen={isBottomSheetOpen}>
+      <article className="mb-5 flex w-full flex-col gap-4">
+        <div className="flex w-full flex-col gap-3">
+          {/* 제목 */}
+          <h2 className="subhead-b w-full text-center text-black">
+            카테고리 추가
+          </h2>
+          {/* 입력칸 */}
+          <div className="flex w-full items-center justify-between gap-[.9375rem] px-5">
+            <TextInput
+              text={draftName}
+              setText={setDraftName}
+              placeHolderContent="카테고리명을 입력해 주세요."
+            />
+            <MinusIcon className="h-5 w-5" />
+          </div>
+          {/* 저장하기 버튼 */}
+          <div className="w-full px-5">
+            <DefaultButton onClick={handleSave} disabled={!draftName} />
+          </div>
+        </div>
+      </article>
+    </BottomSheet>
   );
 };
