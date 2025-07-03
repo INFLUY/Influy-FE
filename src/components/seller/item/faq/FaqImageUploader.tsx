@@ -67,7 +67,7 @@ export const FaqImageUploader = ({
         <>
           <ImageResizeIcon
             className="z-10 cursor-pointer"
-            onClick={() => setAdjustImg((prev) => !prev)}
+            onClick={() => setAdjustImg(!adjustImg)}
           />
           <img
             src={value}

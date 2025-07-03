@@ -17,12 +17,7 @@ import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import { CategoryType } from '@/types/common/CategoryType.types';
-import {
-  useForm,
-  FormProvider,
-  FieldErrors,
-  useFormContext,
-} from 'react-hook-form';
+import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 
