@@ -1,9 +1,15 @@
 import FolderIcon from '@/assets/icon/seller/FolderIcon.svg?react';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
-import { CategoryChip, AddButton, TextInput } from '@/components';
-import { SetStateAction, useState, useRef, useEffect } from 'react';
-import { BottomSheet, DefaultButton } from '@/components';
+import { SetStateAction, useState, useRef } from 'react';
+import {
+  BottomSheet,
+  DefaultButton,
+  CategoryChip,
+  AddButton,
+  TextInput,
+  SnackBar,
+} from '@/components';
 import MinusIcon from '@/assets/icon/common/MinusIcon.svg?react';
 import DndIcon from '@/assets/icon/seller/DndIcon.svg?react';
 
@@ -24,6 +30,12 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
 
   // 4) BottomSheet 의 인풋에 바인딩할 임시 텍스트
   const [draftName, setDraftName] = useState('');
+
+  //스낵바
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
+    open: false,
+    message: '',
+  });
 
   // --- UI 핸들러들 ---
   const openAddSheet = () => {
@@ -51,6 +63,10 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
         category: draftName.trim(),
       },
     ]);
+    setSnackbar({
+      open: true,
+      message: '저장되었습니다',
+    });
     setDraftName('');
     setSheetMode('editList');
   };
@@ -62,6 +78,10 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
         c.id === activeCategoryId ? { ...c, category: draftName.trim() } : c
       )
     );
+    setSnackbar({
+      open: true,
+      message: '저장되었습니다',
+    });
     setDraftName('');
     setSheetMode('editList');
   };
@@ -170,6 +190,13 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
             </div>
           </section>
         </BottomSheet>
+      )}
+      {snackbar.open && (
+        <SnackBar
+          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
+        >
+          {snackbar.message}
+        </SnackBar>
       )}
     </>
   );
