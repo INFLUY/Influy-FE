@@ -12,6 +12,22 @@ import {
 } from '@/components';
 import MinusIcon from '@/assets/icon/common/MinusIcon.svg?react';
 import DndIcon from '@/assets/icon/seller/DndIcon.svg?react';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
 type SheetMode = 'none' | 'add' | 'editText' | 'editList';
 
@@ -37,6 +53,8 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
     message: '',
   });
 
+  const [isDragging, setIsDragging] = useState(false);
+
   // --- UI 핸들러들 ---
   const openAddSheet = () => {
     setDraftName('');
@@ -50,8 +68,6 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
     setActiveCategoryId(id);
     setSheetMode('editText');
   };
-
-  const closeSheet = () => setSheetMode('none');
 
   // --- CRUD 핸들러들 ---
   const handleSaveAdd = () => {
@@ -85,6 +101,31 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
     setDraftName('');
     setSheetMode('editList');
   };
+
+  // 드래그 앤 드롭 센서
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  function handleDragStart() {
+    setIsDragging(true);
+  }
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      setCategories((items) => {
+        const oldIndex = items.findIndex((c) => c.id === active.id);
+        const newIndex = items.findIndex((c) => c.id === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+    setIsDragging(false);
+  }
+  console.log(sheetMode);
 
   return (
     <>
@@ -159,6 +200,7 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
         <BottomSheet
           onClose={() => setSheetMode('none')}
           isBottomSheetOpen={sheetMode === 'editList'}
+          disableGesture={isDragging}
         >
           <section className="mb-5 flex w-full flex-col gap-3">
             {/* 제목 */}
@@ -167,8 +209,38 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
             </h2>
 
             {/* 카테고리 리스트 */}
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragStart={handleDragStart}
+              onDragEnd={handleDragEnd}
+              modifiers={[restrictToVerticalAxis]}
+            >
+              <SortableContext
+                items={categories.map((c) => c.id)} /* ← ids, not the objects */
+                strategy={verticalListSortingStrategy}
+              >
+                <div className="scrollbar-hide flex max-h-[23.3125rem] w-full flex-col gap-2 overflow-auto">
+                  {categories.map((c) => (
+                    <SortableCategoryItem
+                      key={c.id}
+                      id={c.id}
+                      category={c}
+                      onEdit={openTextEditSheet}
+                      onRemove={(id) => {
+                        setCategories((prev) =>
+                          prev.filter((x) => x.id !== id)
+                        );
+                      }}
+                    />
+                  ))}
+                </div>
+              </SortableContext>
+            </DndContext>
+
+            {/* 카테고리 리스트 */}
             <div className="scrollbar-hide flex max-h-[23.3125rem] w-full flex-col gap-4 overflow-scroll">
-              {categories.map((data) => (
+              {/* {categories.map((data) => (
                 <div className="flex w-full items-center justify-between px-5">
                   <MinusIcon className="mr-3 h-5 w-5" />
                   <button
@@ -180,7 +252,7 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
                   </button>
                   <DndIcon className="h-6 w-6" />
                 </div>
-              ))}
+              ))} */}
             </div>
             {/* 저장하기 버튼 */}
             <div className="w-full px-5">
@@ -237,21 +309,9 @@ const CategoryUpsertSheet = ({
   onClose: () => void;
   mode: 'add' | 'editText';
 }) => {
-  // 1) 시트가 열릴 때의 initial value 를 기억할 ref
+  // 시트가 열릴 때의 initial value 를 기억할 ref
   const initialValueRef = useRef<string>(draftName);
 
-  // // 2) isBottomSheetOpen 가 true 로 바뀔 때마다, 그 순간의 draftName 을 기록
-  // useEffect(() => {
-  //   if (isBottomSheetOpen) {
-  //     initialValueRef.current = draftName;
-  //   }
-  // }, [isBottomSheetOpen, draftName]);
-
-  // // 3) 시트 닫을 때(취소할 때) draftName 을 초기값으로 되돌려 주는 핸들러
-  // const handleCancel = () => {
-  //   setDraftName(initialValueRef.current);
-  //   onClose();
-  // };
   return (
     <BottomSheet onClose={onClose} isBottomSheetOpen={isBottomSheetOpen}>
       <article className="mb-5 flex w-full flex-col gap-4">
@@ -281,3 +341,53 @@ const CategoryUpsertSheet = ({
     </BottomSheet>
   );
 };
+
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
+type SortableCategoryItemProps = {
+  id: number;
+  category: CategoryType;
+  onEdit: (id: number) => void;
+  onRemove: (id: number) => void;
+};
+
+function SortableCategoryItem({
+  id,
+  category,
+  onEdit,
+  onRemove,
+}: SortableCategoryItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 999 : undefined,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="flex w-full items-center justify-between px-5"
+    >
+      <MinusIcon className="mr-3 h-5 w-5" onClick={() => onRemove(id)} />
+      <button
+        type="button"
+        onClick={() => onEdit(id)}
+        className="border-grey03 flex-1 rounded-xs border bg-white px-[.8125rem] py-2.5 text-left text-black"
+      >
+        {category.category}
+      </button>
+      <DndIcon {...listeners} {...attributes} className="h-6 w-6 cursor-grab" />
+    </div>
+  );
+}
