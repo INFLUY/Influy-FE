@@ -2,9 +2,10 @@ import FolderIcon from '@/assets/icon/seller/FolderIcon.svg?react';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { CategoryChip, AddButton, TextInput } from '@/components';
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useState, useRef, useEffect } from 'react';
 import { BottomSheet, DefaultButton } from '@/components';
 import MinusIcon from '@/assets/icon/common/MinusIcon.svg?react';
+import DndIcon from '@/assets/icon/seller/DndIcon.svg?react';
 
 type SheetMode = 'none' | 'add' | 'editText' | 'editList';
 
@@ -38,10 +39,6 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
     setSheetMode('editText');
   };
 
-  const openListEditSheet = () => {
-    setSheetMode('editList');
-  };
-
   const closeSheet = () => setSheetMode('none');
 
   // --- CRUD 핸들러들 ---
@@ -54,7 +51,8 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
         category: draftName.trim(),
       },
     ]);
-    closeSheet();
+    setDraftName('');
+    setSheetMode('editList');
   };
 
   const handleSaveTextEdit = () => {
@@ -64,13 +62,9 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
         c.id === activeCategoryId ? { ...c, category: draftName.trim() } : c
       )
     );
-    closeSheet();
+    setDraftName('');
+    setSheetMode('editList');
   };
-
-  // const handleReorder = (newOrder: CategoryType[]) => {
-  //   setCategories(newOrder);
-  //   closeSheet();
-  // };
 
   return (
     <>
@@ -80,15 +74,19 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
         <section className="box-border flex h-full w-full flex-col items-start justify-start gap-6">
           {/* 상단 */}
           <article className="flex w-full flex-col gap-2.5">
-            {/* 제목칸 */}
+            {/* 제목 및 카테고리 수정 */}
             <div className="flex w-full items-center justify-between px-5">
               <h2 className="body1-b text-black">FAQ 카드</h2>
-              <div className="flex cursor-pointer items-center gap-1">
+              <button
+                type="button"
+                className="flex cursor-pointer items-center gap-1"
+                onClick={() => setSheetMode('editList')}
+              >
                 <span className="text-grey06 body2-m">카테고리 수정</span>
                 <EditIcon className="h-3.5 w-3.5" />
-              </div>
+              </button>
             </div>
-            {/* 카테고리 선택칸 */}
+            {/* 카테고리 칩 */}
             <div className="flex w-full flex-wrap gap-2 px-5">
               {categories.map((category: CategoryType) => (
                 <CategoryChip
@@ -108,39 +106,70 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
 
       {/* 카테고리 추가하기 바텀시트 */}
       {sheetMode === 'add' && (
-        // <BottomSheet
-        //   onClose={handleSaveAdd}
-        //   isBottomSheetOpen={sheetMode === 'add'}
-        // >
-        //   <article className="mb-5 flex w-full flex-col gap-4">
-        //     <div className="flex w-full flex-col gap-3">
-        //       {/* 제목 */}
-        //       <h2 className="subhead-b w-full text-center text-black">
-        //         카테고리 추가
-        //       </h2>
-        //       {/* 입력칸 */}
-        //       <div className="flex w-full items-center justify-between gap-[.9375rem] px-5">
-        //         <TextInput
-        //           text={draftName}
-        //           setText={setDraftName}
-        //           placeHolderContent="카테고리명을 입력해 주세요."
-        //         />
-        //         <MinusIcon className="h-5 w-5" />
-        //       </div>
-        //       {/* 저장하기 버튼 */}
-        //       <div className="w-full px-5">
-        //         <DefaultButton onClick={handleSaveAdd} disabled={!draftName} />
-        //       </div>
-        //     </div>
-        //   </article>
-        // </BottomSheet>
         <CategoryUpsertSheet
           handleSave={handleSaveAdd}
           isBottomSheetOpen={sheetMode == 'add'}
           draftName={draftName}
           setDraftName={setDraftName}
-          onClose={() => setSheetMode('none')}
+          onClose={() => {
+            setSheetMode('editList');
+            setDraftName('');
+          }}
+          mode="add"
         />
+      )}
+
+      {/* 카테고리명 수정하기 바텀시트 */}
+      {sheetMode === 'editText' && (
+        <CategoryUpsertSheet
+          handleSave={handleSaveTextEdit}
+          isBottomSheetOpen={sheetMode == 'editText'}
+          draftName={draftName}
+          setDraftName={setDraftName}
+          onClose={() => {
+            setSheetMode('editList');
+            setDraftName('');
+          }}
+          mode="editText"
+        />
+      )}
+
+      {/* 카테고리 수정 */}
+      {sheetMode === 'editList' && (
+        <BottomSheet
+          onClose={() => setSheetMode('none')}
+          isBottomSheetOpen={sheetMode === 'editList'}
+        >
+          <section className="mb-5 flex w-full flex-col gap-3">
+            {/* 제목 */}
+            <h2 className="subhead-b w-full text-center text-black">
+              카테고리 수정
+            </h2>
+
+            {/* 카테고리 리스트 */}
+            <div className="scrollbar-hide flex max-h-[23.3125rem] w-full flex-col gap-4 overflow-scroll">
+              {categories.map((data) => (
+                <div className="flex w-full items-center justify-between px-5">
+                  <MinusIcon className="mr-3 h-5 w-5" />
+                  <button
+                    type="button"
+                    onClick={() => openTextEditSheet(data.id)}
+                    className="border-grey03 mr-1.5 flex flex-1 flex-col items-start rounded-xs border border-solid px-[.8125rem] py-2.5 text-black"
+                  >
+                    {data.category}
+                  </button>
+                  <DndIcon className="h-6 w-6" />
+                </div>
+              ))}
+            </div>
+            {/* 저장하기 버튼 */}
+            <div className="w-full px-5">
+              <AddButton handleOnClick={() => setSheetMode('add')}>
+                추가하기
+              </AddButton>
+            </div>
+          </section>
+        </BottomSheet>
       )}
     </>
   );
@@ -172,20 +201,37 @@ const CategoryUpsertSheet = ({
   draftName,
   setDraftName,
   onClose,
+  mode,
 }: {
   handleSave: () => void;
   isBottomSheetOpen: boolean;
   draftName: string;
   setDraftName: React.Dispatch<SetStateAction<string>>;
   onClose: () => void;
+  mode: 'add' | 'editText';
 }) => {
+  // 1) 시트가 열릴 때의 initial value 를 기억할 ref
+  const initialValueRef = useRef<string>(draftName);
+
+  // // 2) isBottomSheetOpen 가 true 로 바뀔 때마다, 그 순간의 draftName 을 기록
+  // useEffect(() => {
+  //   if (isBottomSheetOpen) {
+  //     initialValueRef.current = draftName;
+  //   }
+  // }, [isBottomSheetOpen, draftName]);
+
+  // // 3) 시트 닫을 때(취소할 때) draftName 을 초기값으로 되돌려 주는 핸들러
+  // const handleCancel = () => {
+  //   setDraftName(initialValueRef.current);
+  //   onClose();
+  // };
   return (
     <BottomSheet onClose={onClose} isBottomSheetOpen={isBottomSheetOpen}>
       <article className="mb-5 flex w-full flex-col gap-4">
         <div className="flex w-full flex-col gap-3">
           {/* 제목 */}
           <h2 className="subhead-b w-full text-center text-black">
-            카테고리 추가
+            {mode === 'add' ? '카테고리 추가' : '카테고리명 수정'}
           </h2>
           {/* 입력칸 */}
           <div className="flex w-full items-center justify-between gap-[.9375rem] px-5">
@@ -198,7 +244,10 @@ const CategoryUpsertSheet = ({
           </div>
           {/* 저장하기 버튼 */}
           <div className="w-full px-5">
-            <DefaultButton onClick={handleSave} disabled={!draftName} />
+            <DefaultButton
+              onClick={handleSave}
+              disabled={!draftName || initialValueRef.current === draftName}
+            />
           </div>
         </div>
       </article>
