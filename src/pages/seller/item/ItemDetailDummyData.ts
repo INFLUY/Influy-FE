@@ -52,7 +52,7 @@ export const dummyFaq: FAQCardList[] = [
     questionContent: '키 155, 몸무게 50이면 M사이즈 맞을까요?',
     answerContent:
       '155cm, 50kg라면 M사이즈가 적당합니다. 상체나 하체 발달에 따라 차이가 있을 수 있으니 실측을 꼭 참고하세요.155cm, 50kg라면 M사이즈가 적당합니다. 상체나 하체 발달에 따라 차이가 있을 수 있으니 실측을 꼭 참고하세요.155cm, 50kg라면 M사이즈가 적당합니다. 상체나 하체 발달에 따라 차이가 있을 수 있으니 실측을 꼭 참고하세요.155cm, 50kg라면 M사이즈가 적당합니다. 상체나 하체 발달에 따라 차이가 있을 수 있으니 실측을 꼭 참고하세요.155cm, 50kg라면 M사이즈가 적당합니다. 상체나 하체 발달에 따라 차이가 있을 수 있으니 실측을 꼭 참고하세요.155cm, 50kg라면 M사이즈가 적당합니다. 상체나 하체 발달에 따라 차이가 있을 수 있으니 실측을 꼭 참고하세요.155cm, 50kg라면 M사이즈가 적당합니다. 상체나 하체 발달에 따라 차이가 있을 수 있으니 실측을 꼭 참고하세요.',
-    adjustImg: false,
+    adjustImg: true,
     backgroundImgLink: '/product.png',
     faqCategory: '사이즈',
     updatedAt: '2025-06-07T09:00:00.660Z',
@@ -74,7 +74,7 @@ export const dummyFaq: FAQCardList[] = [
     questionContent: '키 165, 몸무게 55면 M이 맞을까요?',
     answerContent:
       '165cm, 55kg이면 평균적으로 M사이즈를 추천드립니다. 특히 허리 사이즈를 한번 더 확인해 주세요.',
-    adjustImg: false,
+    adjustImg: true,
     backgroundImgLink: '/product.png',
     faqCategory: '사이즈',
     updatedAt: '2025-06-09T09:00:00.660Z',
