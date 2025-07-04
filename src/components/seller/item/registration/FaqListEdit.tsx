@@ -110,11 +110,11 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
     })
   );
 
-  function handleDragStart() {
+  const handleDragStart = () => {
     setIsDragging(true);
-  }
+  };
 
-  function handleDragEnd(event: DragEndEvent) {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
       setCategories((items) => {
@@ -124,8 +124,7 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
       });
     }
     setIsDragging(false);
-  }
-  console.log(sheetMode);
+  };
 
   return (
     <>
@@ -200,7 +199,7 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
         <BottomSheet
           onClose={() => setSheetMode('none')}
           isBottomSheetOpen={sheetMode === 'editList'}
-          disableGesture={isDragging}
+          disableGesture={true}
         >
           <section className="mb-5 flex w-full flex-col gap-3">
             {/* 제목 */}
@@ -217,10 +216,10 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
               modifiers={[restrictToVerticalAxis]}
             >
               <SortableContext
-                items={categories.map((c) => c.id)} /* ← ids, not the objects */
+                items={categories.map((c) => c.id)}
                 strategy={verticalListSortingStrategy}
               >
-                <div className="scrollbar-hide flex max-h-[23.3125rem] w-full flex-col gap-2 overflow-auto">
+                <div className="scrollbar-hide flex h-fit max-h-[23.3125rem] w-full flex-col gap-2 overflow-auto">
                   {categories.map((c) => (
                     <SortableCategoryItem
                       key={c.id}
@@ -352,12 +351,12 @@ type SortableCategoryItemProps = {
   onRemove: (id: number) => void;
 };
 
-function SortableCategoryItem({
+const SortableCategoryItem = ({
   id,
   category,
   onEdit,
   onRemove,
-}: SortableCategoryItemProps) {
+}: SortableCategoryItemProps) => {
   const {
     attributes,
     listeners,
@@ -390,4 +389,4 @@ function SortableCategoryItem({
       <DndIcon {...listeners} {...attributes} className="h-6 w-6 cursor-grab" />
     </div>
   );
-}
+};
