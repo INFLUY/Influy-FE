@@ -37,13 +37,13 @@ const ItemDetailFaqCard = ({ faqList }: { faqList: FAQCardList[] }) => {
             aria-roledescription="FAQ 카드"
             aria-label={`${faq.faqCategory} ${i + 1}번째 FAQ`}
           >
-            <article className="relative flex w-full flex-col">
+            <article className="relative flex w-full flex-col bg-black">
               <img
                 src={faq.backgroundImgLink}
                 alt={`${faq.faqCategory} ${i + 1}번째 사진`}
                 className={cn(
                   'h-[23.4375rem] w-full object-cover',
-                  faq.adjustImg ? 'object-cover' : 'object-fill'
+                  faq.adjustImg ? 'object-cover' : 'object-contain'
                 )}
                 role="img"
                 aria-label={`${faq.faqCategory} 관련 이미지`}
