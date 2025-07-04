@@ -15,7 +15,7 @@ import { SnackBar } from '@/components';
 import { PATH } from '@/routes/path';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { CategoryType } from '@/types/common/CategoryType.types';
-
+import { FaqQuestion } from '@/types/common/ItemType.types';
 export const dummyCategory: CategoryType[] = [
   { id: 0, category: '사이즈' },
   { id: 1, category: '색상' },
@@ -23,6 +23,23 @@ export const dummyCategory: CategoryType[] = [
   { id: 3, category: '배송관련' },
   { id: 4, category: '색상1' },
 ];
+
+const dummyFaqQuestion: FaqQuestion[] = [
+  {
+    id: 1,
+    questionContent: '구성이 어떻게 되나요?',
+    pinned: true,
+    updatedAt: '2025-07-04T04:55:48.736Z',
+  },
+  {
+    id: 2,
+    questionContent:
+      '키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을게 60이면 L사이즈 맞을게 60이면 L사이즈 맞을게 60이면 L사이즈 맞을게 60이면',
+    pinned: true,
+    updatedAt: '2025-07-04T04:55:48.736Z',
+  },
+];
+
 //필수 항목 타입 정의
 type fieldsToCheck<FieldNames extends string> = {
   name: FieldNames;
@@ -278,7 +295,13 @@ export const ItemRegistrationPage = () => {
                 endDateWrapperRef={endDateFieldRef}
               />
             )}
-            {activeTab === 1 && <FaqListEdit faqCategory={dummyCategory} />}
+            {activeTab === 1 && (
+              <FaqListEdit
+                faqCategory={dummyCategory}
+                faqQuestions={dummyFaqQuestion}
+                itemId={1}
+              />
+            )}
           </div>
           {/* 하단 버튼 */}
           <section className="border-t-grey02 sticky right-0 bottom-0 z-50 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">

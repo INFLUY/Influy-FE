@@ -1,6 +1,10 @@
 import FolderIcon from '@/assets/icon/seller/FolderIcon.svg?react';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
+import KebobIcon from '@/assets/icon/common/KebabIcon.svg?react';
+import DarkPinIcon from '@/assets/icon/common/DarkPinIcon.svg?react';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/routes/path';
 import { SetStateAction, useState, useRef } from 'react';
 import {
   BottomSheet,
@@ -12,6 +16,7 @@ import {
 } from '@/components';
 import MinusIcon from '@/assets/icon/common/MinusIcon.svg?react';
 import DndIcon from '@/assets/icon/seller/DndIcon.svg?react';
+import RightIcon from '@/assets/icon/common/ArrowRightMini.svg?react';
 import {
   DndContext,
   closestCenter,
@@ -28,10 +33,20 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { FaqQuestion } from '@/types/common/ItemType.types';
+import { parseDateString } from '@/utils/formatDate';
 
 type SheetMode = 'none' | 'add' | 'editText' | 'editList';
 
-const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
+const FaqListEdit = ({
+  faqCategory,
+  faqQuestions,
+  itemId,
+}: {
+  faqCategory: CategoryType[];
+  faqQuestions: FaqQuestion[];
+  itemId: number;
+}) => {
   // 1) 실제 카테고리 배열
   const [categories, setCategories] = useState<CategoryType[]>(faqCategory);
 
@@ -53,7 +68,7 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
     message: '',
   });
 
-  const [isDragging, setIsDragging] = useState(false);
+  const navigate = useNavigate();
 
   // --- UI 핸들러들 ---
   const openAddSheet = () => {
@@ -110,10 +125,6 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
     })
   );
 
-  const handleDragStart = () => {
-    setIsDragging(true);
-  };
-
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
@@ -123,7 +134,6 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
         return arrayMove(items, oldIndex, newIndex);
       });
     }
-    setIsDragging(false);
   };
 
   return (
@@ -158,6 +168,27 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
                 />
               ))}
             </div>
+          </article>
+          {/* 질문 */}
+          <article className="flex h-fit w-full flex-col gap-[.875rem] px-5">
+            {faqQuestions.map((data) => (
+              <FaqQuestionCard
+                id={data.id}
+                questionContent={data.questionContent}
+                pinned={data.pinned}
+                updatedAt={data.updatedAt}
+                itemId={itemId}
+              />
+            ))}
+            <AddButton
+              handleOnClick={() =>
+                navigate(
+                  `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${PATH.SELLER.items.item.administration.faq.base}`
+                )
+              }
+            >
+              FAQ 추가하기
+            </AddButton>
           </article>
 
           {/* 중간 FAQ 리스트 */}
@@ -211,7 +242,6 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
-              onDragStart={handleDragStart}
               onDragEnd={handleDragEnd}
               modifiers={[restrictToVerticalAxis]}
             >
@@ -237,22 +267,6 @@ const FaqListEdit = ({ faqCategory }: { faqCategory: CategoryType[] }) => {
               </SortableContext>
             </DndContext>
 
-            {/* 카테고리 리스트 */}
-            <div className="scrollbar-hide flex max-h-[23.3125rem] w-full flex-col gap-4 overflow-scroll">
-              {/* {categories.map((data) => (
-                <div className="flex w-full items-center justify-between px-5">
-                  <MinusIcon className="mr-3 h-5 w-5" />
-                  <button
-                    type="button"
-                    onClick={() => openTextEditSheet(data.id)}
-                    className="border-grey03 mr-1.5 flex flex-1 flex-col items-start rounded-xs border border-solid px-[.8125rem] py-2.5 text-black"
-                  >
-                    {data.category}
-                  </button>
-                  <DndIcon className="h-6 w-6" />
-                </div>
-              ))} */}
-            </div>
             {/* 저장하기 버튼 */}
             <div className="w-full px-5">
               <AddButton handleOnClick={() => setSheetMode('add')}>
@@ -388,5 +402,47 @@ const SortableCategoryItem = ({
       </button>
       <DndIcon {...listeners} {...attributes} className="h-6 w-6 cursor-grab" />
     </div>
+  );
+};
+
+type FaqQuestionCardProps = FaqQuestion & { itemId: number };
+
+const FaqQuestionCard = ({
+  id,
+  questionContent,
+  pinned,
+  updatedAt,
+  itemId,
+}: FaqQuestionCardProps) => {
+  const navigate = useNavigate();
+  return (
+    <article className="border-grey04 bg-grey01 flex h-fit w-full shrink-0 flex-col items-start gap-3.5 rounded-[.1875rem] border border-solid px-3.5 pt-3 pb-2.5">
+      <div className="flex items-start justify-between self-stretch">
+        <span className="body2-m text-grey06">
+          {parseDateString(updatedAt)}
+        </span>
+        <div className="flex items-center justify-end gap-0.5">
+          {pinned && <DarkPinIcon className="h-5 w-5" />}
+          <button type="button" className="cursor-pointer">
+            <KebobIcon className="h-5 w-5" />
+          </button>
+        </div>
+      </div>
+      <div className="flex w-full flex-col gap-1.5">
+        <span className="body2-sb w-full text-black">{questionContent}</span>
+        <button
+          type="button"
+          className="text-grey09 flex cursor-pointer items-center justify-center gap-0.5 self-end"
+          onClick={() =>
+            navigate(
+              `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${PATH.SELLER.items.item.administration.faq.base}/${id}/${PATH.SELLER.items.item.administration.faq.administration.faqDetail.edit}`
+            )
+          }
+        >
+          <span className="body2-sb">수정하기</span>
+          <RightIcon className="h-3.5 w-3.5" />
+        </button>
+      </div>
+    </article>
   );
 };
