@@ -175,15 +175,17 @@ const SellerItemDetailPage = () => {
             />
 
             <article className="flex w-full flex-wrap gap-2">
-              {dummyCategory.map((category: CategoryType) => (
-                <CategoryChip
-                  key={category.id}
-                  text={category.category}
-                  isSelected={selectedCategory == category.id}
-                  onToggle={() => setSelectedCategory(category.id)}
-                  theme="faq"
-                />
-              ))}
+              {dummyCategory &&
+                dummyCategory.length > 0 &&
+                dummyCategory.map((category: CategoryType) => (
+                  <CategoryChip
+                    key={category.id}
+                    text={category.category}
+                    isSelected={selectedCategory == category.id}
+                    onToggle={() => setSelectedCategory(category.id)}
+                    theme="faq"
+                  />
+                ))}
             </article>
             {isFaqCategoryTop && (
               <div className="absolute top-0 z-1 h-full w-full bg-white" />
