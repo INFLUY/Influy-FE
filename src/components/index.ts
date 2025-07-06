@@ -48,6 +48,7 @@ export {
   FormSNSInput,
 } from './common/FormTextInput';
 //item
+export { default as EmptyCategoryPlaceholder } from './seller/item/EmptyCategoryPlaceholder';
 export { CategoryMultiSelector } from './seller/item/registration/CategoryMultiSelector';
 export {
   EditTimeChip,
