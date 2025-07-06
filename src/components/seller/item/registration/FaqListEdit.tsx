@@ -32,6 +32,7 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
+  TouchSensor,
 } from '@dnd-kit/core';
 import {
   arrayMove,
@@ -127,6 +128,7 @@ const FaqListEdit = ({
   // 드래그 앤 드롭 센서
   const sensors = useSensors(
     useSensor(PointerSensor),
+    useSensor(TouchSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
