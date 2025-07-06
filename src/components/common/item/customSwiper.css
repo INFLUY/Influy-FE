@@ -9,3 +9,32 @@
   right: 0 !important;
   opacity: 0 !important;
 }
+
+.swiper-pagination {
+  position: absolute;
+  top: 22.6875rem !important;
+  left: 0;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  /* gap: auto; */
+  padding: 0 0.875rem;
+  z-index: 1;
+  bottom: auto !important;
+}
+
+/* individual bullet as progress bar segment */
+.custom-bullet {
+  display: block;
+  flex: 1 !important;
+  height: 0.125rem !important;
+  border-radius: 0.1875rem !important;
+  background-color: #ababab !important;
+  transition: #ababab 0.3s ease;
+  opacity: 1 !important;
+}
+
+/* active bullet (highlight) */
+.swiper-pagination-bullet-active {
+  background-color: white !important;
+}
