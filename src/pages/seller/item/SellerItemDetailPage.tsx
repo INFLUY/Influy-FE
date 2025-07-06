@@ -5,6 +5,7 @@ import {
   BottomNavBar,
   ItemDetailFaqCard,
   CategoryChip,
+  VisibilityBottomSheet,
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
@@ -27,6 +28,7 @@ const SellerItemDetailPage = () => {
     message: '',
   });
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -90,7 +92,9 @@ const SellerItemDetailPage = () => {
 
   // 하단바
   const handleGoToPage = () => {};
-  const handleOpenScopeModal = () => {};
+  const handleOpenScopeModal = () => {
+    setIsBottomSheetOpen(true);
+  };
   const detailBottomNavItems: BottomNavItem[] = [
     {
       label: '판매 페이지',
@@ -113,6 +117,7 @@ const SellerItemDetailPage = () => {
       aria: '상품 수정',
     }, //추후 상품 페이지로 이동하도록 수정 필요
   ];
+
   const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
 
   return (
@@ -197,6 +202,12 @@ const SellerItemDetailPage = () => {
         </SnackBar>
       )}
       <BottomNavBar items={detailBottomNavItems} type="action" />
+      {isBottomSheetOpen && (
+        <VisibilityBottomSheet
+          setIsOpen={setIsBottomSheetOpen}
+          isOpen={isBottomSheetOpen}
+        />
+      )}
     </>
   );
 };

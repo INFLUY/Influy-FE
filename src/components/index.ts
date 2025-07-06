@@ -47,6 +47,8 @@ export {
   FormEmailInput,
   FormSNSInput,
 } from './common/FormTextInput';
+export { default as VisibilityBottomSheet } from './seller/common/VisibilityBottomSheet.tsx';
+
 //item
 export { CategoryMultiSelector } from './seller/item/registration/CategoryMultiSelector';
 export {

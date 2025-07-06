@@ -1,0 +1,64 @@
+import BottomSheet from '@/components/common/BottomSheet';
+import { SetStateAction } from 'react';
+import { DefaultButton, ToggleButton } from '@/components';
+import { useState } from 'react';
+
+const VisibilityBottomSheet = ({
+  isOpen,
+  setIsOpen,
+}: {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<SetStateAction<boolean>>;
+}) => {
+  const [archiveRecommended, setArchiveRecommended] = useState(true);
+  const [searchAvailable, setSearchAvailable] = useState(true);
+
+  return (
+    <BottomSheet onClose={() => setIsOpen(false)} isBottomSheetOpen={isOpen}>
+      <div className="flex flex-col items-center gap-[1.75rem]">
+        {/* 상단 제목 */}
+        <h2 className="subhead-b w-full text-center text-black">
+          공개범위 설정
+        </h2>
+
+        <div className="divide-grey02 flex w-full flex-col divide-y px-5">
+          {/* 홈아카이브 추천 허용 */}
+          <div className="flex justify-between pb-4">
+            <div className="flex flex-1 flex-col gap-1">
+              <span className="body1-m text-black">홈 아카이브 추천 허용</span>
+              <span className="body2-m text-grey07">
+                홈 아카이브 추천 상품으로 게시될 수 있습니다.
+              </span>
+            </div>
+            <ToggleButton
+              name="공개범위 설정"
+              isChecked={archiveRecommended}
+              setIsChecked={setArchiveRecommended}
+            />
+          </div>
+
+          {/* 서비스 내 검색 허용 */}
+          <div className="flex justify-between pt-5">
+            <div className="flex flex-1 flex-col gap-1">
+              <span className="body1-m text-black">서비스 내 검색 허용</span>
+              <span className="body2-m text-grey07">
+                검색 비허용 시 링크로만 접근할 수 있습니다.
+              </span>
+            </div>
+            <ToggleButton
+              name="서비스 내 검색 허용"
+              isChecked={searchAvailable}
+              setIsChecked={setSearchAvailable}
+            />
+          </div>
+        </div>
+
+        <div className="flex w-full flex-col px-5 pt-2.5 pb-8">
+          <DefaultButton onClick={() => {}} />
+        </div>
+      </div>
+    </BottomSheet>
+  );
+};
+
+export default VisibilityBottomSheet;
