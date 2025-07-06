@@ -1,10 +1,12 @@
-import { CategoryType } from '@/types/common/CategoryType.types';
-import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
-import KebobIcon from '@/assets/icon/common/KebabIcon.svg?react';
-import DarkPinIcon from '@/assets/icon/common/DarkPinIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { PATH } from '@/routes/path';
 import { SetStateAction, useState, useRef } from 'react';
+
+import { CategoryType } from '@/types/common/CategoryType.types';
+import { FaqQuestion } from '@/types/common/ItemType.types';
+
+import { parseDateString } from '@/utils/formatDate';
+import { PATH } from '@/routes/path';
+
 import {
   BottomSheet,
   DefaultButton,
@@ -14,9 +16,14 @@ import {
   SnackBar,
   EmptyCategoryPlaceholder,
 } from '@/components';
+
 import MinusIcon from '@/assets/icon/common/MinusIcon.svg?react';
 import DndIcon from '@/assets/icon/seller/DndIcon.svg?react';
 import RightIcon from '@/assets/icon/common/ArrowRightMini.svg?react';
+import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
+import KebobIcon from '@/assets/icon/common/KebabIcon.svg?react';
+import DarkPinIcon from '@/assets/icon/common/DarkPinIcon.svg?react';
+
 import {
   DndContext,
   closestCenter,
@@ -33,8 +40,8 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import { FaqQuestion } from '@/types/common/ItemType.types';
-import { parseDateString } from '@/utils/formatDate';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 type SheetMode = 'none' | 'add' | 'editText' | 'editList' | 'questionEdit';
 
@@ -47,7 +54,7 @@ const FaqListEdit = ({
   faqQuestions: FaqQuestion[];
   itemId: number;
 }) => {
-  // 1) 실제 카테고리 배열
+  // 1) 카테고리 배열
   const [categories, setCategories] = useState<CategoryType[]>(faqCategory);
 
   // 2) 선택된 카테고리
@@ -70,7 +77,7 @@ const FaqListEdit = ({
 
   const navigate = useNavigate();
 
-  // --- UI 핸들러들 ---
+  // --- UI 핸들러 ---
   const openAddSheet = () => {
     setDraftName('');
     setActiveCategoryId(null);
@@ -156,6 +163,7 @@ const FaqListEdit = ({
                 <EditIcon className="h-3.5 w-3.5" />
               </button>
             </div>
+
             {/* 카테고리 칩 */}
             <div className="flex w-full flex-wrap gap-2 px-5">
               {categories.map((category: CategoryType) => (
@@ -343,10 +351,6 @@ const CategoryUpsertSheet = ({
     </BottomSheet>
   );
 };
-
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { set } from 'date-fns';
 
 type SortableCategoryItemProps = {
   id: number;
