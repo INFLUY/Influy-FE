@@ -36,7 +36,7 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { FaqQuestion } from '@/types/common/ItemType.types';
 import { parseDateString } from '@/utils/formatDate';
 
-type SheetMode = 'none' | 'add' | 'editText' | 'editList';
+type SheetMode = 'none' | 'add' | 'editText' | 'editList' | 'questionEdit';
 
 const FaqListEdit = ({
   faqCategory,
@@ -169,17 +169,23 @@ const FaqListEdit = ({
               ))}
             </div>
           </article>
+
           {/* 질문 */}
           <article className="flex h-fit w-full flex-col gap-[.875rem] px-5">
-            {faqQuestions.map((data) => (
-              <FaqQuestionCard
-                id={data.id}
-                questionContent={data.questionContent}
-                pinned={data.pinned}
-                updatedAt={data.updatedAt}
-                itemId={itemId}
-              />
-            ))}
+            {faqQuestions &&
+              faqQuestions.length > 0 &&
+              faqQuestions.map((data) => (
+                <FaqQuestionCard
+                  id={data.id}
+                  questionContent={data.questionContent}
+                  pinned={data.pinned}
+                  updatedAt={data.updatedAt}
+                  itemId={itemId}
+                  key={data.id}
+                  sheetMode={sheetMode}
+                  setSheetMode={setSheetMode}
+                />
+              ))}
             <AddButton
               handleOnClick={() =>
                 navigate(
@@ -276,6 +282,8 @@ const FaqListEdit = ({
           </section>
         </BottomSheet>
       )}
+
+      {/* 스낵바 */}
       {snackbar.open && (
         <SnackBar
           handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
@@ -357,6 +365,7 @@ const CategoryUpsertSheet = ({
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { set } from 'date-fns';
 
 type SortableCategoryItemProps = {
   id: number;
@@ -405,7 +414,11 @@ const SortableCategoryItem = ({
   );
 };
 
-type FaqQuestionCardProps = FaqQuestion & { itemId: number };
+type FaqQuestionCardProps = FaqQuestion & {
+  itemId: number;
+  sheetMode: SheetMode;
+  setSheetMode: React.Dispatch<SetStateAction<SheetMode>>;
+};
 
 const FaqQuestionCard = ({
   id,
@@ -413,36 +426,71 @@ const FaqQuestionCard = ({
   pinned,
   updatedAt,
   itemId,
+  sheetMode,
+  setSheetMode,
 }: FaqQuestionCardProps) => {
   const navigate = useNavigate();
   return (
-    <article className="border-grey04 bg-grey01 flex h-fit w-full shrink-0 flex-col items-start gap-3.5 rounded-[.1875rem] border border-solid px-3.5 pt-3 pb-2.5">
-      <div className="flex items-start justify-between self-stretch">
-        <span className="body2-m text-grey06">
-          {parseDateString(updatedAt)}
-        </span>
-        <div className="flex items-center justify-end gap-0.5">
-          {pinned && <DarkPinIcon className="h-5 w-5" />}
-          <button type="button" className="cursor-pointer">
-            <KebobIcon className="h-5 w-5" />
+    <>
+      <article className="border-grey04 bg-grey01 flex h-fit w-full shrink-0 flex-col items-start gap-3.5 rounded-[.1875rem] border border-solid px-3.5 pt-3 pb-2.5">
+        <div className="flex items-start justify-between self-stretch">
+          <span className="body2-m text-grey06">
+            {parseDateString(updatedAt)}
+          </span>
+          <div className="flex items-center justify-end gap-0.5">
+            {pinned && <DarkPinIcon className="h-5 w-5" />}
+            <button
+              type="button"
+              className="cursor-pointer"
+              onClick={() => setSheetMode('questionEdit')}
+            >
+              <KebobIcon className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+        <div className="flex w-full flex-col gap-1.5">
+          <span className="body2-sb w-full text-black">{questionContent}</span>
+          <button
+            type="button"
+            className="text-grey09 flex cursor-pointer items-center justify-center gap-0.5 self-end"
+            onClick={() =>
+              navigate(
+                `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${PATH.SELLER.items.item.administration.faq.base}/${id}/${PATH.SELLER.items.item.administration.faq.administration.faqDetail.edit}`
+              )
+            }
+          >
+            <span className="body2-sb">수정하기</span>
+            <RightIcon className="h-3.5 w-3.5" />
           </button>
         </div>
-      </div>
-      <div className="flex w-full flex-col gap-1.5">
-        <span className="body2-sb w-full text-black">{questionContent}</span>
-        <button
-          type="button"
-          className="text-grey09 flex cursor-pointer items-center justify-center gap-0.5 self-end"
-          onClick={() =>
-            navigate(
-              `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${PATH.SELLER.items.item.administration.faq.base}/${id}/${PATH.SELLER.items.item.administration.faq.administration.faqDetail.edit}`
-            )
-          }
+      </article>
+      {/* 질문 수정하기 바텀시트 */}
+      {sheetMode === 'questionEdit' && (
+        <BottomSheet
+          onClose={() => setSheetMode('none')}
+          isBottomSheetOpen={sheetMode === 'questionEdit'}
         >
-          <span className="body2-sb">수정하기</span>
-          <RightIcon className="h-3.5 w-3.5" />
-        </button>
-      </div>
-    </article>
+          <section className="body1-b divide-grey02 mt-[.875rem] mb-8 flex w-full flex-col space-y-5 divide-y-[.0938rem] px-5 text-center">
+            <button type="button" className="cursor-pointer pb-4 text-black">
+              {pinned ? '고정 해재' : '맨 앞에 고정'}
+            </button>
+            <button
+              type="button"
+              className="cursor-pointer pb-4 text-black"
+              onClick={() =>
+                navigate(
+                  `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${PATH.SELLER.items.item.administration.faq.base}/${id}/${PATH.SELLER.items.item.administration.faq.administration.faqDetail.edit}`
+                )
+              }
+            >
+              수정
+            </button>
+            <button type="button" className="text-error cursor-pointer">
+              삭제
+            </button>
+          </section>
+        </BottomSheet>
+      )}
+    </>
   );
 };
