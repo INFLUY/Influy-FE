@@ -56,7 +56,7 @@ export const getPrimaryNotification = async ({
   const response = await instance.get(
     generateApiPath(API_DOMAINS.SELLER_PRIMARY_ANNOUNCEMENT, { sellerId })
   );
-  return response.data.result;
+  return response.data.result ?? null;
 };
 
 export const deleteNotification = async ({
