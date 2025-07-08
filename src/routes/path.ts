@@ -30,7 +30,7 @@ export const PATH = {
     items: {
       base: 'item',
       item: {
-        registration: 'new',
+        registration: { base: 'new', tabs: { info: 'info', faq: 'faq' } },
         administration: {
           base: ':itemId',
           itemDetail: {

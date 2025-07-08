@@ -13,12 +13,14 @@ type useBottomSheetGestureProps = {
   isBottomSheetOpen: boolean;
   handleBarRef: RefObject<HTMLDivElement | null>;
   onClose: () => void;
+  disableGesture?: boolean;
 };
 
 const useBottomSheetGesture = ({
   isBottomSheetOpen,
   handleBarRef,
   onClose,
+  disableGesture = false,
 }: useBottomSheetGestureProps) => {
   const metrics = useRef<BottomSheetMetrics>({
     touchStart: {
@@ -44,6 +46,7 @@ const useBottomSheetGesture = ({
   };
 
   useEffect(() => {
+    if (disableGesture) return;
     if (!isBottomSheetOpen) return;
     if (!handleBarRef) return;
     const node = handleBarRef?.current;
@@ -125,7 +128,7 @@ const useBottomSheetGesture = ({
       node.removeEventListener('mousemove', handleTouchMove);
       node.removeEventListener('mouseup', handleTouchEnd);
     };
-  }, [isBottomSheetOpen]);
+  }, [isBottomSheetOpen, disableGesture]);
 };
 
 export default useBottomSheetGesture;

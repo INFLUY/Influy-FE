@@ -14,6 +14,8 @@ import {
   SelectionTab,
   ReviewTab,
   ItemRegistrationPage,
+  ItemFaqTab,
+  ItemInfoTab,
   MySelectionTab,
   MyItemReviewTab,
   MyStoredItemTab,
@@ -133,9 +135,29 @@ const router = createBrowserRouter([
             element: <Outlet />,
             children: [
               {
-                path: PATH.SELLER.items.item.registration,
-                element: <ItemRegistrationPage />,
+                path: PATH.SELLER.items.item.registration.base,
+                element: <ItemRegistrationPage />, // 더 이상 중첩 X
+                children: [
+                  {
+                    index: true,
+                    element: (
+                      <Navigate
+                        to={PATH.SELLER.items.item.registration.tabs.info}
+                        replace
+                      />
+                    ),
+                  },
+                  {
+                    path: PATH.SELLER.items.item.registration.tabs.info,
+                    element: <ItemInfoTab />, // 새로 분리한 컴포넌트
+                  },
+                  {
+                    path: PATH.SELLER.items.item.registration.tabs.faq,
+                    element: <ItemFaqTab />, // 새로 분리한 컴포넌트
+                  },
+                ],
               },
+
               {
                 path: PATH.SELLER.items.item.administration.base,
                 element: <Outlet />,

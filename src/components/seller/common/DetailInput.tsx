@@ -20,9 +20,7 @@ export const TextInput = ({
   setText,
   placeHolderContent,
 }: TextInputProps) => {
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useAutoResizeTextArea(textareaRef, text);
+  const textareaRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <div className="flex w-full flex-col">
@@ -30,18 +28,12 @@ export const TextInput = ({
         onClick={() => textareaRef.current?.focus()}
         className="border-grey03 focus-within:border-grey05 flex h-fit w-full items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5"
       >
-        <textarea
+        <input
           ref={textareaRef}
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={placeHolderContent}
           className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
-          rows={1}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault(); // Enter 키 입력 방지
-            }
-          }}
         />
       </div>
     </div>
