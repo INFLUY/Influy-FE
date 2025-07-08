@@ -52,7 +52,6 @@ export const ItemRegistrationPage = () => {
     open: false,
     message: '',
   });
-  const [faqCategory, setFaqCategory] = useState<CategoryType[]>([]);
 
   const navigate = useNavigate();
   // 현재 탭 파악
