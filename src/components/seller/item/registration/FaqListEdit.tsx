@@ -250,9 +250,15 @@ const FaqListEdit = ({
         >
           <section className="mb-5 flex w-full flex-col gap-3">
             {/* 제목 */}
-            <h2 className="subhead-b w-full text-center text-black">
-              카테고리 수정
-            </h2>
+            <div className="flex flex-col items-center gap-0.5">
+              <h2 className="subhead-b w-full text-center text-black">
+                카테고리 수정
+              </h2>
+              <span className="caption-m text-grey07 px-[2.75rem] text-center">
+                Tip! 자주 묻는 질문, 재고/수량, 이벤트, 진행 일정, 배송 일정,
+                후기 모음, 제작 과정 등의 카테고리를 추가해보세요.
+              </span>
+            </div>
 
             {/* 카테고리 리스트 */}
             <DndContext
@@ -265,7 +271,7 @@ const FaqListEdit = ({
                 items={categories.map((c) => c.id)}
                 strategy={verticalListSortingStrategy}
               >
-                <div className="scrollbar-hide flex h-fit max-h-[23.3125rem] w-full flex-col gap-2 overflow-auto">
+                <div className="scrollbar-hide flex h-fit max-h-[23.3125rem] w-full flex-col gap-4 overflow-auto">
                   {categories.map((c) => (
                     <SortableCategoryItem
                       key={c.id}
@@ -284,7 +290,7 @@ const FaqListEdit = ({
             </DndContext>
 
             {/* 저장하기 버튼 */}
-            <div className="w-full px-5">
+            <div className="mt-1 w-full px-5">
               <AddButton handleOnClick={() => setSheetMode('add')}>
                 추가하기
               </AddButton>
@@ -392,7 +398,7 @@ const SortableCategoryItem = ({
       <button
         type="button"
         onClick={() => onEdit(id)}
-        className="border-grey03 flex-1 rounded-xs border bg-white px-[.8125rem] py-2.5 text-left text-black"
+        className="border-grey03 body2-m flex-1 rounded-xs border bg-white px-[.8125rem] py-2.5 text-left text-black"
       >
         {category.category}
       </button>
@@ -459,7 +465,7 @@ const FaqQuestionCard = ({
         >
           <section className="body1-b divide-grey02 mt-[.875rem] mb-8 flex w-full flex-col space-y-5 divide-y-[.0938rem] px-5 text-center">
             <button type="button" className="cursor-pointer pb-4 text-black">
-              {pinned ? '고정 해재' : '맨 앞에 고정'}
+              {pinned ? '고정 해제' : '맨 앞에 고정'}
             </button>
             <button
               type="button"
