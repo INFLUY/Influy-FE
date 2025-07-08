@@ -13,7 +13,7 @@ type InfoContextType = {
 };
 
 export const ItemInfoTab = () => {
-  const { methods, requiredFieldsRef } = useOutletContext<InfoContextType>();
+  const { requiredFieldsRef } = useOutletContext<InfoContextType>();
 
   return (
     <ItemForm

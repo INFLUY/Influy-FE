@@ -1,5 +1,4 @@
 import {
-  AddButton,
   DefaultButton,
   FaqImageUploader,
   FormLimitedWideTextArea,
@@ -13,7 +12,6 @@ import {
   EmptyCategoryPlaceholder,
 } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
-import FolderIcon from '@/assets/icon/seller/FolderIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
