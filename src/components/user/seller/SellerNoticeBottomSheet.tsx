@@ -2,6 +2,7 @@ import BottomSheet from '@/components/common/BottomSheet';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { useGetNotification } from '@/services/notification/query/useGetNotification';
 import { NoticeType } from '@/types/common/NoticeType.types';
+import { parseDateString } from '@/utils/formatDate';
 import { SetStateAction, useEffect, useRef } from 'react';
 
 const SellerNoticeBottomSheet = ({
@@ -64,7 +65,7 @@ const SellerNoticeBottomSheet = ({
                   <div className="flex flex-col">
                     <h2 className="body1-m text-grey10">{notice.title}</h2>
                     <span className="caption-m text-grey05">
-                      {notice.createdAt}
+                      {parseDateString(notice.createdAt)}
                     </span>
                   </div>
                   <p className="body2-r text-grey09">{notice.content}</p>
