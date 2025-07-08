@@ -145,7 +145,7 @@ const FaqRegistrationPage = () => {
               >
                 <div className="flex w-full justify-between">
                   <h2 className="body1-b text-black">
-                    FAQ 카테고리 <span className="text-[#F43232]">*</span>
+                    FAQ 카테고리 <span className="text-main">*</span>
                   </h2>
                   {/* 카테고리 수정 버튼 */}
                   <button
@@ -168,7 +168,7 @@ const FaqRegistrationPage = () => {
               {/* 질문 */}
               <article className="flex h-fit flex-col gap-4 px-5">
                 <h2 className="body1-b text-black">
-                  질문 <span className="text-[#F43232]">*</span>
+                  질문 <span className="text-main">*</span>
                 </h2>
                 <FormLimitedWideTextArea<FaqFormValues>
                   id="question"
@@ -180,7 +180,7 @@ const FaqRegistrationPage = () => {
               {/* 답변 */}
               <article className="flex h-fit flex-col gap-4 px-5">
                 <h2 className="body1-b text-black">
-                  답변 <span className="text-[#F43232]">*</span>
+                  답변 <span className="text-main">*</span>
                 </h2>
                 <FormWideTextArea<FaqFormValues>
                   id="answer"
