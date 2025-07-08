@@ -9,7 +9,7 @@ export const useGetPrimaryNotification = ({
 }) => {
   const query = useSuspenseQuery({
     queryFn: () => getPrimaryNotification({ sellerId }),
-    queryKey: [QUERY_KEYS.SELLER_ANNOUNCEMENT, sellerId],
+    queryKey: [QUERY_KEYS.SELLER_PRIMARY_ANNOUNCEMENT, sellerId],
   });
 
   return query;

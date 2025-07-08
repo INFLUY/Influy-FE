@@ -14,4 +14,5 @@ export const API_DOMAINS = {
 export const QUERY_KEYS = {
   // seller
   SELLER_ANNOUNCEMENT: 'sellerMyAnnouncements',
+  SELLER_PRIMARY_ANNOUNCEMENT: 'sellerMyPrimaryAnnouncement',
 };

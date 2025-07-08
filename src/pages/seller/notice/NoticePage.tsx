@@ -15,6 +15,7 @@ import { useGetNotification } from '@/state/query/notification/useGetNotificatio
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 
 const NoticePage = () => {
+  console.log('NoticePage 컴포넌트 시작');
   const [isAddNoticeOpen, setIsAddNoticeOpen] = useState<boolean>(false);
   const [isAdminNoticeOpen, setIsAdminNoticeOpen] = useState<boolean>(false);
   const [isEditNoticeOpen, setIsEditNoticeOpen] = useState<boolean>(false);
@@ -24,14 +25,20 @@ const NoticePage = () => {
   const [isNoticeSavedSnackBarOpen, setIsNoticeSavedSnackBarOpen] =
     useState<boolean>(false);
   const navigate = useNavigate();
+  console.log('useState 완료');
 
   const sellerId = useStrictSellerId();
+  console.log('sellerId:', sellerId);
   const {
     data: notices,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    error,
+    isLoading,
+    isError,
   } = useGetNotification(sellerId);
+  console.log('쿼리 상태:', { error, isLoading, isError, data: notices });
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -58,12 +65,12 @@ const NoticePage = () => {
     setIsAdminNoticeOpen(true);
   };
 
-  const primaryNotice = notices?.announcements?.find(
-    (notice: NoticeType) => notice.isPrimary
-  );
-  const otherNotices = notices?.announcements?.filter(
-    (notice: NoticeType) => !notice.isPrimary
-  );
+  const primaryNotice = notices?.pages
+    ?.flatMap((p) => p.announcements)
+    ?.find((notice: NoticeType) => notice.isPrimary);
+  const otherNotices = notices?.pages
+    ?.flatMap((p) => p.announcements)
+    ?.filter((notice: NoticeType) => !notice.isPrimary);
 
   return (
     <div className="flex h-full w-full flex-1 flex-col">
@@ -77,7 +84,7 @@ const NoticePage = () => {
       >
         공지사항 편집
       </PageHeader>
-      {notices?.totalElements === 0 && (
+      {notices?.pages[0]?.totalElements === 0 && (
         <div className="flex h-full w-full flex-col items-center justify-center gap-10">
           <div className="flex flex-col items-center justify-center gap-6 text-center">
             <div className="bg-grey03 h-[5.6875rem] w-[8.0625rem]" />
@@ -88,7 +95,7 @@ const NoticePage = () => {
           />
         </div>
       )}
-      {notices?.totalElements > 0 && (
+      {notices && notices?.pages[0]?.totalElements > 0 && (
         <div className="scrollbar-hide flex h-full w-full flex-col items-center gap-4 overflow-y-auto pt-2 pb-24">
           <ul className="flex w-full flex-col items-center">
             {primaryNotice && (

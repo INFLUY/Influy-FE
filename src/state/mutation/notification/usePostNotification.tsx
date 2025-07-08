@@ -1,7 +1,7 @@
 import { postNotification } from '@/api/notification/handleNotification.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
-import { NoticePostType } from '@/types/common/NoticeType.types';
+import { BaseNotice } from '@/types/common/NoticeType.types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePostNotification = (onSuccessCallback?: () => void) => {
@@ -9,10 +9,13 @@ export const usePostNotification = (onSuccessCallback?: () => void) => {
   const sellerId = useStrictSellerId();
 
   return useMutation({
-    mutationFn: (data: NoticePostType) => postNotification({ data }),
+    mutationFn: (data: BaseNotice) => postNotification({ data }),
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      queryClient.refetchQueries({
         queryKey: [QUERY_KEYS.SELLER_ANNOUNCEMENT, sellerId],
+      });
+      queryClient.refetchQueries({
+        queryKey: [QUERY_KEYS.SELLER_PRIMARY_ANNOUNCEMENT, sellerId],
       });
       if (onSuccessCallback) onSuccessCallback();
     },

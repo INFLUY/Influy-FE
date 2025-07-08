@@ -1,12 +1,19 @@
-export type NoticePostType = {
+export interface BaseNotice {
   title: string;
   content: string;
-};
+}
 
-export type NoticeType = {
+export interface NoticeType extends BaseNotice {
   id: number;
-  title: string;
   createdAt: string;
-  content: string;
   isPrimary: boolean;
-};
+}
+
+export interface NoticeResponse {
+  announcements: NoticeType[];
+  listSize: number;
+  totalPage: number;
+  totalElements: number;
+  isFirst: boolean;
+  isLast: boolean;
+}

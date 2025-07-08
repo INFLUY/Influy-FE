@@ -11,8 +11,11 @@ export const useDeleteNotification = (onSuccessCallback?: () => void) => {
     mutationFn: ({ announcementId }: { announcementId: number }) =>
       deleteNotification({ announcementId }),
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      queryClient.refetchQueries({
         queryKey: [QUERY_KEYS.SELLER_ANNOUNCEMENT, sellerId],
+      });
+      queryClient.refetchQueries({
+        queryKey: [QUERY_KEYS.SELLER_PRIMARY_ANNOUNCEMENT, sellerId],
       });
       if (onSuccessCallback) onSuccessCallback();
     },

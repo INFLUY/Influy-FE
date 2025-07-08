@@ -8,20 +8,17 @@ export const useGetNotification = (sellerId: number) => {
     queryFn: ({ pageParam = 1 }: { pageParam: number }) =>
       getNotification({ sellerId, page: pageParam, size: 5 }),
     getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.isLast) {
-        return undefined;
+      // lastPage: 마지막으로 불러온 페이지의 데이터
+      // allPages: 지금까지 불러온 모든 페이지의 배열
+      const currentPage = allPages?.length ?? 0;
+      const totalPage = lastPage?.totalPage ?? 0;
+
+      if (currentPage < totalPage) {
+        return currentPage + 1;
       }
-      return (allPages?.length || 0) + 1;
+      return undefined; // hasNextPage: false
     },
     initialPageParam: 1,
-    select: (data) => {
-      return {
-        announcements: data.pages.flatMap((page) => page.announcements),
-        totalElements: data.pages[0]?.totalElements || 0,
-        totalPages: data.pages[0]?.totalPage || 0,
-        pageParams: data.pageParams,
-      };
-    },
   });
 
   return query;

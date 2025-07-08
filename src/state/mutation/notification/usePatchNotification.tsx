@@ -1,7 +1,7 @@
 import { patchNotification } from '@/api/notification/handleNotification.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
-import { NoticePostType } from '@/types/common/NoticeType.types';
+import { BaseNotice } from '@/types/common/NoticeType.types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePatchNotification = (onSuccessCallback?: () => void) => {
@@ -14,13 +14,16 @@ export const usePatchNotification = (onSuccessCallback?: () => void) => {
       announcementId,
       isPrimary,
     }: {
-      data?: NoticePostType;
+      data?: BaseNotice;
       announcementId: number;
       isPrimary?: boolean;
     }) => patchNotification({ data, announcementId, isPrimary }),
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      queryClient.refetchQueries({
         queryKey: [QUERY_KEYS.SELLER_ANNOUNCEMENT, sellerId],
+      });
+      queryClient.refetchQueries({
+        queryKey: [QUERY_KEYS.SELLER_PRIMARY_ANNOUNCEMENT, sellerId],
       });
       if (onSuccessCallback) onSuccessCallback();
     },
