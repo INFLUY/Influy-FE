@@ -46,10 +46,34 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
             프로필 수정
           </button>
           <div className="text-grey08 flex shrink-0 items-center justify-end gap-[.625rem]">
-            <InstagramIcon />
-            <YoutubeIcon />
-            <TiktokIcon />
-            <EmailIcon />
+            <a
+              href="https://instagram.com/influy_official"
+              aria-label="인스타그램 계정 바로가기"
+              className="cursor-pointer"
+            >
+              <InstagramIcon />
+            </a>
+            <a
+              href="https://www.youtube.com"
+              aria-label="유튜브 계정 바로가기"
+              className="cursor-pointer"
+            >
+              <YoutubeIcon />
+            </a>
+            <a
+              href="https://www.tiktok.com"
+              aria-label="틱톡 계정 바로가기"
+              className="cursor-pointer"
+            >
+              <TiktokIcon />
+            </a>
+            <a
+              href="https://google.com"
+              aria-label="이메일 보내기"
+              className="cursor-pointer"
+            >
+              <EmailIcon />
+            </a>
           </div>
         </div>
       )}

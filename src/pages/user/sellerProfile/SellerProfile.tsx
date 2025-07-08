@@ -10,6 +10,10 @@ import {
   SellerNoticeBottomSheet,
 } from '@/components';
 import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
+import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
+import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
+import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
+import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
 
 const SellerProfile = ({ children }: { children: ReactNode }) => {
   const TABS = [
@@ -38,8 +42,38 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="flex w-full flex-1 flex-col">
-      <div className="realtive flex h-[7.0625rem] w-full flex-col bg-[#8B8B8D]">
+      <div className="realtive flex h-[7.0625rem] w-full flex-col justify-end bg-[#8B8B8D] pb-[.875rem]">
         <SellerProfileHeader name={'소현'} id={'xoyeone_'} />
+        <div className="flex shrink-0 items-center justify-end gap-[.625rem] px-5 text-[#F1F1F1CC] opacity-80">
+          <a
+            href="https://instagram.com/influy_official"
+            aria-label="인스타그램 계정 바로가기"
+            className="cursor-pointer"
+          >
+            <InstagramIcon />
+          </a>
+          <a
+            href="https://www.youtube.com"
+            aria-label="유튜브 계정 바로가기"
+            className="cursor-pointer"
+          >
+            <YoutubeIcon />
+          </a>
+          <a
+            href="https://www.tiktok.com"
+            aria-label="틱톡 계정 바로가기"
+            className="cursor-pointer"
+          >
+            <TiktokIcon />
+          </a>
+          <a
+            href="https://google.com"
+            aria-label="이메일 보내기"
+            className="cursor-pointer"
+          >
+            <EmailIcon />
+          </a>
+        </div>
       </div>
       <SellerProfileCard />
       <div className="flex flex-col gap-2">
