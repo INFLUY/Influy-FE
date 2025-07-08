@@ -5,8 +5,7 @@ import { useForm, FormProvider, useWatch } from 'react-hook-form';
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { itemSchema, requiredFieldsSchema } from '@/schemas/itemSchema';
 import { ItemFormValues } from '@/types/item.types';
-import { ItemForm } from '@/components/seller/item/registration/ItemForm';
-import { DefaultButton, Tab, Tabs, FaqListEdit } from '@/components';
+import { DefaultButton, Tab, Tabs } from '@/components';
 import { useState, useRef, RefObject } from 'react';
 import { PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
@@ -16,6 +15,8 @@ import { PATH } from '@/routes/path';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { FaqQuestion } from '@/types/common/ItemType.types';
+import { Outlet, useLocation } from 'react-router-dom';
+
 export const dummyCategory: CategoryType[] = [
   { id: 0, category: '사이즈' },
   { id: 1, category: '색상' },
@@ -47,13 +48,17 @@ type fieldsToCheck<FieldNames extends string> = {
 };
 
 export const ItemRegistrationPage = () => {
-  const [activeTab, setActiveTab] = useState(0); //상품 상세정보 탭: 0, FAQ 탭: 1
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
     open: false,
     message: '',
   });
+  const [faqCategory, setFaqCategory] = useState<CategoryType[]>([]);
 
   const navigate = useNavigate();
+  // 현재 탭 파악
+  const location = useLocation();
+  const currentTabPath =
+    location.pathname.split('/')[location.pathname.split('/').length - 1];
 
   // 필수 요소 미입력시 스크롤 이동을 위한 ref
   const imagesFieldRef = useRef<HTMLDivElement | null>(null);
@@ -100,8 +105,12 @@ export const ItemRegistrationPage = () => {
 
   // 탭 목록 정의
   const TABS = [
-    { id: 0, name: '상품 상세 정보' },
-    { id: 1, name: 'FAQ' },
+    {
+      id: 0,
+      name: '상품 상세 정보',
+      path: PATH.SELLER.items.item.registration.tabs.info,
+    },
+    { id: 1, name: 'FAQ', path: PATH.SELLER.items.item.registration.tabs.faq },
   ];
 
   // 유효성 검사 대상 필드 값 구독 (사진, 제목, 카테고리, 시작일 마감일 ... )
@@ -270,8 +279,8 @@ export const ItemRegistrationPage = () => {
           {TABS.map((tab) => (
             <Tab
               key={tab.id}
-              isTabActive={activeTab === tab.id}
-              handleClickTab={() => setActiveTab(tab.id)}
+              isTabActive={tab.path === currentTabPath}
+              handleClickTab={() => navigate(tab.path)}
             >
               {tab.name}
             </Tab>
@@ -286,22 +295,15 @@ export const ItemRegistrationPage = () => {
           className="relative flex min-w-full flex-1 flex-col"
         >
           <div className="flex-1 pt-8">
-            {activeTab === 0 && (
-              <ItemForm
-                mode="create"
-                imagesWrapperRef={imagesFieldRef}
-                categoryWrapperRef={categoryFieldRef}
-                startDateWrapperRef={startDateFieldRef}
-                endDateWrapperRef={endDateFieldRef}
-              />
-            )}
-            {activeTab === 1 && (
-              <FaqListEdit
-                faqCategory={dummyCategory}
-                faqQuestions={dummyFaqQuestion}
-                itemId={1}
-              />
-            )}
+            <Outlet
+              context={{
+                methods,
+                requiredFieldsRef,
+                faqCategory: dummyCategory,
+                faqQuestions: dummyFaqQuestion,
+                itemId: 1,
+              }}
+            />
           </div>
           {/* 하단 버튼 */}
           <section className="border-t-grey02 sticky right-0 bottom-0 z-50 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">

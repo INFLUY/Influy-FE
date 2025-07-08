@@ -76,6 +76,8 @@ export {
   ProfileImageUploader,
   BackgroundImageUploader,
 } from './seller/my/SellerMyProfileEdit';
+
+//registration
 export { ItemImageUploader } from './seller/item/registration/ItemImageUploader';
 export { PeriodDropdown } from './seller/item/registration/PeriodDropdown';
 export {
@@ -84,3 +86,4 @@ export {
   DateTimePicker,
 } from './seller/item/registration/DateTimePicker';
 export { ItemSection } from './seller/item/registration/ItemSection';
+export { ItemForm } from './seller/item/registration/ItemForm.tsx';
