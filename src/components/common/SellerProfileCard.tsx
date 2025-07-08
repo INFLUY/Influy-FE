@@ -1,5 +1,8 @@
 import HeartIcon from '@/assets/icon/user/Heart.svg?react';
-import PlaceHolderIcon from '@/assets/icon/common/PlaceHolderIcon.svg?react';
+import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
+import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
+import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
+import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { formatNumber } from '@/utils/formatNumber';
 import cn from '@/utils/cn';
@@ -41,18 +44,18 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
         {seller && (
           <button
             type="button"
-            className="bg-grey03 text-grey08 caption-m flex shrink-0 cursor-pointer items-center gap-[.125rem] px-2 py-[.1875rem] text-center"
+            className="border-grey03 text-grey08 caption-m flex shrink-0 cursor-pointer items-center gap-1 rounded-[.125rem] border px-2 py-[.1875rem] text-center"
             onClick={() => {}}
           >
+            <EditIcon className="h-[.875rem] w-[.875rem]" />
             프로필 수정
-            <EditIcon />
           </button>
         )}
-        <div className="flex shrink-0 items-center justify-end gap-[.625rem]">
-          <PlaceHolderIcon />
-          <PlaceHolderIcon />
-          <PlaceHolderIcon />
-          <PlaceHolderIcon />
+        <div className="text-grey08 flex shrink-0 items-center justify-end gap-[.625rem]">
+          <InstagramIcon />
+          <YoutubeIcon />
+          <TiktokIcon />
+          <EmailIcon />
         </div>
       </div>
     </div>

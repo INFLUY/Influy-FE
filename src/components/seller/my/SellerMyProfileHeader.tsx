@@ -50,9 +50,9 @@ const SellerMyProfileHeader = () => {
         <span className="flex shrink-0 gap-3">
           <button
             type="button"
-            className="bg-grey02 flex cursor-pointer items-center gap-[.125rem] rounded-[.125rem] px-2 py-[.1875rem]"
+            className="bg-grey01 flex cursor-pointer items-center gap-1 rounded-[.125rem] px-2 py-[.1875rem]"
           >
-            <EyeIcon className="text-grey06 h-[.875rem] w-[.875rem]" />
+            <EyeIcon className="text-grey08 h-[.875rem] w-[.875rem]" />
             <span
               className="caption-m text-grey08"
               onClick={() => navigate('')}
