@@ -1,9 +1,9 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import { useState } from 'react';
 import { SaveButton, SellerModal, TextInput, WideTextArea } from '@/components';
-import { usePostNotification } from '@/state/mutation/notification/usePostNotification';
+import { usePostNotification } from '@/services/notification/mutation/usePostNotification';
 import { NoticeType } from '@/types/common/NoticeType.types';
-import { usePatchNotification } from '@/state/mutation/notification/usePatchNotification';
+import { usePatchNotification } from '@/services/notification/mutation/usePatchNotification';
 
 const AddNoticeBottomSheet = ({
   announcement,

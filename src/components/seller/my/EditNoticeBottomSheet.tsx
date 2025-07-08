@@ -1,8 +1,8 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import { SetStateAction, useState } from 'react';
 import { SellerModal } from '@/components';
-import { useDeleteNotification } from '@/state/mutation/notification/useDeleteNotification';
-import { usePatchNotification } from '@/state/mutation/notification/usePatchNotification';
+import { useDeleteNotification } from '@/services/notification/mutation/useDeleteNotification';
+import { usePatchNotification } from '@/services/notification/mutation/usePatchNotification';
 import { NoticeType } from '@/types/common/NoticeType.types';
 
 const EditNoticeBottomSheet = ({

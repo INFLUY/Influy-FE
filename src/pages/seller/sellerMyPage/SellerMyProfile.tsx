@@ -14,7 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import PlusIcon from '@/assets/icon/common/PlusIcon.svg?react';
 import cn from '@/utils/cn';
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
-import { useGetPrimaryNotification } from '@/state/query/notification/useGetPrimaryNotification';
+import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
 
 const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const [isLinkSnackBarOpen, setIsLinkSnackBarOpen] = useState<boolean>(false);

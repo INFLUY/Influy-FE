@@ -9,7 +9,7 @@ import {
   SellerProfileHeader,
   SellerNoticeBottomSheet,
 } from '@/components';
-import { useGetPrimaryNotification } from '@/state/query/notification/useGetPrimaryNotification';
+import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
 
 const SellerProfile = ({ children }: { children: ReactNode }) => {
   const TABS = [

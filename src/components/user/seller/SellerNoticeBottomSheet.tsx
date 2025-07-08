@@ -1,6 +1,6 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
-import { useGetNotification } from '@/state/query/notification/useGetNotification';
+import { useGetNotification } from '@/services/notification/query/useGetNotification';
 import { NoticeType } from '@/types/common/NoticeType.types';
 import { SetStateAction, useEffect, useRef } from 'react';
 

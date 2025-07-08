@@ -11,11 +11,10 @@ import { useEffect, useRef, useState } from 'react';
 import { NoticeType } from '@/types/common/NoticeType.types';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { useGetNotification } from '@/state/query/notification/useGetNotification';
+import { useGetNotification } from '@/services/notification/query/useGetNotification';
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 
 const NoticePage = () => {
-  console.log('NoticePage 컴포넌트 시작');
   const [isAddNoticeOpen, setIsAddNoticeOpen] = useState<boolean>(false);
   const [isAdminNoticeOpen, setIsAdminNoticeOpen] = useState<boolean>(false);
   const [isEditNoticeOpen, setIsEditNoticeOpen] = useState<boolean>(false);
@@ -25,20 +24,14 @@ const NoticePage = () => {
   const [isNoticeSavedSnackBarOpen, setIsNoticeSavedSnackBarOpen] =
     useState<boolean>(false);
   const navigate = useNavigate();
-  console.log('useState 완료');
 
   const sellerId = useStrictSellerId();
-  console.log('sellerId:', sellerId);
   const {
     data: notices,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    error,
-    isLoading,
-    isError,
   } = useGetNotification(sellerId);
-  console.log('쿼리 상태:', { error, isLoading, isError, data: notices });
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 
