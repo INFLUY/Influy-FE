@@ -35,7 +35,8 @@ const SelectionTab = () => {
       itemId: 2,
       title: '소현X비비안웨스트우드 가디건 (색상 5가지)소현X비비안웨스트우드',
       name: '@dfkjdkfjdkfj',
-      content: '🖤완판 재진행🖤 너무 예쁜 가디건',
+      content:
+        '🖤완판 재진행🖤 너무 예쁜 가디건🖤완판 재진행🖤 너무 예쁜 가디건🖤완판 재진행🖤 너무 예쁜 가디건',
       thumbnail: '/img1.png',
       open: '2025-06-03T23:59:07.837159',
       deadline: '2025-06-10T19:00:07.837159',
@@ -54,7 +55,8 @@ const SelectionTab = () => {
     },
     {
       itemId: 4,
-      title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
+      title:
+        '소현X비비안웨스트우드 가디건 (색상 5가지/블루/핑크/화이)트트틑트트트트',
       name: '@dfkjdkfjdkfj',
       thumbnail: '/img1.png',
       open: '2025-06-03T23:59:07.837159',
@@ -101,7 +103,7 @@ const SelectionTab = () => {
         </span>
       </span>
       {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 ? (
-        <ul className="grid grid-cols-2 content-start items-start gap-x-[.6875rem] gap-y-5 px-[1.125rem]">
+        <ul className="grid grid-cols-2 content-start items-start gap-x-[.1875rem] gap-y-8">
           {PRODUCT_LIST?.map((item) => (
             <ItemGrid key={item?.itemId} item={item} />
           ))}

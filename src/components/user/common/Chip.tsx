@@ -1,3 +1,4 @@
+import cn from '@/utils/cn';
 import {
   formatTime,
   getDday,
@@ -7,9 +8,26 @@ import {
 } from '@/utils/formatDate';
 import { useEffect, useState } from 'react';
 
-const Chip = ({ children }: { children: string }) => {
+const Chip = ({
+  children,
+  theme,
+}: {
+  children: string;
+  theme: 'grey' | 'blue' | 'red' | 'light-red' | 'purple';
+}) => {
   return (
-    <div className="bg-grey03 text-grey08 caption-small-m inline-flex w-fit items-center justify-center rounded-[.125rem] px-2 py-[.1875rem]">
+    <div
+      className={cn(
+        'caption-small-m inline-flex w-fit items-center justify-center px-2 py-[.1875rem]',
+        {
+          'bg-grey03 text-grey08': theme === 'grey',
+          'bg-sub-light text-sub': theme === 'blue',
+          'bg-main text-white': theme === 'red',
+          'bg-main-light text-main': theme === 'light-red',
+          'bg-[#EBE0FA] text-[#8426FF]': theme === 'purple',
+        }
+      )}
+    >
       {children}
     </div>
   );
@@ -66,11 +84,12 @@ export const TimeChip = ({
   }, []);
 
   const text = getTimeChipText({ open, deadline });
-  return <Chip>{text}</Chip>;
+  if (text === 'CLOSED') return;
+  return <Chip theme="light-red">{text}</Chip>;
 };
 
 export const SoldOutChip = () => {
-  return <Chip>SOLDOUT</Chip>;
+  return <Chip theme="grey">SOLDOUT</Chip>;
 };
 
 export const ExtendChip = ({
@@ -88,6 +107,6 @@ export const ExtendChip = ({
 
   // 데드라인 안 지났을 경우에만 뜸.
   if (timeLeftUntilClose > 0) {
-    return <Chip>기간 연장</Chip>;
+    return <Chip theme="purple">기간 연장</Chip>;
   }
 };

@@ -20,7 +20,7 @@ export { ItemDetailInfo } from './common/item/ItemDetailInfo';
 export { ItemDetailProfile } from './common/item/ItemDetailProfile';
 //user
 //common
-export { ItemList, ItemGrid } from './user/common/Item';
+export { ItemGrid } from './user/common/Item';
 export { TimeChip, SoldOutChip, ExtendChip } from './user/common/Chip';
 //seller
 export { default as SellerProfileHeader } from './user/seller/SellerProfileHeader';
