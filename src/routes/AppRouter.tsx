@@ -25,6 +25,7 @@ import {
   FaqRegistrationPage,
   SellerItemDetailPage,
   FaqEditPage,
+  SellerHomePage,
 } from '@/pages';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -109,6 +110,7 @@ const router = createBrowserRouter([
         path: PATH.SELLER.base,
         element: <Outlet />,
         children: [
+          { path: PATH.SELLER.home.base, element: <SellerHomePage /> },
           {
             path: PATH.SELLER.notice.base,
             element: <Outlet />,
