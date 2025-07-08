@@ -7,6 +7,7 @@ import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { formatNumber } from '@/utils/formatNumber';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
+import cn from '@/utils/cn';
 
 const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
     likes: 3811000,
   };
   return (
-    <div className="flex flex-col gap-3 px-5 pb-2">
+    <div className={cn('flex flex-col gap-3 px-5 pb-2', seller && 'pb-3')}>
       <div className="flex shrink-0 gap-2">
         <div className="relative -mt-5 flex h-fit w-fit shrink-0">
           <img
