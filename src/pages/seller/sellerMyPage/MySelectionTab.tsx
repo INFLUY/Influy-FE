@@ -137,7 +137,7 @@ const MySelectionTab = () => {
           size="base"
           handleOnClick={() =>
             navigate(
-              `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${PATH.SELLER.items.item.registration}`
+              `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${PATH.SELLER.items.item.registration.base}`
             )
           }
         >

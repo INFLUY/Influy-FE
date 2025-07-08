@@ -279,7 +279,7 @@ export const ItemRegistrationPage = () => {
             <Tab
               key={tab.id}
               isTabActive={tab.path === currentTabPath}
-              handleClickTab={() => navigate(tab.path)}
+              handleClickTab={() => navigate(tab.path, { replace: true })}
             >
               {tab.name}
             </Tab>
