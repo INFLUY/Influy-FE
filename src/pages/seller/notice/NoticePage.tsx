@@ -7,12 +7,13 @@ import {
   PageHeader,
   SnackBar,
 } from '@/components';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { NoticeType } from '@/types/common/NoticeType.types';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useGetNotification } from '@/services/notification/query/useGetNotification';
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 
 const NoticePage = () => {
   const [isAddNoticeOpen, setIsAddNoticeOpen] = useState<boolean>(false);
@@ -35,22 +36,12 @@ const NoticePage = () => {
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    if (!observerRef.current || !hasNextPage || isFetchingNextPage) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(observerRef.current);
-
-    return () => observer.disconnect();
-  }, [hasNextPage, fetchNextPage, isFetchingNextPage]);
+  useInfiniteScroll({
+    targetRef: observerRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
 
   const handleEditNotice = (announcement: NoticeType) => {
     setSelectedNotice(announcement);

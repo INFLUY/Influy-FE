@@ -1,9 +1,10 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { useGetNotification } from '@/services/notification/query/useGetNotification';
 import { NoticeType } from '@/types/common/NoticeType.types';
 import { parseDateString } from '@/utils/formatDate';
-import { SetStateAction, useEffect, useRef } from 'react';
+import { SetStateAction, useRef } from 'react';
 
 const SellerNoticeBottomSheet = ({
   marketId,
@@ -23,22 +24,12 @@ const SellerNoticeBottomSheet = ({
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    if (!observerRef.current || !hasNextPage || isFetchingNextPage) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(observerRef.current);
-
-    return () => observer.disconnect();
-  }, [hasNextPage, fetchNextPage, isFetchingNextPage]);
+  useInfiniteScroll({
+    targetRef: observerRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
 
   return (
     <BottomSheet

@@ -6,7 +6,7 @@ export const useGetNotification = (sellerId: number) => {
   const query = useInfiniteQuery({
     queryKey: [QUERY_KEYS.SELLER_ANNOUNCEMENT, sellerId],
     queryFn: ({ pageParam = 1 }: { pageParam: number }) =>
-      getNotification({ sellerId, page: pageParam, size: 5 }),
+      getNotification({ sellerId, page: pageParam, size: 1 }),
     getNextPageParam: (lastPage, allPages) => {
       // lastPage: 마지막으로 불러온 페이지의 데이터
       // allPages: 지금까지 불러온 모든 페이지의 배열

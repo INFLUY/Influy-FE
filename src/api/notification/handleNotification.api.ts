@@ -39,7 +39,6 @@ export const getNotification = async ({
   page: number;
   size: number;
 }): Promise<NoticeResponse> => {
-  console.log('getNotification');
   const response = await instance.get(
     generateApiPath(API_DOMAINS.SELLER_ANNOUNCEMENT, { sellerId }),
     {
