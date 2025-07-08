@@ -1,16 +1,19 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import { SetStateAction, useState } from 'react';
 import { SellerModal } from '@/components';
+import { useDeleteNotification } from '@/services/notification/mutation/useDeleteNotification';
+import { usePatchNotification } from '@/services/notification/mutation/usePatchNotification';
+import { NoticeType } from '@/types/common/NoticeType.types';
 
 const EditNoticeBottomSheet = ({
-  noticeId,
+  announcement,
   isPrimary,
   isOpen,
   setIsOpen,
   setIsEditNoticeOpen,
   setIsNoticeSavedSnackBarOpen,
 }: {
-  noticeId: number;
+  announcement: NoticeType;
   isOpen: boolean;
   isPrimary: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -21,24 +24,26 @@ const EditNoticeBottomSheet = ({
   const [isNoticeDeleteModalOpen, setIsNoticeDeleteModalOpen] =
     useState<boolean>(false);
 
+  const { mutate: patchNotice } = usePatchNotification(() => {
+    setIsNoticeSavedSnackBarOpen(true);
+  });
+
   // 핀 고정 해제
   const handlePin = () => {
     if (isPrimary)
       setIsUnpinModalOpen(true); // 핀 고정 해제 모달
     else {
       // 핀 고정 연동
+      patchNotice({ announcementId: announcement.id, isPrimary: true });
       setIsOpen(false);
-      setIsNoticeSavedSnackBarOpen(true);
     }
   };
 
   // 핀 고정 해제 모달 -> 확인
   const handleUnpinConfirm = () => {
-    // 삭제 로직 연동 -> 삭제 버튼 클릭 시 itemId 이용하여 삭제
-    console.log(noticeId);
+    patchNotice({ announcementId: announcement.id, isPrimary: false });
     setIsUnpinModalOpen(false);
     setIsOpen(false);
-    setIsNoticeSavedSnackBarOpen(true); // 스낵바
   };
 
   // 핀 고정 해제 모달 -> 취소
@@ -57,11 +62,15 @@ const EditNoticeBottomSheet = ({
     setIsNoticeDeleteModalOpen(true);
   };
 
+  const { mutate: deleteNotice } = useDeleteNotification(() =>
+    setIsNoticeSavedSnackBarOpen(true)
+  );
+
   // 공지 삭제 모달 -> 확인
   const handleDeleteNoticeConfirm = () => {
     setIsNoticeDeleteModalOpen(false);
     setIsOpen(false);
-    setIsNoticeSavedSnackBarOpen(true);
+    deleteNotice({ announcementId: announcement.id });
   };
 
   // 공지 삭제 모달 -> 취소

@@ -1,7 +1,9 @@
 export { default as GlobalLayout } from './layout/GlobalLayout';
 export { default as Loading } from './loading/Loading';
+export { default as ErrorContent } from './error/ErrorContent';
 
 // common
+export { default as LoadingSpinner } from './common/LoadingSpinner';
 export { default as BottomSheet } from './common/BottomSheet';
 export { default as SellerProfileCard } from './common/SellerProfileCard';
 export { default as NoticeBanner } from './common/NoticeBanner';
@@ -21,7 +23,8 @@ export { ItemDetailProfile } from './common/item/ItemDetailProfile';
 export { ItemList, ItemGrid } from './user/common/Item';
 export { TimeChip, SoldOutChip, ExtendChip } from './user/common/Chip';
 //seller
-export { default as SellerProfileHeader } from './user/SellerProfileHeader';
+export { default as SellerProfileHeader } from './user/seller/SellerProfileHeader';
+export { default as SellerNoticeBottomSheet } from './user/seller/SellerNoticeBottomSheet';
 
 //seller
 //common
@@ -63,6 +66,9 @@ export { default as ItemDetailFaqCard } from './common/item/ItemDetailFaqCard';
 export { default as VanillaCategoryMultiSelector } from './seller/item/faq/VanillaCategoryMultiSelector';
 export { default as FaqItemBanner } from './seller/item/faq/FaqItemBanner';
 export { default as FaqImageUploader } from './seller/item/faq/FaqImageUploader';
+
+//notice
+export { default as Notice } from './seller/myMarket/notice/Notice';
 
 //my
 export { default as SellerMyProfileHeader } from './seller/my/SellerMyProfileHeader';

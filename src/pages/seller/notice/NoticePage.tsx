@@ -2,103 +2,59 @@ import {
   AddNoticeBottomSheet,
   AddNoticeButton,
   EditNoticeBottomSheet,
+  LoadingSpinner,
+  Notice,
   PageHeader,
   SnackBar,
 } from '@/components';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { NoticeType } from '@/types/common/NoticeType.types';
-import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
-import PinIcon from '@/assets/icon/common/DarkPinIcon.svg?react';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
+import { useGetNotification } from '@/services/notification/query/useGetNotification';
+import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 
 const NoticePage = () => {
   const [isAddNoticeOpen, setIsAddNoticeOpen] = useState<boolean>(false);
   const [isAdminNoticeOpen, setIsAdminNoticeOpen] = useState<boolean>(false);
   const [isEditNoticeOpen, setIsEditNoticeOpen] = useState<boolean>(false);
-  const [selectedNotice, setSelectedNotice] = useState<number | null>(null);
+  const [selectedNotice, setSelectedNotice] = useState<NoticeType | null>(null);
   const [isSelectedNoticePrimary, setIsSelectedNoticePrimary] =
     useState<boolean>(false);
   const [isNoticeSavedSnackBarOpen, setIsNoticeSavedSnackBarOpen] =
     useState<boolean>(false);
   const navigate = useNavigate();
 
-  // 임시 공지사항
-  const NOTICES: NoticeType[] = [
-    {
-      id: 0,
-      title: '인플루이 파이팅',
-      date: '2025.05.29',
-      content: '이스터에그🪺',
-      isPrimary: true,
-    },
-    {
-      id: 1,
-      title: '제작 오픈 이벤트',
-      date: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-    {
-      id: 1243420,
-      title: '🍎부스터 프로🍎 이틀 연장합니다! D-4! ',
-      date: '2025.05.01',
-      content:
-        '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!',
-      isPrimary: false,
-    },
-    {
-      id: 11234,
-      title: '제작 오픈 이벤트',
-      date: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-    {
-      id: 1023142134,
-      title: '🍎부스터 프로🍎 이틀 연장합니다! D-4! ',
-      date: '2025.05.01',
-      content:
-        '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!',
-      isPrimary: false,
-    },
-    {
-      id: 121415,
-      title: '제작 오픈 이벤트',
-      date: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-    {
-      id: 1121414334,
-      title: '제작 오픈 이벤트',
-      date: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-    {
-      id: 1023142,
-      title: '🍎부스터 프로🍎 이틀 연장합니다! D-4! ',
-      date: '2025.05.01',
-      content:
-        '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!',
-      isPrimary: false,
-    },
-    {
-      id: 1211431415,
-      title: '제작 오픈 이벤트',
-      date: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-  ];
+  const sellerId = useStrictSellerId();
+  const {
+    data: notices,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetNotification(sellerId);
 
-  const handleEditNotice = (noticeId: number, isPrimary: boolean) => {
-    setSelectedNotice(noticeId);
-    setIsSelectedNoticePrimary(isPrimary);
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useInfiniteScroll({
+    targetRef: observerRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
+
+  const handleEditNotice = (announcement: NoticeType) => {
+    setSelectedNotice(announcement);
+    setIsSelectedNoticePrimary(announcement.isPrimary);
     setIsAdminNoticeOpen(true);
-    console.log(noticeId);
   };
+
+  const primaryNotice = notices?.pages
+    ?.flatMap((p) => p.announcements)
+    ?.find((notice: NoticeType) => notice.isPrimary);
+  const otherNotices = notices?.pages
+    ?.flatMap((p) => p.announcements)
+    ?.filter((notice: NoticeType) => !notice.isPrimary);
 
   return (
     <div className="flex h-full w-full flex-1 flex-col">
@@ -112,7 +68,7 @@ const NoticePage = () => {
       >
         공지사항 편집
       </PageHeader>
-      {NOTICES?.length === 0 && (
+      {notices?.pages[0]?.totalElements === 0 && (
         <div className="flex h-full w-full flex-col items-center justify-center gap-10">
           <div className="flex flex-col items-center justify-center gap-6 text-center">
             <div className="bg-grey03 h-[5.6875rem] w-[8.0625rem]" />
@@ -123,35 +79,33 @@ const NoticePage = () => {
           />
         </div>
       )}
-      {NOTICES?.length > 0 && (
+      {notices && notices?.pages[0]?.totalElements > 0 && (
         <div className="scrollbar-hide flex h-full w-full flex-col items-center gap-4 overflow-y-auto pt-2 pb-24">
-          <div className="flex w-full flex-col items-center">
-            {NOTICES.map((notice) => (
-              <div
+          <ul className="flex w-full flex-col items-center">
+            {primaryNotice && (
+              <Notice
+                key={primaryNotice.id}
+                notice={primaryNotice}
+                handleEditNotice={handleEditNotice}
+              />
+            )}
+            {otherNotices?.map((notice: NoticeType) => (
+              <Notice
                 key={notice.id}
-                className="border-grey03 flex w-full cursor-pointer flex-col gap-2 border-b px-5 pt-4 pb-5"
-              >
-                <div className="flex w-full flex-col">
-                  <div className="flex w-full justify-between">
-                    <h1 className="body1-m">{notice.title}</h1>
-                    <div className="flex items-center gap-[.125rem]">
-                      {notice?.isPrimary && (
-                        <PinIcon className="h-6 w-6 text-black" />
-                      )}
-                      <KebabIcon
-                        className="text-grey08 h-5 w-5 cursor-pointer"
-                        onClick={() =>
-                          handleEditNotice(notice.id, notice.isPrimary)
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="text-grey05 caption-m">{notice.date}</div>
-                </div>
-                <div className="body2-r">{notice.content}</div>
-              </div>
+                notice={notice}
+                handleEditNotice={handleEditNotice}
+              />
             ))}
-          </div>
+          </ul>
+          {hasNextPage && (
+            <div ref={observerRef} className="h-4 w-full">
+              {isFetchingNextPage && (
+                <div className="flex justify-center">
+                  <LoadingSpinner />
+                </div>
+              )}
+            </div>
+          )}
           <AddNoticeButton
             handleAddNoticeClick={() => setIsAddNoticeOpen(true)}
           />
@@ -166,7 +120,7 @@ const NoticePage = () => {
       )}
       {isAdminNoticeOpen && selectedNotice !== null && (
         <EditNoticeBottomSheet
-          noticeId={selectedNotice}
+          announcement={selectedNotice}
           isPrimary={isSelectedNoticePrimary}
           isOpen={isAdminNoticeOpen}
           setIsOpen={setIsAdminNoticeOpen}
@@ -176,7 +130,7 @@ const NoticePage = () => {
       )}
       {isEditNoticeOpen && selectedNotice !== null && (
         <AddNoticeBottomSheet
-          noticeId={selectedNotice}
+          announcement={selectedNotice}
           isOpen={isEditNoticeOpen}
           setIsOpen={setIsEditNoticeOpen}
           setIsNoticeSavedSnackBarOpen={setIsNoticeSavedSnackBarOpen}

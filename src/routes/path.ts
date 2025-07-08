@@ -1,5 +1,8 @@
 export const PATH = {
   ROOT: '/',
+  LOGIN: {
+    base: '/login',
+  },
   HOME: {
     base: '/home',
   },

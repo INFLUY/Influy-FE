@@ -7,7 +7,7 @@ const AddNoticeButton = ({
 }) => {
   return (
     <button
-      className="border-grey03 text-grey07 mx-5 flex h-fit w-[calc(100%-1.25rem)] cursor-pointer justify-center gap-1 border px-5 py-[.875rem] text-center"
+      className="border-grey03 text-grey07 mx-5 flex h-fit w-[calc(100%-2.5rem)] cursor-pointer justify-center gap-1 border px-5 py-[.875rem] text-center"
       onClick={handleAddNoticeClick}
     >
       <PlusIcon className="h-5 w-5" />

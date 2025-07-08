@@ -11,9 +11,10 @@ import {
   SnackBar,
 } from '@/components';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { NoticeType } from '@/types/common/NoticeType.types';
 import PlusIcon from '@/assets/icon/common/PlusIcon.svg?react';
 import cn from '@/utils/cn';
+import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
+import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
 
 const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const [isLinkSnackBarOpen, setIsLinkSnackBarOpen] = useState<boolean>(false);
@@ -52,24 +53,11 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
     setIsEditLinkOpen(true);
   };
 
-  // 임시 공지사항
-  const NOTICES: NoticeType[] = [
-    {
-      id: 0,
-      title: '🍎부스터 프로🍎 이틀 연장합니다! D-4! ',
-      date: '2025.05.01',
-      content:
-        '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ㅎㅎ 많은 관심 감사합니다!',
-      isPrimary: true,
-    },
-    {
-      id: 1,
-      title: '제작 오픈 이벤트',
-      date: '2025.05.01',
-      content: '부스터 프로 이번 반응이 너무 좋아서 이틀 연장하기로 했어요 ',
-      isPrimary: false,
-    },
-  ];
+  const sellerId = useStrictSellerId();
+
+  const { data: primaryNotice } = useGetPrimaryNotification({
+    sellerId: Number(sellerId),
+  });
 
   return (
     <div className="flex w-full flex-1 flex-col">
@@ -80,8 +68,8 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
       {/* 공지 */}
       <div className="bg-grey02 flex w-full px-5 py-3">
         <NoticeBanner
-          title={NOTICES[0]?.title}
-          count={NOTICES?.length}
+          title={primaryNotice?.title}
+          count={primaryNotice?.totalAnnouncements}
           onClickNotice={() => navigate(`./${PATH.SELLER.notice.base}`)}
           seller={true}
         />

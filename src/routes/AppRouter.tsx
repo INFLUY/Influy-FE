@@ -4,9 +4,8 @@ import {
   Outlet,
   RouterProvider,
 } from 'react-router-dom';
-import { Suspense } from 'react';
 import { PATH } from '@/routes/path';
-import { GlobalLayout, Loading } from '@/components';
+import { GlobalLayout, LoadingSpinner } from '@/components';
 import {
   NotFound,
   Home,
@@ -19,21 +18,27 @@ import {
   MyItemReviewTab,
   MyStoredItemTab,
   Notice,
+  ErrorPage,
   SellerMyProfileEditPage,
   FaqRegistrationPage,
   SellerItemDetailPage,
   FaqEditPage,
 } from '@/pages';
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import { SellerAuthInterceptor } from './AuthInterceptor';
 
 const router = createBrowserRouter([
   {
     path: PATH.ROOT,
     element: (
-      <Suspense fallback={<Loading />}>
-        <GlobalLayout>
-          <Outlet />
-        </GlobalLayout>
-      </Suspense>
+      <ErrorBoundary FallbackComponent={ErrorPage}>
+        <Suspense fallback={<LoadingSpinner />}>
+          <GlobalLayout>
+            <Outlet />
+          </GlobalLayout>
+        </Suspense>
+      </ErrorBoundary>
     ),
     children: [
       {
@@ -76,7 +81,7 @@ const router = createBrowserRouter([
         path: PATH.SELLER.base,
         element: (
           <SellerMyProfile>
-            <Outlet />
+            <SellerAuthInterceptor />
           </SellerMyProfile>
         ),
         children: [

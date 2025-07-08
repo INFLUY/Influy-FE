@@ -1,7 +1,7 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import { SetStateAction, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SellerModal from '../../common/SellerModal';
+import SellerModal from '@/components/seller/common/SellerModal';
 
 const AdminItemBottomSheet = ({
   itemId,

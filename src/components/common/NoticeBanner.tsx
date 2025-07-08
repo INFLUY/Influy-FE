@@ -2,7 +2,7 @@ import Chevron from '@/assets/icon/common/Chevron.svg?react';
 
 const NoticeBanner = ({
   title = '',
-  count,
+  count = 0,
   onClickNotice,
   seller = false,
 }: {

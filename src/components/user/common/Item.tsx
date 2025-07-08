@@ -19,9 +19,6 @@ export const ItemList = ({ item }: { item: ItemType }) => {
       <div className="flex h-full flex-shrink-0 flex-grow basis-0 items-start justify-between gap-1">
         <div className="flex h-full flex-shrink-0 flex-grow basis-0 flex-col justify-between align-middle">
           <span className="flex flex-col justify-between gap-1">
-            <span className="text-grey07 caption-m line-clamp-1">
-              {item?.name}
-            </span>
             <span className="flex flex-col items-start gap-[.125rem] self-stretch">
               <h1 className="body2-m line-clamp-2">{item?.title}</h1>
               <p className="text-grey09 caption-m line-clamp-1">
@@ -77,9 +74,6 @@ export const ItemGrid = ({ item }: { item: ItemType }) => {
       >
         <div className="flex flex-shrink-0 flex-grow basis-0 flex-col justify-between gap-2 align-middle">
           <span className="flex flex-col gap-1">
-            <span className="text-grey07 caption-m line-clamp-1">
-              {item?.name}
-            </span>
             <h1 className="body2-m line-clamp-2">{item?.title}</h1>
             <p className="text-grey09 caption-m line-clamp-1">
               {item?.content}
