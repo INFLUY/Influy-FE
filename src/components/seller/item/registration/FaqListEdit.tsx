@@ -15,6 +15,7 @@ import {
   TextInput,
   SnackBar,
   EmptyCategoryPlaceholder,
+  SellerModal,
 } from '@/components';
 
 import MinusIcon from '@/assets/icon/common/MinusIcon.svg?react';
@@ -44,7 +45,13 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-type SheetMode = 'none' | 'add' | 'editText' | 'editList' | 'questionEdit';
+type SheetMode =
+  | 'none'
+  | 'add'
+  | 'editText'
+  | 'editList'
+  | 'questionEdit'
+  | 'delete';
 
 const FaqListEdit = ({
   faqCategory,
@@ -75,6 +82,9 @@ const FaqListEdit = ({
     open: false,
     message: '',
   });
+
+  // 삭제할 카테고리
+  const [categoryToDelete, setCategoryToDelete] = useState<number | null>(null);
 
   const navigate = useNavigate();
 
@@ -143,6 +153,11 @@ const FaqListEdit = ({
         return arrayMove(items, oldIndex, newIndex);
       });
     }
+  };
+
+  const onRemoveCategory = (id: number) => {
+    setCategoryToDelete(id);
+    setSheetMode('delete');
   };
 
   return (
@@ -278,11 +293,7 @@ const FaqListEdit = ({
                       id={c.id}
                       category={c}
                       onEdit={openTextEditSheet}
-                      onRemove={(id) => {
-                        setCategories((prev) =>
-                          prev.filter((x) => x.id !== id)
-                        );
-                      }}
+                      onRemove={onRemoveCategory}
                     />
                   ))}
                 </div>
@@ -297,6 +308,32 @@ const FaqListEdit = ({
             </div>
           </section>
         </BottomSheet>
+      )}
+
+      {sheetMode === 'delete' && categoryToDelete !== null && (
+        <SellerModal
+          text="해당 FAQ 카테고리를 삭제하시겠습니까?"
+          description="카테고리 안에 있는 모든 FAQ가 삭제되며 복구할 수 없습니다."
+          onClose={() => {
+            setSheetMode('editList');
+            setCategoryToDelete(null);
+          }}
+          rightButtonClick={() => {
+            setCategories((prev) =>
+              prev.filter((cat) => cat.id !== categoryToDelete)
+            );
+            setSnackbar({
+              open: true,
+              message: '삭제되었습니다',
+            });
+            setSheetMode('none');
+            setCategoryToDelete(null);
+          }}
+          setIsModalOpen={() => {
+            setSheetMode('editList');
+            setCategoryToDelete(null);
+          }}
+        />
       )}
 
       {/* 스낵바 */}
@@ -345,7 +382,6 @@ const CategoryUpsertSheet = ({
               setText={setDraftName}
               placeHolderContent="카테고리명을 입력해 주세요."
             />
-            <MinusIcon className="h-5 w-5" />
           </div>
           {/* 저장하기 버튼 */}
           <div className="w-full px-5">
@@ -394,7 +430,13 @@ const SortableCategoryItem = ({
       style={style}
       className="flex w-full items-center justify-between px-5"
     >
-      <MinusIcon className="mr-3 h-5 w-5" onClick={() => onRemove(id)} />
+      <button
+        className="cursor-pointer"
+        type="button"
+        onClick={() => onRemove(id)}
+      >
+        <MinusIcon className="mr-3 h-5 w-5" />
+      </button>
       <button
         type="button"
         onClick={() => onEdit(id)}
@@ -457,6 +499,7 @@ const FaqQuestionCard = ({
           </button>
         </div>
       </article>
+
       {/* 질문 수정하기 바텀시트 */}
       {sheetMode === 'questionEdit' && (
         <BottomSheet
