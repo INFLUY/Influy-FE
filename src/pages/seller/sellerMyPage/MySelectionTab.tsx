@@ -2,12 +2,12 @@ import { useState } from 'react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
 import { MyItem } from '@/types/seller/MyItem.types';
-import PlusIcon from '@/assets/icon/common/PlusIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { RadioBottomSheet, SellerMyItem } from '@/components';
+import { AddButton, RadioBottomSheet, SellerMyItem } from '@/components';
 import Arrow from '@/assets/icon/common/Chevron.svg?react';
 import cn from '@/utils/cn';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
+import { PATH } from '@/routes/path';
 
 const MySelectionTab = () => {
   const navigate = useNavigate();
@@ -133,13 +133,16 @@ const MySelectionTab = () => {
         </ul>
       )}
       <div className="flex w-full px-5">
-        <button
-          className="text-grey07 body2-m border-grey03 flex h-[6.125rem] w-full cursor-pointer items-center justify-center gap-1 border"
-          onClick={() => navigate('')}
+        <AddButton
+          size="large"
+          handleOnClick={() =>
+            navigate(
+              `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${PATH.SELLER.items.item.registration}`
+            )
+          }
         >
-          <PlusIcon />
-          <span>상품 추가</span>
-        </button>
+          상품 추가
+        </AddButton>
       </div>
     </section>
   );

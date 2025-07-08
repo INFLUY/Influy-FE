@@ -1,6 +1,6 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import { SetStateAction, useState } from 'react';
-import { SaveButton } from '../../common/Button';
+import { DefaultButton } from '../../common/Button';
 import { LimitedTextInput, LinkInput } from '../../common/DetailInput';
 
 const ExternalLinkBottomSheet = ({
@@ -67,13 +67,13 @@ const ExternalLinkBottomSheet = ({
         </span>
         <div className="scrollbar-hide flex w-full gap-[.4375rem] overflow-y-auto px-5 pt-1 pb-8">
           {linkId !== undefined && (
-            <SaveButton
+            <DefaultButton
               text="삭제하기"
-              activeColor="bg-grey07"
+              activeTheme="white"
               onClick={handleClickDelete}
             />
           )}
-          <SaveButton onClick={handleClickSave} />
+          <DefaultButton onClick={handleClickSave} />
         </div>
       </div>
     </BottomSheet>

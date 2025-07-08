@@ -1,6 +1,9 @@
 // 날짜가 오늘이면 true 반환, 오늘이 아니면 false 반환
-export const isToday = (d1: Date) => {
-  const d2 = new Date();
+interface isTodayProps {
+  d1: Date;
+  d2?: Date;
+}
+export const isToday = ({ d1, d2 = new Date() }: isTodayProps) => {
   return (
     d1.getFullYear() === d2.getFullYear() &&
     d1.getMonth() === d2.getMonth() &&
@@ -31,16 +34,58 @@ export const getTimeLeft = (targetDate: Date) => {
   };
 };
 
-export const formatTime = (date: Date) => {
+export const formatDate = ({
+  date,
+  includeWeekday = true,
+}: {
+  date: Date;
+  includeWeekday?: boolean;
+}) => {
+  return date.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    ...(includeWeekday && { weekday: 'short' }),
+  });
+};
+
+export const formatTime = ({
+  date,
+  hour12 = false,
+}: {
+  date: Date;
+  hour12?: boolean;
+}) => {
   return date.toLocaleTimeString('ko-KR', {
     hour: '2-digit',
     minute: '2-digit',
-    hour12: false,
+    hour12,
   });
 };
 
 export const parseISOString = (isoString: string) => {
   return new Date(isoString.split('.')[0]);
+};
+
+export const formatFullDateWithDay = ({
+  isoString,
+  includeYear = true,
+}: {
+  isoString: string;
+  includeYear?: boolean;
+}): string => {
+  const date = new Date(isoString);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // 0-based
+  const day = String(date.getDate()).padStart(2, '0');
+  const hour = String(date.getHours()).padStart(2, '0');
+  const minute = String(date.getMinutes()).padStart(2, '0');
+
+  const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
+  const dayOfWeek = weekDays[date.getDay()];
+
+  return `${includeYear ? `${year}.` : ''}${month}.${day}. (${dayOfWeek}) ${hour}:${minute}`;
 };
 
 // 2025.05.10

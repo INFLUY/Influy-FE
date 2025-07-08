@@ -1,51 +1,63 @@
 import { memo } from 'react';
 import CategoryChip from '../../common/CategoryChip';
-import PRODUCT_CATEGORIES from '@/constants/productCategories';
-
+import { ItemFormValues } from '@/types/item.types';
+import { useFormContext, useController } from 'react-hook-form';
+import { CategoryType } from '@/types/common/CategoryType.types';
+import { CATEGORY_MAX_COUNT } from '@/schemas/itemSchema';
 interface CategoryMultiSelectorProps {
-  selectedList: string[];
-  setSelectedList: React.Dispatch<React.SetStateAction<string[]>>;
+  name: keyof ItemFormValues; // 폼 필드 이름
+  categoryList: CategoryType[];
+  ref: React.RefObject<HTMLDivElement | null>; // 스크롤 이동을 위한 ref
 }
 
 export const CategoryMultiSelector = memo(
-  ({ selectedList, setSelectedList }: CategoryMultiSelectorProps) => {
+  ({ name, ref, categoryList }: CategoryMultiSelectorProps) => {
+    const { control } = useFormContext();
+
+    const {
+      field: { value: selectedList, onChange },
+    } = useController({
+      name,
+      control,
+    });
     const handleClickCategory = (category: string) => {
       if (selectedList.includes(category)) {
-        setSelectedList(selectedList.filter((item) => item !== category));
-      } else if (selectedList.length < 3) {
-        setSelectedList([...selectedList, category]);
+        onChange(selectedList.filter((item: string) => item !== category));
+      } else if (selectedList.length < CATEGORY_MAX_COUNT) {
+        onChange([...selectedList, category]);
       }
     };
 
     return (
-      <article className="flex w-full flex-col gap-y-4">
-        <div className="flex w-full justify-center gap-x-3">
-          {PRODUCT_CATEGORIES.slice(0, 5).map((category, index) => (
+      <article className="flex w-full flex-col gap-y-3" ref={ref}>
+        {/* 수정 필요 */}
+        <div className="flex w-full justify-center gap-[.625rem]">
+          {categoryList.slice(0, 5).map((category: CategoryType) => (
             <CategoryChip
-              key={index}
-              text={category}
-              isSelected={selectedList.includes(category)}
-              onToggle={() => handleClickCategory(category)}
+              key={category.id}
+              text={category.category}
+              isSelected={selectedList.includes(category.category)}
+              onToggle={() => handleClickCategory(category.category)}
             />
           ))}
         </div>
         <div className="flex w-full justify-center gap-x-3">
-          {PRODUCT_CATEGORIES.slice(5, 9).map((category, index) => (
+          {categoryList.slice(5, 9).map((category: CategoryType) => (
             <CategoryChip
-              key={index}
-              text={category}
-              isSelected={selectedList.includes(category)}
-              onToggle={() => handleClickCategory(category)}
+              key={category.id}
+              text={category.category}
+              isSelected={selectedList.includes(category.category)}
+              onToggle={() => handleClickCategory(category.category)}
             />
           ))}
         </div>
         <div className="flex w-full justify-center gap-x-3">
-          {PRODUCT_CATEGORIES.slice(9).map((category, index) => (
+          {categoryList.slice(9).map((category: CategoryType) => (
             <CategoryChip
-              key={index}
-              text={category}
-              isSelected={selectedList.includes(category)}
-              onToggle={() => handleClickCategory(category)}
+              key={category.id}
+              text={category.category}
+              isSelected={selectedList.includes(category.category)}
+              onToggle={() => handleClickCategory(category.category)}
             />
           ))}
         </div>

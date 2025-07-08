@@ -19,6 +19,10 @@ import {
   MyStoredItemTab,
   Notice,
   ErrorPage,
+  SellerMyProfileEditPage,
+  FaqRegistrationPage,
+  SellerItemDetailPage,
+  FaqEditPage,
 } from '@/pages';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -52,7 +56,7 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: PATH.SELLER_PROFILE.base,
+        path: PATH.USER.base,
         element: (
           <SellerProfile>
             <Outlet />
@@ -61,16 +65,14 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: (
-              <Navigate to={PATH.SELLER_PROFILE.tabs.selection} replace />
-            ),
+            element: <Navigate to={PATH.USER.tabs.selection} replace />,
           },
           {
-            path: PATH.SELLER_PROFILE.tabs.selection,
+            path: PATH.USER.tabs.selection,
             element: <SelectionTab />,
           },
           {
-            path: PATH.SELLER_PROFILE.tabs.review,
+            path: PATH.USER.tabs.review,
             element: <ReviewTab />,
           },
         ],
@@ -116,16 +118,78 @@ const router = createBrowserRouter([
             ],
           },
           {
+            path: PATH.SELLER.profile.base,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                path: PATH.SELLER.profile.edit,
+                element: <SellerMyProfileEditPage />,
+              },
+            ],
+          },
+          {
             path: PATH.SELLER.items.base,
             element: <Outlet />,
             children: [
               {
                 path: PATH.SELLER.items.item.registration,
+                element: <ItemRegistrationPage />,
+              },
+              {
+                path: PATH.SELLER.items.item.administration.base,
                 element: <Outlet />,
                 children: [
                   {
                     index: true,
-                    element: <ItemRegistrationPage />,
+                    path: PATH.SELLER.items.item.administration.itemDetail
+                      .published,
+                    element: <SellerItemDetailPage />, // 게시한 상품 조회 페이지
+                  },
+                  {
+                    index: true,
+                    path: PATH.SELLER.items.item.administration.itemDetail
+                      .archived,
+                    element: <SellerItemDetailPage />, // 보관한 상품 조회 페이지
+                  },
+                  {
+                    path: PATH.SELLER.items.item.administration.faq.base,
+                    element: <Outlet />,
+                    children: [
+                      {
+                        index: true,
+                        element: <FaqRegistrationPage />, // (임시) faq 조회 페이지
+                      },
+                      {
+                        path: PATH.SELLER.items.item.administration.faq
+                          .registration.base,
+                        element: <FaqRegistrationPage />,
+                      },
+                      {
+                        path: PATH.SELLER.items.item.administration.faq
+                          .administration.base,
+                        element: <Outlet />,
+                        children: [
+                          {
+                            index: true,
+                            element: (
+                              <Navigate
+                                to={
+                                  PATH.SELLER.items.item.administration.faq
+                                    .administration.faqDetail.edit
+                                }
+                                replace
+                              />
+                            ),
+                          },
+                          {
+                            path: PATH.SELLER.items.item.administration.faq
+                              .administration.faqDetail.edit,
+                            element: <FaqEditPage />, // 개별 faq 수정 페이지
+                          },
+                        ],
+                      },
+                    ],
                   },
                 ],
               },

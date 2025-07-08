@@ -1,47 +1,32 @@
 import cn from '@/utils/cn';
-import type { ModalButtonProps, SaveButtonProps } from './Button.types';
+import type { ModalButtonProps, DefaultButtonProps } from './Button.types';
 
-export const SaveButton = ({
-  onClick,
-  disabled = false,
-  activeColor = 'bg-black',
-  disabledColor = 'bg-grey05',
-  text = '저장하기',
-  additionalStyles,
-}: SaveButtonProps) => {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      className={cn(
-        'body2-m flex h-fit w-full cursor-pointer items-center justify-center rounded-sm py-3.5 text-white',
-        disabled ? disabledColor : activeColor,
-        additionalStyles
-      )}
-    >
-      {text}
-    </button>
-  );
-};
-
-// flex-1,버튼 2개 나란히 있는 곳 용도. div(flex) 안에 버튼 2개 넣어서 사용
 export const DefaultButton = ({
   onClick,
   disabled = false,
-  activeColor = 'bg-black ',
-  disabledColor = 'bg-grey05 ',
+  activeTheme = 'black',
+  disabledTheme = 'base',
+  useDisabled = true,
   text = '저장하기',
   additionalStyles,
-}: SaveButtonProps) => {
+  type = 'button',
+}: DefaultButtonProps) => {
   return (
     <button
-      type="button"
+      type={type}
       onClick={onClick}
-      disabled={disabled}
+      disabled={useDisabled ? disabled : false}
       className={cn(
-        'body2-m box-border flex h-fit flex-1 items-center justify-center rounded-sm py-3.5 text-white',
-        disabled ? disabledColor + ' cursor-not-allowed' : activeColor,
+        'body2-m box-border flex h-[3.0625rem] w-full items-center justify-center rounded-xs bg-black text-white',
+        {
+          'bg-grey05 cursor-default': disabled && disabledTheme === 'base',
+          'cursor-pointer bg-black text-white':
+            !disabled && activeTheme === 'black',
+          'cursor-pointer border border-black bg-white text-black':
+            !disabled && activeTheme === 'white',
+          'bg-grey04 cursor-pointer text-black':
+            !disabled && activeTheme === 'grey',
+        },
         additionalStyles
       )}
     >
@@ -70,6 +55,41 @@ export const ModalButton = ({
       )}
     >
       {text}
+    </button>
+  );
+};
+
+import PlusIcon from '@/assets/icon/common/PlusIcon.svg?react';
+
+// 추가 버튼
+export const AddButton = ({
+  handleOnClick,
+  size = 'base',
+  children,
+}: {
+  handleOnClick: () => void;
+  size?: 'base' | 'large';
+  children: React.ReactNode;
+}) => {
+  return (
+    <button
+      type="button"
+      className={cn(
+        'text-grey07 body2-m border-grey03 flex w-full cursor-pointer items-center justify-center gap-1 border',
+        {
+          'h-[6.125rem]': size === 'large',
+          'h-[3.0625rem]': size === 'base',
+        }
+      )}
+      onClick={() => handleOnClick()}
+    >
+      <PlusIcon
+        className={cn('text-grey07', {
+          'h-6 w-6': size === 'large',
+          'h-5 w-5': size === 'base',
+        })}
+      />
+      <span>{children}</span>
     </button>
   );
 };

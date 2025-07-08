@@ -6,7 +6,7 @@ export const PATH = {
   HOME: {
     base: '/home',
   },
-  SELLER_PROFILE: {
+  USER: {
     base: '/market/:marketId',
     tabs: {
       selection: 'selection',
@@ -23,10 +23,35 @@ export const PATH = {
     notice: {
       base: 'notice',
     },
+    profile: {
+      base: 'profile',
+      edit: 'edit',
+    },
     items: {
       base: 'item',
       item: {
         registration: 'new',
+        administration: {
+          base: ':itemId',
+          itemDetail: {
+            archived: 'archived',
+            published: 'published',
+          },
+          faq: {
+            base: 'faq',
+            registration: {
+              base: 'new',
+              question: 'question',
+              answer: 'answer',
+            },
+            administration: {
+              base: ':faqId',
+              faqDetail: {
+                edit: 'edit',
+              },
+            },
+          },
+        },
       },
     },
   },
