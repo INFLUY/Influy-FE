@@ -50,11 +50,11 @@ const NoticePage = () => {
   };
 
   const primaryNotice = notices?.pages
-    ?.flatMap((p) => p.announcements)
-    ?.find((notice: NoticeType) => notice.isPrimary);
+    ?.flatMap((p) => p?.announcements)
+    ?.find((notice: NoticeType) => notice?.isPrimary);
   const otherNotices = notices?.pages
-    ?.flatMap((p) => p.announcements)
-    ?.filter((notice: NoticeType) => !notice.isPrimary);
+    ?.flatMap((p) => p?.announcements)
+    ?.filter((notice: NoticeType) => !notice?.isPrimary);
 
   return (
     <div className="flex h-full w-full flex-1 flex-col">

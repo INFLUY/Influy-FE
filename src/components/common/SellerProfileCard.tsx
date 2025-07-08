@@ -5,8 +5,11 @@ import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
 import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { formatNumber } from '@/utils/formatNumber';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/routes/path';
 
 const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
+  const navigate = useNavigate();
   const SellerInfo = {
     name: '소현',
     id: 'xoyeone_',
@@ -40,7 +43,11 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
           <button
             type="button"
             className="border-grey03 text-grey08 caption-m flex shrink-0 cursor-pointer items-center gap-1 rounded-[.125rem] border px-2 py-[.1875rem] text-center"
-            onClick={() => {}}
+            onClick={() =>
+              navigate(
+                `${PATH.SELLER.profile.base}/${PATH.SELLER.profile.edit}`
+              )
+            }
           >
             <EditIcon className="h-[.875rem] w-[.875rem]" />
             프로필 수정
