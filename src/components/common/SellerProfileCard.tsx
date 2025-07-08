@@ -1,4 +1,4 @@
-import HeartIcon from '@/assets/icon/user/Heart.svg?react';
+import HeartIcon from '@/assets/icon/common/HeartIcon.svg?react';
 import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
 import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
