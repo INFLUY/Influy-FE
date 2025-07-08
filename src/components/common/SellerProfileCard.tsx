@@ -16,7 +16,7 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
     likes: 3811000,
   };
   return (
-    <div className="flex flex-col gap-3 px-5 pb-3">
+    <div className="flex flex-col gap-3 px-5 pb-2">
       <div className="flex shrink-0 gap-2">
         <div className="relative -mt-5 flex h-fit w-fit shrink-0">
           <img

@@ -77,30 +77,24 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
       </div>
       <SellerProfileCard />
       <div className="flex flex-col gap-2">
-        <article className="flex flex-col gap-2">
-          {/* 링크 */}
-          {LINKS?.length !== 0 && (
-            <div className="scrollbar-hide flex items-start gap-[.625rem] self-stretch overflow-x-auto px-5 py-2">
-              {LINKS.map((link) => (
-                <ExternalLinkChip
-                  key={link.id}
-                  name={link.name}
-                  url={link.url}
-                />
-              ))}
-            </div>
-          )}
-          {/* 공지 */}
-          {primaryNotice?.totalAnnouncements !== 0 && (
-            <div className="bg-grey01 flex w-full px-5 py-3">
-              <NoticeBanner
-                title={primaryNotice?.title}
-                count={primaryNotice?.totalAnnouncements}
-                onClickNotice={() => setIsBottomSheetOpen(true)}
-              />
-            </div>
-          )}
-        </article>
+        {/* 링크 */}
+        {LINKS?.length !== 0 && (
+          <div className="scrollbar-hide flex items-start gap-[.625rem] self-stretch overflow-x-auto px-5 py-2">
+            {LINKS.map((link) => (
+              <ExternalLinkChip key={link.id} name={link.name} url={link.url} />
+            ))}
+          </div>
+        )}
+        {/* 공지 */}
+        {primaryNotice?.totalAnnouncements !== 0 && (
+          <div className="bg-grey01 flex w-full px-5 py-3">
+            <NoticeBanner
+              title={primaryNotice?.title}
+              count={primaryNotice?.totalAnnouncements}
+              onClickNotice={() => setIsBottomSheetOpen(true)}
+            />
+          </div>
+        )}
         {isBottomSheetOpen && (
           <SellerNoticeBottomSheet
             marketId={Number(marketId!)}
