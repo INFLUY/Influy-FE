@@ -5,7 +5,6 @@ import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
 import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { formatNumber } from '@/utils/formatNumber';
-import cn from '@/utils/cn';
 
 const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
   const SellerInfo = {
@@ -14,7 +13,7 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
     likes: 3811000,
   };
   return (
-    <div className="flex flex-col gap-3 px-5 pb-4">
+    <div className="flex flex-col gap-3 px-5 pb-3">
       <div className="flex shrink-0 gap-2">
         <div className="relative -mt-5 flex h-fit w-fit shrink-0">
           <img
@@ -36,12 +35,8 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
           </div>
         </div>
       </div>
-      <div
-        className={cn('flex w-full justify-between', {
-          'justify-end': !seller,
-        })}
-      >
-        {seller && (
+      {seller && (
+        <div className="flex w-full justify-between">
           <button
             type="button"
             className="border-grey03 text-grey08 caption-m flex shrink-0 cursor-pointer items-center gap-1 rounded-[.125rem] border px-2 py-[.1875rem] text-center"
@@ -50,14 +45,14 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
             <EditIcon className="h-[.875rem] w-[.875rem]" />
             프로필 수정
           </button>
-        )}
-        <div className="text-grey08 flex shrink-0 items-center justify-end gap-[.625rem]">
-          <InstagramIcon />
-          <YoutubeIcon />
-          <TiktokIcon />
-          <EmailIcon />
+          <div className="text-grey08 flex shrink-0 items-center justify-end gap-[.625rem]">
+            <InstagramIcon />
+            <YoutubeIcon />
+            <TiktokIcon />
+            <EmailIcon />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

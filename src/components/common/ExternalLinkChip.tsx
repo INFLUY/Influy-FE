@@ -27,7 +27,7 @@ const ExternalLinkChip = ({ linkId, name, url, handleEditLink }: LinkProps) => {
   }
   return (
     <a href={url} className={ButtonClass}>
-      <LinkIcon className="text-grey07 h-4 w-4" />
+      <LinkIcon className="text-main h-4 w-4" />
       <span className="caption-m text-grey09">{name}</span>
     </a>
   );

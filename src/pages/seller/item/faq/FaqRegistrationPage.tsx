@@ -152,8 +152,8 @@ const FaqRegistrationPage = () => {
                     type="button"
                     className="text-grey06 body2-m flex cursor-pointer items-center gap-1"
                   >
-                    카테고리 수정
-                    <EditIcon className="h-[.875rem] w-[.875rem]" />
+                    <span>카테고리 수정</span>
+                    <EditIcon className="text-grey09 h-3.5 w-3.5" />
                   </button>
                 </div>
                 {/* FAQ 카테고리 */}
