@@ -54,5 +54,6 @@ export const PATH = {
         },
       },
     },
+    home: { base: 'home' },
   },
 } as const;

@@ -6,6 +6,7 @@ export { default as ReviewTab } from './user/sellerProfile/ReviewTab';
 export { default as SellerProfile } from './user/sellerProfile/SellerProfile';
 
 // 셀러
+export { default as SellerHomePage } from './seller/SellerHomePage';
 export { default as SellerMyProfile } from './seller/sellerMyPage/SellerMyProfile';
 export { default as MySelectionTab } from './seller/sellerMyPage/MySelectionTab';
 export { default as MyStoredItemTab } from './seller/sellerMyPage/MyStoredItemTab';
