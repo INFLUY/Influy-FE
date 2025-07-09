@@ -16,6 +16,35 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
     id: 'xoyeone_',
     likes: 3811000,
   };
+
+  const sns: { id: number; ariaLabel: string; url: string; icon: ReactNode }[] =
+    [
+      {
+        id: 0,
+        ariaLabel: ' 인스타그램 계정 바로가기',
+        url: 'https://instagram.com/influy_official',
+        icon: <InstagramIcon />,
+      },
+      {
+        id: 1,
+        ariaLabel: ' 유튜브 계정 바로가기',
+        url: 'https://www.youtube.com',
+        icon: <YoutubeIcon />,
+      },
+      {
+        id: 2,
+        ariaLabel: ' 틱톡 계정 바로가기',
+        url: 'https://www.tiktok.com',
+        icon: <TiktokIcon />,
+      },
+      {
+        id: 3,
+        ariaLabel: '에게 이메일 보내기',
+        url: 'https://google.com',
+        icon: <EmailIcon />,
+      },
+    ];
+
   return (
     <div className={cn('flex flex-col gap-3 px-5 pb-2', seller && 'pb-3')}>
       <div className="flex shrink-0 gap-2">
@@ -54,34 +83,16 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
             프로필 수정
           </button>
           <div className="text-grey08 flex shrink-0 items-center justify-end gap-[.625rem]">
-            <a
-              href="https://instagram.com/influy_official"
-              aria-label="인스타그램 계정 바로가기"
-              className="cursor-pointer"
-            >
-              <InstagramIcon />
-            </a>
-            <a
-              href="https://www.youtube.com"
-              aria-label="유튜브 계정 바로가기"
-              className="cursor-pointer"
-            >
-              <YoutubeIcon />
-            </a>
-            <a
-              href="https://www.tiktok.com"
-              aria-label="틱톡 계정 바로가기"
-              className="cursor-pointer"
-            >
-              <TiktokIcon />
-            </a>
-            <a
-              href="https://google.com"
-              aria-label="이메일 보내기"
-              className="cursor-pointer"
-            >
-              <EmailIcon />
-            </a>
+            {sns?.map((s, index) => (
+              <a
+                key={index}
+                href={s.url}
+                aria-label={'소현' + s.ariaLabel}
+                className="cursor-pointer"
+              >
+                {s.icon}
+              </a>
+            ))}
           </div>
         </div>
       )}
