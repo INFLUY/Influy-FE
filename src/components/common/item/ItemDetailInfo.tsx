@@ -3,7 +3,6 @@ import { ItemDetailProfile } from '@/components';
 import { RefObject, useState } from 'react';
 import cn from '@/utils/cn';
 import DowndownArrowIcon from '@/assets/icon/common/DropdownArrow.svg?react';
-import { getTimeChipText } from '@/components/user/common/Chip';
 import { formatFullDateWithDay } from '@/utils/formatDate';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation } from 'swiper/modules';
@@ -11,6 +10,7 @@ import './customSwiper.css';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
+import getTimeChipText from '@/utils/getTimeChipText';
 
 export const ItemDetailInfo = ({
   data,
