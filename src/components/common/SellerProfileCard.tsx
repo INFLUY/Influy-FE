@@ -8,6 +8,7 @@ import { formatNumber } from '@/utils/formatNumber';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import cn from '@/utils/cn';
+import { ReactNode } from 'react';
 
 const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
   const navigate = useNavigate();

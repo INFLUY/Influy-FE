@@ -11,14 +11,17 @@ import { useEffect, useState } from 'react';
 const Chip = ({
   children,
   theme,
+  rounded = false,
 }: {
   children: string;
   theme: 'grey' | 'blue' | 'red' | 'light-red' | 'purple';
+  rounded?: boolean;
 }) => {
   return (
     <div
       className={cn(
         'caption-small-m inline-flex w-fit items-center justify-center px-2 py-[.1875rem]',
+        rounded && 'rounded-[.125rem]',
         {
           'bg-grey03 text-grey08': theme === 'grey',
           'bg-sub-light text-sub': theme === 'blue',
@@ -71,9 +74,11 @@ export const getTimeChipText = ({
 export const TimeChip = ({
   open,
   deadline,
+  rounded,
 }: {
   open: string;
   deadline: string;
+  rounded?: boolean;
 }) => {
   const [, forceUpdate] = useState(0);
   useEffect(() => {

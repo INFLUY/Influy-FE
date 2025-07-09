@@ -22,19 +22,19 @@ export const ItemGrid = ({ item }: { item: ItemType }) => {
           마감
         </div>
         {/* 칩 */}
-        <span className="absolute bottom-0 left-0">
-          {item?.soldOut ? (
+        {item?.soldOut ? (
+          <div className="absolute bottom-0 left-0">
             <SoldOutChip />
-          ) : (
-            <span className="flex flex-wrap gap-1">
-              <TimeChip open={item?.open} deadline={item?.deadline} />
-              <ExtendChip
-                extend={item?.extend || false}
-                deadline={item?.deadline}
-              />
-            </span>
-          )}
-        </span>
+          </div>
+        ) : (
+          <div className="absolute bottom-0 left-0 flex flex-wrap">
+            <TimeChip open={item?.open} deadline={item?.deadline} />
+            <ExtendChip
+              extend={item?.extend || false}
+              deadline={item?.deadline}
+            />
+          </div>
+        )}
       </div>
       <div
         className={cn('flex flex-col items-start gap-2', {
