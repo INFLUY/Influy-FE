@@ -5,7 +5,7 @@ import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 
 const SellerHomePage = () => {
   return (
-    <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-y-auto">
+    <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
       <PageHeader
         leftIcons={[<InfluyIcon role="button" aria-label="뒤로 가기" />]}
         rightIcons={[

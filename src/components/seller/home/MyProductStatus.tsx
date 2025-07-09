@@ -1,13 +1,40 @@
 // 홈 상단 내 상품 현황 컴포넌트
 import { TimeChip, PeriodChip } from '@/components';
 import ArrowRightIcon from '@/assets/icon/common/ArrowRight.svg?react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { A11y, Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import './statusCardSwiper.css';
 const MyProductStatus = () => {
   return (
-    <section className="flex flex-col gap-4 p-5">
-      <h1 className="subhead-b text-black">내 상품 현황</h1>
-      <div>
-        <StatusCard />
-      </div>
+    <section className="status-card-swiper-section flex flex-col gap-2.5 py-5">
+      <h1 className="subhead-b px-5 text-black">내 상품 현황</h1>
+      <Swiper
+        className="mx-5 w-full overflow-visible"
+        centeredSlides={true}
+        grabCursor={true}
+        modules={[A11y, Navigation, Pagination]}
+        spaceBetween={12}
+        slidesPerView={1}
+        mousewheel={true}
+        navigation
+        pagination={{
+          clickable: true,
+          renderBullet: (index: number, className: string) => {
+            return `<div class="${className} custom-bullet" tabindex=${index}  ></div>`;
+          },
+        }}
+        aria-label="내 상품 현황 슬라이드"
+      >
+        <SwiperSlide>
+          <StatusCard />
+        </SwiperSlide>
+        <SwiperSlide>
+          <StatusCard />
+        </SwiperSlide>
+      </Swiper>
     </section>
   );
 };
@@ -16,7 +43,11 @@ export default MyProductStatus;
 
 const StatusCard = () => {
   return (
-    <div className="flex w-full shrink-0 flex-col items-start gap-5 rounded bg-white p-4 shadow-[0px_0px_8px_0px_rgba(43,43,43,0.10)]">
+    <div
+      role="group"
+      aria-label="상품 카드"
+      className="flex w-full shrink-0 flex-col items-start gap-5 rounded bg-white p-4 shadow-[0px_0px_8px_0px_rgba(43,43,43,0.10)]"
+    >
       {/* 상단 상품 정보 */}
       <article className="flex h-fit w-full items-center justify-between gap-2.5">
         {/* 좌측 상품 이미지 */}
@@ -53,7 +84,11 @@ const StatusCard = () => {
             <span className="text-grey09 caption-b mx-0.5">/</span>
             <span className="text-grey08">전체 12개</span>
           </div>
-          <button className="cursor-pointer" type="button">
+          <button
+            className="cursor-pointer"
+            type="button"
+            aria-label="질문 상세 보기"
+          >
             <ArrowRightIcon />
           </button>
         </div>
