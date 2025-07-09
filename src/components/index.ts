@@ -18,6 +18,12 @@ export { PeriodChip } from './common/chip/PeriodChip.tsx';
 // common/item
 export { ItemDetailInfo } from './common/item/ItemDetailInfo';
 export { ItemDetailProfile } from './common/item/ItemDetailProfile';
+
+//common/home
+export { HomeSectionTitle } from './common/home/HomeSectionTitle.tsx';
+
+//common/card
+export { default as ItemAlbumCard } from './common/card/ItemAlbumCard.tsx';
 //user
 //common
 export { ItemGrid } from './user/common/Item';
