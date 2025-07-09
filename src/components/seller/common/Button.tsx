@@ -60,6 +60,7 @@ export const ModalButton = ({
 };
 
 import AddIcon from '@/assets/icon/common/AddIcon.svg?react';
+import AddIconBase from '@/assets/icon/common/Add1Icon.svg?react';
 
 // 추가 버튼
 export const AddButton = ({
@@ -75,7 +76,7 @@ export const AddButton = ({
     <button
       type="button"
       className={cn(
-        'text-grey07 body2-m border-grey03 flex w-full cursor-pointer items-center justify-center gap-1 border',
+        'text-grey07 body2-m border-grey03 body2-m flex w-full cursor-pointer items-center justify-center gap-1 border',
         {
           'h-[6.125rem]': size === 'large',
           'h-[3.0625rem]': size === 'base',
@@ -83,7 +84,8 @@ export const AddButton = ({
       )}
       onClick={() => handleOnClick()}
     >
-      <AddIcon className="text-grey07 h-[1.125rem] w-[1.125rem]" />
+      {size === 'large' && <AddIcon className="text-grey07" />}
+      {size === 'base' && <AddIconBase className="text-grey07" />}
       <span>{children}</span>
     </button>
   );

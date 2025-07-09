@@ -30,6 +30,14 @@
 
   --color-error: #ff6060;
 
+  /* 키 컬러(레드) */
+  --color-main: #f43232;
+  --color-main-light: #ffe8e8;
+
+  /* 서브 컬러(블루) */
+  --color-sub: #45abeb;
+  --color-sub-light: #e1f3ff;
+
   /* Fonts */
   --font-pretendard: 'Pretendard', sans-serif;
 }

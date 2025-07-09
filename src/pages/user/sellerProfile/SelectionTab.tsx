@@ -1,7 +1,5 @@
-import { ItemList, ItemGrid } from '@/components/user/common/Item';
+import { ItemGrid } from '@/components/user/common/Item';
 import { useState } from 'react';
-import LayoutListButton from '@/assets/icon/common/LayoutListButton.svg?react';
-import LayoutAlbumButton from '@/assets/icon/common/LayoutAlbumButton.svg?react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
 import { ItemType } from '@/types/common/ItemType.types';
@@ -37,7 +35,8 @@ const SelectionTab = () => {
       itemId: 2,
       title: '소현X비비안웨스트우드 가디건 (색상 5가지)소현X비비안웨스트우드',
       name: '@dfkjdkfjdkfj',
-      content: '🖤완판 재진행🖤 너무 예쁜 가디건',
+      content:
+        '🖤완판 재진행🖤 너무 예쁜 가디건🖤완판 재진행🖤 너무 예쁜 가디건🖤완판 재진행🖤 너무 예쁜 가디건',
       thumbnail: '/img1.png',
       open: '2025-06-03T23:59:07.837159',
       deadline: '2025-06-10T19:00:07.837159',
@@ -56,7 +55,8 @@ const SelectionTab = () => {
     },
     {
       itemId: 4,
-      title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
+      title:
+        '소현X비비안웨스트우드 가디건 (색상 5가지/블루/핑크/화이)트트틑트트트트',
       name: '@dfkjdkfjdkfj',
       thumbnail: '/img1.png',
       open: '2025-06-03T23:59:07.837159',
@@ -76,18 +76,15 @@ const SelectionTab = () => {
     },
   ];
 
-  const [isGrid, setIsGrid] = useState<boolean>(true);
   const [inProgress, setInProgress] = useState<boolean>(false);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInProgress(e.target.checked);
   };
 
-  const LayoutButton = isGrid ? LayoutAlbumButton : LayoutListButton;
-
   return (
     <section className="flex w-full flex-col gap-4 pt-5 pb-36">
-      <span className="flex w-full justify-between px-5">
+      <span className="flex w-full justify-start px-5">
         <span className="flex cursor-pointer items-center gap-[.375rem]">
           <input
             type="checkbox"
@@ -98,32 +95,19 @@ const SelectionTab = () => {
           />
           <label
             htmlFor="filterItemInProgress"
-            className="text-grey08 caption-m flex cursor-pointer items-center gap-[.375rem]"
+            className="text-grey08 caption-m flex cursor-pointer items-center justify-center gap-[.375rem] text-center align-middle"
           >
             {inProgress ? <CheckBoxOn /> : <CheckBoxOff />}
-            진행 중인 상품만 보기
+            <span>진행 중인 상품만 보기</span>
           </label>
         </span>
-        <LayoutButton
-          onClick={() => setIsGrid((prev) => !prev)}
-          aria-label="레이아웃 변경 버튼"
-          className="cursor-pointer"
-        />
       </span>
       {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 ? (
-        isGrid ? (
-          <ul className="grid grid-cols-2 content-start items-start gap-x-[.6875rem] gap-y-5 px-[1.125rem]">
-            {PRODUCT_LIST?.map((item) => (
-              <ItemGrid key={item?.itemId} item={item} />
-            ))}
-          </ul>
-        ) : (
-          <ul className="flex flex-col items-start gap-4 self-stretch">
-            {PRODUCT_LIST?.map((item) => (
-              <ItemList key={item?.itemId} item={item} />
-            ))}
-          </ul>
-        )
+        <ul className="grid grid-cols-2 content-start items-start gap-x-[.1875rem] gap-y-8">
+          {PRODUCT_LIST?.map((item) => (
+            <ItemGrid key={item?.itemId} item={item} />
+          ))}
+        </ul>
       ) : (
         <span className="text-grey06 body-2-m flex w-full justify-center pt-[5.8125rem]">
           아직 등록된 상품이 없습니다.
