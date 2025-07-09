@@ -14,7 +14,7 @@ export { default as ScrapButton } from './common/ScrapButton';
 export { default as PageHeader } from './common/PageHeader';
 export { default as ToggleButton } from './common/ToggleButton';
 export { BottomNavBar } from './common/BottomNavBar';
-
+export { PeriodChip } from './common/chip/PeriodChip.tsx';
 // common/item
 export { ItemDetailInfo } from './common/item/ItemDetailInfo';
 export { ItemDetailProfile } from './common/item/ItemDetailProfile';
