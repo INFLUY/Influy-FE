@@ -24,6 +24,7 @@ export { HomeSectionTitle } from './common/home/HomeSectionTitle.tsx';
 
 //common/card
 export { default as ItemAlbumCard } from './common/card/ItemAlbumCard.tsx';
+export { default as HorizontalRankingCard } from './common/card/HorizontalRankingCard.tsx';
 //user
 //common
 export { ItemGrid } from './user/common/Item';
