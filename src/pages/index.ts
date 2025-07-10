@@ -1,4 +1,4 @@
-export { default as Home } from './home/Home';
+export { default as HomePage } from './home/HomePage';
 
 // common
 export { default as TrendingPage } from './common/home/TrendingPage';

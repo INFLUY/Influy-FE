@@ -8,7 +8,7 @@ import { PATH } from '@/routes/path';
 import { GlobalLayout, LoadingSpinner } from '@/components';
 import {
   NotFound,
-  Home,
+  HomePage,
   SellerProfile,
   SellerMyProfile,
   SelectionTab,
@@ -57,7 +57,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Home />,
+            element: <HomePage />,
           },
         ],
       },

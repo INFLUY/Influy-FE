@@ -34,6 +34,9 @@ export { TimeChip, SoldOutChip, ExtendChip } from './user/common/Chip';
 export { default as SellerProfileHeader } from './user/seller/SellerProfileHeader';
 export { default as SellerNoticeBottomSheet } from './user/seller/SellerNoticeBottomSheet';
 
+// user/home
+export { default as TopBannerSwiper } from './user/home/TopBannerSwiper.tsx';
+
 //seller
 //common
 export { DefaultButton, ModalButton, AddButton } from './seller/common/Button';
