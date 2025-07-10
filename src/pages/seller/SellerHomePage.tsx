@@ -1,11 +1,8 @@
 import {
   PageHeader,
   MyProductStatus,
-  HomeSectionTitle,
-  ItemAlbumCard,
-  HorizontalRankingCard,
-  CategoryChip,
   BottomNavBar,
+  HomeCommonSection,
 } from '@/components';
 import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
@@ -15,7 +12,7 @@ import { dummyCategory } from '@/pages/seller/item/ItemDetailDummyData';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { useState } from 'react';
 
-export const itemMockData: ItemCardType[] = [
+const itemMockData: ItemCardType[] = [
   {
     itemId: 101,
     itemPeriod: 7,
@@ -188,61 +185,15 @@ const SellerHomePage = () => {
       </PageHeader>
       <MyProductStatus />
 
-      <div className="mb-[6.375rem] flex flex-col gap-11">
-        {/* 마감임박 */}
+      <HomeCommonSection
+        expiringItem={itemMockData}
+        trendingItem={itemMockData}
+        recommendedItem={recommendMockData}
+        categoryList={dummyCategory}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
 
-        <section className="flex flex-col gap-4">
-          <HomeSectionTitle title="마감 임박" onClickMore={() => {}} />
-          <div className="grid grid-cols-2 grid-rows-2 gap-x-[.1875rem] gap-y-8">
-            {itemMockData.map((item) => (
-              <ItemAlbumCard
-                key={item.itemId}
-                item={item}
-                onCardClick={() => {}}
-              />
-            ))}
-          </div>
-        </section>
-        {/* 인기 급상승 */}
-        <section className="flex flex-col gap-2.5">
-          <HomeSectionTitle title="인기 급상승" onClickMore={() => {}} />
-          <div className="flex w-full flex-col gap-3 px-5">
-            {itemMockData.slice(0, 3).map((item, i) => (
-              <HorizontalRankingCard
-                key={item.itemId}
-                item={item}
-                ranking={i + 1}
-                onCardClick={() => {}}
-              />
-            ))}
-          </div>
-        </section>
-        <section className="flex flex-col gap-4">
-          <HomeSectionTitle title="카테고리별 추천" onClickMore={() => {}} />
-          <div className="scrollbar-hide flex w-full flex-nowrap items-center gap-2 overflow-x-scroll px-5">
-            {dummyCategory &&
-              dummyCategory.length > 0 &&
-              dummyCategory.map((category: CategoryType) => (
-                <CategoryChip
-                  key={category.id}
-                  text={category.category}
-                  isSelected={selectedCategory == category.id}
-                  onToggle={() => setSelectedCategory(category.id)}
-                  theme="home"
-                />
-              ))}
-          </div>
-          <div className="grid grid-cols-2 grid-rows-2 gap-x-[.1875rem] gap-y-8">
-            {recommendMockData.map((item) => (
-              <ItemAlbumCard
-                key={item.itemId}
-                item={item}
-                onCardClick={() => {}}
-              />
-            ))}
-          </div>
-        </section>
-      </div>
       <BottomNavBar />
     </section>
   );

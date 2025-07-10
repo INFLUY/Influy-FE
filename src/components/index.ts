@@ -21,6 +21,7 @@ export { ItemDetailProfile } from './common/item/ItemDetailProfile';
 
 //common/home
 export { HomeSectionTitle } from './common/home/HomeSectionTitle.tsx';
+export { default as HomeCommonSection } from './common/home/HomeCommonSection.tsx';
 
 //common/card
 export { default as ItemAlbumCard } from './common/card/ItemAlbumCard.tsx';
