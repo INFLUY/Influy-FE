@@ -1,5 +1,10 @@
 export { default as Home } from './home/Home';
 
+// common
+export { default as TrendingPage } from './common/home/TrendingPage';
+export { default as CategoryPage } from './common/home/CategoryPage';
+export { default as EndingSoonPage } from './common/home/EndingSoonPage';
+
 // 유저
 export { default as SelectionTab } from './user/sellerProfile/SelectionTab';
 export { default as ReviewTab } from './user/sellerProfile/ReviewTab';
