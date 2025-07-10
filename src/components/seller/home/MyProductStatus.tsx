@@ -1,5 +1,5 @@
 // 홈 상단 내 상품 현황 컴포넌트
-import { TimeChip, PeriodChip } from '@/components';
+import { TimeChip, PeriodChip, AddButton } from '@/components';
 import ArrowRightIcon from '@/assets/icon/common/ArrowRight.svg?react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation, Pagination } from 'swiper/modules';
@@ -8,33 +8,44 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './statusCardSwiper.css';
 const MyProductStatus = () => {
+  //임시
+  const item = [{ id: 1 }, { id: 1 }];
   return (
     <section className="status-card-swiper-section flex flex-col gap-2.5 py-5">
       <h1 className="subhead-b px-5 text-black">내 상품 현황</h1>
-      <Swiper
-        className="mx-5 w-full overflow-visible"
-        centeredSlides={true}
-        grabCursor={true}
-        modules={[A11y, Navigation, Pagination]}
-        spaceBetween={12}
-        slidesPerView={1}
-        mousewheel={true}
-        navigation
-        pagination={{
-          clickable: true,
-          renderBullet: (index: number, className: string) => {
-            return `<div class="${className} custom-bullet" tabindex=${index}  ></div>`;
-          },
-        }}
-        aria-label="내 상품 현황 슬라이드"
-      >
-        <SwiperSlide>
-          <StatusCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <StatusCard />
-        </SwiperSlide>
-      </Swiper>
+
+      {item && item.length > 0 ? (
+        <Swiper
+          className="mx-5 w-full overflow-visible"
+          centeredSlides={true}
+          grabCursor={true}
+          modules={[A11y, Navigation, Pagination]}
+          spaceBetween={12}
+          slidesPerView={1}
+          mousewheel={true}
+          navigation
+          pagination={{
+            clickable: true,
+            renderBullet: (index: number, className: string) => {
+              return `<div class="${className} custom-bullet" tabindex=${index}  ></div>`;
+            },
+          }}
+          aria-label="내 상품 현황 슬라이드"
+        >
+          <SwiperSlide>
+            <StatusCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <StatusCard />
+          </SwiperSlide>
+        </Swiper>
+      ) : (
+        <div className="px-5">
+          <AddButton size="large" handleOnClick={() => {}}>
+            상품 추가하기
+          </AddButton>
+        </div>
+      )}
     </section>
   );
 };

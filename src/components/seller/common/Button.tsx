@@ -78,7 +78,7 @@ export const AddButton = ({
       className={cn(
         'text-grey07 body2-m border-grey03 body2-m flex w-full cursor-pointer items-center justify-center gap-1 border',
         {
-          'h-[6.125rem]': size === 'large',
+          'h-[5.25rem]': size === 'large',
           'h-[3.0625rem]': size === 'base',
         }
       )}
