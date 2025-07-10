@@ -9,7 +9,6 @@ import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import { ItemCardType } from '@/types/common/ItemType.types';
 import { dummyCategory } from '@/pages/seller/item/ItemDetailDummyData';
-import { CategoryType } from '@/types/common/CategoryType.types';
 import { useState } from 'react';
 
 const itemMockData: ItemCardType[] = [
@@ -179,7 +178,7 @@ const SellerHomePage = () => {
             <div className="absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full bg-[#F43232]" />
           </button>,
         ]}
-        additionalStyles="bg-white border-0 h-[2.75rem]"
+        additionalStyles="bg-white border-0 "
       >
         <div className="h-[1.6875rem]" />
       </PageHeader>

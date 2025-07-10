@@ -15,11 +15,11 @@ const ItemAlbumCard = ({
       className="flex w-full cursor-pointer flex-col gap-1.5"
     >
       {/* 상단 사진 부분 */}
-      <div className="bg-grey03 relative flex aspect-square w-full shrink-0 rounded-[.1875rem]">
+      <div className="bg-grey03 relative flex aspect-square w-full shrink-0">
         <img
           src={item?.mainImg ?? undefined}
           alt={item.itemName + ' 썸네일'}
-          className="inset-0 h-full w-full rounded-[.1875rem] object-cover"
+          className="inset-0 h-full w-full object-cover"
         />
         <ScrapButton
           scrapped={item?.isScrapped}
@@ -29,7 +29,7 @@ const ItemAlbumCard = ({
           additionalStyles="absolute top-2 right-3"
         />
         {item.currentStatus === 'SOLD_OUT' && (
-          <div className="body2-m pointer-events-none absolute inset-0 flex items-center justify-center rounded-[.1875rem] bg-black/40 text-white">
+          <div className="body2-m pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
             마감
           </div>
         )}
