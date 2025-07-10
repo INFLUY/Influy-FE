@@ -24,7 +24,7 @@ const SnackBar = ({
         <div className="modal-bg-layout bg-transparent">
           <div
             className={cn(
-              'bg-grey09 animate-fade-in-out absolute bottom-[6.5rem] z-30 mx-5 flex items-center justify-center rounded-[.1875rem] px-4 py-[.625rem] text-white',
+              'bg-grey09 animate-fade-in-out absolute bottom-[6.5rem] z-30 mx-5 flex max-w-[15.75rem] items-center justify-center rounded-[.1875rem] px-4 py-[.625rem] text-white',
               additionalStyles
             )}
             style={{ animationDuration: `${time}ms` }}
