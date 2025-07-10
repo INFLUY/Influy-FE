@@ -10,12 +10,15 @@ const ItemAlbumCard = ({
   onCardClick: () => void;
 }) => {
   return (
-    <article className="flex w-full cursor-pointer flex-col gap-1.5">
+    <article
+      onClick={onCardClick}
+      className="flex w-full cursor-pointer flex-col gap-1.5"
+    >
       {/* 상단 사진 부분 */}
       <div className="bg-grey03 relative flex aspect-square w-full shrink-0 rounded-[.1875rem]">
         <img
           src={item?.mainImg ?? undefined}
-          alt="상품 썸네일"
+          alt={item.itemName + ' 썸네일'}
           className="inset-0 h-full w-full rounded-[.1875rem] object-cover"
         />
         <ScrapButton
