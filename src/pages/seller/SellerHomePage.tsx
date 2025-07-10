@@ -5,6 +5,7 @@ import {
   ItemAlbumCard,
   HorizontalRankingCard,
   CategoryChip,
+  BottomNavBar,
 } from '@/components';
 import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
@@ -242,6 +243,7 @@ const SellerHomePage = () => {
           </div>
         </section>
       </div>
+      <BottomNavBar />
     </section>
   );
 };
