@@ -19,6 +19,7 @@ export { default as NotFound } from './error/NotFound';
 export { default as ErrorPage } from './error/ErrorPage';
 
 export { ItemRegistrationPage } from './seller/item/ItemRegistrationPage';
+export { ItemFaqTab, ItemInfoTab } from './seller/item/ItemRegistrationTabs';
 export { default as FaqRegistrationPage } from './seller/item/faq/FaqRegistrationPage';
 export { default as FaqEditPage } from './seller/item/faq/FaqEditPage';
 export { default as SellerItemDetailPage } from './seller/item/SellerItemDetailPage';

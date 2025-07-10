@@ -1,5 +1,4 @@
 import {
-  AddButton,
   DefaultButton,
   FaqImageUploader,
   FormLimitedWideTextArea,
@@ -10,9 +9,9 @@ import {
   TipTooltip,
   ToggleButton,
   VanillaCategoryMultiSelector,
+  EmptyCategoryPlaceholder,
 } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
-import FolderIcon from '@/assets/icon/seller/FolderIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
@@ -129,21 +128,7 @@ const FaqRegistrationPage = () => {
       </PageHeader>
       {CATEGORIES.length === 0 ? (
         // 카테고리 없을 때
-        <section className="flex h-full flex-1 flex-col justify-center gap-[1.375rem] px-5 py-[2.125rem]">
-          <div className="flex flex-col items-center gap-6">
-            <FolderIcon />
-            <span className="body1-sb">아직 카테고리가 없어요</span>
-          </div>
-          <TipTooltip
-            text={`자주 들어오는 질문들을 카테고리로 설정하면 좋아요.\nex) 자주 묻는 질문, 가격/구성, 진행일정, 이벤트, 재고/수량`}
-            bgColor="bg-grey01"
-            tipColor="text-black"
-            textColor="text-grey08"
-          />
-          <AddButton handleOnClick={() => navigate('')}>
-            카테고리 추가하기
-          </AddButton>
-        </section>
+        <EmptyCategoryPlaceholder openAddSheet={() => {}} />
       ) : (
         // 카테고리 있을 때
         <FormProvider {...methods}>
@@ -160,15 +145,15 @@ const FaqRegistrationPage = () => {
               >
                 <div className="flex w-full justify-between">
                   <h2 className="body1-b text-black">
-                    FAQ 카테고리 <span className="text-[#F43232]">*</span>
+                    FAQ 카테고리 <span className="text-main">*</span>
                   </h2>
                   {/* 카테고리 수정 버튼 */}
                   <button
                     type="button"
                     className="text-grey06 body2-m flex cursor-pointer items-center gap-1"
                   >
-                    카테고리 수정
-                    <EditIcon className="h-[.875rem] w-[.875rem]" />
+                    <span>카테고리 수정</span>
+                    <EditIcon className="text-grey09 h-3.5 w-3.5" />
                   </button>
                 </div>
                 {/* FAQ 카테고리 */}
@@ -183,7 +168,7 @@ const FaqRegistrationPage = () => {
               {/* 질문 */}
               <article className="flex h-fit flex-col gap-4 px-5">
                 <h2 className="body1-b text-black">
-                  질문 <span className="text-[#F43232]">*</span>
+                  질문 <span className="text-main">*</span>
                 </h2>
                 <FormLimitedWideTextArea<FaqFormValues>
                   id="question"
@@ -195,7 +180,7 @@ const FaqRegistrationPage = () => {
               {/* 답변 */}
               <article className="flex h-fit flex-col gap-4 px-5">
                 <h2 className="body1-b text-black">
-                  답변 <span className="text-[#F43232]">*</span>
+                  답변 <span className="text-main">*</span>
                 </h2>
                 <FormWideTextArea<FaqFormValues>
                   id="answer"

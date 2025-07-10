@@ -13,12 +13,14 @@ type useBottomSheetGestureProps = {
   isBottomSheetOpen: boolean;
   handleBarRef: RefObject<HTMLDivElement | null>;
   onClose: () => void;
+  disableGesture?: boolean;
 };
 
 const useBottomSheetGesture = ({
   isBottomSheetOpen,
   handleBarRef,
   onClose,
+  disableGesture = false,
 }: useBottomSheetGestureProps) => {
   const metrics = useRef<BottomSheetMetrics>({
     touchStart: {
@@ -28,6 +30,10 @@ const useBottomSheetGesture = ({
     snap: 0,
     isContentAreaTouched: false,
   });
+
+  // 터치 지원 여부 확인
+  const isTouchSupported = 'ontouchstart' in window;
+
   // 스크롤 가능한 부모 요소를 찾음
   const findScrollableParentElement = (
     element: HTMLElement | null
@@ -43,7 +49,16 @@ const useBottomSheetGesture = ({
     return null;
   };
 
+  // 좌표 추출 함수
+  const getCoordinates = (e: any) => {
+    if (e.type && e.type.startsWith('touch')) {
+      return e.touches && e.touches[0] ? e.touches[0] : e.changedTouches[0];
+    }
+    return e;
+  };
+
   useEffect(() => {
+    if (disableGesture) return;
     if (!isBottomSheetOpen) return;
     if (!handleBarRef) return;
     const node = handleBarRef?.current;
@@ -51,39 +66,34 @@ const useBottomSheetGesture = ({
 
     const isDragging = { current: false };
 
-    const handleTouchStart = (e: TouchEvent | MouseEvent) => {
+    const handleStart = (e: any) => {
       const { touchStart } = metrics.current;
 
       const target = e.target as HTMLElement;
       const isScrollable = findScrollableParentElement(target);
 
-      metrics.current.isContentAreaTouched = !!isScrollable; // boolean으로 명시적 반환(요소가 있으면 true)
+      metrics.current.isContentAreaTouched = !!isScrollable;
 
       touchStart.sheetY = node.getBoundingClientRect().y;
-      if (e instanceof TouchEvent) {
-        touchStart.touchY = e.touches[0].clientY;
-      } else {
-        touchStart.touchY = e.clientY;
-      }
+
+      const coordinates = getCoordinates(e);
+      touchStart.touchY = coordinates.clientY;
 
       isDragging.current = true;
       metrics.current.snap =
         touchStart.sheetY + (node.getBoundingClientRect().height / 4) * 1;
     };
 
-    const handleTouchMove = (e: TouchEvent | MouseEvent) => {
+    const handleMove = (e: any) => {
       const { touchStart, isContentAreaTouched } = metrics.current;
 
       if (!isDragging.current) return;
-      let currentTouch;
-      if (e instanceof TouchEvent) {
-        currentTouch = e.touches[0];
-      } else {
-        currentTouch = e;
-      }
+
+      const coordinates = getCoordinates(e);
+
       if (!isContentAreaTouched) {
         e.preventDefault();
-        const touchOffset = currentTouch.clientY - touchStart.touchY;
+        const touchOffset = coordinates.clientY - touchStart.touchY;
         node.style.setProperty(
           'transform',
           `translateY(${Math.max(touchOffset, 0)}px)`
@@ -91,8 +101,7 @@ const useBottomSheetGesture = ({
       }
     };
 
-    // 손가락을 뗐을 때의 높이에 따라 닫을지 말지 결정
-    const handleTouchEnd = () => {
+    const handleEnd = () => {
       const { touchStart, snap } = metrics.current;
       const currentY = node.getBoundingClientRect().y;
 
@@ -110,22 +119,28 @@ const useBottomSheetGesture = ({
       metrics.current.isContentAreaTouched = false;
     };
 
-    node.addEventListener('touchstart', handleTouchStart);
-    node.addEventListener('touchmove', handleTouchMove);
-    node.addEventListener('touchend', handleTouchEnd);
-    node.addEventListener('mousedown', handleTouchStart);
-    node.addEventListener('mousemove', handleTouchMove);
-    node.addEventListener('mouseup', handleTouchEnd);
+    // 터치 지원 여부에 따라 이벤트 리스너 추가
+    if (isTouchSupported) {
+      node.addEventListener('touchstart', handleStart, { passive: false });
+      node.addEventListener('touchmove', handleMove, { passive: false });
+      node.addEventListener('touchend', handleEnd);
+    }
+
+    node.addEventListener('mousedown', handleStart);
+    node.addEventListener('mousemove', handleMove);
+    node.addEventListener('mouseup', handleEnd);
 
     return () => {
-      node.removeEventListener('touchstart', handleTouchStart);
-      node.removeEventListener('touchmove', handleTouchMove);
-      node.removeEventListener('touchend', handleTouchEnd);
-      node.removeEventListener('mousedown', handleTouchStart);
-      node.removeEventListener('mousemove', handleTouchMove);
-      node.removeEventListener('mouseup', handleTouchEnd);
+      if (isTouchSupported) {
+        node.removeEventListener('touchstart', handleStart);
+        node.removeEventListener('touchmove', handleMove);
+        node.removeEventListener('touchend', handleEnd);
+      }
+      node.removeEventListener('mousedown', handleStart);
+      node.removeEventListener('mousemove', handleMove);
+      node.removeEventListener('mouseup', handleEnd);
     };
-  }, [isBottomSheetOpen]);
+  }, [isBottomSheetOpen, disableGesture]);
 };
 
 export default useBottomSheetGesture;

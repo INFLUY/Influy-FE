@@ -37,3 +37,10 @@ export interface SellerCard {
   profileImg: string;
   instagram: string;
 }
+
+export type FaqQuestion = {
+  id: number;
+  questionContent: string;
+  pinned: true;
+  updatedAt: string;
+};

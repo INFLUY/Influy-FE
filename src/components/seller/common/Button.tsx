@@ -49,7 +49,7 @@ export const ModalButton = ({
         'body2-m box-border flex h-fit w-full min-w-[7.5625rem] cursor-pointer items-center justify-center rounded-[.1875rem] py-[.625rem]',
         {
           'border border-black bg-black text-white': theme === 'black',
-          'border-grey03 text-grey10 border bg-white': theme === 'white',
+          'text-grey10 border border-black bg-white': theme === 'white',
           'border-error bg-error border text-white': theme === 'red',
         }
       )}
@@ -59,7 +59,8 @@ export const ModalButton = ({
   );
 };
 
-import PlusIcon from '@/assets/icon/common/PlusIcon.svg?react';
+import AddIcon from '@/assets/icon/common/AddIcon.svg?react';
+import AddIconBase from '@/assets/icon/common/Add1Icon.svg?react';
 
 // 추가 버튼
 export const AddButton = ({
@@ -75,7 +76,7 @@ export const AddButton = ({
     <button
       type="button"
       className={cn(
-        'text-grey07 body2-m border-grey03 flex w-full cursor-pointer items-center justify-center gap-1 border',
+        'text-grey07 body2-m border-grey03 body2-m flex w-full cursor-pointer items-center justify-center gap-1 border',
         {
           'h-[6.125rem]': size === 'large',
           'h-[3.0625rem]': size === 'base',
@@ -83,12 +84,8 @@ export const AddButton = ({
       )}
       onClick={() => handleOnClick()}
     >
-      <PlusIcon
-        className={cn('text-grey07', {
-          'h-6 w-6': size === 'large',
-          'h-5 w-5': size === 'base',
-        })}
-      />
+      {size === 'large' && <AddIcon className="text-grey07" />}
+      {size === 'base' && <AddIconBase className="text-grey07" />}
       <span>{children}</span>
     </button>
   );

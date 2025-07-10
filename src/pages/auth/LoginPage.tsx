@@ -1,7 +1,7 @@
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import InfluyLogo from '/public/InfluyLogo.svg?react';
 import KakaoIcon from '@/assets/icon/common/KakaoIcon.svg?react';
-import ArrowRightMini from '@/assets/icon/common/ArrowRightMini.svg?react';
+import Arrow from '@/assets/icon/common/ArrowRight12.svg?react';
 
 const LoginPage = () => {
   return (
@@ -24,7 +24,7 @@ const LoginPage = () => {
               className="flex cursor-pointer items-center gap-[.125rem] text-center"
             >
               <span>소개보기</span>
-              <ArrowRightMini />
+              <Arrow />
             </button>
           </span>
           <button

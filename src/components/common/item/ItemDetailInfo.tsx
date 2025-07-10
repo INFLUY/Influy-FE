@@ -3,7 +3,6 @@ import { ItemDetailProfile } from '@/components';
 import { RefObject, useState } from 'react';
 import cn from '@/utils/cn';
 import DowndownArrowIcon from '@/assets/icon/common/DropdownArrow.svg?react';
-import { getTimeChipText } from '@/components/user/common/Chip';
 import { formatFullDateWithDay } from '@/utils/formatDate';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation } from 'swiper/modules';
@@ -11,6 +10,7 @@ import './customSwiper.css';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
+import getTimeChipText from '@/utils/getTimeChipText';
 
 export const ItemDetailInfo = ({
   data,
@@ -116,7 +116,7 @@ export const ItemDetailInfo = ({
 
               <div className="headline3 flex flex-wrap content-center items-center gap-1">
                 {data.salePrice && (
-                  <h3 className="text-[#F43232]">{discountRate}% </h3>
+                  <h3 className="text-main">{discountRate}% </h3>
                 )}
                 <h3 className="text-black">
                   {data.regularPrice.toLocaleString()}원
@@ -132,7 +132,7 @@ export const ItemDetailInfo = ({
         <article className="w-full px-5 pt-6">
           <p className="body1-b text-grey11">COMMENT</p>
           <div className="flex flex-col items-start gap-2.5 self-stretch">
-            <p className="body2-sb text-[#45ABEB]">
+            <p className="body2-sb text-sub">
               @{data.sellerInfo.instagram}님이 직접 등록한 정보예요!
             </p>
             <p

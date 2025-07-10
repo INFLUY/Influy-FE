@@ -41,16 +41,6 @@ const NoticeBanner = ({
     }
   }
   // 일반 유저가 보는 공지
-  else if (count === 0) {
-    return (
-      <article
-        onClick={onClickNotice}
-        className="text-grey06 caption-m flex h-[2.3125rem] w-full shrink-0 cursor-pointer items-center justify-center rounded-[.1875rem] bg-white text-center"
-      >
-        아직 공지가 없습니다.
-      </article>
-    );
-  }
   return (
     <article
       onClick={onClickNotice}

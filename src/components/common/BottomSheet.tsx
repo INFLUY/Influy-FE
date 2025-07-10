@@ -7,10 +7,12 @@ const BottomSheet = ({
   children,
   onClose,
   isBottomSheetOpen,
+  disableGesture = false,
 }: {
   children: ReactNode;
   onClose: () => void;
   isBottomSheetOpen: boolean;
+  disableGesture?: boolean;
 }) => {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -22,7 +24,12 @@ const BottomSheet = ({
 
   const handleBarRef = useRef<HTMLDivElement | null>(null);
 
-  useBottomSheetGesture({ isBottomSheetOpen, handleBarRef, onClose });
+  useBottomSheetGesture({
+    isBottomSheetOpen,
+    handleBarRef,
+    onClose,
+    disableGesture,
+  });
 
   return (
     <ModalPortal>

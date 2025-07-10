@@ -134,14 +134,14 @@ const MySelectionTab = () => {
       )}
       <div className="flex w-full px-5">
         <AddButton
-          size="large"
+          size="base"
           handleOnClick={() =>
             navigate(
-              `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${PATH.SELLER.items.item.registration}`
+              `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${PATH.SELLER.items.item.registration.base}`
             )
           }
         >
-          상품 추가
+          상품 추가하기
         </AddButton>
       </div>
     </section>
