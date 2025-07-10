@@ -2,13 +2,23 @@ import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import InfluyLogo from '/public/InfluyLogo.svg?react';
 import KakaoIcon from '@/assets/icon/common/KakaoIcon.svg?react';
 import Arrow from '@/assets/icon/common/ArrowRight12.svg?react';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/routes/path';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const handleKakaoLogin = () => {
+    // 응답에 따라 홈 or 회원가입 화면으로 분기
+    // navigate(PATH.HOME.base);
+    navigate(PATH.REGISTER.base);
+  };
+
   return (
     <div className="relative flex flex-1">
       <section className="z-20 flex w-full translate-y-[4.375rem] flex-col items-center justify-center gap-[13.25rem] px-5 text-center">
         <XIcon
-          className="absolute -top-6 left-5 h-6 w-6 text-white"
+          className="absolute -top-6 left-5 h-6 w-6 cursor-pointer text-white"
           role="button"
           aria-label="로그인 창 닫기"
         />
@@ -29,7 +39,8 @@ const LoginPage = () => {
           </span>
           <button
             type="button"
-            className="flex w-full items-center justify-center gap-2.5 rounded-[3px] bg-[#FEE500] py-3.5"
+            className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-[3px] bg-[#FEE500] py-3.5"
+            onClick={handleKakaoLogin}
           >
             <KakaoIcon />
             <span className="body2-b">카카오로 3초만에 시작하기</span>

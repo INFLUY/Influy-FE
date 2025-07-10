@@ -3,6 +3,14 @@ export const PATH = {
   LOGIN: {
     base: '/login',
   },
+  REGISTER: {
+    base: '/join',
+    type: {
+      base: 'type',
+      user: 'user',
+      seller: 'influencer',
+    },
+  },
   HOME: {
     base: '/home',
   },
