@@ -23,6 +23,8 @@ import {
   FaqRegistrationPage,
   SellerItemDetailPage,
   FaqEditPage,
+  SplashScreen,
+  LoginPage,
 } from '@/pages';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -43,7 +45,17 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to={PATH.HOME.base} replace />,
+        element: <SplashScreen />,
+      },
+      {
+        path: PATH.LOGIN.base,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <LoginPage />,
+          },
+        ],
       },
       {
         path: PATH.HOME.base,
