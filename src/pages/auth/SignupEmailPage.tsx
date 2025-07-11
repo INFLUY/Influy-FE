@@ -43,6 +43,19 @@ export const SignupEmailPage = () => {
     setEmailValue(value);
   };
 
+  // 건너뛰기 버튼 클릭 핸들러
+  const handleClickSkip = () => {
+    setEmailValue('');
+
+    // 백 연동
+
+    userSignupStateReset();
+    useUserSignupStore.persist.clearStorage();
+    sellerSignupStateReset();
+    useSellerSignupStore.persist.clearStorage();
+    navigate(PATH.WELCOME.base);
+  };
+
   // 다음 버튼 클릭 핸들러
   const handleClickNext = () => {
     if (!isDirty) setIsDirty(true);
@@ -92,7 +105,7 @@ export const SignupEmailPage = () => {
           </p>
         </div>
         <div className="flex flex-col gap-2">
-          <div className="body2-sb flex items-center gap-2 text-black">
+          <div className="body2-sb text-grey10 flex items-center gap-2">
             <EmailIcon className="h-6 w-6" />
             <span>이메일</span>
           </div>
@@ -105,6 +118,12 @@ export const SignupEmailPage = () => {
         </div>
       </section>
       <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">
+        <DefaultButton
+          type="button"
+          text="건너뛰기"
+          activeTheme="white"
+          onClick={handleClickSkip}
+        />
         <DefaultButton
           type="button"
           text="다음"

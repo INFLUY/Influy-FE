@@ -116,7 +116,7 @@ export const SignupSnsLinkPage = () => {
           </p>
         </div>
         <div className="flex flex-col gap-2">
-          <div className="body2-sb flex items-center gap-2 text-black">
+          <div className="body2-sb text-grey10 flex items-center gap-2">
             <InstagramIcon className="h-6 w-6" />
             <span>
               인스타그램 <span className="text-main">*</span>
@@ -134,7 +134,7 @@ export const SignupSnsLinkPage = () => {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <div className="body2-sb flex items-center gap-2 text-black">
+          <div className="body2-sb text-grey10 flex items-center gap-2">
             <YoutubeIcon className="h-6 w-6" />
             <span>유튜브</span>
           </div>
@@ -149,7 +149,7 @@ export const SignupSnsLinkPage = () => {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <div className="body2-sb flex items-center gap-2 text-black">
+          <div className="body2-sb text-grey10 flex items-center gap-2">
             <TiktokIcon className="h-6 w-6" />
             <span>틱톡</span>
           </div>
