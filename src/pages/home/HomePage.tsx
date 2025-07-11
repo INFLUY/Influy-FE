@@ -3,7 +3,6 @@ import {
   BottomNavBar,
   HomeCommonSection,
   TopBannerSwiper,
-  HomeSectionTitle,
 } from '@/components';
 import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';

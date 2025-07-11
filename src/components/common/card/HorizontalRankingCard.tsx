@@ -1,6 +1,6 @@
 //홈 아카이빙 인기 급상승 카드
 import { ItemCardType } from '@/types/common/ItemType.types';
-import { ScrapButton, SoldOutChip, TimeChip, PeriodChip } from '@/components';
+import { ScrapButton, TimeChip } from '@/components';
 
 const HorizontalRankingCard = ({
   item,
@@ -14,7 +14,7 @@ const HorizontalRankingCard = ({
   return (
     <article className="flex w-full flex-col items-start justify-start gap-2">
       <p className="text-main subhead-sb">{ranking}</p>
-      <div className="flex h-[6.75rem] w-full gap-2">
+      <div className="flex h-[6.75rem] w-full gap-2" onClick={onCardClick}>
         <div className="bg-grey03 relative h-[6.75rem] w-[6.75rem] rounded-[.0625rem]">
           {item.mainImg && (
             <img

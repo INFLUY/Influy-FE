@@ -14,7 +14,7 @@ export const HomeSectionTitle = ({
         type="button"
         onClick={onClickMore}
         aria-label="더보기"
-        className="body2-m text-grey10 flex items-center gap-[3px]"
+        className="body2-m text-grey10 flex cursor-pointer items-center gap-[3px]"
       >
         더보기
         <ArrowRightMiniIcon className="h-2.5 w-2.5" />
