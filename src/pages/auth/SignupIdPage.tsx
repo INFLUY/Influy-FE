@@ -7,6 +7,7 @@ import { PATH } from '@/routes/path';
 import { IdInput } from '@/components/common/DetailInput';
 import { idSchema } from '@/schemas/profileSchema';
 import { useMemo } from 'react';
+import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
 
 export const SignupIdPage = () => {
   const navigate = useNavigate();
@@ -15,6 +16,19 @@ export const SignupIdPage = () => {
   const userType = path[path.length - 2];
 
   const [id, setId] = useState<string>('');
+
+  const { id: sellerId, setId: setSellerId } = useSellerSignupStore();
+  const { id: userId, setId: setUserId } = useUserSignupStore();
+
+  useEffect(() => {
+    // userType에 따라 초기 아이디 값을 설정
+    if (userType === 'influencer') {
+      setId(sellerId);
+    } else if (userType === 'user') {
+      setId(userId);
+    }
+  }, [userType]);
+
   const [isDirty, setIsDirty] = useState(false); // 입력값이 한번이라도 바뀌었는지
 
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -68,8 +82,10 @@ export const SignupIdPage = () => {
       inputRef.current?.focus();
     } else {
       if (userType === 'influencer') {
+        setSellerId(id);
         navigate(`../${PATH.REGISTER.type.seller.sns}`);
       } else if (userType === 'user') {
+        setUserId(id);
         navigate(`../${PATH.REGISTER.type.user.interest}`);
       }
     }
