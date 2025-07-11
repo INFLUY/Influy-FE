@@ -56,12 +56,26 @@ interface SellerSignupState {
   id: string;
   email: string;
   sns: SnsLinkProps;
+}
+
+interface SellerSignupStoreState extends SellerSignupState {
   setId: (id: string) => void;
   setEmail: (email: string) => void;
   setSns: (sns: Partial<SnsLinkProps>) => void;
+  reset: () => void;
 }
 
-export const useSellerSignupStore = create<SellerSignupState>()(
+const initialSellerSignupState: SellerSignupState = {
+  id: '',
+  email: '',
+  sns: {
+    instagram: '',
+    youtube: '',
+    tiktok: '',
+  },
+};
+
+export const useSellerSignupStore = create<SellerSignupStoreState>()(
   persist(
     (set) => ({
       id: '',
@@ -72,7 +86,7 @@ export const useSellerSignupStore = create<SellerSignupState>()(
       },
       email: '',
       setId: (id: string) => set({ id }),
-      setSns: (sns) =>
+      setSns: (sns: Partial<SnsLinkProps>) =>
         set((state) => ({
           sns: {
             ...state.sns,
@@ -80,6 +94,7 @@ export const useSellerSignupStore = create<SellerSignupState>()(
           },
         })),
       setEmail: (email: string) => set({ email }),
+      reset: () => set({ ...initialSellerSignupState }),
     }),
     {
       name: 'seller-signup-storage', // 저장소 이름

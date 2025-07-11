@@ -9,7 +9,7 @@ import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { useUserSignupStore } from '@/store/authStore';
+import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
 import PRODUCT_CATEGORIES from '@/constants/productCategories';
 
 export const SignupInterestPage = () => {
@@ -17,7 +17,12 @@ export const SignupInterestPage = () => {
 
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 
-  const { id: userId, setInterestedCategories, reset } = useUserSignupStore();
+  const { reset: sellerSignupStateReset } = useSellerSignupStore();
+  const {
+    id: userId,
+    setInterestedCategories,
+    reset: userSignupStateReset,
+  } = useUserSignupStore();
   const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -37,8 +42,10 @@ export const SignupInterestPage = () => {
 
     // 백 연동
 
-    reset();
+    userSignupStateReset();
     useUserSignupStore.persist.clearStorage();
+    sellerSignupStateReset();
+    useSellerSignupStore.persist.clearStorage();
     navigate(`${PATH.REGISTER.base}/${PATH.REGISTER.type.user.welcome}`);
   };
 
