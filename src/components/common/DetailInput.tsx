@@ -15,6 +15,17 @@ interface LimitedTextInputProps extends TextInputProps {
   maxLength: number;
 }
 
+interface IdInputProps {
+  id: string;
+  text: string;
+  handleChange: (value: string) => void;
+  placeHolderContent: string;
+  maxLength: number;
+  descriptionText?: string;
+  errorText?: string;
+  ref: React.RefObject<HTMLInputElement | null>;
+}
+
 export const TextInput = ({
   text,
   setText,
@@ -120,7 +131,7 @@ export const LimitedTextInput = ({
             }
           }}
         />
-        <div className="caption-m text-grey06 h-full">
+        <div className="caption-m text-grey06 h-fit">
           <span className={cn(text.length > maxLength && 'text-error')}>
             {text.length}
           </span>
@@ -165,6 +176,64 @@ export const WideTextArea = ({
           rows={7}
         />
       </div>
+    </div>
+  );
+};
+
+export const IdInput = ({
+  id,
+  text,
+  handleChange,
+  descriptionText,
+  errorText,
+  maxLength,
+  placeHolderContent,
+  ref,
+}: IdInputProps) => {
+  return (
+    <div className="flex w-full flex-col gap-1">
+      <div
+        onClick={() => ref.current?.focus()}
+        className={cn(
+          'flex h-fit w-full items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5',
+          errorText
+            ? 'border-error'
+            : 'border-grey03 focus-within:border-grey05'
+        )}
+      >
+        <input
+          id={id}
+          ref={ref}
+          value={text}
+          onChange={(e) => handleChange(e.target.value)}
+          placeholder={placeHolderContent}
+          className="body2-m placeholder:text-grey06 flex-1 break-keep"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault(); // Enter 키 입력 방지
+            }
+          }}
+        />
+        <div className="caption-m text-grey06 h-fit">
+          <span className={cn(text.length > maxLength && 'text-error')}>
+            {text.length}
+          </span>
+          <span>/{maxLength}</span>
+        </div>
+      </div>
+      {(descriptionText || errorText) && (
+        <div className="flex items-center gap-1">
+          {errorText && <WarningIcon className="shrink-0" />}
+          <span
+            className={cn(
+              'caption-m',
+              errorText ? 'text-error' : 'text-grey06'
+            )}
+          >
+            {errorText || descriptionText}
+          </span>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import { SetStateAction, useState } from 'react';
 import { DefaultButton } from '../../common/Button';
-import { LimitedTextInput, LinkInput } from '../../common/DetailInput';
+import { LimitedTextInput, LinkInput } from '../../../common/DetailInput';
 
 const ExternalLinkBottomSheet = ({
   linkId,
