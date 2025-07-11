@@ -9,7 +9,7 @@ export const HomeSectionTitle = ({
 }) => {
   return (
     <div className="flex items-center justify-between px-5">
-      <span className="subhead-b text-black">{title}</span>
+      <h1 className="subhead-b text-black">{title}</h1>
       <button
         type="button"
         onClick={onClickMore}

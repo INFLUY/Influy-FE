@@ -1,9 +1,8 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { A11y, Navigation, Pagination } from 'swiper/modules';
+import { A11y, Pagination } from 'swiper/modules';
 import './topBannerSwiper.css';
 
 import 'swiper/css';
-import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 interface TopBannerItem {
@@ -13,16 +12,15 @@ interface TopBannerItem {
 
 const TopBannerSwiper = ({ data }: { data: TopBannerItem[] }) => {
   return (
-    <div className="relative h-fit w-full">
+    <section className="relative h-fit w-full">
       <Swiper
         className="relative w-full"
         centeredSlides={true}
         grabCursor={true}
-        modules={[A11y, Navigation, Pagination]}
+        modules={[A11y, Pagination]}
         spaceBetween={0}
         slidesPerView={1}
         mousewheel={true}
-        navigation
         pagination={{
           type: 'fraction',
         }}
@@ -39,7 +37,7 @@ const TopBannerSwiper = ({ data }: { data: TopBannerItem[] }) => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
+    </section>
   );
 };
 export default TopBannerSwiper;

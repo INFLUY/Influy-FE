@@ -58,7 +58,7 @@ export const BottomNavBar = ({
 }: BottomNavBarProps) => {
   return (
     <nav
-      className="border-t-grey03 bg-grey01 fixed bottom-0 z-50 flex w-full max-w-[40rem] min-w-[20rem] flex-col items-start border-t border-solid px-[1.375rem] pt-2.5 pb-[1.5625rem] md:w-[28rem]"
+      className="border-t-grey03 bg-grey01 fixed bottom-0 z-50 flex w-full max-w-[40rem] min-w-[20rem] flex-col items-start border-t border-solid px-5 py-2.5 md:w-[28rem]"
       aria-label="하단 네비게이션 바"
       role="navigation"
     >
