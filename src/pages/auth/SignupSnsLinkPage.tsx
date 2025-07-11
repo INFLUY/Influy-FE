@@ -21,9 +21,12 @@ export const SignupSnsLinkPage = () => {
   const youtubeRef = useRef<HTMLInputElement | null>(null);
   const tiktokRef = useRef<HTMLInputElement | null>(null);
 
-  const { sns, setSns } = useSellerSignupStore();
+  const { id: sellerId, sns, setSns } = useSellerSignupStore();
 
   useEffect(() => {
+    if (!sellerId) {
+      navigate(`../${PATH.REGISTER.type.seller.id}`);
+    }
     // 기존에 저장된 SNS 정보가 있다면 초기화
     if (sns) {
       setInstagramUrl(sns.instagram || '');

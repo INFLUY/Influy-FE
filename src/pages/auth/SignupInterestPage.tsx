@@ -26,7 +26,7 @@ export const SignupInterestPage = () => {
   const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    if (userId === '') {
+    if (!userId) {
       navigate(`../${PATH.REGISTER.type.user.id}`);
     }
   }, []);

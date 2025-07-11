@@ -8,7 +8,7 @@ export const WelcomePage = () => {
 
   // 다음 버튼 클릭 핸들러
   const handleClickNext = () => {
-    navigate(PATH.HOME.base);
+    navigate(PATH.HOME.base, { replace: true });
   };
 
   return (

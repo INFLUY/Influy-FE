@@ -3,15 +3,26 @@ import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import LoudSpeaker from '@/assets/icon/common/LoudSpeaker.svg?react';
 import ShoppingCart from '@/assets/icon/common/ShoppingCart.svg?react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SelectUserButtonType, UserType } from '@/types/common/AuthTypes.types';
 import cn from '@/utils/cn';
 import { PATH } from '@/routes/path';
+import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
 
 export const UserTypeSelectPage = () => {
   const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState<UserType | null>(null);
+
+  const { reset: sellerSignupStateReset } = useSellerSignupStore();
+  const { reset: userSignupStateReset } = useUserSignupStore();
+
+  useEffect(() => {
+    sellerSignupStateReset();
+    useSellerSignupStore.persist.clearStorage();
+    userSignupStateReset();
+    useUserSignupStore.persist.clearStorage();
+  }, []);
 
   const userType: SelectUserButtonType[] = [
     {

@@ -2,7 +2,7 @@ import { DefaultButton, PageHeader, SnackBar } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { TextInput } from '@/components/common/DetailInput';
@@ -14,7 +14,11 @@ export const SignupEmailPage = () => {
 
   const [emailValue, setEmailValue] = useState<string>('');
 
-  const { reset: sellerSignupStateReset } = useSellerSignupStore();
+  const {
+    id: sellerId,
+    sns,
+    reset: sellerSignupStateReset,
+  } = useSellerSignupStore();
   const { reset: userSignupStateReset } = useUserSignupStore();
   const [isDirty, setIsDirty] = useState(false); // 입력값이 한번이라도 바뀌었는지
 
@@ -25,6 +29,14 @@ export const SignupEmailPage = () => {
     open: false,
     message: '',
   });
+
+  useEffect(() => {
+    if (!sellerId) {
+      navigate(`../${PATH.REGISTER.type.seller.id}`);
+    } else if (!sns.instagram) {
+      navigate(`../${PATH.REGISTER.type.seller.sns}`);
+    }
+  }, []);
 
   const handleChangeEmail = (value: string) => {
     if (!isDirty) setIsDirty(true);
