@@ -1,6 +1,7 @@
 export { default as SplashScreen } from './splash/SplashScreen';
 export { default as LoginPage } from './auth/LoginPage';
 export { UserTypeSelectPage } from './auth/UserTypeSelectPage';
+export { SignupIdPage } from './auth/SignupIdPage';
 export { default as Home } from './home/Home';
 
 // 유저

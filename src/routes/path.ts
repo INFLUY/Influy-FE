@@ -7,8 +7,19 @@ export const PATH = {
     base: '/join',
     type: {
       base: 'type',
-      user: 'user',
-      seller: 'influencer',
+      user: {
+        base: 'user',
+        id: 'id',
+        interest: 'interest',
+        welcome: 'welcome',
+      },
+      seller: {
+        base: 'influencer',
+        id: 'id',
+        sns: 'sns',
+        email: 'email',
+        welcome: 'welcome',
+      },
     },
   },
   HOME: {

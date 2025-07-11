@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export type UserType = 'seller' | 'user';
+export type UserType = 'influencer' | 'user';
 
 export interface SelectUserButtonType {
   type: UserType;

@@ -28,6 +28,7 @@ import {
   SplashScreen,
   LoginPage,
   UserTypeSelectPage,
+  SignupIdPage,
 } from '@/pages';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -70,31 +71,41 @@ const router = createBrowserRouter([
           },
           {
             path: PATH.REGISTER.type.base,
+            element: <UserTypeSelectPage />,
+          },
+          {
+            path: PATH.REGISTER.type.user.base,
             element: <Outlet />,
             children: [
               {
                 index: true,
-                element: <UserTypeSelectPage />,
+                element: <Navigate to={PATH.REGISTER.type.user.id} replace />,
               },
               {
-                path: PATH.REGISTER.type.user,
-                element: <Outlet />,
-                children: [
-                  {
-                    index: true,
-                    element: <UserTypeSelectPage />,
-                  },
-                ],
+                path: PATH.REGISTER.type.user.id,
+                element: <SignupIdPage />,
               },
               {
-                path: PATH.REGISTER.type.seller,
-                element: <Outlet />,
-                children: [
-                  {
-                    index: true,
-                    element: <UserTypeSelectPage />,
-                  },
-                ],
+                path: PATH.REGISTER.type.user.interest,
+                element: <SignupIdPage />,
+              },
+            ],
+          },
+          {
+            path: PATH.REGISTER.type.seller.base,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to={PATH.REGISTER.type.seller.id} replace />,
+              },
+              {
+                path: PATH.REGISTER.type.seller.id,
+                element: <SignupIdPage />,
+              },
+              {
+                path: PATH.REGISTER.type.seller.sns,
+                element: <SignupIdPage />,
               },
             ],
           },

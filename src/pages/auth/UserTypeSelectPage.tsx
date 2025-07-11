@@ -15,7 +15,7 @@ export const UserTypeSelectPage = () => {
 
   const userType: SelectUserButtonType[] = [
     {
-      type: 'seller',
+      type: 'influencer',
       title: '인플루언서',
       description: `나의 상품을\n소개하고 싶어요`,
       icon: <LoudSpeaker className="w-6" />,
@@ -34,10 +34,14 @@ export const UserTypeSelectPage = () => {
     if (!selectedType) {
       setIsSnackbarOpen(true);
     } else {
-      if (selectedType === 'seller') {
-        navigate(PATH.REGISTER.type.seller);
+      if (selectedType === 'influencer') {
+        navigate(
+          `${PATH.REGISTER.base}/${PATH.REGISTER.type.seller.base}/${PATH.REGISTER.type.seller.id}`
+        );
       } else {
-        navigate(PATH.REGISTER.type.user);
+        navigate(
+          `${PATH.REGISTER.base}/${PATH.REGISTER.type.user.base}/${PATH.REGISTER.type.user.id}`
+        );
       }
     }
   };
