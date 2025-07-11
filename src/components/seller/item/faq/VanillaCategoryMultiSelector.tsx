@@ -2,7 +2,6 @@ import { memo, SetStateAction } from 'react';
 import CategoryChip from '@/components/seller/common/CategoryChip';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import cn from '@/utils/cn';
-import { th } from 'date-fns/locale';
 
 // form을 사용하지 않는 category multi selector
 interface BaseProps {
@@ -56,7 +55,7 @@ const VanillaCategoryMultiSelector = memo(
       <article
         className={cn(
           'flex w-full flex-wrap gap-2',
-          theme === 'interest' && 'gap-x-3 gap-y-[.875rem]'
+          theme === 'interest' && 'gap-x-3 gap-y-[14px]'
         )}
       >
         {categoryList.map((category: CategoryType) => (
