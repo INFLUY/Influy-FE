@@ -1,12 +1,15 @@
 import { memo, SetStateAction } from 'react';
 import CategoryChip from '@/components/seller/common/CategoryChip';
 import { CategoryType } from '@/types/common/CategoryType.types';
+import cn from '@/utils/cn';
+import { th } from 'date-fns/locale';
 
 // form을 사용하지 않는 category multi selector
 interface BaseProps {
   categoryList: CategoryType[];
   selectedCategory: number[];
   max?: number; // 최대 선택 가능한 개수(기본 1개)
+  theme?: 'faq' | 'item' | 'interest';
 }
 
 // disabled 있는 경우 setSelectedCategory는 없음
@@ -31,6 +34,7 @@ const VanillaCategoryMultiSelector = memo(
     setSelectedCategory,
     categoryList,
     disabled = false,
+    theme = 'faq',
     max = 1,
   }: CategoryMultiSelectorProps) => {
     const handleClickCategory = (categoryId: number) => {
@@ -49,14 +53,19 @@ const VanillaCategoryMultiSelector = memo(
     };
 
     return (
-      <article className="flex w-full flex-wrap gap-2">
+      <article
+        className={cn(
+          'flex w-full flex-wrap gap-2',
+          theme === 'interest' && 'gap-x-3 gap-y-[.875rem]'
+        )}
+      >
         {categoryList.map((category: CategoryType) => (
           <CategoryChip
             key={category.id}
             text={category.category}
             isSelected={selectedCategory.includes(category.id)}
             onToggle={() => handleClickCategory(category.id)}
-            theme="faq"
+            theme={theme === 'interest' ? 'item' : theme}
             disabled={disabled}
           />
         ))}

@@ -1,5 +1,5 @@
-import { CategoryType } from '@/types/common/CategoryType.types';
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface AuthState {
   sellerId: number | null;
@@ -16,19 +16,35 @@ export const useAuthStore = create<AuthState>((set) => ({
 interface UserSignupState {
   id: string;
   email: string;
-  intersetedCategories: CategoryType[];
-  setId: (id: string) => void;
-  setInterestedCategories: (categories: CategoryType[]) => void;
+  intersetedCategories: number[];
 }
 
-export const useUserSignupStore = create<UserSignupState>((set) => ({
+interface UserSignupStoreState extends UserSignupState {
+  setId: (id: string) => void;
+  setInterestedCategories: (categories: number[]) => void;
+  reset: () => void;
+}
+
+const initialUserSignupState: UserSignupState = {
   id: '',
   email: '',
   intersetedCategories: [],
-  setId: (id: string) => set({ id }),
-  setInterestedCategories: (intersetedCategories: CategoryType[]) =>
-    set({ intersetedCategories }),
-}));
+};
+
+export const useUserSignupStore = create<UserSignupStoreState>()(
+  persist(
+    (set) => ({
+      ...initialUserSignupState,
+      setId: (id: string) => set({ id }),
+      setInterestedCategories: (intersetedCategories: number[]) =>
+        set({ intersetedCategories }),
+      reset: () => set({ ...initialUserSignupState }),
+    }),
+    {
+      name: 'user-signup-storage', // 저장소 이름
+    }
+  )
+);
 
 interface SnsLinkProps {
   instagram: string;
@@ -45,21 +61,28 @@ interface SellerSignupState {
   setSns: (sns: Partial<SnsLinkProps>) => void;
 }
 
-export const useSellerSignupStore = create<SellerSignupState>((set) => ({
-  id: '',
-  sns: {
-    instagram: '',
-    youtube: '',
-    tiktok: '',
-  },
-  email: '',
-  setId: (id: string) => set({ id }),
-  setSns: (sns) =>
-    set((state) => ({
+export const useSellerSignupStore = create<SellerSignupState>()(
+  persist(
+    (set) => ({
+      id: '',
       sns: {
-        ...state.sns,
-        ...sns,
+        instagram: '',
+        youtube: '',
+        tiktok: '',
       },
-    })),
-  setEmail: (email: string) => set({ email }),
-}));
+      email: '',
+      setId: (id: string) => set({ id }),
+      setSns: (sns) =>
+        set((state) => ({
+          sns: {
+            ...state.sns,
+            ...sns,
+          },
+        })),
+      setEmail: (email: string) => set({ email }),
+    }),
+    {
+      name: 'seller-signup-storage', // 저장소 이름
+    }
+  )
+);
