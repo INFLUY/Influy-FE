@@ -4,14 +4,26 @@ import WarningIcon from '@/assets/icon/common/Warning.svg?react';
 import useAutoResizeTextArea from '@/hooks/useAutoResizeTextArea';
 import { isValidURL } from '@/utils/validation';
 
-interface TextInputProps {
+interface InputProps {
   text: string;
-  setText: React.Dispatch<React.SetStateAction<string>>;
+  setText:
+    | React.Dispatch<React.SetStateAction<string>>
+    | ((value: string) => void);
   placeHolderContent: string;
+}
+
+interface TextInputProps extends InputProps {
+  inputRef?: React.RefObject<HTMLInputElement | null>;
+  isValid?: boolean;
+}
+
+interface TextTextareaProps extends InputProps {
   isRequired?: boolean;
 }
 
-interface LimitedTextInputProps extends TextInputProps {
+interface LimitedTextInputProps extends TextTextareaProps {
+  isRequired?: boolean;
+  isValid?: boolean;
   maxLength: number;
 }
 
@@ -30,23 +42,27 @@ export const TextInput = ({
   text,
   setText,
   placeHolderContent,
+  inputRef,
+  isValid = true,
 }: TextInputProps) => {
-  const textareaRef = useRef<HTMLInputElement | null>(null);
-
   return (
-    <div className="flex w-full flex-col">
-      <div
-        onClick={() => textareaRef.current?.focus()}
-        className="border-grey03 focus-within:border-grey05 flex h-fit w-full items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5"
-      >
-        <input
-          ref={textareaRef}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder={placeHolderContent}
-          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
-        />
-      </div>
+    <div className="flex w-full flex-col gap-1">
+      <input
+        ref={inputRef}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder={placeHolderContent}
+        className={cn(
+          'body2-m placeholder:text-grey06 flex h-fit w-full resize-none items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5',
+          !isValid ? 'border-error' : 'border-grey03 focus-within:border-grey05'
+        )}
+      />
+      {text && !isValid && (
+        <div className="text-error flex items-center gap-1">
+          <WarningIcon />
+          <span className="caption-m">올바른 양식으로 입력해 주세요.</span>
+        </div>
+      )}
     </div>
   );
 };
@@ -154,7 +170,7 @@ export const WideTextArea = ({
   text,
   setText,
   placeHolderContent,
-}: TextInputProps) => {
+}: TextTextareaProps) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useAutoResizeTextArea(textareaRef, text, 6);

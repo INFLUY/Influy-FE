@@ -46,7 +46,7 @@ export const SignupInterestPage = () => {
     useUserSignupStore.persist.clearStorage();
     sellerSignupStateReset();
     useSellerSignupStore.persist.clearStorage();
-    navigate(`${PATH.REGISTER.base}/${PATH.REGISTER.type.user.welcome}`);
+    navigate(PATH.WELCOME.base);
   };
 
   return (

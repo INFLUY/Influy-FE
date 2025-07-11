@@ -13,22 +13,44 @@ export const idSchema = z
 
 export const snsSchema = z.object({
   instagram: z
-    .union([z.url(), z.literal('')])
-    .refine((val) => !val || val.startsWith('https://instagram.com/'), {
-      message: '인스타그램 주소를 올바르게 입력해 주세요.',
-    }),
+    .string()
+    .min(1, { message: '인스타그램 URL을 입력해 주세요.' })
+    .refine(
+      (val) =>
+        !val ||
+        val.startsWith('https://www.instagram.com/') ||
+        val.startsWith('https://instagram.com/'),
+      {
+        message: '인스타그램 주소를 올바르게 입력해 주세요.',
+      }
+    ),
   youtube: z
-    .union([z.url(), z.literal('')])
-    .refine((val) => !val || val.startsWith('https://www.youtube.com/'), {
-      message: '유튜브 주소를 올바르게 입력해 주세요.',
-    }),
+    .string()
+    .optional()
+    .refine(
+      (val) =>
+        !val ||
+        val.startsWith('https://www.youtube.com/') ||
+        val.startsWith('https://youtube.com/'),
+      {
+        message: '유튜브 주소를 올바르게 입력해 주세요.',
+      }
+    ),
   tiktok: z
-    .union([z.url(), z.literal('')])
-    .refine((val) => !val || val.startsWith('https://www.tiktok.com/@'), {
-      message: '틱톡 주소를 올바르게 입력해 주세요.',
-    }),
+    .string()
+    .optional()
+    .refine(
+      (val) =>
+        !val ||
+        val.startsWith('https://www.tiktok.com/@') ||
+        val.startsWith('https://tiktok.com/@'),
+      {
+        message: '틱톡 주소를 올바르게 입력해 주세요.',
+      }
+    ),
 });
 
 export const emailSchema = z
-  .email()
-  .min(1, { message: '이메일을 입력해 주세요.' });
+  .string()
+  .min(1, { message: '이메일을 입력해 주세요.' })
+  .email({ message: '올바른 양식으로 입력해주세요.' });

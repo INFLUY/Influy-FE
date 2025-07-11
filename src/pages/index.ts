@@ -4,6 +4,7 @@ export { UserTypeSelectPage } from './auth/UserTypeSelectPage';
 export { SignupIdPage } from './auth/SignupIdPage';
 export { SignupSnsLinkPage } from './auth/SignupSnsLinkPage';
 export { SignupInterestPage } from './auth/SignupInterestPage';
+export { SignupEmailPage } from './auth/SignupEmailPage';
 export { WelcomePage } from './auth/WelcomePage';
 
 export { default as Home } from './home/Home';

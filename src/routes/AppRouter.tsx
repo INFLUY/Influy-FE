@@ -32,6 +32,7 @@ import {
   SignupInterestPage,
   SignupSnsLinkPage,
   WelcomePage,
+  SignupEmailPage,
 } from '@/pages';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -110,13 +111,17 @@ const router = createBrowserRouter([
                 path: PATH.REGISTER.type.seller.sns,
                 element: <SignupSnsLinkPage />,
               },
+              {
+                path: PATH.REGISTER.type.seller.email,
+                element: <SignupEmailPage />,
+              },
             ],
           },
-          {
-            path: PATH.REGISTER.type.user.welcome,
-            element: <WelcomePage />,
-          },
         ],
+      },
+      {
+        path: PATH.WELCOME.base,
+        element: <WelcomePage />,
       },
       {
         path: PATH.HOME.base,

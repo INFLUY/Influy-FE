@@ -11,16 +11,17 @@ export const PATH = {
         base: 'user',
         id: 'id',
         interest: 'interest',
-        welcome: 'welcome',
       },
       seller: {
         base: 'influencer',
         id: 'id',
         sns: 'sns',
         email: 'email',
-        welcome: 'welcome',
       },
     },
+  },
+  WELCOME: {
+    base: '/welcome',
   },
   HOME: {
     base: '/home',
