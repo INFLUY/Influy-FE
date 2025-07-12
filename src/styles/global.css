@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: Pretendard;
-  font-display: block;
+  font-display: swap;
   src: url('../assets/font/PretendardVariable.woff2') format('woff2');
 }
 
