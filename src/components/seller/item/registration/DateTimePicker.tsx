@@ -1,4 +1,4 @@
-import DatePicker from 'react-datepicker';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DateTimePicker.css';
 import { ko } from 'date-fns/locale';
@@ -6,11 +6,14 @@ import ChevronIcon from '@/assets/icon/common/Chevron.svg?react';
 import Picker from 'react-mobile-picker';
 import cn from '@/utils/cn';
 import CalendarIcon from '@/assets/icon/common/Calendar.svg?react';
-import { DefaultButton } from '@/components';
+import { DefaultButton, LoadingSpinner } from '@/components';
 import { useFormContext, useController } from 'react-hook-form';
 import { isToday, formatTime, formatDate } from '@/utils/formatDate';
 import CheckBoxOnIcon from '@/assets/icon/common/CheckBox24On.svg?react';
 import CheckBoxOffIcon from '@/assets/icon/common/CheckBox24Off.svg?react';
+
+const DatePicker = lazy(() => import('react-datepicker'));
+
 interface DateTimePickerProps {
   selectedDateTime: Date | null;
   setSelectedDateTime: React.Dispatch<React.SetStateAction<Date | null>>;
@@ -22,62 +25,64 @@ export const DatePickerCalender = ({
 }: DateTimePickerProps) => {
   return (
     <div className="border-grey03 relative flex w-full flex-col rounded-[0.1875rem] border">
-      <DatePicker
-        selected={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
-        dateFormat="yyyy. MM. dd."
-        locale={ko}
-        calendarClassName="custom-calendar"
-        dayClassName={(date) => {
-          const isSameDay =
-            selectedDate && isToday({ d1: date, d2: selectedDate });
-          if (isSameDay) {
-            return 'custom-selected-day'; // 내가 지정한 검은 동그라미 스타일
-          }
-          return '';
-        }}
-        inline
-        // 상단 날짜 및 화살표
-        renderCustomHeader={({
-          date,
-          decreaseMonth,
-          increaseMonth,
-          prevMonthButtonDisabled,
-          nextMonthButtonDisabled,
-        }) => (
-          <div className="mb-[0.76rem] h-fit w-full">
-            {/* 상단 화살표, 달 표시 부분 */}
-            <div className="grid h-fit w-full grid-cols-7 items-center justify-items-center">
-              <button
-                onClick={decreaseMonth}
-                disabled={prevMonthButtonDisabled}
-                className="w-fit"
-              >
-                <ChevronIcon className="text-grey07 h-4 w-4 rotate-180" />
-              </button>
-              <span className="body1-b col-span-5 text-black">
-                {date.getFullYear()}년 {date.getMonth() + 1}월
-              </span>
-              <button
-                onClick={increaseMonth}
-                disabled={nextMonthButtonDisabled}
-                className="w-fit"
-              >
-                <ChevronIcon className="text-grey07 h-4 w-4" />
-              </button>
+      <Suspense fallback={<LoadingSpinner />}>
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date) => setSelectedDate(date)}
+          dateFormat="yyyy. MM. dd."
+          locale={ko}
+          calendarClassName="custom-calendar"
+          dayClassName={(date) => {
+            const isSameDay =
+              selectedDate && isToday({ d1: date, d2: selectedDate });
+            if (isSameDay) {
+              return 'custom-selected-day'; // 내가 지정한 검은 동그라미 스타일
+            }
+            return '';
+          }}
+          inline
+          // 상단 날짜 및 화살표
+          renderCustomHeader={({
+            date,
+            decreaseMonth,
+            increaseMonth,
+            prevMonthButtonDisabled,
+            nextMonthButtonDisabled,
+          }) => (
+            <div className="mb-[0.76rem] h-fit w-full">
+              {/* 상단 화살표, 달 표시 부분 */}
+              <div className="grid h-fit w-full grid-cols-7 items-center justify-items-center">
+                <button
+                  onClick={decreaseMonth}
+                  disabled={prevMonthButtonDisabled}
+                  className="w-fit"
+                >
+                  <ChevronIcon className="text-grey07 h-4 w-4 rotate-180" />
+                </button>
+                <span className="body1-b col-span-5 text-black">
+                  {date.getFullYear()}년 {date.getMonth() + 1}월
+                </span>
+                <button
+                  onClick={increaseMonth}
+                  disabled={nextMonthButtonDisabled}
+                  className="w-fit"
+                >
+                  <ChevronIcon className="text-grey07 h-4 w-4" />
+                </button>
+              </div>
+              <div className="text-grey04 body1-b mt-5 grid grid-cols-7">
+                <span aria-label="일요일">일</span>
+                <span aria-label="월요일">월</span>
+                <span aria-label="화요일">화</span>
+                <span aria-label="수요일">수</span>
+                <span aria-label="목요일">목</span>
+                <span aria-label="금요일">금</span>
+                <span aria-label="토요일">토</span>
+              </div>
             </div>
-            <div className="text-grey04 body1-b mt-5 grid grid-cols-7">
-              <span aria-label="일요일">일</span>
-              <span aria-label="월요일">월</span>
-              <span aria-label="화요일">화</span>
-              <span aria-label="수요일">수</span>
-              <span aria-label="목요일">목</span>
-              <span aria-label="금요일">금</span>
-              <span aria-label="토요일">토</span>
-            </div>
-          </div>
-        )}
-      />
+          )}
+        />
+      </Suspense>
       {/*상단 선택한 날짜 시간 표시*/}
       {selectedDate && (
         <div className="border-t-grey03 body1-m flex items-center justify-between border-t-1 px-4 py-3">
@@ -90,8 +95,6 @@ export const DatePickerCalender = ({
     </div>
   );
 };
-
-import { useState, useEffect } from 'react';
 
 interface TimeWheelSelectionsProps {
   amPm: string[];
