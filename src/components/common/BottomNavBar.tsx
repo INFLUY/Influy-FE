@@ -119,7 +119,6 @@ const tabRouteMap: Record<string, string[]> = {
 const isTabActive = (pathname: string, tabTo: string | undefined): boolean => {
   if (!tabTo) return false;
   const validPaths = tabRouteMap[tabTo];
-  console.log(validPaths);
   if (!validPaths) return pathname === tabTo; // fallback
   return validPaths.includes(pathname);
 };

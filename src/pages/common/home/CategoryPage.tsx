@@ -94,7 +94,7 @@ const CategoryPage = () => {
             <CategoryChip
               key={category.id}
               text={category.category}
-              isSelected={selectedCategory == category.id}
+              isSelected={selectedCategory === category.id}
               onToggle={() => setSelectedCategory(category.id)}
               theme="home"
             />

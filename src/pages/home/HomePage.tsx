@@ -126,7 +126,7 @@ const HomePage = () => {
             <div className="absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full bg-[#F43232]" />
           </button>,
         ]}
-        additionalStyles="bg-white border-0 "
+        additionalStyles="bg-white border-0"
       >
         <div className="h-[1.6875rem]" />
       </PageHeader>
@@ -160,7 +160,7 @@ const HomePage = () => {
             type="button"
             onClick={() => {}}
             aria-label="더보기"
-            className="body2-m text-grey10 flex items-center gap-[3px]"
+            className="body2-m text-grey10 flex items-center gap-[.1875rem]"
           >
             더보기
             <ArrowRightMiniIcon className="h-2.5 w-2.5" />
@@ -216,7 +216,7 @@ const InfluencerCard = ({
           selectedInfluencer == influencer.id && 'border-main border-[.0938rem]'
         )}
       />
-      <div className="flex w-[3.75rem] flex-col items-center self-stretch text-[12.938px] leading-[150%] tracking-[-0.013px]">
+      <div className="flex w-[3.75rem] flex-col items-center self-stretch text-[.8086rem] leading-[150%] tracking-[-0.0008rem]">
         <p className="text-grey10 line-clamp-1 font-semibold">
           {influencer.nickname}
         </p>

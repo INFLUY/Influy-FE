@@ -32,7 +32,7 @@ const CategoryChip = ({
             : disabled
               ? 'bg-grey01 text-black opacity-40'
               : 'bg-grey01 text-black'),
-        theme === 'home' && 'rounded-[39px] px-3 py-1.5',
+        theme === 'home' && 'rounded-[2.4375rem] px-3 py-1.5',
         theme === 'home' &&
           (isSelected ? 'bg-grey11 text-white' : 'bg-grey02 text-black')
       )}

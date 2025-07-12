@@ -73,7 +73,7 @@ const EndingSoonPage = () => {
             <div className="absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full bg-[#F43232]" />
           </button>,
         ]}
-        additionalStyles="bg-white border-0 "
+        additionalStyles="bg-white border-0"
       >
         마감임박
       </PageHeader>
