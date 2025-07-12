@@ -54,5 +54,13 @@ export const PATH = {
         },
       },
     },
+    home: {
+      base: 'home',
+      more: {
+        endingSoon: 'ending-soon',
+        trending: 'trending',
+        category: 'category',
+      },
+    },
   },
 } as const;

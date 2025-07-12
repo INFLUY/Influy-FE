@@ -8,7 +8,7 @@ import { PATH } from '@/routes/path';
 import { GlobalLayout, LoadingSpinner } from '@/components';
 import {
   NotFound,
-  Home,
+  HomePage,
   SellerProfile,
   SellerMyProfile,
   SelectionTab,
@@ -25,6 +25,10 @@ import {
   FaqRegistrationPage,
   SellerItemDetailPage,
   FaqEditPage,
+  SellerHomePage,
+  CategoryPage,
+  TrendingPage,
+  EndingSoonPage,
 } from '@/pages';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -53,7 +57,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Home />,
+            element: <HomePage />,
           },
         ],
       },
@@ -109,6 +113,28 @@ const router = createBrowserRouter([
         path: PATH.SELLER.base,
         element: <Outlet />,
         children: [
+          {
+            path: PATH.SELLER.home.base,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: <SellerHomePage />,
+              },
+              {
+                path: PATH.SELLER.home.more.endingSoon,
+                element: <EndingSoonPage />,
+              },
+              {
+                path: PATH.SELLER.home.more.trending,
+                element: <TrendingPage />,
+              },
+              {
+                path: PATH.SELLER.home.more.category,
+                element: <CategoryPage />,
+              },
+            ],
+          },
           {
             path: PATH.SELLER.notice.base,
             element: <Outlet />,

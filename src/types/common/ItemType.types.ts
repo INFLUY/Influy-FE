@@ -11,6 +11,19 @@ export type ItemType = {
   soldOut?: boolean;
 };
 
+export interface ItemCardType {
+  itemId: number;
+  itemPeriod: number | null;
+  itemName: string;
+  startDate: string | null; // ISO string
+  endDate: string | null; // ISO string
+  tagline: string | null;
+  currentStatus: 'DEFAULT' | 'EXTEND' | 'SOLD_OUT'; // 예시: 상태 enum 확장 가능
+  sellerName: string;
+  mainImg: string | null;
+  isScrapped: boolean;
+}
+
 export interface ItemDetail {
   itemId: number;
   itemPeriod: number | null;

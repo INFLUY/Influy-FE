@@ -12,7 +12,7 @@ import './customSwiper.css';
 
 const ItemDetailFaqCard = ({ faqList }: { faqList: FAQCardList[] }) => {
   return (
-    <section className="mb-[16.375rem] flex w-full flex-col">
+    <section className="item-detail-swiper-section mb-[16.375rem] flex w-full flex-col">
       <Swiper
         className="z-0 w-full"
         centeredSlides={true}

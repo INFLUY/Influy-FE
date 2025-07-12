@@ -1,4 +1,9 @@
-export { default as Home } from './home/Home';
+export { default as HomePage } from './home/HomePage';
+
+// common
+export { default as TrendingPage } from './common/home/TrendingPage';
+export { default as CategoryPage } from './common/home/CategoryPage';
+export { default as EndingSoonPage } from './common/home/EndingSoonPage';
 
 // 유저
 export { default as SelectionTab } from './user/sellerProfile/SelectionTab';
@@ -6,6 +11,7 @@ export { default as ReviewTab } from './user/sellerProfile/ReviewTab';
 export { default as SellerProfile } from './user/sellerProfile/SellerProfile';
 
 // 셀러
+export { default as SellerHomePage } from './seller/SellerHomePage';
 export { default as SellerMyProfile } from './seller/sellerMyPage/SellerMyProfile';
 export { default as MySelectionTab } from './seller/sellerMyPage/MySelectionTab';
 export { default as MyStoredItemTab } from './seller/sellerMyPage/MyStoredItemTab';

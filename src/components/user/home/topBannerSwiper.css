@@ -1,0 +1,40 @@
+.top-banner-swiper-section .swiper-button-prev,
+.top-banner-swiper-section .swiper-button-next,
+.top-banner-swiper-section .swiper-button-disabled {
+  height: 100% !important;
+  width: 15% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  top: 0 !important;
+  right: 0 !important;
+  opacity: 0 !important;
+}
+
+.top-banner-swiper-section .swiper-pagination {
+  position: absolute;
+  right: 1rem !important;
+  bottom: 1rem !important;
+  left: auto;
+  display: flex !important;
+  justify-content: center !important;
+  z-index: 1;
+  width: auto;
+  height: 1.25rem;
+  padding: 0.125rem 0.47rem !important;
+  align-items: center;
+  gap: 0.2rem;
+  border-radius: 0.1875rem;
+  background: rgba(23, 23, 27, 0.2);
+  color: #d3d3d3;
+  text-align: center;
+
+  /* Caption_m */
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+  letter-spacing: -0.00075rem;
+  > .swiper-pagination-current {
+    color: white;
+  }
+}
