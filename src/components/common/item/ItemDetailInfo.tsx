@@ -165,3 +165,5 @@ export const ItemDetailInfo = ({
     </section>
   );
 };
+
+export default ItemDetailInfo;

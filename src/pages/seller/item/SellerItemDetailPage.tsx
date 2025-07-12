@@ -1,26 +1,31 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
-  ItemDetailInfo,
   PageHeader,
   BottomNavBar,
-  ItemDetailFaqCard,
   CategoryChip,
   VisibilityBottomSheet,
+  LoadingSpinner,
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
 import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
-// import { ItemDetail, SellerCard } from '@/types/common/ItemType.types';
 import { SnackBar } from '@/components';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { BottomNavItem } from '@/components/common/BottomNavBar';
 import Link2Icon from '@/assets/icon/common/Link2Icon.svg?react';
 import LockIcon from '@/assets/icon/common/LockIcon.svg?react';
 import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { CategoryType } from '@/types/common/CategoryType.types';
-// import { FAQCardList } from '@/types/common/FAQ.types';
 import { dummyCategory, dummyFaq, dummyItem } from './ItemDetailDummyData';
+
+const ItemDetailFaqCard = lazy(
+  () => import('@/components/common/item/ItemDetailFaqCard')
+);
+
+const ItemDetailInfo = lazy(
+  () => import('@/components/common/item/ItemDetailInfo')
+);
 
 const SellerItemDetailPage = () => {
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
@@ -161,7 +166,9 @@ const SellerItemDetailPage = () => {
       <div className="invisible" ref={scrollViewRef} />
 
       {/* 상단 상품 정보 파트 */}
-      <ItemDetailInfo data={dummyItem} status={status} ref={itemDetailRef} />
+      <Suspense fallback={<LoadingSpinner />}>
+        <ItemDetailInfo data={dummyItem} status={status} ref={itemDetailRef} />
+      </Suspense>
 
       {/* FAQ 파트 */}
       <section className="mt-8 flex w-full flex-col gap-4">
@@ -192,7 +199,9 @@ const SellerItemDetailPage = () => {
             )}
           </div>
         </article>
-        <ItemDetailFaqCard faqList={dummyFaq} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <ItemDetailFaqCard faqList={dummyFaq} />
+        </Suspense>
       </section>
 
       {/* 스낵바 */}

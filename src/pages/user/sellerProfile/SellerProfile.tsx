@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { lazy, ReactNode, Suspense, useState } from 'react';
 import { Tab, Tabs } from '@/components/common/Tab';
 import { PATH } from '@/routes/path';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -7,13 +7,16 @@ import {
   NoticeBanner,
   SellerProfileCard,
   SellerProfileHeader,
-  SellerNoticeBottomSheet,
 } from '@/components';
 import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
 import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
 import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
 import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
+
+const SellerNoticeBottomSheet = lazy(
+  () => import('@/components/user/seller/SellerNoticeBottomSheet')
+);
 
 const SellerProfile = ({ children }: { children: ReactNode }) => {
   const TABS = [
@@ -105,13 +108,15 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
             />
           </div>
         )}
-        {isBottomSheetOpen && (
-          <SellerNoticeBottomSheet
-            marketId={Number(marketId!)}
-            isBottomSheetOpen={isBottomSheetOpen}
-            setIsBottomSheetOpen={setIsBottomSheetOpen}
-          />
-        )}
+        <Suspense fallback={null}>
+          {isBottomSheetOpen && (
+            <SellerNoticeBottomSheet
+              marketId={Number(marketId!)}
+              isBottomSheetOpen={isBottomSheetOpen}
+              setIsBottomSheetOpen={setIsBottomSheetOpen}
+            />
+          )}
+        </Suspense>
         <section className="flex flex-col">
           {/* 탭 */}
           <Tabs>

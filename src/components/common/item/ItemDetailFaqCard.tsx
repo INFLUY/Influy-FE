@@ -88,4 +88,5 @@ const ItemDetailFaqCard = ({ faqList }: { faqList: FAQCardList[] }) => {
     </section>
   );
 };
+
 export default ItemDetailFaqCard;

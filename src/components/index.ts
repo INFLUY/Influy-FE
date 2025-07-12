@@ -16,7 +16,6 @@ export { default as ToggleButton } from './common/ToggleButton';
 export { BottomNavBar } from './common/BottomNavBar';
 export { PeriodChip } from './common/chip/PeriodChip.tsx';
 // common/item
-export { ItemDetailInfo } from './common/item/ItemDetailInfo';
 export { ItemDetailProfile } from './common/item/ItemDetailProfile';
 
 //common/home
@@ -73,7 +72,6 @@ export {
 export { default as ExternalLinkBottomSheet } from './seller/item/administration/ExternalLinkBottomSheet';
 export { default as AdminItemBottomSheet } from './seller/item/administration/AdminItemBottomSheet';
 export { default as SellerMyItem } from './seller/item/administration/SellerMyItem';
-export { default as ItemDetailFaqCard } from './common/item/ItemDetailFaqCard';
 export { default as FaqListEdit } from './seller/item/registration/FaqListEdit';
 // faq
 export { default as VanillaCategoryMultiSelector } from './seller/item/faq/VanillaCategoryMultiSelector';
