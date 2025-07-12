@@ -20,7 +20,7 @@ import {
 
 import MinusIcon from '@/assets/icon/common/MinusIcon.svg?react';
 import DndIcon from '@/assets/icon/seller/DndIcon.svg?react';
-import RightIcon from '@/assets/icon/common/ArrowRightMini.svg?react';
+import RightIcon from '@/assets/icon/common/ArrowRight10.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import KebobIcon from '@/assets/icon/common/KebabIcon.svg?react';
 import DarkPinIcon from '@/assets/icon/common/DarkPinIcon.svg?react';

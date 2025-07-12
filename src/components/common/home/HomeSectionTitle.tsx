@@ -1,4 +1,4 @@
-import ArrowRightMiniIcon from '@/assets/icon/common/ArrowRightMini.svg?react';
+import ArrowRightIcon from '@/assets/icon/common/ArrowRight10.svg?react';
 
 export const HomeSectionTitle = ({
   title,
@@ -17,7 +17,7 @@ export const HomeSectionTitle = ({
         className="body2-m text-grey10 flex cursor-pointer items-center gap-[.1875rem]"
       >
         더보기
-        <ArrowRightMiniIcon className="h-2.5 w-2.5" />
+        <ArrowRightIcon className="h-2.5 w-2.5" />
       </button>
     </div>
   );

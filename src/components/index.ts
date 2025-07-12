@@ -14,6 +14,12 @@ export { default as ScrapButton } from './common/ScrapButton';
 export { default as PageHeader } from './common/PageHeader';
 export { default as ToggleButton } from './common/ToggleButton';
 export { BottomNavBar } from './common/BottomNavBar';
+export {
+  TextInput,
+  LimitedTextInput,
+  WideTextArea,
+  LinkInput,
+} from './common/DetailInput.tsx';
 export { PeriodChip } from './common/chip/PeriodChip.tsx';
 // common/item
 export { ItemDetailProfile } from './common/item/ItemDetailProfile';
@@ -40,12 +46,6 @@ export { default as TopBannerSwiper } from './user/home/TopBannerSwiper.tsx';
 //common
 export { DefaultButton, ModalButton, AddButton } from './seller/common/Button';
 export { TipTooltip } from './seller/common/TipTooltip';
-export {
-  TextInput,
-  LimitedTextInput,
-  WideTextArea,
-  LinkInput,
-} from './seller/common/DetailInput';
 export { default as CategoryChip } from './seller/common/CategoryChip';
 export { default as RadioInputSelector } from './seller/common/RadioInputSelector';
 export { default as SellerModal } from './seller/common/SellerModal';

@@ -1,4 +1,4 @@
-import ArrowRightIcon from '@/assets/icon/common/ArrowRight.svg?react';
+import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 import { SellerCard } from '@/types/common/ItemType.types';
 
 export const ItemDetailProfile = ({ seller }: { seller: SellerCard }) => {

@@ -11,7 +11,7 @@ import { dummyCategory } from '@/pages/seller/item/ItemDetailDummyData';
 import { useState } from 'react';
 import { itemMockData, recommendMockData } from '@/pages/home/HomeMockData';
 import cn from '@/utils/cn';
-import ArrowRightMiniIcon from '@/assets/icon/common/ArrowRightMini.svg?react';
+import ArrowRightMiniIcon from '@/assets/icon/common/ArrowRight10.svg?react';
 
 interface TopBannerItem {
   image: string;

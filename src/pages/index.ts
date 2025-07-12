@@ -1,9 +1,15 @@
 export { default as HomePage } from './home/HomePage';
-
-// common
 export { default as TrendingPage } from './common/home/TrendingPage';
 export { default as CategoryPage } from './common/home/CategoryPage';
 export { default as EndingSoonPage } from './common/home/EndingSoonPage';
+export { default as SplashScreen } from './splash/SplashScreen';
+export { default as LoginPage } from './auth/LoginPage';
+export { UserTypeSelectPage } from './auth/UserTypeSelectPage';
+export { SignupIdPage } from './auth/SignupIdPage';
+export { SignupSnsLinkPage } from './auth/SignupSnsLinkPage';
+export { SignupInterestPage } from './auth/SignupInterestPage';
+export { SignupEmailPage } from './auth/SignupEmailPage';
+export { WelcomePage } from './auth/WelcomePage';
 
 // 유저
 export { default as SellerProfile } from './user/sellerProfile/SellerProfile';

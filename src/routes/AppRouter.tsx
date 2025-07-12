@@ -24,6 +24,14 @@ import {
   CategoryPage,
   TrendingPage,
   EndingSoonPage,
+  SplashScreen,
+  LoginPage,
+  UserTypeSelectPage,
+  SignupIdPage,
+  SignupInterestPage,
+  SignupSnsLinkPage,
+  WelcomePage,
+  SignupEmailPage,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -59,7 +67,75 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to={PATH.HOME.base} replace />,
+        element: <SplashScreen />,
+      },
+      {
+        path: PATH.LOGIN.base,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <LoginPage />,
+          },
+        ],
+      },
+      {
+        path: PATH.REGISTER.base,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <Navigate to={PATH.REGISTER.type.base} replace />,
+          },
+          {
+            path: PATH.REGISTER.type.base,
+            element: <UserTypeSelectPage />,
+          },
+          {
+            path: PATH.REGISTER.type.user.base,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to={PATH.REGISTER.type.user.id} replace />,
+              },
+              {
+                path: PATH.REGISTER.type.user.id,
+                element: <SignupIdPage />,
+              },
+              {
+                path: PATH.REGISTER.type.user.interest,
+                element: <SignupInterestPage />,
+              },
+            ],
+          },
+          {
+            path: PATH.REGISTER.type.seller.base,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to={PATH.REGISTER.type.seller.id} replace />,
+              },
+              {
+                path: PATH.REGISTER.type.seller.id,
+                element: <SignupIdPage />,
+              },
+              {
+                path: PATH.REGISTER.type.seller.sns,
+                element: <SignupSnsLinkPage />,
+              },
+              {
+                path: PATH.REGISTER.type.seller.email,
+                element: <SignupEmailPage />,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: PATH.WELCOME.base,
+        element: <WelcomePage />,
       },
       {
         path: PATH.HOME.base,
