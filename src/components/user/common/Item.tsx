@@ -10,7 +10,7 @@ export const ItemGrid = ({ item }: { item: ItemType }) => {
         <img
           src={item?.thumbnail ?? undefined}
           alt="상품 썸네일"
-          className="absolute inset-0 object-cover"
+          className="bg-grey06 absolute inset-0 object-cover"
         />
         <ScrapButton
           scrapped={item?.scrapped}

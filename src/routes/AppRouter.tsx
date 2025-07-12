@@ -11,14 +11,9 @@ import {
   Home,
   SellerProfile,
   SellerMyProfile,
-  SelectionTab,
-  ReviewTab,
   ItemRegistrationPage,
   ItemFaqTab,
   ItemInfoTab,
-  MySelectionTab,
-  MyItemReviewTab,
-  MyStoredItemTab,
   Notice,
   ErrorPage,
   SellerMyProfileEditPage,
@@ -26,9 +21,24 @@ import {
   SellerItemDetailPage,
   FaqEditPage,
 } from '@/pages';
-import { Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { SellerAuthInterceptor } from './AuthInterceptor';
+
+const SelectionTab = lazy(
+  () => import('@/pages/user/sellerProfile/SelectionTab')
+);
+const ReviewTab = lazy(() => import('@/pages/user/sellerProfile/ReviewTab'));
+
+const MySelectionTab = lazy(
+  () => import('@/pages/seller/sellerMyPage/MySelectionTab')
+);
+const MyItemReviewTab = lazy(
+  () => import('@/pages/seller/sellerMyPage/MyItemReviewTab')
+);
+const MyStoredItemTab = lazy(
+  () => import('@/pages/seller/sellerMyPage/MyStoredItemTab')
+);
 
 const router = createBrowserRouter([
   {
