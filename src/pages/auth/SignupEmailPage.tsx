@@ -8,6 +8,8 @@ import { PATH } from '@/routes/path';
 import { TextInput } from '@/components/common/DetailInput';
 import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
 import { emailSchema } from '@/schemas/profileSchema';
+import { useRegisterSeller } from '@/services/auth/useRegisterUser';
+import { SnsLinkProps } from '@/types/common/AuthTypes.types';
 
 export const SignupEmailPage = () => {
   const navigate = useNavigate();
@@ -43,16 +45,43 @@ export const SignupEmailPage = () => {
     setEmailValue(value);
   };
 
+  const { mutate: registerSeller } = useRegisterSeller();
+
+  const handleRegister = () => {
+    const sns: SnsLinkProps & { email?: string } = {
+      ...useSellerSignupStore.getState().sns,
+      email: emailValue,
+    };
+
+    const optionalSns = Object.fromEntries(
+      Object.entries(sns).filter(([key, value]) => {
+        if (key === 'instagram') return false;
+        return value;
+      })
+    );
+
+    registerSeller({
+      userInfo: {
+        username: sellerId,
+        kakaoId: 31523, // 임시로 설정, 실제로는 카카오 로그인 후 받아와야 함
+        name: '서민정',
+        nickname: '꽈당민정',
+      },
+      instagram: sns.instagram,
+      ...optionalSns,
+    });
+  };
+
   // 건너뛰기 버튼 클릭 핸들러
   const handleClickSkip = () => {
-    setEmailValue('');
-
     // 백 연동
+    console.log(handleRegister());
+    // handleRegister();
 
-    userSignupStateReset();
-    useUserSignupStore.persist.clearStorage();
-    sellerSignupStateReset();
-    useSellerSignupStore.persist.clearStorage();
+    // userSignupStateReset();
+    // useUserSignupStore.persist.clearStorage();
+    // sellerSignupStateReset();
+    // useSellerSignupStore.persist.clearStorage();
     navigate(PATH.WELCOME.base);
   };
 
@@ -67,8 +96,6 @@ export const SignupEmailPage = () => {
         message: message[0],
       });
     } else {
-      setEmailValue(emailValue);
-
       // 백 연동
 
       userSignupStateReset();

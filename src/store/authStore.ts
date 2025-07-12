@@ -1,3 +1,8 @@
+import {
+  SellerSignupState,
+  SnsLinkProps,
+  UserSignupState,
+} from '@/types/common/AuthTypes.types';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -12,12 +17,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   setSellerId: (id) => set({ sellerId: id }),
   logout: () => set({ sellerId: null }),
 }));
-
-interface UserSignupState {
-  id: string;
-  email: string;
-  intersetedCategories: number[];
-}
 
 interface UserSignupStoreState extends UserSignupState {
   setId: (id: string) => void;
@@ -45,18 +44,6 @@ export const useUserSignupStore = create<UserSignupStoreState>()(
     }
   )
 );
-
-interface SnsLinkProps {
-  instagram: string;
-  youtube: string;
-  tiktok: string;
-}
-
-interface SellerSignupState {
-  id: string;
-  email: string;
-  sns: SnsLinkProps;
-}
 
 interface SellerSignupStoreState extends SellerSignupState {
   setId: (id: string) => void;

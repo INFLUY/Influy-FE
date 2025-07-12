@@ -7,8 +7,12 @@ export const API_DOMAINS = {
     '/seller/:sellerId/announcements/primary-announcement',
 
   // seller
+  SELLER_MY_JOIN: 'register/seller',
   SELLER_MY_ANNOUNCEMENT: '/seller/announcements',
   SELLER_MY_ANNOUNCEMENT_DETAIL: '/seller/announcements/:announcementId',
+
+  // user
+  USER_JOIN: 'register/user',
 };
 
 export const QUERY_KEYS = {
