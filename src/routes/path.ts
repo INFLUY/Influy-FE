@@ -82,5 +82,20 @@ export const PATH = {
         category: 'category',
       },
     },
+    talkBox: {
+      base: 'talk-box',
+      list: 'list',
+      item: {
+        base: 'item/:itemId',
+        category: {
+          base: 'category',
+          selected: {
+            base: ':categoryId',
+            bulkReply: 'bulk-reply',
+          },
+        },
+        setting: 'setting',
+      },
+    },
   },
 } as const;
