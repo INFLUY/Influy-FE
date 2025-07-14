@@ -344,6 +344,10 @@ const router = createBrowserRouter([
               // 1. /talk-box/list
               {
                 index: true,
+                element: <Navigate to={PATH.SELLER.talkBox.list} replace />,
+              },
+              {
+                index: true,
                 path: PATH.SELLER.talkBox.list,
                 element: <SellerTalkBoxItemListPage />,
               },
