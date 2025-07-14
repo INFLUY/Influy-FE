@@ -61,6 +61,7 @@ export {
   FormSNSInput,
 } from './common/FormTextInput';
 export { default as VisibilityBottomSheet } from './seller/common/VisibilityBottomSheet.tsx';
+export { default as QuestionCountBadge } from './seller/common/QuestionCountBadge';
 
 //item
 export { default as EmptyCategoryPlaceholder } from './seller/item/EmptyCategoryPlaceholder';
@@ -105,3 +106,6 @@ export { ItemForm } from './seller/item/registration/ItemForm.tsx';
 
 // home
 export { default as MyProductStatus } from './seller/home/MyProductStatus.tsx';
+
+// talk box
+export { TalkBoxItemCard } from './seller/talkBox/TalkBoxItemCard';
