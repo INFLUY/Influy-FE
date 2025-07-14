@@ -87,12 +87,17 @@ export const PATH = {
       list: 'list',
       item: {
         base: 'item/:itemId',
+        tabs: {
+          pending: 'pending',
+          answered: 'answered',
+        },
         category: {
-          base: 'category',
-          selected: {
-            base: ':categoryId',
-            bulkReply: 'bulk-reply',
+          base: 'category/:categoryId',
+          tabs: {
+            pending: 'pending',
+            answered: 'answered',
           },
+          bulkReply: 'bulk-reply',
         },
         setting: 'setting',
       },

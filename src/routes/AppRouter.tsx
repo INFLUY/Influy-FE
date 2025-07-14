@@ -32,6 +32,14 @@ import {
   SignupSnsLinkPage,
   WelcomePage,
   SignupEmailPage,
+  SellerTalkBoxItemListPage,
+  BulkReplyPage,
+  QuestionsListPage,
+  PendingQuestionsTab,
+  AnsweredQuestionsTab,
+  TalkBoxCategoryPage,
+  PendingCategoryTab,
+  AnsweredCategoryTab,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -322,6 +330,71 @@ const router = createBrowserRouter([
                             element: <FaqEditPage />, // 개별 faq 수정 페이지
                           },
                         ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            path: PATH.SELLER.talkBox.base, // /talk-box
+            element: <Outlet />,
+            children: [
+              // 1. /talk-box/list
+              {
+                index: true,
+                path: PATH.SELLER.talkBox.list,
+                element: <SellerTalkBoxItemListPage />,
+              },
+
+              // 2. /talk-box/item/:itemId/category
+              {
+                path: PATH.SELLER.talkBox.item.base, // item/:itemId
+                element: <TalkBoxCategoryPage />,
+                children: [
+                  {
+                    index: true,
+                    element: (
+                      <Navigate
+                        to={PATH.SELLER.talkBox.item.tabs.pending}
+                        replace
+                      />
+                    ),
+                  },
+                  {
+                    path: PATH.SELLER.talkBox.item.tabs.pending, // pending
+                    element: <PendingCategoryTab />,
+                  },
+                  {
+                    path: PATH.SELLER.talkBox.item.tabs.answered, // answered
+                    element: <AnsweredCategoryTab />,
+                  },
+                  // 3. /talk-box/item/:itemId/category/:categoryId
+                  {
+                    path: PATH.SELLER.talkBox.item.category.base, // category/:categoryId
+                    element: <QuestionsListPage />,
+                    children: [
+                      {
+                        index: true,
+                        element: (
+                          <Navigate
+                            to={PATH.SELLER.talkBox.item.category.tabs.pending}
+                            replace
+                          />
+                        ),
+                      },
+                      {
+                        path: PATH.SELLER.talkBox.item.category.tabs.pending,
+                        element: <PendingQuestionsTab />,
+                      },
+                      {
+                        path: PATH.SELLER.talkBox.item.category.tabs.answered,
+                        element: <AnsweredQuestionsTab />,
+                      },
+                      {
+                        path: PATH.SELLER.talkBox.item.category.bulkReply,
+                        element: <BulkReplyPage />,
                       },
                     ],
                   },

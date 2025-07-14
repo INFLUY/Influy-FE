@@ -28,3 +28,16 @@ export { ItemFaqTab, ItemInfoTab } from './seller/item/ItemRegistrationTabs';
 export { default as FaqRegistrationPage } from './seller/item/faq/FaqRegistrationPage';
 export { default as FaqEditPage } from './seller/item/faq/FaqEditPage';
 export { default as SellerItemDetailPage } from './seller/item/SellerItemDetailPage';
+
+export { default as SellerTalkBoxItemListPage } from './seller/talkBox/TalkBoxItemListPage';
+export { default as BulkReplyPage } from './seller/talkBox/BulkReplyPage';
+export {
+  QuestionsListPage,
+  PendingQuestionsTab,
+  AnsweredQuestionsTab,
+} from './seller/talkBox/QuestionsListPage';
+export {
+  TalkBoxCategoryPage,
+  PendingCategoryTab,
+  AnsweredCategoryTab,
+} from './seller/talkBox/TalkBoxCategoryPage';
