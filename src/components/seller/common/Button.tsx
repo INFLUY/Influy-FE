@@ -32,6 +32,9 @@ export const DefaultButton = ({
 
           'bg-grey04 cursor-pointer text-black':
             (!useDisabled || !disabled) && activeTheme === 'grey',
+
+          'text-grey05 border-grey05 cursor-pointer border bg-white':
+            (!useDisabled || !disabled) && activeTheme === 'borderGrey',
         },
         additionalStyles
       )}

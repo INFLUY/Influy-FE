@@ -91,7 +91,7 @@ const ExternalLinkBottomSheet = ({
             {linkId !== undefined && (
               <DefaultButton
                 text="삭제하기"
-                activeTheme="white"
+                activeTheme="borderGrey"
                 onClick={handleClickDelete}
               />
             )}
