@@ -10,6 +10,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { MarketLinkFormValues, marketLinkSchema } from '@/schemas/linkSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BaseLinkType } from '@/types/seller/LinkType.types';
+import { useDeleteMarketLink } from '@/services/marketLinks/mutation/useDeleteMarketLink';
 
 const ExternalLinkBottomSheet = ({
   linkId,
@@ -38,11 +39,17 @@ const ExternalLinkBottomSheet = ({
     formState: { isSubmitting, isValid },
   } = methods;
 
-  const handleClickDelete = () => {
+  const { mutate: deleteLink } = useDeleteMarketLink(() => {
     if (setSelectedLinkId) {
       setSelectedLinkId(null);
     }
     setIsOpen(false);
+  });
+
+  const handleClickDelete = () => {
+    if (linkId) {
+      deleteLink(linkId);
+    }
   };
 
   const { mutate: postLink } = usePostMarketLinks(() => {
@@ -50,9 +57,6 @@ const ExternalLinkBottomSheet = ({
   });
 
   const onSubmit = (data: BaseLinkType) => {
-    if (setSelectedLinkId) {
-      setSelectedLinkId(null);
-    }
     postLink(data);
   };
 
@@ -96,6 +100,7 @@ const ExternalLinkBottomSheet = ({
               />
             )}
             <DefaultButton
+              type="submit"
               onClick={handleSubmit(onSubmit)}
               activeTheme="black"
               disabled={isSubmitting || !isValid}
