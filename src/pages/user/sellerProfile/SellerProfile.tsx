@@ -13,6 +13,7 @@ import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
 import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
 import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
+import { LinkType } from '@/types/seller/LinkType.types';
 
 const SellerNoticeBottomSheet = lazy(
   () => import('@/components/user/seller/SellerNoticeBottomSheet')
@@ -31,10 +32,10 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
 
   // 임시 링크
   const LINKS = [
-    { id: 0, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-    { id: 1, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-    { id: 2, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-    { id: 3, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
+    { id: 0, linkName: '크림치즈마켓', link: 'https://m.creamcheese.co.kr/' },
+    { id: 1, linkName: '크림치즈마켓', link: 'https://m.creamcheese.co.kr/' },
+    { id: 2, linkName: '크림치즈마켓', link: 'https://m.creamcheese.co.kr/' },
+    { id: 3, linkName: '크림치즈마켓', link: 'https://m.creamcheese.co.kr/' },
   ];
 
   const { marketId } = useParams();
@@ -93,8 +94,8 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
         {/* 링크 */}
         {LINKS?.length !== 0 && (
           <div className="scrollbar-hide flex items-start gap-[.625rem] self-stretch overflow-x-auto px-5 py-2">
-            {LINKS.map((link) => (
-              <ExternalLinkChip key={link.id} name={link.name} url={link.url} />
+            {LINKS.map((link: LinkType) => (
+              <ExternalLinkChip key={link.id} link={link} />
             ))}
           </div>
         )}

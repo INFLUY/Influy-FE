@@ -4,5 +4,5 @@ export interface BaseLinkType {
 }
 
 export interface LinkType extends BaseLinkType {
-  id: number;
+  id?: number;
 }

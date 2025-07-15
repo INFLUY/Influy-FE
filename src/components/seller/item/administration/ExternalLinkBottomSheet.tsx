@@ -9,20 +9,20 @@ import {
 import { FormProvider, useForm } from 'react-hook-form';
 import { MarketLinkFormValues, marketLinkSchema } from '@/schemas/linkSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BaseLinkType } from '@/types/seller/LinkType.types';
+import { BaseLinkType, LinkType } from '@/types/seller/LinkType.types';
 import { useDeleteMarketLink } from '@/services/marketLinks/mutation/useDeleteMarketLink';
 import SellerModal from '../../common/SellerModal';
 
 const ExternalLinkBottomSheet = ({
-  linkId,
+  existingLink,
   isOpen,
   setIsOpen,
-  setSelectedLinkId,
+  setSelectedLink,
 }: {
-  linkId?: number | null;
+  existingLink?: LinkType;
   isOpen: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
-  setSelectedLinkId?: React.Dispatch<SetStateAction<number | null>>;
+  setSelectedLink?: React.Dispatch<SetStateAction<LinkType | null>>;
 }) => {
   const [isLinkDeleteModalOpen, setIsLinkDeleteModalOpen] =
     useState<boolean>(false);
@@ -31,9 +31,9 @@ const ExternalLinkBottomSheet = ({
     mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues: {
-      linkName: '',
-      link: '',
-      ...(linkId !== null ? { linkId } : {}),
+      linkName: existingLink?.linkName ?? '',
+      link: existingLink?.link ?? '',
+      ...(existingLink?.id !== undefined ? { id: existingLink?.id } : {}),
     },
   });
 
@@ -52,10 +52,10 @@ const ExternalLinkBottomSheet = ({
 
   // 삭제
   const handleDelete = () => {
-    if (linkId) {
-      deleteLink(linkId);
+    if (existingLink?.id !== undefined) {
+      deleteLink(existingLink?.id);
     }
-    setSelectedLinkId?.(null);
+    setSelectedLink?.(null);
     handleDeleteModalClose();
   };
 
@@ -68,7 +68,7 @@ const ExternalLinkBottomSheet = ({
   };
 
   const handleBottomSheetClose = () => {
-    setSelectedLinkId?.(null);
+    setSelectedLink?.(null);
     setIsOpen(false);
   };
 
@@ -89,7 +89,7 @@ const ExternalLinkBottomSheet = ({
         <FormProvider {...methods}>
           <span className="flex w-full flex-col items-center gap-[.125rem]">
             <h1 className="subhead-b text-grey10 w-full text-center">
-              {linkId === undefined ? '링크 추가' : '링크 수정'}
+              {existingLink === undefined ? '링크 추가' : '링크 수정'}
             </h1>
             <div className="divide-grey02 flex w-full flex-col justify-start gap-1 divide-y px-5">
               <div className="flex w-full flex-col gap-[.625rem] pt-3 pb-6">
@@ -108,7 +108,7 @@ const ExternalLinkBottomSheet = ({
             </div>
           </span>
           <div className="scrollbar-hide flex w-full gap-[.4375rem] overflow-y-auto px-5 pt-1 pb-8">
-            {linkId !== undefined && (
+            {existingLink !== undefined && (
               <DefaultButton
                 text="삭제하기"
                 activeTheme="borderGrey"

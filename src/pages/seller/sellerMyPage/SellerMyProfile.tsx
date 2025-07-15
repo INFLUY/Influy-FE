@@ -25,7 +25,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const [isEditLinkOpen, setIsEditLinkOpen] = useState<boolean>(false);
   const [isLinkDeleteModalOpen, setIsLinkDeleteModalOpen] =
     useState<boolean>(false);
-  const [selectedLinkId, setSelectedLinkId] = useState<number | null>(null);
+  const [selectedLink, setSelectedLink] = useState<LinkType | null>(null);
 
   const TABS = [
     { id: 0, name: '상품', path: PATH.SELLER.tabs.selection },
@@ -36,8 +36,8 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const handleEditLink = (linkId: number) => {
-    setSelectedLinkId(linkId);
+  const handleEditLink = (link: LinkType) => {
+    setSelectedLink(link);
     setIsEditLinkOpen(true);
   };
 
@@ -62,7 +62,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
 
   // 삭제 모달 닫기
   const handleDeleteModalClose = () => {
-    setSelectedLinkId(null);
+    setSelectedLink(null);
     setIsLinkDeleteModalOpen(false);
   };
 
@@ -70,11 +70,11 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
 
   // 삭제
   const handleDelete = () => {
-    if (selectedLinkId !== null) {
-      deleteLink(selectedLinkId);
+    if (selectedLink?.id !== undefined) {
+      deleteLink(selectedLink?.id);
     }
     handleDeleteModalClose();
-    setSelectedLinkId(null);
+    setSelectedLink(null);
   };
 
   const { data: primaryNotice } = useGetPrimaryNotification({
@@ -104,12 +104,10 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
             {links?.map((link: LinkType) => (
               <ExternalLinkChip
                 key={link?.id}
-                linkId={link?.id}
-                name={link?.linkName}
-                url={link?.link}
+                link={link}
                 handleEditLink={handleEditLink}
                 handleClickDelete={handleClickDelete}
-                setSelectedLinkId={setSelectedLinkId}
+                setSelectedLink={setSelectedLink}
               />
             ))}
           </div>
@@ -131,10 +129,10 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
         )}
         {isEditLinkOpen && (
           <ExternalLinkBottomSheet
-            linkId={selectedLinkId}
+            existingLink={selectedLink || undefined}
             isOpen={isEditLinkOpen}
             setIsOpen={setIsEditLinkOpen}
-            setSelectedLinkId={setSelectedLinkId}
+            setSelectedLink={setSelectedLink}
           />
         )}
         {isAddLinkOpen && (
