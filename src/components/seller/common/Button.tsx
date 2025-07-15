@@ -11,21 +11,27 @@ export const DefaultButton = ({
   additionalStyles,
   type = 'button',
 }: DefaultButtonProps) => {
+  const isActuallyDisabled = useDisabled && disabled;
+
   return (
     <button
       type={type}
       onClick={onClick}
-      disabled={useDisabled ? disabled : false}
+      disabled={isActuallyDisabled}
       className={cn(
         'body2-m box-border flex h-[3.0625rem] w-full items-center justify-center rounded-xs bg-black text-white',
         {
-          'bg-grey05 cursor-default': disabled && disabledTheme === 'base',
+          'bg-grey05 cursor-default':
+            useDisabled && disabled && disabledTheme === 'base',
+
           'cursor-pointer bg-black text-white':
-            !disabled && activeTheme === 'black',
+            (!useDisabled || !disabled) && activeTheme === 'black',
+
           'cursor-pointer border border-black bg-white text-black':
-            !disabled && activeTheme === 'white',
+            (!useDisabled || !disabled) && activeTheme === 'white',
+
           'bg-grey04 cursor-pointer text-black':
-            !disabled && activeTheme === 'grey',
+            (!useDisabled || !disabled) && activeTheme === 'grey',
         },
         additionalStyles
       )}
