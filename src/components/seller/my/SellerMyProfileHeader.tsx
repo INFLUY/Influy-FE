@@ -1,8 +1,8 @@
 import EyeIcon from '@/assets/icon/common/EyeIcon.svg?react';
 import SettingsIcon from '@/assets/icon/common/SettingsIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
-import { SnackBar } from '@/components';
 import cn from '@/utils/cn';
+import useCopyUrl from '@/utils/useCopyUrl';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,8 +10,7 @@ const SellerMyProfileHeader = () => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState<boolean>(false);
   const triggerRef = useRef(null);
-  const [isLinkCopiedSnackBarOpen, setIsLinkCopiedSnackBarOpen] =
-    useState<boolean>(false);
+  const copyUrl = useCopyUrl();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -30,11 +29,6 @@ const SellerMyProfileHeader = () => {
       }
     };
   }, []);
-
-  const handleLinkCopy = () => {
-    // 페이지 링크 복사
-    setIsLinkCopiedSnackBarOpen(true);
-  };
 
   return (
     <>
@@ -61,19 +55,12 @@ const SellerMyProfileHeader = () => {
             </span>
           </button>
           <ShareIcon
-            onClick={handleLinkCopy}
+            onClick={copyUrl}
             className="h-6 w-6 cursor-pointer text-white"
           />
           <SettingsIcon className="h-6 w-6 cursor-pointer text-white" />
         </span>
       </header>
-      {isLinkCopiedSnackBarOpen && (
-        <SnackBar
-          handleSnackBarClose={() => setIsLinkCopiedSnackBarOpen(false)}
-        >
-          링크가 클립보드에 복사되었습니다.
-        </SnackBar>
-      )}
     </>
   );
 };
