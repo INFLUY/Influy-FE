@@ -53,10 +53,17 @@ export const getPrimaryNotification = async ({
 }: {
   sellerId: number;
 }) => {
-  const response = await instance.get(
-    generateApiPath(API_DOMAINS.SELLER_PRIMARY_ANNOUNCEMENT, { sellerId })
-  );
-  return response.data.result ?? null;
+  try {
+    const response = await instance.get(
+      generateApiPath(API_DOMAINS.SELLER_PRIMARY_ANNOUNCEMENT, { sellerId })
+    );
+    return response.data.result;
+  } catch (error: any) {
+    if (error?.response?.status === 404) {
+      return null;
+    }
+    throw error;
+  }
 };
 
 export const deleteNotification = async ({

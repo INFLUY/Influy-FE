@@ -99,7 +99,7 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
           </div>
         )}
         {/* 공지 */}
-        {primaryNotice?.totalAnnouncements !== 0 && (
+        {primaryNotice && (
           <div className="bg-grey01 flex w-full px-5 py-3">
             <NoticeBanner
               title={primaryNotice?.title}

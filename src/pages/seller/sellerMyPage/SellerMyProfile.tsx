@@ -69,7 +69,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
       <div className="bg-grey02 flex w-full px-5 py-3">
         <NoticeBanner
           title={primaryNotice?.title}
-          count={primaryNotice?.totalAnnouncements}
+          count={primaryNotice?.totalAnnouncements || 0}
           onClickNotice={() => navigate(`./${PATH.SELLER.notice.base}`)}
           seller={true}
         />
