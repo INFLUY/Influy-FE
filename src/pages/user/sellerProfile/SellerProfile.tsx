@@ -14,6 +14,7 @@ import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
 import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
 import { LinkType } from '@/types/seller/LinkType.types';
+import { useGetMarketLinks } from '@/services/marketLinks/query/useGetMarketLinks';
 
 const SellerNoticeBottomSheet = lazy(
   () => import('@/components/user/seller/SellerNoticeBottomSheet')
@@ -27,18 +28,13 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
+  const { marketId } = useParams();
 
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
-  // 임시 링크
-  const LINKS = [
-    { id: 0, linkName: '크림치즈마켓', link: 'https://m.creamcheese.co.kr/' },
-    { id: 1, linkName: '크림치즈마켓', link: 'https://m.creamcheese.co.kr/' },
-    { id: 2, linkName: '크림치즈마켓', link: 'https://m.creamcheese.co.kr/' },
-    { id: 3, linkName: '크림치즈마켓', link: 'https://m.creamcheese.co.kr/' },
-  ];
-
-  const { marketId } = useParams();
+  const { data: links } = useGetMarketLinks({
+    sellerId: Number(marketId),
+  });
 
   const { data: primaryNotice } = useGetPrimaryNotification({
     sellerId: Number(marketId!),
@@ -92,9 +88,9 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
       <SellerProfileCard />
       <div className="flex flex-col gap-2">
         {/* 링크 */}
-        {LINKS?.length !== 0 && (
+        {links?.length !== 0 && (
           <div className="scrollbar-hide flex items-start gap-[.625rem] self-stretch overflow-x-auto px-5 py-2">
-            {LINKS.map((link: LinkType) => (
+            {links.map((link: LinkType) => (
               <ExternalLinkChip key={link.id} link={link} />
             ))}
           </div>
