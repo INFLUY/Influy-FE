@@ -1,7 +1,7 @@
 import {
   TipTooltip,
   CategoryMultiSelector,
-  FormLinkInput,
+  FormLinkTextarea,
   ItemImageUploader,
   FormPriceInput,
   FormSalePriceInput,
@@ -296,7 +296,7 @@ export const ItemForm = ({
 
       {/* 판매 링크 */}
       <ItemSection label="판매 링크">
-        <FormLinkInput<ItemFormValues> name="linkText" />
+        <FormLinkTextarea<ItemFormValues> name="linkText" />
       </ItemSection>
 
       {/* 진행 회차 */}

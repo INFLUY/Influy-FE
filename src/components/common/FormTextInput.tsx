@@ -45,7 +45,7 @@ export const FormLimitedTextInput = <T extends FieldValues>({
         onClick={() => textareaRef.current?.focus()}
         className={cn(
           'flex h-fit w-full items-start justify-center gap-2.5 rounded-[.125rem] border px-3.5 py-2.5',
-          value.length > maxLength || error
+          value.length > maxLength || error?.message
             ? 'border-error'
             : 'border-grey03 focus-within:border-grey05'
         )}
@@ -63,18 +63,20 @@ export const FormLimitedTextInput = <T extends FieldValues>({
         />
         <div className="caption-m text-grey06 flex h-[1.3125rem] items-center">
           <span
-            className={cn((value.length > maxLength || error) && 'text-error')}
+            className={cn(
+              (value.length > maxLength || error?.message) && 'text-error'
+            )}
           >
             {value.length}
           </span>
           <span>/{maxLength}</span>
         </div>
       </div>
-      {(error || value.length > maxLength) && (
+      {(error?.message || value.length > maxLength) && (
         <div className="mt-1 flex items-center space-x-1">
           <WarningIcon />
           <span className="caption-m text-error">
-            {maxLength}자 이내로 작성해주세요.
+            {error?.message || `${maxLength}자 이내로 작성해주세요.`}
           </span>
         </div>
       )}
@@ -178,7 +180,7 @@ export const FormLimitedWideTextArea = <T extends FieldValues>({
   );
 };
 
-export const FormLinkInput = <T extends FieldValues>({
+export const FormLinkTextarea = <T extends FieldValues>({
   name,
 }: FormInputProps<T>) => {
   const { control } = useFormContext<T>();
@@ -477,6 +479,46 @@ export const FormSNSInput = <T extends FieldValues>({
           <WarningIcon />
           <span className="caption-m text-error">
             올바른 양식으로 입력해 주세요.
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const FormLinkInput = <T extends FieldValues>({
+  name,
+  placeHolderContent,
+}: {
+  name: Path<T>;
+  placeHolderContent?: string;
+}) => {
+  const { control } = useFormContext();
+  const {
+    field: { value, onChange },
+    fieldState: { error },
+  } = useController({
+    name,
+    control,
+  });
+  return (
+    <div className="h-fit w-full items-center gap-y-1">
+      <input
+        className={cn(
+          'body2-m placeholder:text-grey06 w-full flex-1 rounded-xs border px-3.5 py-2.5 break-keep',
+          error ? 'border-error' : 'border-grey03 focus-within:border-grey05'
+        )}
+        value={value}
+        placeholder={placeHolderContent ?? 'https://'}
+        onChange={(e) => onChange(e.target.value)}
+        aria-label="링크 입력"
+        id={name}
+      />
+      {error && (
+        <div className="mt-1 flex items-center space-x-1">
+          <WarningIcon />
+          <span className="caption-m text-error">
+            {error?.message || `올바른 양식으로 입력해 주세요.`}
           </span>
         </div>
       )}

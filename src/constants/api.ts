@@ -11,6 +11,8 @@ export const API_DOMAINS = {
   SELLER_MY_JOIN: 'register/seller',
   SELLER_MY_ANNOUNCEMENT: '/seller/announcements',
   SELLER_MY_ANNOUNCEMENT_DETAIL: '/seller/announcements/:announcementId',
+  SELLR_MY_POST_MARKET_LINKS: '/seller/market-links',
+  SELLR_MY_HANDLE_MARKET_LINKS: '/seller/market-links/:linkId',
 
   // user
   USER_JOIN: 'register/user',

@@ -54,6 +54,7 @@ export {
   FormWideTextArea,
   FormLimitedWideTextArea,
   FormLimitedTextInput,
+  FormLinkTextarea,
   FormLinkInput,
   FormPriceInput,
   FormSalePriceInput,
