@@ -6,7 +6,11 @@ const GlobalSnackBar = () => {
 
   if (!errorMessage) return null;
 
-  return <SnackBar handleSnackBarClose={clearError}>{errorMessage}</SnackBar>;
+  return (
+    <SnackBar handleSnackBarClose={clearError} additionalStyles="bg-main/90">
+      {errorMessage}
+    </SnackBar>
+  );
 };
 
 export default GlobalSnackBar;

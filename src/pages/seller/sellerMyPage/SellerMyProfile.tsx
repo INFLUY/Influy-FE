@@ -9,6 +9,7 @@ import {
   Tabs,
   SellerMyProfileHeader,
   SnackBar,
+  SellerModal,
 } from '@/components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AddIcon from '@/assets/icon/common/Add2Icon.svg?react';
@@ -16,11 +17,14 @@ import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
 import { useGetMarketLinks } from '@/services/marketLinks/query/useGetMarketLinks';
 import { LinkType } from '@/types/seller/LinkType.types';
+import { useDeleteMarketLink } from '@/services/marketLinks/mutation/useDeleteMarketLink';
 
 const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const [isLinkSnackBarOpen, setIsLinkSnackBarOpen] = useState<boolean>(false);
   const [isAddLinkOpen, setIsAddLinkOpen] = useState<boolean>(false);
   const [isEditLinkOpen, setIsEditLinkOpen] = useState<boolean>(false);
+  const [isLinkDeleteModalOpen, setIsLinkDeleteModalOpen] =
+    useState<boolean>(false);
   const [selectedLinkId, setSelectedLinkId] = useState<number | null>(null);
 
   const TABS = [
@@ -49,6 +53,28 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
     } else {
       setIsLinkSnackBarOpen(true);
     }
+  };
+
+  // 삭제 모달 열기
+  const handleClickDelete = () => {
+    setIsLinkDeleteModalOpen(true);
+  };
+
+  // 삭제 모달 닫기
+  const handleDeleteModalClose = () => {
+    setSelectedLinkId(null);
+    setIsLinkDeleteModalOpen(false);
+  };
+
+  const { mutate: deleteLink } = useDeleteMarketLink();
+
+  // 삭제
+  const handleDelete = () => {
+    if (selectedLinkId !== null) {
+      deleteLink(selectedLinkId);
+    }
+    handleDeleteModalClose();
+    setSelectedLinkId(null);
   };
 
   const { data: primaryNotice } = useGetPrimaryNotification({
@@ -82,6 +108,8 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
                 name={link?.linkName}
                 url={link?.link}
                 handleEditLink={handleEditLink}
+                handleClickDelete={handleClickDelete}
+                setSelectedLinkId={setSelectedLinkId}
               />
             ))}
           </div>
@@ -113,6 +141,15 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
           <ExternalLinkBottomSheet
             isOpen={isAddLinkOpen}
             setIsOpen={setIsAddLinkOpen}
+          />
+        )}
+        {isLinkDeleteModalOpen && (
+          <SellerModal
+            text={`링크를 삭제하시겠습니까?`}
+            leftButtonClick={handleDeleteModalClose}
+            rightButtonClick={handleDelete}
+            onClose={handleDeleteModalClose}
+            setIsModalOpen={setIsLinkDeleteModalOpen}
           />
         )}
         {/* 탭 */}

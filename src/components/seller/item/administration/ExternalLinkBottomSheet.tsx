@@ -1,5 +1,5 @@
 import BottomSheet from '@/components/common/BottomSheet';
-import { SetStateAction } from 'react';
+import { SetStateAction, useState } from 'react';
 import { DefaultButton } from '@/components/seller/common/Button';
 import { usePostMarketLinks } from '@/services/marketLinks/mutation/usePostMarketLinks';
 import {
@@ -11,6 +11,7 @@ import { MarketLinkFormValues, marketLinkSchema } from '@/schemas/linkSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BaseLinkType } from '@/types/seller/LinkType.types';
 import { useDeleteMarketLink } from '@/services/marketLinks/mutation/useDeleteMarketLink';
+import SellerModal from '../../common/SellerModal';
 
 const ExternalLinkBottomSheet = ({
   linkId,
@@ -23,6 +24,8 @@ const ExternalLinkBottomSheet = ({
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
   setSelectedLinkId?: React.Dispatch<SetStateAction<number | null>>;
 }) => {
+  const [isLinkDeleteModalOpen, setIsLinkDeleteModalOpen] =
+    useState<boolean>(false);
   const methods = useForm<MarketLinkFormValues>({
     resolver: zodResolver(marketLinkSchema),
     mode: 'onChange',
@@ -39,17 +42,21 @@ const ExternalLinkBottomSheet = ({
     formState: { isSubmitting, isValid },
   } = methods;
 
-  const { mutate: deleteLink } = useDeleteMarketLink(() => {
-    if (setSelectedLinkId) {
-      setSelectedLinkId(null);
-    }
+  // 삭제 모달 닫기
+  const handleDeleteModalClose = () => {
+    setIsLinkDeleteModalOpen(false);
     setIsOpen(false);
-  });
+  };
 
-  const handleClickDelete = () => {
+  const { mutate: deleteLink } = useDeleteMarketLink();
+
+  // 삭제
+  const handleDelete = () => {
     if (linkId) {
       deleteLink(linkId);
     }
+    setSelectedLinkId?.(null);
+    handleDeleteModalClose();
   };
 
   const { mutate: postLink } = usePostMarketLinks(() => {
@@ -61,11 +68,20 @@ const ExternalLinkBottomSheet = ({
   };
 
   const handleBottomSheetClose = () => {
-    if (setSelectedLinkId) {
-      setSelectedLinkId(null);
-    }
+    setSelectedLinkId?.(null);
     setIsOpen(false);
   };
+
+  if (isLinkDeleteModalOpen)
+    return (
+      <SellerModal
+        text={`링크를 삭제하시겠습니까?`}
+        leftButtonClick={handleDeleteModalClose}
+        rightButtonClick={handleDelete}
+        onClose={handleDeleteModalClose}
+        setIsModalOpen={setIsLinkDeleteModalOpen}
+      />
+    );
 
   return (
     <BottomSheet onClose={handleBottomSheetClose} isBottomSheetOpen={isOpen}>
@@ -96,7 +112,7 @@ const ExternalLinkBottomSheet = ({
               <DefaultButton
                 text="삭제하기"
                 activeTheme="borderGrey"
-                onClick={handleClickDelete}
+                onClick={() => setIsLinkDeleteModalOpen(true)}
               />
             )}
             <DefaultButton
