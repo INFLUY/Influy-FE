@@ -7,3 +7,10 @@ export interface TalkBoxItem {
   answeredCount: number; // 답변 완료 수
   badge: number; // 빨간 알림 배지 숫자 (0이면 표시 안 함)
 }
+
+export interface QuestionCategory {
+  id: number;
+  name: string; // 카테고리명 (예: 색상)
+  totalCount: number; // 전체 질문 수
+  pendingCount: number; // 답변 대기 수 (뱃지 표시용)
+}

@@ -31,7 +31,10 @@ export const Tab = ({
 
 export const Tabs = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="border-grey03 flex w-full border-b-2 px-5" role="tablist">
+    <div
+      className="border-grey03 flex w-full border-b-2 bg-white px-5"
+      role="tablist"
+    >
       {children}
     </div>
   );

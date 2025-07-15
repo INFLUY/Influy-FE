@@ -6,10 +6,10 @@ const TalkBoxItemListPage = () => {
   return (
     <section
       className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto"
-      aria-labelledby="talkbox-title"
+      aria-labelledby="talkbox-item-title"
     >
       <PageHeader>
-        <p className="subhead-sb w-full text-left" id="talkbox-title">
+        <p className="subhead-sb w-full text-left" id="talkbox-item-title">
           내 상품 질문 관리
         </p>
       </PageHeader>
@@ -25,7 +25,6 @@ const TalkBoxItemListPage = () => {
         </div>
       </div>
 
-      {/* Additional content and components can> be added here */}
       <BottomNavBar />
     </section>
   );

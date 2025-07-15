@@ -1,4 +1,4 @@
-import { TalkBoxItem } from '@/types/seller/TalkBox.types';
+import { TalkBoxItem, QuestionCategory } from '@/types/seller/TalkBox.types';
 
 export const dummyTalkBoxItems: TalkBoxItem[] = [
   {
@@ -32,5 +32,31 @@ export const dummyTalkBoxItems: TalkBoxItem[] = [
     pendingCount: 12,
     answeredCount: 77,
     badge: 4,
+  },
+];
+export const dummyQuestionCategories: QuestionCategory[] = [
+  {
+    id: 1,
+    name: '색상',
+    totalCount: 24,
+    pendingCount: 10,
+  },
+  {
+    id: 2,
+    name: '사이즈',
+    totalCount: 20,
+    pendingCount: 12,
+  },
+  {
+    id: 3,
+    name: '가격',
+    totalCount: 12,
+    pendingCount: 20,
+  },
+  {
+    id: 4,
+    name: '배송',
+    totalCount: 8,
+    pendingCount: 0,
   },
 ];

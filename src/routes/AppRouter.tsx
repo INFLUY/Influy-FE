@@ -352,10 +352,14 @@ const router = createBrowserRouter([
                 element: <SellerTalkBoxItemListPage />,
               },
 
-              // 2. /talk-box/item/:itemId/category
+              // 2. /talk-box/item/:itemId
               {
                 path: PATH.SELLER.talkBox.item.base, // item/:itemId
-                element: <TalkBoxCategoryPage />,
+                element: (
+                  <TalkBoxCategoryPage>
+                    <Outlet />
+                  </TalkBoxCategoryPage>
+                ),
                 children: [
                   {
                     index: true,

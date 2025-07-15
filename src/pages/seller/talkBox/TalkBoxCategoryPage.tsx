@@ -1,18 +1,171 @@
-export const TalkBoxCategoryPage = () => {
+import { ReactNode, useState, useEffect } from 'react';
+import { PATH } from '@/routes/path';
+import {
+  PageHeader,
+  Tab,
+  Tabs,
+  QuestionCountBadge,
+  TalkBoxBottomItemCard,
+} from '@/components';
+import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
+import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
+
+import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
+import SettingsIcon from '@/assets/icon/common/SettingsIcon.svg?react';
+
+import {
+  useNavigate,
+  useLocation,
+  generatePath,
+  useParams,
+} from 'react-router-dom';
+
+import { dummyQuestionCategories } from './talkboxMockData';
+import { QuestionCategory } from '@/types/seller/TalkBox.types';
+
+export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
+  const [tabCounts, setTabCounts] = useState({
+    pending: 0,
+    answered: 0,
+  });
+
+  //임시
+  useEffect(() => {
+    setTabCounts({ pending: 2, answered: 3 });
+  }, []);
+
+  const TABS = [
+    {
+      id: 0,
+      name: `답변대기(${tabCounts.pending})`,
+      path: PATH.SELLER.talkBox.item.tabs.pending,
+    },
+    {
+      id: 1,
+      name: `완료한 질답(${tabCounts.answered})`,
+      path: PATH.SELLER.talkBox.item.tabs.answered,
+    },
+  ];
+
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const { itemId } = useParams();
+
+  const handleSettingClick = () => {
+    const path = generatePath(
+      `${PATH.SELLER.base}/${PATH.SELLER.talkBox.base}/${PATH.SELLER.talkBox.item.base}/${PATH.SELLER.talkBox.item.setting}`,
+      {
+        itemId: String(itemId),
+      }
+    );
+    navigate(path);
+  };
+
   return (
-    <div>
-      <h1>Talk Box Category</h1>
-      {/* Additional content and components can be added here */}
-    </div>
+    <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+      <PageHeader
+        leftIcons={[
+          <ArrowLeftIcon
+            className="h-6 w-6 cursor-pointer text-black"
+            onClick={() => navigate(-1)}
+            role="button"
+            aria-label="뒤로 가기"
+            tabIndex={0}
+          />,
+        ]}
+        rightIcons={[
+          <HomeIcon
+            className="h-6 w-6 cursor-pointer text-black"
+            role="button"
+            aria-label="홈으로 가기"
+            tabIndex={0}
+            onClick={() => {
+              navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`);
+            }}
+          />,
+          <SettingsIcon
+            className="h-6 w-6 cursor-pointer text-black"
+            role="button"
+            aria-label="톡박스 설정 가기"
+            tabIndex={0}
+            onClick={handleSettingClick}
+          />,
+        ]}
+        additionalStyles="border-0"
+      >
+        질문 관리
+      </PageHeader>
+      <Tabs>
+        {TABS.map((tab) => (
+          <Tab
+            key={tab.id}
+            isTabActive={pathname.includes(tab.path)}
+            handleClickTab={() => navigate(tab.path, { replace: true })}
+          >
+            {tab.name}
+          </Tab>
+        ))}
+      </Tabs>
+      {children}
+
+      <TalkBoxBottomItemCard
+        onCardClick={() => {}}
+        title="[11차] 워크팬츠_navy"
+        tagline="오버핏이 감각적인 워크팬츠, 제작템입니다. 글글글글글글글"
+        imgUrl=""
+      />
+    </section>
   );
 };
 
 export const PendingCategoryTab = () => {
+  const [categoryList, setCategoryList] = useState<QuestionCategory[]>([]);
+
+  const navigate = useNavigate();
+  const { itemId } = useParams();
+  const handleCategoryClick = (categoryId: number) => {
+    const path = generatePath(
+      `${PATH.SELLER.base}/${PATH.SELLER.talkBox.base}/${PATH.SELLER.talkBox.item.base}/${PATH.SELLER.talkBox.item.category.base}/${PATH.SELLER.talkBox.item.category.tabs.pending}`,
+      {
+        itemId: String(itemId),
+        categoryId: String(categoryId),
+      }
+    );
+    navigate(path);
+  };
+
+  //임시
+  useEffect(() => {
+    setCategoryList(dummyQuestionCategories);
+  }, []);
+
   return (
-    <div>
-      <h1>Pending Categories</h1>
-      {/* Additional content and components can be added here */}
-    </div>
+    <section className="mt-[1.625rem] flex w-full flex-col items-start gap-8">
+      {categoryList &&
+        categoryList.length > 0 &&
+        categoryList.map((category) => (
+          <article
+            className="flex w-full cursor-pointer items-center justify-between px-5 py-0"
+            key={category.id}
+            onClick={() => {
+              handleCategoryClick(category.id);
+            }}
+          >
+            <div className="flex gap-0.5 text-black">
+              <span className="body1-b">{category.name}</span>
+              {(category.pendingCount ?? 0) > 0 && (
+                <span className="body1-m">({category.pendingCount})</span>
+              )}
+            </div>
+            <div className="flex items-center gap-1.5">
+              {category.totalCount && category.totalCount > 0 && (
+                <QuestionCountBadge count={category.totalCount} />
+              )}
+              <ArrowRightIcon className="text-grey07 h-4 w-4" />
+            </div>
+          </article>
+        ))}
+    </section>
   );
 };
 

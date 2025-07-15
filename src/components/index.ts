@@ -108,4 +108,7 @@ export { ItemForm } from './seller/item/registration/ItemForm.tsx';
 export { default as MyProductStatus } from './seller/home/MyProductStatus.tsx';
 
 // talk box
-export { TalkBoxItemCard } from './seller/talkBox/TalkBoxItemCard';
+export {
+  TalkBoxItemCard,
+  TalkBoxBottomItemCard,
+} from './seller/talkBox/TalkBoxItemCard';
