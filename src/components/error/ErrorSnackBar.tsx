@@ -1,7 +1,7 @@
 import { useErrorStore } from '@/store/errorStore';
 import SnackBar from '@/components/common/SnackBar';
 
-const GlobalSnackBar = () => {
+const GlobalErrorSnackBar = () => {
   const { errorMessage, clearError } = useErrorStore();
 
   if (!errorMessage) return null;
@@ -13,4 +13,4 @@ const GlobalSnackBar = () => {
   );
 };
 
-export default GlobalSnackBar;
+export default GlobalErrorSnackBar;

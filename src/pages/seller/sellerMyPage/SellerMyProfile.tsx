@@ -8,7 +8,6 @@ import {
   Tab,
   Tabs,
   SellerMyProfileHeader,
-  SnackBar,
   SellerModal,
 } from '@/components';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -18,14 +17,16 @@ import { useGetPrimaryNotification } from '@/services/notification/query/useGetP
 import { useGetMarketLinks } from '@/services/marketLinks/query/useGetMarketLinks';
 import { LinkType } from '@/types/seller/LinkType.types';
 import { useDeleteMarketLink } from '@/services/marketLinks/mutation/useDeleteMarketLink';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 const SellerMyProfile = ({ children }: { children: ReactNode }) => {
-  const [isLinkSnackBarOpen, setIsLinkSnackBarOpen] = useState<boolean>(false);
   const [isAddLinkOpen, setIsAddLinkOpen] = useState<boolean>(false);
   const [isEditLinkOpen, setIsEditLinkOpen] = useState<boolean>(false);
   const [isLinkDeleteModalOpen, setIsLinkDeleteModalOpen] =
     useState<boolean>(false);
   const [selectedLink, setSelectedLink] = useState<LinkType | null>(null);
+
+  const { showSnackbar } = useSnackbarStore();
 
   const TABS = [
     { id: 0, name: '상품', path: PATH.SELLER.tabs.selection },
@@ -51,7 +52,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
     if (links?.length < 5) {
       setIsAddLinkOpen(true);
     } else {
-      setIsLinkSnackBarOpen(true);
+      showSnackbar('링크는 최대 5개까지만 추가할 수 있습니다.');
     }
   };
 
@@ -122,11 +123,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
             </button>
           </div>
         </div>
-        {isLinkSnackBarOpen && (
-          <SnackBar handleSnackBarClose={() => setIsLinkSnackBarOpen(false)}>
-            링크는 최대 5개까지만 추가할 수 있습니다.
-          </SnackBar>
-        )}
+
         {isEditLinkOpen && (
           <ExternalLinkBottomSheet
             existingLink={selectedLink || undefined}
