@@ -5,6 +5,7 @@ export const API_DOMAINS = {
   SELLER_ANNOUNCEMENT: '/seller/:sellerId/announcements',
   SELLER_PRIMARY_ANNOUNCEMENT:
     '/seller/:sellerId/announcements/primary-announcement',
+  SELLR_MARKET_LINKS: '/seller/:sellerId/market-links',
 
   // seller
   SELLER_MY_JOIN: 'register/seller',
@@ -19,4 +20,5 @@ export const QUERY_KEYS = {
   // seller
   SELLER_ANNOUNCEMENT: 'sellerMyAnnouncements',
   SELLER_PRIMARY_ANNOUNCEMENT: 'sellerMyPrimaryAnnouncement',
+  SELLER_MARKET_LINKS: 'sellerMarketLinks',
 };

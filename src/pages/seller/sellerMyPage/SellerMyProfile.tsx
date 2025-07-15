@@ -12,9 +12,10 @@ import {
 } from '@/components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AddIcon from '@/assets/icon/common/Add2Icon.svg?react';
-import cn from '@/utils/cn';
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
+import { useGetMarketLinks } from '@/services/marketLinks/query/useGetMarketLinks';
+import { LinkType } from '@/types/seller/LinkType.types';
 
 const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const [isLinkSnackBarOpen, setIsLinkSnackBarOpen] = useState<boolean>(false);
@@ -31,29 +32,24 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  // 임시 링크
-  const LINKS = [
-    { id: 0, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-    { id: 1, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-    { id: 2, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-    { id: 3, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-    { id: 4, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-  ];
-
-  const handleAddLink = () => {
-    if (LINKS.length < 5) {
-      setIsAddLinkOpen(true);
-    } else {
-      setIsLinkSnackBarOpen(true);
-    }
-  };
-
   const handleEditLink = (linkId: number) => {
     setSelectedLinkId(linkId);
     setIsEditLinkOpen(true);
   };
 
   const sellerId = useStrictSellerId();
+
+  const { data: links } = useGetMarketLinks({
+    sellerId: Number(sellerId),
+  });
+
+  const handleAddLink = () => {
+    if (links?.length < 5) {
+      setIsAddLinkOpen(true);
+    } else {
+      setIsLinkSnackBarOpen(true);
+    }
+  };
 
   const { data: primaryNotice } = useGetPrimaryNotification({
     sellerId: Number(sellerId),
@@ -78,20 +74,13 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
       <section className="divide-grey02 flex flex-col divide-y-[12px]">
         {/* 링크 */}
         <div className="relative flex w-full">
-          <div
-            className={cn(
-              'scrollbar-hide flex w-full items-center gap-[.625rem] self-stretch overflow-x-auto py-3 pr-[4.5rem] pl-5',
-              {
-                'justify-end': LINKS.length === 0,
-              }
-            )}
-          >
-            {LINKS.map((link) => (
+          <div className="scrollbar-hide flex h-[3.5625rem] w-full items-center gap-[.625rem] self-stretch overflow-x-auto py-3 pr-[4.5rem] pl-5">
+            {links?.map((link: LinkType) => (
               <ExternalLinkChip
-                key={link.id}
-                linkId={link.id}
-                name={link.name}
-                url={link.url}
+                key={link?.id}
+                linkId={link?.id}
+                name={link?.linkName}
+                url={link?.link}
                 handleEditLink={handleEditLink}
               />
             ))}
