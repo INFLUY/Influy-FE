@@ -1,5 +1,6 @@
 import { getMarketLinks } from '@/api/marketLink/handleMarketLink.api';
 import { QUERY_KEYS } from '@/constants/api';
+import { useErrorStore } from '@/store/errorStore';
 import { LinkType } from '@/types/seller/LinkType.types';
 import {
   useSuspenseQuery,
@@ -11,6 +12,7 @@ export const useGetMarketLinks = ({
 }: {
   sellerId: number;
 }): UseSuspenseQueryResult<LinkType[] | [], Error> => {
+  const { showError } = useErrorStore();
   return useSuspenseQuery({
     queryKey: [QUERY_KEYS.SELLER_MARKET_LINKS, sellerId],
     queryFn: async () => {
@@ -18,8 +20,7 @@ export const useGetMarketLinks = ({
       const { code, message, result } = res;
 
       if (code !== 'COMMON200') {
-        // TODO
-        throw new Error(message || '마켓 링크를 불러오는 데 실패했습니다.');
+        showError(message ?? '마켓 링크를 불러오는 데 실패했습니다.');
       }
 
       return result;

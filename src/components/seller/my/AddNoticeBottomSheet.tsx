@@ -9,17 +9,16 @@ import {
 import { usePostNotification } from '@/services/notification/mutation/usePostNotification';
 import { NoticeType } from '@/types/common/NoticeType.types';
 import { usePatchNotification } from '@/services/notification/mutation/usePatchNotification';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 const AddNoticeBottomSheet = ({
   announcement,
   isOpen,
   setIsOpen,
-  setIsNoticeSavedSnackBarOpen,
 }: {
   announcement?: NoticeType;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsNoticeSavedSnackBarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [title, setTitle] = useState<string>(announcement?.title || '');
   const [content, setContent] = useState<string>(announcement?.content || '');
@@ -28,12 +27,14 @@ const AddNoticeBottomSheet = ({
   const [isNoticeEditCancelModalOpen, setIsNoticeEditCancelModalOpen] =
     useState<boolean>(false);
 
+  const { showSnackbar } = useSnackbarStore();
+
   const { mutate: postNotice } = usePostNotification(() => {
-    setIsNoticeSavedSnackBarOpen(true);
+    showSnackbar('변경사항이 저장되었습니다.');
   });
 
   const { mutate: patchNotice } = usePatchNotification(() => {
-    setIsNoticeSavedSnackBarOpen(true);
+    showSnackbar('변경사항이 저장되었습니다.');
   });
 
   // 공지 저장(수정)

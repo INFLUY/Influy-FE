@@ -67,7 +67,9 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
     setIsLinkDeleteModalOpen(false);
   };
 
-  const { mutate: deleteLink } = useDeleteMarketLink();
+  const { mutate: deleteLink } = useDeleteMarketLink(() =>
+    showSnackbar('링크가 삭제되었습니다.')
+  );
 
   // 삭제
   const handleDelete = () => {

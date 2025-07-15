@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { BaseLinkType, LinkType } from '@/types/seller/LinkType.types';
 import { useDeleteMarketLink } from '@/services/marketLinks/mutation/useDeleteMarketLink';
 import SellerModal from '../../common/SellerModal';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 const ExternalLinkBottomSheet = ({
   existingLink,
@@ -26,6 +27,8 @@ const ExternalLinkBottomSheet = ({
 }) => {
   const [isLinkDeleteModalOpen, setIsLinkDeleteModalOpen] =
     useState<boolean>(false);
+  const { showSnackbar } = useSnackbarStore();
+
   const methods = useForm<MarketLinkFormValues>({
     resolver: zodResolver(marketLinkSchema),
     mode: 'onChange',
@@ -48,7 +51,9 @@ const ExternalLinkBottomSheet = ({
     setIsOpen(false);
   };
 
-  const { mutate: deleteLink } = useDeleteMarketLink();
+  const { mutate: deleteLink } = useDeleteMarketLink(() =>
+    showSnackbar('링크가 삭제되었습니다.')
+  );
 
   // 삭제
   const handleDelete = () => {
@@ -60,6 +65,7 @@ const ExternalLinkBottomSheet = ({
   };
 
   const { mutate: postLink } = usePostMarketLinks(() => {
+    showSnackbar('변경사항이 저장되었습니다.');
     setIsOpen(false);
   });
 

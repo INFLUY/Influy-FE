@@ -2,6 +2,7 @@ import { postMarketLink } from '@/api/marketLink/handleMarketLink.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 import { BaseLinkType } from '@/types/seller/LinkType.types';
+import { handleReactQueryError } from '@/utils/handleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePostMarketLinks = (onSuccessCallback?: () => void) => {
@@ -14,10 +15,8 @@ export const usePostMarketLinks = (onSuccessCallback?: () => void) => {
       queryClient.refetchQueries({
         queryKey: [QUERY_KEYS.SELLER_MARKET_LINKS, sellerId],
       });
-      if (onSuccessCallback) onSuccessCallback();
+      onSuccessCallback?.();
     },
-    onError: () => {
-      // TODO
-    },
+    onError: handleReactQueryError,
   });
 };
