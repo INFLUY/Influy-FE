@@ -13,6 +13,7 @@ import { BaseLinkType, LinkType } from '@/types/seller/LinkType.types';
 import { useDeleteMarketLink } from '@/services/marketLinks/mutation/useDeleteMarketLink';
 import SellerModal from '../../common/SellerModal';
 import { useSnackbarStore } from '@/store/snackbarStore';
+import { usePatchMarketLink } from '@/services/marketLinks/mutation/usePatchMarketLink';
 
 const ExternalLinkBottomSheet = ({
   existingLink,
@@ -69,8 +70,14 @@ const ExternalLinkBottomSheet = ({
     setIsOpen(false);
   });
 
+  const { mutate: patchLink } = usePatchMarketLink(() => {
+    showSnackbar('변경사항이 저장되었습니다.');
+    setIsOpen(false);
+  });
+
   const onSubmit = (data: BaseLinkType) => {
-    postLink(data);
+    if (existingLink?.id) patchLink({ data, linkId: existingLink.id });
+    else postLink(data);
   };
 
   const handleBottomSheetClose = () => {

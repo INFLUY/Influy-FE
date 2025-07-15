@@ -513,6 +513,7 @@ export const FormLinkInput = <T extends FieldValues>({
         onChange={(e) => onChange(e.target.value)}
         aria-label="링크 입력"
         id={name}
+        autoComplete="off"
       />
       {error && (
         <div className="mt-1 flex items-center space-x-1">

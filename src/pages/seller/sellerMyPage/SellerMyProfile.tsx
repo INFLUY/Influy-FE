@@ -103,7 +103,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
       <section className="divide-grey02 flex flex-col divide-y-[12px]">
         {/* 링크 */}
         <div className="relative flex w-full">
-          <div className="scrollbar-hide flex h-[3.5625rem] w-full items-center gap-[.625rem] self-stretch overflow-x-auto py-3 pr-[4.5rem] pl-5">
+          <div className="scrollbar-hide flex h-[3.5625rem] w-full items-center gap-[.625rem] self-stretch overflow-x-auto pr-[4.5rem] pl-5">
             {links?.map((link: LinkType) => (
               <ExternalLinkChip
                 key={link?.id}
