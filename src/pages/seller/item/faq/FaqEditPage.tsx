@@ -21,6 +21,7 @@ import { useSnackbarStore } from '@/store/snackbarStore';
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 import { PATH } from '@/routes/path';
 import { useGetItemFaqCategory } from '@/services/sellerItemFaq/query/useGetItemFaqCategory';
+import { useGetFaqCard } from '@/services/sellerFaqCard/query/useGetFaqCard';
 
 const FaqEditPage = () => {
   const navigate = useNavigate();
@@ -32,6 +33,12 @@ const FaqEditPage = () => {
   const { data: categories } = useGetItemFaqCategory({
     sellerId,
     itemId: Number(itemId),
+  });
+
+  const { data: prevFaq } = useGetFaqCard({
+    sellerId,
+    itemId: Number(itemId),
+    faqCardId: Number(faqId),
   });
 
   const methods = useForm<FaqFormValues>({
@@ -50,29 +57,18 @@ const FaqEditPage = () => {
   });
 
   useEffect(() => {
-    console.log('아이템 아이디: ', itemId, 'faq 아이디: ', faqId); // 백 연동
-    const faq = {
-      id: 1,
-      pinned: true,
-      adjustImg: false,
-      questionContent: '모야요??',
-      answerContent: '이건 이거입니당',
-      backgroundImgLink: '',
-      faqCategoryId: 1,
-      updatedAt: '2025-07-02T10:06:38.189Z',
-    };
     methods.reset({
-      category: faq.faqCategoryId || undefined,
-      question: faq.questionContent || '',
-      answer: faq.answerContent || '',
-      image: faq.backgroundImgLink || '',
-      isPinned: faq.pinned || false,
-      adjustImg: faq.adjustImg || false,
+      category: prevFaq.faqCategoryId,
+      question: prevFaq.questionContent,
+      answer: prevFaq.answerContent,
+      image: prevFaq.backgroundImgLink,
+      isPinned: prevFaq.pinned,
+      adjustImg: prevFaq.adjustImg,
     });
-    setValue('adjustImg', faq.adjustImg);
-    setValue('isPinned', faq.pinned);
-    setValue('category', faq.faqCategoryId);
-    setUpdatedAt(faq.updatedAt);
+    setValue('adjustImg', prevFaq.adjustImg);
+    setValue('isPinned', prevFaq.pinned);
+    setValue('category', prevFaq.faqCategoryId);
+    setUpdatedAt(prevFaq.updatedAt);
   }, []);
 
   const {
@@ -232,7 +228,7 @@ const FaqEditPage = () => {
         <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">
           <DefaultButton
             type="button"
-            activeTheme="white"
+            activeTheme="borderGrey"
             text="삭제하기"
             disabled={isSubmitting}
             onClick={handleFaqDelete}

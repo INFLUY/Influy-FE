@@ -19,6 +19,9 @@ export const API_DOMAINS = {
   SELLER_MY_POST_MARKET_LINKS: '/seller/market-links',
   SELLER_MY_HANDLE_MARKET_LINKS: '/seller/market-links/:linkId',
   SELLER_MY_POST_FAQ_CARD: '/seller/items/:itemId/faq',
+  SELLER_MY_HANDLE_FAQ_CARD: '/seller/items/:itemId/faq/:faqCardId',
+  SELLER_MY_GET_FAQ_CARD_DETAIL:
+    '/seller/:sellerId/items/:itemId/faq/:faqCardId',
 
   // user
   USER_JOIN: 'register/user',

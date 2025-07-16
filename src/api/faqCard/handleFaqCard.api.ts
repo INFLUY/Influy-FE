@@ -1,7 +1,11 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { API_DOMAINS } from '@/constants/api';
-import { FaqCardRequestType } from '@/types/common/FaqCardType.types';
+import { ApiResponse } from '@/types/common/ApiResponse.types';
+import {
+  FaqCardDetailReponse,
+  FaqCardRequestType,
+} from '@/types/common/FaqCardType.types';
 
 export const postFaqCard = async ({
   sellerId,
@@ -16,9 +20,27 @@ export const postFaqCard = async ({
       params: {
         sellerId,
         faqCategoryId,
-        itemId,
       },
     }
+  );
+  return response.data;
+};
+
+export const getFaqCardDetail = async ({
+  sellerId,
+  itemId,
+  faqCardId,
+}: {
+  sellerId: number;
+  itemId: number;
+  faqCardId: number;
+}): Promise<ApiResponse<FaqCardDetailReponse>> => {
+  const response = await instance.get(
+    generateApiPath(API_DOMAINS.SELLER_MY_GET_FAQ_CARD_DETAIL, {
+      sellerId,
+      itemId,
+      faqCardId,
+    })
   );
   return response.data;
 };
