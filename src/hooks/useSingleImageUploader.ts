@@ -10,7 +10,7 @@ export const useSingleImageUploader = (onChange: (value: string) => void) => {
 
     const selectedImg = selectedImgs[0];
 
-    const { showSnackbar } = useSnackbarStore();
+    const { showSnackbar } = useSnackbarStore.getState();
 
     if (!selectedImg.type.startsWith('image/')) {
       showSnackbar(`이미지 파일만 업로드 가능합니다: ${selectedImg.name}`);
