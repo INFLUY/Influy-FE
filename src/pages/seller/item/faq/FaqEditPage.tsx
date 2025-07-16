@@ -20,6 +20,7 @@ import { CategoryType } from '@/types/common/CategoryType.types';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
+import { PATH } from '@/routes/path';
 
 const FaqEditPage = () => {
   const navigate = useNavigate();
@@ -118,7 +119,10 @@ const FaqEditPage = () => {
 
   const handleFaqDelete = () => {
     // TODO: 디자인 추가되면 경고 modal 추가해야 함
-    alert('faq가 삭제되었습니다.');
+    navigate(
+      `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${PATH.SELLER.items.item.registration.base}/${PATH.SELLER.items.item.registration.tabs.faq}`
+    );
+    showSnackbar('faq가 삭제되었습니다.');
   };
 
   return (
