@@ -1,7 +1,8 @@
 export type FaqCardRequestBody = {
+  faqCategoryId?: number;
   questionContent: string;
   answerContent: string;
-  backgroundImgLink: string | null;
+  backgroundImgLink: string;
   pinned: boolean;
   adjustImg: boolean;
 };
@@ -9,7 +10,7 @@ export type FaqCardRequestBody = {
 export type FaqCardRequestType = {
   sellerId: number;
   itemId: number;
-  faqCategoryId: number;
+  faqCategoryId?: number;
   data: FaqCardRequestBody;
 };
 

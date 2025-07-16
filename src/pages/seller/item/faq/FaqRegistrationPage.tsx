@@ -93,7 +93,7 @@ const FaqRegistrationPage = () => {
     const formattedData: FaqCardRequestBody = {
       questionContent: data.question,
       answerContent: data.answer,
-      backgroundImgLink: data.image !== '' ? data.image : null,
+      backgroundImgLink: data.image,
       pinned: data.isPinned,
       adjustImg: data.adjustImg,
     };

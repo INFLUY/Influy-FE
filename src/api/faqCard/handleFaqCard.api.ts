@@ -26,6 +26,27 @@ export const postFaqCard = async ({
   return response.data;
 };
 
+export const patchFaqCard = async ({
+  sellerId,
+  itemId,
+  faqCardId,
+  data,
+}: FaqCardRequestType & { faqCardId: number }) => {
+  const response = await instance.patch(
+    generateApiPath(API_DOMAINS.SELLER_MY_HANDLE_FAQ_CARD, {
+      itemId,
+      faqCardId,
+    }),
+    data,
+    {
+      params: {
+        sellerId,
+      },
+    }
+  );
+  return response.data;
+};
+
 export const getFaqCardDetail = async ({
   sellerId,
   itemId,

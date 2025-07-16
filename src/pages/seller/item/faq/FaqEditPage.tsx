@@ -22,6 +22,8 @@ import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 import { PATH } from '@/routes/path';
 import { useGetItemFaqCategory } from '@/services/sellerItemFaq/query/useGetItemFaqCategory';
 import { useGetFaqCard } from '@/services/sellerFaqCard/query/useGetFaqCard';
+import { usePatchFaqCard } from '@/services/sellerFaqCard/mutation/usePatchFaqCard';
+import { FaqCardRequestBody } from '@/types/common/FaqCardType.types';
 
 const FaqEditPage = () => {
   const navigate = useNavigate();
@@ -104,8 +106,26 @@ const FaqEditPage = () => {
     }
   };
 
+  const { mutate: patchFaqCard } = usePatchFaqCard(() => {
+    navigate(''); // TODO: 답변 상세?로 이동
+    showSnackbar('답변이 등록되었습니다.');
+  });
+
   const onSubmit = (data: FaqFormValues) => {
-    console.log('폼 제출됨:', data);
+    const formattedData: FaqCardRequestBody = {
+      faqCategoryId: data.category,
+      questionContent: data.question,
+      answerContent: data.answer,
+      backgroundImgLink: data.image,
+      pinned: data.isPinned,
+      adjustImg: data.adjustImg,
+    };
+    patchFaqCard({
+      sellerId,
+      faqCardId: Number(faqId),
+      itemId: Number(itemId),
+      data: formattedData,
+    });
   };
 
   const handleFaqDelete = () => {

@@ -1,22 +1,22 @@
-import { postFaqCard } from '@/api/faqCard/handleFaqCard.api';
+import { patchFaqCard } from '@/api/faqCard/handleFaqCard.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 import { FaqCardRequestType } from '@/types/common/FaqCardType.types';
 import { handleReactQueryError } from '@/utils/handleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export const usePostFaqCard = (onSuccessCallback?: () => void) => {
+export const usePatchFaqCard = (onSuccessCallback?: () => void) => {
   const queryClient = useQueryClient();
   const sellerId = useStrictSellerId();
 
   return useMutation({
     mutationFn: ({
       sellerId,
-      faqCategoryId,
       itemId,
+      faqCardId,
       data,
-    }: FaqCardRequestType) =>
-      postFaqCard({ sellerId, faqCategoryId, itemId, data }),
+    }: FaqCardRequestType & { faqCardId: number }) =>
+      patchFaqCard({ sellerId, faqCardId, itemId, data }),
     onSuccess: (_, variables) => {
       queryClient.refetchQueries({
         queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, variables.itemId, sellerId],
