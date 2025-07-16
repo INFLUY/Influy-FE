@@ -43,12 +43,12 @@ const FaqRegistrationPage = () => {
   const { itemId } = useParams();
 
   const methods = useForm<FaqFormValues>({
-    resolver: zodResolver(faqSchema(false)),
+    resolver: zodResolver(faqSchema),
     mode: 'onChange',
     reValidateMode: 'onChange',
     shouldFocusError: false,
     defaultValues: {
-      category: [],
+      category: undefined,
       question: '',
       answer: '',
       image: '',
@@ -139,9 +139,12 @@ const FaqRegistrationPage = () => {
                 {/* FAQ 카테고리 */}
                 <VanillaCategoryMultiSelector
                   categoryList={CATEGORIES}
-                  selectedCategory={(getValues('category') ?? []).map(Number)}
+                  selectedCategory={(getValues('category')
+                    ? [getValues('category')]
+                    : []
+                  ).map(Number)}
                   setSelectedCategory={(value: number[]) =>
-                    setValue('category', value, { shouldValidate: true })
+                    setValue('category', value[0], { shouldValidate: true })
                   }
                 />
               </article>

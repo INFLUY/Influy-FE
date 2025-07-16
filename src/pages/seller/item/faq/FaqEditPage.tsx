@@ -11,7 +11,7 @@ import {
 } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
@@ -23,7 +23,6 @@ import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 
 const FaqEditPage = () => {
   const navigate = useNavigate();
-  const [faqCategory, setFaqCategory] = useState<number[]>([]);
   const [updatedAt, setUpdatedAt] = useState<string>('');
 
   const sellerId = useStrictSellerId();
@@ -40,11 +39,12 @@ const FaqEditPage = () => {
   ];
 
   const methods = useForm<FaqFormValues>({
-    resolver: zodResolver(faqSchema(true)),
+    resolver: zodResolver(faqSchema),
     mode: 'onChange',
     reValidateMode: 'onChange',
     shouldFocusError: false,
     defaultValues: {
+      category: undefined,
       question: '',
       answer: '',
       image: '',
@@ -66,6 +66,7 @@ const FaqEditPage = () => {
       updatedAt: '2025-07-02T10:06:38.189Z',
     };
     methods.reset({
+      category: faq.faqCategoryId || undefined,
       question: faq.questionContent || '',
       answer: faq.answerContent || '',
       image: faq.backgroundImgLink || '',
@@ -74,7 +75,7 @@ const FaqEditPage = () => {
     });
     setValue('adjustImg', faq.adjustImg);
     setValue('isPinned', faq.pinned);
-    setFaqCategory([faq.faqCategoryId]);
+    setValue('category', faq.faqCategoryId);
     setUpdatedAt(faq.updatedAt);
   }, []);
 
@@ -87,11 +88,26 @@ const FaqEditPage = () => {
 
   const { showSnackbar } = useSnackbarStore();
 
+  const categoryRef = useRef<HTMLDivElement | null>(null);
+
   const onError = (errors: FieldErrors<FaqFormValues>) => {
-    for (const [fieldName, error] of Object.entries(errors)) {
-      const message =
-        error?.message || fieldName + ' 과정에서 에러가 발생했습니다.';
-      showSnackbar(message);
+    if (errors.category) {
+      categoryRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+      showSnackbar(errors.category.message || '카테고리를 확인해 주세요.');
+      return;
+    }
+    if (errors.question) {
+      document.getElementById('question')?.focus();
+      showSnackbar(errors.question.message || '질문을 확인해 주세요.');
+      return;
+    }
+
+    if (errors.answer) {
+      document.getElementById('answer')?.focus();
+      showSnackbar(errors.answer.message || '답변을 확인해 주세요.');
       return;
     }
   };
@@ -132,7 +148,11 @@ const FaqEditPage = () => {
             </Suspense>
           </div>
           <div className="flex flex-col gap-[1.875rem]">
-            <article className="flex h-fit flex-col gap-4 px-5">
+            {/* 카테고리 */}
+            <article
+              className="flex h-fit flex-col gap-4 px-5"
+              ref={categoryRef}
+            >
               <div className="flex w-full justify-between">
                 <h2 className="body1-b text-black">
                   FAQ 카테고리 <span className="text-main">*</span>
@@ -148,9 +168,14 @@ const FaqEditPage = () => {
               </div>
               {/* FAQ 카테고리 */}
               <VanillaCategoryMultiSelector
-                disabled={true}
                 categoryList={CATEGORIES}
-                selectedCategory={faqCategory}
+                selectedCategory={(getValues('category')
+                  ? [getValues('category')]
+                  : []
+                ).map(Number)}
+                setSelectedCategory={(value: number[]) =>
+                  setValue('category', value[0], { shouldValidate: true })
+                }
               />
             </article>
             {/* 질문 */}
