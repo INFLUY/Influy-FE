@@ -57,3 +57,25 @@ export type FaqQuestion = {
   pinned: true;
   updatedAt: string;
 };
+
+export type itemPreviewList = {
+  itemId: number;
+  itemPeriod: number;
+  itemName: string;
+  sellerName: string;
+  startDate: string;
+  endDate: string;
+  tagline: string;
+  currentStatus: 'DEFAULT' | 'ON_SALE' | 'CLOSED';
+  liked: false;
+  mainImg: string;
+};
+
+export type SellerItemsResponse = {
+  itemPreviewList: itemPreviewList[];
+  listSize: number;
+  totalPage: number;
+  totalElements: number;
+  isFirst: boolean;
+  isLast: boolean;
+};

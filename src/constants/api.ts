@@ -7,6 +7,8 @@ export const API_DOMAINS = {
     '/seller/:sellerId/announcements/primary-announcement',
   SELLER_MARKET_LINKS: '/seller/:sellerId/market-links',
   SELLER_MARKET_LIKES: '/seller/:sellerId/count-likes',
+  SELLER_MARKET_ITEMS: '/seller/:sellerId/items',
+  SELLER_MARKET_ITEM: '/seller/:sellerId/items/:itemId',
 
   // seller
   SELLER_MY_JOIN: 'register/seller',
@@ -24,4 +26,6 @@ export const QUERY_KEYS = {
   SELLER_PRIMARY_ANNOUNCEMENT: 'sellerPrimaryAnnouncement',
   SELLER_MARKET_LINKS: 'sellerMarketLinks',
   SELLER_MARKET_LIKES: 'sellerMarketLikes',
+  SELLER_MARKET_ITEMS: 'sellerMarketItems',
+  SELLER_MARKET_ITEM: 'sellerMarketItem',
 };

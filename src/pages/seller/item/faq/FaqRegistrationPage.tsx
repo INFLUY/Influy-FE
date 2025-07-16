@@ -9,16 +9,18 @@ import {
   ToggleButton,
   VanillaCategoryMultiSelector,
   EmptyCategoryPlaceholder,
+  LoadingSpinner,
 } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
-import { useNavigate } from 'react-router-dom';
-import { useRef } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Suspense, useRef } from 'react';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 import { useSnackbarStore } from '@/store/snackbarStore';
+import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 
 const FaqRegistrationPage = () => {
   const navigate = useNavigate();
@@ -37,20 +39,8 @@ const FaqRegistrationPage = () => {
 
   const categoryRef = useRef<HTMLDivElement | null>(null);
 
-  const itemData = {
-    itemImgList: ['xxx.png', 'xxxxx.png', 'xxxxxx.png'],
-    name: '제작 원피스',
-    itemCategoryList: ['뷰티', '패션'],
-    startDate: '2025-06-22T08:57:56.040Z',
-    endDate: '2025-06-22T08:57:56.040Z',
-    tagline: '빤짝거리는 원피스입니다',
-    regularPrice: 100000,
-    salePrice: 80000,
-    marketLink: 'xxxx.com',
-    itemPeriod: 1,
-    comment: '이렇게 빤짝이는 드레스 흔하지 않아요 어렵게 구해왔어요',
-    isArchived: false,
-  };
+  const sellerId = useStrictSellerId();
+  const { itemId } = useParams();
 
   const methods = useForm<FaqFormValues>({
     resolver: zodResolver(faqSchema(false)),
@@ -121,7 +111,9 @@ const FaqRegistrationPage = () => {
         // 카테고리 있을 때
         <FormProvider {...methods}>
           <div className="flex flex-1 flex-col gap-6 pt-4 pb-[5.1875rem]">
-            <FaqItemBanner name={itemData?.name} tagline={itemData?.tagline} />
+            <Suspense fallback={<LoadingSpinner />}>
+              <FaqItemBanner sellerId={sellerId} itemId={Number(itemId)} />
+            </Suspense>
             <form
               onSubmit={handleSubmit(onSubmit, onError)}
               className="flex flex-col gap-[1.875rem]"
