@@ -21,6 +21,8 @@ import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 import { useGetItemFaqCategory } from '@/services/sellerItemFaq/query/useGetItemFaqCategory';
+import { FaqCardRequestBody } from '@/types/common/FaqCardType.types';
+import { usePostFaqCard } from '@/services/sellerFaqCard/mutation/usePostFaqCard';
 
 const FaqRegistrationPage = () => {
   const navigate = useNavigate();
@@ -82,8 +84,25 @@ const FaqRegistrationPage = () => {
     }
   };
 
+  const { mutate: postFaqCard } = usePostFaqCard(() => {
+    navigate(''); // TODO: 답변 상세?로 이동
+    showSnackbar('답변이 등록되었습니다.');
+  });
+
   const onSubmit = (data: FaqFormValues) => {
-    console.log('폼 제출됨:', data);
+    const formattedData: FaqCardRequestBody = {
+      questionContent: data.question,
+      answerContent: data.answer,
+      backgroundImgLink: data.image !== '' ? data.image : null,
+      pinned: data.isPinned,
+      adjustImg: data.adjustImg,
+    };
+    postFaqCard({
+      sellerId,
+      faqCategoryId: data.category,
+      itemId: Number(itemId),
+      data: formattedData,
+    });
   };
 
   return (

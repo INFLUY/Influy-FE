@@ -18,6 +18,7 @@ export const API_DOMAINS = {
   SELLER_MY_ANNOUNCEMENT_DETAIL: '/seller/announcements/:announcementId',
   SELLER_MY_POST_MARKET_LINKS: '/seller/market-links',
   SELLER_MY_HANDLE_MARKET_LINKS: '/seller/market-links/:linkId',
+  SELLER_MY_POST_FAQ_CARD: '/seller/items/:itemId/faq',
 
   // user
   USER_JOIN: 'register/user',
@@ -31,4 +32,5 @@ export const QUERY_KEYS = {
   SELLER_MARKET_ITEMS: 'sellerMarketItems',
   SELLER_MARKET_ITEM: 'sellerMarketItem',
   SELLER_FAQ_CATEGORIES: 'sellerFaqCategories',
+  SELLER_FAQ_CARD: 'sellerFaqCard',
 };

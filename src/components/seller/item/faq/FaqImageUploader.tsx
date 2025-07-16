@@ -75,10 +75,10 @@ export const FaqImageUploader = ({
               adjustImg ? 'object-contain' : 'object-cover'
             )}
           />
-          <div className="z-10 flex h-fit w-full min-w-0 justify-between gap-[.625rem]">
+          <div className="body2-m z-10 flex h-fit w-full min-w-0 justify-between gap-[.625rem]">
             <button
               type="button"
-              className="bg-grey11 flex h-fit w-full cursor-pointer items-center justify-center gap-1 rounded-[.125rem] px-5 py-[.875rem] text-white"
+              className="flex h-fit w-full cursor-pointer items-center justify-center gap-1 rounded-[.125rem] bg-black px-5 py-[.875rem] text-white"
               onClick={removeFile}
             >
               <Delete2Icon />
