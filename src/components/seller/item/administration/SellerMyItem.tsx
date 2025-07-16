@@ -6,9 +6,9 @@ import {
 import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
 import { lazy, Suspense, useState } from 'react';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
-import SnackBar from '@/components/common/SnackBar';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 const RadioBottomSheet = lazy(
   () => import('@/components/seller/common/RadioBottomSheet')
@@ -21,10 +21,8 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
   const navigate = useNavigate();
   const [isEditItemOpen, setIsEditItemOpen] = useState<boolean>(false);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState<boolean>(false);
-  const [isItemDeletedSnackBarOpen, setIsItemDeletedSnackBarOpen] =
-    useState<boolean>(false);
-  const [isItemStoredSnackBarOpen, setIsItemStoredSnackBarOpen] =
-    useState<boolean>(false);
+  const { showSnackbar } = useSnackbarStore();
+
   const STATUS_LIST: RadioInputList[] = [
     {
       id: 0,
@@ -128,26 +126,15 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
             itemId={item.itemId}
             isOpen={isEditItemOpen}
             setIsOpen={setIsEditItemOpen}
-            setIsItemDeletedSnackBarOpen={setIsItemDeletedSnackBarOpen}
-            setIsItemStoredSnackBarOpen={setIsItemStoredSnackBarOpen}
+            setIsItemDeletedSnackBarOpen={() =>
+              showSnackbar('상품이 삭제되었습니다.')
+            }
+            setIsItemStoredSnackBarOpen={() =>
+              showSnackbar('상품이 보관함으로 이동했습니다.')
+            }
           />
         )}
       </Suspense>
-      {/* 스낵바 */}
-      {isItemStoredSnackBarOpen && (
-        <SnackBar
-          handleSnackBarClose={() => setIsItemStoredSnackBarOpen(false)}
-        >
-          상품이 보관함으로 이동했습니다.
-        </SnackBar>
-      )}
-      {isItemDeletedSnackBarOpen && (
-        <SnackBar
-          handleSnackBarClose={() => setIsItemDeletedSnackBarOpen(false)}
-        >
-          상품이 삭제되었습니다.
-        </SnackBar>
-      )}
     </li>
   );
 };

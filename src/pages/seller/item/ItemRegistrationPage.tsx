@@ -6,16 +6,16 @@ import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { itemSchema, requiredFieldsSchema } from '@/schemas/itemSchema';
 import { ItemFormValues } from '@/types/item.types';
 import { DefaultButton, Tab, Tabs } from '@/components';
-import { useState, useRef, RefObject } from 'react';
+import { useRef, RefObject } from 'react';
 import { PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { SnackBar } from '@/components';
 import { PATH } from '@/routes/path';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { FaqQuestion } from '@/types/common/ItemType.types';
 import { Outlet, useLocation } from 'react-router-dom';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 export const dummyCategory: CategoryType[] = [
   { id: 0, category: '사이즈' },
@@ -48,10 +48,7 @@ type fieldsToCheck<FieldNames extends string> = {
 };
 
 export const ItemRegistrationPage = () => {
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
-  });
+  const { showSnackbar } = useSnackbarStore();
 
   const navigate = useNavigate();
   // 현재 탭 파악
@@ -218,7 +215,7 @@ export const ItemRegistrationPage = () => {
         }
         const message =
           fieldErrors[field.name]?.message || field.name + ' error';
-        setSnackbar({ open: true, message });
+        showSnackbar(message);
         return;
       }
     }
@@ -229,7 +226,7 @@ export const ItemRegistrationPage = () => {
         setFocus(field.name);
         const message =
           fieldErrors[field.name]?.message || field.name + ' error';
-        setSnackbar({ open: true, message });
+        showSnackbar(message);
         return;
       }
     }
@@ -246,7 +243,7 @@ export const ItemRegistrationPage = () => {
     if (!titleValidationResult.success) {
       const message =
         titleValidationResult.error.issues[0].message ?? '제목 오류';
-      setSnackbar({ open: true, message });
+      showSnackbar(message);
       setFocus('titleText');
       return;
     }
@@ -305,10 +302,11 @@ export const ItemRegistrationPage = () => {
             />
           </div>
           {/* 하단 버튼 */}
-          <section className="border-t-grey02 sticky right-0 bottom-0 z-50 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
+          <section className="border-t-grey02 sticky right-0 bottom-0 z-20 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
             <DefaultButton
               onClick={onArchive}
               text="보관하기"
+              activeTheme="white"
               disabled={!titleValidationResult.success}
               useDisabled={false}
             />
@@ -321,14 +319,6 @@ export const ItemRegistrationPage = () => {
           </section>
         </form>
       </div>
-
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
     </FormProvider>
   );
 };

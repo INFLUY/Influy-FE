@@ -1,4 +1,4 @@
-import { DefaultButton, PageHeader, SnackBar } from '@/components';
+import { DefaultButton, PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import LoudSpeaker from '@/assets/icon/common/LoudSpeaker.svg?react';
@@ -9,6 +9,7 @@ import { SelectUserButtonType, UserType } from '@/types/common/AuthTypes.types';
 import cn from '@/utils/cn';
 import { PATH } from '@/routes/path';
 import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 export const UserTypeSelectPage = () => {
   const navigate = useNavigate();
@@ -39,11 +40,11 @@ export const UserTypeSelectPage = () => {
     },
   ];
 
-  const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
+  const { showSnackbar } = useSnackbarStore();
 
   const handleClickNext = () => {
     if (!selectedType) {
-      setIsSnackbarOpen(true);
+      showSnackbar('사용자 유형을 선택해 주세요.');
     } else {
       if (selectedType === 'influencer') {
         navigate(
@@ -106,13 +107,6 @@ export const UserTypeSelectPage = () => {
           onClick={handleClickNext}
         />
       </div>
-
-      {/* 스낵바 */}
-      {isSnackbarOpen && (
-        <SnackBar handleSnackBarClose={() => setIsSnackbarOpen(false)}>
-          사용자 유형을 선택해 주세요.
-        </SnackBar>
-      )}
     </div>
   );
 };

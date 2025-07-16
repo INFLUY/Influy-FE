@@ -5,7 +5,6 @@ import {
   FormWideTextArea,
   FaqItemBanner,
   PageHeader,
-  SnackBar,
   ToggleButton,
   VanillaCategoryMultiSelector,
 } from '@/components';
@@ -18,15 +17,12 @@ import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 import { parseDateString } from '@/utils/formatDate';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 const FaqEditPage = () => {
   const navigate = useNavigate();
   const [faqCategory, setFaqCategory] = useState<number[]>([]);
   const [updatedAt, setUpdatedAt] = useState<string>('');
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
-  });
 
   const CATEGORIES: CategoryType[] = [
     { id: 1, category: '색상' },
@@ -101,11 +97,13 @@ const FaqEditPage = () => {
     formState: { isSubmitting, isValid },
   } = methods;
 
+  const { showSnackbar } = useSnackbarStore();
+
   const onError = (errors: FieldErrors<FaqFormValues>) => {
     for (const [fieldName, error] of Object.entries(errors)) {
       const message =
         error?.message || fieldName + ' 과정에서 에러가 발생했습니다.';
-      setSnackbar({ open: true, message });
+      showSnackbar(message);
       return;
     }
   };
@@ -217,16 +215,6 @@ const FaqEditPage = () => {
             </article>
           </div>
         </section>
-        {snackbar.open && (
-          <SnackBar
-            handleSnackBarClose={() =>
-              setSnackbar({ open: false, message: '' })
-            }
-            additionalStyles="bottom-[5.6875rem]"
-          >
-            {snackbar.message}
-          </SnackBar>
-        )}
         <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">
           <DefaultButton
             type="button"

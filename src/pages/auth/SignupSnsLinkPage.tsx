@@ -1,4 +1,4 @@
-import { DefaultButton, PageHeader, SnackBar } from '@/components';
+import { DefaultButton, PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
@@ -10,6 +10,7 @@ import { PATH } from '@/routes/path';
 import { TextInput } from '@/components/common/DetailInput';
 import { useSellerSignupStore } from '@/store/authStore';
 import { snsSchema } from '@/schemas/profileSchema';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 export const SignupSnsLinkPage = () => {
   const navigate = useNavigate();
@@ -36,13 +37,8 @@ export const SignupSnsLinkPage = () => {
   }, []);
 
   const [isDirty, setIsDirty] = useState(false); // 입력값이 한번이라도 바뀌었는지
-  const [snackbar, setSnackbar] = useState<{
-    open: boolean;
-    message: string;
-  }>({
-    open: false,
-    message: '',
-  });
+
+  const { showSnackbar } = useSnackbarStore();
 
   const partialSnsSchema = snsSchema.partial();
 
@@ -50,10 +46,8 @@ export const SignupSnsLinkPage = () => {
   const handleClickNext = () => {
     if (!isDirty) setIsDirty(true);
     if (!instagramUrl) {
-      setSnackbar({
-        open: true,
-        message: '인스타그램 URL을 입력해 주세요.',
-      });
+      showSnackbar('인스타그램 URL을 입력해 주세요.');
+
       instagramRef.current?.focus();
     } else {
       const result = snsSchema.safeParse({
@@ -74,11 +68,7 @@ export const SignupSnsLinkPage = () => {
             tiktokRef.current?.focus();
             break;
         }
-
-        setSnackbar({
-          open: true,
-          message: firstError.message,
-        });
+        showSnackbar(firstError.message);
       } else {
         setSns({
           instagram: instagramUrl,
@@ -177,15 +167,6 @@ export const SignupSnsLinkPage = () => {
           onClick={handleClickNext}
         />
       </div>
-
-      {/* 스낵바 */}
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
     </div>
   );
 };

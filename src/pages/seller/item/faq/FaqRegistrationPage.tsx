@@ -5,7 +5,6 @@ import {
   FormWideTextArea,
   FaqItemBanner,
   PageHeader,
-  SnackBar,
   TipTooltip,
   ToggleButton,
   VanillaCategoryMultiSelector,
@@ -14,11 +13,12 @@ import {
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 const FaqRegistrationPage = () => {
   const navigate = useNavigate();
@@ -33,10 +33,7 @@ const FaqRegistrationPage = () => {
     { id: 7, category: '재고/수량' },
   ];
 
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
-  });
+  const { showSnackbar } = useSnackbarStore();
 
   const categoryRef = useRef<HTMLDivElement | null>(null);
 
@@ -84,27 +81,18 @@ const FaqRegistrationPage = () => {
         behavior: 'smooth',
         block: 'center',
       });
-      setSnackbar({
-        open: true,
-        message: errors.category.message || '카테고리를 확인해 주세요.',
-      });
+      showSnackbar(errors.category.message || '카테고리를 확인해 주세요.');
       return;
     }
     if (errors.question) {
       document.getElementById('question')?.focus();
-      setSnackbar({
-        open: true,
-        message: errors.question.message || '질문을 확인해 주세요.',
-      });
+      showSnackbar(errors.question.message || '질문을 확인해 주세요.');
       return;
     }
 
     if (errors.answer) {
       document.getElementById('answer')?.focus();
-      setSnackbar({
-        open: true,
-        message: errors.answer.message || '답변을 확인해 주세요.',
-      });
+      showSnackbar(errors.answer.message || '답변을 확인해 주세요.');
       return;
     }
   };
@@ -236,14 +224,6 @@ const FaqRegistrationPage = () => {
           onClick={handleSubmit(onSubmit, onError)}
         />
       </div>
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-          additionalStyles="bottom-[5.6875rem]"
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
     </div>
   );
 };

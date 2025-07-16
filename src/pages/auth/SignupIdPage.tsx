@@ -1,4 +1,4 @@
-import { DefaultButton, PageHeader, SnackBar } from '@/components';
+import { DefaultButton, PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useEffect, useRef, useState } from 'react';
@@ -8,6 +8,7 @@ import { IdInput } from '@/components/common/DetailInput';
 import { idSchema } from '@/schemas/profileSchema';
 import { useMemo } from 'react';
 import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 export const SignupIdPage = () => {
   const navigate = useNavigate();
@@ -34,13 +35,7 @@ export const SignupIdPage = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const [errorText, setErrorText] = useState<string>('');
-  const [snackbar, setSnackbar] = useState<{
-    open: boolean;
-    message: string;
-  }>({
-    open: false,
-    message: '',
-  });
+  const { showSnackbar } = useSnackbarStore();
 
   const isIdValid = useMemo(() => {
     if (id.length === 0) return false;
@@ -75,10 +70,7 @@ export const SignupIdPage = () => {
   const handleClickNext = () => {
     setIsDirty(true);
     if (!isIdValid) {
-      setSnackbar({
-        open: true,
-        message: errorText || '아이디를 입력해 주세요.',
-      });
+      showSnackbar(errorText || '아이디를 입력해 주세요.');
       inputRef.current?.focus();
     } else {
       if (userType === 'influencer') {
@@ -141,15 +133,6 @@ export const SignupIdPage = () => {
           onClick={handleClickNext}
         />
       </div>
-
-      {/* 스낵바 */}
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
     </div>
   );
 };

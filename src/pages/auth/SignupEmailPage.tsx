@@ -1,4 +1,4 @@
-import { DefaultButton, PageHeader, SnackBar } from '@/components';
+import { DefaultButton, PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
@@ -10,6 +10,7 @@ import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
 import { emailSchema } from '@/schemas/profileSchema';
 import { useRegisterSeller } from '@/services/auth/useRegisterUser';
 import { SnsLinkProps } from '@/types/common/AuthTypes.types';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 export const SignupEmailPage = () => {
   const navigate = useNavigate();
@@ -24,13 +25,7 @@ export const SignupEmailPage = () => {
   const { reset: userSignupStateReset } = useUserSignupStore();
   const [isDirty, setIsDirty] = useState(false); // 입력값이 한번이라도 바뀌었는지
 
-  const [snackbar, setSnackbar] = useState<{
-    open: boolean;
-    message: string;
-  }>({
-    open: false,
-    message: '',
-  });
+  const { showSnackbar } = useSnackbarStore();
 
   useEffect(() => {
     if (!sellerId) {
@@ -91,10 +86,7 @@ export const SignupEmailPage = () => {
     const result = emailSchema.safeParse(emailValue);
     if (!result.success) {
       const message = result.error.issues.map((err) => err.message);
-      setSnackbar({
-        open: true,
-        message: message[0],
-      });
+      showSnackbar(message[0]);
     } else {
       // 백 연동
 
@@ -159,15 +151,6 @@ export const SignupEmailPage = () => {
           onClick={handleClickNext}
         />
       </div>
-
-      {/* 스낵바 */}
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
     </div>
   );
 };

@@ -1,4 +1,3 @@
-import SnackBar from '@/components/common/SnackBar';
 import { useFormContext, useController } from 'react-hook-form';
 import { useSingleImageUploader } from '@/hooks/useSingleImageUploader';
 import CameraIcon from '@/assets/icon/common/Camera.svg?react';
@@ -28,8 +27,7 @@ export const FaqImageUploader = ({
     control,
   });
 
-  const { handleFileChange, snackbar, setSnackbar, removeFile } =
-    useSingleImageUploader(onChange);
+  const { handleFileChange, removeFile } = useSingleImageUploader(onChange);
 
   return (
     <article
@@ -95,13 +93,6 @@ export const FaqImageUploader = ({
             </label>
           </div>
         </>
-      )}
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
       )}
     </article>
   );

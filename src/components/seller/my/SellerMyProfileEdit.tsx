@@ -1,5 +1,4 @@
 import CameraCircleIcon from '@/assets/icon/common/CameraCircle.svg?react';
-import SnackBar from '@/components/common/SnackBar';
 import { useFormContext, useController } from 'react-hook-form';
 import { useSingleImageUploader } from '@/hooks/useSingleImageUploader';
 import CameraIcon from '@/assets/icon/common/Camera.svg?react';
@@ -32,8 +31,7 @@ export const ProfileImageUploader = ({ name }: { name: string }) => {
     control,
   });
 
-  const { handleFileChange, snackbar, setSnackbar } =
-    useSingleImageUploader(onChange);
+  const { handleFileChange } = useSingleImageUploader(onChange);
 
   return (
     <div className="bg-grey03 relative h-[5.625rem] w-[5.625rem] rounded-full">
@@ -57,13 +55,6 @@ export const ProfileImageUploader = ({ name }: { name: string }) => {
           className="h-full w-full rounded-full object-cover"
         />
       )}
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
     </div>
   );
 };
@@ -78,8 +69,7 @@ export const BackgroundImageUploader = ({ name }: { name: string }) => {
     control,
   });
 
-  const { handleFileChange, snackbar, setSnackbar } =
-    useSingleImageUploader(onChange);
+  const { handleFileChange } = useSingleImageUploader(onChange);
 
   return (
     <article className="relative flex h-[7.75rem] w-full bg-[rgba(0,0,0,0.20)]">
@@ -103,13 +93,6 @@ export const BackgroundImageUploader = ({ name }: { name: string }) => {
           alt={'배경 이미지'}
           className="h-full w-full object-cover"
         />
-      )}
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
       )}
     </article>
   );

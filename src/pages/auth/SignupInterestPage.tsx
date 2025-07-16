@@ -1,7 +1,6 @@
 import {
   DefaultButton,
   PageHeader,
-  SnackBar,
   VanillaCategoryMultiSelector,
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
@@ -11,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
 import PRODUCT_CATEGORIES from '@/constants/productCategories';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 export const SignupInterestPage = () => {
   const navigate = useNavigate();
@@ -23,7 +23,6 @@ export const SignupInterestPage = () => {
     setInterestedCategories,
     reset: userSignupStateReset,
   } = useUserSignupStore();
-  const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (!userId) {
@@ -31,10 +30,12 @@ export const SignupInterestPage = () => {
     }
   }, []);
 
+  const { showSnackbar } = useSnackbarStore();
+
   // 다음 버튼 클릭 핸들러
   const handleClickNext = () => {
     if (selectedCategories.length === 0) {
-      setIsSnackbarOpen(true);
+      showSnackbar('카테고리를 선택해 주세요.');
       return;
     }
 
@@ -88,13 +89,6 @@ export const SignupInterestPage = () => {
           onClick={handleClickNext}
         />
       </div>
-
-      {/* 스낵바 */}
-      {isSnackbarOpen && (
-        <SnackBar handleSnackBarClose={() => setIsSnackbarOpen(false)}>
-          카테고리를 선택해 주세요.
-        </SnackBar>
-      )}
     </div>
   );
 };

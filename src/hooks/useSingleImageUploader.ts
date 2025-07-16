@@ -1,10 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useSnackbarStore } from '@/store/snackbarStore';
+import { useEffect, useRef } from 'react';
 
 export const useSingleImageUploader = (onChange: (value: string) => void) => {
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
-  });
   const imageUrlRef = useRef<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,11 +10,10 @@ export const useSingleImageUploader = (onChange: (value: string) => void) => {
 
     const selectedImg = selectedImgs[0];
 
+    const { showSnackbar } = useSnackbarStore();
+
     if (!selectedImg.type.startsWith('image/')) {
-      setSnackbar({
-        open: true,
-        message: `이미지 파일만 업로드 가능합니다: ${selectedImg.name}`,
-      });
+      showSnackbar(`이미지 파일만 업로드 가능합니다: ${selectedImg.name}`);
       e.target.value = '';
       return;
     }
@@ -49,5 +45,5 @@ export const useSingleImageUploader = (onChange: (value: string) => void) => {
     onChange('');
   };
 
-  return { handleFileChange, removeFile, snackbar, setSnackbar };
+  return { handleFileChange, removeFile };
 };

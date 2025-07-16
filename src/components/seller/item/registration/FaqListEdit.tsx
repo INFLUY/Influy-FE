@@ -13,7 +13,6 @@ import {
   CategoryChip,
   AddButton,
   TextInput,
-  SnackBar,
   EmptyCategoryPlaceholder,
   SellerModal,
 } from '@/components';
@@ -44,6 +43,7 @@ import {
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 type SheetMode =
   | 'none'
@@ -77,11 +77,7 @@ const FaqListEdit = ({
   // 4) BottomSheet 의 인풋에 바인딩할 임시 텍스트
   const [draftName, setDraftName] = useState('');
 
-  //스낵바
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
-  });
+  const { showSnackbar } = useSnackbarStore();
 
   // 삭제할 카테고리
   const [categoryToDelete, setCategoryToDelete] = useState<number | null>(null);
@@ -112,10 +108,7 @@ const FaqListEdit = ({
         category: draftName.trim(),
       },
     ]);
-    setSnackbar({
-      open: true,
-      message: '저장되었습니다',
-    });
+    showSnackbar('저장되었습니다');
     setDraftName('');
     setSheetMode('editList');
   };
@@ -127,10 +120,7 @@ const FaqListEdit = ({
         c.id === activeCategoryId ? { ...c, category: draftName.trim() } : c
       )
     );
-    setSnackbar({
-      open: true,
-      message: '저장되었습니다',
-    });
+    showSnackbar('저장되었습니다');
     setDraftName('');
     setSheetMode('editList');
   };
@@ -322,10 +312,7 @@ const FaqListEdit = ({
             setCategories((prev) =>
               prev.filter((cat) => cat.id !== categoryToDelete)
             );
-            setSnackbar({
-              open: true,
-              message: '삭제되었습니다',
-            });
+            showSnackbar('삭제되었습니다');
             setSheetMode('none');
             setCategoryToDelete(null);
           }}
@@ -334,15 +321,6 @@ const FaqListEdit = ({
             setCategoryToDelete(null);
           }}
         />
-      )}
-
-      {/* 스낵바 */}
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
       )}
     </>
   );
