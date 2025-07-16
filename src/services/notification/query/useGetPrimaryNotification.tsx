@@ -8,8 +8,12 @@ export const useGetPrimaryNotification = ({
   sellerId: number;
 }) => {
   const query = useSuspenseQuery({
-    queryFn: () => getPrimaryNotification({ sellerId }),
     queryKey: [QUERY_KEYS.SELLER_PRIMARY_ANNOUNCEMENT, sellerId],
+    queryFn: async () => {
+      const response = await getPrimaryNotification({ sellerId });
+      if (response?.result) return response?.result;
+      else return null;
+    },
   });
 
   return query;
