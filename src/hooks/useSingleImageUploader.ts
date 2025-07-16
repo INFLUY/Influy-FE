@@ -1,8 +1,13 @@
+import { usePostPresignedUrl } from '@/services/presignedUrl/usePostPresignedUrl';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useEffect, useRef } from 'react';
 
 export const useSingleImageUploader = (onChange: (value: string) => void) => {
   const imageUrlRef = useRef<string | null>(null);
+
+  const { mutate: getPresignedUrl } = usePostPresignedUrl((imgUrl: string) => {
+    onChange(imgUrl);
+  });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedImgs = e.target.files;
@@ -25,7 +30,7 @@ export const useSingleImageUploader = (onChange: (value: string) => void) => {
 
     const newUrl = URL.createObjectURL(selectedImg);
     imageUrlRef.current = newUrl;
-    onChange(newUrl);
+    getPresignedUrl({ file: selectedImg });
     e.target.value = '';
   };
 

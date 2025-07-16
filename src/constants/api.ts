@@ -2,6 +2,7 @@ export const ACCESS_TOKEN_KEY = 'InfluyAccessToken';
 
 export const API_DOMAINS = {
   //common
+  PRESIGNED_URL: '/image/presigned-url',
   SELLER_ANNOUNCEMENT: '/seller/:sellerId/announcements',
   SELLER_PRIMARY_ANNOUNCEMENT:
     '/seller/:sellerId/announcements/primary-announcement',
@@ -9,6 +10,7 @@ export const API_DOMAINS = {
   SELLER_MARKET_LIKES: '/seller/:sellerId/count-likes',
   SELLER_MARKET_ITEMS: '/seller/:sellerId/items',
   SELLER_MARKET_ITEM: '/seller/:sellerId/items/:itemId',
+  SELLER_FAQ_CATEGORIES: '/seller/:sellerId/items/:itemId/faq-categories',
 
   // seller
   SELLER_MY_JOIN: 'register/seller',
@@ -28,4 +30,5 @@ export const QUERY_KEYS = {
   SELLER_MARKET_LIKES: 'sellerMarketLikes',
   SELLER_MARKET_ITEMS: 'sellerMarketItems',
   SELLER_MARKET_ITEM: 'sellerMarketItem',
+  SELLER_FAQ_CATEGORIES: 'sellerFaqCategories',
 };
