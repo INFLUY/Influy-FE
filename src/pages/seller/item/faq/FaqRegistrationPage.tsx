@@ -15,32 +15,27 @@ import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Suspense, useRef } from 'react';
-import { CategoryType } from '@/types/common/CategoryType.types';
 import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
+import { useGetItemFaqCategory } from '@/services/sellerItemFaq/query/useGetItemFaqCategory';
 
 const FaqRegistrationPage = () => {
   const navigate = useNavigate();
 
-  const CATEGORIES: CategoryType[] = [
-    { id: 1, category: '색상' },
-    { id: 2, category: '구성' },
-    { id: 3, category: '디테일' },
-    { id: 4, category: '사이즈' },
-    { id: 5, category: '가격' },
-    { id: 6, category: '진행일정' },
-    { id: 7, category: '재고/수량' },
-  ];
+  const sellerId = useStrictSellerId();
+  const { itemId } = useParams();
+
+  const { data: categories } = useGetItemFaqCategory({
+    sellerId,
+    itemId: Number(itemId),
+  });
 
   const { showSnackbar } = useSnackbarStore();
 
   const categoryRef = useRef<HTMLDivElement | null>(null);
-
-  const sellerId = useStrictSellerId();
-  const { itemId } = useParams();
 
   const methods = useForm<FaqFormValues>({
     resolver: zodResolver(faqSchema),
@@ -104,7 +99,7 @@ const FaqRegistrationPage = () => {
       >
         FAQ 등록
       </PageHeader>
-      {CATEGORIES.length === 0 ? (
+      {categories?.length === 0 ? (
         // 카테고리 없을 때
         <EmptyCategoryPlaceholder openAddSheet={() => {}} />
       ) : (
@@ -138,7 +133,7 @@ const FaqRegistrationPage = () => {
                 </div>
                 {/* FAQ 카테고리 */}
                 <VanillaCategoryMultiSelector
-                  categoryList={CATEGORIES}
+                  categoryList={categories}
                   selectedCategory={(getValues('category')
                     ? [getValues('category')]
                     : []
