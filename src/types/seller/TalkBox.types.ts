@@ -14,3 +14,21 @@ export interface QuestionCategory {
   totalCount: number; // 전체 질문 수
   pendingCount: number; // 답변 대기 수 (뱃지 표시용)
 }
+
+export interface SubCategory {
+  id: number;
+  text: string;
+  totalCount: number;
+  newCount?: number;
+}
+
+export interface Chat {
+  questionId: number;
+  content: string;
+  createdAt: string;
+  memberId: number;
+  profileImg: string | null;
+  username: string;
+  askedCount: number;
+  isChecked: boolean;
+}

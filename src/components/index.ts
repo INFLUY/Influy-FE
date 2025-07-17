@@ -111,4 +111,8 @@ export { default as MyProductStatus } from './seller/home/MyProductStatus.tsx';
 export {
   TalkBoxItemCard,
   TalkBoxBottomItemCard,
+  TalkBoxQuestionItemCard,
 } from './seller/talkBox/TalkBoxItemCard';
+
+export { SubCategoryChip } from './seller/talkBox/SubCategoryChip.tsx';
+export { default as SellerChatBubble } from './seller/talkBox/SellerChatBubble.tsx';

@@ -183,6 +183,24 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    z-index: 50;
+
+    /* width constraints */
+    max-width: 40rem; /* 640px */
+    min-width: 20rem; /* 320px */
+    width: 100%;
+
+    /* 반응형 - md 기준 */
+  }
+
+  @media (min-width: 768px) {
+    .bottom-bar {
+      width: 28rem; /* 448px */
+    }
+  }
 }
 
 /* 숫자 인풋에서 위아래 화살표 제거 */

@@ -85,3 +85,36 @@ export const TalkBoxBottomItemCard = ({
     </button>
   );
 };
+
+// 카테고리별 질문 페이지 상단에 있는 아이템 카드
+export const TalkBoxQuestionItemCard = ({
+  title,
+  tagline,
+  imgUrl,
+}: {
+  title: string;
+  tagline: string | null;
+  imgUrl: string | null;
+}) => {
+  return (
+    <div className="border-grey03 flex h-[4.1875rem] w-full items-center gap-[1.0625rem] rounded-xs border border-solid bg-white">
+      {/* 좌측 이미지 */}
+      <div className="bg-grey03 relative aspect-square h-full">
+        {imgUrl && (
+          <img
+            className="aspect-square h-full rounded-[.0625rem] object-cover"
+            src={imgUrl}
+            alt={title + ' 사진'}
+          />
+        )}
+      </div>
+      {/* 우측 상품 정보 */}
+      <div className="flex h-full flex-1 flex-col items-start justify-center text-left">
+        <p className="body2-b line-clamp-1 text-black">{title}</p>
+        {tagline && (
+          <p className="body2-m text-grey09 line-clamp-1">{tagline}</p>
+        )}
+      </div>
+    </div>
+  );
+};

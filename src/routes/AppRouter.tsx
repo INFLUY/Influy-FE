@@ -378,27 +378,46 @@ const router = createBrowserRouter([
                     path: PATH.SELLER.talkBox.item.tabs.answered, // answered
                     element: <AnsweredCategoryTab />,
                   },
+                ],
+              },
+              {
+                path: PATH.SELLER.talkBox.item.base, // item/:itemId
+                element: <Outlet />,
+                children: [
                   // 3. /talk-box/item/:itemId/category/:categoryId
                   {
                     path: PATH.SELLER.talkBox.item.category.base, // category/:categoryId
-                    element: <QuestionsListPage />,
+                    element: <Outlet />,
                     children: [
                       {
-                        index: true,
                         element: (
-                          <Navigate
-                            to={PATH.SELLER.talkBox.item.category.tabs.pending}
-                            replace
-                          />
+                          <QuestionsListPage>
+                            <Outlet />
+                          </QuestionsListPage>
                         ),
-                      },
-                      {
-                        path: PATH.SELLER.talkBox.item.category.tabs.pending,
-                        element: <PendingQuestionsTab />,
-                      },
-                      {
-                        path: PATH.SELLER.talkBox.item.category.tabs.answered,
-                        element: <AnsweredQuestionsTab />,
+                        children: [
+                          {
+                            index: true,
+                            element: (
+                              <Navigate
+                                to={
+                                  PATH.SELLER.talkBox.item.category.tabs.pending
+                                }
+                                replace
+                              />
+                            ),
+                          },
+                          {
+                            path: PATH.SELLER.talkBox.item.category.tabs
+                              .pending,
+                            element: <PendingQuestionsTab />,
+                          },
+                          {
+                            path: PATH.SELLER.talkBox.item.category.tabs
+                              .answered,
+                            element: <AnsweredQuestionsTab />,
+                          },
+                        ],
                       },
                       {
                         path: PATH.SELLER.talkBox.item.category.bulkReply,

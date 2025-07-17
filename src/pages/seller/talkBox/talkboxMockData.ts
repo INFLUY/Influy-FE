@@ -1,4 +1,9 @@
-import { TalkBoxItem, QuestionCategory } from '@/types/seller/TalkBox.types';
+import {
+  TalkBoxItem,
+  QuestionCategory,
+  SubCategory,
+  Chat,
+} from '@/types/seller/TalkBox.types';
 
 export const dummyTalkBoxItems: TalkBoxItem[] = [
   {
@@ -58,5 +63,67 @@ export const dummyQuestionCategories: QuestionCategory[] = [
     name: '배송',
     totalCount: 8,
     pendingCount: 0,
+  },
+];
+
+export const dummySubCategories: SubCategory[] = [
+  {
+    id: 0,
+    text: '네이비',
+    totalCount: 12,
+    newCount: 3,
+  },
+  {
+    id: 1,
+    text: '색바램',
+    totalCount: 5,
+    newCount: 3,
+  },
+  {
+    id: 2,
+    text: '물빠짐',
+    totalCount: 3,
+    newCount: 0,
+  },
+  {
+    id: 3,
+    text: '블랙',
+    totalCount: 4,
+    newCount: 0,
+  },
+  { id: 4, text: '기타', totalCount: 4, newCount: 0 },
+];
+
+export const dummyChats: Chat[] = [
+  {
+    questionId: 1,
+    content:
+      '네이비 색상 옷 구매하려고 하는데요, 세탁할 때 물빠짐이 많이 심한 편인가요? 실제로 입어보셨을 때 어떤지 궁금해요!',
+    createdAt: '2025-07-18T02:15:00',
+    memberId: 101,
+    profileImg: '/profile1.png',
+    username: 'dpdms02',
+    askedCount: 4,
+    isChecked: false,
+  },
+  {
+    questionId: 2,
+    content: '물빠짐 심하면 다른 옷에 이염되진 않을까요? 확인 부탁드려요.',
+    createdAt: '2025-07-16T14:30:00',
+    memberId: 102,
+    profileImg: '/profile2.png',
+    username: 'user123',
+    askedCount: 1,
+    isChecked: false,
+  },
+  {
+    questionId: 3,
+    content: '세탁 시 따로 분리 세탁하는 게 좋을까요? 고민되네요.',
+    createdAt: '2025-07-10T09:45:00',
+    memberId: 103,
+    profileImg: null,
+    username: 'bluebuyer',
+    askedCount: 2,
+    isChecked: true,
   },
 ];
