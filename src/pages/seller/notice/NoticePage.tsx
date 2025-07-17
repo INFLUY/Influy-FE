@@ -104,9 +104,14 @@ const NoticePage = () => {
               )}
             </div>
           )}
-          <AddButton handleOnClick={() => setIsAddNoticeOpen(true)} size="base">
-            추가하기
-          </AddButton>
+          <div className="flex w-full px-5">
+            <AddButton
+              handleOnClick={() => setIsAddNoticeOpen(true)}
+              size="base"
+            >
+              추가하기
+            </AddButton>
+          </div>
         </div>
       )}
       {isAddNoticeOpen && (

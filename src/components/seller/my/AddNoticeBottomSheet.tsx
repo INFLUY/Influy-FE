@@ -96,7 +96,7 @@ const AddNoticeBottomSheet = ({
           <div className="scrollbar-hide flex w-full gap-[.4375rem] overflow-y-auto px-5 pt-1 pb-8">
             <DefaultButton
               text="취소하기"
-              activeTheme="black"
+              activeTheme="borderGrey"
               onClick={handleClickCancel}
             />
             <DefaultButton text="저장하기" onClick={handleClickSave} />
