@@ -1,6 +1,6 @@
 import {
+  AddButton,
   AddNoticeBottomSheet,
-  AddNoticeButton,
   EditNoticeBottomSheet,
   LoadingSpinner,
   Notice,
@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGetNotification } from '@/services/notification/query/useGetNotification';
 import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import NoticeIcon from '@/assets/icon/seller/NoticeIcon.svg?react';
 
 const NoticePage = () => {
   const [isAddNoticeOpen, setIsAddNoticeOpen] = useState<boolean>(false);
@@ -66,14 +67,14 @@ const NoticePage = () => {
         공지사항 편집
       </PageHeader>
       {notices?.pages[0]?.totalElements === 0 && (
-        <div className="flex h-full w-full flex-col items-center justify-center gap-10">
-          <div className="flex flex-col items-center justify-center gap-6 text-center">
-            <div className="bg-grey03 h-[5.6875rem] w-[8.0625rem]" />
+        <div className="flex h-full w-full flex-col items-center justify-center gap-10 px-5">
+          <div className="flex flex-col items-center justify-center gap-4 text-center">
+            <NoticeIcon className="text-grey03" />
             <div className="body1-sb">아직 공지사항이 없어요</div>
           </div>
-          <AddNoticeButton
-            handleAddNoticeClick={() => setIsAddNoticeOpen(true)}
-          />
+          <AddButton handleOnClick={() => setIsAddNoticeOpen(true)} size="base">
+            추가하기
+          </AddButton>
         </div>
       )}
       {notices && notices?.pages[0]?.totalElements > 0 && (
@@ -103,9 +104,9 @@ const NoticePage = () => {
               )}
             </div>
           )}
-          <AddNoticeButton
-            handleAddNoticeClick={() => setIsAddNoticeOpen(true)}
-          />
+          <AddButton handleOnClick={() => setIsAddNoticeOpen(true)} size="base">
+            추가하기
+          </AddButton>
         </div>
       )}
       {isAddNoticeOpen && (

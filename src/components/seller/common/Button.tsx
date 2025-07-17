@@ -94,7 +94,9 @@ export const AddButton = ({
       onClick={() => handleOnClick()}
     >
       {size === 'large' && <AddIcon className="text-grey07" />}
-      {size === 'base' && <AddIconBase className="text-grey07" />}
+      {size === 'base' && (
+        <AddIconBase className="text-grey07 h-[1.0125rem] w-[1.0125rem]" />
+      )}
       <span>{children}</span>
     </button>
   );

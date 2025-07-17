@@ -86,7 +86,6 @@ export { default as Notice } from './seller/myMarket/notice/Notice';
 export { default as SellerMyProfileHeader } from './seller/my/SellerMyProfileHeader';
 export { default as AddNoticeBottomSheet } from './seller/my/AddNoticeBottomSheet';
 export { default as EditNoticeBottomSheet } from './seller/my/EditNoticeBottomSheet';
-export { default as AddNoticeButton } from './seller/my/AddNoticeButton';
 export {
   ProfileEditWrapper,
   ProfileImageUploader,
