@@ -3,10 +3,11 @@ import {
   TalkBoxQuestionItemCard,
   SellerChatBubble,
   ChatBarTextArea,
+  PrevAnswersBottomSheet,
 } from '@/components';
 import { Chat } from '@/types/seller/TalkBox.types';
 
-import { ReactNode, useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { ReactNode, useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 
@@ -19,12 +20,16 @@ const BulkReplyPage = () => {
   const navigate = useNavigate();
   const [selectedChat, setSelectedChat] = useState<Chat[]>([]);
   const [answerText, setAnswerText] = useState<string>('');
+
+  const handleAnswerSelect = (prevAnswer: string) => {
+    setAnswerText(answerText + prevAnswer);
+  };
   //임시
   useEffect(() => {
     setSelectedChat(dummyChats);
   }, []);
   return (
-    <section className="scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto bg-white">
+    <section className="scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-y-auto bg-white">
       <PageHeader
         leftIcons={[
           <ArrowLeftIcon
@@ -79,7 +84,10 @@ const BulkReplyPage = () => {
             />
           ))}
       </section>
-      <ChatBarTextArea text={answerText} setText={setAnswerText} />
+      <section className="bottom-bar flex w-full flex-col overflow-x-clip">
+        <PrevAnswersBottomSheet handleAnswerSelect={handleAnswerSelect} />
+        <ChatBarTextArea text={answerText} setText={setAnswerText} />
+      </section>
     </section>
   );
 };

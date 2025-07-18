@@ -15,7 +15,7 @@ const ChatBarTextArea = ({
   useAutoResizeTextArea(textareaRef, text);
 
   return (
-    <section className="bottom-bar border-t-grey02 flex w-full items-end gap-2.5 border-t bg-white px-2.5 py-3">
+    <section className="border-t-grey02 flex w-full items-end gap-2.5 border-t bg-white px-2.5 py-3">
       <textarea
         ref={textareaRef}
         className="bg-grey02 body2-m scrollbar-hide text-grey10 placeholder:text-grey07 flex max-h-[7.875rem] flex-[1_0_0] resize-none items-center rounded-[1.25rem] px-3.5 py-2.5"
