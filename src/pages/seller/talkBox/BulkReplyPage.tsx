@@ -3,15 +3,21 @@ import {
   TalkBoxQuestionItemCard,
   SellerChatBubble,
   ChatBarTextArea,
-  PrevAnswersBottomSheet,
+  PrevReplyBottomSheet,
+  SellerModal,
 } from '@/components';
 import { Chat } from '@/types/seller/TalkBox.types';
 
-import { ReactNode, useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import {
+  useNavigate,
+  useLocation,
+  useParams,
+  generatePath,
+} from 'react-router-dom';
 import { PATH } from '@/routes/path';
 
-import { dummySubCategories, dummyChats, dummyChats2 } from './talkboxMockData';
+import { dummyChats } from './talkboxMockData';
 
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
@@ -20,10 +26,35 @@ const BulkReplyPage = () => {
   const navigate = useNavigate();
   const [selectedChat, setSelectedChat] = useState<Chat[]>([]);
   const [answerText, setAnswerText] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAnswerSelect = (prevAnswer: string) => {
     setAnswerText(answerText + prevAnswer);
   };
+
+  const handleConfirmExit = () => {
+    setIsModalOpen(false);
+    navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`); // 홈으로 이동
+  };
+
+  const { categoryId, itemId } = useParams();
+  console.log('카테', categoryId, itemId);
+
+  const handleReplySubmit = () => {
+    if (answerText.length === 0) return;
+    const sentCount = selectedChat.length;
+    const path = generatePath(
+      `${PATH.SELLER.base}/${PATH.SELLER.talkBox.base}/${PATH.SELLER.talkBox.item.base}/${PATH.SELLER.talkBox.item.category.base}/${PATH.SELLER.talkBox.item.category.tabs.pending}`,
+      {
+        itemId: String(itemId),
+        categoryId: String(categoryId),
+      }
+    );
+    navigate(path, {
+      state: { sentCount },
+    });
+  };
+
   //임시
   useEffect(() => {
     setSelectedChat(dummyChats);
@@ -46,9 +77,7 @@ const BulkReplyPage = () => {
             role="button"
             aria-label="홈으로 가기"
             tabIndex={0}
-            onClick={() => {
-              navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`);
-            }}
+            onClick={() => setIsModalOpen(true)}
           />,
         ]}
       >
@@ -85,9 +114,23 @@ const BulkReplyPage = () => {
           ))}
       </section>
       <section className="bottom-bar flex w-full flex-col overflow-x-clip">
-        <PrevAnswersBottomSheet handleAnswerSelect={handleAnswerSelect} />
-        <ChatBarTextArea text={answerText} setText={setAnswerText} />
+        <PrevReplyBottomSheet handleAnswerSelect={handleAnswerSelect} />
+        <ChatBarTextArea
+          text={answerText}
+          setText={setAnswerText}
+          handleReplySubmit={handleReplySubmit}
+        />
       </section>
+      {isModalOpen && (
+        <SellerModal
+          text="일괄답변을 그만두시겠습니까?"
+          leftButtonText="취소"
+          rightButtonText="확인"
+          leftButtonClick={() => setIsModalOpen(false)}
+          rightButtonClick={handleConfirmExit}
+          setIsModalOpen={setIsModalOpen}
+        />
+      )}
     </section>
   );
 };

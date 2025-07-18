@@ -1,6 +1,4 @@
-import ModalPortal from '@/components/common/ModalPortal';
-import useBottomSheetGesture from '@/hooks/useBottomSheetGesture';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import ArrowIcon from '@/assets/icon/common/ArrowRight12.svg?react';
 import cn from '@/utils/cn';
 
@@ -21,7 +19,7 @@ interface Props {
   onSelect: (prevAnswer: string) => void;
 }
 
-const PrevAnswersBottomSheet = ({
+const PrevReplyBottomSheet = ({
   handleAnswerSelect,
 }: {
   handleAnswerSelect: (prevAnswer: string) => void;
@@ -29,15 +27,13 @@ const PrevAnswersBottomSheet = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const handleBarRef = useRef<HTMLDivElement | null>(null);
 
-  useBottomSheetGesture({
-    isBottomSheetOpen: true,
-    handleBarRef,
-    onClose: () => setIsOpen(false),
-    disableGesture: false,
-  });
+  // 바텀시트 제스쳐 적용 필요
 
   return (
-    <section className="bg-sub-light w-full overflow-hidden rounded-[.75rem_.75rem_0rem_0rem] shadow-[0rem_.25rem_1.125rem_0rem_rgba(0,0,0,0.25)]">
+    <section
+      ref={handleBarRef}
+      className="bg-sub-light w-full overflow-hidden rounded-[.75rem_.75rem_0rem_0rem] shadow-[0rem_.25rem_1.125rem_0rem_rgba(0,0,0,0.25)]"
+    >
       {/* 손잡이 */}
       <div className="flex w-full cursor-pointer justify-center pt-2 pb-3">
         <div className="h-1 w-12 rounded-[.125rem] bg-[rgba(23,23,27,0.10)]" />
@@ -66,52 +62,45 @@ const PrevAnswersBottomSheet = ({
       {/* 이전 답변 목록 */}
       {isOpen && (
         <div className="talk-box-swiper-section">
-          <PreviousAnswersCarousel
-            answers={dummyAnswers}
-            onSelect={handleAnswerSelect}
-          />
+          <Swiper
+            spaceBetween={12} // 카드 간격
+            slidesPerView={1.04} // 카드 크기 기반으로 자동
+            centeredSlides={false}
+            className="w-full !px-4"
+            modules={[A11y, Pagination]}
+            grabCursor={true}
+            pagination={{
+              clickable: true,
+              renderBullet: (index: number, className: string) => {
+                return `<div class="${className} custom-bullet mt-[1.125rem]" tabindex=${index}  ></div>`;
+              },
+            }}
+          >
+            {dummyAnswers &&
+              dummyAnswers.map((answer) => (
+                <SwiperSlide key={answer.id}>
+                  <article className="bg-grey01 flex h-[9.125rem] w-full shrink-0 flex-col items-end justify-between gap-2.5 rounded-[.3125rem] p-3">
+                    <p className="caption-m line-clamp-5 text-black">
+                      {answer.content}
+                    </p>
+                    <button
+                      className="caption-m bg-grey11 cursor-pointer rounded-[.1875rem] px-2.5 py-1 text-white"
+                      onClick={() => handleAnswerSelect(answer.content)}
+                    >
+                      이 답변 사용
+                    </button>
+                  </article>
+                </SwiperSlide>
+              ))}
+          </Swiper>
         </div>
       )}
     </section>
   );
 };
 
-export default PrevAnswersBottomSheet;
+export default PrevReplyBottomSheet;
 
-const PreviousAnswersCarousel = ({ answers, onSelect }: Props) => {
-  return (
-    <Swiper
-      spaceBetween={12} // 카드 간격
-      slidesPerView={1.04} // 카드 크기 기반으로 자동
-      centeredSlides={false}
-      className="w-full !px-4"
-      modules={[A11y, Pagination]}
-      grabCursor={true}
-      pagination={{
-        clickable: true,
-        renderBullet: (index: number, className: string) => {
-          return `<div class="${className} custom-bullet mt-[1.125rem]" tabindex=${index}  ></div>`;
-        },
-      }}
-    >
-      {answers.map((answer) => (
-        <SwiperSlide key={answer.id}>
-          <article className="bg-grey01 flex h-[9.125rem] w-full shrink-0 flex-col items-end justify-between gap-2.5 rounded-[.3125rem] p-3">
-            <p className="caption-m line-clamp-5 text-black">
-              {answer.content}
-            </p>
-            <button
-              className="caption-m bg-grey11 cursor-pointer rounded-[.1875rem] px-2.5 py-1 text-white"
-              onClick={() => onSelect(answer.content)}
-            >
-              이 답변 사용
-            </button>
-          </article>
-        </SwiperSlide>
-      ))}
-    </Swiper>
-  );
-};
 const dummyAnswers = [
   {
     id: 1,

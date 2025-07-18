@@ -7,6 +7,9 @@ import {
   SubCategoryChip,
   SellerChatBubble,
   DefaultButton,
+  SellerModal,
+  SnackBar,
+  SingleReplyBottomSheet,
 } from '@/components';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
@@ -22,6 +25,13 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     pending: 0,
     answered: 0,
   });
+  const [snackBarState, setSnackBarState] = useState<{
+    message: string;
+    isOpen: boolean;
+  }>({ message: '', isOpen: false });
+  const location = useLocation();
+  const sentCount = location.state?.sentCount;
+
   const {
     isSelectMode,
     setIsSelectMode,
@@ -30,7 +40,6 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     setChatsByCategory,
   } = useSelectModeStore();
 
-  //임시
   const allChatIds = dummyChats.map((chat) => chat.questionId);
   const isAllSelected = allChatIds.every((id) => selectedIds.includes(id));
 
@@ -42,6 +51,15 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     setChatsByCategory(dummySubCategories[0].text, dummyChats);
     setChatsByCategory(dummySubCategories[1].text, dummyChats2);
   }, []);
+
+  useEffect(() => {
+    if (sentCount) {
+      setSnackBarState({
+        isOpen: true,
+        message: sentCount + '개의 답변이 정상적으로 전송되었습니다.',
+      });
+    }
+  }, [sentCount]);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -168,12 +186,28 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
       </article>
 
       {children}
+      {snackBarState.isOpen && (
+        <SnackBar
+          handleSnackBarClose={() =>
+            setSnackBarState({ message: '', isOpen: false })
+          }
+        >
+          {sentCount}개의 답변이 정상적으로 전송되었습니다.
+        </SnackBar>
+      )}
+      <SingleReplyBottomSheet />
     </section>
   );
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 export const PendingQuestionsTab = () => {
   const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategory>();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const navigate = useNavigate();
+
   const {
     isSelectMode,
     selectedIds,
@@ -182,6 +216,11 @@ export const PendingQuestionsTab = () => {
     getChatsByCategory,
   } = useSelectModeStore();
   console.log(chatsByCategory);
+
+  const handleConfirmDelete = () => {
+    setIsDeleteModalOpen(false);
+    navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`); // 홈으로 이동
+  };
 
   //임시
   useEffect(() => {
@@ -242,7 +281,9 @@ export const PendingQuestionsTab = () => {
         {isSelectMode && (
           <section className="bottom-bar flex w-full shrink-0 items-center justify-center gap-[.4375rem] bg-white px-5 py-2">
             <DefaultButton
-              onClick={() => {}}
+              onClick={() => {
+                setIsDeleteModalOpen(true);
+              }}
               text="삭제하기"
               disabled={selectedIds.length === 0}
               activeTheme="white"
@@ -260,6 +301,16 @@ export const PendingQuestionsTab = () => {
           </section>
         )}
       </section>
+      {isDeleteModalOpen && (
+        <SellerModal
+          text={`질문들(12개)을 삭제하시겠습니까? 한 번 삭제한 질문은 되돌릴 수 없습니다.`}
+          leftButtonText="취소"
+          rightButtonText="확인"
+          leftButtonClick={() => setIsDeleteModalOpen(false)}
+          rightButtonClick={handleConfirmDelete}
+          setIsModalOpen={setIsDeleteModalOpen}
+        />
+      )}
     </>
   );
 };

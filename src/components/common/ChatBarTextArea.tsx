@@ -6,9 +6,11 @@ import cn from '@/utils/cn';
 const ChatBarTextArea = ({
   text,
   setText,
+  handleReplySubmit,
 }: {
   text: string;
   setText: (value: string) => void;
+  handleReplySubmit: () => void;
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -28,9 +30,12 @@ const ChatBarTextArea = ({
         <SendIcon
           role="button"
           className={cn(
-            'h-6 w-6 cursor-pointer',
-            text.length > 0 ? 'text-black' : 'text-grey06'
+            'h-6 w-6',
+            text.length > 0 ? 'text-black' : 'text-grey06',
+            text.length > 0 && 'cursor-pointer'
           )}
+          onClick={handleReplySubmit}
+          tabIndex={0}
         />
       </div>
     </section>
