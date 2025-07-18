@@ -20,6 +20,7 @@ export {
   WideTextArea,
   LinkInput,
 } from './common/DetailInput.tsx';
+export { default as ChatBarTextArea } from './common/ChatBarTextArea.tsx';
 export { PeriodChip } from './common/chip/PeriodChip.tsx';
 // common/item
 export { ItemDetailProfile } from './common/item/ItemDetailProfile';
