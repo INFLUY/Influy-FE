@@ -14,6 +14,7 @@ interface SellerChatBubbleProps {
   askedCount: number;
   createdAt: string;
   selectedSubCategory?: string;
+  isSelected: boolean;
 }
 
 const SellerChatBubble = ({
@@ -25,10 +26,10 @@ const SellerChatBubble = ({
   isChecked,
   createdAt,
   selectedSubCategory,
+  isSelected,
 }: SellerChatBubbleProps) => {
   const { selectedIds, setSelectedIds, isSelectMode } = useSelectModeStore();
-  const isSelected = selectedIds.includes(questionId);
-
+  console.log(selectedIds);
   const handleCheckboxClick = () => {
     if (!isSelectMode) return;
     if (isSelected) {

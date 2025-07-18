@@ -127,3 +127,38 @@ export const dummyChats: Chat[] = [
     isChecked: true,
   },
 ];
+
+export const dummyChats2: Chat[] = [
+  {
+    questionId: 11,
+    content:
+      '아이디2 네이비 색상 옷 구매하려고 하는데요, 세탁할 때 물빠짐이 많이 심한 편인가요? 실제로 입어보셨을 때 어떤지 궁금해요!',
+    createdAt: '2025-07-18T02:15:00',
+    memberId: 101,
+    profileImg: '/profile1.png',
+    username: 'dpdms02',
+    askedCount: 4,
+    isChecked: false,
+  },
+  {
+    questionId: 12,
+    content:
+      '아이디2 물빠짐 심하면 다른 옷에 이염되진 않을까요? 확인 부탁드려요.',
+    createdAt: '2025-07-16T14:30:00',
+    memberId: 102,
+    profileImg: '/profile2.png',
+    username: 'user123',
+    askedCount: 1,
+    isChecked: false,
+  },
+  {
+    questionId: 13,
+    content: '아이디2 세탁 시 따로 분리 세탁하는 게 좋을까요? 고민되네요.',
+    createdAt: '2025-07-10T09:45:00',
+    memberId: 103,
+    profileImg: null,
+    username: 'bluebuyer',
+    askedCount: 2,
+    isChecked: true,
+  },
+];

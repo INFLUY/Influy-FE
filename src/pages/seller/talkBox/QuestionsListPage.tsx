@@ -10,7 +10,7 @@ import {
 } from '@/components';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
-import { dummySubCategories, dummyChats } from './talkboxMockData';
+import { dummySubCategories, dummyChats, dummyChats2 } from './talkboxMockData';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { SubCategory } from '@/types/seller/TalkBox.types';
@@ -22,8 +22,13 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     pending: 0,
     answered: 0,
   });
-  const { isSelectMode, setIsSelectMode, selectedIds, toggleSelectAll } =
-    useSelectModeStore();
+  const {
+    isSelectMode,
+    setIsSelectMode,
+    selectedIds,
+    toggleSelectAll,
+    setChatsByCategory,
+  } = useSelectModeStore();
 
   //임시
   const allChatIds = dummyChats.map((chat) => chat.questionId);
@@ -34,6 +39,8 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   //임시
   useEffect(() => {
     setTabCounts({ pending: 2, answered: 3 });
+    setChatsByCategory(dummySubCategories[0].text, dummyChats);
+    setChatsByCategory(dummySubCategories[1].text, dummyChats2);
   }, []);
 
   const navigate = useNavigate();
@@ -86,7 +93,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
               <button
                 onClick={() => toggleSelectAll(allChatIds)}
                 type="button"
-                className="bg-grey03 body2-m text-grey10 flex items-center justify-center gap-0.5 rounded-xs px-2 py-[.1875rem]"
+                className="bg-grey03 body2-m text-grey10 flex cursor-pointer items-center justify-center gap-0.5 rounded-xs px-2 py-[.1875rem]"
               >
                 {isAllSelected ? '전체 선택 해제' : '전체선택'}
               </button>
@@ -103,7 +110,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
           rightIcons={[
             isSelectMode ? (
               <button
-                className="body1-m text-grey10"
+                className="body1-m text-grey10 cursor-pointer"
                 type="button"
                 onClick={() => setIsSelectMode(false)}
               >
@@ -114,7 +121,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
                 <button
                   onClick={() => setIsSelectMode(true)}
                   type="button"
-                  className="bg-grey11 body2-m text-grey01 flex items-center justify-center gap-0.5 rounded-xs px-2 py-[.1875rem]"
+                  className="bg-grey11 body2-m text-grey01 flex cursor-pointer items-center justify-center gap-0.5 rounded-xs px-2 py-[.1875rem]"
                 >
                   질문선택
                 </button>
@@ -147,7 +154,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
           ))}
         </Tabs>
       </div>
-      <div className="flex w-full flex-col gap-2.5 px-5 pt-4">
+      <article className="flex w-full flex-col gap-2.5 px-5 pt-4">
         <TalkBoxQuestionItemCard
           title="헤이드 리본 레이어드 티"
           tagline="[소현X아로셀] 제작 살 안타템![소현X아로셀] 제작 살 안타템![소현X아로셀] 제작 살 안타템!"
@@ -158,7 +165,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
           <br />
           비슷한 질문들끼리 분류했어요.
         </p>
-      </div>
+      </article>
 
       {children}
     </section>
@@ -167,7 +174,15 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
 
 export const PendingQuestionsTab = () => {
   const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategory>();
-  const { isSelectMode, selectedIds } = useSelectModeStore();
+  const {
+    isSelectMode,
+    selectedIds,
+    setSelectedIds,
+    chatsByCategory,
+    getChatsByCategory,
+  } = useSelectModeStore();
+  console.log(chatsByCategory);
+
   //임시
   useEffect(() => {
     setSelectedSubCategory(dummySubCategories[0]);
@@ -208,19 +223,21 @@ export const PendingQuestionsTab = () => {
           </span>
         </div>
         {/* 말풍선 */}
-        {dummyChats.map((chat) => (
-          <SellerChatBubble
-            key={chat.questionId}
-            questionId={chat.questionId}
-            content={chat.content}
-            createdAt={chat.createdAt}
-            profileImg={chat.profileImg}
-            username={chat.username}
-            askedCount={chat.askedCount}
-            isChecked={chat.isChecked}
-            selectedSubCategory={selectedSubCategory?.text}
-          />
-        ))}
+        {selectedSubCategory &&
+          getChatsByCategory(selectedSubCategory?.text).map((chat) => (
+            <SellerChatBubble
+              key={chat.questionId}
+              questionId={chat.questionId}
+              content={chat.content}
+              createdAt={chat.createdAt}
+              profileImg={chat.profileImg}
+              username={chat.username}
+              askedCount={chat.askedCount}
+              isChecked={chat.isChecked}
+              isSelected={selectedIds.includes(chat.questionId)}
+              selectedSubCategory={selectedSubCategory?.text}
+            />
+          ))}
         {/* 하단 버튼 */}
         {isSelectMode && (
           <section className="bottom-bar flex w-full shrink-0 items-center justify-center gap-[.4375rem] bg-white px-5 py-2">
