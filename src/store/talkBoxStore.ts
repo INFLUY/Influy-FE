@@ -2,11 +2,11 @@ import { create } from 'zustand';
 import { Chat } from '@/types/seller/TalkBox.types';
 
 interface SelectModeState {
-  isSelectMode: boolean;
+  mode: 'default' | 'select' | 'single';
   selectedIds: number[];
   chatsByCategory: Record<string, Chat[]>;
 
-  setIsSelectMode: (value: boolean) => void;
+  setMode: (value: 'default' | 'select' | 'single') => void;
   setSelectedIds: (ids: number[]) => void;
   toggleSelectAll: (allIds: number[]) => void;
   setChatsByCategory: (category: string, chats: Chat[]) => void; // 카테고리별 채팅 저장
@@ -14,13 +14,16 @@ interface SelectModeState {
 }
 
 export const useSelectModeStore = create<SelectModeState>((set, get) => ({
-  isSelectMode: false,
+  mode: 'default',
   selectedIds: [],
   chatsByCategory: {},
 
-  setIsSelectMode: (value) => {
-    if (!value) set({ selectedIds: [] }); // 취소 시 선택 해제
-    set({ isSelectMode: value });
+  setMode: (value) => {
+    // 'default'로 전환될 때는 선택된 항목 초기화
+    if (value === 'default') {
+      set({ selectedIds: [] });
+    }
+    set({ mode: value });
   },
 
   setSelectedIds: (ids) => set({ selectedIds: ids }),

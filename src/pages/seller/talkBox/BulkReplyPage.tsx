@@ -101,13 +101,8 @@ const BulkReplyPage = () => {
           selectedChat.map((chat) => (
             <SellerChatBubble
               key={chat.questionId}
-              questionId={chat.questionId}
-              content={chat.content}
-              createdAt={chat.createdAt}
-              profileImg={chat.profileImg}
-              username={chat.username}
-              askedCount={chat.askedCount}
-              isChecked={chat.isChecked}
+              chat={chat}
+              mode="select"
               selectedSubCategory="네이비"
               isSelected={true}
             />

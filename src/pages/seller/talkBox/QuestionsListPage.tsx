@@ -16,7 +16,7 @@ import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
 import { dummySubCategories, dummyChats, dummyChats2 } from './talkboxMockData';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { SubCategory } from '@/types/seller/TalkBox.types';
+import { SubCategory, Chat } from '@/types/seller/TalkBox.types';
 import { useSelectModeStore } from '@/store/talkBoxStore';
 
 export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
@@ -29,16 +29,12 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     message: string;
     isOpen: boolean;
   }>({ message: '', isOpen: false });
+
   const location = useLocation();
   const sentCount = location.state?.sentCount;
 
-  const {
-    isSelectMode,
-    setIsSelectMode,
-    selectedIds,
-    toggleSelectAll,
-    setChatsByCategory,
-  } = useSelectModeStore();
+  const { mode, setMode, selectedIds, toggleSelectAll, setChatsByCategory } =
+    useSelectModeStore();
 
   const allChatIds = dummyChats.map((chat) => chat.questionId);
   const isAllSelected = allChatIds.every((id) => selectedIds.includes(id));
@@ -107,7 +103,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
       <div ref={headerRef} className="sticky top-0 z-50">
         <PageHeader
           leftIcons={[
-            isSelectMode ? (
+            mode === 'select' ? (
               <button
                 onClick={() => toggleSelectAll(allChatIds)}
                 type="button"
@@ -126,18 +122,18 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
             ),
           ]}
           rightIcons={[
-            isSelectMode ? (
+            mode === 'select' ? (
               <button
                 className="body1-m text-grey10 cursor-pointer"
                 type="button"
-                onClick={() => setIsSelectMode(false)}
+                onClick={() => setMode('default')}
               >
                 취소
               </button>
             ) : (
               <>
                 <button
-                  onClick={() => setIsSelectMode(true)}
+                  onClick={() => setMode('select')}
                   type="button"
                   className="bg-grey11 body2-m text-grey01 flex cursor-pointer items-center justify-center gap-0.5 rounded-xs px-2 py-[.1875rem]"
                 >
@@ -184,7 +180,6 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
           비슷한 질문들끼리 분류했어요.
         </p>
       </article>
-
       {children}
       {snackBarState.isOpen && (
         <SnackBar
@@ -195,7 +190,6 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
           {sentCount}개의 답변이 정상적으로 전송되었습니다.
         </SnackBar>
       )}
-      <SingleReplyBottomSheet />
     </section>
   );
 };
@@ -205,16 +199,12 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
 export const PendingQuestionsTab = () => {
   const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategory>();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [singleReplyChat, setSingleReplyChat] = useState<Chat | null>(null);
 
   const navigate = useNavigate();
 
-  const {
-    isSelectMode,
-    selectedIds,
-    setSelectedIds,
-    chatsByCategory,
-    getChatsByCategory,
-  } = useSelectModeStore();
+  const { mode, selectedIds, chatsByCategory, getChatsByCategory, setMode } =
+    useSelectModeStore();
   console.log(chatsByCategory);
 
   const handleConfirmDelete = () => {
@@ -266,19 +256,18 @@ export const PendingQuestionsTab = () => {
           getChatsByCategory(selectedSubCategory?.text).map((chat) => (
             <SellerChatBubble
               key={chat.questionId}
-              questionId={chat.questionId}
-              content={chat.content}
-              createdAt={chat.createdAt}
-              profileImg={chat.profileImg}
-              username={chat.username}
-              askedCount={chat.askedCount}
-              isChecked={chat.isChecked}
+              chat={chat}
               isSelected={selectedIds.includes(chat.questionId)}
               selectedSubCategory={selectedSubCategory?.text}
+              mode={mode}
+              onSelectSingle={(selectedChat) => {
+                setSingleReplyChat(selectedChat); // QuestionsListPage 상태 세팅
+                setMode('single'); // BottomSheet 모드로 전환
+              }}
             />
           ))}
         {/* 하단 버튼 */}
-        {isSelectMode && (
+        {mode === 'select' && (
           <section className="bottom-bar flex w-full shrink-0 items-center justify-center gap-[.4375rem] bg-white px-5 py-2">
             <DefaultButton
               onClick={() => {
@@ -309,6 +298,12 @@ export const PendingQuestionsTab = () => {
           leftButtonClick={() => setIsDeleteModalOpen(false)}
           rightButtonClick={handleConfirmDelete}
           setIsModalOpen={setIsDeleteModalOpen}
+        />
+      )}
+      {mode === 'single' && singleReplyChat && (
+        <SingleReplyBottomSheet
+          question={singleReplyChat}
+          onClose={() => setMode('default')}
         />
       )}
     </>

@@ -117,4 +117,5 @@ export {
 
 export { SubCategoryChip } from './seller/talkBox/SubCategoryChip.tsx';
 export { default as SellerChatBubble } from './seller/talkBox/SellerChatBubble.tsx';
-export { default as PrevAnswersBottomSheet } from './seller/talkBox/PrevAnswersBottomSheet.tsx';
+export { default as PrevReplyBottomSheet } from './seller/talkBox/PrevReplyBottomSheet.tsx';
+export { default as SingleReplyBottomSheet } from './seller/talkBox/SingleReplyBottomSheet.tsx';
