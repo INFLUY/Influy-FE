@@ -13,7 +13,7 @@ const ToggleButton = ({
     | ((value: boolean) => void);
 }) => {
   return (
-    <div className="relative h-6 w-[2.875rem]">
+    <div className="relative h-6 w-[2.875rem] shrink-0">
       <input
         id={`${name}-toggle button`}
         type="checkbox"

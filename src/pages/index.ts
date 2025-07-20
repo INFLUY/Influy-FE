@@ -31,6 +31,9 @@ export { default as SellerItemDetailPage } from './seller/item/SellerItemDetailP
 
 export { default as SellerTalkBoxItemListPage } from './seller/talkBox/TalkBoxItemListPage';
 export { default as BulkReplyPage } from './seller/talkBox/BulkReplyPage';
+export { default as TalkBoxSettingPage } from './seller/talkBox/TalkBoxSettingPage';
+export { default as DefaultMessageSettingPage } from './seller/talkBox/DefaultMessageSettingPage';
+
 export {
   QuestionsListPage,
   PendingQuestionsTab,

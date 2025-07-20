@@ -38,6 +38,8 @@ import {
   PendingQuestionsTab,
   AnsweredQuestionsTab,
   TalkBoxCategoryPage,
+  TalkBoxSettingPage,
+  DefaultMessageSettingPage,
   PendingCategoryTab,
   AnsweredCategoryTab,
 } from '@/pages';
@@ -387,7 +389,7 @@ const router = createBrowserRouter([
                     ],
                   },
 
-                  // 3. /talk-box/item/:itemId/category/:categoryId
+                  // /talk-box/item/:itemId/category/:categoryId
                   {
                     path: PATH.SELLER.talkBox.item.category.base, // category/:categoryId
                     element: <Outlet />,
@@ -425,6 +427,18 @@ const router = createBrowserRouter([
                       {
                         path: PATH.SELLER.talkBox.item.category.bulkReply,
                         element: <BulkReplyPage />,
+                      },
+                    ],
+                  },
+                  {
+                    path: PATH.SELLER.talkBox.item.setting.base,
+                    element: <Outlet />,
+                    children: [
+                      { index: true, element: <TalkBoxSettingPage /> },
+                      {
+                        index: true,
+                        path: PATH.SELLER.talkBox.item.setting.defaultMessage,
+                        element: <DefaultMessageSettingPage />,
                       },
                     ],
                   },

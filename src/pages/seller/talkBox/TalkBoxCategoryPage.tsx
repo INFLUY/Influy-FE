@@ -4,12 +4,10 @@ import {
   PageHeader,
   Tab,
   Tabs,
-  QuestionCountBadge,
   TalkBoxCategoryItem,
   TalkBoxBottomItemCard,
 } from '@/components';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
-import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 
 import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
 import SettingsIcon from '@/assets/icon/common/SettingsIcon.svg?react';

@@ -99,7 +99,10 @@ export const PATH = {
           },
           bulkReply: 'bulk-reply',
         },
-        setting: 'setting',
+        setting: {
+          base: 'setting',
+          defaultMessage: 'default-message',
+        },
       },
     },
   },

@@ -19,6 +19,7 @@ export {
   LimitedTextInput,
   WideTextArea,
   LinkInput,
+  LimitedWideTextArea,
 } from './common/DetailInput.tsx';
 export { default as ChatBarTextArea } from './common/ChatBarTextArea.tsx';
 export { PeriodChip } from './common/chip/PeriodChip.tsx';
@@ -43,9 +44,18 @@ export { default as SellerNoticeBottomSheet } from './user/seller/SellerNoticeBo
 // user/home
 export { default as TopBannerSwiper } from './user/home/TopBannerSwiper.tsx';
 
+//common/talkBox
+export { TalkBoxSellerProfile } from './common/talkBox/TalkBoxSellerProfile.tsx';
+export { FirstChatBubble } from './common/talkBox/ChatBubble.tsx';
+
 //seller
 //common
-export { DefaultButton, ModalButton, AddButton } from './seller/common/Button';
+export {
+  DefaultButton,
+  ModalButton,
+  AddButton,
+  PreviewButton,
+} from './seller/common/Button';
 export { TipTooltip } from './seller/common/TipTooltip';
 export { default as CategoryChip } from './seller/common/CategoryChip';
 export { default as RadioInputSelector } from './seller/common/RadioInputSelector';
@@ -118,6 +128,7 @@ export { TalkBoxCategoryItem } from './seller/talkBox/TalkBoxCategoryItem.tsx';
 export { SubCategoryChip } from './seller/talkBox/SubCategoryChip.tsx';
 export { default as SellerChatBubble } from './seller/talkBox/SellerChatBubble.tsx';
 export { default as SellerReplyBubble } from './seller/talkBox/SellerReplyBubble.tsx';
+export { default as TalkBoxBottomSheetLayout } from './seller/talkBox/TalkBoxBottomSheetLayout.tsx';
 
 export { default as PrevReplyBottomSheet } from './seller/talkBox/PrevReplyBottomSheet.tsx';
 export { default as SingleReplyBottomSheet } from './seller/talkBox/SingleReplyBottomSheet.tsx';

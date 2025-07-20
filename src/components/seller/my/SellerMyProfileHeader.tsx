@@ -1,7 +1,7 @@
 import EyeIcon from '@/assets/icon/common/EyeIcon.svg?react';
 import SettingsIcon from '@/assets/icon/common/SettingsIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
-import { SnackBar } from '@/components';
+import { SnackBar, PreviewButton } from '@/components';
 import cn from '@/utils/cn';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -48,18 +48,11 @@ const SellerMyProfileHeader = () => {
         )}
       >
         <span className="flex shrink-0 gap-3">
-          <button
-            type="button"
-            className="bg-grey01 flex cursor-pointer items-center gap-1 rounded-[.125rem] px-2 py-[.1875rem]"
-          >
-            <EyeIcon className="text-grey08 h-[.875rem] w-[.875rem]" />
-            <span
-              className="caption-m text-grey08"
-              onClick={() => navigate('')}
-            >
-              미리보기
-            </span>
-          </button>
+          <PreviewButton
+            onClickPreview={() => {
+              navigate('');
+            }}
+          />
           <ShareIcon
             onClick={handleLinkCopy}
             className="h-6 w-6 cursor-pointer text-white"

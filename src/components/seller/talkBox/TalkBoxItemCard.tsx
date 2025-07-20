@@ -79,7 +79,7 @@ export const TalkBoxBottomItemCard = ({
       {/* 우측 상품 정보 */}
       <div className="flex h-full flex-1 flex-col gap-0.5 text-left text-black">
         <p className="body2-b line-clamp-1">{title}</p>
-        {tagline && <p className="body1-m line-clamp-1">{tagline}</p>}
+        {tagline && <p className="body2-m line-clamp-1">{tagline}</p>}
       </div>
       <ArrowRightIcon className="text-grey07 h-4 w-4" />
     </button>
