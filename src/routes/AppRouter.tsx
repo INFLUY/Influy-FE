@@ -355,35 +355,38 @@ const router = createBrowserRouter([
               // 2. /talk-box/item/:itemId
               {
                 path: PATH.SELLER.talkBox.item.base, // item/:itemId
-                element: (
-                  <TalkBoxCategoryPage>
-                    <Outlet />
-                  </TalkBoxCategoryPage>
-                ),
-                children: [
-                  {
-                    index: true,
-                    element: (
-                      <Navigate
-                        to={PATH.SELLER.talkBox.item.tabs.pending}
-                        replace
-                      />
-                    ),
-                  },
-                  {
-                    path: PATH.SELLER.talkBox.item.tabs.pending, // pending
-                    element: <PendingCategoryTab />,
-                  },
-                  {
-                    path: PATH.SELLER.talkBox.item.tabs.answered, // answered
-                    element: <AnsweredCategoryTab />,
-                  },
-                ],
-              },
-              {
-                path: PATH.SELLER.talkBox.item.base, // item/:itemId
                 element: <Outlet />,
+                // element: (
+
+                // ),
                 children: [
+                  {
+                    element: (
+                      <TalkBoxCategoryPage>
+                        <Outlet />
+                      </TalkBoxCategoryPage>
+                    ),
+                    children: [
+                      {
+                        index: true,
+                        element: (
+                          <Navigate
+                            to={PATH.SELLER.talkBox.item.tabs.pending}
+                            replace
+                          />
+                        ),
+                      },
+                      {
+                        path: PATH.SELLER.talkBox.item.tabs.pending, // pending
+                        element: <PendingCategoryTab />,
+                      },
+                      {
+                        path: PATH.SELLER.talkBox.item.tabs.answered, // answered
+                        element: <AnsweredCategoryTab />,
+                      },
+                    ],
+                  },
+
                   // 3. /talk-box/item/:itemId/category/:categoryId
                   {
                     path: PATH.SELLER.talkBox.item.category.base, // category/:categoryId
