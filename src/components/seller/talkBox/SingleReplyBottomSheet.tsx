@@ -7,6 +7,7 @@ import {
   PrevReplyBottomSheet,
   ChatBarTextArea,
   SellerModal,
+  SellerReplyBubble,
 } from '@/components';
 import { Chat } from '@/types/seller/TalkBox.types';
 
@@ -52,7 +53,7 @@ const SingleReplyBottomSheet = ({
         >
           <div
             className={cn(
-              'flex h-[85%] flex-col items-center rounded-t-[1.5rem] bg-white shadow-[0px_4px_69.2px_0px_rgba(0,0,0,0.35)]',
+              'flex h-[85%] flex-col items-center rounded-t-[1.5rem] bg-white shadow-[0rem_.25rem_4.325rem_0rem_rgba(0,0,0,0.35)]',
               { 'animate-slide-up': isBottomSheetOpen }
             )}
             onClick={(e) => e.stopPropagation()}
@@ -67,7 +68,7 @@ const SingleReplyBottomSheet = ({
               <span className="subhead-sb text-grey10">dpdms02님의 질문</span>
             </div>
             {/* 바텀 시트 콘텐츠 */}
-            <div className="mt-4 flex h-fit w-full flex-col items-center gap-6">
+            <div className="scrollbar-hide mt-4 flex h-fit w-full flex-col items-center gap-6 overflow-auto pb-40">
               <div className="bg-grey06 caption-m flex w-fit items-center justify-center gap-2.5 rounded-xl px-3 py-1 text-white">
                 20.02.65(화)
               </div>
@@ -77,6 +78,12 @@ const SingleReplyBottomSheet = ({
                 mode="single"
                 onSelectSingle={() => {}}
                 onDelete={handleDelete}
+              />
+              <SellerReplyBubble
+                question="색상 옷 구매하려고 하는데요, 세탁할 때 물빠짐이 많이 심한 편인가요"
+                reply="개별답변 말씀하신 블랙 컬러와 실제로 비교해보면, 이 제품은 아주 딥한 네이비 색상이에요 :) 거의 블랙에 가까운 어두운 남색이라서, 실내 조명이나 자연광에 따라 블랙처럼 보이기도 하고 살짝 푸른빛이 도는 느낌도 있어요! 구매에 참고가 되셨길 바라요🙏🏻💙"
+                date="2025년 6월 19일 오후 4:05"
+                questioner="dpdms02"
               />
               <section className="bottom-bar flex w-full flex-col overflow-x-clip">
                 <PrevReplyBottomSheet handleAnswerSelect={handleAnswerSelect} />
