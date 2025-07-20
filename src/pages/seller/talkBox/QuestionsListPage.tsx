@@ -1,8 +1,5 @@
 import { ReactNode, useState, useEffect, useLayoutEffect, useRef } from 'react';
 import {
-  PageHeader,
-  Tab,
-  Tabs,
   TalkBoxQuestionItemCard,
   SubCategoryChip,
   SellerChatBubble,
@@ -10,9 +7,9 @@ import {
   SellerModal,
   SnackBar,
   SingleReplyBottomSheet,
+  QuestionListHeader,
 } from '@/components';
-import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
-import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
+
 import { dummySubCategories, dummyChats, dummyChats2 } from './talkboxMockData';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
@@ -57,24 +54,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     }
   }, [sentCount]);
 
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const { itemId } = useParams();
-
   const category = '색상';
-
-  const TABS = [
-    {
-      id: 0,
-      name: `답변대기(${tabCounts.pending})`,
-      path: PATH.SELLER.talkBox.item.tabs.pending,
-    },
-    {
-      id: 1,
-      name: `완료한 질답(${tabCounts.answered})`,
-      path: PATH.SELLER.talkBox.item.tabs.answered,
-    },
-  ];
 
   // 최초 진입시 상단의 헤더+탭 바 사이즈 계산
   useLayoutEffect(() => {
@@ -100,74 +80,13 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
 
   return (
     <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
-      <div ref={headerRef} className="sticky top-0 z-50">
-        <PageHeader
-          leftIcons={[
-            mode === 'select' ? (
-              <button
-                onClick={() => toggleSelectAll(allChatIds)}
-                type="button"
-                className="bg-grey03 body2-m text-grey10 flex cursor-pointer items-center justify-center gap-0.5 rounded-xs px-2 py-[.1875rem]"
-              >
-                {isAllSelected ? '전체 선택 해제' : '전체선택'}
-              </button>
-            ) : (
-              <ArrowLeftIcon
-                className="h-6 w-6 cursor-pointer text-black"
-                onClick={() => navigate(-1)}
-                role="button"
-                aria-label="뒤로 가기"
-                tabIndex={0}
-              />
-            ),
-          ]}
-          rightIcons={[
-            mode === 'select' ? (
-              <button
-                className="body1-m text-grey10 cursor-pointer"
-                type="button"
-                onClick={() => setMode('default')}
-              >
-                취소
-              </button>
-            ) : (
-              <>
-                <button
-                  onClick={() => setMode('select')}
-                  type="button"
-                  className="bg-grey11 body2-m text-grey01 flex cursor-pointer items-center justify-center gap-0.5 rounded-xs px-2 py-[.1875rem]"
-                >
-                  질문선택
-                </button>
-
-                <HomeIcon
-                  className="h-6 w-6 cursor-pointer text-black"
-                  role="button"
-                  aria-label="홈으로 가기"
-                  tabIndex={0}
-                  onClick={() => {
-                    navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`);
-                  }}
-                />
-              </>
-            ),
-          ]}
-          additionalStyles="border-0"
-        >
-          {category}
-        </PageHeader>
-        <Tabs>
-          {TABS.map((tab) => (
-            <Tab
-              key={tab.id}
-              isTabActive={pathname.includes(tab.path)}
-              handleClickTab={() => navigate(tab.path, { replace: true })}
-            >
-              {tab.name}
-            </Tab>
-          ))}
-        </Tabs>
-      </div>
+      <QuestionListHeader
+        headerRef={headerRef}
+        allChatIds={allChatIds}
+        isAllSelected={isAllSelected}
+        category={category}
+        tabCounts={tabCounts}
+      />
       <article className="flex w-full flex-col gap-2.5 px-5 pt-4">
         <TalkBoxQuestionItemCard
           title="헤이드 리본 레이어드 티"
@@ -215,10 +134,12 @@ export const PendingQuestionsTab = () => {
   //임시
   useEffect(() => {
     setSelectedSubCategory(dummySubCategories[0]);
+    setMode('default');
   }, []);
 
   return (
     <>
+      {/* 카테고리 선택 */}
       <div
         className="sticky z-30 bg-white"
         style={{ top: 'var(--headerHeight)' }}
@@ -238,6 +159,7 @@ export const PendingQuestionsTab = () => {
             ))}
         </div>
       </div>
+
       <section className="mt-4 flex w-full flex-col gap-5 pb-22">
         {/* 상단 제목 */}
         <div className="flex w-full items-center justify-between px-5">
@@ -251,6 +173,7 @@ export const PendingQuestionsTab = () => {
             새 질문 ({selectedSubCategory?.newCount})
           </span>
         </div>
+
         {/* 말풍선 */}
         {selectedSubCategory &&
           getChatsByCategory(selectedSubCategory?.text).map((chat) => (
@@ -290,6 +213,8 @@ export const PendingQuestionsTab = () => {
           </section>
         )}
       </section>
+
+      {/* 일괄 삭제 */}
       {isDeleteModalOpen && (
         <SellerModal
           text={`질문들(12개)을 삭제하시겠습니까? 한 번 삭제한 질문은 되돌릴 수 없습니다.`}
@@ -300,6 +225,8 @@ export const PendingQuestionsTab = () => {
           setIsModalOpen={setIsDeleteModalOpen}
         />
       )}
+
+      {/* 질문 하나 선택시 */}
       {mode === 'single' && singleReplyChat && (
         <SingleReplyBottomSheet
           question={singleReplyChat}
@@ -311,10 +238,82 @@ export const PendingQuestionsTab = () => {
 };
 
 export const AnsweredQuestionsTab = () => {
+  const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategory>();
+  const [singleReplyChat, setSingleReplyChat] = useState<Chat | null>(null);
+
+  const navigate = useNavigate();
+
+  const { mode, selectedIds, chatsByCategory, getChatsByCategory, setMode } =
+    useSelectModeStore();
+  console.log(chatsByCategory);
+
+  //임시
+  useEffect(() => {
+    setSelectedSubCategory(dummySubCategories[0]);
+    setMode('answered');
+  }, []);
+
   return (
-    <div>
-      <h1>Answered Questions</h1>
-      {/* Additional content and components can be added here */}
-    </div>
+    <>
+      {/* 카테고리 선택 */}
+      <div
+        className="sticky z-30 bg-white"
+        style={{ top: 'var(--headerHeight)' }}
+      >
+        <div className="scrollbar-hide flex shrink-0 items-center gap-[.5625rem] overflow-x-scroll bg-white px-5 py-3">
+          {dummySubCategories &&
+            dummySubCategories.length > 0 &&
+            dummySubCategories.map((subCategory) => (
+              <SubCategoryChip
+                key={subCategory.text}
+                text={subCategory.text}
+                count={subCategory.totalCount}
+                isSelected={selectedSubCategory?.id === subCategory.id}
+                onToggle={() => setSelectedSubCategory(subCategory)}
+              />
+            ))}
+        </div>
+      </div>
+
+      <section className="mt-4 flex w-full flex-col gap-5 pb-22">
+        {/* 상단 제목 */}
+        <div className="flex w-full items-center justify-between px-5">
+          <div className="body1-sb flex gap-1">
+            <span className="text-sub">#{selectedSubCategory?.text}</span>
+            <span className="text-grey11">
+              ({selectedSubCategory?.totalCount})
+            </span>
+          </div>
+          <span className="body2-sb text-grey11">
+            새 질문 ({selectedSubCategory?.newCount})
+          </span>
+        </div>
+
+        {/* 말풍선 */}
+        {selectedSubCategory &&
+          getChatsByCategory(selectedSubCategory?.text).map((chat) => (
+            <SellerChatBubble
+              key={chat.questionId}
+              chat={chat}
+              isSelected={selectedIds.includes(chat.questionId)}
+              selectedSubCategory={selectedSubCategory?.text}
+              mode={mode}
+              onSelectSingle={(selectedChat) => {
+                setSingleReplyChat(selectedChat); // QuestionsListPage 상태 세팅
+                setMode('single'); // BottomSheet 모드로 전환
+              }}
+            />
+          ))}
+      </section>
+
+      {/* 질문 하나 선택시 */}
+      {/* TODO: faq 등록했을 경우, faq 등록하기 로직 추가 필요 */}
+      {mode === 'single' && singleReplyChat && (
+        <SingleReplyBottomSheet
+          question={singleReplyChat}
+          onClose={() => setMode('answered')}
+        />
+      )}
+    </>
   );
 };

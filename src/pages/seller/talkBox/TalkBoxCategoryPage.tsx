@@ -5,6 +5,7 @@ import {
   Tab,
   Tabs,
   QuestionCountBadge,
+  TalkBoxCategoryItem,
   TalkBoxBottomItemCard,
 } from '@/components';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
@@ -63,49 +64,52 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
 
   return (
     <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
-      <PageHeader
-        leftIcons={[
-          <ArrowLeftIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate(-1)}
-            role="button"
-            aria-label="뒤로 가기"
-            tabIndex={0}
-          />,
-        ]}
-        rightIcons={[
-          <HomeIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            role="button"
-            aria-label="홈으로 가기"
-            tabIndex={0}
-            onClick={() => {
-              navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`);
-            }}
-          />,
-          <SettingsIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            role="button"
-            aria-label="톡박스 설정 가기"
-            tabIndex={0}
-            onClick={handleSettingClick}
-          />,
-        ]}
-        additionalStyles="border-0"
-      >
-        질문 관리
-      </PageHeader>
-      <Tabs>
-        {TABS.map((tab) => (
-          <Tab
-            key={tab.id}
-            isTabActive={pathname.includes(tab.path)}
-            handleClickTab={() => navigate(tab.path, { replace: true })}
-          >
-            {tab.name}
-          </Tab>
-        ))}
-      </Tabs>
+      <div className="sticky top-0 z-50">
+        <PageHeader
+          leftIcons={[
+            <ArrowLeftIcon
+              className="h-6 w-6 cursor-pointer text-black"
+              onClick={() => navigate(-1)}
+              role="button"
+              aria-label="뒤로 가기"
+              tabIndex={0}
+            />,
+          ]}
+          rightIcons={[
+            <HomeIcon
+              className="h-6 w-6 cursor-pointer text-black"
+              role="button"
+              aria-label="홈으로 가기"
+              tabIndex={0}
+              onClick={() => {
+                navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`);
+              }}
+            />,
+            <SettingsIcon
+              className="h-6 w-6 cursor-pointer text-black"
+              role="button"
+              aria-label="톡박스 설정 가기"
+              tabIndex={0}
+              onClick={handleSettingClick}
+            />,
+          ]}
+          additionalStyles="border-0"
+        >
+          질문 관리
+        </PageHeader>
+        <Tabs>
+          {TABS.map((tab) => (
+            <Tab
+              key={tab.id}
+              isTabActive={pathname.includes(tab.path)}
+              handleClickTab={() => navigate(tab.path, { replace: true })}
+            >
+              {tab.name}
+            </Tab>
+          ))}
+        </Tabs>
+      </div>
+
       {children}
 
       <TalkBoxBottomItemCard
@@ -144,36 +148,51 @@ export const PendingCategoryTab = () => {
       {categoryList &&
         categoryList.length > 0 &&
         categoryList.map((category) => (
-          <article
-            className="flex w-full cursor-pointer items-center justify-between px-5 py-0"
+          <TalkBoxCategoryItem
             key={category.id}
-            onClick={() => {
-              handleCategoryClick(category.id);
-            }}
-          >
-            <div className="flex gap-0.5 text-black">
-              <span className="body1-b">{category.name}</span>
-              {(category.pendingCount ?? 0) > 0 && (
-                <span className="body1-m">({category.pendingCount})</span>
-              )}
-            </div>
-            <div className="flex items-center gap-1.5">
-              {category.totalCount && category.totalCount > 0 && (
-                <QuestionCountBadge count={category.totalCount} />
-              )}
-              <ArrowRightIcon className="text-grey07 h-4 w-4" />
-            </div>
-          </article>
+            category={category}
+            handleCategoryClick={handleCategoryClick}
+            mode="pending"
+          />
         ))}
     </section>
   );
 };
 
 export const AnsweredCategoryTab = () => {
+  const [categoryList, setCategoryList] = useState<QuestionCategory[]>([]);
+
+  const navigate = useNavigate();
+  const { itemId } = useParams();
+  const handleCategoryClick = (categoryId: number) => {
+    const path = generatePath(
+      `${PATH.SELLER.base}/${PATH.SELLER.talkBox.base}/${PATH.SELLER.talkBox.item.base}/${PATH.SELLER.talkBox.item.category.base}/${PATH.SELLER.talkBox.item.category.tabs.answered}`,
+      {
+        itemId: String(itemId),
+        categoryId: String(categoryId),
+      }
+    );
+    navigate(path);
+  };
+
+  //임시
+  useEffect(() => {
+    console.log('실행');
+    setCategoryList(dummyQuestionCategories);
+  }, []);
+
   return (
-    <div>
-      <h1>Answered Categories</h1>
-      {/* Additional content and components can be added here */}
-    </div>
+    <section className="mt-[1.625rem] flex w-full flex-col items-start gap-8">
+      {categoryList &&
+        categoryList.length > 0 &&
+        categoryList.map((category) => (
+          <TalkBoxCategoryItem
+            key={category.id}
+            category={category}
+            handleCategoryClick={handleCategoryClick}
+            mode="answered"
+          />
+        ))}
+    </section>
   );
 };

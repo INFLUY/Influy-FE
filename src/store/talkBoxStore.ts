@@ -1,12 +1,12 @@
 import { create } from 'zustand';
-import { Chat } from '@/types/seller/TalkBox.types';
+import { Chat, TALK_BOX_MODE } from '@/types/seller/TalkBox.types';
 
 interface SelectModeState {
-  mode: 'default' | 'select' | 'single';
+  mode: TALK_BOX_MODE;
   selectedIds: number[];
   chatsByCategory: Record<string, Chat[]>;
 
-  setMode: (value: 'default' | 'select' | 'single') => void;
+  setMode: (value: TALK_BOX_MODE) => void;
   setSelectedIds: (ids: number[]) => void;
   toggleSelectAll: (allIds: number[]) => void;
   setChatsByCategory: (category: string, chats: Chat[]) => void; // 카테고리별 채팅 저장

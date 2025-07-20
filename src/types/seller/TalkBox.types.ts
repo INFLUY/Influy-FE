@@ -32,3 +32,5 @@ export interface Chat {
   askedCount: number;
   isChecked: boolean;
 }
+
+export type TALK_BOX_MODE = 'default' | 'select' | 'single' | 'answered';

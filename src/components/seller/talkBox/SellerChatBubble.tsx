@@ -4,14 +4,14 @@ import CheckOff from '@/assets/icon/common/CheckCircleOff.svg?react';
 import { useSelectModeStore } from '@/store/talkBoxStore';
 import cn from '@/utils/cn';
 import { formatIsoToTimeOrDate } from '@/utils/formatDate';
-import { Chat } from '@/types/seller/TalkBox.types';
+import { Chat, TALK_BOX_MODE } from '@/types/seller/TalkBox.types';
 import { useState } from 'react';
 
 interface SellerChatBubbleProps {
   chat: Chat;
   selectedSubCategory?: string;
   isSelected?: boolean;
-  mode: 'default' | 'select' | 'single';
+  mode: TALK_BOX_MODE;
   onSelectSingle?: (chat: Chat) => void;
   onDelete?: () => void;
 }
@@ -148,7 +148,7 @@ const SellerChatBubble = ({
         </div>
         {/* 우측 화실표 및 체크박스 */}
         <div className="col-start-2 row-start-2 flex h-full w-6 cursor-pointer items-center justify-end">
-          {mode === 'default' ? (
+          {mode === 'default' || mode === 'answered' ? (
             <ArrowRight
               className="text-grey06"
               aria-label="개별 답변"
