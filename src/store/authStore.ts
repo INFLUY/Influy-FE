@@ -14,7 +14,7 @@ interface AuthState {
   setAuthInfo: (auth: {
     accessToken: string;
     memberId: number;
-    sellerId: number | null;
+    sellerId?: number | null;
   }) => void;
   setKakaoId: (kakaoId: number) => void;
   logout: () => void;

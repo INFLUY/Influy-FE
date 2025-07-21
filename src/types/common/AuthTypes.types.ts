@@ -45,3 +45,23 @@ export interface SellerSignup {
   youtube?: string;
   tiktok?: string;
 }
+
+interface AuthResponse<T> {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: T;
+}
+
+export interface RegisterResult {
+  kakaoId: number;
+}
+
+export interface LoginedUserResult {
+  accessToken: string;
+  memberId: number;
+  sellerId?: number;
+}
+
+export type RegisterAuthResponse = AuthResponse<RegisterResult>;
+export type LoginedUserAuthResponse = AuthResponse<LoginedUserResult>;
