@@ -38,6 +38,7 @@ import {
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { SellerAuthInterceptor } from './AuthInterceptor';
+import RegisterRoute from './RegisterRoute';
 
 const router = createBrowserRouter([
   {
@@ -72,7 +73,7 @@ const router = createBrowserRouter([
       },
       {
         path: PATH.REGISTER.base,
-        element: <Outlet />,
+        element: <RegisterRoute />,
         children: [
           {
             index: true,
