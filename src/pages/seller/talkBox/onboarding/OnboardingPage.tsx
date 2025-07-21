@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import {
   ActivateStep,
   CategorizeStep,
-} from '@/components/seller/talkBox/OnboardingStep';
+} from '@/components/seller/talkBox/onboarding/OnboardingStep';
 
 const OnboardingLayout = () => {
   const navigate = useNavigate();

@@ -20,7 +20,7 @@ export const TalkBoxCategoryItem = ({
       }}
     >
       <div className="flex gap-0.5 text-black">
-        <span className="body1-b">{category.name}</span>
+        <span className="body1-b">{category.category}</span>
         {(category.pendingCount ?? 0) > 0 && (
           <span className="body1-m">({category.pendingCount})</span>
         )}

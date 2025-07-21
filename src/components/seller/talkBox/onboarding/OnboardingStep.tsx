@@ -5,11 +5,16 @@ import {
   BottomSheet,
   AddButton,
 } from '@/components';
-import { useState } from 'react';
-import MinusIcon from '@/assets/icon/common/MinusIcon.svg?react';
+import { useState, useRef } from 'react';
+import {
+  CategoryEditItem,
+  CategoryUpsertSheet,
+  SheetMode,
+} from './CategoryItem';
 
 export const ActivateStep = ({ onNext }: { onNext: () => void }) => {
   const [isActivated, setIsActivated] = useState(false);
+
   return (
     <>
       <div className="flex w-full flex-col gap-1.5 px-5">
@@ -33,14 +38,14 @@ export const ActivateStep = ({ onNext }: { onNext: () => void }) => {
   );
 };
 
-type SheetMode = 'none' | 'add' | 'edit';
-
 export const CategorizeStep = ({ onFinish }: { onFinish: () => void }) => {
   const [sheetMode, setSheetMode] = useState<SheetMode>('none');
+  const [draftName, setDraftName] = useState('');
 
   const onRemove = (id: number) => {};
   const onEdit = (id: number) => {};
   const onAdd = () => {};
+  const onClose = () => {};
 
   return (
     <>
@@ -55,57 +60,25 @@ export const CategorizeStep = ({ onFinish }: { onFinish: () => void }) => {
       <div className="absolute bottom-0 flex w-full flex-col gap-3 bg-white px-5 py-2">
         <DefaultButton
           text="수정하기"
-          onClick={() => setSheetMode('edit')}
+          onClick={() => setSheetMode('editList')}
           activeTheme="white"
         />
         <DefaultButton text="설정 완료" onClick={onFinish} />
       </div>
 
       {/* 바텀시트 */}
-      {sheetMode === 'edit' && (
-        <BottomSheet
-          onClose={() => setSheetMode('none')}
-          isBottomSheetOpen={sheetMode === 'edit'}
-        >
-          <section className="mb-5 flex w-full flex-col gap-3">
-            {/* 제목 */}
-            <div className="flex flex-col items-center gap-0.5">
-              <h2 className="subhead-b w-full text-center text-black">
-                질문 카테고리 수정
-              </h2>
-              <span className="caption-m text-grey07 px-[2.75rem] text-center">
-                Tip! 자주 받을 질문을 미리 카테고리로 설정해보세요. AI가 자동
-                분류해드려요.
-              </span>
-            </div>
-
-            <section className="scrollbar-hide flex h-fit max-h-[23.3125rem] w-full flex-col gap-4 overflow-auto">
-              <article className="flex w-full items-center justify-between px-5">
-                <button
-                  className="cursor-pointer"
-                  type="button"
-                  onClick={() => onRemove(id)}
-                >
-                  <MinusIcon className="mr-3 h-5 w-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onEdit(id)}
-                  className="border-grey03 body2-m flex-1 rounded-xs border bg-white px-[.8125rem] py-2.5 text-left text-black"
-                >
-                  재입고
-                </button>
-              </article>
-            </section>
-
-            {/* 저장하기 버튼 */}
-            <div className="mt-1 w-full px-5">
-              <AddButton handleOnClick={() => setSheetMode('add')}>
-                추가하기
-              </AddButton>
-            </div>
-          </section>
-        </BottomSheet>
+      {sheetMode !== 'none' && (
+        <CategoryUpsertSheet
+          handleSave={onAdd}
+          isBottomSheetOpen={sheetMode === 'editList'}
+          draftName={draftName}
+          setDraftName={setDraftName}
+          onClose={onClose}
+          onEdit={onEdit}
+          mode={sheetMode}
+          onRemove={onRemove}
+          setSheetMode={setSheetMode}
+        />
       )}
     </>
   );

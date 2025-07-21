@@ -10,9 +10,9 @@ export interface TalkBoxItem {
 
 export interface QuestionCategory {
   id: number;
-  name: string; // 카테고리명 (예: 색상)
-  totalCount: number; // 전체 질문 수
-  pendingCount: number; // 답변 대기 수 (뱃지 표시용)
+  category: string; // 카테고리명 (예: 색상)
+  totalCount?: number; // 전체 질문 수
+  pendingCount?: number; // 답변 대기 수 (뱃지 표시용)
 }
 
 export interface SubCategory {
