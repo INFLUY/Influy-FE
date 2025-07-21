@@ -34,6 +34,7 @@ interface IdInputProps {
   placeHolderContent: string;
   maxLength: number;
   descriptionText?: string;
+  validText?: string;
   errorText?: string;
   ref: React.RefObject<HTMLInputElement | null>;
 }
@@ -202,6 +203,7 @@ export const IdInput = ({
   handleChange,
   descriptionText,
   errorText,
+  validText,
   maxLength,
   placeHolderContent,
   ref,
@@ -241,12 +243,13 @@ export const IdInput = ({
         <div className="flex items-center gap-1">
           {errorText && <WarningIcon className="shrink-0" />}
           <span
-            className={cn(
-              'caption-m',
-              errorText ? 'text-error' : 'text-grey06'
-            )}
+            className={cn('caption-m', {
+              'text-error': errorText,
+              'text-sub': !errorText && validText,
+              'text-grey06': !errorText && !validText,
+            })}
           >
-            {errorText || descriptionText}
+            {errorText || validText || descriptionText}
           </span>
         </div>
       )}
