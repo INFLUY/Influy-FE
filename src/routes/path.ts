@@ -17,6 +17,7 @@ export const PATH = {
         id: 'id',
         sns: 'sns',
         email: 'email',
+        interest: 'interest',
       },
     },
   },

@@ -9,7 +9,7 @@ export const useRegisterUser = (onSuccessCallback?: () => void) => {
   return useMutation({
     mutationFn: (data: UserSignup) => postRegisterUser({ data }),
     onSuccess: () => {
-      if (onSuccessCallback) onSuccessCallback();
+      onSuccessCallback?.();
     },
     onError: () => {
       // TODO
@@ -21,7 +21,7 @@ export const useRegisterSeller = (onSuccessCallback?: () => void) => {
   return useMutation({
     mutationFn: (data: SellerSignup) => postRegisterSeller({ data }),
     onSuccess: () => {
-      if (onSuccessCallback) onSuccessCallback();
+      onSuccessCallback?.();
     },
     onError: () => {
       // TODO

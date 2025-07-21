@@ -49,6 +49,7 @@ interface SellerSignupStoreState extends SellerSignupState {
   setId: (id: string) => void;
   setEmail: (email: string) => void;
   setSns: (sns: Partial<SnsLinkProps>) => void;
+  setInterestedCategories: (categories: number[]) => void;
   reset: () => void;
 }
 
@@ -60,6 +61,7 @@ const initialSellerSignupState: SellerSignupState = {
     youtube: '',
     tiktok: '',
   },
+  intersetedCategories: [],
 };
 
 export const useSellerSignupStore = create<SellerSignupStoreState>()(
@@ -72,6 +74,7 @@ export const useSellerSignupStore = create<SellerSignupStoreState>()(
         tiktok: '',
       },
       email: '',
+      intersetedCategories: [],
       setId: (id: string) => set({ id }),
       setSns: (sns: Partial<SnsLinkProps>) =>
         set((state) => ({
@@ -81,6 +84,8 @@ export const useSellerSignupStore = create<SellerSignupStoreState>()(
           },
         })),
       setEmail: (email: string) => set({ email }),
+      setInterestedCategories: (intersetedCategories: number[]) =>
+        set({ intersetedCategories }),
       reset: () => set({ ...initialSellerSignupState }),
     }),
     {

@@ -115,6 +115,10 @@ const router = createBrowserRouter([
                 path: PATH.REGISTER.type.seller.email,
                 element: <SignupEmailPage />,
               },
+              {
+                path: PATH.REGISTER.type.seller.interest,
+                element: <SignupInterestPage />,
+              },
             ],
           },
         ],
