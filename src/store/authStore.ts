@@ -4,7 +4,7 @@ import {
   UserSignupState,
 } from '@/types/common/AuthTypes.types';
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface AuthState {
   memberId: number | null;
@@ -77,6 +77,7 @@ export const useUserSignupStore = create<UserSignupStoreState>()(
     }),
     {
       name: 'user-signup-storage', // 저장소 이름
+      storage: createJSONStorage(() => sessionStorage),
     }
   )
 );
@@ -126,6 +127,7 @@ export const useSellerSignupStore = create<SellerSignupStoreState>()(
     }),
     {
       name: 'seller-signup-storage', // 저장소 이름
+      storage: createJSONStorage(() => sessionStorage),
     }
   )
 );

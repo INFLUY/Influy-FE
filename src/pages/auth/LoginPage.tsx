@@ -3,9 +3,18 @@ import InfluyLogo from '@/assets/icon/common/InfluyLogo.svg?react';
 import KakaoIcon from '@/assets/icon/common/KakaoIcon.svg?react';
 import Arrow from '@/assets/icon/common/ArrowRight12.svg?react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '@/store/authStore';
+import { useEffect } from 'react';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+
+  const { logout } = useAuthStore();
+
+  useEffect(() => {
+    logout();
+    // TODO: 로그아웃 처리
+  }, []);
 
   const handleClose = () => {
     navigate(-1);
