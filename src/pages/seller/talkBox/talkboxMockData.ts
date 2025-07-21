@@ -42,25 +42,25 @@ export const dummyTalkBoxItems: TalkBoxItem[] = [
 export const dummyQuestionCategories: QuestionCategory[] = [
   {
     id: 1,
-    name: '색상',
+    questionCategory: '색상',
     totalCount: 24,
     pendingCount: 10,
   },
   {
     id: 2,
-    name: '사이즈',
+    questionCategory: '사이즈',
     totalCount: 20,
     pendingCount: 12,
   },
   {
     id: 3,
-    name: '가격',
+    questionCategory: '가격',
     totalCount: 12,
     pendingCount: 20,
   },
   {
     id: 4,
-    name: '배송',
+    questionCategory: '배송',
     totalCount: 8,
     pendingCount: 0,
   },

@@ -2,15 +2,11 @@ import {
   ToggleButton,
   DefaultButton,
   CategoryChip,
-  BottomSheet,
-  AddButton,
+  SellerModal,
+  SnackBar,
 } from '@/components';
-import { useState, useRef } from 'react';
-import {
-  CategoryEditItem,
-  CategoryUpsertSheet,
-  SheetMode,
-} from './CategoryItem';
+import { useState } from 'react';
+import { CategoryUpsertSheet, SheetMode } from './CategoryItem';
 
 export const ActivateStep = ({ onNext }: { onNext: () => void }) => {
   const [isActivated, setIsActivated] = useState(false);
@@ -38,14 +34,54 @@ export const ActivateStep = ({ onNext }: { onNext: () => void }) => {
   );
 };
 
-export const CategorizeStep = ({ onFinish }: { onFinish: () => void }) => {
+import { QuestionCategory } from '@/types/seller/TalkBox.types';
+
+export const CategorizeStep = ({
+  onFinish,
+  category,
+  setCategory,
+}: {
+  onFinish: () => void;
+  category: QuestionCategory[];
+  setCategory: React.Dispatch<React.SetStateAction<QuestionCategory[]>>;
+}) => {
   const [sheetMode, setSheetMode] = useState<SheetMode>('none');
   const [draftName, setDraftName] = useState('');
+  // 삭제할 카테고리
+  const [categoryToDelete, setCategoryToDelete] = useState<number | null>(null);
+  //스낵바
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
+    open: false,
+    message: '',
+  });
 
-  const onRemove = (id: number) => {};
-  const onEdit = (id: number) => {};
-  const onAdd = () => {};
-  const onClose = () => {};
+  const onRemove = (id: number) => {
+    setCategoryToDelete(id);
+    setSheetMode('delete');
+  };
+  const onConfirmDelete = () => {
+    setCategory(category.filter((c) => c.id !== categoryToDelete));
+    setSnackbar({
+      open: true,
+      message: '삭제되었습니다',
+    });
+    setCategoryToDelete(null);
+    setSheetMode('none');
+  };
+  const onSingleCategoryEdit = (id: number) => {
+    setDraftName(category.find((c) => c.id === id)?.questionCategory ?? '');
+    setSheetMode('editText');
+  };
+  const handleSave = () => {
+    if (sheetMode === 'add') {
+    } else if (sheetMode === 'editText') {
+    }
+  };
+  const onClose = () => {
+    if (sheetMode === 'editList') setSheetMode('none');
+    else if (sheetMode === 'editText' || sheetMode === 'add')
+      setSheetMode('editList');
+  };
 
   return (
     <>
@@ -54,7 +90,9 @@ export const CategorizeStep = ({ onFinish }: { onFinish: () => void }) => {
           원하는 분류기준이 있다면 자유롭게 수정해 주세요.
         </p>
         <div className="flex flex-wrap content-start items-start gap-[.6875rem_.625rem] self-stretch">
-          <CategoryChip text="사이즈" theme="talkBox" />
+          {category.map((c) => (
+            <CategoryChip text={c.questionCategory} theme="talkBox" />
+          ))}
         </div>
       </div>
       <div className="absolute bottom-0 flex w-full flex-col gap-3 bg-white px-5 py-2">
@@ -69,16 +107,41 @@ export const CategorizeStep = ({ onFinish }: { onFinish: () => void }) => {
       {/* 바텀시트 */}
       {sheetMode !== 'none' && (
         <CategoryUpsertSheet
-          handleSave={onAdd}
+          handleSave={handleSave}
           isBottomSheetOpen={sheetMode === 'editList'}
           draftName={draftName}
           setDraftName={setDraftName}
           onClose={onClose}
-          onEdit={onEdit}
+          onSingleCategoryEdit={onSingleCategoryEdit}
           mode={sheetMode}
           onRemove={onRemove}
           setSheetMode={setSheetMode}
+          category={category}
         />
+      )}
+      {sheetMode === 'delete' && categoryToDelete !== null && (
+        <SellerModal
+          text="해당 FAQ 카테고리를 삭제하시겠습니까?"
+          description="카테고리 안에 있는 모든 FAQ가 삭제되며 복구할 수 없습니다."
+          onClose={() => {
+            setSheetMode('editList');
+            setCategoryToDelete(null);
+          }}
+          rightButtonClick={onConfirmDelete}
+          setIsModalOpen={() => {
+            setSheetMode('editList');
+            setCategoryToDelete(null);
+          }}
+        />
+      )}
+
+      {/* 스낵바 */}
+      {snackbar.open && (
+        <SnackBar
+          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
+        >
+          {snackbar.message}
+        </SnackBar>
       )}
     </>
   );

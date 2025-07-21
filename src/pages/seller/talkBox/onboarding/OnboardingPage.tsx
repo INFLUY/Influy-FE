@@ -1,21 +1,47 @@
-import {
-  PageHeader,
-  DefaultButton,
-  TalkBoxQuestionItemCard,
-} from '@/components';
+import { PageHeader, TalkBoxQuestionItemCard } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import {
+  useNavigate,
+  useParams,
+  useSearchParams,
+  generatePath,
+} from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ActivateStep,
   CategorizeStep,
 } from '@/components/seller/talkBox/onboarding/OnboardingStep';
+import { QuestionCategory } from '@/types/seller/TalkBox.types';
+
+const mockCategories: QuestionCategory[] = [
+  {
+    id: 1,
+    questionCategory: '사이즈',
+  },
+  {
+    id: 2,
+    questionCategory: '색상',
+  },
+  {
+    id: 3,
+    questionCategory: '배송',
+  },
+  {
+    id: 4,
+    questionCategory: '재입고',
+  },
+  {
+    id: 5,
+    questionCategory: '기타',
+  },
+];
 
 const OnboardingLayout = () => {
   const navigate = useNavigate();
   const { itemId } = useParams<{ itemId: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [category, setCategory] = useState<QuestionCategory[]>([]);
 
   const currentStep = searchParams.get('step'); // 'step' 쿼리 파라미터를 읽습니다.
   console.log(currentStep);
@@ -30,13 +56,24 @@ const OnboardingLayout = () => {
     }
   }, [currentStep, itemId, navigate]);
 
+  useEffect(() => {
+    if (currentStep === 'categorize') {
+      setCategory(mockCategories);
+    }
+  }, [currentStep]);
+
   const handleActivateNext = () => {
     // 다음 단계인 'categorize'로 쿼리 파라미터 변경
     setSearchParams({ step: 'categorize' });
   };
 
   // 3. '설정 완료' 버튼 (카테고리 설정 화면) 클릭 시 호출될 함수
-  const handleCategorizeFinish = () => {};
+  const handleCategorizeFinish = () => {
+    const path = generatePath(`../../${PATH.SELLER.talkBox.item.base}`, {
+      itemId: String(itemId),
+    });
+    navigate(path, { replace: true });
+  };
 
   // step 값에 따라 적절한 화면(컴포넌트)을 렌더링
   const renderStepComponent = () => {
@@ -46,7 +83,13 @@ const OnboardingLayout = () => {
         return <ActivateStep onNext={handleActivateNext} />;
       case 'categorize':
         // itemId를 props로 전달하여 각 화면에서 활용할 수 있도록 함
-        return <CategorizeStep onFinish={handleCategorizeFinish} />;
+        return (
+          <CategorizeStep
+            onFinish={handleCategorizeFinish}
+            category={category}
+            setCategory={setCategory}
+          />
+        );
     }
   };
 
