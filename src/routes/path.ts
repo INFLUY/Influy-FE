@@ -21,6 +21,9 @@ export const PATH = {
       },
     },
   },
+  OAUTH: {
+    base: '/oauth/kakao/callback',
+  },
   WELCOME: {
     base: '/welcome',
   },

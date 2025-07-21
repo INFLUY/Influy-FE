@@ -33,6 +33,7 @@ import {
   SignupSnsLinkPage,
   WelcomePage,
   SignupEmailPage,
+  KakaoLoginHandler,
 } from '@/pages';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
             element: <LoginPage />,
           },
         ],
+      },
+      {
+        path: PATH.OAUTH.base,
+        element: <KakaoLoginHandler />,
       },
       {
         path: PATH.REGISTER.base,

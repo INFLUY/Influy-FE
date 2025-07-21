@@ -9,7 +9,11 @@ import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
+import {
+  useAuthStore,
+  useSellerSignupStore,
+  useUserSignupStore,
+} from '@/store/authStore';
 import PRODUCT_CATEGORIES from '@/constants/productCategories';
 import {
   useRegisterSeller,
@@ -19,7 +23,6 @@ import { SnsLinkProps } from '@/types/common/AuthTypes.types';
 
 export const SignupInterestPage = () => {
   const navigate = useNavigate();
-
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 
   const location = useLocation();
@@ -30,36 +33,55 @@ export const SignupInterestPage = () => {
     id: sellerId,
     sns,
     email,
+    intersetedCategories: sellerIntersetedCategories,
     setInterestedCategories: setSellerInterestedCategories,
     reset: sellerSignupStateReset,
   } = useSellerSignupStore();
   const {
     id: userId,
+    intersetedCategories: userIntersetedCategories,
     setInterestedCategories: setUserInterestedCategories,
     reset: userSignupStateReset,
   } = useUserSignupStore();
+  const { kakaoId, clearAuthInfo } = useAuthStore();
+
   const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    // userType에 따라 초기 아이디 값을 설정
+    if (!kakaoId) {
+      navigate(PATH.LOGIN.base);
+    }
+
     if (userType === 'influencer') {
       if (!sellerId) {
         navigate(`../${PATH.REGISTER.type.seller.id}`);
       } else if (!sns.instagram) {
         navigate(`../${PATH.REGISTER.type.seller.sns}`);
       }
+      setSelectedCategories(sellerIntersetedCategories);
     } else if (userType === 'user') {
       if (!userId) {
         navigate(`../${PATH.REGISTER.type.user.id}`);
       }
+      setSelectedCategories(userIntersetedCategories);
     }
   }, [userType]);
+
+  useEffect(() => {
+    if (userType === 'influencer') {
+      setSellerInterestedCategories(selectedCategories);
+    } else if (userType === 'user') {
+      setUserInterestedCategories(selectedCategories);
+    }
+  }, [selectedCategories]);
 
   const onSuccess = () => {
     userSignupStateReset();
     useUserSignupStore.persist.clearStorage();
     sellerSignupStateReset();
     useSellerSignupStore.persist.clearStorage();
+    clearAuthInfo();
+
     navigate(PATH.WELCOME.base);
   };
 
@@ -67,7 +89,6 @@ export const SignupInterestPage = () => {
   const { mutate: registerUser } = useRegisterUser(() => onSuccess);
 
   const handleSellerRegister = () => {
-    setSellerInterestedCategories(selectedCategories);
     const sns: SnsLinkProps & { email?: string } = {
       ...useSellerSignupStore.getState().sns,
       email: email,
@@ -83,7 +104,7 @@ export const SignupInterestPage = () => {
     registerSeller({
       userInfo: {
         username: sellerId,
-        kakaoId: 31523, // 임시로 설정, 실제로는 카카오 로그인 후 받아와야 함
+        kakaoId: kakaoId!!,
         intersetedCategories: selectedCategories,
       },
       instagram: sns.instagram,
@@ -92,11 +113,9 @@ export const SignupInterestPage = () => {
   };
 
   const handleUserRegister = () => {
-    setUserInterestedCategories(selectedCategories);
-
     registerUser({
       username: userId,
-      kakaoId: 31523, // 임시로 설정, 실제로는 카카오 로그인 후 받아와야 함
+      kakaoId: kakaoId!!,
       intersetedCategories: selectedCategories,
     });
   };

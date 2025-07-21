@@ -7,15 +7,51 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface AuthState {
+  memberId: number | null;
   sellerId: number | null;
-  setSellerId: (id: number) => void;
+  accessToken: string | null;
+  kakaoId: number | null;
+  setAuthInfo: (auth: {
+    accessToken: string;
+    memberId: number;
+    sellerId: number | null;
+  }) => void;
+  setKakaoId: (kakaoId: number) => void;
   logout: () => void;
+  clearAuthInfo: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  sellerId: 1, // 로그인 구현 전 개발을 위한 Default value
-  setSellerId: (id) => set({ sellerId: id }),
-  logout: () => set({ sellerId: null }),
+  memberId: null,
+  sellerId: null,
+  accessToken: null,
+  kakaoId: null,
+  setAuthInfo: ({ accessToken, memberId, sellerId = null }) => {
+    set({
+      accessToken,
+      memberId,
+      sellerId,
+    });
+  },
+  setKakaoId: (kakaoId: number) => {
+    set({ kakaoId });
+  },
+  logout: () => {
+    set({
+      accessToken: null,
+      memberId: null,
+      sellerId: null,
+      kakaoId: null,
+    });
+  },
+  clearAuthInfo: () => {
+    set({
+      accessToken: null,
+      memberId: null,
+      sellerId: null,
+      kakaoId: null,
+    });
+  },
 }));
 
 interface UserSignupStoreState extends UserSignupState {

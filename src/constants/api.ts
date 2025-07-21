@@ -2,6 +2,7 @@ export const ACCESS_TOKEN_KEY = 'InfluyAccessToken';
 
 export const API_DOMAINS = {
   //common
+  OAUTH_KAKAO: '/oauth/kakao',
   SELLER_ANNOUNCEMENT: '/seller/:sellerId/announcements',
   SELLER_PRIMARY_ANNOUNCEMENT:
     '/seller/:sellerId/announcements/primary-announcement',

@@ -3,15 +3,16 @@ import InfluyLogo from '/public/InfluyLogo.svg?react';
 import KakaoIcon from '@/assets/icon/common/KakaoIcon.svg?react';
 import Arrow from '@/assets/icon/common/ArrowRight12.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { PATH } from '@/routes/path';
 
 const LoginPage = () => {
   const navigate = useNavigate();
 
+  const handleClose = () => {
+    navigate(-1);
+  };
+
   const handleKakaoLogin = () => {
-    // 응답에 따라 홈 or 회원가입 화면으로 분기
-    // navigate(PATH.HOME.base);
-    navigate(PATH.REGISTER.base);
+    window.location.href = import.meta.env.VITE_KAKAO_REDIRECT_URI;
   };
 
   return (
@@ -21,6 +22,7 @@ const LoginPage = () => {
           className="absolute -top-6 left-5 h-6 w-6 cursor-pointer text-white"
           role="button"
           aria-label="로그인 창 닫기"
+          onClick={handleClose}
         />
         <div className="flex flex-col gap-[.8125rem]">
           <InfluyLogo className="h-[2.75rem]" />
@@ -52,7 +54,11 @@ const LoginPage = () => {
       </section>
       <div className="absolute inset-0 flex">
         <div className="absolute z-10 h-full w-full bg-[#000000] opacity-50" />
-        <img src="/src/assets/image/LoginBgImg.svg" className="object-cover" />
+        <img
+          src="/src/assets/image/LoginBgImg.svg"
+          className="object-cover"
+          alt=""
+        />
       </div>
     </div>
   );
