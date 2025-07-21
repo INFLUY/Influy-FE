@@ -135,7 +135,7 @@ export const SignupSnsLinkPage = () => {
               !isDirty ||
               partialSnsSchema.safeParse({ instagram: instagramUrl }).success
             }
-            placeHolderContent="링크 URL을 입력해 주세요."
+            placeHolderContent="https://www.instagram.com/"
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -150,7 +150,7 @@ export const SignupSnsLinkPage = () => {
             isValid={
               partialSnsSchema.safeParse({ youtube: youtubeUrl }).success
             }
-            placeHolderContent="링크 URL을 입력해 주세요."
+            placeHolderContent="https://www.youtube.com/"
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -163,7 +163,7 @@ export const SignupSnsLinkPage = () => {
             setText={setTiktokUrl}
             inputRef={tiktokRef}
             isValid={partialSnsSchema.safeParse({ tiktok: tiktokUrl }).success}
-            placeHolderContent="링크 URL을 입력해 주세요."
+            placeHolderContent="https://www.tiktok.com/"
           />
         </div>
       </section>
