@@ -39,9 +39,11 @@ import {
   AnsweredQuestionsTab,
   TalkBoxCategoryPage,
   TalkBoxSettingPage,
+  OnboardingIntroPage,
   DefaultMessageSettingPage,
   PendingCategoryTab,
   AnsweredCategoryTab,
+  OnboardingLayout,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -440,6 +442,26 @@ const router = createBrowserRouter([
                         path: PATH.SELLER.talkBox.item.setting.defaultMessage,
                         element: <DefaultMessageSettingPage />,
                       },
+                    ],
+                  },
+                ],
+              },
+              {
+                path: PATH.SELLER.talkBox.onboarding.base,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    element: <OnboardingIntroPage />,
+                  },
+                  {
+                    path: PATH.SELLER.talkBox.onboarding.start,
+                    element: <OnboardingLayout />,
+                    children: [
+                      // {
+                      //   index: true,
+                      //   element: <Navigate to="?step=activate" replace />,
+                      // },
                     ],
                   },
                 ],

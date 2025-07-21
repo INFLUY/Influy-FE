@@ -104,6 +104,10 @@ export const PATH = {
           defaultMessage: 'default-message',
         },
       },
+      onboarding: {
+        base: 'onboarding/:itemId',
+        start: 'start',
+      },
     },
   },
 } as const;

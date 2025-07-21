@@ -33,6 +33,8 @@ export { default as SellerTalkBoxItemListPage } from './seller/talkBox/TalkBoxIt
 export { default as BulkReplyPage } from './seller/talkBox/BulkReplyPage';
 export { default as TalkBoxSettingPage } from './seller/talkBox/TalkBoxSettingPage';
 export { default as DefaultMessageSettingPage } from './seller/talkBox/DefaultMessageSettingPage';
+export { default as OnboardingIntroPage } from './seller/talkBox/onboarding/OnboardingIntroPage';
+export { default as OnboardingLayout } from './seller/talkBox/onboarding/OnboardingPage';
 
 export {
   QuestionsListPage,

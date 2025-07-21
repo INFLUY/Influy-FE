@@ -4,7 +4,7 @@ interface CategoryChipProps {
   text: string;
   isSelected?: boolean;
   onToggle?: () => void;
-  theme?: 'item' | 'faq' | 'home';
+  theme?: 'item' | 'faq' | 'home' | 'talkBox';
   disabled?: boolean;
 }
 
@@ -34,7 +34,9 @@ const CategoryChip = ({
               : 'bg-grey01 text-black'),
         theme === 'home' && 'rounded-[2.4375rem] px-3 py-1.5',
         theme === 'home' &&
-          (isSelected ? 'bg-grey11 text-white' : 'bg-grey02 text-black')
+          (isSelected ? 'bg-grey11 text-white' : 'bg-grey02 text-black'),
+        theme === 'talkBox' &&
+          'bg-grey03 rounded-[2.4375rem] px-3 py-1.5 text-black'
       )}
     >
       {text}
