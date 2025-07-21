@@ -1,5 +1,5 @@
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
-import InfluyLogo from '/public/InfluyLogo.svg?react';
+import InfluyLogo from '@/assets/icon/common/InfluyLogo.svg?react';
 import KakaoIcon from '@/assets/icon/common/KakaoIcon.svg?react';
 import Arrow from '@/assets/icon/common/ArrowRight12.svg?react';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +25,7 @@ const LoginPage = () => {
           onClick={handleClose}
         />
         <div className="flex flex-col gap-[.8125rem]">
-          <InfluyLogo className="h-[2.75rem]" />
+          <InfluyLogo className="h-[2.75rem] text-white" />
           <p className="text-grey04 text-[1.125rem] whitespace-pre">{`인플루언서의\n취향이 묻어나는 선택`}</p>
         </div>
         <article className="flex w-full flex-col items-center gap-[1.1875rem] text-center">

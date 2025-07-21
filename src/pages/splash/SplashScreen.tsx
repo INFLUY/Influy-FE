@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import InfluyLogo from '/public/InfluyLogo.svg?react';
+import InfluyLogo from '@/assets/icon/common/InfluyLogo.svg?react';
 import { PATH } from '@/routes/path';
 import { useEffect } from 'react';
 
@@ -17,7 +17,7 @@ const SplashScreen = () => {
 
   return (
     <article className="flex flex-1 items-center justify-center bg-[#000]">
-      <InfluyLogo className="h-[2.75rem]" />
+      <InfluyLogo className="h-[2.75rem] text-white" />
     </article>
   );
 };
