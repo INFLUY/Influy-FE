@@ -241,8 +241,6 @@ export const AnsweredQuestionsTab = () => {
   const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategory>();
   const [singleReplyChat, setSingleReplyChat] = useState<Chat | null>(null);
 
-  const navigate = useNavigate();
-
   const { mode, selectedIds, chatsByCategory, getChatsByCategory, setMode } =
     useSelectModeStore();
   console.log(chatsByCategory);

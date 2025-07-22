@@ -1,11 +1,6 @@
 import { PageHeader, TalkBoxBottomItemCard, DefaultButton } from '@/components';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
-import {
-  useNavigate,
-  useLocation,
-  generatePath,
-  useParams,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 
 const OnboardingIntroPage = () => {

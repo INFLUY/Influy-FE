@@ -47,22 +47,21 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
   ];
 
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
   const { itemId } = useParams();
 
+  const isOnboarding = state?.isOnboarding;
+  console.log(isOnboarding);
+
   const handleSettingClick = () => {
-    const path = generatePath(
-      `${PATH.SELLER.base}/${PATH.SELLER.talkBox.base}/${PATH.SELLER.talkBox.item.base}/${PATH.SELLER.talkBox.item.setting}`,
-      {
-        itemId: String(itemId),
-      }
-    );
+    const path = generatePath(`${PATH.SELLER.talkBox.item.setting.base}`);
     navigate(path);
   };
 
   return (
     <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
       <div className="sticky top-0 z-50">
+        {/* TODO 페이지 헤더 분리하기 */}
         <PageHeader
           leftIcons={[
             <ArrowLeftIcon
@@ -83,13 +82,28 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
                 navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`);
               }}
             />,
-            <SettingsIcon
-              className="h-6 w-6 cursor-pointer text-black"
-              role="button"
-              aria-label="톡박스 설정 가기"
-              tabIndex={0}
-              onClick={handleSettingClick}
-            />,
+            <div className="relative">
+              <SettingsIcon
+                className="h-6 w-6 cursor-pointer text-black"
+                role="button"
+                aria-label="톡박스 설정 가기"
+                tabIndex={0}
+                onClick={handleSettingClick}
+              />
+
+              {isOnboarding && (
+                <div className="absolute top-9 -right-2 w-[14.625rem]">
+                  {/* 꼬리 (삼각형) */}
+                  <div className="border-b-sub absolute -top-2 right-3 h-0 w-0 border-x-[.5rem] border-b-[.5rem] border-x-transparent" />
+
+                  {/* 본체 말풍선 */}
+                  <div className="bg-sub body2-sb flex items-center justify-center self-stretch rounded-[.1875rem] px-3 py-2 text-left text-white">
+                    톡박스 활성화 여부와 기본 채팅 멘트는 이곳에서 설정
+                    가능해요.
+                  </div>
+                </div>
+              )}
+            </div>,
           ]}
           additionalStyles="border-0"
         >

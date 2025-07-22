@@ -38,6 +38,7 @@ const mockCategories: QuestionCategory[] = [
 ];
 
 const OnboardingLayout = () => {
+  // TODO: 활성화 되어있다면 아이템 페이지로 나가는 로직 필요
   const navigate = useNavigate();
   const { itemId } = useParams<{ itemId: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -69,10 +70,13 @@ const OnboardingLayout = () => {
 
   // 3. '설정 완료' 버튼 (카테고리 설정 화면) 클릭 시 호출될 함수
   const handleCategorizeFinish = () => {
-    const path = generatePath(`../../${PATH.SELLER.talkBox.item.base}`, {
-      itemId: String(itemId),
-    });
-    navigate(path, { replace: true });
+    const path = generatePath(
+      `../../${PATH.SELLER.talkBox.item.base}/${PATH.SELLER.talkBox.item.tabs.pending}`,
+      {
+        itemId: String(itemId),
+      }
+    );
+    navigate(path, { replace: true, state: { isOnboarding: true } });
   };
 
   // step 값에 따라 적절한 화면(컴포넌트)을 렌더링
