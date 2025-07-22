@@ -4,13 +4,18 @@ import {
   EditTimeChip,
 } from '@/components/seller/item/administration/EditStatusChip';
 import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
-import { useState } from 'react';
-import AdminItemBottomSheet from './AdminItemBottomSheet';
-import RadioBottomSheet from '@/components/seller/common/RadioBottomSheet';
+import { lazy, Suspense, useState } from 'react';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
 import SnackBar from '@/components/common/SnackBar';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
+
+const RadioBottomSheet = lazy(
+  () => import('@/components/seller/common/RadioBottomSheet')
+);
+const AdminItemBottomSheet = lazy(
+  () => import('@/components/seller/item/administration/AdminItemBottomSheet')
+);
 
 const SellerMyItem = ({ item }: { item: MyItem }) => {
   const navigate = useNavigate();
@@ -53,7 +58,7 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
         <img
           src={item?.thumbnail ?? undefined}
           alt="상품 썸네일"
-          className="rounded-[.1875rem] object-cover"
+          className="bg-grey06 absolute inset-0 rounded-[.1875rem] object-cover"
         />
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-[.1875rem] bg-black/40 text-white">
           마감
@@ -85,15 +90,17 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
                 </span>
               )}
             </span>
-            {/* 상품 상태 설정 모달 */}
-            {isStatusModalOpen && (
-              <RadioBottomSheet
-                title="현재 상태 설정"
-                list={STATUS_LIST}
-                isOpen={isStatusModalOpen}
-                setIsOpen={setIsStatusModalOpen}
-              />
-            )}
+            <Suspense fallback={null}>
+              {/* 상품 상태 설정 모달 */}
+              {isStatusModalOpen && (
+                <RadioBottomSheet
+                  title="현재 상태 설정"
+                  list={STATUS_LIST}
+                  isOpen={isStatusModalOpen}
+                  setIsOpen={setIsStatusModalOpen}
+                />
+              )}
+            </Suspense>
           </div>
           {/* 질문 정보 */}
           <span className="caption-m text-grey07 divide-grey05 flex gap-1 divide-x">
@@ -115,15 +122,17 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
           }}
         />
       </div>
-      {isEditItemOpen && (
-        <AdminItemBottomSheet
-          itemId={item.itemId}
-          isOpen={isEditItemOpen}
-          setIsOpen={setIsEditItemOpen}
-          setIsItemDeletedSnackBarOpen={setIsItemDeletedSnackBarOpen}
-          setIsItemStoredSnackBarOpen={setIsItemStoredSnackBarOpen}
-        />
-      )}
+      <Suspense fallback={null}>
+        {isEditItemOpen && (
+          <AdminItemBottomSheet
+            itemId={item.itemId}
+            isOpen={isEditItemOpen}
+            setIsOpen={setIsEditItemOpen}
+            setIsItemDeletedSnackBarOpen={setIsItemDeletedSnackBarOpen}
+            setIsItemStoredSnackBarOpen={setIsItemStoredSnackBarOpen}
+          />
+        )}
+      </Suspense>
       {/* 스낵바 */}
       {isItemStoredSnackBarOpen && (
         <SnackBar

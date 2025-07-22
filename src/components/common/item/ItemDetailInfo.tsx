@@ -31,7 +31,10 @@ export const ItemDetailInfo = ({
       ((data.regularPrice - data.salePrice) / data.regularPrice) * 100
     );
   return (
-    <section className="flex w-full flex-col pb-[.6875rem]" ref={ref}>
+    <section
+      className="item-detail-swiper-section flex w-full flex-col pb-[.6875rem]"
+      ref={ref}
+    >
       <div className="relative h-[23.8125rem] w-full">
         {data.itemImgList && (
           <Swiper
@@ -162,3 +165,5 @@ export const ItemDetailInfo = ({
     </section>
   );
 };
+
+export default ItemDetailInfo;

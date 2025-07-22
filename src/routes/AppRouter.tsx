@@ -8,23 +8,22 @@ import { PATH } from '@/routes/path';
 import { GlobalLayout, LoadingSpinner } from '@/components';
 import {
   NotFound,
-  Home,
+  HomePage,
   SellerProfile,
   SellerMyProfile,
-  SelectionTab,
-  ReviewTab,
   ItemRegistrationPage,
   ItemFaqTab,
   ItemInfoTab,
-  MySelectionTab,
-  MyItemReviewTab,
-  MyStoredItemTab,
   Notice,
   ErrorPage,
   SellerMyProfileEditPage,
   FaqRegistrationPage,
   SellerItemDetailPage,
   FaqEditPage,
+  SellerHomePage,
+  CategoryPage,
+  TrendingPage,
+  EndingSoonPage,
   SplashScreen,
   LoginPage,
   UserTypeSelectPage,
@@ -35,10 +34,25 @@ import {
   SignupEmailPage,
   KakaoLoginHandler,
 } from '@/pages';
-import { Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { SellerAuthInterceptor } from './AuthInterceptor';
 import RegisterRoute from './RegisterRoute';
+
+const SelectionTab = lazy(
+  () => import('@/pages/user/sellerProfile/SelectionTab')
+);
+const ReviewTab = lazy(() => import('@/pages/user/sellerProfile/ReviewTab'));
+
+const MySelectionTab = lazy(
+  () => import('@/pages/seller/sellerMyPage/MySelectionTab')
+);
+const MyItemReviewTab = lazy(
+  () => import('@/pages/seller/sellerMyPage/MyItemReviewTab')
+);
+const MyStoredItemTab = lazy(
+  () => import('@/pages/seller/sellerMyPage/MyStoredItemTab')
+);
 
 const router = createBrowserRouter([
   {
@@ -139,7 +153,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Home />,
+            element: <HomePage />,
           },
         ],
       },
@@ -195,6 +209,28 @@ const router = createBrowserRouter([
         path: PATH.SELLER.base,
         element: <Outlet />,
         children: [
+          {
+            path: PATH.SELLER.home.base,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: <SellerHomePage />,
+              },
+              {
+                path: PATH.SELLER.home.more.endingSoon,
+                element: <EndingSoonPage />,
+              },
+              {
+                path: PATH.SELLER.home.more.trending,
+                element: <TrendingPage />,
+              },
+              {
+                path: PATH.SELLER.home.more.category,
+                element: <CategoryPage />,
+              },
+            ],
+          },
           {
             path: PATH.SELLER.notice.base,
             element: <Outlet />,

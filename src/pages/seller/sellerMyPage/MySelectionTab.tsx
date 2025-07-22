@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
 import { MyItem } from '@/types/seller/MyItem.types';
@@ -115,15 +115,17 @@ const MySelectionTab = () => {
       </span>
 
       {/* 정렬 방식 설정 모달 */}
-      {isSortByOpen && (
-        <RadioBottomSheet
-          title="정렬방식"
-          description="설정한 정렬대로 유저에게 보여집니다."
-          list={SORT_BY_LIST}
-          isOpen={isSortByOpen}
-          setIsOpen={setIsSortByOpen}
-        />
-      )}
+      <Suspense fallback={null}>
+        {isSortByOpen && (
+          <RadioBottomSheet
+            title="정렬방식"
+            description="설정한 정렬대로 유저에게 보여집니다."
+            list={SORT_BY_LIST}
+            isOpen={isSortByOpen}
+            setIsOpen={setIsSortByOpen}
+          />
+        )}
+      </Suspense>
 
       {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 && (
         <ul className="flex flex-col items-start gap-5 self-stretch pb-1">

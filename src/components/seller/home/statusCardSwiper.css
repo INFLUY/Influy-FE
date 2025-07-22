@@ -1,0 +1,44 @@
+.status-card-swiper-section .swiper-button-prev,
+.status-card-swiper-section .swiper-button-next,
+.status-card-swiper-section .swiper-button-disabled {
+  height: 100% !important;
+  width: 15% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  top: 0 !important;
+  right: 0 !important;
+  opacity: 0 !important;
+}
+
+.status-card-swiper-section .swiper-slide,
+.status-card-swiper-section .swiper-slide-active {
+  overflow: visible;
+}
+.status-card-swiper-section .swiper {
+  overflow: visible;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.status-card-swiper-section .swiper-pagination {
+  display: flex !important;
+  justify-content: center !important;
+  padding-top: 10px;
+  position: relative;
+  gap: 0.25rem;
+}
+
+/* individual bullet as progress bar segment */
+.status-card-swiper-section .custom-bullet {
+  display: block;
+  height: 0.125rem !important;
+  width: 0.75rem;
+  border-radius: 0 !important;
+  background-color: #adadad !important;
+  opacity: 1 !important;
+  margin: 0 !important;
+}
+
+/* active bullet (highlight) */
+.status-card-swiper-section .swiper-pagination-bullet-active {
+  background-color: #f43232 !important;
+}
