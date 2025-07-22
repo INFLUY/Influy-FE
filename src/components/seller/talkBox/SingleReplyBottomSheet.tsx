@@ -8,14 +8,19 @@ import {
   TalkBoxBottomSheetLayout,
 } from '@/components';
 import { Chat } from '@/types/seller/TalkBox.types';
+import { generatePath, useNavigate } from 'react-router-dom';
+import { PATH } from '@/routes/path';
 
 const SingleReplyBottomSheet = ({
   question,
   onClose,
+  itemId,
 }: {
   question: Chat;
   onClose: () => void;
+  itemId?: string;
 }) => {
+  const navigate = useNavigate();
   const isBottomSheetOpen = true;
 
   const [answerText, setAnswerText] = useState<string>('');
@@ -36,6 +41,22 @@ const SingleReplyBottomSheet = ({
     console.log('삭제 확정');
     setIsDeleteModalOpen(false);
     onClose();
+  };
+
+  const handleFaqRegister = () => {
+    // TODO: 에러 처리
+    if (!itemId) return;
+    const path = generatePath(
+      `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${PATH.SELLER.items.item.administration.base}/${PATH.SELLER.items.item.administration.faq.base}/${PATH.SELLER.items.item.administration.faq.registration.base}`,
+      { itemId: itemId }
+    );
+    navigate(path, {
+      state: {
+        talkBoxQ: question.content,
+        talkBoxA: '답변답변',
+        talkBoxCategoryId: 1,
+      }, // TODO: 답변, 카테고리 수정
+    });
   };
 
   return (
@@ -62,6 +83,7 @@ const SingleReplyBottomSheet = ({
             reply="개별답변 말씀하신 블랙 컬러와 실제로 비교해보면, 이 제품은 아주 딥한 네이비 색상이에요 :) 거의 블랙에 가까운 어두운 남색이라서, 실내 조명이나 자연광에 따라 블랙처럼 보이기도 하고 살짝 푸른빛이 도는 느낌도 있어요! 구매에 참고가 되셨길 바라요🙏🏻💙"
             date="2025년 6월 19일 오후 4:05"
             questioner="dpdms02"
+            onClickFaq={handleFaqRegister}
           />
           <section className="bottom-bar flex w-full flex-col overflow-x-clip">
             <PrevReplyBottomSheet handleAnswerSelect={handleAnswerSelect} />

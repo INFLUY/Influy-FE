@@ -457,12 +457,6 @@ const router = createBrowserRouter([
                   {
                     path: PATH.SELLER.talkBox.onboarding.start,
                     element: <OnboardingLayout />,
-                    children: [
-                      // {
-                      //   index: true,
-                      //   element: <Navigate to="?step=activate" replace />,
-                      // },
-                    ],
                   },
                 ],
               },

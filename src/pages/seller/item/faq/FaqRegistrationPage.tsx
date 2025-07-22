@@ -13,7 +13,7 @@ import {
 } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
@@ -38,6 +38,9 @@ const FaqRegistrationPage = () => {
     message: '',
   });
 
+  // 톡박스에서 질문 등록하기로 올 경우 질문, 답변 자동 입력
+  const { talkBoxQ, talkBoxA, talkBoxCategoryId } = useLocation().state;
+
   const categoryRef = useRef<HTMLDivElement | null>(null);
 
   const itemData = {
@@ -61,9 +64,9 @@ const FaqRegistrationPage = () => {
     reValidateMode: 'onChange',
     shouldFocusError: false,
     defaultValues: {
-      category: [],
-      question: '',
-      answer: '',
+      category: [`${talkBoxCategoryId}`],
+      question: talkBoxQ || '',
+      answer: talkBoxA || '',
       image: '',
       isPinned: false,
       adjustImg: false,

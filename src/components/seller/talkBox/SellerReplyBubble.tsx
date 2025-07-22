@@ -1,4 +1,3 @@
-import cn from '@/utils/cn';
 import ReplyIcon from '@/assets/icon/common/ReplyIcon.svg?react';
 
 interface SellerReplyBubbleProps {
@@ -6,6 +5,7 @@ interface SellerReplyBubbleProps {
   question: string;
   reply: string;
   date: string;
+  onClickFaq: () => void;
 }
 
 const SellerReplyBubble = ({
@@ -13,12 +13,14 @@ const SellerReplyBubble = ({
   question,
   reply,
   date,
+  onClickFaq,
 }: SellerReplyBubbleProps) => {
   return (
     <article
-      className="flex w-full flex-col items-end gap-1.5 py-2.5 pr-5 pl-[5.875rem]"
+      className="flex w-full flex-col items-end py-2.5 pr-5 pl-[5.875rem]"
       aria-label="답변말풍선"
     >
+      {/* 채팅 버블 */}
       <div className="flex w-full flex-col">
         {/* 상단 질문 */}
         <div className="bg-grey02 flex flex-col gap-1 rounded-t-[.75rem] px-[.875rem] py-3">
@@ -40,10 +42,20 @@ const SellerReplyBubble = ({
           </div>
         </div>
       </div>
-
-      <div className="text-grey08 caption-m">
+      {/* 날짜 */}
+      <div className="text-grey08 caption-m mt-1.5">
         <p>{date}</p>
       </div>
+
+      {/* 이 답변 faq 등록하기 버튼 */}
+      <button
+        type="button"
+        className="border-grey03 body2-m mt-2.5 w-full rounded-lg border py-[.5625rem] text-black"
+        aria-label="이 질문 FAQ 등록하기"
+        onClick={onClickFaq}
+      >
+        이 답변 FAQ 등록하기
+      </button>
     </article>
   );
 };

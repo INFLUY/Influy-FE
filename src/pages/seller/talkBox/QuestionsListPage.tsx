@@ -119,6 +119,7 @@ export const PendingQuestionsTab = () => {
   const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategory>();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [singleReplyChat, setSingleReplyChat] = useState<Chat | null>(null);
+  const itemId = useParams().itemId;
 
   const navigate = useNavigate();
 
@@ -231,6 +232,7 @@ export const PendingQuestionsTab = () => {
         <SingleReplyBottomSheet
           question={singleReplyChat}
           onClose={() => setMode('default')}
+          itemId={itemId}
         />
       )}
     </>
