@@ -43,7 +43,8 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
   const buildItemDetailPath = (
     itemId: number,
     status: 'archived' | 'published'
-  ) => `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${status}`;
+  ) =>
+    `${PATH.SELLER.base}/${PATH.SELLER.my.base}/${PATH.SELLER.my.items.base}/${itemId}/${status}`;
 
   return (
     <li

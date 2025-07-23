@@ -25,8 +25,6 @@ export { PeriodChip } from './common/chip/PeriodChip.tsx';
 export { ItemDetailProfile } from './common/item/ItemDetailProfile';
 
 //common/home
-export { HomeSectionTitle } from './common/home/HomeSectionTitle.tsx';
-export { default as HomeCommonSection } from './common/home/HomeCommonSection.tsx';
 
 //common/card
 export { default as ItemAlbumCard } from './common/card/ItemAlbumCard.tsx';
@@ -41,6 +39,9 @@ export { default as SellerNoticeBottomSheet } from './user/seller/SellerNoticeBo
 
 // user/home
 export { default as TopBannerSwiper } from './user/home/TopBannerSwiper.tsx';
+export { HomeSectionTitle } from './user/home/HomeSectionTitle.tsx';
+export { default as HomeCommonSection } from './user/home/HomeCommonSection.tsx';
+export { MoreButton } from './user/home/MoreButton.tsx';
 
 //seller
 //common

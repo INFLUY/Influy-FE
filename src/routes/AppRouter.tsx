@@ -136,6 +136,8 @@ const router = createBrowserRouter([
         path: PATH.WELCOME.base,
         element: <WelcomePage />,
       },
+
+      // 유저뷰
       {
         path: PATH.HOME.base,
         element: <Outlet />,
@@ -176,139 +178,158 @@ const router = createBrowserRouter([
           },
         ],
       },
+
+      // 셀러뷰
       {
         path: PATH.SELLER.base,
-        element: (
-          <SellerMyProfile>
-            <SellerAuthInterceptor />
-          </SellerMyProfile>
-        ),
+        element: <SellerAuthInterceptor />,
         children: [
           {
             index: true,
-            element: <Navigate to={PATH.SELLER.tabs.selection} replace />,
+            element: <Navigate to={PATH.SELLER.home.base} replace />,
           },
-          {
-            path: PATH.SELLER.tabs.selection,
-            element: <MySelectionTab />,
-          },
-          {
-            path: PATH.SELLER.tabs.stored,
-            element: <MyStoredItemTab />,
-          },
-          {
-            path: PATH.SELLER.tabs.review,
-            element: <MyItemReviewTab />,
-          },
-        ],
-      },
-      {
-        path: PATH.SELLER.base,
-        element: <Outlet />,
-        children: [
+
+          // 홈
           {
             path: PATH.SELLER.home.base,
             element: <SellerHomePage />,
           },
-          {
-            path: PATH.SELLER.notice.base,
-            element: <Outlet />,
-            children: [
-              {
-                index: true,
-                element: <Notice />,
-              },
-            ],
-          },
-          {
-            path: PATH.SELLER.profile.base,
-            element: <Outlet />,
-            children: [
-              {
-                index: true,
-                path: PATH.SELLER.profile.edit,
-                element: <SellerMyProfileEditPage />,
-              },
-            ],
-          },
-          {
-            path: PATH.SELLER.items.base,
-            element: <Outlet />,
-            children: [
-              {
-                path: PATH.SELLER.items.item.registration.base,
-                element: <ItemRegistrationPage />,
-                children: [
-                  {
-                    index: true,
-                    element: (
-                      <Navigate
-                        to={PATH.SELLER.items.item.registration.tabs.info}
-                        replace
-                      />
-                    ),
-                  },
-                  {
-                    path: PATH.SELLER.items.item.registration.tabs.info,
-                    element: <ItemInfoTab />, // 새로 분리한 컴포넌트
-                  },
-                  {
-                    path: PATH.SELLER.items.item.registration.tabs.faq,
-                    element: <ItemFaqTab />, // 새로 분리한 컴포넌트
-                  },
-                ],
-              },
 
+          // 마이
+          {
+            path: PATH.SELLER.my.base,
+            element: (
+              <SellerMyProfile>
+                <Outlet />
+              </SellerMyProfile>
+            ),
+            children: [
               {
-                path: PATH.SELLER.items.item.administration.base,
+                index: true,
+                element: (
+                  <Navigate to={PATH.SELLER.my.tabs.selection} replace />
+                ),
+              },
+              {
+                path: PATH.SELLER.my.tabs.selection,
+                element: <MySelectionTab />,
+              },
+              {
+                path: PATH.SELLER.my.tabs.stored,
+                element: <MyStoredItemTab />,
+              },
+              {
+                path: PATH.SELLER.my.tabs.review,
+                element: <MyItemReviewTab />,
+              },
+            ],
+          },
+          {
+            path: PATH.SELLER.my.base,
+            element: <Outlet />,
+            children: [
+              {
+                path: PATH.SELLER.my.notice.base,
                 element: <Outlet />,
                 children: [
                   {
                     index: true,
-                    path: PATH.SELLER.items.item.administration.itemDetail
-                      .published,
-                    element: <SellerItemDetailPage />, // 게시한 상품 조회 페이지
+                    element: <Notice />,
                   },
+                ],
+              },
+              {
+                path: PATH.SELLER.my.profile.base,
+                element: <Outlet />,
+                children: [
                   {
                     index: true,
-                    path: PATH.SELLER.items.item.administration.itemDetail
-                      .archived,
-                    element: <SellerItemDetailPage />, // 보관한 상품 조회 페이지
+                    path: PATH.SELLER.my.profile.edit,
+                    element: <SellerMyProfileEditPage />,
+                  },
+                ],
+              },
+              {
+                path: PATH.SELLER.my.items.base,
+                element: <Outlet />,
+                children: [
+                  {
+                    path: PATH.SELLER.my.items.item.registration.base,
+                    element: <ItemRegistrationPage />,
+                    children: [
+                      {
+                        index: true,
+                        element: (
+                          <Navigate
+                            to={
+                              PATH.SELLER.my.items.item.registration.tabs.info
+                            }
+                            replace
+                          />
+                        ),
+                      },
+                      {
+                        path: PATH.SELLER.my.items.item.registration.tabs.info,
+                        element: <ItemInfoTab />, // 새로 분리한 컴포넌트
+                      },
+                      {
+                        path: PATH.SELLER.my.items.item.registration.tabs.faq,
+                        element: <ItemFaqTab />, // 새로 분리한 컴포넌트
+                      },
+                    ],
                   },
                   {
-                    path: PATH.SELLER.items.item.administration.faq.base,
+                    path: PATH.SELLER.my.items.item.administration.base,
                     element: <Outlet />,
                     children: [
                       {
                         index: true,
-                        element: <FaqRegistrationPage />, // (임시) faq 조회 페이지
+                        path: PATH.SELLER.my.items.item.administration
+                          .itemDetail.published,
+                        element: <SellerItemDetailPage />, // 게시한 상품 조회 페이지
                       },
                       {
-                        path: PATH.SELLER.items.item.administration.faq
-                          .registration.base,
-                        element: <FaqRegistrationPage />,
+                        index: true,
+                        path: PATH.SELLER.my.items.item.administration
+                          .itemDetail.archived,
+                        element: <SellerItemDetailPage />, // 보관한 상품 조회 페이지
                       },
                       {
-                        path: PATH.SELLER.items.item.administration.faq
-                          .administration.base,
+                        path: PATH.SELLER.my.items.item.administration.faq.base,
                         element: <Outlet />,
                         children: [
                           {
                             index: true,
-                            element: (
-                              <Navigate
-                                to={
-                                  PATH.SELLER.items.item.administration.faq
-                                    .administration.faqDetail.edit
-                                }
-                                replace
-                              />
-                            ),
+                            element: <FaqRegistrationPage />, // (임시) faq 조회 페이지
                           },
                           {
-                            path: PATH.SELLER.items.item.administration.faq
-                              .administration.faqDetail.edit,
-                            element: <FaqEditPage />, // 개별 faq 수정 페이지
+                            path: PATH.SELLER.my.items.item.administration.faq
+                              .registration.base,
+                            element: <FaqRegistrationPage />,
+                          },
+                          {
+                            path: PATH.SELLER.my.items.item.administration.faq
+                              .administration.base,
+                            element: <Outlet />,
+                            children: [
+                              {
+                                index: true,
+                                element: (
+                                  <Navigate
+                                    to={
+                                      PATH.SELLER.my.items.item.administration
+                                        .faq.administration.faqDetail.edit
+                                    }
+                                    replace
+                                  />
+                                ),
+                              },
+                              {
+                                path: PATH.SELLER.my.items.item.administration
+                                  .faq.administration.faqDetail.edit,
+                                element: <FaqEditPage />, // 개별 faq 수정 페이지
+                              },
+                            ],
                           },
                         ],
                       },

@@ -1,7 +1,7 @@
-export { default as HomePage } from './home/HomePage';
-export { default as TrendingPage } from './common/home/TrendingPage';
-export { default as CategoryPage } from './common/home/CategoryPage';
-export { default as EndingSoonPage } from './common/home/EndingSoonPage';
+export { default as HomePage } from './user/home/HomePage';
+export { default as TrendingPage } from './user/home/TrendingPage';
+export { default as CategoryPage } from './user/home/CategoryPage';
+export { default as EndingSoonPage } from './user/home/EndingSoonPage';
 export { default as SplashScreen } from './splash/SplashScreen';
 export { default as LoginPage } from './auth/LoginPage';
 export { UserTypeSelectPage } from './auth/UserTypeSelectPage';
@@ -15,7 +15,7 @@ export { WelcomePage } from './auth/WelcomePage';
 export { default as SellerProfile } from './user/sellerProfile/SellerProfile';
 
 // 셀러
-export { default as SellerHomePage } from './seller/SellerHomePage';
+export { default as SellerHomePage } from './seller/home/SellerHomePage';
 export { default as SellerMyProfile } from './seller/sellerMyPage/SellerMyProfile';
 export { default as Notice } from './seller/notice/NoticePage';
 export { default as SellerMyProfileEditPage } from './seller/sellerMyPage/SellerMyProfileEditPage';

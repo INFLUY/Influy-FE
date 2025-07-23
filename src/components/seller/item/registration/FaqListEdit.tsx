@@ -214,7 +214,7 @@ const FaqListEdit = ({
             <AddButton
               handleOnClick={() =>
                 navigate(
-                  `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${PATH.SELLER.items.item.administration.faq.base}`
+                  `${PATH.SELLER.base}/${PATH.SELLER.my.base}/${PATH.SELLER.my.items.base}/${itemId}/${PATH.SELLER.my.items.item.administration.faq.base}`
                 )
               }
             >
@@ -490,7 +490,7 @@ const FaqQuestionCard = ({
             className="text-grey09 flex cursor-pointer items-center justify-center gap-0.5 self-end"
             onClick={() =>
               navigate(
-                `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${PATH.SELLER.items.item.administration.faq.base}/${id}/${PATH.SELLER.items.item.administration.faq.administration.faqDetail.edit}`
+                `${PATH.SELLER.base}/${PATH.SELLER.my.base}/${PATH.SELLER.my.items.base}/${itemId}/${PATH.SELLER.my.items.item.administration.faq.base}/${id}/${PATH.SELLER.my.items.item.administration.faq.administration.faqDetail.edit}`
               )
             }
           >
@@ -515,7 +515,7 @@ const FaqQuestionCard = ({
               className="cursor-pointer pb-4 text-black"
               onClick={() =>
                 navigate(
-                  `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${PATH.SELLER.items.item.administration.faq.base}/${id}/${PATH.SELLER.items.item.administration.faq.administration.faqDetail.edit}`
+                  `${PATH.SELLER.base}/${PATH.SELLER.my.base}/${PATH.SELLER.my.items.base}/${itemId}/${PATH.SELLER.my.items.item.administration.faq.base}/${id}/${PATH.SELLER.my.items.item.administration.faq.administration.faqDetail.edit}`
                 )
               }
             >

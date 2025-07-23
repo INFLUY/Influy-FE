@@ -3,15 +3,18 @@ import {
   BottomNavBar,
   HomeCommonSection,
   TopBannerSwiper,
+  MoreButton,
 } from '@/components';
 import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import { dummyCategory } from '@/pages/seller/item/ItemDetailDummyData';
 import { useState } from 'react';
-import { itemMockData, recommendMockData } from '@/pages/home/HomeMockData';
+import {
+  itemMockData,
+  recommendMockData,
+} from '@/pages/user/home/HomeMockData';
 import cn from '@/utils/cn';
-import ArrowRightMiniIcon from '@/assets/icon/common/ArrowRight10.svg?react';
 
 interface TopBannerItem {
   image: string;
@@ -156,15 +159,7 @@ const HomePage = () => {
             }
             님이 <span className="text-main">Pick</span>한 상품
           </h1>
-          <button
-            type="button"
-            onClick={() => {}}
-            aria-label="더보기"
-            className="body2-m text-grey10 flex items-center gap-[.1875rem]"
-          >
-            더보기
-            <ArrowRightMiniIcon className="h-2.5 w-2.5" />
-          </button>
+          <MoreButton onClickMore={() => {}} />
         </div>
 
         {/* 사진 */}

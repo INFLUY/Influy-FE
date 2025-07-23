@@ -45,7 +45,7 @@ const navItems: BottomNavItem[] = [
     aria: '캘린더',
   },
   {
-    to: `${PATH.SELLER.base}/${PATH.SELLER.tabs.selection}`,
+    to: `${PATH.SELLER.base}/${PATH.SELLER.my.base}`,
     label: '마이',
     icon: <MyIcon className="h-6 w-6" />,
     aria: '마이',
@@ -100,17 +100,17 @@ export const BottomNavBar = ({
 };
 
 const tabRouteMap: Record<string, string[]> = {
-  [`${PATH.SELLER.base}`]: [
-    `${PATH.SELLER.base}/${PATH.SELLER.tabs.selection}`,
-    `${PATH.SELLER.base}/${PATH.SELLER.tabs.stored}`,
-    `${PATH.SELLER.base}/${PATH.SELLER.tabs.review}`,
-  ],
   [`${PATH.SELLER.base}/${PATH.SELLER.home.base}`]: [
     `${PATH.SELLER.base}/${PATH.SELLER.home.base}`,
   ],
   [`${PATH.SELLER.base}/like`]: [`${PATH.SELLER.base}/like`],
   [`${PATH.SELLER.base}/talk-box`]: [`${PATH.SELLER.base}/talk-box`],
   [`${PATH.SELLER.base}/calender`]: [`${PATH.SELLER.base}/calender`],
+  [`${PATH.SELLER.base}/${PATH.SELLER.my.base}`]: [
+    `${PATH.SELLER.base}/${PATH.SELLER.my.base}/${PATH.SELLER.my.tabs.selection}`,
+    `${PATH.SELLER.base}/${PATH.SELLER.my.base}/${PATH.SELLER.my.tabs.stored}`,
+    `${PATH.SELLER.base}/${PATH.SELLER.my.base}/${PATH.SELLER.my.tabs.review}`,
+  ],
 };
 
 const isTabActive = (pathname: string, tabTo: string | undefined): boolean => {

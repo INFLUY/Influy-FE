@@ -23,9 +23,9 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const [selectedLinkId, setSelectedLinkId] = useState<number | null>(null);
 
   const TABS = [
-    { id: 0, name: '상품', path: PATH.SELLER.tabs.selection },
-    { id: 2, name: '보관', path: PATH.SELLER.tabs.stored },
-    { id: 3, name: '리뷰', path: PATH.SELLER.tabs.review },
+    { id: 0, name: '상품', path: PATH.SELLER.my.tabs.selection },
+    { id: 2, name: '보관', path: PATH.SELLER.my.tabs.stored },
+    { id: 3, name: '리뷰', path: PATH.SELLER.my.tabs.review },
   ];
 
   const navigate = useNavigate();
@@ -70,7 +70,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
         <NoticeBanner
           title={primaryNotice?.title}
           count={primaryNotice?.totalAnnouncements}
-          onClickNotice={() => navigate(`./${PATH.SELLER.notice.base}`)}
+          onClickNotice={() => navigate(`./${PATH.SELLER.my.notice.base}`)}
           seller={true}
         />
       </div>
