@@ -21,6 +21,7 @@ export {
   LinkInput,
 } from './common/DetailInput.tsx';
 export { PeriodChip } from './common/chip/PeriodChip.tsx';
+
 // common/item
 export { ItemDetailProfile } from './common/item/ItemDetailProfile';
 
@@ -62,6 +63,7 @@ export {
   FormSNSInput,
 } from './common/FormTextInput';
 export { default as VisibilityBottomSheet } from './seller/common/VisibilityBottomSheet.tsx';
+export { ToolTipTop, ToolTipBottom } from './seller/common/ToolTip.tsx';
 
 //item
 export { default as EmptyCategoryPlaceholder } from './seller/item/EmptyCategoryPlaceholder';

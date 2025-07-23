@@ -1,5 +1,5 @@
 // 홈 상단 내 상품 현황 컴포넌트
-import { TimeChip, PeriodChip, AddButton } from '@/components';
+import { TimeChip, PeriodChip, AddButton, ToolTipBottom } from '@/components';
 import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation, Pagination } from 'swiper/modules';
@@ -9,9 +9,11 @@ import 'swiper/css/pagination';
 import './statusCardSwiper.css';
 const MyProductStatus = () => {
   //임시
-  const item = [{ id: 1 }, { id: 1 }];
+  // const item = [{ id: 1 }, { id: 1 }];
+  const item: [] = [];
+
   return (
-    <section className="status-card-swiper-section flex flex-col gap-2.5 py-5">
+    <section className="status-card-swiper-section flex flex-col gap-6 py-5">
       <h1 className="subhead-b px-5 text-black">내 상품 현황</h1>
 
       {item && item.length > 0 ? (
@@ -40,11 +42,16 @@ const MyProductStatus = () => {
           </SwiperSlide>
         </Swiper>
       ) : (
-        <div className="px-5">
-          <AddButton size="large" handleOnClick={() => {}}>
-            상품 추가하기
-          </AddButton>
-        </div>
+        <section className="relative flex w-full flex-col gap-2">
+          <div className="flex w-full px-5">
+            <AddButton size="large" handleOnClick={() => {}}>
+              상품 추가하기
+            </AddButton>
+          </div>
+          <div className="relative flex w-full flex-col items-center">
+            <ToolTipBottom text="상품을 먼저 등록해보세요!" />
+          </div>
+        </section>
       )}
     </section>
   );
