@@ -16,10 +16,39 @@ export interface BottomNavItem {
 }
 
 interface BottomNavBarProps {
+  userType?: 'USER' | 'SELLER';
   items?: BottomNavItem[];
   type?: 'link' | 'action';
 }
-const navItems: BottomNavItem[] = [
+
+const userNavItems: BottomNavItem[] = [
+  {
+    to: `${PATH.HOME.base}`,
+    label: '홈',
+    icon: <HomeIcon className="h-6 w-6" />,
+    aria: '홈',
+  },
+  {
+    to: `${PATH.LIKED.base}`,
+    label: '찜',
+    icon: <HeartIcon className="h-6 w-6" />,
+    aria: '찜',
+  },
+  {
+    to: `${PATH.CALENDAR.base}`,
+    label: '캘린더',
+    icon: <CalendarIcon className="h-6 w-6" />,
+    aria: '캘린더',
+  },
+  {
+    to: `${PATH.MY.base}`,
+    label: '마이',
+    icon: <MyIcon className="h-6 w-6" />,
+    aria: '마이',
+  },
+];
+
+const sellerNavItems: BottomNavItem[] = [
   {
     to: `${PATH.SELLER.base}/${PATH.SELLER.home.base}`,
     label: '홈',
@@ -53,17 +82,20 @@ const navItems: BottomNavItem[] = [
 ];
 
 export const BottomNavBar = ({
-  items = navItems,
+  userType = 'USER',
+  items,
   type = 'link',
 }: BottomNavBarProps) => {
+  const navItems: BottomNavItem[] =
+    items ?? (userType === 'SELLER' ? sellerNavItems : userNavItems);
   return (
     <nav
-      className="border-t-grey03 bg-grey01 fixed bottom-0 z-50 flex w-full max-w-[40rem] min-w-[20rem] flex-col items-start border-t border-solid px-5 py-2.5 md:w-[28rem]"
+      className="border-t-grey03 bg-grey01 fixed bottom-0 z-20 flex h-[4.0625rem] w-full max-w-[40rem] min-w-[20rem] flex-col items-start justify-center border-t border-solid px-5 md:w-[28rem]"
       aria-label="하단 네비게이션 바"
       role="navigation"
     >
       <ul className="flex h-10 w-full items-start justify-between">
-        {items.map((item) => (
+        {navItems?.map((item) => (
           <li key={item.label}>
             {type === 'link' && item.to ? (
               <NavLink
@@ -71,7 +103,7 @@ export const BottomNavBar = ({
                 className={() =>
                   cn(
                     'flex cursor-pointer flex-col items-center gap-0.5',
-                    isTabActive(location.pathname, item.to)
+                    isTabActive(location.pathname, item.to, userType)
                       ? 'text-black'
                       : 'text-grey06'
                   )
@@ -99,7 +131,7 @@ export const BottomNavBar = ({
   );
 };
 
-const tabRouteMap: Record<string, string[]> = {
+const sellerTabRouteMap: Record<string, string[]> = {
   [`${PATH.SELLER.base}/${PATH.SELLER.home.base}`]: [
     `${PATH.SELLER.base}/${PATH.SELLER.home.base}`,
   ],
@@ -113,9 +145,21 @@ const tabRouteMap: Record<string, string[]> = {
   ],
 };
 
-const isTabActive = (pathname: string, tabTo: string | undefined): boolean => {
+const userTabRouteMap: Record<string, string[]> = {
+  [`${PATH.HOME.base}`]: [`${PATH.HOME.base}`],
+  [`${PATH.LIKED.base}`]: [`${PATH.LIKED.base}`],
+  [`${PATH.CALENDAR.base}`]: [`${PATH.CALENDAR.base}`],
+  [`${PATH.MY.base}`]: [`${PATH.MY.base}`],
+};
+
+const isTabActive = (
+  pathname: string,
+  tabTo: string | undefined,
+  userType?: 'SELLER' | 'USER'
+): boolean => {
   if (!tabTo) return false;
-  const validPaths = tabRouteMap[tabTo];
+  const validPaths =
+    userType === 'SELLER' ? sellerTabRouteMap[tabTo] : userTabRouteMap[tabTo];
   if (!validPaths) return pathname === tabTo; // fallback
   return validPaths.includes(pathname);
 };

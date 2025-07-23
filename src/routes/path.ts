@@ -31,8 +31,17 @@ export const PATH = {
       category: 'category',
     },
   },
-  USER: {
-    base: '/market/:marketId',
+  LIKED: {
+    base: '/liked',
+  },
+  CALENDAR: {
+    base: '/calendar',
+  },
+  MY: {
+    base: '/my',
+  },
+  MARKET: {
+    base: '/market',
     tabs: {
       selection: 'selection',
       review: 'review',

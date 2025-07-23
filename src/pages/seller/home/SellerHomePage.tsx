@@ -21,7 +21,7 @@ const SellerHomePage = () => {
       </PageHeader>
       <MyProductStatus />
 
-      <BottomNavBar />
+      <BottomNavBar userType="SELLER" />
     </section>
   );
 };

@@ -1,4 +1,4 @@
-import { PageHeader, ItemAlbumCard, BottomNavBar } from '@/components';
+import { PageHeader, ItemAlbumCard } from '@/components';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
@@ -82,7 +82,6 @@ const EndingSoonPage = () => {
           <ItemAlbumCard key={item.itemId} item={item} onCardClick={() => {}} />
         ))}
       </div>
-      <BottomNavBar />
     </section>
   );
 };

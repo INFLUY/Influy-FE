@@ -9,6 +9,7 @@ import {
   Tabs,
   SellerMyProfileHeader,
   SnackBar,
+  BottomNavBar,
 } from '@/components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AddIcon from '@/assets/icon/common/Add2Icon.svg?react';
@@ -75,7 +76,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
         />
       </div>
 
-      <section className="divide-grey02 flex flex-col divide-y-[12px]">
+      <section className="divide-grey02 flex flex-1 flex-col divide-y-[12px]">
         {/* 링크 */}
         <div className="relative flex w-full">
           <div
@@ -140,6 +141,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
         </Tabs>
         {children}
       </section>
+      <BottomNavBar userType="SELLER" />
     </div>
   );
 };

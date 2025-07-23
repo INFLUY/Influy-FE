@@ -1,9 +1,4 @@
-import {
-  PageHeader,
-  ItemAlbumCard,
-  CategoryChip,
-  BottomNavBar,
-} from '@/components';
+import { PageHeader, ItemAlbumCard, CategoryChip } from '@/components';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
@@ -105,7 +100,6 @@ const CategoryPage = () => {
           <ItemAlbumCard key={item.itemId} item={item} onCardClick={() => {}} />
         ))}
       </div>
-      <BottomNavBar />
     </section>
   );
 };

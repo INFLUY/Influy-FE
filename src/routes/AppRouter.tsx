@@ -157,7 +157,7 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: PATH.USER.base,
+        path: PATH.MARKET.base,
         element: (
           <SellerProfile>
             <Outlet />
@@ -166,14 +166,14 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Navigate to={PATH.USER.tabs.selection} replace />,
+            element: <Navigate to={PATH.MARKET.tabs.selection} replace />,
           },
           {
-            path: PATH.USER.tabs.selection,
+            path: PATH.MARKET.tabs.selection,
             element: <SelectionTab />,
           },
           {
-            path: PATH.USER.tabs.review,
+            path: PATH.MARKET.tabs.review,
             element: <ReviewTab />,
           },
         ],
