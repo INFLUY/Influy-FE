@@ -71,10 +71,6 @@ export const PATH = {
       base: 'item',
       registration: {
         base: 'new',
-        tabs: {
-          info: 'info',
-          faq: 'faq',
-        },
       },
       administration: {
         base: ':itemId',
@@ -82,18 +78,25 @@ export const PATH = {
           archived: 'archived',
           published: 'published',
         },
-        faq: {
-          base: 'faq',
-          registration: {
-            base: 'new',
-            question: 'question',
-            answer: 'answer',
+        edit: {
+          base: 'edit',
+          tabs: {
+            info: 'info',
+            faq: 'faq',
           },
-          administration: {
-            base: ':faqId',
-            faqDetail: {
-              edit: 'edit',
-            },
+        },
+      },
+      faq: {
+        base: 'faq',
+        registration: {
+          base: 'new',
+          question: 'question',
+          answer: 'answer',
+        },
+        administration: {
+          base: ':faqId',
+          faqDetail: {
+            edit: 'edit',
           },
         },
       },

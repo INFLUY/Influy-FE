@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import {
   PageHeader,
   BottomNavBar,
@@ -18,6 +18,7 @@ import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { dummyCategory, dummyFaq, dummyItem } from './ItemDetailDummyData';
+import { PATH } from '@/routes/path';
 
 const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/ItemDetailFaqCard')
@@ -37,6 +38,8 @@ const SellerItemDetailPage = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { itemId } = useParams();
 
   const [isFaqCategoryTop, setIsFaqCategoryTop] = useState(false);
   const [isDetailOnScreen, setIsDetailOnScreen] = useState(true);
@@ -116,7 +119,9 @@ const SellerItemDetailPage = () => {
     {
       label: '상품 수정',
       onClick: () => {
-        navigate('/my-market/item/new'); //추후 수정페이지로 라우팅 수정 필요
+        navigate(
+          `${PATH.SELLER.base}/${PATH.SELLER.item.base}/${itemId}/${PATH.SELLER.item.administration.edit.base}/${PATH.SELLER.item.administration.edit.tabs.info}`
+        );
       },
       icon: <EditIcon className="h-6 w-6" />,
       aria: '상품 수정',
@@ -129,7 +134,7 @@ const SellerItemDetailPage = () => {
     <>
       {/* 헤더 */}
       {isFaqCategoryTop ? (
-        <header className="sticky top-0 z-50 flex w-full flex-nowrap gap-2 bg-[rgba(241,241,241,0.30)]">
+        <header className="sticky top-0 z-20 flex w-full flex-nowrap gap-2 bg-[rgba(241,241,241,0.30)]">
           <div className="scrollbar-hide flex items-center gap-2 overflow-x-scroll px-5 pt-2 pb-[.4375rem]">
             {dummyCategory.map((category: CategoryType) => (
               <CategoryChip

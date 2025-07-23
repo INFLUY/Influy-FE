@@ -262,20 +262,7 @@ const router = createBrowserRouter([
                 children: [
                   {
                     index: true,
-                    element: (
-                      <Navigate
-                        to={PATH.SELLER.item.registration.tabs.info}
-                        replace
-                      />
-                    ),
-                  },
-                  {
-                    path: PATH.SELLER.item.registration.tabs.info,
-                    element: <ItemInfoTab />,
-                  },
-                  {
-                    path: PATH.SELLER.item.registration.tabs.faq,
-                    element: <ItemFaqTab />,
+                    element: <ItemInfoTab mode="create" />,
                   },
                 ],
               },
@@ -294,7 +281,30 @@ const router = createBrowserRouter([
                     element: <SellerItemDetailPage />, // 보관한 상품 조회 페이지
                   },
                   {
-                    path: PATH.SELLER.item.administration.faq.base,
+                    path: PATH.SELLER.item.administration.edit.base,
+                    element: <ItemRegistrationPage />,
+                    children: [
+                      {
+                        index: true,
+                        element: (
+                          <Navigate
+                            to={PATH.SELLER.item.administration.edit.tabs.info}
+                            replace
+                          />
+                        ),
+                      },
+                      {
+                        path: PATH.SELLER.item.administration.edit.tabs.info,
+                        element: <ItemInfoTab mode="edit" />,
+                      },
+                      {
+                        path: PATH.SELLER.item.administration.edit.tabs.faq,
+                        element: <ItemFaqTab />,
+                      },
+                    ],
+                  },
+                  {
+                    path: PATH.SELLER.item.faq.base,
                     element: <Outlet />,
                     children: [
                       {
@@ -302,13 +312,11 @@ const router = createBrowserRouter([
                         element: <FaqRegistrationPage />, // (임시) faq 조회 페이지
                       },
                       {
-                        path: PATH.SELLER.item.administration.faq.registration
-                          .base,
+                        path: PATH.SELLER.item.faq.registration.base,
                         element: <FaqRegistrationPage />,
                       },
                       {
-                        path: PATH.SELLER.item.administration.faq.administration
-                          .base,
+                        path: PATH.SELLER.item.faq.administration.base,
                         element: <Outlet />,
                         children: [
                           {
@@ -316,16 +324,16 @@ const router = createBrowserRouter([
                             element: (
                               <Navigate
                                 to={
-                                  PATH.SELLER.item.administration.faq
-                                    .administration.faqDetail.edit
+                                  PATH.SELLER.item.faq.administration.faqDetail
+                                    .edit
                                 }
                                 replace
                               />
                             ),
                           },
                           {
-                            path: PATH.SELLER.item.administration.faq
-                              .administration.faqDetail.edit,
+                            path: PATH.SELLER.item.faq.administration.faqDetail
+                              .edit,
                             element: <FaqEditPage />, // 개별 faq 수정 페이지
                           },
                         ],

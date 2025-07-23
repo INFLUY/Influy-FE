@@ -12,12 +12,12 @@ type InfoContextType = {
   requiredFieldsRef: any;
 };
 
-export const ItemInfoTab = () => {
+export const ItemInfoTab = ({ mode }: { mode: 'create' | 'edit' }) => {
   const { requiredFieldsRef } = useOutletContext<InfoContextType>();
 
   return (
     <ItemForm
-      mode="create"
+      mode={mode}
       imagesWrapperRef={requiredFieldsRef[0].ref}
       categoryWrapperRef={requiredFieldsRef[2].ref}
       startDateWrapperRef={requiredFieldsRef[3].ref}

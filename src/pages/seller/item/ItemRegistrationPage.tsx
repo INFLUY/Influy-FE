@@ -16,6 +16,7 @@ import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { FaqQuestion } from '@/types/common/ItemType.types';
 import { Outlet, useLocation } from 'react-router-dom';
+import cn from '@/utils/cn';
 
 export const dummyCategory: CategoryType[] = [
   { id: 0, category: '사이즈' },
@@ -54,10 +55,8 @@ export const ItemRegistrationPage = () => {
   });
 
   const navigate = useNavigate();
-  // 현재 탭 파악
-  const location = useLocation();
-  const currentTabPath =
-    location.pathname.split('/')[location.pathname.split('/').length - 1];
+  const { pathname } = useLocation();
+  const isEditMode = pathname.includes('edit');
 
   // 필수 요소 미입력시 스크롤 이동을 위한 ref
   const imagesFieldRef = useRef<HTMLDivElement | null>(null);
@@ -103,18 +102,28 @@ export const ItemRegistrationPage = () => {
   } = methods;
 
   // 탭 목록 정의
-  const TABS = [
+  const REGISTER_TABS = [
     {
       id: 0,
       name: '상품 상세 정보',
-      path: PATH.SELLER.item.registration.tabs.info,
+      path: PATH.SELLER.item.registration.base,
+    },
+  ];
+
+  const EDIT_TABS = [
+    {
+      id: 0,
+      name: '상품 상세 정보',
+      path: `${PATH.SELLER.item.administration.edit.tabs.info}`,
     },
     {
       id: 1,
       name: 'FAQ',
-      path: PATH.SELLER.item.registration.tabs.faq,
+      path: `${PATH.SELLER.item.administration.edit.tabs.faq}`,
     },
   ];
+
+  const TABS = isEditMode ? EDIT_TABS : REGISTER_TABS;
 
   // 유효성 검사 대상 필드 값 구독 (사진, 제목, 카테고리, 시작일 마감일 ... )
   const [images, titleText, selectedCategoryList, hasStartDate, hasEndDate] =
@@ -266,7 +275,7 @@ export const ItemRegistrationPage = () => {
 
   return (
     <FormProvider {...methods}>
-      <section className="sticky top-0 z-50 w-full bg-white">
+      <section className="sticky top-0 z-20 w-full bg-white">
         <PageHeader
           leftIcons={[
             <ArrowIcon
@@ -276,28 +285,32 @@ export const ItemRegistrationPage = () => {
               aria-label="뒤로 가기"
             />,
           ]}
-          additionalStyles="h-[3.375rem] border-0"
+          additionalStyles={cn('h-[3.375rem]', isEditMode && 'border-0')}
         />
-        <Tabs>
-          {TABS.map((tab) => (
-            <Tab
-              key={tab.id}
-              isTabActive={tab.path === currentTabPath}
-              handleClickTab={() => navigate(tab.path, { replace: true })}
-            >
-              {tab.name}
-            </Tab>
-          ))}
-        </Tabs>
+        {isEditMode && (
+          <Tabs>
+            {TABS.map((tab) => (
+              <Tab
+                key={tab.id}
+                isTabActive={pathname.includes(tab.path)}
+                handleClickTab={() => navigate(tab.path, { replace: true })}
+              >
+                {tab.name}
+              </Tab>
+            ))}
+          </Tabs>
+        )}
       </section>
-      <div className="flex h-full flex-col">
+      <div className="flex flex-1 flex-col">
         <div className="invisible" ref={scrollViewRef} />
         {/* 폼 */}
         <form
           onSubmit={handleSubmit(handleSubmitSuccess, handleSubmitFailed)}
-          className="relative flex min-w-full flex-1 flex-col"
+          className="relative flex w-full flex-1 flex-col"
         >
-          <div className="flex-1 pt-8">
+          <div
+            className={cn('flex-1 pb-[8.25rem]', isEditMode ? 'pt-8' : 'pt-6')}
+          >
             <Outlet
               context={{
                 methods,
@@ -309,7 +322,7 @@ export const ItemRegistrationPage = () => {
             />
           </div>
           {/* 하단 버튼 */}
-          <section className="border-t-grey02 sticky right-0 bottom-0 z-50 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
+          <section className="border-t-grey02 sticky right-0 bottom-0 z-20 flex h-[4.0625rem] w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5">
             <DefaultButton
               onClick={onArchive}
               text="보관하기"
@@ -318,7 +331,7 @@ export const ItemRegistrationPage = () => {
             />
             <DefaultButton
               type="submit"
-              text="이대로 게시하기"
+              text="게시하기"
               disabled={isSubmitting || isRequiredIncomplete}
               useDisabled={false}
             />
