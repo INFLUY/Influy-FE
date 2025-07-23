@@ -1,4 +1,4 @@
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   PageHeader,
   BottomNavBar,
@@ -9,7 +9,6 @@ import {
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
 import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
-import { SnackBar } from '@/components';
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { BottomNavItem } from '@/components/common/BottomNavBar';
 import Link2Icon from '@/assets/icon/common/Link2Icon.svg?react';
@@ -29,14 +28,9 @@ const ItemDetailInfo = lazy(
 );
 
 const SellerItemDetailPage = () => {
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
-  });
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
-  const location = useLocation();
   const navigate = useNavigate();
 
   const { itemId } = useParams();
@@ -79,24 +73,6 @@ const SellerItemDetailPage = () => {
     if (itemDetailRef.current) observer.observe(itemDetailRef.current);
     return () => observer.disconnect();
   }, [isDetailOnScreen]);
-
-  const status = location.pathname.endsWith('/archived')
-    ? 'archived'
-    : location.pathname.endsWith('/published')
-      ? 'published'
-      : null;
-
-  useEffect(() => {
-    if (location.state?.isSnackbar == true) {
-      const message: string =
-        status === 'published'
-          ? '상품이 게시되었습니다.'
-          : '상품이 보관되었습니다.';
-      setSnackbar({ open: true, message });
-      //state 초기화
-      window.history.replaceState({}, document.title);
-    }
-  }, [location.state]);
 
   // 하단바
   const handleGoToPage = () => {};
@@ -172,7 +148,7 @@ const SellerItemDetailPage = () => {
 
       {/* 상단 상품 정보 파트 */}
       <Suspense fallback={<LoadingSpinner />}>
-        <ItemDetailInfo data={dummyItem} status={status} ref={itemDetailRef} />
+        <ItemDetailInfo data={dummyItem} ref={itemDetailRef} />
       </Suspense>
 
       {/* FAQ 파트 */}
@@ -209,14 +185,6 @@ const SellerItemDetailPage = () => {
         </Suspense>
       </section>
 
-      {/* 스낵바 */}
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
       <BottomNavBar items={detailBottomNavItems} type="action" />
       {isBottomSheetOpen && (
         <VisibilityBottomSheet

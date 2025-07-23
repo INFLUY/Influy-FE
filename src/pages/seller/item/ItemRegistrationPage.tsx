@@ -67,12 +67,6 @@ export const ItemRegistrationPage = () => {
   // 페이지 진입시 스크롤 상단으로 이동
   const scrollViewRef = useScrollToTop();
 
-  // 상품 보관, 게시에 따른 이동 경로 정의
-  const buildItemDetailPath = (
-    itemId: number,
-    status: 'archived' | 'published'
-  ) => `${PATH.SELLER.base}/${PATH.SELLER.item.base}/${itemId}/${status}`;
-
   // useForm에 Zod 스키마 적용
   const methods = useForm<ItemFormValues>({
     resolver: standardSchemaResolver(itemSchema),
@@ -210,9 +204,8 @@ export const ItemRegistrationPage = () => {
       const itemId: number = 1;
 
       //if success
-      navigate(buildItemDetailPath(itemId, 'published'), {
-        state: { isSnackbar: true },
-      });
+      navigate(`${PATH.SELLER.base}/${PATH.SELLER.item.base}/${itemId}`);
+      // TODO: '상품이 보관되었습니다.' 스낵바 띄우기
     } catch (error) {}
   };
 
@@ -268,9 +261,8 @@ export const ItemRegistrationPage = () => {
     const itemId: number = 1;
 
     //if success
-    navigate(buildItemDetailPath(itemId, 'archived'), {
-      state: { isSnackbar: true },
-    });
+    navigate(`${PATH.SELLER.base}/${PATH.SELLER.item.base}/${itemId}`);
+    // TODO: '상품이 게시되었습니다.' 스낵바 띄우기
   };
 
   return (

@@ -230,13 +230,7 @@ const router = createBrowserRouter([
             children: [
               {
                 path: PATH.SELLER.my.notice.base,
-                element: <Outlet />,
-                children: [
-                  {
-                    index: true,
-                    element: <Notice />,
-                  },
-                ],
+                element: <Notice />,
               },
               {
                 path: PATH.SELLER.my.profile.base,
@@ -272,13 +266,7 @@ const router = createBrowserRouter([
                 children: [
                   {
                     index: true,
-                    path: PATH.SELLER.item.administration.itemDetail.published,
-                    element: <SellerItemDetailPage />, // 게시한 상품 조회 페이지
-                  },
-                  {
-                    index: true,
-                    path: PATH.SELLER.item.administration.itemDetail.archived,
-                    element: <SellerItemDetailPage />, // 보관한 상품 조회 페이지
+                    element: <SellerItemDetailPage />, // 셀러 상품 상세페이지
                   },
                   {
                     path: PATH.SELLER.item.administration.edit.base,

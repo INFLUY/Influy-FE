@@ -39,18 +39,12 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
     },
   ];
 
-  // 상품 보관, 게시에 따른 이동 경로 정의
-  const buildItemDetailPath = (
-    itemId: number,
-    status: 'archived' | 'published'
-  ) => `${PATH.SELLER.base}/${PATH.SELLER.item.base}/${itemId}/${status}`;
-
   return (
     <li
       className="flex cursor-pointer items-center justify-center gap-3 self-stretch px-5"
       onClick={(e) => {
         e.stopPropagation();
-        navigate(buildItemDetailPath(item.itemId, 'published'));
+        navigate(`${PATH.SELLER.base}/${PATH.SELLER.item.base}/${item.itemId}`);
       }}
     >
       {/* 썸네일 */}

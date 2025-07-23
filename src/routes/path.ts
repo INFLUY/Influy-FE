@@ -74,10 +74,6 @@ export const PATH = {
       },
       administration: {
         base: ':itemId',
-        itemDetail: {
-          archived: 'archived',
-          published: 'published',
-        },
         edit: {
           base: 'edit',
           tabs: {
