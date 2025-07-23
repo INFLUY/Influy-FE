@@ -75,7 +75,7 @@ const CategoryPage = () => {
           <SearchIcon className="h-6 w-6 cursor-pointer" />,
           <button type="button" className="relative">
             <BellIcon className="h-6 w-6 cursor-pointer" />
-            <div className="absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full bg-[#F43232]" />
+            <div className="bg-main absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full" />
           </button>,
         ]}
         additionalStyles="bg-white border-0 "
