@@ -506,13 +506,17 @@ const FaqQuestionCard = ({
           onClose={() => setSheetMode('none')}
           isBottomSheetOpen={sheetMode === 'questionEdit'}
         >
-          <section className="body1-b divide-grey02 mt-[.875rem] mb-8 flex w-full flex-col space-y-5 divide-y-[.0938rem] px-5 text-center">
-            <button type="button" className="cursor-pointer pb-4 text-black">
-              {pinned ? '고정 해제' : '맨 앞에 고정'}
+          <div className="divide-grey02 flex flex-col items-center divide-y px-5 pb-4">
+            <button
+              type="button"
+              className="body1-b w-full cursor-pointer py-4 text-center"
+              // onClick={handlePin}
+            >
+              {pinned ? '고정해제' : '맨 앞에 고정'}
             </button>
             <button
               type="button"
-              className="cursor-pointer pb-4 text-black"
+              className="body1-b w-full cursor-pointer py-4 text-center"
               onClick={() =>
                 navigate(
                   `${PATH.SELLER.base}/${PATH.SELLER.item.base}/${itemId}/${PATH.SELLER.item.faq.base}/${id}/${PATH.SELLER.item.faq.administration.faqDetail.edit}`
@@ -521,10 +525,14 @@ const FaqQuestionCard = ({
             >
               수정
             </button>
-            <button type="button" className="text-error cursor-pointer">
+            <button
+              type="button"
+              className="body1-b text-error w-full cursor-pointer py-4 text-center"
+              // onClick={handleDeleteFaq}
+            >
               삭제
             </button>
-          </section>
+          </div>
         </BottomSheet>
       )}
     </>
