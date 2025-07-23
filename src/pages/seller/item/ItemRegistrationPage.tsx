@@ -72,8 +72,7 @@ export const ItemRegistrationPage = () => {
   const buildItemDetailPath = (
     itemId: number,
     status: 'archived' | 'published'
-  ) =>
-    `${PATH.SELLER.base}/${PATH.SELLER.my.base}/${PATH.SELLER.my.items.base}/${itemId}/${status}`;
+  ) => `${PATH.SELLER.base}/${PATH.SELLER.item.base}/${itemId}/${status}`;
 
   // useForm에 Zod 스키마 적용
   const methods = useForm<ItemFormValues>({
@@ -108,12 +107,12 @@ export const ItemRegistrationPage = () => {
     {
       id: 0,
       name: '상품 상세 정보',
-      path: PATH.SELLER.my.items.item.registration.tabs.info,
+      path: PATH.SELLER.item.registration.tabs.info,
     },
     {
       id: 1,
       name: 'FAQ',
-      path: PATH.SELLER.my.items.item.registration.tabs.faq,
+      path: PATH.SELLER.item.registration.tabs.faq,
     },
   ];
 

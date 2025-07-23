@@ -249,87 +249,84 @@ const router = createBrowserRouter([
                   },
                 ],
               },
+            ],
+          },
+          // 아이템
+          {
+            path: PATH.SELLER.item.base,
+            element: <Outlet />,
+            children: [
               {
-                path: PATH.SELLER.my.items.base,
+                path: PATH.SELLER.item.registration.base,
+                element: <ItemRegistrationPage />,
+                children: [
+                  {
+                    index: true,
+                    element: (
+                      <Navigate
+                        to={PATH.SELLER.item.registration.tabs.info}
+                        replace
+                      />
+                    ),
+                  },
+                  {
+                    path: PATH.SELLER.item.registration.tabs.info,
+                    element: <ItemInfoTab />,
+                  },
+                  {
+                    path: PATH.SELLER.item.registration.tabs.faq,
+                    element: <ItemFaqTab />,
+                  },
+                ],
+              },
+              {
+                path: PATH.SELLER.item.administration.base,
                 element: <Outlet />,
                 children: [
                   {
-                    path: PATH.SELLER.my.items.item.registration.base,
-                    element: <ItemRegistrationPage />,
-                    children: [
-                      {
-                        index: true,
-                        element: (
-                          <Navigate
-                            to={
-                              PATH.SELLER.my.items.item.registration.tabs.info
-                            }
-                            replace
-                          />
-                        ),
-                      },
-                      {
-                        path: PATH.SELLER.my.items.item.registration.tabs.info,
-                        element: <ItemInfoTab />, // 새로 분리한 컴포넌트
-                      },
-                      {
-                        path: PATH.SELLER.my.items.item.registration.tabs.faq,
-                        element: <ItemFaqTab />, // 새로 분리한 컴포넌트
-                      },
-                    ],
+                    index: true,
+                    path: PATH.SELLER.item.administration.itemDetail.published,
+                    element: <SellerItemDetailPage />, // 게시한 상품 조회 페이지
                   },
                   {
-                    path: PATH.SELLER.my.items.item.administration.base,
+                    index: true,
+                    path: PATH.SELLER.item.administration.itemDetail.archived,
+                    element: <SellerItemDetailPage />, // 보관한 상품 조회 페이지
+                  },
+                  {
+                    path: PATH.SELLER.item.administration.faq.base,
                     element: <Outlet />,
                     children: [
                       {
                         index: true,
-                        path: PATH.SELLER.my.items.item.administration
-                          .itemDetail.published,
-                        element: <SellerItemDetailPage />, // 게시한 상품 조회 페이지
+                        element: <FaqRegistrationPage />, // (임시) faq 조회 페이지
                       },
                       {
-                        index: true,
-                        path: PATH.SELLER.my.items.item.administration
-                          .itemDetail.archived,
-                        element: <SellerItemDetailPage />, // 보관한 상품 조회 페이지
+                        path: PATH.SELLER.item.administration.faq.registration
+                          .base,
+                        element: <FaqRegistrationPage />,
                       },
                       {
-                        path: PATH.SELLER.my.items.item.administration.faq.base,
+                        path: PATH.SELLER.item.administration.faq.administration
+                          .base,
                         element: <Outlet />,
                         children: [
                           {
                             index: true,
-                            element: <FaqRegistrationPage />, // (임시) faq 조회 페이지
+                            element: (
+                              <Navigate
+                                to={
+                                  PATH.SELLER.item.administration.faq
+                                    .administration.faqDetail.edit
+                                }
+                                replace
+                              />
+                            ),
                           },
                           {
-                            path: PATH.SELLER.my.items.item.administration.faq
-                              .registration.base,
-                            element: <FaqRegistrationPage />,
-                          },
-                          {
-                            path: PATH.SELLER.my.items.item.administration.faq
-                              .administration.base,
-                            element: <Outlet />,
-                            children: [
-                              {
-                                index: true,
-                                element: (
-                                  <Navigate
-                                    to={
-                                      PATH.SELLER.my.items.item.administration
-                                        .faq.administration.faqDetail.edit
-                                    }
-                                    replace
-                                  />
-                                ),
-                              },
-                              {
-                                path: PATH.SELLER.my.items.item.administration
-                                  .faq.administration.faqDetail.edit,
-                                element: <FaqEditPage />, // 개별 faq 수정 페이지
-                              },
-                            ],
+                            path: PATH.SELLER.item.administration.faq
+                              .administration.faqDetail.edit,
+                            element: <FaqEditPage />, // 개별 faq 수정 페이지
                           },
                         ],
                       },

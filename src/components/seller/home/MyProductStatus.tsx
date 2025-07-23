@@ -7,7 +7,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './statusCardSwiper.css';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/routes/path';
 const MyProductStatus = () => {
+  const navigate = useNavigate();
+
   //임시
   // const item = [{ id: 1 }, { id: 1 }];
   const item: [] = [];
@@ -44,7 +48,14 @@ const MyProductStatus = () => {
       ) : (
         <section className="relative flex w-full flex-col gap-2">
           <div className="flex w-full px-5">
-            <AddButton size="large" handleOnClick={() => {}}>
+            <AddButton
+              size="large"
+              handleOnClick={() =>
+                navigate(
+                  `${PATH.SELLER.base}/${PATH.SELLER.item.base}/${PATH.SELLER.item.registration.base}`
+                )
+              }
+            >
               상품 추가하기
             </AddButton>
           </div>

@@ -66,29 +66,33 @@ export const PATH = {
         base: 'profile',
         edit: 'edit',
       },
-      items: {
-        base: 'item',
-        item: {
-          registration: { base: 'new', tabs: { info: 'info', faq: 'faq' } },
+    },
+    item: {
+      base: 'item',
+      registration: {
+        base: 'new',
+        tabs: {
+          info: 'info',
+          faq: 'faq',
+        },
+      },
+      administration: {
+        base: ':itemId',
+        itemDetail: {
+          archived: 'archived',
+          published: 'published',
+        },
+        faq: {
+          base: 'faq',
+          registration: {
+            base: 'new',
+            question: 'question',
+            answer: 'answer',
+          },
           administration: {
-            base: ':itemId',
-            itemDetail: {
-              archived: 'archived',
-              published: 'published',
-            },
-            faq: {
-              base: 'faq',
-              registration: {
-                base: 'new',
-                question: 'question',
-                answer: 'answer',
-              },
-              administration: {
-                base: ':faqId',
-                faqDetail: {
-                  edit: 'edit',
-                },
-              },
+            base: ':faqId',
+            faqDetail: {
+              edit: 'edit',
             },
           },
         },
