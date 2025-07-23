@@ -251,6 +251,12 @@ const router = createBrowserRouter([
             element: <Outlet />,
             children: [
               {
+                index: true,
+                element: (
+                  <Navigate to={PATH.SELLER.item.registration.base} replace />
+                ),
+              },
+              {
                 path: PATH.SELLER.item.registration.base,
                 element: <ItemRegistrationPage />,
                 children: [
