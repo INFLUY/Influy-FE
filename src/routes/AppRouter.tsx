@@ -22,7 +22,6 @@ import {
   FaqEditPage,
   SellerHomePage,
   CategoryPage,
-  TrendingPage,
   EndingSoonPage,
   SplashScreen,
   LoginPage,
@@ -145,6 +144,14 @@ const router = createBrowserRouter([
             index: true,
             element: <HomePage />,
           },
+          {
+            path: PATH.HOME.more.endingSoon,
+            element: <EndingSoonPage />,
+          },
+          {
+            path: PATH.HOME.more.category,
+            element: <CategoryPage />,
+          },
         ],
       },
       {
@@ -201,25 +208,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: PATH.SELLER.home.base,
-            element: <Outlet />,
-            children: [
-              {
-                index: true,
-                element: <SellerHomePage />,
-              },
-              {
-                path: PATH.SELLER.home.more.endingSoon,
-                element: <EndingSoonPage />,
-              },
-              {
-                path: PATH.SELLER.home.more.trending,
-                element: <TrendingPage />,
-              },
-              {
-                path: PATH.SELLER.home.more.category,
-                element: <CategoryPage />,
-              },
-            ],
+            element: <SellerHomePage />,
           },
           {
             path: PATH.SELLER.notice.base,
@@ -248,7 +237,7 @@ const router = createBrowserRouter([
             children: [
               {
                 path: PATH.SELLER.items.item.registration.base,
-                element: <ItemRegistrationPage />, // 더 이상 중첩 X
+                element: <ItemRegistrationPage />,
                 children: [
                   {
                     index: true,

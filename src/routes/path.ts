@@ -25,6 +25,11 @@ export const PATH = {
   },
   HOME: {
     base: '/home',
+    more: {
+      endingSoon: 'ending-soon',
+      // trending: 'trending',
+      category: 'category',
+    },
   },
   USER: {
     base: '/market/:marketId',
@@ -76,11 +81,6 @@ export const PATH = {
     },
     home: {
       base: 'home',
-      more: {
-        endingSoon: 'ending-soon',
-        trending: 'trending',
-        category: 'category',
-      },
     },
   },
 } as const;

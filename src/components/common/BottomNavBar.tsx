@@ -107,9 +107,6 @@ const tabRouteMap: Record<string, string[]> = {
   ],
   [`${PATH.SELLER.base}/${PATH.SELLER.home.base}`]: [
     `${PATH.SELLER.base}/${PATH.SELLER.home.base}`,
-    `${PATH.SELLER.base}/${PATH.SELLER.home.base}/${PATH.SELLER.home.more.endingSoon}`,
-    `${PATH.SELLER.base}/${PATH.SELLER.home.base}/${PATH.SELLER.home.more.trending}`,
-    `${PATH.SELLER.base}/${PATH.SELLER.home.base}/${PATH.SELLER.home.more.category}`,
   ],
   [`${PATH.SELLER.base}/like`]: [`${PATH.SELLER.base}/like`],
   [`${PATH.SELLER.base}/talk-box`]: [`${PATH.SELLER.base}/talk-box`],

@@ -1,18 +1,9 @@
-import {
-  PageHeader,
-  MyProductStatus,
-  BottomNavBar,
-  HomeCommonSection,
-} from '@/components';
+import { PageHeader, MyProductStatus, BottomNavBar } from '@/components';
 import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
-import { dummyCategory } from '@/pages/seller/item/ItemDetailDummyData';
-import { useState } from 'react';
-import { itemMockData, recommendMockData } from '@/pages/home/HomeMockData';
-const SellerHomePage = () => {
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
 
+const SellerHomePage = () => {
   return (
     <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
       <PageHeader
@@ -29,15 +20,6 @@ const SellerHomePage = () => {
         <div className="h-[1.6875rem]" />
       </PageHeader>
       <MyProductStatus />
-
-      <HomeCommonSection
-        expiringItem={itemMockData}
-        trendingItem={itemMockData}
-        recommendedItem={recommendMockData}
-        categoryList={dummyCategory}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-      />
 
       <BottomNavBar />
     </section>

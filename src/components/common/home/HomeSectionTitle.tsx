@@ -5,20 +5,22 @@ export const HomeSectionTitle = ({
   onClickMore,
 }: {
   title: string;
-  onClickMore: () => void;
+  onClickMore?: () => void;
 }) => {
   return (
     <div className="flex items-center justify-between px-5">
       <h1 className="subhead-b text-black">{title}</h1>
-      <button
-        type="button"
-        onClick={onClickMore}
-        aria-label="더보기"
-        className="body2-m text-grey10 flex cursor-pointer items-center gap-[.1875rem]"
-      >
-        더보기
-        <ArrowRightIcon className="h-2.5 w-2.5" />
-      </button>
+      {onClickMore && (
+        <button
+          type="button"
+          onClick={onClickMore}
+          aria-label="더보기"
+          className="body2-m text-grey10 flex cursor-pointer items-center gap-[.1875rem]"
+        >
+          더보기
+          <ArrowRightIcon className="h-2.5 w-2.5" />
+        </button>
+      )}
     </div>
   );
 };
