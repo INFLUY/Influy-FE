@@ -15,10 +15,8 @@ const SellerHomePage = () => {
             <div className="absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full bg-[#F43232]" />
           </button>,
         ]}
-        additionalStyles="bg-white border-0 "
-      >
-        <div className="h-[1.6875rem]" />
-      </PageHeader>
+        additionalStyles="border-0 h-11"
+      />
       <MyProductStatus />
 
       <BottomNavBar userType="SELLER" />
