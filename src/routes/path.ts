@@ -31,8 +31,12 @@ export const PATH = {
       CATEGORY: 'category',
     },
   },
-  LIKED: {
-    BASE: '/liked',
+  LIKE: {
+    BASE: '/like',
+    TABS: {
+      ITEM: 'item',
+      SELLER: 'influencer',
+    },
   },
   CALENDAR: {
     BASE: '/calendar',

@@ -26,7 +26,7 @@ const sellerTabRouteMap: Record<string, string[]> = {
 
 const userTabRouteMap: Record<string, string[]> = {
   [`${PATH.HOME.BASE}`]: [`${PATH.HOME.BASE}`],
-  [`${PATH.LIKED.BASE}`]: [`${PATH.LIKED.BASE}`],
+  [`${PATH.LIKE.BASE}`]: [`${PATH.LIKE.BASE}`],
   [`${PATH.CALENDAR.BASE}`]: [`${PATH.CALENDAR.BASE}`],
   [`${PATH.MY.BASE}`]: [`${PATH.MY.BASE}`],
 };
@@ -66,7 +66,7 @@ const userNavItems: BottomNavItem[] = [
     aria: '홈',
   },
   {
-    to: `${PATH.LIKED.BASE}`,
+    to: `${PATH.LIKE.BASE}`,
     label: '찜',
     icon: <HeartIcon className="h-6 w-6" />,
     aria: '찜',

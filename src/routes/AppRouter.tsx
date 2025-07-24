@@ -31,6 +31,9 @@ import {
   WelcomePage,
   SignupEmailPage,
   ItemDetailPage,
+  LikePage,
+  LikeItemTab,
+  LikeInfluencerTab,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -212,6 +215,31 @@ const router = createBrowserRouter([
           },
         ],
       },
+
+      // 찜
+      {
+        path: PATH.LIKE.BASE,
+        element: (
+          <LikePage>
+            <Outlet />
+          </LikePage>
+        ),
+        children: [
+          {
+            index: true,
+            element: <Navigate to={PATH.LIKE.TABS.ITEM} replace />,
+          },
+          {
+            path: PATH.LIKE.TABS.ITEM,
+            element: <LikeItemTab />,
+          },
+          {
+            path: PATH.LIKE.TABS.SELLER,
+            element: <LikeInfluencerTab />,
+          },
+        ],
+      },
+
       // 캘린더
       {
         path: PATH.CALENDAR.BASE,
