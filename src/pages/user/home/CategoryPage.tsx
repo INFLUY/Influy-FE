@@ -82,7 +82,7 @@ const CategoryPage = () => {
       >
         카테고리별 추천
       </PageHeader>
-      <div className="scrollbar-hide flex w-full flex-nowrap items-center gap-2 overflow-x-scroll px-5 py-2">
+      <div className="scrollbar-hide mt-3 flex w-full shrink-0 flex-nowrap items-center gap-2 overflow-x-scroll px-5 py-2">
         {categoryList &&
           categoryList.length > 0 &&
           categoryList.map((category: CategoryType) => (
