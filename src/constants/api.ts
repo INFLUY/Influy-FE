@@ -21,6 +21,9 @@ export const SELLER_API_DOMAINS = {
   // 질문 카테고리
   SELLER_QUESTION_CATEGORY:
     '/seller/:sellerId/items/:itemId/question-categories',
+
+  // 톡박스 질문 관리
+  SELLER_QUESTION_BY_TAG: '/seller/items/:itemId/talkbox/:questionTagId',
 };
 
 export const QUERY_KEYS = {
@@ -29,4 +32,5 @@ export const QUERY_KEYS = {
   SELLER_PRIMARY_ANNOUNCEMENT: 'sellerMyPrimaryAnnouncement',
   SELLER_ITEM_OVERVIEW: 'sellerItemOverview',
   SELLER_QUESTION_CATEGORY: 'sellerQuestionCategory',
+  SELLER_QUESTION_BY_TAG: 'sellerQuestionByTag',
 };

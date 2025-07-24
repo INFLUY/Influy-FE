@@ -10,6 +10,8 @@ import {
   QuestionListHeader,
 } from '@/components';
 
+import { useGetQuestionsByTag } from '@/services/talkBox/query/useGetQuestionsByTag';
+
 import { dummySubCategories, dummyChats, dummyChats2 } from './talkboxMockData';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
@@ -22,6 +24,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     pending: 0,
     answered: 0,
   });
+
   const [snackBarState, setSnackBarState] = useState<{
     message: string;
     isOpen: boolean;
@@ -32,6 +35,17 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
 
   const { mode, setMode, selectedIds, toggleSelectAll, setChatsByCategory } =
     useSelectModeStore();
+
+  const { itemId, categoryId } = useParams();
+
+  // TODO: 인피니트 쿼리 적용 및 되는지 확인 필요
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useGetQuestionsByTag({
+      itemId: Number(itemId),
+      questionTagId: 3,
+    });
+
+  console.log(data);
 
   const allChatIds = dummyChats.map((chat) => chat.questionId);
   const isAllSelected = allChatIds.every((id) => selectedIds.includes(id));
@@ -125,7 +139,6 @@ export const PendingQuestionsTab = () => {
 
   const { mode, selectedIds, chatsByCategory, getChatsByCategory, setMode } =
     useSelectModeStore();
-  console.log(chatsByCategory);
 
   const handleConfirmDelete = () => {
     setIsDeleteModalOpen(false);
@@ -245,7 +258,6 @@ export const AnsweredQuestionsTab = () => {
 
   const { mode, selectedIds, chatsByCategory, getChatsByCategory, setMode } =
     useSelectModeStore();
-  console.log(chatsByCategory);
 
   //임시
   useEffect(() => {

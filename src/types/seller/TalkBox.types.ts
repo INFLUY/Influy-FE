@@ -15,6 +15,25 @@ export interface QuestionCategoryDTO {
   unCheckedCnt?: number; // 답변 대기 수 (뱃지 표시용)
 }
 
+export interface TalkBoxQuestionDTO {
+  id: number;
+  memberId: number;
+  nickname: string;
+  username: string;
+  content: string;
+  nthQuestion: number;
+  createdAt: string;
+}
+
+export interface TalkBoxQuestionListResponse {
+  questions: TalkBoxQuestionDTO[];
+  listSize: number;
+  totalPage: number;
+  totalElements: number;
+  isFirst: boolean;
+  isLast: boolean;
+}
+
 export interface SubCategory {
   id: number;
   text: string;
