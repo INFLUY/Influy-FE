@@ -34,7 +34,7 @@ export const ActivateStep = ({ onNext }: { onNext: () => void }) => {
   );
 };
 
-import { QuestionCategory } from '@/types/seller/TalkBox.types';
+import { QuestionCategoryDTO } from '@/types/seller/TalkBox.types';
 
 export const CategorizeStep = ({
   onFinish,
@@ -42,8 +42,8 @@ export const CategorizeStep = ({
   setCategory,
 }: {
   onFinish: () => void;
-  category: QuestionCategory[];
-  setCategory: React.Dispatch<React.SetStateAction<QuestionCategory[]>>;
+  category: QuestionCategoryDTO[];
+  setCategory: React.Dispatch<React.SetStateAction<QuestionCategoryDTO[]>>;
 }) => {
   const [sheetMode, setSheetMode] = useState<SheetMode>('none');
   const [draftName, setDraftName] = useState('');
@@ -60,7 +60,9 @@ export const CategorizeStep = ({
     setSheetMode('delete');
   };
   const onConfirmDelete = () => {
-    setCategory(category.filter((c) => c.id !== categoryToDelete));
+    setCategory(
+      category.filter((c) => c.questionCategoryId !== categoryToDelete)
+    );
     setSnackbar({
       open: true,
       message: '삭제되었습니다',
@@ -69,7 +71,10 @@ export const CategorizeStep = ({
     setSheetMode('none');
   };
   const onSingleCategoryEdit = (id: number) => {
-    setDraftName(category.find((c) => c.id === id)?.questionCategory ?? '');
+    setDraftName(
+      category.find((c) => c.questionCategoryId === id)?.questionCategoryName ??
+        ''
+    );
     setSheetMode('editText');
   };
   const handleSave = () => {
@@ -91,7 +96,7 @@ export const CategorizeStep = ({
         </p>
         <div className="flex flex-wrap content-start items-start gap-[.6875rem_.625rem] self-stretch">
           {category.map((c) => (
-            <CategoryChip text={c.questionCategory} theme="talkBox" />
+            <CategoryChip text={c.questionCategoryName} theme="talkBox" />
           ))}
         </div>
       </div>

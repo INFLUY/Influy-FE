@@ -41,8 +41,6 @@ export {
   PendingQuestionsTab,
   AnsweredQuestionsTab,
 } from './seller/talkBox/QuestionsListPage';
-export {
-  TalkBoxCategoryPage,
-  PendingCategoryTab,
-  AnsweredCategoryTab,
-} from './seller/talkBox/TalkBoxCategoryPage';
+export { TalkBoxCategoryPage } from './seller/talkBox/category/TalkBoxCategoryPage';
+export { PendingCategoryTab } from './seller/talkBox/category/PendingCategoryTab';
+export { AnsweredCategoryTab } from './seller/talkBox/category/AnsweredCategoryTab';

@@ -1,4 +1,4 @@
-import { QuestionCategory } from '@/types/seller/TalkBox.types';
+import { QuestionCategoryDTO } from '@/types/seller/TalkBox.types';
 import { QuestionCountBadge } from '@/components';
 import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 
@@ -7,30 +7,30 @@ export const TalkBoxCategoryItem = ({
   handleCategoryClick,
   mode,
 }: {
-  category: QuestionCategory;
+  category: QuestionCategoryDTO;
   handleCategoryClick: (categoryId: number) => void;
   mode: 'pending' | 'answered';
 }) => {
   return (
     <article
       className="flex w-full cursor-pointer items-center justify-between px-5 py-0"
-      key={category.id}
+      key={category.questionCategoryId}
       onClick={() => {
-        handleCategoryClick(category.id);
+        handleCategoryClick(category.questionCategoryId);
       }}
     >
       <div className="flex gap-0.5 text-black">
-        <span className="body1-b">{category.questionCategory}</span>
-        {(category.pendingCount ?? 0) > 0 && (
-          <span className="body1-m">({category.pendingCount})</span>
+        <span className="body1-b">{category.questionCategoryName}</span>
+        {(category.questionCnt ?? 0) > 0 && (
+          <span className="body1-m">({category.questionCnt})</span>
         )}
       </div>
       <div className="flex items-center gap-1.5">
         {mode === 'pending' &&
-          category.totalCount &&
-          category.totalCount > 0 && (
-            <QuestionCountBadge count={category.totalCount} />
-          )}
+        category.unCheckedCnt &&
+        category.unCheckedCnt > 0 ? (
+          <QuestionCountBadge count={category.unCheckedCnt} />
+        ) : null}
         <ArrowRightIcon className="text-grey07 h-4 w-4" />
       </div>
     </article>

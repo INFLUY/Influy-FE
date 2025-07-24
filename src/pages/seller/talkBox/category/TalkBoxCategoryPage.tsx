@@ -1,14 +1,8 @@
 import { ReactNode, useState, useEffect } from 'react';
 import { PATH } from '@/routes/path';
-import {
-  PageHeader,
-  Tab,
-  Tabs,
-  TalkBoxCategoryItem,
-  TalkBoxBottomItemCard,
-} from '@/components';
-import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
+import { PageHeader, Tab, Tabs, TalkBoxBottomItemCard } from '@/components';
 
+import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
 import SettingsIcon from '@/assets/icon/common/SettingsIcon.svg?react';
 
@@ -19,13 +13,21 @@ import {
   useParams,
 } from 'react-router-dom';
 
-import { dummyQuestionCategories } from './talkboxMockData';
-import { QuestionCategory } from '@/types/seller/TalkBox.types';
+//api
+import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
 
 export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
   const [tabCounts, setTabCounts] = useState({
     pending: 0,
     answered: 0,
+  });
+
+  const { itemId } = useParams();
+
+  // 하단 상품 정보
+  const { itemOverview } = useItemOverview({
+    sellerId: 2, // TODO: 수정 필요
+    itemId: Number(itemId),
   });
 
   //임시
@@ -48,10 +50,9 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
 
   const navigate = useNavigate();
   const { pathname, state } = useLocation();
-  const { itemId } = useParams();
 
+  // 온보딩 페이지에서 진입 (처음 진입시) 여부 판단
   const isOnboarding = state?.isOnboarding;
-  console.log(isOnboarding);
 
   const handleSettingClick = () => {
     const path = generatePath(`${PATH.SELLER.talkBox.item.setting.base}`);
@@ -124,87 +125,15 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
 
       {children}
 
-      <TalkBoxBottomItemCard
-        onCardClick={() => {}}
-        title="[11차] 워크팬츠_navy"
-        tagline="오버핏이 감각적인 워크팬츠, 제작템입니다. 글글글글글글글"
-        imgUrl=""
-      />
-    </section>
-  );
-};
-
-export const PendingCategoryTab = () => {
-  const [categoryList, setCategoryList] = useState<QuestionCategory[]>([]);
-
-  const navigate = useNavigate();
-  const { itemId } = useParams();
-  const handleCategoryClick = (categoryId: number) => {
-    const path = generatePath(
-      `${PATH.SELLER.base}/${PATH.SELLER.talkBox.base}/${PATH.SELLER.talkBox.item.base}/${PATH.SELLER.talkBox.item.category.base}/${PATH.SELLER.talkBox.item.category.tabs.pending}`,
-      {
-        itemId: String(itemId),
-        categoryId: String(categoryId),
-      }
-    );
-    navigate(path);
-  };
-
-  //임시
-  useEffect(() => {
-    setCategoryList(dummyQuestionCategories);
-  }, []);
-
-  return (
-    <section className="mt-[1.625rem] flex w-full flex-col items-start gap-8">
-      {categoryList &&
-        categoryList.length > 0 &&
-        categoryList.map((category) => (
-          <TalkBoxCategoryItem
-            key={category.id}
-            category={category}
-            handleCategoryClick={handleCategoryClick}
-            mode="pending"
-          />
-        ))}
-    </section>
-  );
-};
-
-export const AnsweredCategoryTab = () => {
-  const [categoryList, setCategoryList] = useState<QuestionCategory[]>([]);
-
-  const navigate = useNavigate();
-  const { itemId } = useParams();
-  const handleCategoryClick = (categoryId: number) => {
-    const path = generatePath(
-      `${PATH.SELLER.base}/${PATH.SELLER.talkBox.base}/${PATH.SELLER.talkBox.item.base}/${PATH.SELLER.talkBox.item.category.base}/${PATH.SELLER.talkBox.item.category.tabs.answered}`,
-      {
-        itemId: String(itemId),
-        categoryId: String(categoryId),
-      }
-    );
-    navigate(path);
-  };
-
-  //임시
-  useEffect(() => {
-    console.log('실행');
-    setCategoryList(dummyQuestionCategories);
-  }, []);
-
-  return (
-    <section className="mt-[1.625rem] flex w-full flex-col items-start gap-8">
-      {categoryList &&
-        categoryList.length > 0 &&
-        categoryList.map((category) => (
-          <TalkBoxCategoryItem
-            key={category.id}
-            category={category}
-            handleCategoryClick={handleCategoryClick}
-            mode="answered"
-          />
-        ))}
+      {/* TODO: opened 처리 */}
+      {itemOverview && (
+        <TalkBoxBottomItemCard
+          onCardClick={() => {}}
+          itemName={itemOverview.itemName}
+          tagline={itemOverview.tagline}
+          mainImg={itemOverview.mainImg}
+        />
+      )}
     </section>
   );
 };

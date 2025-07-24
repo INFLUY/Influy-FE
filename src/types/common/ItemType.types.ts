@@ -57,3 +57,11 @@ export type FaqQuestion = {
   pinned: true;
   updatedAt: string;
 };
+
+export interface ItemOverviewDTO {
+  id: number;
+  itemName: string;
+  tagline: string;
+  mainImg: string;
+  talkBoxOpenStatus: 'OPEN' | 'CLOSED';
+}

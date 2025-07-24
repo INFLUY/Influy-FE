@@ -12,28 +12,28 @@ import {
   ActivateStep,
   CategorizeStep,
 } from '@/components/seller/talkBox/onboarding/OnboardingStep';
-import { QuestionCategory } from '@/types/seller/TalkBox.types';
+import { QuestionCategoryDTO } from '@/types/seller/TalkBox.types';
 
-const mockCategories: QuestionCategory[] = [
+const mockCategories: QuestionCategoryDTO[] = [
   {
-    id: 1,
-    questionCategory: '사이즈',
+    questionCategoryId: 1,
+    questionCategoryName: '사이즈',
   },
   {
-    id: 2,
-    questionCategory: '색상',
+    questionCategoryId: 2,
+    questionCategoryName: '색상',
   },
   {
-    id: 3,
-    questionCategory: '배송',
+    questionCategoryId: 3,
+    questionCategoryName: '배송',
   },
   {
-    id: 4,
-    questionCategory: '재입고',
+    questionCategoryId: 4,
+    questionCategoryName: '재입고',
   },
   {
-    id: 5,
-    questionCategory: '기타',
+    questionCategoryId: 5,
+    questionCategoryName: '기타',
   },
 ];
 
@@ -42,7 +42,7 @@ const OnboardingLayout = () => {
   const navigate = useNavigate();
   const { itemId } = useParams<{ itemId: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [category, setCategory] = useState<QuestionCategory[]>([]);
+  const [category, setCategory] = useState<QuestionCategoryDTO[]>([]);
 
   const currentStep = searchParams.get('step'); // 'step' 쿼리 파라미터를 읽습니다.
   console.log(currentStep);

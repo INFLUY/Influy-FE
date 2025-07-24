@@ -34,7 +34,7 @@ export const CategoryEditItem = ({
 };
 
 export type SheetMode = 'none' | 'add' | 'editList' | 'editText' | 'delete';
-import { QuestionCategory } from '@/types/seller/TalkBox.types';
+import { QuestionCategoryDTO } from '@/types/seller/TalkBox.types';
 
 export const CategoryUpsertSheet = ({
   handleSave,
@@ -56,7 +56,7 @@ export const CategoryUpsertSheet = ({
   onClose: () => void;
   onRemove: (id: number) => void;
   onSingleCategoryEdit: (id: number) => void;
-  category: QuestionCategory[];
+  category: QuestionCategoryDTO[];
   mode: SheetMode;
 }) => {
   // 시트가 열릴 때의 initial value 를 기억할 ref
@@ -110,10 +110,10 @@ export const CategoryUpsertSheet = ({
               <section className="scrollbar-hide flex h-fit max-h-[23.3125rem] w-full flex-col gap-4 overflow-auto">
                 {category.map((c) => (
                   <CategoryEditItem
-                    id={c.id}
+                    id={c.questionCategoryId}
                     onRemove={onRemove}
                     onEdit={onSingleCategoryEdit}
-                    text={c.questionCategory}
+                    text={c.questionCategoryName}
                   />
                 ))}
               </section>

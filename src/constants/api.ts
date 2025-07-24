@@ -15,8 +15,18 @@ export const API_DOMAINS = {
   USER_JOIN: 'register/user',
 };
 
+export const SELLER_API_DOMAINS = {
+  ITEM_OVERVIEW: '/seller/:sellerId/items/:itemId/item-overview',
+
+  // 질문 카테고리
+  SELLER_QUESTION_CATEGORY:
+    '/seller/:sellerId/items/:itemId/question-categories',
+};
+
 export const QUERY_KEYS = {
   // seller
   SELLER_ANNOUNCEMENT: 'sellerMyAnnouncements',
   SELLER_PRIMARY_ANNOUNCEMENT: 'sellerMyPrimaryAnnouncement',
+  SELLER_ITEM_OVERVIEW: 'sellerItemOverview',
+  SELLER_QUESTION_CATEGORY: 'sellerQuestionCategory',
 };

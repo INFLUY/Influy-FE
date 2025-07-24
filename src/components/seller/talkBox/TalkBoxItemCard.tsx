@@ -51,34 +51,34 @@ export const TalkBoxItemCard = ({ item }: { item: TalkBoxItem }) => {
 
 export const TalkBoxBottomItemCard = ({
   onCardClick,
-  title,
+  itemName,
   tagline,
-  imgUrl,
+  mainImg,
 }: {
   onCardClick: () => void;
-  title: string;
+  itemName: string;
   tagline: string | null;
-  imgUrl: string | null;
+  mainImg: string | null;
 }) => {
   return (
     <button
       onClick={onCardClick}
-      aria-label={`${title} 상세로 이동`}
+      aria-label={`${itemName} 상세로 이동`}
       className="border-t-grey03 fixed bottom-0 z-1 flex h-fit w-full max-w-[40rem] min-w-[20rem] cursor-pointer items-center gap-[.5625rem] self-stretch border-t border-solid bg-white px-5 py-2 md:w-[28rem]"
     >
       {/* 좌측 이미지 */}
       <div className="bg-grey03 relative aspect-square h-[3.125rem]">
-        {imgUrl && (
+        {mainImg && (
           <img
             className="aspect-square h-full rounded-[.0625rem] object-cover"
-            src={imgUrl}
-            alt={title + ' 사진'}
+            src={mainImg}
+            alt="상품 사진"
           />
         )}
       </div>
       {/* 우측 상품 정보 */}
       <div className="flex h-full flex-1 flex-col gap-0.5 text-left text-black">
-        <p className="body2-b line-clamp-1">{title}</p>
+        <p className="body2-b line-clamp-1">{itemName}</p>
         {tagline && <p className="body2-m line-clamp-1">{tagline}</p>}
       </div>
       <ArrowRightIcon className="text-grey07 h-4 w-4" />
