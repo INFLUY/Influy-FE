@@ -17,6 +17,8 @@ import {
 import InfluencerCard, {
   InfluencerCardType,
 } from '@/components/user/home/InfluencerCard';
+import UserTypeSwithBanner from '@/components/seller/home/UserTypeSwitchBanner';
+import { useAuthStore } from '@/store/authStore';
 
 interface TopBannerItem {
   image: string;
@@ -113,6 +115,15 @@ const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [selectedInfluencer, setSelectedInfluencer] = useState<number>(1);
 
+  const { sellerId } = useAuthStore();
+
+  const MyProfile = {
+    id: 1,
+    nickname: '혜선',
+    username: '@thgusth',
+    profileImage: '/profile.png',
+  };
+
   return (
     <section className="top-banner-swiper-section bg-grey01 flex w-full flex-1 flex-col">
       <PageHeader
@@ -127,6 +138,11 @@ const HomePage = () => {
         additionalStyles="border-0 h-11"
       />
       <section className="scrollbar-hide flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+        {sellerId !== null && (
+          <span className="flex w-full px-5 pt-4 pb-7">
+            <UserTypeSwithBanner influencer={MyProfile} userType="user" />
+          </span>
+        )}
         <TopBannerSwiper data={topBannerMockData} />
         <section className="flex w-full flex-col gap-4 pt-7 pb-3">
           <h1 className="subhead-b px-5 text-black">내 취향의 인플루언서</h1>

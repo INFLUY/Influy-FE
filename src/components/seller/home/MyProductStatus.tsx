@@ -13,11 +13,11 @@ const MyProductStatus = () => {
   const navigate = useNavigate();
 
   //임시
-  // const item = [{ id: 1 }, { id: 1 }];
-  const item: [] = [];
+  const item = [{ id: 1 }, { id: 1 }];
+  // const item: [] = [];
 
   return (
-    <section className="status-card-swiper-section flex flex-col gap-6 py-5">
+    <section className="status-card-swiper-section flex flex-col gap-6">
       <h1 className="subhead-b px-5 text-black">내 상품 현황</h1>
 
       {item && item.length > 0 ? (

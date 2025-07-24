@@ -2,10 +2,18 @@ import { PageHeader, MyProductStatus, BottomNavBar } from '@/components';
 import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
+import UserTypeSwithBanner from '@/components/seller/home/UserTypeSwitchBanner';
 
 const SellerHomePage = () => {
+  const MyProfile = {
+    id: 1,
+    nickname: '혜선',
+    username: '@thgusth',
+    profileImage: '/profile.png',
+  };
+
   return (
-    <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+    <section className="bg-grey01 relative flex w-full flex-1 flex-col">
       <PageHeader
         leftIcons={[<InfluyIcon role="button" aria-label="뒤로 가기" />]}
         rightIcons={[
@@ -17,9 +25,15 @@ const SellerHomePage = () => {
         ]}
         additionalStyles="border-0 h-11"
       />
-      <MyProductStatus />
+      <section className="scrollbar-hide flex w-full flex-1 flex-col gap-4 overflow-x-hidden overflow-y-auto py-4">
+        <span className="w-full px-5">
+          <UserTypeSwithBanner influencer={MyProfile} userType="influencer" />
+        </span>
 
-      <BottomNavBar userType="SELLER" />
+        <MyProductStatus />
+
+        <BottomNavBar userType="SELLER" />
+      </section>
     </section>
   );
 };

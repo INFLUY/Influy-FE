@@ -2,7 +2,9 @@ export { default as GlobalLayout } from './layout/GlobalLayout';
 export { default as Loading } from './loading/Loading';
 export { default as ErrorContent } from './error/ErrorContent';
 
-// common
+{
+  /* common */
+}
 export { default as LoadingSpinner } from './common/LoadingSpinner';
 export { default as BottomSheet } from './common/BottomSheet';
 export { default as SellerProfileCard } from './common/SellerProfileCard';
@@ -30,7 +32,10 @@ export { ItemDetailProfile } from './common/item/ItemDetailProfile';
 //common/card
 export { default as ItemAlbumCard } from './common/card/ItemAlbumCard.tsx';
 export { default as HorizontalRankingCard } from './common/card/HorizontalRankingCard.tsx';
-//user
+
+{
+  /* user */
+}
 //common
 export { ItemGrid } from './user/common/Item';
 export { TimeChip, SoldOutChip, ExtendChip } from './user/common/Chip';
@@ -44,7 +49,9 @@ export { HomeSectionTitle } from './user/home/HomeSectionTitle.tsx';
 export { default as HomeCommonSection } from './user/home/HomeCommonSection.tsx';
 export { MoreButton } from './user/home/MoreButton.tsx';
 
-//seller
+{
+  /* seller */
+}
 //common
 export { DefaultButton, ModalButton, AddButton } from './seller/common/Button';
 export { TipTooltip } from './seller/common/TipTooltip';
@@ -108,3 +115,4 @@ export { ItemForm } from './seller/item/registration/ItemForm.tsx';
 
 // home
 export { default as MyProductStatus } from './seller/home/MyProductStatus.tsx';
+export { default as UserTypeSwitchBanner } from './seller/home/UserTypeSwitchBanner.tsx';
