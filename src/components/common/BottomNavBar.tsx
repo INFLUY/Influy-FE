@@ -14,7 +14,9 @@ const sellerTabRouteMap: Record<string, string[]> = {
     `${PATH.SELLER.base}/${PATH.SELLER.home.base}`,
   ],
   [`${PATH.SELLER.base}/talk-box`]: [`${PATH.SELLER.base}/talk-box`],
-  [`${PATH.SELLER.base}/calender`]: [`${PATH.SELLER.base}/calender`],
+  [`${PATH.SELLER.base}/${PATH.SELLER.calender.base}`]: [
+    `${PATH.SELLER.base}/${PATH.SELLER.calender.base}`,
+  ],
   [`${PATH.SELLER.base}/${PATH.SELLER.my.base}`]: [
     `${PATH.SELLER.base}/${PATH.SELLER.my.base}/${PATH.SELLER.my.tabs.selection}`,
     `${PATH.SELLER.base}/${PATH.SELLER.my.base}/${PATH.SELLER.my.tabs.stored}`,
@@ -97,7 +99,7 @@ const sellerNavItems: BottomNavItem[] = [
     aria: '톡박스',
   },
   {
-    to: `${PATH.SELLER.base}/calender`,
+    to: `${PATH.SELLER.base}/${PATH.SELLER.calender.base}`,
     label: '캘린더',
     icon: <CalendarIcon className="h-6 w-6" />,
     aria: '캘린더',
@@ -137,6 +139,8 @@ export const BottomNavBar = ({
                   item.to,
                   userType
                 );
+                console.log(isActive);
+                console.log(item.to);
                 return (
                   <NavLink
                     to={item.to}

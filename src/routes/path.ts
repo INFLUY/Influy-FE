@@ -52,6 +52,9 @@ export const PATH = {
     home: {
       base: 'home',
     },
+    calender: {
+      base: 'calendar',
+    },
     my: {
       base: 'my-market',
       tabs: {

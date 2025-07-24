@@ -35,6 +35,8 @@ import {
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { SellerAuthInterceptor } from './AuthInterceptor';
+import CalendarPage from '@/pages/user/calendar/CalendarPage';
+import SellerCalendarPage from '@/pages/seller/calendar/CalendarPage';
 
 const SelectionTab = lazy(
   () => import('@/pages/user/sellerProfile/SelectionTab')
@@ -178,6 +180,11 @@ const router = createBrowserRouter([
           },
         ],
       },
+      // 캘린더
+      {
+        path: PATH.CALENDAR.base,
+        element: <CalendarPage />,
+      },
 
       // 셀러뷰
       {
@@ -193,6 +200,12 @@ const router = createBrowserRouter([
           {
             path: PATH.SELLER.home.base,
             element: <SellerHomePage />,
+          },
+
+          // 캘린더
+          {
+            path: PATH.SELLER.calender.base,
+            element: <SellerCalendarPage />,
           },
 
           // 마이
