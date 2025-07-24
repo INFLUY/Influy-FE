@@ -16,13 +16,12 @@ export const WelcomePage = () => {
       <PageHeader
         rightIcons={[
           <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
+            className="h-6 w-6 cursor-pointer text-white"
             onClick={() => navigate('')}
           />,
         ]}
-      >
-        회원가입
-      </PageHeader>
+        additionalStyles="border-0"
+      ></PageHeader>
       <section className="flex w-full flex-1 flex-col gap-11 px-5 py-[3.25rem]">
         <h1 className="headline2 whitespace-pre text-black">
           {`인플루이에 오신 것을\n환영합니다!`}

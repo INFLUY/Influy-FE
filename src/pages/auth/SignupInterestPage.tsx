@@ -7,29 +7,118 @@ import {
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
+import {
+  useAuthStore,
+  useSellerSignupStore,
+  useUserSignupStore,
+} from '@/store/authStore';
 import PRODUCT_CATEGORIES from '@/constants/productCategories';
+import {
+  useRegisterSeller,
+  useRegisterUser,
+} from '@/services/auth/useRegisterUser';
+import { SnsLinkProps } from '@/types/common/AuthTypes.types';
 
 export const SignupInterestPage = () => {
   const navigate = useNavigate();
-
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 
-  const { reset: sellerSignupStateReset } = useSellerSignupStore();
+  const location = useLocation();
+  const path = location.pathname.split('/');
+  const userType = path[path.length - 2];
+
+  const {
+    id: sellerId,
+    sns,
+    email,
+    intersetedCategories: sellerIntersetedCategories,
+    setInterestedCategories: setSellerInterestedCategories,
+    reset: sellerSignupStateReset,
+  } = useSellerSignupStore();
   const {
     id: userId,
-    setInterestedCategories,
+    intersetedCategories: userIntersetedCategories,
+    setInterestedCategories: setUserInterestedCategories,
     reset: userSignupStateReset,
   } = useUserSignupStore();
+  const { kakaoId, clearAuthInfo } = useAuthStore();
+
   const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!userId) {
-      navigate(`../${PATH.REGISTER.type.user.id}`);
+    if (!kakaoId) {
+      navigate(PATH.LOGIN.base);
     }
-  }, []);
+
+    if (userType === 'influencer') {
+      if (!sellerId) {
+        navigate(`../${PATH.REGISTER.type.seller.id}`);
+      } else if (!sns.instagram) {
+        navigate(`../${PATH.REGISTER.type.seller.sns}`);
+      }
+      setSelectedCategories(sellerIntersetedCategories);
+    } else if (userType === 'user') {
+      if (!userId) {
+        navigate(`../${PATH.REGISTER.type.user.id}`);
+      }
+      setSelectedCategories(userIntersetedCategories);
+    }
+  }, [userType]);
+
+  useEffect(() => {
+    if (userType === 'influencer') {
+      setSellerInterestedCategories(selectedCategories);
+    } else if (userType === 'user') {
+      setUserInterestedCategories(selectedCategories);
+    }
+  }, [selectedCategories]);
+
+  const onSuccess = () => {
+    userSignupStateReset();
+    useUserSignupStore.persist.clearStorage();
+    sellerSignupStateReset();
+    useSellerSignupStore.persist.clearStorage();
+    clearAuthInfo();
+
+    navigate(PATH.WELCOME.base);
+  };
+
+  const { mutate: registerSeller } = useRegisterSeller(() => onSuccess);
+  const { mutate: registerUser } = useRegisterUser(() => onSuccess);
+
+  const handleSellerRegister = () => {
+    const sns: SnsLinkProps & { email?: string } = {
+      ...useSellerSignupStore.getState().sns,
+      email: email,
+    };
+
+    const optionalSns = Object.fromEntries(
+      Object.entries(sns).filter(([key, value]) => {
+        if (key === 'instagram') return false;
+        return value;
+      })
+    );
+
+    registerSeller({
+      userInfo: {
+        username: sellerId,
+        kakaoId: kakaoId!!,
+        intersetedCategories: selectedCategories,
+      },
+      instagram: sns.instagram,
+      ...optionalSns,
+    });
+  };
+
+  const handleUserRegister = () => {
+    registerUser({
+      username: userId,
+      kakaoId: kakaoId!!,
+      intersetedCategories: selectedCategories,
+    });
+  };
 
   // 다음 버튼 클릭 핸들러
   const handleClickNext = () => {
@@ -38,15 +127,12 @@ export const SignupInterestPage = () => {
       return;
     }
 
-    setInterestedCategories(selectedCategories);
-
     // 백 연동
-
-    userSignupStateReset();
-    useUserSignupStore.persist.clearStorage();
-    sellerSignupStateReset();
-    useSellerSignupStore.persist.clearStorage();
-    navigate(PATH.WELCOME.base);
+    if (userType === 'influencer') {
+      handleSellerRegister();
+    } else if (userType === 'user') {
+      handleUserRegister();
+    }
   };
 
   return (

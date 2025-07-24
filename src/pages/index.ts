@@ -4,6 +4,7 @@ export { default as CategoryPage } from './common/home/CategoryPage';
 export { default as EndingSoonPage } from './common/home/EndingSoonPage';
 export { default as SplashScreen } from './splash/SplashScreen';
 export { default as LoginPage } from './auth/LoginPage';
+export { KakaoLoginHandler } from './auth/KakaoLoginHandler';
 export { UserTypeSelectPage } from './auth/UserTypeSelectPage';
 export { SignupIdPage } from './auth/SignupIdPage';
 export { SignupSnsLinkPage } from './auth/SignupSnsLinkPage';

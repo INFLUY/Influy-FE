@@ -46,6 +46,11 @@ export const SignupSnsLinkPage = () => {
 
   const partialSnsSchema = snsSchema.partial();
 
+  const handleInstagramInput = (value: string) => {
+    if (!isDirty) setIsDirty(true);
+    setInstagramUrl(value);
+  };
+
   // 다음 버튼 클릭 핸들러
   const handleClickNext = () => {
     if (!isDirty) setIsDirty(true);
@@ -124,13 +129,13 @@ export const SignupSnsLinkPage = () => {
           </div>
           <TextInput
             text={instagramUrl}
-            setText={setInstagramUrl}
+            setText={handleInstagramInput}
             inputRef={instagramRef}
             isValid={
               !isDirty ||
-              snsSchema.safeParse({ instagram: instagramUrl }).success
+              partialSnsSchema.safeParse({ instagram: instagramUrl }).success
             }
-            placeHolderContent="링크 URL을 입력해 주세요."
+            placeHolderContent="https://www.instagram.com/"
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -145,7 +150,7 @@ export const SignupSnsLinkPage = () => {
             isValid={
               partialSnsSchema.safeParse({ youtube: youtubeUrl }).success
             }
-            placeHolderContent="링크 URL을 입력해 주세요."
+            placeHolderContent="https://www.youtube.com/"
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -158,7 +163,7 @@ export const SignupSnsLinkPage = () => {
             setText={setTiktokUrl}
             inputRef={tiktokRef}
             isValid={partialSnsSchema.safeParse({ tiktok: tiktokUrl }).success}
-            placeHolderContent="링크 URL을 입력해 주세요."
+            placeHolderContent="https://www.tiktok.com/"
           />
         </div>
       </section>

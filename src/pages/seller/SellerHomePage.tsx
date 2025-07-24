@@ -14,7 +14,7 @@ const SellerHomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
 
   return (
-    <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+    <section className="bg-grey01 relative flex w-full flex-1 flex-col">
       <PageHeader
         leftIcons={[<InfluyIcon role="button" aria-label="뒤로 가기" />]}
         rightIcons={[
@@ -24,20 +24,19 @@ const SellerHomePage = () => {
             <div className="absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full bg-[#F43232]" />
           </button>,
         ]}
-        additionalStyles="bg-white border-0 "
-      >
-        <div className="h-[1.6875rem]" />
-      </PageHeader>
-      <MyProductStatus />
-
-      <HomeCommonSection
-        expiringItem={itemMockData}
-        trendingItem={itemMockData}
-        recommendedItem={recommendMockData}
-        categoryList={dummyCategory}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
+        additionalStyles="border-0 "
       />
+      <section className="scrollbar-hide flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+        <MyProductStatus />
+        <HomeCommonSection
+          expiringItem={itemMockData}
+          trendingItem={itemMockData}
+          recommendedItem={recommendMockData}
+          categoryList={dummyCategory}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
+      </section>
 
       <BottomNavBar />
     </section>

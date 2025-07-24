@@ -32,10 +32,12 @@ import {
   SignupSnsLinkPage,
   WelcomePage,
   SignupEmailPage,
+  KakaoLoginHandler,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { SellerAuthInterceptor } from './AuthInterceptor';
+import RegisterRoute from './RegisterRoute';
 
 const SelectionTab = lazy(
   () => import('@/pages/user/sellerProfile/SelectionTab')
@@ -80,8 +82,12 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: PATH.OAUTH.base,
+        element: <KakaoLoginHandler />,
+      },
+      {
         path: PATH.REGISTER.base,
-        element: <Outlet />,
+        element: <RegisterRoute />,
         children: [
           {
             index: true,
@@ -128,6 +134,10 @@ const router = createBrowserRouter([
               {
                 path: PATH.REGISTER.type.seller.email,
                 element: <SignupEmailPage />,
+              },
+              {
+                path: PATH.REGISTER.type.seller.interest,
+                element: <SignupInterestPage />,
               },
             ],
           },

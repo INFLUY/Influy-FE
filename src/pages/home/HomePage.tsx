@@ -116,7 +116,7 @@ const HomePage = () => {
   const [selectedInfluencer, setSelectedInfluencer] = useState<number>(1);
 
   return (
-    <section className="top-banner-swiper-section bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+    <section className="top-banner-swiper-section bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col">
       <PageHeader
         leftIcons={[<InfluyIcon role="button" aria-label="뒤로 가기" />]}
         rightIcons={[
@@ -126,67 +126,67 @@ const HomePage = () => {
             <div className="absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full bg-[#F43232]" />
           </button>,
         ]}
-        additionalStyles="bg-white border-0"
-      >
-        <div className="h-[1.6875rem]" />
-      </PageHeader>
-      <TopBannerSwiper data={topBannerMockData} />
-      <section className="flex w-full flex-col gap-4 pt-7 pb-3">
-        <h1 className="subhead-b px-5 text-black">내 취향의 인플루언서</h1>
-        <div className="scrollbar-hide flex gap-6 overflow-x-scroll px-5">
-          {influencerMockData.map((influencer) => (
-            <InfluencerCard
-              key={influencer.id}
-              influencer={influencer}
-              selectedInfluencer={selectedInfluencer}
-              setSelectedInfluencer={setSelectedInfluencer}
-            />
-          ))}
-        </div>
-      </section>
-      {/* 셀러가 픽한 상품 */}
-      <section className="bg-grey02 mb-5 flex w-full flex-col gap-[.875rem] pt-4 pb-5">
-        {/* 제목 */}
-        <div className="flex items-center justify-between px-5">
-          <h1 className="subhead-b text-black">
-            {
-              influencerMockData.find(
-                (influencer) => influencer.id === selectedInfluencer
-              )?.nickname
-            }
-            님이 <span className="text-main">Pick</span>한 상품
-          </h1>
-          <button
-            type="button"
-            onClick={() => {}}
-            aria-label="더보기"
-            className="body2-m text-grey10 flex items-center gap-[.1875rem]"
-          >
-            더보기
-            <ArrowRightMiniIcon className="h-2.5 w-2.5" />
-          </button>
-        </div>
-
-        {/* 사진 */}
-        <div className="flex w-full gap-0.5 px-5">
-          {pickMockData.map((item) => (
-            <div className="aspect-square flex-1/3">
-              <img
-                src={item.image}
-                className="h-full w-full rounded-[.1273rem] object-cover"
+        additionalStyles="border-0"
+      ></PageHeader>
+      <section className="scrollbar-hide flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+        <TopBannerSwiper data={topBannerMockData} />
+        <article className="flex w-full flex-col gap-4 pt-7 pb-3">
+          <h1 className="subhead-b px-5 text-black">내 취향의 인플루언서</h1>
+          <div className="scrollbar-hide flex gap-6 overflow-x-scroll px-5">
+            {influencerMockData.map((influencer) => (
+              <InfluencerCard
+                key={influencer.id}
+                influencer={influencer}
+                selectedInfluencer={selectedInfluencer}
+                setSelectedInfluencer={setSelectedInfluencer}
               />
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </article>
+        {/* 셀러가 픽한 상품 */}
+        <article className="bg-grey02 mb-5 flex w-full flex-col gap-[.875rem] pt-4 pb-5">
+          {/* 제목 */}
+          <div className="flex items-center justify-between px-5">
+            <h1 className="subhead-b text-black">
+              {
+                influencerMockData.find(
+                  (influencer) => influencer.id === selectedInfluencer
+                )?.nickname
+              }
+              님이 <span className="text-main">Pick</span>한 상품
+            </h1>
+            <button
+              type="button"
+              onClick={() => {}}
+              aria-label="더보기"
+              className="body2-m text-grey10 flex items-center gap-[.1875rem]"
+            >
+              더보기
+              <ArrowRightMiniIcon className="h-2.5 w-2.5" />
+            </button>
+          </div>
+
+          {/* 사진 */}
+          <div className="flex w-full gap-0.5 px-5">
+            {pickMockData.map((item) => (
+              <div className="aspect-square flex-1/3">
+                <img
+                  src={item.image}
+                  className="h-full w-full rounded-[.1273rem] object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </article>
+        <HomeCommonSection
+          expiringItem={itemMockData}
+          trendingItem={itemMockData}
+          recommendedItem={recommendMockData}
+          categoryList={dummyCategory}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
       </section>
-      <HomeCommonSection
-        expiringItem={itemMockData}
-        trendingItem={itemMockData}
-        recommendedItem={recommendMockData}
-        categoryList={dummyCategory}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-      />
       <BottomNavBar />
     </section>
   );
