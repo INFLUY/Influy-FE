@@ -4,6 +4,7 @@ import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import { ItemCardType } from '@/types/common/ItemType.types';
 import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/routes/path';
 const itemMockData: ItemCardType[] = [
   {
     itemId: 101,
@@ -14,6 +15,7 @@ const itemMockData: ItemCardType[] = [
     tagline: null,
     currentStatus: 'DEFAULT',
     sellerName: 'daisylooks',
+    sellerId: 1,
     mainImg: '/img1.png',
     isScrapped: true,
   },
@@ -27,6 +29,7 @@ const itemMockData: ItemCardType[] = [
     currentStatus: 'DEFAULT',
     sellerName: 'minwhite',
     mainImg: '/img1.png',
+    sellerId: 5,
     isScrapped: false,
   },
   {
@@ -39,6 +42,7 @@ const itemMockData: ItemCardType[] = [
     tagline: '기본에 충실한 핏. 계절 상관없이 활용도 높은 데일리 데님입니다.',
     currentStatus: 'EXTEND',
     sellerName: 'jeanlab',
+    sellerId: 3,
     mainImg: '/img1.png',
     isScrapped: true,
   },
@@ -51,6 +55,7 @@ const itemMockData: ItemCardType[] = [
     tagline: '트렌디한 실루엣과 실용적인 포켓 디테일로 다양한 무드 연출 가능.',
     currentStatus: 'SOLD_OUT',
     sellerName: 'outermint',
+    sellerId: 9,
     mainImg: '/img1.png',
     isScrapped: false,
   },
@@ -79,7 +84,15 @@ const EndingSoonPage = () => {
       </PageHeader>
       <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
         {itemMockData.map((item) => (
-          <ItemAlbumCard key={item.itemId} item={item} onCardClick={() => {}} />
+          <ItemAlbumCard
+            key={item.itemId}
+            item={item}
+            onCardClick={() =>
+              navigate(
+                `${PATH.MARKET.BASE}/${item.sellerId}/${PATH.MARKET.DETAIL.ITEM.BASE}/${item.itemId}`
+              )
+            }
+          />
         ))}
       </div>
     </section>

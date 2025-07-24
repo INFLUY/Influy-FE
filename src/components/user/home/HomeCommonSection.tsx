@@ -41,7 +41,11 @@ const HomeCommonSection = ({
             <ItemAlbumCard
               key={item.itemId}
               item={item}
-              onCardClick={() => {}}
+              onCardClick={() =>
+                navigate(
+                  `${PATH.MARKET.BASE}/${item.sellerId}/${PATH.MARKET.DETAIL.ITEM.BASE}/${item.itemId}`
+                )
+              }
             />
           ))}
         </div>
@@ -56,7 +60,11 @@ const HomeCommonSection = ({
               key={item.itemId}
               item={item}
               ranking={i + 1}
-              onCardClick={() => {}}
+              onCardClick={() =>
+                navigate(
+                  `${PATH.MARKET.BASE}/${item.sellerId}/${PATH.MARKET.DETAIL.ITEM.BASE}/${item.itemId}`
+                )
+              }
             />
           ))}
         </div>
@@ -88,7 +96,11 @@ const HomeCommonSection = ({
             <ItemAlbumCard
               key={item.itemId}
               item={item}
-              onCardClick={() => {}}
+              onCardClick={() =>
+                navigate(
+                  `${PATH.MARKET.BASE}/${item.sellerId}/${PATH.MARKET.DETAIL.ITEM.BASE}/${item.itemId}`
+                )
+              }
             />
           ))}
         </div>

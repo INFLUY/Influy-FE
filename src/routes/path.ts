@@ -49,7 +49,8 @@ export const PATH = {
         REVIEW: 'review',
       },
       ITEM: {
-        BASE: ':itemId',
+        BASE: 'item',
+        ITEM_ID: ':itemId',
       },
     },
   },

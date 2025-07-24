@@ -196,7 +196,17 @@ const router = createBrowserRouter([
             children: [
               {
                 path: PATH.MARKET.DETAIL.ITEM.BASE,
-                element: <ItemDetailPage />,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    element: <NotFound />,
+                  },
+                  {
+                    path: PATH.MARKET.DETAIL.ITEM.ITEM_ID,
+                    element: <ItemDetailPage />,
+                  },
+                ],
               },
             ],
           },

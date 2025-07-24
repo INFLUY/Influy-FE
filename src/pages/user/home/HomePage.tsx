@@ -19,6 +19,8 @@ import InfluencerCard, {
 } from '@/components/user/home/InfluencerCard';
 import UserTypeSwithBanner from '@/components/seller/home/UserTypeSwitchBanner';
 import { useAuthStore } from '@/store/authStore';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/routes/path';
 
 interface TopBannerItem {
   image: string;
@@ -87,8 +89,19 @@ export const influencerMockData: InfluencerCardType[] = [
   },
 ];
 
-export const pickMockData: TopBannerItem[] = [
+interface InfluencerPickItemType {
+  name: string;
+  itemId: number;
+  sellerId: number;
+  image: string;
+  onClick: () => void;
+}
+
+export const pickMockData: InfluencerPickItemType[] = [
   {
+    name: '비누',
+    itemId: 1,
+    sellerId: 1,
     image: '/product.png',
     onClick: () => {
       console.log('🎉 Banner 1 clicked - 신상품 페이지로 이동');
@@ -96,6 +109,9 @@ export const pickMockData: TopBannerItem[] = [
     },
   },
   {
+    name: '비누',
+    itemId: 15,
+    sellerId: 2,
     image: '/banner.png',
     onClick: () => {
       console.log('🔥 Banner 2 clicked - 이벤트 페이지로 이동');
@@ -103,6 +119,9 @@ export const pickMockData: TopBannerItem[] = [
     },
   },
   {
+    name: '비누',
+    itemId: 11,
+    sellerId: 3,
     image: '/img1.png',
     onClick: () => {
       console.log('⭐ Banner 3 clicked - 인플루언서 소개');
@@ -112,6 +131,7 @@ export const pickMockData: TopBannerItem[] = [
 ];
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [selectedInfluencer, setSelectedInfluencer] = useState<number>(1);
 
@@ -169,16 +189,29 @@ const HomePage = () => {
               }
               님이 <span className="text-main">Pick</span>한 상품
             </h1>
-            <MoreButton onClickMore={() => {}} />
+            <MoreButton
+              onClickMore={() =>
+                navigate(`${PATH.MARKET.BASE}/${selectedInfluencer}`)
+              }
+            />
           </div>
 
           {/* 사진 */}
           <div className="flex w-full gap-0.5 px-5">
             {pickMockData.map((item, index) => (
-              <div className="aspect-square flex-1/3" key={index}>
+              <div
+                className="aspect-square flex-1/3"
+                key={index}
+                onClick={() =>
+                  navigate(
+                    `${PATH.MARKET.BASE}/${item.sellerId}/${PATH.MARKET.DETAIL.ITEM.BASE}/${item.itemId}`
+                  )
+                }
+              >
                 <img
                   src={item.image}
-                  className="h-full w-full rounded-[.1273rem] object-cover"
+                  className="h-full w-full rounded-[.125rem] object-cover"
+                  alt={item.name ?? '내 취향의 인플루언서 ㅇㅇ님이 픽한 상품'}
                 />
               </div>
             ))}
