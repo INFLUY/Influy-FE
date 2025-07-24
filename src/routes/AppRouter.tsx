@@ -18,7 +18,6 @@ import {
   ErrorPage,
   SellerMyProfileEditPage,
   FaqRegistrationPage,
-  SellerItemDetailPage,
   FaqEditPage,
   SellerHomePage,
   CategoryPage,
@@ -31,6 +30,7 @@ import {
   SignupSnsLinkPage,
   WelcomePage,
   SignupEmailPage,
+  ItemDetailPage,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -160,23 +160,45 @@ const router = createBrowserRouter([
       },
       {
         path: PATH.MARKET.BASE,
-        element: (
-          <SellerProfile>
-            <Outlet />
-          </SellerProfile>
-        ),
+        element: <Outlet />,
         children: [
           {
             index: true,
-            element: <Navigate to={PATH.MARKET.TABS.SELECTION} replace />,
+            element: <NotFound />,
           },
           {
-            path: PATH.MARKET.TABS.SELECTION,
-            element: <SelectionTab />,
+            path: PATH.MARKET.DETAIL.BASE,
+            element: (
+              <SellerProfile>
+                <Outlet />
+              </SellerProfile>
+            ),
+            children: [
+              {
+                index: true,
+                element: (
+                  <Navigate to={PATH.MARKET.DETAIL.TABS.SELECTION} replace />
+                ),
+              },
+              {
+                path: PATH.MARKET.DETAIL.TABS.SELECTION,
+                element: <SelectionTab />,
+              },
+              {
+                path: PATH.MARKET.DETAIL.TABS.REVIEW,
+                element: <ReviewTab />,
+              },
+            ],
           },
           {
-            path: PATH.MARKET.TABS.REVIEW,
-            element: <ReviewTab />,
+            path: PATH.MARKET.DETAIL.BASE,
+            element: <Outlet />,
+            children: [
+              {
+                path: PATH.MARKET.DETAIL.ITEM.BASE,
+                element: <ItemDetailPage />,
+              },
+            ],
           },
         ],
       },
@@ -285,7 +307,7 @@ const router = createBrowserRouter([
                 children: [
                   {
                     index: true,
-                    element: <SellerItemDetailPage />, // 셀러 상품 상세페이지
+                    element: <ItemDetailPage />, // 셀러 상품 상세페이지
                   },
                   {
                     path: PATH.SELLER.ITEM.ADMINISTRATION.EDIT.BASE,

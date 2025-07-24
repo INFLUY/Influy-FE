@@ -27,7 +27,7 @@ const ItemDetailInfo = lazy(
   () => import('@/components/common/item/ItemDetailInfo')
 );
 
-const SellerItemDetailPage = () => {
+const ItemDetailPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
@@ -101,7 +101,7 @@ const SellerItemDetailPage = () => {
       },
       icon: <EditIcon className="h-6 w-6" />,
       aria: '상품 수정',
-    }, //추후 상품 페이지로 이동하도록 수정 필요
+    },
   ];
 
   const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
@@ -199,4 +199,4 @@ const SellerItemDetailPage = () => {
   );
 };
 
-export default SellerItemDetailPage;
+export default ItemDetailPage;

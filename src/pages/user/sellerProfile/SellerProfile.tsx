@@ -19,13 +19,23 @@ const SellerNoticeBottomSheet = lazy(
 );
 
 const SellerProfile = ({ children }: { children: ReactNode }) => {
-  const TABS = [
-    { id: 0, name: 'SELECTION', path: PATH.MARKET.TABS.SELECTION },
-    { id: 2, name: 'REVIEW', path: PATH.MARKET.TABS.REVIEW },
-  ];
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
+  const { marketId } = useParams();
+
+  const TABS = [
+    {
+      id: 0,
+      name: 'SELECTION',
+      path: `${PATH.MARKET.BASE}/${marketId}/${PATH.MARKET.DETAIL.TABS.SELECTION}`,
+    },
+    {
+      id: 2,
+      name: 'REVIEW',
+      path: `${PATH.MARKET.BASE}/${marketId}/${PATH.MARKET.DETAIL.TABS.REVIEW}`,
+    },
+  ];
 
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
@@ -36,8 +46,6 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
     { id: 2, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
     { id: 3, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
   ];
-
-  const { marketId } = useParams();
 
   const { data: primaryNotice } = useGetPrimaryNotification({
     sellerId: Number(marketId!),

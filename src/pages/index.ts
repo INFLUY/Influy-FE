@@ -28,6 +28,6 @@ export { ItemRegistrationPage } from './seller/item/ItemRegistrationPage';
 export { ItemFaqTab, ItemInfoTab } from './seller/item/ItemRegistrationTabs';
 export { default as FaqRegistrationPage } from './seller/item/faq/FaqRegistrationPage';
 export { default as FaqEditPage } from './seller/item/faq/FaqEditPage';
-export { default as SellerItemDetailPage } from './seller/item/SellerItemDetailPage';
+export { default as ItemDetailPage } from './seller/item/ItemDetailPage';
 
 export { default as SellerCalenderPage } from './seller/calendar/CalendarPage';

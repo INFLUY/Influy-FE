@@ -42,9 +42,15 @@ export const PATH = {
   },
   MARKET: {
     BASE: '/market',
-    TABS: {
-      SELECTION: 'selection',
-      REVIEW: 'review',
+    DETAIL: {
+      BASE: ':marketId',
+      TABS: {
+        SELECTION: 'selection',
+        REVIEW: 'review',
+      },
+      ITEM: {
+        BASE: ':itemId',
+      },
     },
   },
   SELLER: {
