@@ -1,3 +1,4 @@
+import cn from '@/utils/cn';
 import UserTypeToggleButton from './UserTypeToggleButton';
 
 export interface SimpleInfluencerType {
@@ -23,7 +24,12 @@ const UserTypeSwithBanner = ({
             alt="프로필 사진"
             className="aspect-square h-[2.875rem] rounded-full object-cover"
           />
-          <span className="border-main absolute top-0 left-0 z-[1] h-full w-full rounded-full border-[1.5px]" />
+          <span
+            className={cn(
+              'border-main absolute top-0 left-0 z-[1] h-full w-full rounded-full border',
+              userType === 'user' && 'border-black'
+            )}
+          />
         </div>
         <div className="flex flex-col justify-between">
           <p className="text-grey11 body1-sb line-clamp-1">
