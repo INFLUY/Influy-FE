@@ -32,6 +32,7 @@ import {
   SignupEmailPage,
   ItemDetailPage,
   LikePage,
+  MyPage,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -245,6 +246,12 @@ const router = createBrowserRouter([
       {
         path: PATH.CALENDAR.BASE,
         element: <CalendarPage />,
+      },
+
+      // 마이
+      {
+        path: PATH.MY.BASE,
+        element: <MyPage />,
       },
 
       // 셀러뷰
