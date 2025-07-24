@@ -2,6 +2,7 @@ import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import InfluyLogo from '@/assets/icon/common/InfluyLogo.svg?react';
 import KakaoIcon from '@/assets/icon/common/KakaoIcon.svg?react';
 import Arrow from '@/assets/icon/common/ArrowRight12.svg?react';
+import LoginBg from '@/assets/image/LoginBgImg.svg';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { useEffect } from 'react';
@@ -63,11 +64,7 @@ const LoginPage = () => {
       </section>
       <div className="absolute inset-0 flex">
         <div className="absolute z-[5] h-full w-full bg-[#000000] opacity-50" />
-        <img
-          src="/src/assets/image/LoginBgImg.svg"
-          className="object-cover"
-          alt=""
-        />
+        <img src={LoginBg} className="object-cover" alt="" />
       </div>
     </div>
   );
