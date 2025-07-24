@@ -26,7 +26,11 @@ const sellerTabRouteMap: Record<string, string[]> = {
 
 const userTabRouteMap: Record<string, string[]> = {
   [`${PATH.HOME.BASE}`]: [`${PATH.HOME.BASE}`],
-  [`${PATH.LIKE.BASE}`]: [`${PATH.LIKE.BASE}`],
+  [`${PATH.LIKE.BASE}`]: [
+    `${PATH.LIKE.BASE}`,
+    `${PATH.LIKE.BASE}/${PATH.LIKE.TABS.ITEM}`,
+    `${PATH.LIKE.BASE}/${PATH.LIKE.TABS.SELLER}`,
+  ],
   [`${PATH.CALENDAR.BASE}`]: [`${PATH.CALENDAR.BASE}`],
   [`${PATH.MY.BASE}`]: [`${PATH.MY.BASE}`],
 };

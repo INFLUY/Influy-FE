@@ -57,7 +57,7 @@ const itemMockData: ItemCardType[] = [
     isScrapped: false,
   },
   {
-    itemId: 101,
+    itemId: 106,
     itemPeriod: 7,
     itemName: '[7차] 제목제목',
     startDate: '2025-07-05T00:00:00.000Z',
@@ -70,7 +70,7 @@ const itemMockData: ItemCardType[] = [
     isScrapped: true,
   },
   {
-    itemId: 102,
+    itemId: 107,
     itemPeriod: 5,
     itemName: '[NEW] 오버핏 크롭 반팔티_white',
     startDate: '2025-07-06T00:00:00.000Z',
@@ -83,7 +83,7 @@ const itemMockData: ItemCardType[] = [
     isScrapped: false,
   },
   {
-    itemId: 103,
+    itemId: 108,
     itemPeriod: null,
     itemName:
       '세미 와이드 데님팬츠_vintage blue 오늘 단 하루만 이 가격에 너무 좋아요 짱입니다',
@@ -97,7 +97,7 @@ const itemMockData: ItemCardType[] = [
     isScrapped: true,
   },
   {
-    itemId: 104,
+    itemId: 109,
     itemPeriod: 3,
     itemName: '포켓 셋업 숏자켓_charcoal grey',
     startDate: '2025-07-09T00:00:00.000Z',

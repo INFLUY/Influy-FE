@@ -42,7 +42,7 @@ export const PATH = {
     BASE: '/calendar',
   },
   MY: {
-    BASE: '/my',
+    BASE: '/mypage',
   },
   MARKET: {
     BASE: '/market',
