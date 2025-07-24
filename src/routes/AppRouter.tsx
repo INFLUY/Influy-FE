@@ -32,8 +32,6 @@ import {
   SignupEmailPage,
   ItemDetailPage,
   LikePage,
-  LikeItemTab,
-  LikeInfluencerTab,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -41,10 +39,13 @@ import { SellerAuthInterceptor } from './AuthInterceptor';
 import CalendarPage from '@/pages/user/calendar/CalendarPage';
 import SellerCalendarPage from '@/pages/seller/calendar/CalendarPage';
 
-const SelectionTab = lazy(
-  () => import('@/pages/user/sellerProfile/SelectionTab')
+const LikeItemTab = lazy(() => import('@/pages/user/like/LikeItemTab'));
+const LikeInfluencerTab = lazy(
+  () => import('@/pages/user/like/LikeInfluencerTab')
 );
-const ReviewTab = lazy(() => import('@/pages/user/sellerProfile/ReviewTab'));
+
+const SelectionTab = lazy(() => import('@/pages/user/market/SelectionTab'));
+const ReviewTab = lazy(() => import('@/pages/user/market/ReviewTab'));
 
 const MySelectionTab = lazy(
   () => import('@/pages/seller/sellerMyPage/MySelectionTab')

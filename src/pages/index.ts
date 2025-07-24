@@ -17,7 +17,7 @@ export { default as CalenderPage } from './user/calendar/CalendarPage';
 export { default as LikePage } from './user/like/LikePage';
 export { default as LikeItemTab } from './user/like/LikeItemTab';
 export { default as LikeInfluencerTab } from './user/like/LikeInfluencerTab';
-export { default as SellerProfile } from './user/sellerProfile/SellerProfile';
+export { default as SellerProfile } from './user/market/SellerProfile';
 
 // 셀러
 export { default as SellerHomePage } from './seller/home/SellerHomePage';
