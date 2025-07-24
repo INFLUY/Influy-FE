@@ -15,7 +15,13 @@ const SellerHomePage = () => {
   return (
     <section className="bg-grey01 relative mt-11 flex w-full flex-1 flex-col">
       <PageHeader
-        leftIcons={[<InfluyIcon role="button" aria-label="뒤로 가기" />]}
+        leftIcons={[
+          <InfluyIcon
+            className="h-6 text-black"
+            role="button"
+            aria-label="뒤로 가기"
+          />,
+        ]}
         rightIcons={[
           <SearchIcon className="h-6 w-6 cursor-pointer" />,
           <button type="button" className="relative">

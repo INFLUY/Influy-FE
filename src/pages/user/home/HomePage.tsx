@@ -147,7 +147,13 @@ const HomePage = () => {
   return (
     <section className="top-banner-swiper-section bg-grey01 flex w-full flex-1 flex-col pt-11">
       <PageHeader
-        leftIcons={[<InfluyIcon role="button" aria-label="뒤로 가기" />]}
+        leftIcons={[
+          <InfluyIcon
+            className="h-6 text-black"
+            role="button"
+            aria-label="뒤로 가기"
+          />,
+        ]}
         rightIcons={[
           <SearchIcon className="h-6 w-6 cursor-pointer" />,
           <button type="button" className="relative">
