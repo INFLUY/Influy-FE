@@ -9,7 +9,7 @@ import { GlobalLayout, LoadingSpinner } from '@/components';
 import {
   NotFound,
   HomePage,
-  SellerProfile,
+  SellerProfilePage,
   SellerMyProfile,
   ItemRegistrationPage,
   ItemFaqTab,
@@ -174,9 +174,9 @@ const router = createBrowserRouter([
           {
             path: PATH.MARKET.DETAIL.BASE,
             element: (
-              <SellerProfile>
+              <SellerProfilePage>
                 <Outlet />
-              </SellerProfile>
+              </SellerProfilePage>
             ),
             children: [
               {
@@ -309,6 +309,29 @@ const router = createBrowserRouter([
             path: PATH.SELLER.MY.BASE,
             element: <Outlet />,
             children: [
+              {
+                path: PATH.SELLER.MY.PREVIEW.BASE,
+                element: (
+                  <SellerProfilePage>
+                    <Outlet />
+                  </SellerProfilePage>
+                ),
+                children: [
+                  {
+                    index: true,
+                    element: (
+                      <Navigate
+                        to={PATH.SELLER.MY.PREVIEW.TABS.SELECTION}
+                        replace
+                      />
+                    ),
+                  },
+                  {
+                    path: PATH.SELLER.MY.PREVIEW.TABS.SELECTION,
+                    element: <SelectionTab />,
+                  },
+                ],
+              },
               {
                 path: PATH.SELLER.MY.NOTICE.BASE,
                 element: <Notice />,

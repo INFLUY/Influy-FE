@@ -22,7 +22,7 @@ export { default as CalenderPage } from './user/calendar/CalendarPage';
 
 export { default as MyPage } from './user/my/MyPage';
 
-export { default as SellerProfile } from './user/market/SellerProfile';
+export { default as SellerProfilePage } from './user/market/SellerProfile';
 
 // 셀러
 export { default as SellerHomePage } from './seller/home/SellerHomePage';

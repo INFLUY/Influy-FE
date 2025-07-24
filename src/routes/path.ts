@@ -73,6 +73,12 @@ export const PATH = {
         ARCHIVE: 'archive',
         REVIEW: 'review',
       },
+      PREVIEW: {
+        BASE: 'preview',
+        TABS: {
+          SELECTION: 'selection',
+        },
+      },
       NOTICE: {
         BASE: 'notice',
       },
