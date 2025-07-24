@@ -12,6 +12,7 @@ export { SignupEmailPage } from './auth/SignupEmailPage';
 export { WelcomePage } from './auth/WelcomePage';
 
 // 유저
+export { default as CalenderPage } from './user/calendar/CalendarPage';
 export { default as SellerProfile } from './user/sellerProfile/SellerProfile';
 
 // 셀러
@@ -28,3 +29,5 @@ export { ItemFaqTab, ItemInfoTab } from './seller/item/ItemRegistrationTabs';
 export { default as FaqRegistrationPage } from './seller/item/faq/FaqRegistrationPage';
 export { default as FaqEditPage } from './seller/item/faq/FaqEditPage';
 export { default as SellerItemDetailPage } from './seller/item/SellerItemDetailPage';
+
+export { default as SellerCalenderPage } from './seller/calendar/CalendarPage';

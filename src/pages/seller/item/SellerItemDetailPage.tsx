@@ -124,23 +124,26 @@ const SellerItemDetailPage = () => {
           </div>
         </header>
       ) : (
-        <PageHeader
-          leftIcons={[
-            <ArrowIcon
-              className="h-6 w-6 cursor-pointer text-black"
-              onClick={() => navigate(-1)}
-              role="button"
-              aria-label="뒤로 가기"
-            />,
-          ]}
-          rightIcons={[
-            <ShareIcon className="h-6 w-6 cursor-pointer text-black" />,
-            <StatisticIcon className="h-6 w-6 cursor-pointer text-black" />,
-          ]}
-          additionalStyles="bg-white"
-        >
-          <div className="h-[1.6875rem]" />
-        </PageHeader>
+        <>
+          <PageHeader
+            leftIcons={[
+              <ArrowIcon
+                className="h-6 w-6 cursor-pointer text-black"
+                onClick={() => navigate(-1)}
+                role="button"
+                aria-label="뒤로 가기"
+              />,
+            ]}
+            rightIcons={[
+              <ShareIcon className="h-6 w-6 cursor-pointer text-black" />,
+              <StatisticIcon className="h-6 w-6 cursor-pointer text-black" />,
+            ]}
+            additionalStyles="bg-white"
+          >
+            <div className="h-[1.6875rem]" />
+          </PageHeader>
+          <span className="flex h-11 w-full shrink-0" />
+        </>
       )}
 
       {/* 상단 스크롤을 위한 ref */}

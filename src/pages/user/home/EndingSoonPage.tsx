@@ -58,7 +58,7 @@ const itemMockData: ItemCardType[] = [
 const EndingSoonPage = () => {
   const navigate = useNavigate();
   return (
-    <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+    <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto pt-11">
       <PageHeader
         leftIcons={[
           <ArrowLeftIcon

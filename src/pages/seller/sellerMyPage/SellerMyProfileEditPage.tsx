@@ -89,7 +89,7 @@ const SellerMyProfileEditPage = () => {
       </PageHeader>
 
       <form
-        className="flex h-fit w-full flex-col gap-4"
+        className="flex h-fit w-full flex-col gap-4 pt-11"
         onSubmit={handleSubmit(handleSubmitSuccess)}
       >
         {/* 상단 background image */}

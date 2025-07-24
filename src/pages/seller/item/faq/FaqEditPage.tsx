@@ -122,7 +122,7 @@ const FaqEditPage = () => {
   return (
     <FormProvider {...methods}>
       <form
-        className="flex flex-1 flex-col"
+        className="flex flex-1 flex-col pt-11"
         onSubmit={handleSubmit(onSubmit, onError)}
       >
         <PageHeader

@@ -267,7 +267,7 @@ export const ItemRegistrationPage = () => {
 
   return (
     <FormProvider {...methods}>
-      <section className="sticky top-0 z-20 w-full bg-white">
+      <section className="sticky top-0 z-20 w-full bg-white pt-11">
         <PageHeader
           leftIcons={[
             <ArrowIcon

@@ -125,7 +125,7 @@ const HomePage = () => {
   };
 
   return (
-    <section className="top-banner-swiper-section bg-grey01 flex w-full flex-1 flex-col">
+    <section className="top-banner-swiper-section bg-grey01 flex w-full flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[<InfluyIcon role="button" aria-label="뒤로 가기" />]}
         rightIcons={[
@@ -174,8 +174,8 @@ const HomePage = () => {
 
           {/* 사진 */}
           <div className="flex w-full gap-0.5 px-5">
-            {pickMockData.map((item) => (
-              <div className="aspect-square flex-1/3">
+            {pickMockData.map((item, index) => (
+              <div className="aspect-square flex-1/3" key={index}>
                 <img
                   src={item.image}
                   className="h-full w-full rounded-[.1273rem] object-cover"

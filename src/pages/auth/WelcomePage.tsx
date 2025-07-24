@@ -12,7 +12,7 @@ export const WelcomePage = () => {
   };
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col">
+    <div className="flex h-full w-full flex-1 flex-col pt-11">
       <PageHeader
         rightIcons={[
           <XIcon
