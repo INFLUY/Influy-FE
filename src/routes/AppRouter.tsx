@@ -303,7 +303,7 @@ const router = createBrowserRouter([
               },
               {
                 path: PATH.SELLER.ITEM.REGISTRATION.BASE,
-                element: <ItemRegistrationPage />,
+                element: <ItemRegistrationPage mode="create" />,
                 children: [
                   {
                     index: true,
@@ -312,7 +312,7 @@ const router = createBrowserRouter([
                 ],
               },
               {
-                path: PATH.SELLER.ITEM.ADMINISTRATION.BASE,
+                path: PATH.SELLER.ITEM.ITEM_ID.BASE,
                 element: <Outlet />,
                 children: [
                   {
@@ -320,24 +320,24 @@ const router = createBrowserRouter([
                     element: <ItemDetailPage />, // 셀러 상품 상세페이지
                   },
                   {
-                    path: PATH.SELLER.ITEM.ADMINISTRATION.EDIT.BASE,
-                    element: <ItemRegistrationPage />,
+                    path: PATH.SELLER.ITEM.ITEM_ID.EDIT.BASE,
+                    element: <ItemRegistrationPage mode="edit" />,
                     children: [
                       {
                         index: true,
                         element: (
                           <Navigate
-                            to={PATH.SELLER.ITEM.ADMINISTRATION.EDIT.TABS.INFO}
+                            to={PATH.SELLER.ITEM.ITEM_ID.EDIT.TABS.INFO}
                             replace
                           />
                         ),
                       },
                       {
-                        path: PATH.SELLER.ITEM.ADMINISTRATION.EDIT.TABS.INFO,
+                        path: PATH.SELLER.ITEM.ITEM_ID.EDIT.TABS.INFO,
                         element: <ItemInfoTab mode="edit" />,
                       },
                       {
-                        path: PATH.SELLER.ITEM.ADMINISTRATION.EDIT.TABS.FAQ,
+                        path: PATH.SELLER.ITEM.ITEM_ID.EDIT.TABS.FAQ,
                         element: <ItemFaqTab />,
                       },
                     ],
@@ -355,24 +355,20 @@ const router = createBrowserRouter([
                         element: <FaqRegistrationPage />,
                       },
                       {
-                        path: PATH.SELLER.ITEM.FAQ.ADMINISTRATION.BASE,
+                        path: PATH.SELLER.ITEM.FAQ.FAQ_ID.BASE,
                         element: <Outlet />,
                         children: [
                           {
                             index: true,
                             element: (
                               <Navigate
-                                to={
-                                  PATH.SELLER.ITEM.FAQ.ADMINISTRATION.FAQ_DETAIL
-                                    .EDIT
-                                }
+                                to={PATH.SELLER.ITEM.FAQ.FAQ_ID.FAQ_DETAIL.EDIT}
                                 replace
                               />
                             ),
                           },
                           {
-                            path: PATH.SELLER.ITEM.FAQ.ADMINISTRATION.FAQ_DETAIL
-                              .EDIT,
+                            path: PATH.SELLER.ITEM.FAQ.FAQ_ID.FAQ_DETAIL.EDIT,
                             element: <FaqEditPage />, // 개별 FAQ 수정 페이지
                           },
                         ],

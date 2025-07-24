@@ -96,7 +96,7 @@ const ItemDetailPage = () => {
       label: '상품 수정',
       onClick: () => {
         navigate(
-          `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}/${PATH.SELLER.ITEM.ADMINISTRATION.EDIT.BASE}/${PATH.SELLER.ITEM.ADMINISTRATION.EDIT.TABS.INFO}`
+          `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}/${PATH.SELLER.ITEM.ITEM_ID.EDIT.BASE}/${PATH.SELLER.ITEM.ITEM_ID.EDIT.TABS.INFO}`
         );
       },
       icon: <EditIcon className="h-6 w-6" />,

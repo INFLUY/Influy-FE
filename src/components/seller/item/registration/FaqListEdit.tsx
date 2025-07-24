@@ -490,7 +490,7 @@ const FaqQuestionCard = ({
             className="text-grey09 flex cursor-pointer items-center justify-center gap-0.5 self-end"
             onClick={() =>
               navigate(
-                `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}/${PATH.SELLER.ITEM.FAQ.BASE}/${id}/${PATH.SELLER.ITEM.FAQ.ADMINISTRATION.FAQ_DETAIL.EDIT}`
+                `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}/${PATH.SELLER.ITEM.FAQ.BASE}/${id}/${PATH.SELLER.ITEM.FAQ.FAQ_ID.FAQ_DETAIL.EDIT}`
               )
             }
           >
@@ -519,7 +519,7 @@ const FaqQuestionCard = ({
               className="body1-b w-full cursor-pointer py-4 text-center"
               onClick={() =>
                 navigate(
-                  `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}/${PATH.SELLER.ITEM.FAQ.BASE}/${id}/${PATH.SELLER.ITEM.FAQ.ADMINISTRATION.FAQ_DETAIL.EDIT}`
+                  `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}/${PATH.SELLER.ITEM.FAQ.BASE}/${id}/${PATH.SELLER.ITEM.FAQ.FAQ_ID.FAQ_DETAIL.EDIT}`
                 )
               }
             >

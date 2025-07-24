@@ -82,7 +82,7 @@ export const PATH = {
       REGISTRATION: {
         BASE: 'new',
       },
-      ADMINISTRATION: {
+      ITEM_ID: {
         BASE: ':itemId',
         EDIT: {
           BASE: 'edit',
@@ -99,7 +99,7 @@ export const PATH = {
           QUERSTION: 'question',
           ANSWER: 'answer',
         },
-        ADMINISTRATION: {
+        FAQ_ID: {
           BASE: ':faqId',
           FAQ_DETAIL: {
             EDIT: 'edit',

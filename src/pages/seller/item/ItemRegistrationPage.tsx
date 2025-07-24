@@ -48,7 +48,7 @@ type fieldsToCheck<FieldNames extends string> = {
   ref?: RefObject<HTMLDivElement | null>;
 };
 
-export const ItemRegistrationPage = () => {
+export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
     open: false,
     message: '',
@@ -56,7 +56,6 @@ export const ItemRegistrationPage = () => {
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const isEditMode = pathname.includes('EDIT');
 
   // 필수 요소 미입력시 스크롤 이동을 위한 ref
   const imagesFieldRef = useRef<HTMLDivElement | null>(null);
@@ -108,14 +107,15 @@ export const ItemRegistrationPage = () => {
     {
       id: 0,
       name: '상품 상세 정보',
-      path: `${PATH.SELLER.ITEM.ADMINISTRATION.EDIT.TABS.INFO}`,
+      path: `${PATH.SELLER.ITEM.ITEM_ID.EDIT.TABS.INFO}`,
     },
     {
       id: 1,
       name: 'FAQ',
-      path: `${PATH.SELLER.ITEM.ADMINISTRATION.EDIT.TABS.FAQ}`,
+      path: `${PATH.SELLER.ITEM.ITEM_ID.EDIT.TABS.FAQ}`,
     },
   ];
+  const isEditMode = mode === 'edit';
 
   const TABS = isEditMode ? EDIT_TABS : REGISTER_TABS;
 
