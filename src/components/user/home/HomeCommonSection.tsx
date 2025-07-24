@@ -33,7 +33,7 @@ const HomeCommonSection = ({
         <HomeSectionTitle
           title="마감 임박"
           onClickMore={() => {
-            navigate(PATH.HOME.more.endingSoon);
+            navigate(PATH.HOME.MORE.ENDING_SOON);
           }}
         />
         <div className="grid grid-cols-2 grid-rows-2 gap-x-[.1875rem] gap-y-8">
@@ -67,7 +67,7 @@ const HomeCommonSection = ({
         <HomeSectionTitle
           title="카테고리별 추천"
           onClickMore={() => {
-            navigate(PATH.HOME.more.category);
+            navigate(PATH.HOME.MORE.CATEGORY);
           }}
         />
         <div className="scrollbar-hide flex w-full flex-nowrap items-center gap-2 overflow-x-scroll px-5">

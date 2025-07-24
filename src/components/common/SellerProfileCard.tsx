@@ -76,7 +76,7 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
             className="border-grey03 text-grey08 caption-m flex shrink-0 cursor-pointer items-center gap-1 rounded-[.125rem] border px-2 py-[.1875rem] text-center"
             onClick={() =>
               navigate(
-                `${PATH.SELLER.my.profile.base}/${PATH.SELLER.my.profile.edit}`
+                `${PATH.SELLER.MY.PROFILE.BASE}/${PATH.SELLER.MY.PROFILE.EDIT}`
               )
             }
           >

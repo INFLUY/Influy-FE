@@ -10,8 +10,8 @@ const LoginPage = () => {
 
   const handleKakaoLogin = () => {
     // 응답에 따라 홈 or 회원가입 화면으로 분기
-    // navigate(PATH.HOME.base);
-    navigate(PATH.REGISTER.base);
+    // navigate(PATH.HOME.BASE);
+    navigate(PATH.REGISTER.BASE);
   };
 
   return (

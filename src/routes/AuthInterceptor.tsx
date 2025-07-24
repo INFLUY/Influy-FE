@@ -6,7 +6,7 @@ export const SellerAuthInterceptor = () => {
   const { sellerId } = useAuthStore();
 
   if (!sellerId) {
-    return <Navigate to={PATH.LOGIN.base} replace />;
+    return <Navigate to={PATH.LOGIN.BASE} replace />;
   }
 
   return <Outlet />;

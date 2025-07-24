@@ -34,9 +34,9 @@ export const SignupEmailPage = () => {
 
   useEffect(() => {
     if (!sellerId) {
-      navigate(`../${PATH.REGISTER.type.seller.id}`);
+      navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
     } else if (!sns.instagram) {
-      navigate(`../${PATH.REGISTER.type.seller.sns}`);
+      navigate(`../${PATH.REGISTER.TYPE.SELLER.SNS}`);
     }
   }, []);
 
@@ -82,7 +82,7 @@ export const SignupEmailPage = () => {
     // useUserSignupStore.persist.clearStorage();
     // sellerSignupStateReset();
     // useSellerSignupStore.persist.clearStorage();
-    navigate(PATH.WELCOME.base);
+    navigate(PATH.WELCOME.BASE);
   };
 
   // 다음 버튼 클릭 핸들러
@@ -102,7 +102,7 @@ export const SignupEmailPage = () => {
       useUserSignupStore.persist.clearStorage();
       sellerSignupStateReset();
       useSellerSignupStore.persist.clearStorage();
-      navigate(PATH.WELCOME.base);
+      navigate(PATH.WELCOME.BASE);
     }
   };
 

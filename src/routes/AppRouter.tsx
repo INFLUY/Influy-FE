@@ -46,10 +46,10 @@ const ReviewTab = lazy(() => import('@/pages/user/sellerProfile/ReviewTab'));
 const MySelectionTab = lazy(
   () => import('@/pages/seller/sellerMyPage/MySelectionTab')
 );
-const MyItemReviewTab = lazy(
+const MyITEMReviewTab = lazy(
   () => import('@/pages/seller/sellerMyPage/MyItemReviewTab')
 );
-const MyStoredItemTab = lazy(
+const MyStoredITEMTab = lazy(
   () => import('@/pages/seller/sellerMyPage/MyStoredItemTab')
 );
 
@@ -71,7 +71,7 @@ const router = createBrowserRouter([
         element: <SplashScreen />,
       },
       {
-        path: PATH.LOGIN.base,
+        path: PATH.LOGIN.BASE,
         element: <Outlet />,
         children: [
           {
@@ -81,53 +81,53 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: PATH.REGISTER.base,
+        path: PATH.REGISTER.BASE,
         element: <Outlet />,
         children: [
           {
             index: true,
-            element: <Navigate to={PATH.REGISTER.type.base} replace />,
+            element: <Navigate to={PATH.REGISTER.TYPE.BASE} replace />,
           },
           {
-            path: PATH.REGISTER.type.base,
+            path: PATH.REGISTER.TYPE.BASE,
             element: <UserTypeSelectPage />,
           },
           {
-            path: PATH.REGISTER.type.user.base,
+            path: PATH.REGISTER.TYPE.USER.BASE,
             element: <Outlet />,
             children: [
               {
                 index: true,
-                element: <Navigate to={PATH.REGISTER.type.user.id} replace />,
+                element: <Navigate to={PATH.REGISTER.TYPE.USER.ID} replace />,
               },
               {
-                path: PATH.REGISTER.type.user.id,
+                path: PATH.REGISTER.TYPE.USER.ID,
                 element: <SignupIdPage />,
               },
               {
-                path: PATH.REGISTER.type.user.interest,
+                path: PATH.REGISTER.TYPE.USER.INTEREST,
                 element: <SignupInterestPage />,
               },
             ],
           },
           {
-            path: PATH.REGISTER.type.seller.base,
+            path: PATH.REGISTER.TYPE.SELLER.BASE,
             element: <Outlet />,
             children: [
               {
                 index: true,
-                element: <Navigate to={PATH.REGISTER.type.seller.id} replace />,
+                element: <Navigate to={PATH.REGISTER.TYPE.SELLER.ID} replace />,
               },
               {
-                path: PATH.REGISTER.type.seller.id,
+                path: PATH.REGISTER.TYPE.SELLER.ID,
                 element: <SignupIdPage />,
               },
               {
-                path: PATH.REGISTER.type.seller.sns,
+                path: PATH.REGISTER.TYPE.SELLER.SNS,
                 element: <SignupSnsLinkPage />,
               },
               {
-                path: PATH.REGISTER.type.seller.email,
+                path: PATH.REGISTER.TYPE.SELLER.EMAIL,
                 element: <SignupEmailPage />,
               },
             ],
@@ -135,13 +135,13 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: PATH.WELCOME.base,
+        path: PATH.WELCOME.BASE,
         element: <WelcomePage />,
       },
 
       // 유저뷰
       {
-        path: PATH.HOME.base,
+        path: PATH.HOME.BASE,
         element: <Outlet />,
         children: [
           {
@@ -149,17 +149,17 @@ const router = createBrowserRouter([
             element: <HomePage />,
           },
           {
-            path: PATH.HOME.more.endingSoon,
+            path: PATH.HOME.MORE.ENDING_SOON,
             element: <EndingSoonPage />,
           },
           {
-            path: PATH.HOME.more.category,
+            path: PATH.HOME.MORE.CATEGORY,
             element: <CategoryPage />,
           },
         ],
       },
       {
-        path: PATH.MARKET.base,
+        path: PATH.MARKET.BASE,
         element: (
           <SellerProfile>
             <Outlet />
@@ -168,49 +168,49 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Navigate to={PATH.MARKET.tabs.selection} replace />,
+            element: <Navigate to={PATH.MARKET.TABS.SELECTION} replace />,
           },
           {
-            path: PATH.MARKET.tabs.selection,
+            path: PATH.MARKET.TABS.SELECTION,
             element: <SelectionTab />,
           },
           {
-            path: PATH.MARKET.tabs.review,
+            path: PATH.MARKET.TABS.REVIEW,
             element: <ReviewTab />,
           },
         ],
       },
       // 캘린더
       {
-        path: PATH.CALENDAR.base,
+        path: PATH.CALENDAR.BASE,
         element: <CalendarPage />,
       },
 
       // 셀러뷰
       {
-        path: PATH.SELLER.base,
+        path: PATH.SELLER.BASE,
         element: <SellerAuthInterceptor />,
         children: [
           {
             index: true,
-            element: <Navigate to={PATH.SELLER.home.base} replace />,
+            element: <Navigate to={PATH.SELLER.HOME.BASE} replace />,
           },
 
           // 홈
           {
-            path: PATH.SELLER.home.base,
+            path: PATH.SELLER.HOME.BASE,
             element: <SellerHomePage />,
           },
 
           // 캘린더
           {
-            path: PATH.SELLER.calender.base,
+            path: PATH.SELLER.CALENDER.BASE,
             element: <SellerCalendarPage />,
           },
 
           // 마이
           {
-            path: PATH.SELLER.my.base,
+            path: PATH.SELLER.MY.BASE,
             element: (
               <SellerMyProfile>
                 <Outlet />
@@ -220,38 +220,38 @@ const router = createBrowserRouter([
               {
                 index: true,
                 element: (
-                  <Navigate to={PATH.SELLER.my.tabs.selection} replace />
+                  <Navigate to={PATH.SELLER.MY.TABS.SELECTION} replace />
                 ),
               },
               {
-                path: PATH.SELLER.my.tabs.selection,
+                path: PATH.SELLER.MY.TABS.SELECTION,
                 element: <MySelectionTab />,
               },
               {
-                path: PATH.SELLER.my.tabs.stored,
-                element: <MyStoredItemTab />,
+                path: PATH.SELLER.MY.TABS.ARCHIVE,
+                element: <MyStoredITEMTab />,
               },
               {
-                path: PATH.SELLER.my.tabs.review,
-                element: <MyItemReviewTab />,
+                path: PATH.SELLER.MY.TABS.REVIEW,
+                element: <MyITEMReviewTab />,
               },
             ],
           },
           {
-            path: PATH.SELLER.my.base,
+            path: PATH.SELLER.MY.BASE,
             element: <Outlet />,
             children: [
               {
-                path: PATH.SELLER.my.notice.base,
+                path: PATH.SELLER.MY.NOTICE.BASE,
                 element: <Notice />,
               },
               {
-                path: PATH.SELLER.my.profile.base,
+                path: PATH.SELLER.MY.PROFILE.BASE,
                 element: <Outlet />,
                 children: [
                   {
                     index: true,
-                    path: PATH.SELLER.my.profile.edit,
+                    path: PATH.SELLER.MY.PROFILE.EDIT,
                     element: <SellerMyProfileEditPage />,
                   },
                 ],
@@ -260,17 +260,17 @@ const router = createBrowserRouter([
           },
           // 아이템
           {
-            path: PATH.SELLER.item.base,
+            path: PATH.SELLER.ITEM.BASE,
             element: <Outlet />,
             children: [
               {
                 index: true,
                 element: (
-                  <Navigate to={PATH.SELLER.item.registration.base} replace />
+                  <Navigate to={PATH.SELLER.ITEM.REGISTRATION.BASE} replace />
                 ),
               },
               {
-                path: PATH.SELLER.item.registration.base,
+                path: PATH.SELLER.ITEM.REGISTRATION.BASE,
                 element: <ItemRegistrationPage />,
                 children: [
                   {
@@ -280,7 +280,7 @@ const router = createBrowserRouter([
                 ],
               },
               {
-                path: PATH.SELLER.item.administration.base,
+                path: PATH.SELLER.ITEM.ADMINISTRATION.BASE,
                 element: <Outlet />,
                 children: [
                   {
@@ -288,42 +288,42 @@ const router = createBrowserRouter([
                     element: <SellerItemDetailPage />, // 셀러 상품 상세페이지
                   },
                   {
-                    path: PATH.SELLER.item.administration.edit.base,
+                    path: PATH.SELLER.ITEM.ADMINISTRATION.EDIT.BASE,
                     element: <ItemRegistrationPage />,
                     children: [
                       {
                         index: true,
                         element: (
                           <Navigate
-                            to={PATH.SELLER.item.administration.edit.tabs.info}
+                            to={PATH.SELLER.ITEM.ADMINISTRATION.EDIT.TABS.INFO}
                             replace
                           />
                         ),
                       },
                       {
-                        path: PATH.SELLER.item.administration.edit.tabs.info,
+                        path: PATH.SELLER.ITEM.ADMINISTRATION.EDIT.TABS.INFO,
                         element: <ItemInfoTab mode="edit" />,
                       },
                       {
-                        path: PATH.SELLER.item.administration.edit.tabs.faq,
+                        path: PATH.SELLER.ITEM.ADMINISTRATION.EDIT.TABS.FAQ,
                         element: <ItemFaqTab />,
                       },
                     ],
                   },
                   {
-                    path: PATH.SELLER.item.faq.base,
+                    path: PATH.SELLER.ITEM.FAQ.BASE,
                     element: <Outlet />,
                     children: [
                       {
                         index: true,
-                        element: <FaqRegistrationPage />, // (임시) faq 조회 페이지
+                        element: <FaqRegistrationPage />, // (임시) FAQ 조회 페이지
                       },
                       {
-                        path: PATH.SELLER.item.faq.registration.base,
+                        path: PATH.SELLER.ITEM.FAQ.REGISTRATION.BASE,
                         element: <FaqRegistrationPage />,
                       },
                       {
-                        path: PATH.SELLER.item.faq.administration.base,
+                        path: PATH.SELLER.ITEM.FAQ.ADMINISTRATION.BASE,
                         element: <Outlet />,
                         children: [
                           {
@@ -331,17 +331,17 @@ const router = createBrowserRouter([
                             element: (
                               <Navigate
                                 to={
-                                  PATH.SELLER.item.faq.administration.faqDetail
-                                    .edit
+                                  PATH.SELLER.ITEM.FAQ.ADMINISTRATION.FAQ_DETAIL
+                                    .EDIT
                                 }
                                 replace
                               />
                             ),
                           },
                           {
-                            path: PATH.SELLER.item.faq.administration.faqDetail
-                              .edit,
-                            element: <FaqEditPage />, // 개별 faq 수정 페이지
+                            path: PATH.SELLER.ITEM.FAQ.ADMINISTRATION.FAQ_DETAIL
+                              .EDIT,
+                            element: <FaqEditPage />, // 개별 FAQ 수정 페이지
                           },
                         ],
                       },

@@ -47,11 +47,11 @@ export const UserTypeSelectPage = () => {
     } else {
       if (selectedType === 'influencer') {
         navigate(
-          `${PATH.REGISTER.base}/${PATH.REGISTER.type.seller.base}/${PATH.REGISTER.type.seller.id}`
+          `${PATH.REGISTER.BASE}/${PATH.REGISTER.TYPE.SELLER.BASE}/${PATH.REGISTER.TYPE.SELLER.ID}`
         );
       } else {
         navigate(
-          `${PATH.REGISTER.base}/${PATH.REGISTER.type.user.base}/${PATH.REGISTER.type.user.id}`
+          `${PATH.REGISTER.BASE}/${PATH.REGISTER.TYPE.USER.BASE}/${PATH.REGISTER.TYPE.USER.ID}`
         );
       }
     }

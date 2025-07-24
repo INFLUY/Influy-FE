@@ -1,101 +1,101 @@
 export const PATH = {
   ROOT: '/',
   LOGIN: {
-    base: '/login',
+    BASE: '/login',
   },
   REGISTER: {
-    base: '/join',
-    type: {
-      base: 'type',
-      user: {
-        base: 'user',
-        id: 'id',
-        interest: 'interest',
+    BASE: '/join',
+    TYPE: {
+      BASE: 'type',
+      USER: {
+        BASE: 'user',
+        ID: 'id',
+        INTEREST: 'interest',
       },
-      seller: {
-        base: 'influencer',
-        id: 'id',
-        sns: 'sns',
-        email: 'email',
+      SELLER: {
+        BASE: 'influencer',
+        ID: 'id',
+        SNS: 'sns',
+        EMAIL: 'email',
       },
     },
   },
   WELCOME: {
-    base: '/welcome',
+    BASE: '/welcome',
   },
   HOME: {
-    base: '/home',
-    more: {
-      endingSoon: 'ending-soon',
+    BASE: '/home',
+    MORE: {
+      ENDING_SOON: 'ending-soon',
       // trending: 'trending',
-      category: 'category',
+      CATEGORY: 'category',
     },
   },
   LIKED: {
-    base: '/liked',
+    BASE: '/liked',
   },
   CALENDAR: {
-    base: '/calendar',
+    BASE: '/calendar',
   },
   MY: {
-    base: '/my',
+    BASE: '/my',
   },
   MARKET: {
-    base: '/market',
-    tabs: {
-      selection: 'selection',
-      review: 'review',
+    BASE: '/market',
+    TABS: {
+      SELECTION: 'selection',
+      REVIEW: 'review',
     },
   },
   SELLER: {
-    base: '/influencer',
-    home: {
-      base: 'home',
+    BASE: '/influencer',
+    HOME: {
+      BASE: 'home',
     },
-    calender: {
-      base: 'calendar',
+    CALENDER: {
+      BASE: 'calendar',
     },
-    my: {
-      base: 'my-market',
-      tabs: {
-        selection: 'selection',
-        stored: 'stored',
-        review: 'review',
+    MY: {
+      BASE: 'my-market',
+      TABS: {
+        SELECTION: 'selection',
+        ARCHIVE: 'archive',
+        REVIEW: 'review',
       },
-      notice: {
-        base: 'notice',
+      NOTICE: {
+        BASE: 'notice',
       },
-      profile: {
-        base: 'profile',
-        edit: 'edit',
+      PROFILE: {
+        BASE: 'profile',
+        EDIT: 'edit',
       },
     },
-    item: {
-      base: 'item',
-      registration: {
-        base: 'new',
+    ITEM: {
+      BASE: 'item',
+      REGISTRATION: {
+        BASE: 'new',
       },
-      administration: {
-        base: ':itemId',
-        edit: {
-          base: 'edit',
-          tabs: {
-            info: 'info',
-            faq: 'faq',
+      ADMINISTRATION: {
+        BASE: ':itemId',
+        EDIT: {
+          BASE: 'edit',
+          TABS: {
+            INFO: 'info',
+            FAQ: 'faq',
           },
         },
       },
-      faq: {
-        base: 'faq',
-        registration: {
-          base: 'new',
-          question: 'question',
-          answer: 'answer',
+      FAQ: {
+        BASE: 'faq',
+        REGISTRATION: {
+          BASE: 'new',
+          QUERSTION: 'question',
+          ANSWER: 'answer',
         },
-        administration: {
-          base: ':faqId',
-          faqDetail: {
-            edit: 'edit',
+        ADMINISTRATION: {
+          BASE: ':faqId',
+          FAQ_DETAIL: {
+            EDIT: 'edit',
           },
         },
       },

@@ -44,7 +44,7 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
       className="flex cursor-pointer items-center justify-center gap-3 self-stretch px-5"
       onClick={(e) => {
         e.stopPropagation();
-        navigate(`${PATH.SELLER.base}/${PATH.SELLER.item.base}/${item.itemId}`);
+        navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${item.itemId}`);
       }}
     >
       {/* 썸네일 */}

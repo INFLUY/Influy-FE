@@ -8,7 +8,7 @@ export const useStrictSellerId = () => {
     throw new UIError(
       '셀러가 아닙니다.\n셀러로 로그인해주세요.',
       '홈으로',
-      () => () => window.location.replace(PATH.HOME.base)
+      () => () => window.location.replace(PATH.HOME.BASE)
     );
   }
   return sellerId;

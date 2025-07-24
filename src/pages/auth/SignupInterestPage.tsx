@@ -27,7 +27,7 @@ export const SignupInterestPage = () => {
 
   useEffect(() => {
     if (!userId) {
-      navigate(`../${PATH.REGISTER.type.user.id}`);
+      navigate(`../${PATH.REGISTER.TYPE.USER.ID}`);
     }
   }, []);
 
@@ -46,7 +46,7 @@ export const SignupInterestPage = () => {
     useUserSignupStore.persist.clearStorage();
     sellerSignupStateReset();
     useSellerSignupStore.persist.clearStorage();
-    navigate(PATH.WELCOME.base);
+    navigate(PATH.WELCOME.BASE);
   };
 
   return (

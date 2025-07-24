@@ -10,25 +10,25 @@ import cn from '@/utils/cn';
 import { PATH } from '@/routes/path';
 
 const sellerTabRouteMap: Record<string, string[]> = {
-  [`${PATH.SELLER.base}/${PATH.SELLER.home.base}`]: [
-    `${PATH.SELLER.base}/${PATH.SELLER.home.base}`,
+  [`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`]: [
+    `${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`,
   ],
-  [`${PATH.SELLER.base}/talk-box`]: [`${PATH.SELLER.base}/talk-box`],
-  [`${PATH.SELLER.base}/${PATH.SELLER.calender.base}`]: [
-    `${PATH.SELLER.base}/${PATH.SELLER.calender.base}`,
+  [`${PATH.SELLER.BASE}/talk-box`]: [`${PATH.SELLER.BASE}/talk-box`],
+  [`${PATH.SELLER.BASE}/${PATH.SELLER.CALENDER.BASE}`]: [
+    `${PATH.SELLER.BASE}/${PATH.SELLER.CALENDER.BASE}`,
   ],
-  [`${PATH.SELLER.base}/${PATH.SELLER.my.base}`]: [
-    `${PATH.SELLER.base}/${PATH.SELLER.my.base}/${PATH.SELLER.my.tabs.selection}`,
-    `${PATH.SELLER.base}/${PATH.SELLER.my.base}/${PATH.SELLER.my.tabs.stored}`,
-    `${PATH.SELLER.base}/${PATH.SELLER.my.base}/${PATH.SELLER.my.tabs.review}`,
+  [`${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}`]: [
+    `${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}/${PATH.SELLER.MY.TABS.SELECTION}`,
+    `${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}/${PATH.SELLER.MY.TABS.ARCHIVE}`,
+    `${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}/${PATH.SELLER.MY.TABS.REVIEW}`,
   ],
 };
 
 const userTabRouteMap: Record<string, string[]> = {
-  [`${PATH.HOME.base}`]: [`${PATH.HOME.base}`],
-  [`${PATH.LIKED.base}`]: [`${PATH.LIKED.base}`],
-  [`${PATH.CALENDAR.base}`]: [`${PATH.CALENDAR.base}`],
-  [`${PATH.MY.base}`]: [`${PATH.MY.base}`],
+  [`${PATH.HOME.BASE}`]: [`${PATH.HOME.BASE}`],
+  [`${PATH.LIKED.BASE}`]: [`${PATH.LIKED.BASE}`],
+  [`${PATH.CALENDAR.BASE}`]: [`${PATH.CALENDAR.BASE}`],
+  [`${PATH.MY.BASE}`]: [`${PATH.MY.BASE}`],
 };
 
 const isTabActive = (
@@ -60,25 +60,25 @@ interface BottomNavBarProps {
 
 const userNavItems: BottomNavItem[] = [
   {
-    to: `${PATH.HOME.base}`,
+    to: `${PATH.HOME.BASE}`,
     label: '홈',
     icon: <HomeIcon className="h-6 w-6" />,
     aria: '홈',
   },
   {
-    to: `${PATH.LIKED.base}`,
+    to: `${PATH.LIKED.BASE}`,
     label: '찜',
     icon: <HeartIcon className="h-6 w-6" />,
     aria: '찜',
   },
   {
-    to: `${PATH.CALENDAR.base}`,
+    to: `${PATH.CALENDAR.BASE}`,
     label: '캘린더',
     icon: <CalendarIcon className="h-6 w-6" />,
     aria: '캘린더',
   },
   {
-    to: `${PATH.MY.base}`,
+    to: `${PATH.MY.BASE}`,
     label: '마이',
     icon: <UserMyIcon className="h-6 w-6" />,
     aria: '마이',
@@ -87,25 +87,25 @@ const userNavItems: BottomNavItem[] = [
 
 const sellerNavItems: BottomNavItem[] = [
   {
-    to: `${PATH.SELLER.base}/${PATH.SELLER.home.base}`,
+    to: `${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`,
     label: '홈',
     icon: <HomeIcon className="h-6 w-6" />,
     aria: '홈',
   },
   {
-    to: `${PATH.SELLER.base}/talk-box`,
+    to: `${PATH.SELLER.BASE}/talk-box`,
     label: '톡박스',
     icon: <TalkBoxIcon className="h-6 w-6" />,
     aria: '톡박스',
   },
   {
-    to: `${PATH.SELLER.base}/${PATH.SELLER.calender.base}`,
+    to: `${PATH.SELLER.BASE}/${PATH.SELLER.CALENDER.BASE}`,
     label: '캘린더',
     icon: <CalendarIcon className="h-6 w-6" />,
     aria: '캘린더',
   },
   {
-    to: `${PATH.SELLER.base}/${PATH.SELLER.my.base}`,
+    to: `${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}`,
     label: '마이',
     icon: <SellerMyIcon className="h-6 w-6" />,
     isActiveIcon: <SellerMyIcon2 className="h-6 w-6" />,
@@ -139,8 +139,6 @@ export const BottomNavBar = ({
                   item.to,
                   userType
                 );
-                console.log(isActive);
-                console.log(item.to);
                 return (
                   <NavLink
                     to={item.to}

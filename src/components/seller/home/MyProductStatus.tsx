@@ -52,7 +52,7 @@ const MyProductStatus = () => {
               size="large"
               handleOnClick={() =>
                 navigate(
-                  `${PATH.SELLER.base}/${PATH.SELLER.item.base}/${PATH.SELLER.item.registration.base}`
+                  `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${PATH.SELLER.ITEM.REGISTRATION.BASE}`
                 )
               }
             >

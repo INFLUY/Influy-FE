@@ -20,8 +20,8 @@ const SellerNoticeBottomSheet = lazy(
 
 const SellerProfile = ({ children }: { children: ReactNode }) => {
   const TABS = [
-    { id: 0, name: 'SELECTION', path: PATH.MARKET.tabs.selection },
-    { id: 2, name: 'REVIEW', path: PATH.MARKET.tabs.review },
+    { id: 0, name: 'SELECTION', path: PATH.MARKET.TABS.SELECTION },
+    { id: 2, name: 'REVIEW', path: PATH.MARKET.TABS.REVIEW },
   ];
   const navigate = useNavigate();
   const location = useLocation();

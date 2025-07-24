@@ -11,8 +11,8 @@ const UserTypeToggleButton = ({
   const { pathname } = useLocation();
 
   const handleUserTypeChange = () => {
-    if (pathname.includes(PATH.SELLER.base)) navigate(PATH.HOME.base);
-    else navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`);
+    if (pathname.includes(PATH.SELLER.BASE)) navigate(PATH.HOME.BASE);
+    else navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`);
   };
 
   return (

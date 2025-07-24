@@ -56,7 +56,7 @@ export const ItemRegistrationPage = () => {
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const isEditMode = pathname.includes('edit');
+  const isEditMode = pathname.includes('EDIT');
 
   // 필수 요소 미입력시 스크롤 이동을 위한 ref
   const imagesFieldRef = useRef<HTMLDivElement | null>(null);
@@ -100,7 +100,7 @@ export const ItemRegistrationPage = () => {
     {
       id: 0,
       name: '상품 상세 정보',
-      path: PATH.SELLER.item.registration.base,
+      path: PATH.SELLER.ITEM.REGISTRATION.BASE,
     },
   ];
 
@@ -108,12 +108,12 @@ export const ItemRegistrationPage = () => {
     {
       id: 0,
       name: '상품 상세 정보',
-      path: `${PATH.SELLER.item.administration.edit.tabs.info}`,
+      path: `${PATH.SELLER.ITEM.ADMINISTRATION.EDIT.TABS.INFO}`,
     },
     {
       id: 1,
       name: 'FAQ',
-      path: `${PATH.SELLER.item.administration.edit.tabs.faq}`,
+      path: `${PATH.SELLER.ITEM.ADMINISTRATION.EDIT.TABS.FAQ}`,
     },
   ];
 
@@ -204,7 +204,7 @@ export const ItemRegistrationPage = () => {
       const itemId: number = 1;
 
       //if success
-      navigate(`${PATH.SELLER.base}/${PATH.SELLER.item.base}/${itemId}`);
+      navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}`);
       // TODO: '상품이 보관되었습니다.' 스낵바 띄우기
     } catch (error) {}
   };
@@ -261,7 +261,7 @@ export const ItemRegistrationPage = () => {
     const itemId: number = 1;
 
     //if success
-    navigate(`${PATH.SELLER.base}/${PATH.SELLER.item.base}/${itemId}`);
+    navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}`);
     // TODO: '상품이 게시되었습니다.' 스낵바 띄우기
   };
 
