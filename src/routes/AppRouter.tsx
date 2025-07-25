@@ -39,7 +39,7 @@ import {
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { SellerAuthInterceptor } from './AuthInterceptor';
+import SellerRoute from './SellerRoute';
 import RegisterRoute from './RegisterRoute';
 
 const LikeItemTab = lazy(() => import('@/pages/user/like/LikeItemTab'));
@@ -267,7 +267,7 @@ const router = createBrowserRouter([
       // 셀러뷰
       {
         path: PATH.SELLER.BASE,
-        element: <SellerAuthInterceptor />,
+        element: <SellerRoute />,
         children: [
           {
             index: true,

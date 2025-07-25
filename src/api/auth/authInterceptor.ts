@@ -6,7 +6,7 @@ import {
 } from 'axios';
 import { useAuthStore } from '@/store/authStore';
 import { PATH } from '@/routes/path';
-import { API_DOMAINS } from '@/constants/api';
+import { postReissue } from './postReissue.api';
 
 let isRefreshing = false; // 리프레시 토큰이 갱신 중인지
 const MAX_RETRIES = 3; // 최대 재시도 횟수
@@ -20,17 +20,6 @@ const processQueue = (error: unknown, token: string | null) => {
     error ? reject(error) : resolve(token!);
   });
   failedQueue = [];
-};
-
-type ReissueResponse = {
-  isSuccess: boolean;
-  code: string;
-  message: string;
-  result?: {
-    sellerId?: number;
-    memberId: number;
-    accessToken: string;
-  };
 };
 
 interface RetryConfig extends AxiosRequestConfig {
@@ -87,15 +76,7 @@ export const setupInterceptors = (instance: AxiosInstance) => {
         isRefreshing = true;
 
         try {
-          const response = await instance.post<ReissueResponse>(
-            API_DOMAINS.REISSUE,
-            {},
-            {
-              withCredentials: true,
-            } as RetryConfig
-          );
-
-          const data = response.data;
+          const data = await postReissue();
 
           if (!data.isSuccess || !data.result?.accessToken) {
             throw new Error('토큰 갱신에 실패했습니다.');

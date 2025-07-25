@@ -14,8 +14,8 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 import AddIcon from '@/assets/icon/common/Add2Icon.svg?react';
 import cn from '@/utils/cn';
-import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const [isLinkSnackBarOpen, setIsLinkSnackBarOpen] = useState<boolean>(false);
@@ -54,7 +54,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
     setIsEditLinkOpen(true);
   };
 
-  const sellerId = useStrictSellerId();
+  const { sellerId } = useStrictId();
 
   const { data: primaryNotice } = useGetPrimaryNotification({
     sellerId: Number(sellerId),

@@ -1,3 +1,4 @@
+import { postReissue } from '@/api/auth/postReissue.api';
 import {
   SellerSignupState,
   SnsLinkProps,
@@ -19,52 +20,61 @@ interface AuthState {
   setKakaoId: (kakaoId: number) => void;
   logout: () => void;
   clearAuthInfo: () => void;
+  reissue: () => Promise<boolean>;
 }
 
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set) => ({
+export const useAuthStore = create<AuthState>((set) => ({
+  memberId: null,
+  sellerId: null,
+  accessToken: null,
+  kakaoId: null,
+
+  setAuthInfo: ({ accessToken, memberId, sellerId = null }) => {
+    set({
+      accessToken,
+      memberId,
+      sellerId,
+    });
+  },
+  setKakaoId: (kakaoId: number) => {
+    set({ kakaoId });
+  },
+  logout: () => {
+    set({
+      accessToken: null,
       memberId: null,
       sellerId: null,
+    });
+  },
+  clearAuthInfo: () => {
+    set({
       accessToken: null,
+      memberId: null,
+      sellerId: null,
       kakaoId: null,
+    });
+  },
+  reissue: async () => {
+    try {
+      const data = await postReissue();
 
-      setAuthInfo: ({ accessToken, memberId, sellerId = null }) => {
-        set({
-          accessToken,
-          memberId,
-          sellerId,
-        });
-      },
-      setKakaoId: (kakaoId: number) => {
-        set({ kakaoId });
-      },
-      logout: () => {
-        set({
-          accessToken: null,
-          memberId: null,
-          sellerId: null,
-        });
-      },
-      clearAuthInfo: () => {
-        set({
-          accessToken: null,
-          memberId: null,
-          sellerId: null,
-          kakaoId: null,
-        });
-      },
-    }),
-    {
-      name: 'auth-storage',
-      storage: createJSONStorage(() => sessionStorage),
-      partialize: (state) => ({
-        memberId: state.memberId,
-        sellerId: state.sellerId,
-      }),
+      if (!data.isSuccess || !data.result?.accessToken) {
+        throw new Error('토큰 재발급 실패');
+      }
+
+      set({
+        accessToken: data.result.accessToken,
+        memberId: data.result.memberId,
+        sellerId: data.result.sellerId ?? null,
+      });
+
+      return true;
+    } catch (error) {
+      console.error('토큰 재발급 실패', error);
+      return false;
     }
-  )
-);
+  },
+}));
 
 interface UserSignupStoreState extends UserSignupState {
   setId: (id: string) => void;

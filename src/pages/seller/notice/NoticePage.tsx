@@ -12,8 +12,8 @@ import { NoticeType } from '@/types/common/NoticeType.types';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useGetNotification } from '@/services/notification/query/useGetNotification';
-import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const NoticePage = () => {
   const [isAddNoticeOpen, setIsAddNoticeOpen] = useState<boolean>(false);
@@ -26,13 +26,13 @@ const NoticePage = () => {
     useState<boolean>(false);
   const navigate = useNavigate();
 
-  const sellerId = useStrictSellerId();
+  const { sellerId } = useStrictId();
   const {
     data: notices,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useGetNotification(sellerId);
+  } = useGetNotification(sellerId!);
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 

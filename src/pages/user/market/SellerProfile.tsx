@@ -14,7 +14,7 @@ import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
-import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const SellerNoticeBottomSheet = lazy(
   () => import('@/components/user/seller/SellerNoticeBottomSheet')
@@ -33,7 +33,7 @@ const SellerProfilePage = ({ children }: { children: ReactNode }) => {
 };
 
 const SellerView = ({ children }: { children: ReactNode }) => {
-  const sellerId = useStrictSellerId();
+  const { sellerId } = useStrictId();
   const navigate = useNavigate();
 
   return (
@@ -45,7 +45,7 @@ const SellerView = ({ children }: { children: ReactNode }) => {
         일반 사용자에게 보이는 화면입니다.
       </h1>
       <article className="pointer-events-none flex w-full flex-1 flex-col">
-        <SellerProfile marketId={sellerId} seller={true}>
+        <SellerProfile marketId={sellerId!} seller={true}>
           {children}
         </SellerProfile>
       </article>
