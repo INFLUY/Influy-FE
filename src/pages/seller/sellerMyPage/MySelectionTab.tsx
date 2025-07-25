@@ -1,68 +1,139 @@
 import { Suspense, useState } from 'react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
-import { MyItem } from '@/types/seller/MyItem.types';
 import { useNavigate } from 'react-router-dom';
 import { AddButton, RadioBottomSheet, SellerMyItem } from '@/components';
 import Arrow from '@/assets/icon/common/Chevron.svg?react';
 import cn from '@/utils/cn';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
 import { PATH } from '@/routes/path';
+import { ItemPreviewList } from '@/types/common/ItemType.types';
 
 const MySelectionTab = () => {
   const navigate = useNavigate();
 
-  const PRODUCT_LIST: MyItem[] = [
-    {
-      itemId: 0,
-      title:
-        '[프리따픽] VT 컬러 리들샷 마스크팩 2차 재진행 / 메종마르지엘라 이벤트까지',
-      thumbnail: '/img1.png',
-      open: '2025-05-29T06:34:07.837159',
-      deadline: '2025-05-30T19:00:07.837159',
-      status: 'basic',
-      pending: 20,
-      answered: 10,
-    },
+  const PRODUCT_LIST: ItemPreviewList[] = [
     {
       itemId: 1,
-      title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
-      thumbnail: '/img1.png',
-      open: '2025-05-29T06:34:07.837159',
-      deadline: '2025-05-30T19:00:07.837159',
-      status: 'sold out',
-      pending: 20,
-      answered: 10,
+      sellerId: 101,
+      itemPeriod: 30,
+      itemName: '빈티지 레코드 플레이어',
+      sellerName: '레트로샵',
+      startDate: '2025-07-01T00:00:00Z',
+      endDate: '2025-07-31T23:59:59Z',
+      tagline: '음악의 감성을 되살리다',
+      currentStatus: 'DEFAULT',
+      liked: false,
+      talkBoxInfo: {
+        talkBoxOpenStatus: 'INITIAL',
+        waitingCnt: 2,
+        completedCnt: 1,
+      },
+      mainImg: '/img1.png',
     },
     {
       itemId: 2,
-      title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
-      thumbnail: '/img1.png',
-      open: '2025-07-10T06:34:07.837159',
-      deadline: '2025-07-30T19:00:07.837159',
-      status: 'basic',
-      pending: 20,
-      answered: 10,
+      sellerId: 102,
+      itemPeriod: 15,
+      itemName: '디지털 액자',
+      sellerName: '테크하우스',
+      startDate: '2025-07-10T00:00:00Z',
+      endDate: '2025-07-25T23:59:59Z',
+      tagline: '추억을 담는 새로운 방법',
+      currentStatus: 'EXTEND',
+      liked: false,
+      talkBoxInfo: {
+        talkBoxOpenStatus: 'OPENED',
+        waitingCnt: 0,
+        completedCnt: 5,
+      },
+      mainImg: '/img1.png',
     },
     {
       itemId: 3,
-      title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
-      thumbnail: '/img1.png',
-      open: '2025-05-29T06:34:07.837159',
-      deadline: '2025-06-10T19:00:07.837159',
-      status: 'basic',
-      pending: 20,
-      answered: 10,
+      sellerId: 103,
+      itemPeriod: 10,
+      itemName: '한정판 피규어',
+      sellerName: '콜렉터즈존',
+      tagline: '마니아를 위한 최고의 선택',
+      currentStatus: 'DEFAULT',
+      liked: false,
+      talkBoxInfo: {
+        talkBoxOpenStatus: 'CLOSED',
+        waitingCnt: 3,
+        completedCnt: 10,
+      },
+      mainImg: '/img1.png',
     },
     {
       itemId: 4,
-      title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
-      thumbnail: '/img1.png',
-      open: '2025-06-03T23:59:07.837159',
-      deadline: '2025-06-10T19:00:07.837159',
-      status: 'basic',
-      pending: 20,
-      answered: 10,
+      sellerId: 104,
+      itemPeriod: 60,
+      itemName: '프리미엄 커피머신',
+      sellerName: '카페기어',
+      startDate: '2025-06-01T00:00:00Z',
+      endDate: '2025-07-30T23:59:59Z',
+      tagline: '집에서도 바리스타처럼',
+      currentStatus: 'DEFAULT',
+      liked: false,
+      talkBoxInfo: {
+        talkBoxOpenStatus: 'OPENED',
+        waitingCnt: 1,
+        completedCnt: 2,
+      },
+      mainImg: '/img1.png',
+    },
+    {
+      itemId: 5,
+      sellerId: 105,
+      itemPeriod: 7,
+      itemName: '무선 이어폰',
+      sellerName: '사운드웨이브',
+      tagline: '자유로운 사운드',
+      currentStatus: 'EXTEND',
+      liked: false,
+      talkBoxInfo: {
+        talkBoxOpenStatus: 'INITIAL',
+        waitingCnt: 5,
+        completedCnt: 1,
+      },
+      mainImg: '/img1.png',
+    },
+    {
+      itemId: 6,
+      sellerId: 106,
+      itemPeriod: 20,
+      itemName: '캠핑용 미니 냉장고',
+      sellerName: '캠프존',
+      startDate: '2025-07-05T00:00:00Z',
+      endDate: '2025-07-25T23:59:59Z',
+      tagline: '야외에서도 시원하게',
+      currentStatus: 'DEFAULT',
+      liked: false,
+      talkBoxInfo: {
+        talkBoxOpenStatus: 'OPENED',
+        waitingCnt: 0,
+        completedCnt: 3,
+      },
+      mainImg: '/img1.png',
+    },
+    {
+      itemId: 7,
+      sellerId: 107,
+      itemPeriod: 45,
+      itemName: '럭셔리 손목시계',
+      sellerName: '타임하우스',
+      startDate: '2025-06-20T00:00:00Z',
+      endDate: '2025-08-04T23:59:59Z',
+      tagline: '시간을 담은 예술',
+      currentStatus: 'SOLD_OUT',
+      liked: false,
+      talkBoxInfo: {
+        talkBoxOpenStatus: 'CLOSED',
+        waitingCnt: 7,
+        completedCnt: 12,
+      },
+      mainImg: '/img1.png',
     },
   ];
 

@@ -1,14 +1,29 @@
-export type ItemType = {
+export type ItemPreviewList = {
   itemId: number;
-  title: string;
-  name: string;
-  content?: string;
-  thumbnail: string | null;
-  open: string;
-  deadline: string;
-  scrapped: boolean;
-  extend?: boolean;
-  soldOut?: boolean;
+  sellerId: number;
+  itemPeriod: number;
+  itemName: string;
+  sellerName: string;
+  startDate?: string;
+  endDate?: string;
+  tagline?: string;
+  currentStatus: 'DEFAULT' | 'EXTEND' | 'SOLD_OUT';
+  liked: false;
+  talkBoxInfo: {
+    talkBoxOpenStatus: 'INITIAL' | 'OPENED' | 'CLOSED';
+    waitingCnt: number;
+    completedCnt: number;
+  };
+  mainImg: string;
+};
+
+export type SellerItemsResponse = {
+  itemPreviewList: ItemPreviewList[] | [];
+  listSize: number;
+  totalPage: number;
+  totalElements: number;
+  isFirst: boolean;
+  isLast: boolean;
 };
 
 export interface ItemCardType {
@@ -69,13 +84,4 @@ export type itemPreviewList = {
   currentStatus: 'DEFAULT' | 'ON_SALE' | 'CLOSED';
   liked: false;
   mainImg: string;
-};
-
-export type SellerItemsResponse = {
-  itemPreviewList: itemPreviewList[];
-  listSize: number;
-  totalPage: number;
-  totalElements: number;
-  isFirst: boolean;
-  isLast: boolean;
 };
