@@ -19,8 +19,10 @@ function isRegisterResult(
 export const useKakaoLogin = () => {
   const navigate = useNavigate();
   const { setAuthInfo, setKakaoId } = useAuthStore();
+  const redirectToLocal = import.meta.env.MODE === 'development';
+
   return useMutation({
-    mutationFn: (code: string) => handleKakaoLogin(code),
+    mutationFn: (code: string) => handleKakaoLogin(code, redirectToLocal),
     onSuccess: (response: RegisterAuthResponse | LoginedUserAuthResponse) => {
       if (isRegisterResult(response.result)) {
         setKakaoId(response.result.kakaoId);
