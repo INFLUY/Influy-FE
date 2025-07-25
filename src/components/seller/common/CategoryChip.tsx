@@ -36,7 +36,7 @@ const CategoryChip = ({
         theme === 'home' &&
           (isSelected ? 'bg-grey11 text-white' : 'bg-grey02 text-black'),
         theme === 'talkBox' &&
-          'bg-grey03 rounded-[2.4375rem] px-3 py-1.5 text-black'
+          'bg-grey03 cursor-default rounded-[2.4375rem] px-3 py-1.5 text-black'
       )}
     >
       {text}

@@ -63,5 +63,6 @@ export interface ItemOverviewDTO {
   itemName: string;
   tagline: string;
   mainImg: string;
-  talkBoxOpenStatus: 'OPENED' | 'CLOSED' | 'INITIAL';
+  talkBoxOpenStatus: TalkBoxOpenStatus;
 }
+export type TalkBoxOpenStatus = 'INITIAL' | 'OPENED' | 'CLOSED';

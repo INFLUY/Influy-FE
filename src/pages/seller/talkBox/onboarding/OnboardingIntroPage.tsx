@@ -40,7 +40,6 @@ const OnboardingIntroPage = () => {
       >
         질문관리
       </PageHeader>
-      {/* TODO: opened 처리 */}
       {itemOverview && (
         <TalkBoxBottomItemCard
           onCardClick={() => {}}

@@ -13,49 +13,22 @@ import {
   CategorizeStep,
 } from '@/components/seller/talkBox/onboarding/OnboardingStep';
 import { QuestionCategoryDTO } from '@/types/seller/TalkBox.types';
-//api
-import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
 
-const mockCategories: QuestionCategoryDTO[] = [
-  {
-    questionCategoryId: 1,
-    questionCategoryName: '사이즈',
-  },
-  {
-    questionCategoryId: 2,
-    questionCategoryName: '색상',
-  },
-  {
-    questionCategoryId: 3,
-    questionCategoryName: '배송',
-  },
-  {
-    questionCategoryId: 4,
-    questionCategoryName: '재입고',
-  },
-  {
-    questionCategoryId: 5,
-    questionCategoryName: '기타',
-  },
-];
+//api
+import { usePostGenerateQuestionCategory } from '@/services/talkBox/mutation/usePostGenerateQuestionCategory';
+import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
+import { usePostTalkBoxOpenStatus } from '@/services/talkBox/mutation/usePostTalkBoxOpenStatus';
+import { usePostAddQuestionCategories } from '@/services/talkBox/mutation/usePostAddQuestionCategories';
 
 const OnboardingLayout = () => {
-  // TODO: 활성화 되어있다면 아이템 페이지로 나가는 로직 필요
   const navigate = useNavigate();
   const { itemId } = useParams<{ itemId: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [category, setCategory] = useState<QuestionCategoryDTO[]>([]);
+  const [category, setCategory] = useState<string[]>([]);
 
-  const currentStep = searchParams.get('step'); // 'step' 쿼리 파라미터를 읽습니다.
-  console.log(currentStep);
+  const currentStep = searchParams.get('step');
 
-  // 하단 상품 정보
-  const { itemOverview } = useItemOverview({
-    sellerId: 2, // TODO: 수정 필요
-    itemId: Number(itemId),
-  });
-
-  //   1. 페이지 진입 시 URL의 step 쿼리 파라미터를 읽고, 없으면 activate로 리디렉트
+  //  페이지 진입 시 URL의 step 쿼리 파라미터를 읽고, 없으면 activate로 리디렉트
   useEffect(() => {
     if (
       !currentStep ||
@@ -63,38 +36,48 @@ const OnboardingLayout = () => {
     ) {
       navigate(`?step=activate`, { replace: true });
     }
-  }, [currentStep, itemId, navigate]);
-
-  useEffect(() => {
     if (currentStep === 'categorize') {
-      setCategory(mockCategories);
+      postGenerateQuestionCategory();
     }
-  }, [currentStep]);
+  }, [currentStep, itemId]);
 
+  // 하단 상품 정보 get api
+  const { itemOverview } = useItemOverview({
+    sellerId: 2, // TODO: 수정 필요
+    itemId: Number(itemId),
+  });
+
+  // 카테고리 생성 post api
+  const { mutate: postGenerateQuestionCategory } =
+    usePostGenerateQuestionCategory({
+      itemId: Number(itemId),
+      onSuccessCallback: (data: string[]) => {
+        console.log(data);
+        setCategory(data);
+      },
+    });
+
+  const { mutate: addCategories } = usePostAddQuestionCategories({
+    itemId: Number(itemId),
+  });
+
+  // 다음 단계인 'categorize'로 쿼리 파라미터 변경
   const handleActivateNext = () => {
-    // 다음 단계인 'categorize'로 쿼리 파라미터 변경
     setSearchParams({ step: 'categorize' });
   };
 
-  // 3. '설정 완료' 버튼 (카테고리 설정 화면) 클릭 시 호출될 함수
+  // 맨 마지막의 '설정 완료' 버튼  클릭 시 호출될 함수
   const handleCategorizeFinish = () => {
-    const path = generatePath(
-      `../../${PATH.SELLER.talkBox.item.base}/${PATH.SELLER.talkBox.item.tabs.pending}`,
-      {
-        itemId: String(itemId),
-      }
-    );
-    navigate(path, { replace: true, state: { isOnboarding: true } });
+    // 질문 카테고리 생성
+    addCategories(category);
   };
 
   // step 값에 따라 적절한 화면(컴포넌트)을 렌더링
   const renderStepComponent = () => {
     switch (currentStep) {
       case 'activate':
-        // itemId를 props로 전달하여 각 화면에서 활용할 수 있도록 함
         return <ActivateStep onNext={handleActivateNext} />;
       case 'categorize':
-        // itemId를 props로 전달하여 각 화면에서 활용할 수 있도록 함
         return (
           <CategorizeStep
             onFinish={handleCategorizeFinish}

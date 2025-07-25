@@ -1,30 +1,35 @@
-import MinusIcon from '@/assets/icon/common/MinusIcon.svg?react';
 import { BottomSheet, DefaultButton, TextInput, AddButton } from '@/components';
-import { SetStateAction, useRef } from 'react';
-
+import { SetStateAction } from 'react';
+import cn from '@/utils/cn';
 export const CategoryEditItem = ({
-  id,
   text,
   onRemove,
   onEdit,
 }: {
-  id: number;
   text: string;
-  onRemove: (id: number) => void;
-  onEdit: (id: number) => void;
+  onRemove: (categoryName: string) => void;
+  onEdit: (categoryName: string) => void;
 }) => {
   return (
     <article className="flex w-full items-center justify-between px-5">
       <button
-        className="cursor-pointer"
+        className={cn(
+          'mr-[.9375rem] flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center rounded-[.625rem]',
+          text === '기타' ? 'bg-grey02' : 'bg-grey03'
+        )}
         type="button"
-        onClick={() => onRemove(id)}
+        onClick={() => onRemove(text)}
       >
-        <MinusIcon className="mr-3 h-5 w-5" />
+        <div
+          className={cn(
+            'h-[.0938rem] w-[.6406rem]',
+            text === '기타' ? 'bg-grey04' : 'bg-grey07'
+          )}
+        />
       </button>
       <button
         type="button"
-        onClick={() => onEdit(id)}
+        onClick={() => onEdit(text)}
         className="border-grey03 body2-m flex-1 rounded-xs border bg-white px-[.8125rem] py-2.5 text-left text-black"
       >
         {text}
@@ -34,7 +39,6 @@ export const CategoryEditItem = ({
 };
 
 export type SheetMode = 'none' | 'add' | 'editList' | 'editText' | 'delete';
-import { QuestionCategoryDTO } from '@/types/seller/TalkBox.types';
 
 export const CategoryUpsertSheet = ({
   handleSave,
@@ -47,21 +51,20 @@ export const CategoryUpsertSheet = ({
   onSingleCategoryEdit,
   setSheetMode,
   category,
+  editTarget,
 }: {
   handleSave: () => void;
   isBottomSheetOpen: boolean;
   draftName: string;
+  editTarget: string | null;
   setDraftName: React.Dispatch<SetStateAction<string>>;
   setSheetMode: React.Dispatch<SetStateAction<SheetMode>>;
   onClose: () => void;
-  onRemove: (id: number) => void;
-  onSingleCategoryEdit: (id: number) => void;
-  category: QuestionCategoryDTO[];
+  onRemove: (categoryName: string) => void;
+  onSingleCategoryEdit: (categoryName: string) => void;
+  category: string[];
   mode: SheetMode;
 }) => {
-  // 시트가 열릴 때의 initial value 를 기억할 ref
-  const initialValueRef = useRef<string>(draftName);
-
   return (
     <BottomSheet onClose={onClose} isBottomSheetOpen={isBottomSheetOpen}>
       <section className="mb-5 flex w-full flex-col gap-4">
@@ -98,7 +101,7 @@ export const CategoryUpsertSheet = ({
               <div className="w-full px-5">
                 <DefaultButton
                   onClick={handleSave}
-                  disabled={!draftName || initialValueRef.current === draftName}
+                  disabled={!draftName || editTarget === draftName}
                 />
               </div>
             </>
@@ -108,12 +111,12 @@ export const CategoryUpsertSheet = ({
           {(mode === 'editList' || mode === 'delete') && (
             <>
               <section className="scrollbar-hide flex h-fit max-h-[23.3125rem] w-full flex-col gap-4 overflow-auto">
-                {category.map((c) => (
+                {category.map((category, i) => (
                   <CategoryEditItem
-                    id={c.questionCategoryId}
+                    key={i}
                     onRemove={onRemove}
                     onEdit={onSingleCategoryEdit}
-                    text={c.questionCategoryName}
+                    text={category}
                   />
                 ))}
               </section>

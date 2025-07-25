@@ -15,3 +15,22 @@ export const postGenerateQuestionCategory = async ({
 
   return response.data.result.generatedNameList;
 };
+
+export const postAddQuestionCategories = async ({
+  itemId,
+  categoryList,
+}: {
+  itemId: number;
+  categoryList: string[];
+}): Promise<string[]> => {
+  const response = await instance.post(
+    generateApiPath(SELLER_API_DOMAINS.SELLER_ADD_QUESTION_CATEGORIES, {
+      itemId,
+    }),
+    {
+      categoryList,
+    }
+  );
+
+  return JSON.parse(response.data.result.viewList); // "[사이즈, 세탁]" → ["사이즈", "세탁"]
+};

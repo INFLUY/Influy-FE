@@ -34,35 +34,42 @@ export const ActivateStep = ({ onNext }: { onNext: () => void }) => {
   );
 };
 
-import { QuestionCategoryDTO } from '@/types/seller/TalkBox.types';
-
 export const CategorizeStep = ({
   onFinish,
   category,
   setCategory,
 }: {
   onFinish: () => void;
-  category: QuestionCategoryDTO[];
-  setCategory: React.Dispatch<React.SetStateAction<QuestionCategoryDTO[]>>;
+  category: string[];
+  setCategory: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
   const [sheetMode, setSheetMode] = useState<SheetMode>('none');
+
   const [draftName, setDraftName] = useState('');
+  const [editTarget, setEditTarget] = useState<string | null>(null);
+
   // 삭제할 카테고리
-  const [categoryToDelete, setCategoryToDelete] = useState<number | null>(null);
+  const [categoryToDelete, setCategoryToDelete] = useState<string | null>(null);
   //스낵바
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
     open: false,
     message: '',
   });
 
-  const onRemove = (id: number) => {
-    setCategoryToDelete(id);
+  const onRemove = (categoryName: string) => {
+    if (categoryName === '기타') {
+      setSnackbar({
+        open: true,
+        message: '‘기타’ 카테고리는 수정 및 삭제가 불가능합니다.',
+      });
+      return;
+    }
+    setCategoryToDelete(categoryName);
     setSheetMode('delete');
   };
+
   const onConfirmDelete = () => {
-    setCategory(
-      category.filter((c) => c.questionCategoryId !== categoryToDelete)
-    );
+    setCategory(category.filter((c) => c !== categoryToDelete));
     setSnackbar({
       open: true,
       message: '삭제되었습니다',
@@ -70,33 +77,71 @@ export const CategorizeStep = ({
     setCategoryToDelete(null);
     setSheetMode('none');
   };
-  const onSingleCategoryEdit = (id: number) => {
-    setDraftName(
-      category.find((c) => c.questionCategoryId === id)?.questionCategoryName ??
-        ''
-    );
+
+  const onSingleCategoryEdit = (categoryName: string) => {
+    if (categoryName === '기타') {
+      setSnackbar({
+        open: true,
+        message: '‘기타’ 카테고리는 수정 및 삭제가 불가능합니다.',
+      });
+      return;
+    }
+    setEditTarget(categoryName);
+    setDraftName(categoryName);
     setSheetMode('editText');
   };
+
   const handleSave = () => {
-    if (sheetMode === 'add') {
-    } else if (sheetMode === 'editText') {
+    const trimmed = draftName.trim();
+    console.log(trimmed);
+
+    if (!trimmed) return;
+    if (category.includes(trimmed)) {
+      setSnackbar({ open: true, message: '이미 존재하는 카테고리입니다' });
+      return;
     }
+    if (sheetMode === 'add') {
+      setCategory((prev) => {
+        const withoutEtc = prev.filter((c) => c !== '기타');
+        return [
+          ...withoutEtc,
+          trimmed,
+          ...(prev.includes('기타') ? ['기타'] : []),
+        ];
+      });
+      setDraftName('');
+      setSheetMode('editList');
+    } else if (sheetMode === 'editText' && editTarget !== null) {
+      if (editTarget === trimmed) {
+        setSheetMode('editList');
+        return;
+      }
+      setCategory((prev) => prev.map((c) => (c === editTarget ? trimmed : c)));
+      setDraftName('');
+      setEditTarget(null);
+      setSheetMode('editList');
+    }
+    setSnackbar({ open: true, message: '저장되었습니다.' });
   };
+
   const onClose = () => {
     if (sheetMode === 'editList') setSheetMode('none');
-    else if (sheetMode === 'editText' || sheetMode === 'add')
+    else if (sheetMode === 'editText' || sheetMode === 'add') {
+      setDraftName('');
+      setEditTarget(null);
       setSheetMode('editList');
+    }
   };
 
   return (
     <>
       <div className="flex w-full flex-col items-start gap-4 px-5">
-        <p className="b0dy2-m text-sub">
+        <p className="body2-m text-sub">
           원하는 분류기준이 있다면 자유롭게 수정해 주세요.
         </p>
         <div className="flex flex-wrap content-start items-start gap-[.6875rem_.625rem] self-stretch">
-          {category.map((c) => (
-            <CategoryChip text={c.questionCategoryName} theme="talkBox" />
+          {category.map((category) => (
+            <CategoryChip text={category} theme="talkBox" />
           ))}
         </div>
       </div>
@@ -122,6 +167,7 @@ export const CategorizeStep = ({
           onRemove={onRemove}
           setSheetMode={setSheetMode}
           category={category}
+          editTarget={editTarget}
         />
       )}
       {sheetMode === 'delete' && categoryToDelete !== null && (

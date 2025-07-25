@@ -22,8 +22,16 @@ export const SELLER_API_DOMAINS = {
   SELLER_QUESTION_CATEGORY:
     '/seller/:sellerId/items/:itemId/question-categories',
 
-  // 톡박스 질문 관리
+  // [톡박스] 질문 관리
   SELLER_QUESTION_BY_TAG: '/seller/items/:itemId/talkbox/:questionTagId',
+
+  // [톡박스] 질문 카테고리
+  SELLER_GENERATE_QUESTION_CATEGORY:
+    '/seller/items/:itemId/question-categories/generate',
+  SELLER_ADD_QUESTION_CATEGORIES: '/seller/items/:itemId/question-categories',
+
+  // [톡박스] 셀러 톡박스 답변
+  SELLER_TALKBOX_OPEN_STATUS: '/seller/items/:itemId/talkbox/open-status',
 };
 
 export const QUERY_KEYS = {
@@ -33,4 +41,7 @@ export const QUERY_KEYS = {
   SELLER_ITEM_OVERVIEW: 'sellerItemOverview',
   SELLER_QUESTION_CATEGORY: 'sellerQuestionCategory',
   SELLER_QUESTION_BY_TAG: 'sellerQuestionByTag',
+  SELLER_GENERATE_QUESTION_CATEGORY: 'sellerGenerateQuestionCategory',
+  SELLER_TALKBOX_OPEN_STATUS: 'sellerTalkBoxOpenStatus',
+  SELLER_ADD_QUESTION_CATEGORIES: 'sellerAddQuestionCategories',
 };
