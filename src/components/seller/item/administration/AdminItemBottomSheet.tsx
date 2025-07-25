@@ -2,6 +2,7 @@ import BottomSheet from '@/components/common/BottomSheet';
 import { SetStateAction, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SellerModal from '@/components/seller/common/SellerModal';
+import { PATH } from '@/routes/path';
 
 const AdminItemBottomSheet = ({
   itemId,
@@ -23,9 +24,11 @@ const AdminItemBottomSheet = ({
   // 상품 수정
   const handleItemEdit = () => {
     // itemId 이용하여 navigate
-    console.log(itemId);
+
     setIsOpen(false);
-    navigate('');
+    navigate(
+      `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}/${PATH.SELLER.ITEM.ITEM_ID.EDIT.BASE}`
+    );
   };
 
   // 상품 보관
