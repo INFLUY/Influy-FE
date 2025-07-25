@@ -85,10 +85,10 @@ export const SignupIdPage = () => {
     } else {
       if (userType === 'influencer') {
         setSellerId(id);
-        navigate(`../${PATH.REGISTER.type.seller.sns}`);
+        navigate(`../${PATH.REGISTER.TYPE.SELLER.SNS}`);
       } else if (userType === 'user') {
         setUserId(id);
-        navigate(`../${PATH.REGISTER.type.user.interest}`);
+        navigate(`../${PATH.REGISTER.TYPE.USER.INTEREST}`);
       }
     }
   };
@@ -120,7 +120,7 @@ export const SignupIdPage = () => {
   }, [duplicateCheckData, isDirty, isDuplicateLoading]);
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col">
+    <div className="flex h-full w-full flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[
           <ArrowIcon

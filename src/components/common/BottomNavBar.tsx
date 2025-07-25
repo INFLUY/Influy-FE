@@ -1,90 +1,168 @@
 import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
 import HeartIcon from '@/assets/icon/common/HeartNavbar.svg?react';
 import CalendarIcon from '@/assets/icon/common/CalendarNavbar.svg?react';
-import MyIcon from '@/assets/icon/common/MyNavbar.svg?react';
+import SellerMyIcon from '@/assets/icon/seller/MyNavbar.svg?react';
+import SellerMyIcon2 from '@/assets/icon/seller/MyNavbarActive.svg?react';
+import UserMyIcon from '@/assets/icon/user/MyNavbar.svg?react';
 import TalkBoxIcon from '@/assets/icon/common/TalkBoxIcon.svg?react';
 import { NavLink } from 'react-router-dom';
 import cn from '@/utils/cn';
 import { PATH } from '@/routes/path';
 
+const sellerTabRouteMap: Record<string, string[]> = {
+  [`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`]: [
+    `${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`,
+  ],
+  [`${PATH.SELLER.BASE}/talk-box`]: [`${PATH.SELLER.BASE}/talk-box`],
+  [`${PATH.SELLER.BASE}/${PATH.SELLER.CALENDER.BASE}`]: [
+    `${PATH.SELLER.BASE}/${PATH.SELLER.CALENDER.BASE}`,
+  ],
+  [`${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}`]: [
+    `${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}/${PATH.SELLER.MY.TABS.SELECTION}`,
+    `${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}/${PATH.SELLER.MY.TABS.ARCHIVE}`,
+    `${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}/${PATH.SELLER.MY.TABS.REVIEW}`,
+  ],
+};
+
+const userTabRouteMap: Record<string, string[]> = {
+  [`${PATH.HOME.BASE}`]: [`${PATH.HOME.BASE}`],
+  [`${PATH.LIKE.BASE}`]: [
+    `${PATH.LIKE.BASE}`,
+    `${PATH.LIKE.BASE}/${PATH.LIKE.TABS.ITEM}`,
+    `${PATH.LIKE.BASE}/${PATH.LIKE.TABS.SELLER}`,
+  ],
+  [`${PATH.CALENDAR.BASE}`]: [`${PATH.CALENDAR.BASE}`],
+  [`${PATH.MY.BASE}`]: [`${PATH.MY.BASE}`],
+};
+
+const isTabActive = (
+  pathname: string,
+  tabTo: string | undefined,
+  userType?: 'SELLER' | 'USER'
+): boolean => {
+  if (!tabTo) return false;
+  const validPaths =
+    userType === 'SELLER' ? sellerTabRouteMap[tabTo] : userTabRouteMap[tabTo];
+  if (!validPaths) return pathname === tabTo; // fallback
+  return validPaths.includes(pathname);
+};
+
 export interface BottomNavItem {
   label: string;
   icon?: React.ReactNode;
+  isActiveIcon?: React.ReactNode;
   to?: string;
   onClick?: () => void;
   aria: string;
 }
 
 interface BottomNavBarProps {
+  userType?: 'USER' | 'SELLER';
   items?: BottomNavItem[];
   type?: 'link' | 'action';
 }
-const navItems: BottomNavItem[] = [
+
+const userNavItems: BottomNavItem[] = [
   {
-    to: `${PATH.SELLER.base}/${PATH.SELLER.home.base}`,
+    to: `${PATH.HOME.BASE}`,
     label: '홈',
     icon: <HomeIcon className="h-6 w-6" />,
     aria: '홈',
   },
   {
-    to: `${PATH.SELLER.base}/like`,
+    to: `${PATH.LIKE.BASE}`,
     label: '찜',
     icon: <HeartIcon className="h-6 w-6" />,
     aria: '찜',
   },
   {
-    to: `${PATH.SELLER.base}/talk-box`,
-    label: '톡박스',
-    icon: <TalkBoxIcon className="h-6 w-6" />,
-    aria: '톡박스',
-  },
-  {
-    to: `${PATH.SELLER.base}/calender`,
+    to: `${PATH.CALENDAR.BASE}`,
     label: '캘린더',
     icon: <CalendarIcon className="h-6 w-6" />,
     aria: '캘린더',
   },
   {
-    to: `${PATH.SELLER.base}/${PATH.SELLER.tabs.selection}`,
+    to: `${PATH.MY.BASE}`,
     label: '마이',
-    icon: <MyIcon className="h-6 w-6" />,
+    icon: <UserMyIcon className="h-6 w-6" />,
+    aria: '마이',
+  },
+];
+
+const sellerNavItems: BottomNavItem[] = [
+  {
+    to: `${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`,
+    label: '홈',
+    icon: <HomeIcon className="h-6 w-6" />,
+    aria: '홈',
+  },
+  {
+    to: `${PATH.SELLER.BASE}/talk-box`,
+    label: '톡박스',
+    icon: <TalkBoxIcon className="h-6 w-6" />,
+    aria: '톡박스',
+  },
+  {
+    to: `${PATH.SELLER.BASE}/${PATH.SELLER.CALENDER.BASE}`,
+    label: '캘린더',
+    icon: <CalendarIcon className="h-6 w-6" />,
+    aria: '캘린더',
+  },
+  {
+    to: `${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}`,
+    label: '마이',
+    icon: <SellerMyIcon className="h-6 w-6" />,
+    isActiveIcon: <SellerMyIcon2 className="h-6 w-6" />,
     aria: '마이',
   },
 ];
 
 export const BottomNavBar = ({
-  items = navItems,
+  userType = 'USER',
+  items,
   type = 'link',
 }: BottomNavBarProps) => {
+  const navItems: BottomNavItem[] =
+    items ?? (userType === 'SELLER' ? sellerNavItems : userNavItems);
   return (
     <nav
-      className="border-t-grey03 bg-grey01 fixed bottom-0 z-50 flex w-full max-w-[40rem] min-w-[20rem] flex-col items-start border-t border-solid px-5 py-2.5 md:w-[28rem]"
+      className="border-t-grey03 bg-grey01 fixed bottom-0 z-20 flex h-[4.0625rem] w-full max-w-[40rem] min-w-[20rem] flex-col items-start justify-center border-t border-solid md:w-[28rem]"
       aria-label="하단 네비게이션 바"
       role="navigation"
     >
-      <ul className="flex h-10 w-full items-start justify-between">
-        {items.map((item) => (
-          <li key={item.label}>
+      <ul className="flex h-full w-full items-center justify-between">
+        {navItems?.map((item) => (
+          <li
+            key={item.label}
+            className="flex h-full items-center justify-center"
+          >
             {type === 'link' && item.to ? (
-              <NavLink
-                to={item.to}
-                className={() =>
-                  cn(
-                    'flex cursor-pointer flex-col items-center gap-0.5',
-                    isTabActive(location.pathname, item.to)
-                      ? 'text-black'
-                      : 'text-grey06'
-                  )
-                }
-                aria-label={item.aria}
-              >
-                {item.icon}
-                <span className="caption-m">{item.label}</span>
-              </NavLink>
+              (() => {
+                const isActive = isTabActive(
+                  location.pathname,
+                  item.to,
+                  userType
+                );
+                return (
+                  <NavLink
+                    to={item.to}
+                    className={() =>
+                      cn(
+                        'flex h-full cursor-pointer flex-col items-center justify-center gap-0.5 px-5',
+                        isActive ? 'text-black' : 'text-grey06'
+                      )
+                    }
+                    aria-label={item.aria}
+                  >
+                    {isActive ? (item.isActiveIcon ?? item.icon) : item.icon}
+                    <span className="caption-m">{item.label}</span>
+                  </NavLink>
+                );
+              })()
             ) : (
               <button
                 onClick={item.onClick}
-                className="flex cursor-pointer items-center gap-1"
+                className="flex h-full w-full cursor-pointer items-center gap-1 px-5"
                 aria-label={item.aria}
                 type="button"
               >
@@ -97,28 +175,4 @@ export const BottomNavBar = ({
       </ul>
     </nav>
   );
-};
-
-const tabRouteMap: Record<string, string[]> = {
-  [`${PATH.SELLER.base}`]: [
-    `${PATH.SELLER.base}/${PATH.SELLER.tabs.selection}`,
-    `${PATH.SELLER.base}/${PATH.SELLER.tabs.stored}`,
-    `${PATH.SELLER.base}/${PATH.SELLER.tabs.review}`,
-  ],
-  [`${PATH.SELLER.base}/${PATH.SELLER.home.base}`]: [
-    `${PATH.SELLER.base}/${PATH.SELLER.home.base}`,
-    `${PATH.SELLER.base}/${PATH.SELLER.home.base}/${PATH.SELLER.home.more.endingSoon}`,
-    `${PATH.SELLER.base}/${PATH.SELLER.home.base}/${PATH.SELLER.home.more.trending}`,
-    `${PATH.SELLER.base}/${PATH.SELLER.home.base}/${PATH.SELLER.home.more.category}`,
-  ],
-  [`${PATH.SELLER.base}/like`]: [`${PATH.SELLER.base}/like`],
-  [`${PATH.SELLER.base}/talk-box`]: [`${PATH.SELLER.base}/talk-box`],
-  [`${PATH.SELLER.base}/calender`]: [`${PATH.SELLER.base}/calender`],
-};
-
-const isTabActive = (pathname: string, tabTo: string | undefined): boolean => {
-  if (!tabTo) return false;
-  const validPaths = tabRouteMap[tabTo];
-  if (!validPaths) return pathname === tabTo; // fallback
-  return validPaths.includes(pathname);
 };

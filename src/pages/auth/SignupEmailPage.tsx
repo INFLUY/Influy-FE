@@ -27,9 +27,9 @@ export const SignupEmailPage = () => {
 
   useEffect(() => {
     if (!sellerId) {
-      navigate(`../${PATH.REGISTER.type.seller.id}`);
+      navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
     } else if (!sns.instagram) {
-      navigate(`../${PATH.REGISTER.type.seller.sns}`);
+      navigate(`../${PATH.REGISTER.TYPE.SELLER.SNS}`);
     } else {
       setEmailValue(email);
     }
@@ -44,7 +44,7 @@ export const SignupEmailPage = () => {
   const handleClickSkip = () => {
     setEmail('');
     navigate(
-      `${PATH.REGISTER.base}/${PATH.REGISTER.type.seller.base}/${PATH.REGISTER.type.seller.interest}`
+      `${PATH.REGISTER.BASE}/${PATH.REGISTER.TYPE.SELLER.BASE}/${PATH.REGISTER.TYPE.SELLER.INTEREST}`
     );
   };
 
@@ -61,13 +61,13 @@ export const SignupEmailPage = () => {
     } else {
       setEmail(emailValue);
       navigate(
-        `${PATH.REGISTER.base}/${PATH.REGISTER.type.seller.base}/${PATH.REGISTER.type.seller.interest}`
+        `${PATH.REGISTER.BASE}/${PATH.REGISTER.TYPE.SELLER.BASE}/${PATH.REGISTER.TYPE.SELLER.INTEREST}`
       );
     }
   };
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col">
+    <div className="flex h-full w-full flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[
           <ArrowIcon

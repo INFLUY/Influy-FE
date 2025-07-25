@@ -114,7 +114,7 @@ const FaqRegistrationPage = () => {
   };
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[
           <XIcon

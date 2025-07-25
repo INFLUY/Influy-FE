@@ -20,6 +20,7 @@ export interface ItemCardType {
   tagline: string | null;
   currentStatus: 'DEFAULT' | 'EXTEND' | 'SOLD_OUT'; // 예시: 상태 enum 확장 가능
   sellerName: string;
+  sellerId: number;
   mainImg: string | null;
   isScrapped: boolean;
 }
@@ -41,8 +42,6 @@ export interface ItemDetail {
   salePrice: number | null;
   sellerInfo: SellerCard;
 }
-
-export type ItemStatus = 'archived' | 'published' | null;
 
 export interface SellerCard {
   id: number;

@@ -1,12 +1,12 @@
 import { patchNotification } from '@/api/notification/handleNotification.api';
 import { QUERY_KEYS } from '@/constants/api';
-import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 import { BaseNotice } from '@/types/common/NoticeType.types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePatchNotification = (onSuccessCallback?: () => void) => {
   const queryClient = useQueryClient();
-  const sellerId = useStrictSellerId();
+  const { sellerId } = useStrictId();
 
   return useMutation({
     mutationFn: ({

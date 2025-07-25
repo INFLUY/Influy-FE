@@ -25,7 +25,7 @@ export const SignupSnsLinkPage = () => {
 
   useEffect(() => {
     if (!sellerId) {
-      navigate(`../${PATH.REGISTER.type.seller.id}`);
+      navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
     }
     // 기존에 저장된 SNS 정보가 있다면 초기화
     if (sns) {
@@ -90,13 +90,13 @@ export const SignupSnsLinkPage = () => {
           youtube: youtubeUrl,
           tiktok: tiktokUrl,
         });
-        navigate(`../${PATH.REGISTER.type.seller.email}`);
+        navigate(`../${PATH.REGISTER.TYPE.SELLER.EMAIL}`);
       }
     }
   };
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col">
+    <div className="flex h-full w-full flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[
           <ArrowIcon

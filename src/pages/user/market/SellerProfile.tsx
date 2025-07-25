@@ -12,20 +12,87 @@ import { useGetPrimaryNotification } from '@/services/notification/query/useGetP
 import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
 import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
+import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const SellerNoticeBottomSheet = lazy(
   () => import('@/components/user/seller/SellerNoticeBottomSheet')
 );
 
-const SellerProfile = ({ children }: { children: ReactNode }) => {
-  const TABS = [
-    { id: 0, name: 'SELECTION', path: PATH.USER.tabs.selection },
-    { id: 2, name: 'REVIEW', path: PATH.USER.tabs.review },
-  ];
+const SellerProfilePage = ({ children }: { children: ReactNode }) => {
+  const { marketId } = useParams();
+
+  if (marketId) {
+    return (
+      <SellerProfile marketId={Number(marketId)}>{children}</SellerProfile>
+    );
+  }
+
+  return <SellerView>{children}</SellerView>;
+};
+
+const SellerView = ({ children }: { children: ReactNode }) => {
+  const { sellerId } = useStrictId();
+  const navigate = useNavigate();
+
+  return (
+    <section className="relative flex w-full flex-1 flex-col">
+      <header className="sticky top-0 z-20 flex h-11 items-center bg-black px-5">
+        <XIcon className="text-white" onClick={() => navigate(-1)} />
+      </header>
+      <h1 className="caption-m text-grey10 bg-grey02 sticky top-11 z-20 flex h-[2.3125rem] items-center justify-center gap-2.5 p-2.5">
+        일반 사용자에게 보이는 화면입니다.
+      </h1>
+      <article className="pointer-events-none flex w-full flex-1 flex-col">
+        <SellerProfile marketId={sellerId!} seller={true}>
+          {children}
+        </SellerProfile>
+      </article>
+    </section>
+  );
+};
+
+const SellerProfile = ({
+  children,
+  marketId,
+  seller = false,
+}: {
+  children: ReactNode;
+  marketId: number;
+  seller?: boolean;
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
+
+  const USER_TABS = [
+    {
+      id: 0,
+      name: 'SELECTION',
+      path: `${PATH.MARKET.BASE}/${marketId}/${PATH.MARKET.DETAIL.TABS.SELECTION}`,
+    },
+    {
+      id: 2,
+      name: 'REVIEW',
+      path: `${PATH.MARKET.BASE}/${marketId}/${PATH.MARKET.DETAIL.TABS.REVIEW}`,
+    },
+  ];
+
+  const SELLER_TABS = [
+    {
+      id: 0,
+      name: 'SELECTION',
+      path: `${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}/${PATH.SELLER.MY.PREVIEW.BASE}/${PATH.SELLER.MY.PREVIEW.TABS.SELECTION}`,
+    },
+    {
+      id: 2,
+      name: 'REVIEW',
+      path: `null`,
+    },
+  ];
+
+  const TABS = seller ? SELLER_TABS : USER_TABS;
 
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
@@ -37,10 +104,8 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
     { id: 3, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
   ];
 
-  const { marketId } = useParams();
-
   const { data: primaryNotice } = useGetPrimaryNotification({
-    sellerId: Number(marketId!),
+    sellerId: marketId,
   });
 
   const sns: { id: number; ariaLabel: string; url: string; icon: ReactNode }[] =
@@ -74,7 +139,7 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex w-full flex-1 flex-col">
       <div className="realtive flex h-[7.0625rem] w-full flex-col justify-end bg-[#8B8B8D] pb-[.875rem]">
-        <SellerProfileHeader name={'소현'} id={'xoyeone_'} />
+        <SellerProfileHeader name={'소현'} id={'xoyeone_'} seller={seller} />
         <div className="flex shrink-0 items-center justify-end gap-[.625rem] px-5 text-[#F1F1F1CC] opacity-80">
           {sns?.map((s, index) => (
             <a
@@ -111,7 +176,7 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
         <Suspense fallback={null}>
           {isBottomSheetOpen && (
             <SellerNoticeBottomSheet
-              marketId={Number(marketId!)}
+              marketId={marketId}
               isBottomSheetOpen={isBottomSheetOpen}
               setIsBottomSheetOpen={setIsBottomSheetOpen}
             />
@@ -137,4 +202,4 @@ const SellerProfile = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default SellerProfile;
+export default SellerProfilePage;

@@ -1,5 +1,5 @@
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
-import InfluyLogo from '@/assets/icon/common/InfluyLogo.svg?react';
+import InfluyLogo from '@/assets/icon/common/InfluyIcon.svg?react';
 import KakaoIcon from '@/assets/icon/common/KakaoIcon.svg?react';
 import Arrow from '@/assets/icon/common/ArrowRight12.svg?react';
 import LoginBg from '@/assets/image/LoginBgImg.svg';

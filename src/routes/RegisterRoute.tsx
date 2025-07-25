@@ -6,9 +6,9 @@ const RegisterRoute = () => {
   const { accessToken, memberId, kakaoId } = useAuthStore();
 
   if (accessToken && memberId) {
-    return <Navigate to={PATH.HOME.base} replace />;
+    return <Navigate to={PATH.HOME.BASE} replace />;
   } else if (!kakaoId) {
-    return <Navigate to={PATH.LOGIN.base} replace />;
+    return <Navigate to={PATH.LOGIN.BASE} replace />;
   }
 
   return <Outlet />;

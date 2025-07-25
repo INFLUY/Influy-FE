@@ -49,19 +49,19 @@ export const SignupInterestPage = () => {
 
   useEffect(() => {
     if (!kakaoId) {
-      navigate(PATH.LOGIN.base);
+      navigate(PATH.LOGIN.BASE);
     }
 
     if (userType === 'influencer') {
       if (!sellerId) {
-        navigate(`../${PATH.REGISTER.type.seller.id}`);
+        navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
       } else if (!sns.instagram) {
-        navigate(`../${PATH.REGISTER.type.seller.sns}`);
+        navigate(`../${PATH.REGISTER.TYPE.SELLER.SNS}`);
       }
       setSelectedCategories(sellerIntersetedCategories);
     } else if (userType === 'user') {
       if (!userId) {
-        navigate(`../${PATH.REGISTER.type.user.id}`);
+        navigate(`../${PATH.REGISTER.TYPE.USER.ID}`);
       }
       setSelectedCategories(userIntersetedCategories);
     }
@@ -82,7 +82,7 @@ export const SignupInterestPage = () => {
     useSellerSignupStore.persist.clearStorage();
     clearAuthInfo();
 
-    navigate(PATH.WELCOME.base);
+    navigate(PATH.WELCOME.BASE);
   };
 
   const { mutate: registerSeller } = useRegisterSeller(() => onSuccess);
@@ -136,7 +136,7 @@ export const SignupInterestPage = () => {
   };
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col">
+    <div className="flex h-full w-full flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[
           <ArrowIcon

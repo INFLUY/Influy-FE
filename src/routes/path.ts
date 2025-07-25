@@ -1,89 +1,124 @@
 export const PATH = {
   ROOT: '/',
   LOGIN: {
-    base: '/login',
+    BASE: '/login',
   },
   REGISTER: {
-    base: '/join',
-    type: {
-      base: 'type',
-      user: {
-        base: 'user',
-        id: 'id',
-        interest: 'interest',
+    BASE: '/join',
+    TYPE: {
+      BASE: 'type',
+      USER: {
+        BASE: 'user',
+        ID: 'id',
+        INTEREST: 'interest',
       },
-      seller: {
-        base: 'influencer',
-        id: 'id',
-        sns: 'sns',
-        email: 'email',
-        interest: 'interest',
+      SELLER: {
+        BASE: 'influencer',
+        ID: 'id',
+        SNS: 'sns',
+        EMAIL: 'email',
+        INTEREST: 'interest',
       },
     },
   },
   OAUTH: {
-    base: '/oauth/kakao/callback',
+    BASE: '/oauth/kakao/callback',
   },
   WELCOME: {
-    base: '/welcome',
+    BASE: '/welcome',
   },
   HOME: {
-    base: '/home',
+    BASE: '/home',
+    MORE: {
+      ENDING_SOON: 'ending-soon',
+      // trending: 'trending',
+      CATEGORY: 'category',
+    },
   },
-  USER: {
-    base: '/market/:marketId',
-    tabs: {
-      selection: 'selection',
-      review: 'review',
+  LIKE: {
+    BASE: '/like',
+    TABS: {
+      ITEM: 'item',
+      SELLER: 'influencer',
+    },
+  },
+  CALENDAR: {
+    BASE: '/calendar',
+  },
+  MY: {
+    BASE: '/mypage',
+  },
+  MARKET: {
+    BASE: '/market',
+    DETAIL: {
+      BASE: ':marketId',
+      TABS: {
+        SELECTION: 'selection',
+        REVIEW: 'review',
+      },
+      ITEM: {
+        BASE: 'item',
+        ITEM_ID: ':itemId',
+      },
     },
   },
   SELLER: {
-    base: '/my-market',
-    tabs: {
-      selection: 'selection',
-      stored: 'stored',
-      review: 'review',
+    BASE: '/influencer',
+    HOME: {
+      BASE: 'home',
     },
-    notice: {
-      base: 'notice',
+    CALENDER: {
+      BASE: 'calendar',
     },
-    profile: {
-      base: 'profile',
-      edit: 'edit',
+    MY: {
+      BASE: 'my-market',
+      TABS: {
+        SELECTION: 'selection',
+        ARCHIVE: 'archive',
+        REVIEW: 'review',
+      },
+      PREVIEW: {
+        BASE: 'preview',
+        TABS: {
+          SELECTION: 'selection',
+        },
+      },
+      NOTICE: {
+        BASE: 'notice',
+      },
+      PROFILE: {
+        BASE: 'profile',
+        EDIT: 'edit',
+      },
     },
-    items: {
-      base: 'item',
-      item: {
-        registration: { base: 'new', tabs: { info: 'info', faq: 'faq' } },
-        administration: {
-          base: ':itemId',
-          itemDetail: {
-            archived: 'archived',
-            published: 'published',
-          },
-          faq: {
-            base: 'faq',
-            registration: {
-              base: 'new',
-              question: 'question',
-              answer: 'answer',
-            },
-            administration: {
-              base: ':faqId',
-              faqDetail: {
-                edit: 'edit',
-              },
-            },
+    ITEM: {
+      BASE: 'item',
+      REGISTRATION: {
+        BASE: 'new',
+      },
+      ITEM_ID: {
+        BASE: ':itemId',
+        EDIT: {
+          BASE: 'edit',
+          TABS: {
+            INFO: 'info',
+            FAQ: 'faq',
           },
         },
       },
-    },
-    home: {
-      base: 'home',
-      more: {
-        endingSoon: 'ending-soon',
-        trending: 'trending',
-        category: 'category',
+      FAQ: {
+        BASE: 'faq',
+        REGISTRATION: {
+          BASE: 'new',
+          QUERSTION: 'question',
+          ANSWER: 'answer',
+        },
+        FAQ_ID: {
+          BASE: ':faqId',
+          FAQ_DETAIL: {
+            EDIT: 'edit',
+          },
+        },
       },
     },
   },

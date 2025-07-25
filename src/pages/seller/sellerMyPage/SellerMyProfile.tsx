@@ -9,12 +9,13 @@ import {
   Tabs,
   SellerMyProfileHeader,
   SnackBar,
+  BottomNavBar,
 } from '@/components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AddIcon from '@/assets/icon/common/Add2Icon.svg?react';
 import cn from '@/utils/cn';
-import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const [isLinkSnackBarOpen, setIsLinkSnackBarOpen] = useState<boolean>(false);
@@ -23,9 +24,9 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const [selectedLinkId, setSelectedLinkId] = useState<number | null>(null);
 
   const TABS = [
-    { id: 0, name: '상품', path: PATH.SELLER.tabs.selection },
-    { id: 2, name: '보관', path: PATH.SELLER.tabs.stored },
-    { id: 3, name: '리뷰', path: PATH.SELLER.tabs.review },
+    { id: 0, name: '상품', path: PATH.SELLER.MY.TABS.SELECTION },
+    { id: 2, name: '보관', path: PATH.SELLER.MY.TABS.ARCHIVE },
+    { id: 3, name: '리뷰', path: PATH.SELLER.MY.TABS.REVIEW },
   ];
 
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
     setIsEditLinkOpen(true);
   };
 
-  const sellerId = useStrictSellerId();
+  const { sellerId } = useStrictId();
 
   const { data: primaryNotice } = useGetPrimaryNotification({
     sellerId: Number(sellerId),
@@ -70,12 +71,12 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
         <NoticeBanner
           title={primaryNotice?.title}
           count={primaryNotice?.totalAnnouncements}
-          onClickNotice={() => navigate(`./${PATH.SELLER.notice.base}`)}
+          onClickNotice={() => navigate(`./${PATH.SELLER.MY.NOTICE.BASE}`)}
           seller={true}
         />
       </div>
 
-      <section className="divide-grey02 flex flex-col divide-y-[12px]">
+      <section className="divide-grey02 flex flex-1 flex-col divide-y-[12px]">
         {/* 링크 */}
         <div className="relative flex w-full">
           <div
@@ -140,6 +141,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
         </Tabs>
         {children}
       </section>
+      <BottomNavBar userType="SELLER" />
     </div>
   );
 };

@@ -1,17 +1,10 @@
-import {
-  PageHeader,
-  ItemAlbumCard,
-  CategoryChip,
-  BottomNavBar,
-} from '@/components';
+import { PageHeader, ItemAlbumCard } from '@/components';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import { ItemCardType } from '@/types/common/ItemType.types';
-import { useNavigate } from 'react-router-dom';
-import { CategoryType } from '@/types/common/CategoryType.types';
-import { dummyCategory as categoryList } from '@/pages/seller/item/ItemDetailDummyData';
-import { useState } from 'react';
+import { generatePath, useNavigate } from 'react-router-dom';
+import { ITEM_DEATIL } from '@/utils/generatePath';
 const itemMockData: ItemCardType[] = [
   {
     itemId: 101,
@@ -22,6 +15,7 @@ const itemMockData: ItemCardType[] = [
     tagline: null,
     currentStatus: 'DEFAULT',
     sellerName: 'daisylooks',
+    sellerId: 1,
     mainImg: '/img1.png',
     isScrapped: true,
   },
@@ -35,6 +29,7 @@ const itemMockData: ItemCardType[] = [
     currentStatus: 'DEFAULT',
     sellerName: 'minwhite',
     mainImg: '/img1.png',
+    sellerId: 5,
     isScrapped: false,
   },
   {
@@ -47,6 +42,7 @@ const itemMockData: ItemCardType[] = [
     tagline: '기본에 충실한 핏. 계절 상관없이 활용도 높은 데일리 데님입니다.',
     currentStatus: 'EXTEND',
     sellerName: 'jeanlab',
+    sellerId: 3,
     mainImg: '/img1.png',
     isScrapped: true,
   },
@@ -59,55 +55,51 @@ const itemMockData: ItemCardType[] = [
     tagline: '트렌디한 실루엣과 실용적인 포켓 디테일로 다양한 무드 연출 가능.',
     currentStatus: 'SOLD_OUT',
     sellerName: 'outermint',
+    sellerId: 9,
     mainImg: '/img1.png',
     isScrapped: false,
   },
 ];
-const CategoryPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+const EndingSoonPage = () => {
   const navigate = useNavigate();
-
   return (
-    <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col gap-3 overflow-x-hidden overflow-y-auto">
+    <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto pt-11">
       <PageHeader
         leftIcons={[
           <ArrowLeftIcon
-            onClick={() => navigate(-1)}
             className="h-6 w-6 cursor-pointer"
+            onClick={() => navigate(-1)}
           />,
         ]}
         rightIcons={[
           <SearchIcon className="h-6 w-6 cursor-pointer" />,
           <button type="button" className="relative">
             <BellIcon className="h-6 w-6 cursor-pointer" />
-            <div className="absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full bg-[#F43232]" />
+            <div className="bg-main absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full" />
           </button>,
         ]}
-        additionalStyles="bg-white border-0 "
+        additionalStyles="bg-white border-0"
       >
-        카테고리별 추천
+        마감임박
       </PageHeader>
-      <div className="scrollbar-hide flex w-full flex-nowrap items-center gap-2 overflow-x-scroll px-5 py-2">
-        {categoryList &&
-          categoryList.length > 0 &&
-          categoryList.map((category: CategoryType) => (
-            <CategoryChip
-              key={category.id}
-              text={category.category}
-              isSelected={selectedCategory === category.id}
-              onToggle={() => setSelectedCategory(category.id)}
-              theme="home"
-            />
-          ))}
-      </div>
       <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
         {itemMockData.map((item) => (
-          <ItemAlbumCard key={item.itemId} item={item} onCardClick={() => {}} />
+          <ItemAlbumCard
+            key={item.itemId}
+            item={item}
+            onCardClick={() =>
+              navigate(
+                generatePath(ITEM_DEATIL, {
+                  marketId: item.sellerId,
+                  itemId: item.itemId,
+                })
+              )
+            }
+          />
         ))}
       </div>
-      <BottomNavBar />
     </section>
   );
 };
 
-export default CategoryPage;
+export default EndingSoonPage;

@@ -26,19 +26,19 @@ export const useKakaoLogin = () => {
     onSuccess: (response: RegisterAuthResponse | LoginedUserAuthResponse) => {
       if (isRegisterResult(response.result)) {
         setKakaoId(response.result.kakaoId);
-        navigate(PATH.REGISTER.base, { replace: true });
+        navigate(PATH.REGISTER.BASE, { replace: true });
       } else {
         setAuthInfo({
           accessToken: response.result.accessToken,
           memberId: response.result.memberId,
           sellerId: response.result?.sellerId,
         });
-        navigate(PATH.HOME.base, { replace: true });
+        navigate(PATH.HOME.BASE, { replace: true });
       }
     },
     onError: () => {
       // TODO
-      navigate(PATH.LOGIN.base, { replace: true });
+      navigate(PATH.LOGIN.BASE, { replace: true });
     },
   });
 };

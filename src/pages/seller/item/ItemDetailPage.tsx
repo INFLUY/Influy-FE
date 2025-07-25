@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import {
   PageHeader,
   BottomNavBar,
@@ -9,7 +9,6 @@ import {
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
 import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
-import { SnackBar } from '@/components';
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { BottomNavItem } from '@/components/common/BottomNavBar';
 import Link2Icon from '@/assets/icon/common/Link2Icon.svg?react';
@@ -18,6 +17,7 @@ import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { dummyCategory, dummyFaq, dummyItem } from './ItemDetailDummyData';
+import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
 
 const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/ItemDetailFaqCard')
@@ -27,16 +27,13 @@ const ItemDetailInfo = lazy(
   () => import('@/components/common/item/ItemDetailInfo')
 );
 
-const SellerItemDetailPage = () => {
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
-  });
+const ItemDetailPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
-  const location = useLocation();
   const navigate = useNavigate();
+
+  const { itemId } = useParams();
 
   const [isFaqCategoryTop, setIsFaqCategoryTop] = useState(false);
   const [isDetailOnScreen, setIsDetailOnScreen] = useState(true);
@@ -77,24 +74,6 @@ const SellerItemDetailPage = () => {
     return () => observer.disconnect();
   }, [isDetailOnScreen]);
 
-  const status = location.pathname.endsWith('/archived')
-    ? 'archived'
-    : location.pathname.endsWith('/published')
-      ? 'published'
-      : null;
-
-  useEffect(() => {
-    if (location.state?.isSnackbar == true) {
-      const message: string =
-        status === 'published'
-          ? '상품이 게시되었습니다.'
-          : '상품이 보관되었습니다.';
-      setSnackbar({ open: true, message });
-      //state 초기화
-      window.history.replaceState({}, document.title);
-    }
-  }, [location.state]);
-
   // 하단바
   const handleGoToPage = () => {};
   const handleOpenScopeModal = () => {
@@ -116,11 +95,11 @@ const SellerItemDetailPage = () => {
     {
       label: '상품 수정',
       onClick: () => {
-        navigate('/my-market/item/new'); //추후 수정페이지로 라우팅 수정 필요
+        navigate(generatePath(SELLER_ITEM_EDIT_PATH, { itemId }));
       },
       icon: <EditIcon className="h-6 w-6" />,
       aria: '상품 수정',
-    }, //추후 상품 페이지로 이동하도록 수정 필요
+    },
   ];
 
   const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
@@ -129,7 +108,7 @@ const SellerItemDetailPage = () => {
     <>
       {/* 헤더 */}
       {isFaqCategoryTop ? (
-        <header className="sticky top-0 z-50 flex w-full flex-nowrap gap-2 bg-[rgba(241,241,241,0.30)]">
+        <header className="sticky top-0 z-20 flex w-full flex-nowrap gap-2 bg-[rgba(241,241,241,0.30)]">
           <div className="scrollbar-hide flex items-center gap-2 overflow-x-scroll px-5 pt-2 pb-[.4375rem]">
             {dummyCategory.map((category: CategoryType) => (
               <CategoryChip
@@ -143,23 +122,26 @@ const SellerItemDetailPage = () => {
           </div>
         </header>
       ) : (
-        <PageHeader
-          leftIcons={[
-            <ArrowIcon
-              className="h-6 w-6 cursor-pointer text-black"
-              onClick={() => navigate(-1)}
-              role="button"
-              aria-label="뒤로 가기"
-            />,
-          ]}
-          rightIcons={[
-            <ShareIcon className="h-6 w-6 cursor-pointer text-black" />,
-            <StatisticIcon className="h-6 w-6 cursor-pointer text-black" />,
-          ]}
-          additionalStyles="bg-white"
-        >
-          <div className="h-[1.6875rem]" />
-        </PageHeader>
+        <>
+          <PageHeader
+            leftIcons={[
+              <ArrowIcon
+                className="h-6 w-6 cursor-pointer text-black"
+                onClick={() => navigate(-1)}
+                role="button"
+                aria-label="뒤로 가기"
+              />,
+            ]}
+            rightIcons={[
+              <ShareIcon className="h-6 w-6 cursor-pointer text-black" />,
+              <StatisticIcon className="h-6 w-6 cursor-pointer text-black" />,
+            ]}
+            additionalStyles="bg-white"
+          >
+            <div className="h-[1.6875rem]" />
+          </PageHeader>
+          <span className="flex h-11 w-full shrink-0" />
+        </>
       )}
 
       {/* 상단 스크롤을 위한 ref */}
@@ -167,7 +149,7 @@ const SellerItemDetailPage = () => {
 
       {/* 상단 상품 정보 파트 */}
       <Suspense fallback={<LoadingSpinner />}>
-        <ItemDetailInfo data={dummyItem} status={status} ref={itemDetailRef} />
+        <ItemDetailInfo data={dummyItem} ref={itemDetailRef} />
       </Suspense>
 
       {/* FAQ 파트 */}
@@ -204,14 +186,6 @@ const SellerItemDetailPage = () => {
         </Suspense>
       </section>
 
-      {/* 스낵바 */}
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
       <BottomNavBar items={detailBottomNavItems} type="action" />
       {isBottomSheetOpen && (
         <VisibilityBottomSheet
@@ -223,4 +197,4 @@ const SellerItemDetailPage = () => {
   );
 };
 
-export default SellerItemDetailPage;
+export default ItemDetailPage;

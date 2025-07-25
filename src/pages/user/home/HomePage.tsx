@@ -3,15 +3,24 @@ import {
   BottomNavBar,
   HomeCommonSection,
   TopBannerSwiper,
+  MoreButton,
 } from '@/components';
 import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import { dummyCategory } from '@/pages/seller/item/ItemDetailDummyData';
 import { useState } from 'react';
-import { itemMockData, recommendMockData } from '@/pages/home/HomeMockData';
-import cn from '@/utils/cn';
-import ArrowRightMiniIcon from '@/assets/icon/common/ArrowRight10.svg?react';
+import {
+  itemMockData,
+  recommendMockData,
+} from '@/pages/user/home/HomeMockData';
+import InfluencerCard, {
+  InfluencerCardType,
+} from '@/components/user/home/InfluencerCard';
+import UserTypeSwithBanner from '@/components/seller/home/UserTypeSwitchBanner';
+import { useAuthStore } from '@/store/authStore';
+import { generatePath, useNavigate } from 'react-router-dom';
+import { ITEM_DEATIL, MARKET_DEATIL } from '@/utils/generatePath';
 
 interface TopBannerItem {
   image: string;
@@ -41,14 +50,7 @@ export const topBannerMockData: TopBannerItem[] = [
   },
 ];
 
-interface Influencer {
-  id: number;
-  nickname: string;
-  username: string;
-  profileImage: string;
-}
-
-export const influencerMockData: Influencer[] = [
+export const influencerMockData: InfluencerCardType[] = [
   {
     id: 1,
     nickname: '혜선',
@@ -87,8 +89,19 @@ export const influencerMockData: Influencer[] = [
   },
 ];
 
-export const pickMockData: TopBannerItem[] = [
+interface InfluencerPickItemType {
+  name: string;
+  itemId: number;
+  sellerId: number;
+  image: string;
+  onClick: () => void;
+}
+
+export const pickMockData: InfluencerPickItemType[] = [
   {
+    name: '비누',
+    itemId: 1,
+    sellerId: 1,
     image: '/product.png',
     onClick: () => {
       console.log('🎉 Banner 1 clicked - 신상품 페이지로 이동');
@@ -96,6 +109,9 @@ export const pickMockData: TopBannerItem[] = [
     },
   },
   {
+    name: '비누',
+    itemId: 15,
+    sellerId: 2,
     image: '/banner.png',
     onClick: () => {
       console.log('🔥 Banner 2 clicked - 이벤트 페이지로 이동');
@@ -103,6 +119,9 @@ export const pickMockData: TopBannerItem[] = [
     },
   },
   {
+    name: '비누',
+    itemId: 11,
+    sellerId: 3,
     image: '/img1.png',
     onClick: () => {
       console.log('⭐ Banner 3 clicked - 인플루언서 소개');
@@ -112,27 +131,48 @@ export const pickMockData: TopBannerItem[] = [
 ];
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [selectedInfluencer, setSelectedInfluencer] = useState<number>(1);
 
+  const { sellerId } = useAuthStore();
+
+  const MyProfile = {
+    id: 1,
+    nickname: '혜선',
+    username: '@thgusth',
+    profileImage: '/profile.png',
+  };
+
   return (
-    <section className="top-banner-swiper-section bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col">
+    <section className="top-banner-swiper-section bg-grey01 flex w-full flex-1 flex-col pt-11">
       <PageHeader
-        leftIcons={[<InfluyIcon role="button" aria-label="뒤로 가기" />]}
+        leftIcons={[
+          <InfluyIcon
+            className="h-6 text-black"
+            role="button"
+            aria-label="뒤로 가기"
+          />,
+        ]}
         rightIcons={[
           <SearchIcon className="h-6 w-6 cursor-pointer" />,
           <button type="button" className="relative">
             <BellIcon className="h-6 w-6 cursor-pointer" />
-            <div className="absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full bg-[#F43232]" />
+            <div className="bg-main absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full" />
           </button>,
         ]}
-        additionalStyles="border-0"
-      ></PageHeader>
+        additionalStyles="border-0 h-11"
+      />
       <section className="scrollbar-hide flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+        {sellerId !== null && (
+          <span className="flex w-full px-5 pt-4 pb-7">
+            <UserTypeSwithBanner influencer={MyProfile} userType="user" />
+          </span>
+        )}
         <TopBannerSwiper data={topBannerMockData} />
-        <article className="flex w-full flex-col gap-4 pt-7 pb-3">
+        <section className="flex w-full flex-col gap-4 pt-7 pb-3">
           <h1 className="subhead-b px-5 text-black">내 취향의 인플루언서</h1>
-          <div className="scrollbar-hide flex gap-6 overflow-x-scroll px-5">
+          <ul className="scrollbar-hide flex gap-6 overflow-x-scroll px-5">
             {influencerMockData.map((influencer) => (
               <InfluencerCard
                 key={influencer.id}
@@ -141,10 +181,10 @@ const HomePage = () => {
                 setSelectedInfluencer={setSelectedInfluencer}
               />
             ))}
-          </div>
-        </article>
+          </ul>
+        </section>
         {/* 셀러가 픽한 상품 */}
-        <article className="bg-grey02 mb-5 flex w-full flex-col gap-[.875rem] pt-4 pb-5">
+        <section className="bg-grey02 mb-5 flex w-full flex-col gap-[.875rem] pt-4 pb-5">
           {/* 제목 */}
           <div className="flex items-center justify-between px-5">
             <h1 className="subhead-b text-black">
@@ -155,29 +195,39 @@ const HomePage = () => {
               }
               님이 <span className="text-main">Pick</span>한 상품
             </h1>
-            <button
-              type="button"
-              onClick={() => {}}
-              aria-label="더보기"
-              className="body2-m text-grey10 flex items-center gap-[.1875rem]"
-            >
-              더보기
-              <ArrowRightMiniIcon className="h-2.5 w-2.5" />
-            </button>
+            <MoreButton
+              onClickMore={() =>
+                navigate(
+                  generatePath(MARKET_DEATIL, { marketId: selectedInfluencer })
+                )
+              }
+            />
           </div>
 
           {/* 사진 */}
           <div className="flex w-full gap-0.5 px-5">
-            {pickMockData.map((item) => (
-              <div className="aspect-square flex-1/3">
+            {pickMockData.map((item, index) => (
+              <div
+                className="aspect-square flex-1/3"
+                key={index}
+                onClick={() =>
+                  navigate(
+                    generatePath(ITEM_DEATIL, {
+                      marketId: item.sellerId,
+                      itemId: item.itemId,
+                    })
+                  )
+                }
+              >
                 <img
                   src={item.image}
-                  className="h-full w-full rounded-[.1273rem] object-cover"
+                  className="h-full w-full rounded-[.125rem] object-cover"
+                  alt={item.name ?? '내 취향의 인플루언서 ㅇㅇ님이 픽한 상품'}
                 />
               </div>
             ))}
           </div>
-        </article>
+        </section>
         <HomeCommonSection
           expiringItem={itemMockData}
           trendingItem={itemMockData}
@@ -193,37 +243,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-const InfluencerCard = ({
-  influencer,
-  selectedInfluencer,
-  setSelectedInfluencer,
-}: {
-  influencer: Influencer;
-  selectedInfluencer: number;
-  setSelectedInfluencer: (id: number) => void;
-}) => {
-  return (
-    <article
-      className="flex flex-col items-center gap-2"
-      onClick={() => setSelectedInfluencer(influencer.id)}
-    >
-      <img
-        src={influencer.profileImage}
-        alt="프로필 사진"
-        className={cn(
-          'aspect-square h-[3.75rem] rounded-full object-cover',
-          selectedInfluencer == influencer.id && 'border-main border-[.0938rem]'
-        )}
-      />
-      <div className="flex w-[3.75rem] flex-col items-center self-stretch text-[.8086rem] leading-[150%] tracking-[-0.0008rem]">
-        <p className="text-grey10 line-clamp-1 font-semibold">
-          {influencer.nickname}
-        </p>
-        <p className="text-grey09 line-clamp-1 font-normal">
-          {influencer.username}
-        </p>
-      </div>
-    </article>
-  );
-};

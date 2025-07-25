@@ -7,8 +7,8 @@ import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
 import { lazy, Suspense, useState } from 'react';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
 import SnackBar from '@/components/common/SnackBar';
-import { useNavigate } from 'react-router-dom';
-import { PATH } from '@/routes/path';
+import { generatePath, useNavigate } from 'react-router-dom';
+import { SELLER_ITEM_DEATIL } from '@/utils/generatePath';
 
 const RadioBottomSheet = lazy(
   () => import('@/components/seller/common/RadioBottomSheet')
@@ -39,18 +39,13 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
     },
   ];
 
-  // 상품 보관, 게시에 따른 이동 경로 정의
-  const buildItemDetailPath = (
-    itemId: number,
-    status: 'archived' | 'published'
-  ) => `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${status}`;
-
   return (
     <li
       className="flex cursor-pointer items-center justify-center gap-3 self-stretch px-5"
       onClick={(e) => {
         e.stopPropagation();
-        navigate(buildItemDetailPath(item.itemId, 'published'));
+        const itemId = item.itemId;
+        navigate(generatePath(SELLER_ITEM_DEATIL, { itemId }));
       }}
     >
       {/* 썸네일 */}

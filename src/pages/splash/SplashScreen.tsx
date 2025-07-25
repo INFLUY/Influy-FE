@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import InfluyLogo from '@/assets/icon/common/InfluyLogo.svg?react';
+import InfluyLogo from '@/assets/icon/common/InfluyIcon.svg?react';
 import { PATH } from '@/routes/path';
 import { useEffect } from 'react';
 
@@ -9,7 +9,7 @@ const SplashScreen = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       // 로그인 여부 확인 필요
-      navigate(PATH.LOGIN.base);
+      navigate(PATH.LOGIN.BASE);
     }, 1500);
 
     return () => clearTimeout(timer);
