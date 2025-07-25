@@ -1,5 +1,6 @@
 import cn from '@/utils/cn';
-import UserTypeToggleButton from './UserTypeToggleButton';
+import UserTypeToggleButton from '@/components/seller/home/UserTypeToggleButton';
+import MyIcon from '@/assets/icon/seller/MyNavbar.svg';
 
 export interface SimpleInfluencerType {
   id: number;
@@ -20,7 +21,9 @@ const UserTypeSwithBanner = ({
       <div className="flex gap-[.625rem]">
         <div className="relative h-fit w-fit">
           <img
-            src={influencer.profileImage}
+            src={
+              influencer.profileImage === '' ? MyIcon : influencer.profileImage
+            }
             alt="프로필 사진"
             className="aspect-square h-[2.875rem] rounded-full object-cover"
           />
