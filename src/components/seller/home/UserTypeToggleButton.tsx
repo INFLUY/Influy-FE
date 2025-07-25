@@ -26,9 +26,7 @@ const UserTypeToggleButton = ({
       />
       <label
         htmlFor={`user-type-toggle button`}
-        className={cn(
-          'bg-grey07 flex h-full w-full cursor-pointer items-center gap-2 rounded-[1.0625rem]'
-        )}
+        className="bg-grey07 flex h-full w-full cursor-pointer items-center gap-2 rounded-[1.0625rem]"
       />
       <span
         className={cn(

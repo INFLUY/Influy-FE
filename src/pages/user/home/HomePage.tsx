@@ -19,8 +19,8 @@ import InfluencerCard, {
 } from '@/components/user/home/InfluencerCard';
 import UserTypeSwithBanner from '@/components/seller/home/UserTypeSwitchBanner';
 import { useAuthStore } from '@/store/authStore';
-import { useNavigate } from 'react-router-dom';
-import { PATH } from '@/routes/path';
+import { generatePath, useNavigate } from 'react-router-dom';
+import { ITEM_DEATIL, MARKET_DEATIL } from '@/utils/generatePath';
 
 interface TopBannerItem {
   image: string;
@@ -197,7 +197,9 @@ const HomePage = () => {
             </h1>
             <MoreButton
               onClickMore={() =>
-                navigate(`${PATH.MARKET.BASE}/${selectedInfluencer}`)
+                navigate(
+                  generatePath(MARKET_DEATIL, { marketId: selectedInfluencer })
+                )
               }
             />
           </div>
@@ -210,7 +212,10 @@ const HomePage = () => {
                 key={index}
                 onClick={() =>
                   navigate(
-                    `${PATH.MARKET.BASE}/${item.sellerId}/${PATH.MARKET.DETAIL.ITEM.BASE}/${item.itemId}`
+                    generatePath(ITEM_DEATIL, {
+                      marketId: item.sellerId,
+                      itemId: item.itemId,
+                    })
                   )
                 }
               >

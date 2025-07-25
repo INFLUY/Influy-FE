@@ -1,5 +1,5 @@
 // 홈 상단 내 상품 현황 컴포넌트
-import { TimeChip, PeriodChip, AddButton, ToolTipBottom } from '@/components';
+import { TimeChip, PeriodChip, AddButton, ToolTip } from '@/components';
 import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation, Pagination } from 'swiper/modules';
@@ -13,8 +13,8 @@ const MyProductStatus = () => {
   const navigate = useNavigate();
 
   //임시
-  const item = [{ id: 1 }, { id: 1 }];
-  // const item: [] = [];
+  // const item = [{ id: 1 }, { id: 1 }];
+  const item: [] = [];
 
   return (
     <section className="status-card-swiper-section flex flex-col gap-6">
@@ -60,7 +60,11 @@ const MyProductStatus = () => {
             </AddButton>
           </div>
           <div className="relative flex w-full flex-col items-center">
-            <ToolTipBottom text="상품을 먼저 등록해보세요!" />
+            <ToolTip
+              text="상품을 먼저 등록해보세요!"
+              position="center"
+              direction="bottom"
+            />
           </div>
         </section>
       )}

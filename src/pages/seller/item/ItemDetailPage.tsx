@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import {
   PageHeader,
   BottomNavBar,
@@ -17,7 +17,7 @@ import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { dummyCategory, dummyFaq, dummyItem } from './ItemDetailDummyData';
-import { PATH } from '@/routes/path';
+import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
 
 const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/ItemDetailFaqCard')
@@ -95,9 +95,7 @@ const ItemDetailPage = () => {
     {
       label: '상품 수정',
       onClick: () => {
-        navigate(
-          `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}/${PATH.SELLER.ITEM.ITEM_ID.EDIT.BASE}/${PATH.SELLER.ITEM.ITEM_ID.EDIT.TABS.INFO}`
-        );
+        navigate(generatePath(SELLER_ITEM_EDIT_PATH, { itemId }));
       },
       icon: <EditIcon className="h-6 w-6" />,
       aria: '상품 수정',

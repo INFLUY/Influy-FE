@@ -4,11 +4,11 @@ import {
   HorizontalRankingCard,
   CategoryChip,
 } from '@/components';
-import { useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { ItemCardType } from '@/types/common/ItemType.types';
+import { ITEM_DEATIL } from '@/utils/generatePath';
 
 const HomeCommonSection = ({
   expiringItem,
@@ -41,11 +41,14 @@ const HomeCommonSection = ({
             <ItemAlbumCard
               key={item.itemId}
               item={item}
-              onCardClick={() =>
+              onCardClick={() => {
                 navigate(
-                  `${PATH.MARKET.BASE}/${item.sellerId}/${PATH.MARKET.DETAIL.ITEM.BASE}/${item.itemId}`
-                )
-              }
+                  generatePath(ITEM_DEATIL, {
+                    marketId: item.sellerId,
+                    itemId: item.itemId,
+                  })
+                );
+              }}
             />
           ))}
         </div>
@@ -62,7 +65,10 @@ const HomeCommonSection = ({
               ranking={i + 1}
               onCardClick={() =>
                 navigate(
-                  `${PATH.MARKET.BASE}/${item.sellerId}/${PATH.MARKET.DETAIL.ITEM.BASE}/${item.itemId}`
+                  generatePath(ITEM_DEATIL, {
+                    marketId: item.sellerId,
+                    itemId: item.itemId,
+                  })
                 )
               }
             />
@@ -98,7 +104,10 @@ const HomeCommonSection = ({
               item={item}
               onCardClick={() =>
                 navigate(
-                  `${PATH.MARKET.BASE}/${item.sellerId}/${PATH.MARKET.DETAIL.ITEM.BASE}/${item.itemId}`
+                  generatePath(ITEM_DEATIL, {
+                    marketId: item.sellerId,
+                    itemId: item.itemId,
+                  })
                 )
               }
             />

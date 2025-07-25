@@ -1,11 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate } from 'react-router-dom';
 import { SetStateAction, useState, useRef } from 'react';
 
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { FaqQuestion } from '@/types/common/ItemType.types';
 
 import { parseDateString } from '@/utils/formatDate';
-import { PATH } from '@/routes/path';
 
 import {
   BottomSheet,
@@ -44,6 +43,10 @@ import {
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import {
+  SELLER_ITEM_FAQ_EDIT_PATH,
+  SELLER_ITEM_FAQ_PATH,
+} from '@/utils/generatePath';
 
 type SheetMode =
   | 'none'
@@ -213,9 +216,7 @@ const FaqListEdit = ({
               ))}
             <AddButton
               handleOnClick={() =>
-                navigate(
-                  `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}/${PATH.SELLER.ITEM.FAQ.BASE}`
-                )
+                navigate(generatePath(SELLER_ITEM_FAQ_PATH, { itemId }))
               }
             >
               FAQ 추가하기
@@ -490,7 +491,7 @@ const FaqQuestionCard = ({
             className="text-grey09 flex cursor-pointer items-center justify-center gap-0.5 self-end"
             onClick={() =>
               navigate(
-                `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}/${PATH.SELLER.ITEM.FAQ.BASE}/${id}/${PATH.SELLER.ITEM.FAQ.FAQ_ID.FAQ_DETAIL.EDIT}`
+                generatePath(SELLER_ITEM_FAQ_EDIT_PATH, { itemId, faqId: id })
               )
             }
           >
@@ -519,7 +520,7 @@ const FaqQuestionCard = ({
               className="body1-b w-full cursor-pointer py-4 text-center"
               onClick={() =>
                 navigate(
-                  `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}/${PATH.SELLER.ITEM.FAQ.BASE}/${id}/${PATH.SELLER.ITEM.FAQ.FAQ_ID.FAQ_DETAIL.EDIT}`
+                  generatePath(SELLER_ITEM_FAQ_EDIT_PATH, { itemId, faqID: id })
                 )
               }
             >

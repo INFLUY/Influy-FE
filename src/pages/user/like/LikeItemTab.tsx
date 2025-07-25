@@ -1,7 +1,7 @@
 import { ItemAlbumCard } from '@/components';
 import { ItemCardType } from '@/types/common/ItemType.types';
-import { useNavigate } from 'react-router-dom';
-import { PATH } from '@/routes/path';
+import { generatePath, useNavigate } from 'react-router-dom';
+import { ITEM_DEATIL } from '@/utils/generatePath';
 const itemMockData: ItemCardType[] = [
   {
     itemId: 101,
@@ -121,7 +121,10 @@ const EndingSoonPage = () => {
             item={item}
             onCardClick={() =>
               navigate(
-                `${PATH.MARKET.BASE}/${item.sellerId}/${PATH.MARKET.DETAIL.ITEM.BASE}/${item.itemId}`
+                generatePath(ITEM_DEATIL, {
+                  marketId: item.sellerId,
+                  itemId: item.itemId,
+                })
               )
             }
           />

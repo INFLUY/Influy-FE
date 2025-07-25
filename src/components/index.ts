@@ -70,7 +70,7 @@ export {
   FormSNSInput,
 } from './common/FormTextInput';
 export { default as VisibilityBottomSheet } from './seller/common/VisibilityBottomSheet.tsx';
-export { ToolTipTop, ToolTipBottom } from './seller/common/ToolTip.tsx';
+export { ToolTip } from './seller/common/ToolTip.tsx';
 
 //item
 export { default as EmptyCategoryPlaceholder } from './seller/item/EmptyCategoryPlaceholder';

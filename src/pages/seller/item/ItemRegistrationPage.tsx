@@ -9,7 +9,7 @@ import { DefaultButton, Tab, Tabs } from '@/components';
 import { useState, useRef, RefObject } from 'react';
 import { PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import { useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate } from 'react-router-dom';
 import { SnackBar } from '@/components';
 import { PATH } from '@/routes/path';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
@@ -17,6 +17,7 @@ import { CategoryType } from '@/types/common/CategoryType.types';
 import { FaqQuestion } from '@/types/common/ItemType.types';
 import { Outlet, useLocation } from 'react-router-dom';
 import cn from '@/utils/cn';
+import { SELLER_ITEM_DEATIL } from '@/utils/generatePath';
 
 export const dummyCategory: CategoryType[] = [
   { id: 0, category: '사이즈' },
@@ -204,7 +205,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       const itemId: number = 1;
 
       //if success
-      navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}`);
+      navigate(generatePath(SELLER_ITEM_DEATIL, { itemId }));
       // TODO: '상품이 보관되었습니다.' 스낵바 띄우기
     } catch (error) {}
   };
@@ -261,7 +262,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
     const itemId: number = 1;
 
     //if success
-    navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${itemId}`);
+    navigate(generatePath(SELLER_ITEM_DEATIL, { itemId }));
     // TODO: '상품이 게시되었습니다.' 스낵바 띄우기
   };
 

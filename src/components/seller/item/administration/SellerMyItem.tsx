@@ -7,8 +7,8 @@ import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
 import { lazy, Suspense, useState } from 'react';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
 import SnackBar from '@/components/common/SnackBar';
-import { useNavigate } from 'react-router-dom';
-import { PATH } from '@/routes/path';
+import { generatePath, useNavigate } from 'react-router-dom';
+import { SELLER_ITEM_DEATIL } from '@/utils/generatePath';
 
 const RadioBottomSheet = lazy(
   () => import('@/components/seller/common/RadioBottomSheet')
@@ -44,7 +44,8 @@ const SellerMyItem = ({ item }: { item: MyItem }) => {
       className="flex cursor-pointer items-center justify-center gap-3 self-stretch px-5"
       onClick={(e) => {
         e.stopPropagation();
-        navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${item.itemId}`);
+        const itemId = item.itemId;
+        navigate(generatePath(SELLER_ITEM_DEATIL, { itemId }));
       }}
     >
       {/* 썸네일 */}
