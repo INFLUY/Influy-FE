@@ -21,38 +21,50 @@ interface AuthState {
   clearAuthInfo: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  memberId: null,
-  sellerId: null,
-  accessToken: null,
-  kakaoId: null,
-  setAuthInfo: ({ accessToken, memberId, sellerId = null }) => {
-    set({
-      accessToken,
-      memberId,
-      sellerId,
-    });
-  },
-  setKakaoId: (kakaoId: number) => {
-    set({ kakaoId });
-  },
-  logout: () => {
-    set({
-      accessToken: null,
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
       memberId: null,
       sellerId: null,
-      kakaoId: null,
-    });
-  },
-  clearAuthInfo: () => {
-    set({
       accessToken: null,
-      memberId: null,
-      sellerId: null,
       kakaoId: null,
-    });
-  },
-}));
+
+      setAuthInfo: ({ accessToken, memberId, sellerId = null }) => {
+        set({
+          accessToken,
+          memberId,
+          sellerId,
+        });
+      },
+      setKakaoId: (kakaoId: number) => {
+        set({ kakaoId });
+      },
+      logout: () => {
+        set({
+          accessToken: null,
+          memberId: null,
+          sellerId: null,
+        });
+      },
+      clearAuthInfo: () => {
+        set({
+          accessToken: null,
+          memberId: null,
+          sellerId: null,
+          kakaoId: null,
+        });
+      },
+    }),
+    {
+      name: 'auth-storage',
+      storage: createJSONStorage(() => sessionStorage),
+      partialize: (state) => ({
+        memberId: state.memberId,
+        sellerId: state.sellerId,
+      }),
+    }
+  )
+);
 
 interface UserSignupStoreState extends UserSignupState {
   setId: (id: string) => void;
