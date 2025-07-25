@@ -16,7 +16,9 @@ export const API_DOMAINS = {
 };
 
 export const SELLER_API_DOMAINS = {
+  // 셀러 아이템
   ITEM_OVERVIEW: '/seller/:sellerId/items/:itemId/item-overview',
+  TALKBOX_OPENED_ITEMS: '/seller/talkbox/opened',
 
   // 질문 카테고리
   SELLER_QUESTION_CATEGORY:
@@ -44,4 +46,5 @@ export const QUERY_KEYS = {
   SELLER_GENERATE_QUESTION_CATEGORY: 'sellerGenerateQuestionCategory',
   SELLER_TALKBOX_OPEN_STATUS: 'sellerTalkBoxOpenStatus',
   SELLER_ADD_QUESTION_CATEGORIES: 'sellerAddQuestionCategories',
+  SELLER_TALKBOX_OPENED_ITEMS: 'sellerTalkBoxOpenedItems',
 };

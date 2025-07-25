@@ -57,6 +57,11 @@ const OnboardingLayout = () => {
       },
     });
 
+  const { mutate: updateStatus } = usePostTalkBoxOpenStatus({
+    itemId: Number(itemId),
+    openStatus: 'OPENED',
+  });
+
   const { mutate: addCategories } = usePostAddQuestionCategories({
     itemId: Number(itemId),
   });
@@ -67,9 +72,18 @@ const OnboardingLayout = () => {
   };
 
   // 맨 마지막의 '설정 완료' 버튼  클릭 시 호출될 함수
-  const handleCategorizeFinish = () => {
+  const handleCategorizeFinish = async () => {
     // 질문 카테고리 생성
     addCategories(category);
+    // 톡박스 활성화
+    updateStatus();
+    const path = generatePath(
+      `../../${PATH.SELLER.talkBox.item.base}/${PATH.SELLER.talkBox.item.tabs.pending}`,
+      {
+        itemId: String(itemId),
+      }
+    );
+    await navigate(path, { replace: true, state: { isOnboarding: true } });
   };
 
   // step 값에 따라 적절한 화면(컴포넌트)을 렌더링
