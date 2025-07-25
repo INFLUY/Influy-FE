@@ -20,7 +20,7 @@ const ScrapButton = ({
       {scrapped ? (
         <Heart
           className={cn(
-            'text-grey03 z-10 h-6 w-6 cursor-pointer',
+            'text-grey03 z-[5] h-6 w-6 cursor-pointer',
             additionalStyles
           )}
           onClick={handleClickScrapButton}
@@ -28,7 +28,7 @@ const ScrapButton = ({
       ) : (
         <ActiveHeart
           className={cn(
-            'text-main z-10 h-6 w-6 cursor-pointer',
+            'text-main z-[5] h-6 w-6 cursor-pointer',
             additionalStyles
           )}
           onClick={handleClickScrapButton}

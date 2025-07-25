@@ -1,6 +1,7 @@
 // 로그인 및 회원가입
 export { default as SplashScreen } from './splash/SplashScreen';
 export { default as LoginPage } from './auth/LoginPage';
+export { KakaoLoginHandler } from './auth/KakaoLoginHandler';
 export { UserTypeSelectPage } from './auth/UserTypeSelectPage';
 export { SignupIdPage } from './auth/SignupIdPage';
 export { SignupSnsLinkPage } from './auth/SignupSnsLinkPage';
@@ -18,7 +19,7 @@ export { default as LikePage } from './user/like/LikePage';
 export { default as LikeItemTab } from './user/like/LikeItemTab';
 export { default as LikeInfluencerTab } from './user/like/LikeInfluencerTab';
 
-export { default as CalenderPage } from './user/calendar/CalendarPage';
+export { default as CalendarPage } from './user/calendar/CalendarPage';
 
 export { default as MyPage } from './user/my/MyPage';
 
@@ -39,4 +40,4 @@ export { default as FaqRegistrationPage } from './seller/item/faq/FaqRegistratio
 export { default as FaqEditPage } from './seller/item/faq/FaqEditPage';
 export { default as ItemDetailPage } from './seller/item/ItemDetailPage';
 
-export { default as SellerCalenderPage } from './seller/calendar/CalendarPage';
+export { default as SellerCalendarPage } from './seller/calendar/CalendarPage';

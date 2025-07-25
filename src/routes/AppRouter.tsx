@@ -33,12 +33,14 @@ import {
   ItemDetailPage,
   LikePage,
   MyPage,
+  KakaoLoginHandler,
+  CalendarPage,
+  SellerCalendarPage,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { SellerAuthInterceptor } from './AuthInterceptor';
-import CalendarPage from '@/pages/user/calendar/CalendarPage';
-import SellerCalendarPage from '@/pages/seller/calendar/CalendarPage';
+import RegisterRoute from './RegisterRoute';
 
 const LikeItemTab = lazy(() => import('@/pages/user/like/LikeItemTab'));
 const LikeInfluencerTab = lazy(
@@ -86,8 +88,12 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: PATH.OAUTH.BASE,
+        element: <KakaoLoginHandler />,
+      },
+      {
         path: PATH.REGISTER.BASE,
-        element: <Outlet />,
+        element: <RegisterRoute />,
         children: [
           {
             index: true,
@@ -134,6 +140,10 @@ const router = createBrowserRouter([
               {
                 path: PATH.REGISTER.TYPE.SELLER.EMAIL,
                 element: <SignupEmailPage />,
+              },
+              {
+                path: PATH.REGISTER.TYPE.SELLER.INTEREST,
+                element: <SignupInterestPage />,
               },
             ],
           },

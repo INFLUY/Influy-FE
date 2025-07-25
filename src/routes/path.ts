@@ -17,8 +17,12 @@ export const PATH = {
         ID: 'id',
         SNS: 'sns',
         EMAIL: 'email',
+        INTEREST: 'interest',
       },
     },
+  },
+  OAUTH: {
+    BASE: '/oauth/kakao/callback',
   },
   WELCOME: {
     BASE: '/welcome',

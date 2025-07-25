@@ -2,26 +2,38 @@ import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import InfluyLogo from '@/assets/icon/common/InfluyIcon.svg?react';
 import KakaoIcon from '@/assets/icon/common/KakaoIcon.svg?react';
 import Arrow from '@/assets/icon/common/ArrowRight12.svg?react';
+import LoginBg from '@/assets/image/LoginBgImg.svg';
 import { useNavigate } from 'react-router-dom';
-import { PATH } from '@/routes/path';
+import { useAuthStore } from '@/store/authStore';
+import { useEffect } from 'react';
 
 const LoginPage = () => {
   const navigate = useNavigate();
 
+  const { logout } = useAuthStore();
+
+  useEffect(() => {
+    logout();
+    // TODO: 로그아웃 처리
+  }, []);
+
+  const handleClose = () => {
+    navigate(-1);
+  };
+
   const handleKakaoLogin = () => {
-    // 응답에 따라 홈 or 회원가입 화면으로 분기
-    // navigate(PATH.HOME.BASE);
-    navigate(PATH.REGISTER.BASE);
+    window.location.href = import.meta.env.VITE_KAKAO_REDIRECT_URI;
   };
 
   return (
-    <div className="relative flex flex-1">
-      <section className="z-20 flex w-full translate-y-[4.375rem] flex-col items-center justify-center gap-[13.25rem] px-5 text-center">
-        <XIcon
-          className="absolute -top-6 left-5 h-6 w-6 cursor-pointer text-white"
-          role="button"
-          aria-label="로그인 창 닫기"
-        />
+    <div className="relative flex flex-1 overflow-hidden">
+      <XIcon
+        className="absolute top-[.625rem] left-5 z-20 h-6 w-6 cursor-pointer text-white"
+        role="button"
+        aria-label="로그인 창 닫기"
+        onClick={handleClose}
+      />
+      <section className="z-10 flex w-full flex-1 translate-y-[4.375rem] flex-col items-center justify-center gap-[13.25rem] px-5 text-center">
         <div className="flex flex-col gap-[.8125rem]">
           <InfluyLogo className="h-[2.75rem] text-white" />
           <p className="text-grey04 text-[1.125rem] whitespace-pre">{`인플루언서의\n취향이 묻어나는 선택`}</p>
@@ -51,8 +63,8 @@ const LoginPage = () => {
         </article>
       </section>
       <div className="absolute inset-0 flex">
-        <div className="absolute z-10 h-full w-full bg-[#000000] opacity-50" />
-        <img src="/src/assets/image/LoginBgImg.svg" className="object-cover" />
+        <div className="absolute z-[5] h-full w-full bg-[#000000] opacity-50" />
+        <img src={LoginBg} className="object-cover" alt="" />
       </div>
     </div>
   );
