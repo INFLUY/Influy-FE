@@ -1,4 +1,4 @@
-import { ItemDetail, ItemStatus } from '@/types/common/ItemType.types';
+import { ItemDetail } from '@/types/common/ItemType.types';
 import { ItemDetailProfile } from '@/components';
 import { RefObject, useState } from 'react';
 import cn from '@/utils/cn';
@@ -14,11 +14,9 @@ import getTimeChipText from '@/utils/getTimeChipText';
 
 export const ItemDetailInfo = ({
   data,
-  status,
   ref,
 }: {
   data: ItemDetail;
-  status: ItemStatus;
   ref: RefObject<HTMLElement | null>;
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -63,7 +61,7 @@ export const ItemDetailInfo = ({
         )}
 
         {/* 진행 회차 뱃지 */}
-        {status === 'published' && data.itemPeriod && data.itemPeriod > 1 && (
+        {data.itemPeriod && data.itemPeriod > 1 && (
           <div className="body2-sb bg-grey10 absolute top-0 left-0 z-1 flex h-[1.6875rem] items-center justify-center rounded-[.0767rem] px-[.7671rem] text-white">
             {data.itemPeriod}차
           </div>

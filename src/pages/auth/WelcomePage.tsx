@@ -8,21 +8,20 @@ export const WelcomePage = () => {
 
   // 다음 버튼 클릭 핸들러
   const handleClickNext = () => {
-    navigate(PATH.HOME.base, { replace: true });
+    navigate(PATH.HOME.BASE, { replace: true });
   };
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col">
+    <div className="flex h-full w-full flex-1 flex-col pt-11">
       <PageHeader
         rightIcons={[
           <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
+            className="h-6 w-6 cursor-pointer text-white"
             onClick={() => navigate('')}
           />,
         ]}
-      >
-        회원가입
-      </PageHeader>
+        additionalStyles="border-0"
+      ></PageHeader>
       <section className="flex w-full flex-1 flex-col gap-11 px-5 py-[3.25rem]">
         <h1 className="headline2 whitespace-pre text-black">
           {`인플루이에 오신 것을\n환영합니다!`}

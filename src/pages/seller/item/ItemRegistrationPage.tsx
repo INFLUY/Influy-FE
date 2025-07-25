@@ -9,12 +9,14 @@ import { DefaultButton, Tab, Tabs } from '@/components';
 import { useRef, RefObject } from 'react';
 import { PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import { useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { FaqQuestion } from '@/types/common/ItemType.types';
 import { Outlet, useLocation } from 'react-router-dom';
+import cn from '@/utils/cn';
+import { SELLER_ITEM_DEATIL } from '@/utils/generatePath';
 import { useSnackbarStore } from '@/store/snackbarStore';
 
 export const dummyCategory: CategoryType[] = [
@@ -47,14 +49,11 @@ type fieldsToCheck<FieldNames extends string> = {
   ref?: RefObject<HTMLDivElement | null>;
 };
 
-export const ItemRegistrationPage = () => {
+export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
   const { showSnackbar } = useSnackbarStore();
 
   const navigate = useNavigate();
-  // 현재 탭 파악
-  const location = useLocation();
-  const currentTabPath =
-    location.pathname.split('/')[location.pathname.split('/').length - 1];
+  const { pathname } = useLocation();
 
   // 필수 요소 미입력시 스크롤 이동을 위한 ref
   const imagesFieldRef = useRef<HTMLDivElement | null>(null);
@@ -64,12 +63,6 @@ export const ItemRegistrationPage = () => {
 
   // 페이지 진입시 스크롤 상단으로 이동
   const scrollViewRef = useScrollToTop();
-
-  // 상품 보관, 게시에 따른 이동 경로 정의
-  const buildItemDetailPath = (
-    itemId: number,
-    status: 'archived' | 'published'
-  ) => `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${status}`;
 
   // useForm에 Zod 스키마 적용
   const methods = useForm<ItemFormValues>({
@@ -100,14 +93,29 @@ export const ItemRegistrationPage = () => {
   } = methods;
 
   // 탭 목록 정의
-  const TABS = [
+  const REGISTER_TABS = [
     {
       id: 0,
       name: '상품 상세 정보',
-      path: PATH.SELLER.items.item.registration.tabs.info,
+      path: PATH.SELLER.ITEM.REGISTRATION.BASE,
     },
-    { id: 1, name: 'FAQ', path: PATH.SELLER.items.item.registration.tabs.faq },
   ];
+
+  const EDIT_TABS = [
+    {
+      id: 0,
+      name: '상품 상세 정보',
+      path: `${PATH.SELLER.ITEM.ITEM_ID.EDIT.TABS.INFO}`,
+    },
+    {
+      id: 1,
+      name: 'FAQ',
+      path: `${PATH.SELLER.ITEM.ITEM_ID.EDIT.TABS.FAQ}`,
+    },
+  ];
+  const isEditMode = mode === 'edit';
+
+  const TABS = isEditMode ? EDIT_TABS : REGISTER_TABS;
 
   // 유효성 검사 대상 필드 값 구독 (사진, 제목, 카테고리, 시작일 마감일 ... )
   const [images, titleText, selectedCategoryList, hasStartDate, hasEndDate] =
@@ -194,9 +202,8 @@ export const ItemRegistrationPage = () => {
       const itemId: number = 1;
 
       //if success
-      navigate(buildItemDetailPath(itemId, 'published'), {
-        state: { isSnackbar: true },
-      });
+      navigate(generatePath(SELLER_ITEM_DEATIL, { itemId }));
+      // TODO: '상품이 보관되었습니다.' 스낵바 띄우기
     } catch (error) {}
   };
 
@@ -252,14 +259,13 @@ export const ItemRegistrationPage = () => {
     const itemId: number = 1;
 
     //if success
-    navigate(buildItemDetailPath(itemId, 'archived'), {
-      state: { isSnackbar: true },
-    });
+    navigate(generatePath(SELLER_ITEM_DEATIL, { itemId }));
+    // TODO: '상품이 게시되었습니다.' 스낵바 띄우기
   };
 
   return (
     <FormProvider {...methods}>
-      <section className="sticky top-0 z-50 w-full bg-white">
+      <section className="sticky top-0 z-20 w-full bg-white pt-11">
         <PageHeader
           leftIcons={[
             <ArrowIcon
@@ -269,28 +275,32 @@ export const ItemRegistrationPage = () => {
               aria-label="뒤로 가기"
             />,
           ]}
-          additionalStyles="h-[3.375rem] border-0"
+          additionalStyles={cn('h-[3.375rem]', isEditMode && 'border-0')}
         />
-        <Tabs>
-          {TABS.map((tab) => (
-            <Tab
-              key={tab.id}
-              isTabActive={tab.path === currentTabPath}
-              handleClickTab={() => navigate(tab.path, { replace: true })}
-            >
-              {tab.name}
-            </Tab>
-          ))}
-        </Tabs>
+        {isEditMode && (
+          <Tabs>
+            {TABS.map((tab) => (
+              <Tab
+                key={tab.id}
+                isTabActive={pathname.includes(tab.path)}
+                handleClickTab={() => navigate(tab.path, { replace: true })}
+              >
+                {tab.name}
+              </Tab>
+            ))}
+          </Tabs>
+        )}
       </section>
-      <div className="flex h-full flex-col">
+      <div className="flex flex-1 flex-col">
         <div className="invisible" ref={scrollViewRef} />
         {/* 폼 */}
         <form
           onSubmit={handleSubmit(handleSubmitSuccess, handleSubmitFailed)}
-          className="relative flex min-w-full flex-1 flex-col"
+          className="relative flex w-full flex-1 flex-col"
         >
-          <div className="flex-1 pt-8">
+          <div
+            className={cn('flex-1 pb-[8.25rem]', isEditMode ? 'pt-8' : 'pt-6')}
+          >
             <Outlet
               context={{
                 methods,
@@ -302,7 +312,7 @@ export const ItemRegistrationPage = () => {
             />
           </div>
           {/* 하단 버튼 */}
-          <section className="border-t-grey02 sticky right-0 bottom-0 z-20 flex h-24 w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5 pt-2.5 pb-2">
+          <section className="border-t-grey02 sticky right-0 bottom-0 z-20 flex h-[4.0625rem] w-full shrink-0 items-center justify-center gap-[.4375rem] border-t border-solid bg-white px-5">
             <DefaultButton
               onClick={onArchive}
               text="보관하기"
@@ -312,7 +322,7 @@ export const ItemRegistrationPage = () => {
             />
             <DefaultButton
               type="submit"
-              text="이대로 게시하기"
+              text="게시하기"
               disabled={isSubmitting || isRequiredIncomplete}
               useDisabled={false}
             />

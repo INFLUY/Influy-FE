@@ -10,7 +10,7 @@ import { PATH } from '@/routes/path';
 import cn from '@/utils/cn';
 import { ReactNode } from 'react';
 import { useGetSellerLike } from '@/services/likes/query/useGetSellerLikes';
-import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
   const navigate = useNavigate();
@@ -20,10 +20,10 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
   };
 
   const { marketId } = useParams();
-  const sellerId = useStrictSellerId();
+  const { sellerId } = useStrictId();
 
   const { data: marketLikes } = useGetSellerLike({
-    sellerId: marketId ? Number(marketId) : sellerId,
+    sellerId: marketId ? Number(marketId) : sellerId!,
   });
 
   const sns: { id: number; ariaLabel: string; url: string; icon: ReactNode }[] =
@@ -84,7 +84,7 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
             className="border-grey03 text-grey08 caption-m flex shrink-0 cursor-pointer items-center gap-1 rounded-[.125rem] border px-2 py-[.1875rem] text-center"
             onClick={() =>
               navigate(
-                `${PATH.SELLER.profile.base}/${PATH.SELLER.profile.edit}`
+                `${PATH.SELLER.MY.PROFILE.BASE}/${PATH.SELLER.MY.PROFILE.EDIT}`
               )
             }
           >

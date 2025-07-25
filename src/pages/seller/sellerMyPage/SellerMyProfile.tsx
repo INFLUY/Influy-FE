@@ -9,15 +9,16 @@ import {
   Tabs,
   SellerMyProfileHeader,
   SellerModal,
+  BottomNavBar,
 } from '@/components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AddIcon from '@/assets/icon/common/Add2Icon.svg?react';
-import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
 import { useGetMarketLinks } from '@/services/marketLinks/query/useGetMarketLinks';
 import { LinkType } from '@/types/seller/LinkType.types';
 import { useDeleteMarketLink } from '@/services/marketLinks/mutation/useDeleteMarketLink';
 import { useSnackbarStore } from '@/store/snackbarStore';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const [isAddLinkOpen, setIsAddLinkOpen] = useState<boolean>(false);
@@ -29,9 +30,9 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const { showSnackbar } = useSnackbarStore();
 
   const TABS = [
-    { id: 0, name: '상품', path: PATH.SELLER.tabs.selection },
-    { id: 2, name: '보관', path: PATH.SELLER.tabs.stored },
-    { id: 3, name: '리뷰', path: PATH.SELLER.tabs.review },
+    { id: 0, name: '상품', path: PATH.SELLER.MY.TABS.SELECTION },
+    { id: 2, name: '보관', path: PATH.SELLER.MY.TABS.ARCHIVE },
+    { id: 3, name: '리뷰', path: PATH.SELLER.MY.TABS.REVIEW },
   ];
 
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
     setIsEditLinkOpen(true);
   };
 
-  const sellerId = useStrictSellerId();
+  const { sellerId } = useStrictId();
 
   const { data: links } = useGetMarketLinks({
     sellerId: Number(sellerId),
@@ -95,12 +96,12 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
         <NoticeBanner
           title={primaryNotice?.title}
           count={primaryNotice?.totalAnnouncements || 0}
-          onClickNotice={() => navigate(`./${PATH.SELLER.notice.base}`)}
+          onClickNotice={() => navigate(`./${PATH.SELLER.MY.NOTICE.BASE}`)}
           seller={true}
         />
       </div>
 
-      <section className="divide-grey02 flex flex-col divide-y-[12px]">
+      <section className="divide-grey02 flex flex-1 flex-col divide-y-[12px]">
         {/* 링크 */}
         <div className="relative flex w-full">
           <div className="scrollbar-hide flex h-[3.5625rem] w-full items-center gap-[.625rem] self-stretch overflow-x-auto pr-[4.5rem] pl-5">
@@ -163,6 +164,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
         </Tabs>
         {children}
       </section>
+      <BottomNavBar userType="SELLER" />
     </div>
   );
 };

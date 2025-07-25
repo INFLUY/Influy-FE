@@ -25,27 +25,43 @@ export interface SellerSignupState {
   id: string;
   email: string;
   sns: SnsLinkProps;
+  intersetedCategories: number[];
 }
 
 export interface UserSignup {
-  userInfo: {
-    username: string;
-    kakaoId: number;
-    name: string; // 이게 왜 필요??
-    nickname: string; // 이게 왜 필요??
-    intersetedCategories: number[];
-  };
+  username: string;
+  kakaoId: number;
+  intersetedCategories: number[];
 }
 
 export interface SellerSignup {
   userInfo: {
     username: string;
     kakaoId: number;
-    name: string; // 이게 왜 필요??
-    nickname: string; // 이게 왜 필요??
+    intersetedCategories: number[];
   };
   email?: string;
   instagram: string;
   youtube?: string;
   tiktok?: string;
 }
+
+interface AuthResponse<T> {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: T;
+}
+
+export interface RegisterResult {
+  kakaoId: number;
+}
+
+export interface LoginedUserResult {
+  accessToken: string;
+  memberId: number;
+  sellerId?: number;
+}
+
+export type RegisterAuthResponse = AuthResponse<RegisterResult>;
+export type LoginedUserAuthResponse = AuthResponse<LoginedUserResult>;

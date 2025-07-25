@@ -10,7 +10,7 @@ import {
   LoadingSpinner,
 } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,27 +18,27 @@ import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 import { parseDateString } from '@/utils/formatDate';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { useSnackbarStore } from '@/store/snackbarStore';
-import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
-import { PATH } from '@/routes/path';
 import { useGetItemFaqCategory } from '@/services/sellerItemFaq/query/useGetItemFaqCategory';
 import { useGetFaqCard } from '@/services/sellerFaqCard/query/useGetFaqCard';
 import { usePatchFaqCard } from '@/services/sellerFaqCard/mutation/usePatchFaqCard';
 import { FaqCardRequestBody } from '@/types/common/FaqCardType.types';
+import { useStrictId } from '@/hooks/auth/useStrictId';
+import { SELLER_ITEM_EDIT_FAQ_TAB_PATH } from '@/utils/generatePath';
 
 const FaqEditPage = () => {
   const navigate = useNavigate();
   const [updatedAt, setUpdatedAt] = useState<string>('');
 
-  const sellerId = useStrictSellerId();
+  const { sellerId } = useStrictId();
   const { itemId, faqId } = useParams();
 
   const { data: categories } = useGetItemFaqCategory({
-    sellerId,
+    sellerId: sellerId!,
     itemId: Number(itemId),
   });
 
   const { data: prevFaq } = useGetFaqCard({
-    sellerId,
+    sellerId: sellerId!,
     itemId: Number(itemId),
     faqCardId: Number(faqId),
   });
@@ -121,7 +121,7 @@ const FaqEditPage = () => {
       adjustImg: data.adjustImg,
     };
     patchFaqCard({
-      sellerId,
+      sellerId: sellerId!,
       faqCardId: Number(faqId),
       itemId: Number(itemId),
       data: formattedData,
@@ -130,16 +130,14 @@ const FaqEditPage = () => {
 
   const handleFaqDelete = () => {
     // TODO: 디자인 추가되면 경고 modal 추가해야 함
-    navigate(
-      `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${PATH.SELLER.items.item.registration.base}/${PATH.SELLER.items.item.registration.tabs.faq}`
-    );
+    navigate(generatePath(SELLER_ITEM_EDIT_FAQ_TAB_PATH, { itemId }));
     showSnackbar('faq가 삭제되었습니다.');
   };
 
   return (
     <FormProvider {...methods}>
       <form
-        className="flex flex-1 flex-col"
+        className="flex flex-1 flex-col pt-11"
         onSubmit={handleSubmit(onSubmit, onError)}
       >
         <PageHeader
@@ -159,7 +157,7 @@ const FaqEditPage = () => {
               등록일자 {parseDateString(updatedAt)}
             </span>
             <Suspense fallback={<LoadingSpinner />}>
-              <FaqItemBanner sellerId={sellerId} itemId={Number(itemId)} />
+              <FaqItemBanner sellerId={sellerId!} itemId={Number(itemId)} />
             </Suspense>
           </div>
           <div className="flex flex-col gap-[1.875rem]">

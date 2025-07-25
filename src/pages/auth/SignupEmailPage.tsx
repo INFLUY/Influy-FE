@@ -6,10 +6,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { TextInput } from '@/components/common/DetailInput';
-import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
+import { useSellerSignupStore } from '@/store/authStore';
 import { emailSchema } from '@/schemas/profileSchema';
-import { useRegisterSeller } from '@/services/auth/useRegisterUser';
-import { SnsLinkProps } from '@/types/common/AuthTypes.types';
 import { useSnackbarStore } from '@/store/snackbarStore';
 
 export const SignupEmailPage = () => {
@@ -17,21 +15,18 @@ export const SignupEmailPage = () => {
 
   const [emailValue, setEmailValue] = useState<string>('');
 
-  const {
-    id: sellerId,
-    sns,
-    reset: sellerSignupStateReset,
-  } = useSellerSignupStore();
-  const { reset: userSignupStateReset } = useUserSignupStore();
+  const { id: sellerId, sns, email, setEmail } = useSellerSignupStore();
   const [isDirty, setIsDirty] = useState(false); // 입력값이 한번이라도 바뀌었는지
 
   const { showSnackbar } = useSnackbarStore();
 
   useEffect(() => {
     if (!sellerId) {
-      navigate(`../${PATH.REGISTER.type.seller.id}`);
+      navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
     } else if (!sns.instagram) {
-      navigate(`../${PATH.REGISTER.type.seller.sns}`);
+      navigate(`../${PATH.REGISTER.TYPE.SELLER.SNS}`);
+    } else {
+      setEmailValue(email);
     }
   }, []);
 
@@ -40,44 +35,12 @@ export const SignupEmailPage = () => {
     setEmailValue(value);
   };
 
-  const { mutate: registerSeller } = useRegisterSeller();
-
-  const handleRegister = () => {
-    const sns: SnsLinkProps & { email?: string } = {
-      ...useSellerSignupStore.getState().sns,
-      email: emailValue,
-    };
-
-    const optionalSns = Object.fromEntries(
-      Object.entries(sns).filter(([key, value]) => {
-        if (key === 'instagram') return false;
-        return value;
-      })
-    );
-
-    registerSeller({
-      userInfo: {
-        username: sellerId,
-        kakaoId: 31523, // 임시로 설정, 실제로는 카카오 로그인 후 받아와야 함
-        name: '서민정',
-        nickname: '꽈당민정',
-      },
-      instagram: sns.instagram,
-      ...optionalSns,
-    });
-  };
-
   // 건너뛰기 버튼 클릭 핸들러
   const handleClickSkip = () => {
-    // 백 연동
-    console.log(handleRegister());
-    // handleRegister();
-
-    // userSignupStateReset();
-    // useUserSignupStore.persist.clearStorage();
-    // sellerSignupStateReset();
-    // useSellerSignupStore.persist.clearStorage();
-    navigate(PATH.WELCOME.base);
+    setEmail('');
+    navigate(
+      `${PATH.REGISTER.BASE}/${PATH.REGISTER.TYPE.SELLER.BASE}/${PATH.REGISTER.TYPE.SELLER.INTEREST}`
+    );
   };
 
   // 다음 버튼 클릭 핸들러
@@ -88,18 +51,15 @@ export const SignupEmailPage = () => {
       const message = result.error.issues.map((err) => err.message);
       showSnackbar(message[0]);
     } else {
-      // 백 연동
-
-      userSignupStateReset();
-      useUserSignupStore.persist.clearStorage();
-      sellerSignupStateReset();
-      useSellerSignupStore.persist.clearStorage();
-      navigate(PATH.WELCOME.base);
+      setEmail(emailValue);
+      navigate(
+        `${PATH.REGISTER.BASE}/${PATH.REGISTER.TYPE.SELLER.BASE}/${PATH.REGISTER.TYPE.SELLER.INTEREST}`
+      );
     }
   };
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col">
+    <div className="flex h-full w-full flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[
           <ArrowIcon

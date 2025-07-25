@@ -3,6 +3,9 @@ export const ACCESS_TOKEN_KEY = 'InfluyAccessToken';
 export const API_DOMAINS = {
   //common
   PRESIGNED_URL: '/image/presigned-url',
+  OAUTH_KAKAO: '/oauth/kakao',
+  REISSUE: '/member/auth/reissue',
+  ID_DUPLICATE_CHECK: '/member/register/duplicate-check',
   SELLER_ANNOUNCEMENT: '/seller/:sellerId/announcements',
   SELLER_PRIMARY_ANNOUNCEMENT:
     '/seller/:sellerId/announcements/primary-announcement',
@@ -13,7 +16,7 @@ export const API_DOMAINS = {
   SELLER_FAQ_CATEGORIES: '/seller/:sellerId/items/:itemId/faq-categories',
 
   // seller
-  SELLER_MY_JOIN: 'register/seller',
+  SELLER_MY_JOIN: '/member/register/seller',
   SELLER_MY_ANNOUNCEMENT: '/seller/announcements',
   SELLER_MY_ANNOUNCEMENT_DETAIL: '/seller/announcements/:announcementId',
   SELLER_MY_POST_MARKET_LINKS: '/seller/market-links',
@@ -24,7 +27,7 @@ export const API_DOMAINS = {
     '/seller/:sellerId/items/:itemId/faq/:faqCardId',
 
   // user
-  USER_JOIN: 'register/user',
+  USER_JOIN: '/member/register/user',
 };
 
 export const QUERY_KEYS = {
@@ -36,4 +39,5 @@ export const QUERY_KEYS = {
   SELLER_MARKET_ITEM: 'sellerMarketItem',
   SELLER_FAQ_CATEGORIES: 'sellerFaqCategories',
   SELLER_FAQ_CARD: 'sellerFaqCard',
+  ID_DUPLICATE_CHECK: 'checkId',
 };

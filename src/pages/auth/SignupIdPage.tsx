@@ -8,6 +8,8 @@ import { IdInput } from '@/components/common/DetailInput';
 import { idSchema } from '@/schemas/profileSchema';
 import { useMemo } from 'react';
 import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
+import { useDebounce } from '@/hooks/useDebounce';
+import { useCheckIdDuplicate } from '@/services/auth/useCheckIdDuplicationCheck';
 import { useSnackbarStore } from '@/store/snackbarStore';
 
 export const SignupIdPage = () => {
@@ -35,6 +37,7 @@ export const SignupIdPage = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const [errorText, setErrorText] = useState<string>('');
+  const [validText, setValidText] = useState<string>('');
   const { showSnackbar } = useSnackbarStore();
 
   const isIdValid = useMemo(() => {
@@ -43,8 +46,6 @@ export const SignupIdPage = () => {
     // 유효성 검사
     const result = idSchema.safeParse(id);
     return result.success;
-
-    // 중복 검사 추가로 해야 함
   }, [id]);
 
   useEffect(() => {
@@ -58,6 +59,7 @@ export const SignupIdPage = () => {
       // 오류 없을 때
       setErrorText('');
     }
+    setValidText('');
   }, [id, isDirty]);
 
   // 아이디 입력 핸들러
@@ -75,16 +77,42 @@ export const SignupIdPage = () => {
     } else {
       if (userType === 'influencer') {
         setSellerId(id);
-        navigate(`../${PATH.REGISTER.type.seller.sns}`);
+        navigate(`../${PATH.REGISTER.TYPE.SELLER.SNS}`);
       } else if (userType === 'user') {
         setUserId(id);
-        navigate(`../${PATH.REGISTER.type.user.interest}`);
+        navigate(`../${PATH.REGISTER.TYPE.USER.INTEREST}`);
       }
     }
   };
 
+  const debouncedId = useDebounce(id, 300);
+  const isDebouncing = id !== debouncedId;
+
+  const shouldCheckDuplicate = useMemo(() => {
+    return debouncedId.length > 0 && isDirty;
+  }, [debouncedId, isDirty]);
+
+  const { data: duplicateCheckData, isLoading: isDuplicateLoading } =
+    useCheckIdDuplicate(debouncedId, shouldCheckDuplicate);
+
+  // 중복 여부 판단
+  const isDuplicated = useMemo(() => {
+    return duplicateCheckData?.result === 'USERNAME_ALREADY_EXISTS';
+  }, [duplicateCheckData]);
+
+  useEffect(() => {
+    if (!isDirty || isDuplicateLoading) return;
+
+    if (isDuplicated) {
+      setValidText('');
+      setErrorText('이미 사용 중인 아이디입니다.');
+    } else {
+      setValidText('사용 가능한 아이디입니다.');
+    }
+  }, [duplicateCheckData, isDirty, isDuplicateLoading]);
+
   return (
-    <div className="flex h-full w-full flex-1 flex-col">
+    <div className="flex h-full w-full flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[
           <ArrowIcon
@@ -120,6 +148,7 @@ export const SignupIdPage = () => {
           maxLength={30}
           descriptionText="영어 소문자, 숫자, 바(_), 마침표(.)로 구성된 아이디를 입력해주세요."
           errorText={errorText}
+          validText={validText}
           placeHolderContent="아이디를 입력해 주세요."
           ref={inputRef}
         />
@@ -128,7 +157,9 @@ export const SignupIdPage = () => {
         <DefaultButton
           type="button"
           text="다음"
-          disabled={!isIdValid}
+          disabled={
+            !isIdValid || isDuplicated || isDuplicateLoading || isDebouncing
+          }
           useDisabled={false}
           onClick={handleClickNext}
         />

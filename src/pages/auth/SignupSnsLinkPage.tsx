@@ -26,7 +26,7 @@ export const SignupSnsLinkPage = () => {
 
   useEffect(() => {
     if (!sellerId) {
-      navigate(`../${PATH.REGISTER.type.seller.id}`);
+      navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
     }
     // 기존에 저장된 SNS 정보가 있다면 초기화
     if (sns) {
@@ -41,6 +41,11 @@ export const SignupSnsLinkPage = () => {
   const { showSnackbar } = useSnackbarStore();
 
   const partialSnsSchema = snsSchema.partial();
+
+  const handleInstagramInput = (value: string) => {
+    if (!isDirty) setIsDirty(true);
+    setInstagramUrl(value);
+  };
 
   // 다음 버튼 클릭 핸들러
   const handleClickNext = () => {
@@ -75,13 +80,13 @@ export const SignupSnsLinkPage = () => {
           youtube: youtubeUrl,
           tiktok: tiktokUrl,
         });
-        navigate(`../${PATH.REGISTER.type.seller.email}`);
+        navigate(`../${PATH.REGISTER.TYPE.SELLER.EMAIL}`);
       }
     }
   };
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col">
+    <div className="flex h-full w-full flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[
           <ArrowIcon
@@ -114,13 +119,13 @@ export const SignupSnsLinkPage = () => {
           </div>
           <TextInput
             text={instagramUrl}
-            setText={setInstagramUrl}
+            setText={handleInstagramInput}
             inputRef={instagramRef}
             isValid={
               !isDirty ||
-              snsSchema.safeParse({ instagram: instagramUrl }).success
+              partialSnsSchema.safeParse({ instagram: instagramUrl }).success
             }
-            placeHolderContent="링크 URL을 입력해 주세요."
+            placeHolderContent="https://www.instagram.com/"
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -135,7 +140,7 @@ export const SignupSnsLinkPage = () => {
             isValid={
               partialSnsSchema.safeParse({ youtube: youtubeUrl }).success
             }
-            placeHolderContent="링크 URL을 입력해 주세요."
+            placeHolderContent="https://www.youtube.com/"
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -148,7 +153,7 @@ export const SignupSnsLinkPage = () => {
             setText={setTiktokUrl}
             inputRef={tiktokRef}
             isValid={partialSnsSchema.safeParse({ tiktok: tiktokUrl }).success}
-            placeHolderContent="링크 URL을 입력해 주세요."
+            placeHolderContent="https://www.tiktok.com/"
           />
         </div>
       </section>

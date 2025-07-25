@@ -1,6 +1,7 @@
 import EyeIcon from '@/assets/icon/common/EyeIcon.svg?react';
 import SettingsIcon from '@/assets/icon/common/SettingsIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
+import { PATH } from '@/routes/path';
 import cn from '@/utils/cn';
 import useCopyUrl from '@/utils/useCopyUrl';
 import { useEffect, useRef, useState } from 'react';
@@ -49,7 +50,11 @@ const SellerMyProfileHeader = () => {
             <EyeIcon className="text-grey08 h-[.875rem] w-[.875rem]" />
             <span
               className="caption-m text-grey08"
-              onClick={() => navigate('')}
+              onClick={() =>
+                navigate(
+                  `${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}/${PATH.SELLER.MY.PREVIEW.BASE}`
+                )
+              }
             >
               미리보기
             </span>

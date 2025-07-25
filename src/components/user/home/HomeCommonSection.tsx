@@ -4,11 +4,11 @@ import {
   HorizontalRankingCard,
   CategoryChip,
 } from '@/components';
-import { useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { ItemCardType } from '@/types/common/ItemType.types';
+import { ITEM_DEATIL } from '@/utils/generatePath';
 
 const HomeCommonSection = ({
   expiringItem,
@@ -33,7 +33,7 @@ const HomeCommonSection = ({
         <HomeSectionTitle
           title="마감 임박"
           onClickMore={() => {
-            navigate(PATH.SELLER.home.more.endingSoon);
+            navigate(PATH.HOME.MORE.ENDING_SOON);
           }}
         />
         <div className="grid grid-cols-2 grid-rows-2 gap-x-[.1875rem] gap-y-8">
@@ -41,7 +41,14 @@ const HomeCommonSection = ({
             <ItemAlbumCard
               key={item.itemId}
               item={item}
-              onCardClick={() => {}}
+              onCardClick={() => {
+                navigate(
+                  generatePath(ITEM_DEATIL, {
+                    marketId: item.sellerId,
+                    itemId: item.itemId,
+                  })
+                );
+              }}
             />
           ))}
         </div>
@@ -49,19 +56,21 @@ const HomeCommonSection = ({
 
       {/* 인기 급상승 */}
       <section className="flex flex-col gap-2.5">
-        <HomeSectionTitle
-          title="인기 급상승"
-          onClickMore={() => {
-            navigate(PATH.SELLER.home.more.trending);
-          }}
-        />
+        <HomeSectionTitle title="인기 급상승" />
         <div className="flex w-full flex-col gap-3 px-5">
           {trendingItem.slice(0, 3).map((item, i) => (
             <HorizontalRankingCard
               key={item.itemId}
               item={item}
               ranking={i + 1}
-              onCardClick={() => {}}
+              onCardClick={() =>
+                navigate(
+                  generatePath(ITEM_DEATIL, {
+                    marketId: item.sellerId,
+                    itemId: item.itemId,
+                  })
+                )
+              }
             />
           ))}
         </div>
@@ -72,7 +81,7 @@ const HomeCommonSection = ({
         <HomeSectionTitle
           title="카테고리별 추천"
           onClickMore={() => {
-            navigate(PATH.SELLER.home.more.category);
+            navigate(PATH.HOME.MORE.CATEGORY);
           }}
         />
         <div className="scrollbar-hide flex w-full flex-nowrap items-center gap-2 overflow-x-scroll px-5">
@@ -93,7 +102,14 @@ const HomeCommonSection = ({
             <ItemAlbumCard
               key={item.itemId}
               item={item}
-              onCardClick={() => {}}
+              onCardClick={() =>
+                navigate(
+                  generatePath(ITEM_DEATIL, {
+                    marketId: item.sellerId,
+                    itemId: item.itemId,
+                  })
+                )
+              }
             />
           ))}
         </div>

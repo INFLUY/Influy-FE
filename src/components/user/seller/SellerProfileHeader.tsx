@@ -6,18 +6,27 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useCopyUrl from '@/utils/useCopyUrl';
 
-const SellerProfileHeader = ({ name, id }: { name: string; id: string }) => {
+const SellerProfileHeader = ({
+  name,
+  id,
+  seller,
+}: {
+  name: string;
+  id: string;
+  seller: boolean;
+}) => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState<boolean>(false);
   const triggerRef = useRef<HTMLDivElement | null>(null);
   const copyUrl = useCopyUrl();
 
   useEffect(() => {
+    const newRootMargin = seller ? '-0.6875rem 0rem 0rem 0rem' : undefined;
     const observer = new IntersectionObserver(
       ([entry]) => {
         setScrolled(!entry.isIntersecting);
       },
-      { threshold: 0.01 }
+      { threshold: 0.01, rootMargin: newRootMargin }
     );
     if (triggerRef.current) {
       observer.observe(triggerRef.current);
@@ -38,6 +47,7 @@ const SellerProfileHeader = ({ name, id }: { name: string; id: string }) => {
           'fixed top-0 z-20 flex w-screen max-w-[40rem] min-w-[20rem] justify-between overflow-visible px-5 py-[.9375rem] text-white md:w-[28rem]',
           {
             'text-grey09 bg-white': scrolled,
+            'top-[5.0625rem]': seller,
           }
         )}
       >

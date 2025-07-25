@@ -1,12 +1,19 @@
 import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 import { SellerCard } from '@/types/common/ItemType.types';
+import { MARKET_DEATIL } from '@/utils/generatePath';
+import { generatePath, useNavigate } from 'react-router-dom';
 
 export const ItemDetailProfile = ({ seller }: { seller: SellerCard }) => {
+  const navigate = useNavigate();
+
   return (
     <button
       className="bg-grey01 flex h-fit w-full cursor-pointer items-center justify-between px-5 py-3"
       type="button"
       aria-label={seller.nickname + ' 프로필 바로가기'}
+      onClick={() =>
+        navigate(generatePath(MARKET_DEATIL, { marketId: seller.id }))
+      }
     >
       <div className="flex h-full w-full items-center gap-3">
         <img

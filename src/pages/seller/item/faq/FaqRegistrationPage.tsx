@@ -19,19 +19,19 @@ import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 import { useSnackbarStore } from '@/store/snackbarStore';
-import { useStrictSellerId } from '@/hooks/auth/useStrictSellerId';
 import { useGetItemFaqCategory } from '@/services/sellerItemFaq/query/useGetItemFaqCategory';
 import { FaqCardRequestBody } from '@/types/common/FaqCardType.types';
 import { usePostFaqCard } from '@/services/sellerFaqCard/mutation/usePostFaqCard';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const FaqRegistrationPage = () => {
   const navigate = useNavigate();
 
-  const sellerId = useStrictSellerId();
+  const { sellerId } = useStrictId();
   const { itemId } = useParams();
 
   const { data: categories } = useGetItemFaqCategory({
-    sellerId,
+    sellerId: sellerId!,
     itemId: Number(itemId),
   });
 
@@ -98,7 +98,7 @@ const FaqRegistrationPage = () => {
       adjustImg: data.adjustImg,
     };
     postFaqCard({
-      sellerId,
+      sellerId: sellerId!,
       faqCategoryId: data.category,
       itemId: Number(itemId),
       data: formattedData,
@@ -106,7 +106,7 @@ const FaqRegistrationPage = () => {
   };
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[
           <XIcon
@@ -126,7 +126,7 @@ const FaqRegistrationPage = () => {
         <FormProvider {...methods}>
           <div className="flex flex-1 flex-col gap-6 pt-4 pb-[5.1875rem]">
             <Suspense fallback={<LoadingSpinner />}>
-              <FaqItemBanner sellerId={sellerId} itemId={Number(itemId)} />
+              <FaqItemBanner sellerId={sellerId!} itemId={Number(itemId)} />
             </Suspense>
             <form
               onSubmit={handleSubmit(onSubmit, onError)}
