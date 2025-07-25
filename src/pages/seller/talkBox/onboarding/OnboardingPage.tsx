@@ -13,6 +13,8 @@ import {
   CategorizeStep,
 } from '@/components/seller/talkBox/onboarding/OnboardingStep';
 import { QuestionCategoryDTO } from '@/types/seller/TalkBox.types';
+//api
+import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
 
 const mockCategories: QuestionCategoryDTO[] = [
   {
@@ -46,6 +48,12 @@ const OnboardingLayout = () => {
 
   const currentStep = searchParams.get('step'); // 'step' 쿼리 파라미터를 읽습니다.
   console.log(currentStep);
+
+  // 하단 상품 정보
+  const { itemOverview } = useItemOverview({
+    sellerId: 2, // TODO: 수정 필요
+    itemId: Number(itemId),
+  });
 
   //   1. 페이지 진입 시 URL의 step 쿼리 파라미터를 읽고, 없으면 activate로 리디렉트
   useEffect(() => {
@@ -115,11 +123,15 @@ const OnboardingLayout = () => {
       </PageHeader>
       <section className="relative flex h-screen w-full flex-col items-end gap-11 pt-4">
         <div className="flex w-full flex-col gap-6 px-5">
-          <TalkBoxQuestionItemCard
-            title="헤이드 리본 레이어드 티"
-            tagline="[소현X아로셀] 제작 살 안타템![소현X아로셀] 제작 살 안타템![소현X아로셀] 제작 살 안타템!"
-            imgUrl="/img1.png"
-          />
+          {itemOverview && (
+            <TalkBoxQuestionItemCard
+              title={itemOverview.itemName}
+              tagline={itemOverview.tagline}
+              imgUrl={itemOverview.mainImg}
+            />
+          )}
+
+          {/* 볼드 안내 문구 */}
           <p className="headline3 w-full font-bold text-black">
             {currentStep === 'activate' ? (
               <>

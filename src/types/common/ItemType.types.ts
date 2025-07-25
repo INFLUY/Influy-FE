@@ -63,5 +63,5 @@ export interface ItemOverviewDTO {
   itemName: string;
   tagline: string;
   mainImg: string;
-  talkBoxOpenStatus: 'OPEN' | 'CLOSED';
+  talkBoxOpenStatus: 'OPENED' | 'CLOSED' | 'INITIAL';
 }

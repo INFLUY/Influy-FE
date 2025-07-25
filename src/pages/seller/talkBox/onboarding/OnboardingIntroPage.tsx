@@ -1,10 +1,28 @@
 import { PageHeader, TalkBoxBottomItemCard, DefaultButton } from '@/components';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
+//api
+import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
+import { useEffect } from 'react';
 
 const OnboardingIntroPage = () => {
   const navigate = useNavigate();
+
+  const { itemId } = useParams();
+
+  // 하단 상품 정보
+  const { itemOverview } = useItemOverview({
+    sellerId: 2, // TODO: 수정 필요
+    itemId: Number(itemId),
+  });
+
+  useEffect(() => {
+    if (itemOverview && itemOverview?.talkBoxOpenStatus !== 'INITIAL') {
+      //  TODO: 수정 필요
+      navigate(PATH.SELLER.talkBox.base, { replace: true });
+    }
+  }, [itemOverview]);
 
   return (
     <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
@@ -22,19 +40,20 @@ const OnboardingIntroPage = () => {
       >
         질문관리
       </PageHeader>
-      <TalkBoxBottomItemCard
-        onCardClick={() => {}}
-        title="[11차] 워크팬츠_navy"
-        tagline="오버핏이 감각적인 워크팬츠, 제작템입니다. 글글글글글글글"
-        imgUrl=""
-      />
+      {/* TODO: opened 처리 */}
+      {itemOverview && (
+        <TalkBoxBottomItemCard
+          onCardClick={() => {}}
+          itemName={itemOverview.itemName}
+          tagline={itemOverview.tagline}
+          mainImg={itemOverview.mainImg}
+        />
+      )}
       <section className="flex h-screen w-full items-end px-5 pb-[4.8125rem]">
         <DefaultButton
           text="지금 바로 시작하기"
           onClick={() => {
-            navigate(PATH.SELLER.talkBox.onboarding.start, {
-              replace: true,
-            });
+            navigate(PATH.SELLER.talkBox.onboarding.start);
           }}
         />
       </section>
