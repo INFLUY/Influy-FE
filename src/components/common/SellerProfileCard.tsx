@@ -20,7 +20,7 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
   };
 
   const { marketId } = useParams();
-  const { sellerId } = useStrictId();
+  const { sellerId } = useStrictId({ skip: !!marketId });
 
   const { data: marketLikes } = useGetSellerLike({
     sellerId: marketId ? Number(marketId) : sellerId!,

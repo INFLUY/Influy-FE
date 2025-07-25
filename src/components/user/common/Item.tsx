@@ -10,7 +10,7 @@ export const ItemGrid = ({ item }: { item: ItemPreviewList }) => {
         <img
           src={item?.mainImg ?? undefined}
           alt="상품 썸네일"
-          className="bg-grey06 absolute inset-0 object-cover"
+          className="bg-grey06 absolute inset-0 aspect-square object-cover"
         />
         <ScrapButton
           scrapped={item?.liked}
@@ -18,9 +18,11 @@ export const ItemGrid = ({ item }: { item: ItemPreviewList }) => {
             console.log('saved');
           }}
         />
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
-          마감
-        </div>
+        {item?.currentStatus === 'SOLD_OUT' && (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
+            마감
+          </div>
+        )}
         {/* 칩 */}
         {item?.currentStatus === 'SOLD_OUT' ? (
           <div className="absolute bottom-0 left-0">

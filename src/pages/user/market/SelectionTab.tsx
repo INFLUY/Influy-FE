@@ -48,6 +48,8 @@ const SelectionTab = () => {
       itemPeriod: 10,
       itemName: '한정판 피규어',
       sellerName: '콜렉터즈존',
+      startDate: '2025-07-10T00:00:00Z',
+      endDate: '2025-07-25T23:59:59Z',
       tagline: '마니아를 위한 최고의 선택',
       currentStatus: 'DEFAULT',
       liked: false,
