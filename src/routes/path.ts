@@ -52,7 +52,7 @@ export const PATH = {
     ACCOUNT_SETTING: {
       BASE: 'account',
       ID: 'id',
-      DELETE: 'delete,',
+      DELETE: 'delete',
     },
     SUPPORT: 'support',
   },

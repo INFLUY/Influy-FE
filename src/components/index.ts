@@ -49,6 +49,9 @@ export { HomeSectionTitle } from './user/home/HomeSectionTitle.tsx';
 export { default as HomeCommonSection } from './user/home/HomeCommonSection.tsx';
 export { MoreButton } from './user/home/MoreButton.tsx';
 
+// user/my
+export { default as AccoutSettingsMenuButton } from './user/my/AccoutSettingsMenuButton.tsx';
+
 {
   /* seller */
 }
