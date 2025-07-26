@@ -9,6 +9,8 @@ export const API_DOMAINS = {
   SELLER_PRIMARY_ANNOUNCEMENT:
     '/seller/:sellerId/announcements/primary-announcement',
 
+  ITEM_CATEGORIES: '/categories',
+
   // seller
   SELLER_MY_JOIN: '/member/register/seller',
   SELLER_MY_ANNOUNCEMENT: '/seller/announcements',
@@ -20,6 +22,8 @@ export const API_DOMAINS = {
 
 export const QUERY_KEYS = {
   ID_DUPLICATE_CHECK: 'checkId',
+
+  ITEM_CATEGORIES: 'itemCategories',
 
   // seller
   SELLER_ANNOUNCEMENT: 'sellerMyAnnouncements',

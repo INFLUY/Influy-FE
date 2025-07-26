@@ -113,7 +113,7 @@ const ItemDetailPage = () => {
             {dummyCategory.map((category: CategoryType) => (
               <CategoryChip
                 key={category.id}
-                text={category.category}
+                text={category.name}
                 isSelected={selectedCategory == category.id}
                 onToggle={() => setSelectedCategory(category.id)}
                 theme="faq"
@@ -169,7 +169,7 @@ const ItemDetailPage = () => {
                 dummyCategory.map((category: CategoryType) => (
                   <CategoryChip
                     key={category.id}
-                    text={category.category}
+                    text={category.name}
                     isSelected={selectedCategory == category.id}
                     onToggle={() => setSelectedCategory(category.id)}
                     theme="faq"

@@ -100,7 +100,7 @@ const FaqListEdit = ({
 
   const openTextEditSheet = (id: number) => {
     const cat = categories.find((c) => c.id === id);
-    setDraftName(cat?.category ?? '');
+    setDraftName(cat?.name ?? '');
     setActiveCategoryId(id);
     setSheetMode('editText');
   };
@@ -112,7 +112,7 @@ const FaqListEdit = ({
       ...prev,
       {
         id: Math.max(0, ...prev.map((c) => c.id)) + 1,
-        category: draftName.trim(),
+        name: draftName.trim(),
       },
     ]);
     setSnackbar({
@@ -189,7 +189,7 @@ const FaqListEdit = ({
               {categories.map((category: CategoryType) => (
                 <CategoryChip
                   key={category.id}
-                  text={category.category}
+                  text={category.name}
                   isSelected={selectedCategory == category.id}
                   onToggle={() => setSelectedCategory(category.id)}
                   theme="faq"
@@ -443,7 +443,7 @@ const SortableCategoryItem = ({
         onClick={() => onEdit(id)}
         className="border-grey03 body2-m flex-1 rounded-xs border bg-white px-[.8125rem] py-2.5 text-left text-black"
       >
-        {category.category}
+        {category.name}
       </button>
       <DndIcon {...listeners} {...attributes} className="h-6 w-6 cursor-grab" />
     </div>
