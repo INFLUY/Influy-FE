@@ -22,6 +22,7 @@ export { default as LikeInfluencerTab } from './user/like/LikeInfluencerTab';
 export { default as CalendarPage } from './user/calendar/CalendarPage';
 
 export { default as MyPage } from './user/my/MyPage';
+export { default as MyQuestion } from './user/my/MyQuestion';
 export { default as AccountSettingsPage } from './user/my/AccountSettingsPage';
 export { default as DeleteAccountPage } from './user/my/DeleteAccountPage';
 export { default as NicknamePage } from './user/my/NicknamePage';

@@ -56,7 +56,7 @@ const MyPage = () => {
                 role="button"
                 className="text-grey07 h-[.875rem] shrink-0 cursor-pointer"
                 onClick={() => {
-                  navigate(PATH.MY.NICKNAME); // TODO: 닉네임 변경으로 이동
+                  navigate(PATH.MY.NICKNAME);
                 }}
               />
             </div>
@@ -65,25 +65,27 @@ const MyPage = () => {
             </div>
           </div>
         </article>
-        <article className="flex w-full flex-col items-center gap-8">
+        <article className="flex w-full flex-col items-center gap-4">
           <button
             type="button"
             className="border-grey04 flex w-full cursor-pointer items-center justify-between rounded-[.1875rem] border px-[.625rem] py-4"
-            onClick={() => navigate('')} // TODO: 내가 한 질문으로 이동
+            onClick={() => navigate(PATH.MY.MY_QUESTION)}
           >
             <span className="body1-m text-grey10">내가 한 질문</span>
             <ArrowIcon className="text-grey07" />
           </button>
-          {menuItems.map(({ label, path }) => (
-            <button
-              key={label}
-              type="button"
-              className="text-grey10 flex w-full cursor-pointer"
-              onClick={() => navigate(path)}
-            >
-              {label}
-            </button>
-          ))}
+          <div className="flex w-full flex-col items-center">
+            {menuItems.map(({ label, path }) => (
+              <button
+                key={label}
+                type="button"
+                className="text-grey10 flex w-full cursor-pointer py-4"
+                onClick={() => navigate(path)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </article>
       </section>
       <BottomNavBar />

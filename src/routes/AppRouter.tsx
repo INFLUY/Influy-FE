@@ -42,6 +42,7 @@ import {
   SupportPage,
   NicknamePage,
   NotificationSettingsPage,
+  MyQuestion,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -272,6 +273,10 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <MyPage />,
+          },
+          {
+            path: `${PATH.MY.MY_QUESTION}`,
+            element: <MyQuestion />,
           },
           {
             path: `${PATH.MY.NOTIFICATION}`,
