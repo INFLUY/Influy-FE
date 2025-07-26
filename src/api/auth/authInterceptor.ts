@@ -6,7 +6,7 @@ import {
 } from 'axios';
 import { useAuthStore } from '@/store/authStore';
 import { PATH } from '@/routes/path';
-import { postReissue } from './postReissue.api';
+import { getReissue } from './getReissue.api';
 
 let isRefreshing = false; // 리프레시 토큰이 갱신 중인지
 const MAX_RETRIES = 3; // 최대 재시도 횟수
@@ -76,7 +76,7 @@ export const setupInterceptors = (instance: AxiosInstance) => {
         isRefreshing = true;
 
         try {
-          const data = await postReissue();
+          const data = await getReissue();
 
           if (!data.isSuccess || !data.result?.accessToken) {
             throw new Error('토큰 갱신에 실패했습니다.');
