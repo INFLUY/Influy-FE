@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { DefaultButton, PageHeader } from '@/components';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
+import { DefaultButton } from '@/components';
+import LoginBg from '@/assets/image/LoginBgImg.svg';
 import { useEffect } from 'react';
 import {
   useAuthStore,
@@ -35,27 +35,22 @@ export const WelcomePage = () => {
   };
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col pt-11">
-      <PageHeader
-        rightIcons={[
-          <XIcon
-            className="h-6 w-6 cursor-pointer text-white"
-            onClick={() => navigate('')}
-          />,
-        ]}
-        additionalStyles="border-0"
-      />
-      <section className="flex w-full flex-1 flex-col gap-11 px-5 py-[3.25rem]">
-        <h1 className="headline2 whitespace-pre text-black">
+    <div className="relative flex h-full w-full flex-1 flex-col">
+      <section className="z-20 flex h-full w-full flex-1 px-5 py-[6rem]">
+        <h1 className="headline2 whitespace-pre text-white">
           {`인플루이에 오신 것을\n환영합니다!`}
         </h1>
       </section>
-      <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">
+      <div className="fixed bottom-[2.3125rem] z-20 flex w-full px-5">
         <DefaultButton
           type="button"
           text="지금 바로 둘러보기"
           onClick={handleClickNext}
         />
+      </div>
+      <div className="absolute inset-0 flex">
+        <div className="absolute z-[5] h-full w-full bg-[#000000] opacity-50" />
+        <img src={LoginBg} className="object-cover" alt="" />
       </div>
     </div>
   );
