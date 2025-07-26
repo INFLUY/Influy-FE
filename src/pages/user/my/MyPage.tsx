@@ -1,7 +1,7 @@
 import { BottomNavBar, PageHeader } from '@/components';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { SingleProfileImageUploader } from '@/components/seller/my/SellerMyProfileEdit';
+import { VanillaProfileImageUploader } from '@/components/common/VanillaProfileImageUploader';
 import { useState } from 'react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import ArrowIcon from '@/assets/icon/common/ArrowRight16.svg?react';
@@ -42,7 +42,7 @@ const MyPage = () => {
       <section className="flex flex-1 flex-col items-center gap-10 pt-6">
         <article className="flex flex-col items-center gap-3">
           {/* 프로필 사진 */}
-          <SingleProfileImageUploader
+          <VanillaProfileImageUploader
             value={profileImg}
             onChange={setProfileImg}
           />
@@ -88,6 +88,7 @@ const MyPage = () => {
           </div>
         </article>
       </section>
+
       <BottomNavBar />
     </section>
   );

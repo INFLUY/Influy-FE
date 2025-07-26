@@ -67,52 +67,6 @@ export const ProfileImageUploader = ({ name }: { name: string }) => {
   );
 };
 
-type SingleProfileImageUploaderProps = {
-  value: string;
-  onChange: (value: string) => void;
-};
-
-export const SingleProfileImageUploader = ({
-  value,
-  onChange,
-}: SingleProfileImageUploaderProps) => {
-  const { handleFileChange, snackbar, setSnackbar } =
-    useSingleImageUploader(onChange);
-
-  return (
-    <div className="bg-grey03 relative h-[5.625rem] w-[5.625rem] rounded-full">
-      <label htmlFor="profile-upload" aria-label="프로필 이미지 업로드">
-        <CameraCircleIcon
-          aria-hidden="true"
-          className="absolute right-0 bottom-0 cursor-pointer"
-        />
-      </label>
-
-      <input
-        id="profile-upload"
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={handleFileChange}
-      />
-
-      <img
-        src={value === '' ? ProfileIcon : value}
-        alt={'프로필 이미지'}
-        className="h-full w-full rounded-full object-cover"
-      />
-
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
-    </div>
-  );
-};
-
 export const BackgroundImageUploader = ({ name }: { name: string }) => {
   const { control } = useFormContext();
 
