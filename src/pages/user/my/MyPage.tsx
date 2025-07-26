@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { SingleProfileImageUploader } from '@/components/seller/my/SellerMyProfileEdit';
 import { useState } from 'react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
+import ArrowIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -20,8 +21,14 @@ const MyPage = () => {
     userProfile.profileImg ?? ''
   );
 
+  const menuItems = [
+    { label: '알림 설정', path: '' },
+    { label: '계정 설정', path: '' },
+    { label: 'INFLUY 고객센터', path: '' },
+  ];
+
   return (
-    <section className="bg-grey01 flex flex-1 justify-center pt-11 pb-16">
+    <section className="bg-grey01 flex flex-1 justify-center px-5 pt-11 pb-16">
       <PageHeader
         leftIcons={[<h1 className="subhead-sb text-black">마이</h1>]}
         rightIcons={[
@@ -31,31 +38,53 @@ const MyPage = () => {
           </button>,
         ]}
       />
-      <article className="flex flex-col items-center gap-3">
-        {/* 프로필 사진 */}
-        <SingleProfileImageUploader
-          value={profileImg}
-          onChange={setProfileImg}
-        />
-        <div className="flex flex-col items-center gap-1">
-          <div className="flex items-center gap-1">
-            <span className="subhead-sb" aria-label="닉네임">
-              {userProfile?.nickname}
-            </span>
-            <EditIcon
-              aria-label="닉네임 수정하러 가기 버튼"
-              role="button"
-              className="text-grey07 h-[.875rem] shrink-0 cursor-pointer"
-              onClick={() => {
-                navigate(''); // TODO: 닉네임 변경으로 이동
-              }}
-            />
+      <section className="flex flex-1 flex-col items-center gap-10 pt-6">
+        <article className="flex flex-col items-center gap-3">
+          {/* 프로필 사진 */}
+          <SingleProfileImageUploader
+            value={profileImg}
+            onChange={setProfileImg}
+          />
+          <div className="flex flex-col items-center gap-1">
+            <div className="flex items-center gap-1">
+              <span className="subhead-sb" aria-label="닉네임">
+                {userProfile?.nickname}
+              </span>
+              <EditIcon
+                aria-label="닉네임 수정하러 가기 버튼"
+                role="button"
+                className="text-grey07 h-[.875rem] shrink-0 cursor-pointer"
+                onClick={() => {
+                  navigate(''); // TODO: 닉네임 변경으로 이동
+                }}
+              />
+            </div>
+            <div aria-label="" className="body2-sb text-grey08">
+              {userProfile?.username}
+            </div>
           </div>
-          <div aria-label="" className="body2-sb text-grey08">
-            {userProfile?.username}
-          </div>
-        </div>
-      </article>
+        </article>
+        <article className="flex w-full flex-col items-center gap-8">
+          <button
+            type="button"
+            className="border-grey04 flex w-full cursor-pointer items-center justify-between rounded-[.1875rem] border px-[.625rem] py-4"
+            onClick={() => navigate('')} // TODO: 내가 한 질문으로 이동
+          >
+            <span className="body1-m text-grey10">내가 한 질문</span>
+            <ArrowIcon className="text-grey07" />
+          </button>
+          {menuItems.map(({ label, path }) => (
+            <button
+              key={label}
+              type="button"
+              className="text-grey10 flex w-full cursor-pointer"
+              onClick={() => navigate(path)}
+            >
+              {label}
+            </button>
+          ))}
+        </article>
+      </section>
       <BottomNavBar />
     </section>
   );
