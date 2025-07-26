@@ -109,16 +109,22 @@ export const SignupIdPage = () => {
   }, [duplicateCheckData]);
 
   useEffect(() => {
-    if (!isDirty || isDuplicateLoading) return;
-
+    if (!isDirty || isDuplicateLoading || isDebouncing) return;
     if (isDuplicated) {
       setValidText('');
       setErrorText('이미 사용 중인 아이디입니다.');
-    } else {
+    } else if (shouldCheckDuplicate) {
+      // API 호출 조건도 확인
       setValidText('사용 가능한 아이디입니다.');
     }
-  }, [duplicateCheckData, isDirty, isDuplicateLoading]);
-
+  }, [
+    duplicateCheckData,
+    isDirty,
+    isDuplicateLoading,
+    isDebouncing,
+    shouldCheckDuplicate,
+    isDuplicated,
+  ]);
   return (
     <div className="flex h-full w-full flex-1 flex-col pt-11">
       <PageHeader
