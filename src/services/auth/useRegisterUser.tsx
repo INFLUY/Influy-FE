@@ -36,6 +36,7 @@ export const useRegisterSeller = (onSuccessCallback?: () => void) => {
         memberId: data.result.memberId,
         sellerId: data.result?.sellerId,
       });
+
       onSuccessCallback?.();
     },
     onError: () => {

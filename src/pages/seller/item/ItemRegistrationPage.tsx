@@ -20,11 +20,11 @@ import cn from '@/utils/cn';
 import { SELLER_ITEM_DEATIL } from '@/utils/generatePath';
 
 export const dummyCategory: CategoryType[] = [
-  { id: 0, category: '사이즈' },
-  { id: 1, category: '색상' },
-  { id: 2, category: '디테일' },
-  { id: 3, category: '배송관련' },
-  { id: 4, category: '색상1' },
+  { id: 0, name: '사이즈' },
+  { id: 1, name: '색상' },
+  { id: 2, name: '디테일' },
+  { id: 3, name: '배송관련' },
+  { id: 4, name: '색상1' },
 ];
 
 const dummyFaqQuestion: FaqQuestion[] = [

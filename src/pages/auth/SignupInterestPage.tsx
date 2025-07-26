@@ -14,12 +14,12 @@ import {
   useSellerSignupStore,
   useUserSignupStore,
 } from '@/store/authStore';
-import PRODUCT_CATEGORIES from '@/constants/productCategories';
 import {
   useRegisterSeller,
   useRegisterUser,
 } from '@/services/auth/useRegisterUser';
 import { SnsLinkProps } from '@/types/common/AuthTypes.types';
+import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
 
 export const SignupInterestPage = () => {
   const navigate = useNavigate();
@@ -33,17 +33,19 @@ export const SignupInterestPage = () => {
     id: sellerId,
     sns,
     email,
-    intersetedCategories: sellerIntersetedCategories,
+    interestedCategories: sellerInterestedCategories,
     setInterestedCategories: setSellerInterestedCategories,
     reset: sellerSignupStateReset,
   } = useSellerSignupStore();
   const {
     id: userId,
-    intersetedCategories: userIntersetedCategories,
+    interestedCategories: userInterestedCategories,
     setInterestedCategories: setUserInterestedCategories,
     reset: userSignupStateReset,
   } = useUserSignupStore();
   const { kakaoId, clearAuthInfo } = useAuthStore();
+
+  const { data: itemCategory } = useGetItemCategory();
 
   const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 
@@ -58,12 +60,12 @@ export const SignupInterestPage = () => {
       } else if (!sns.instagram) {
         navigate(`../${PATH.REGISTER.TYPE.SELLER.SNS}`);
       }
-      setSelectedCategories(sellerIntersetedCategories);
+      setSelectedCategories(sellerInterestedCategories);
     } else if (userType === 'user') {
       if (!userId) {
         navigate(`../${PATH.REGISTER.TYPE.USER.ID}`);
       }
-      setSelectedCategories(userIntersetedCategories);
+      setSelectedCategories(userInterestedCategories);
     }
   }, [userType]);
 
@@ -105,7 +107,7 @@ export const SignupInterestPage = () => {
       userInfo: {
         username: sellerId,
         kakaoId: kakaoId!!,
-        intersetedCategories: selectedCategories,
+        interestedCategories: selectedCategories,
       },
       instagram: sns.instagram,
       ...optionalSns,
@@ -116,7 +118,7 @@ export const SignupInterestPage = () => {
     registerUser({
       username: userId,
       kakaoId: kakaoId!!,
-      intersetedCategories: selectedCategories,
+      interestedCategories: selectedCategories,
     });
   };
 
@@ -160,7 +162,7 @@ export const SignupInterestPage = () => {
         <VanillaCategoryMultiSelector
           selectedCategory={selectedCategories}
           setSelectedCategory={setSelectedCategories}
-          categoryList={PRODUCT_CATEGORIES}
+          categoryList={itemCategory.result.categoryDtoList}
           theme="interest"
           max={999}
         />

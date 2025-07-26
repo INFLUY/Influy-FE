@@ -29,13 +29,13 @@ const FaqEditPage = () => {
   });
 
   const CATEGORIES: CategoryType[] = [
-    { id: 1, category: '색상' },
-    { id: 2, category: '구성' },
-    { id: 3, category: '디테일' },
-    { id: 4, category: '사이즈' },
-    { id: 5, category: '가격' },
-    { id: 6, category: '진행일정' },
-    { id: 7, category: '재고/수량' },
+    { id: 1, name: '색상' },
+    { id: 2, name: '구성' },
+    { id: 3, name: '디테일' },
+    { id: 4, name: '사이즈' },
+    { id: 5, name: '가격' },
+    { id: 6, name: '진행일정' },
+    { id: 7, name: '재고/수량' },
   ];
 
   const methods = useForm<FaqFormValues>({

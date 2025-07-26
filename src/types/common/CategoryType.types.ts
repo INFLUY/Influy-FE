@@ -1,4 +1,13 @@
 export type CategoryType = {
   id: number;
-  category: string;
+  name: string;
 };
+
+export interface ItemCategoryResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    categoryDtoList: CategoryType[] | [];
+  };
+}

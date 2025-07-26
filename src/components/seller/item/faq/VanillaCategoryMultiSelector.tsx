@@ -61,7 +61,7 @@ const VanillaCategoryMultiSelector = memo(
         {categoryList.map((category: CategoryType) => (
           <CategoryChip
             key={category.id}
-            text={category.category}
+            text={category.name}
             isSelected={selectedCategory.includes(category.id)}
             onToggle={() => handleClickCategory(category.id)}
             theme={theme === 'interest' ? 'item' : theme}

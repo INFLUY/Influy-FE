@@ -85,7 +85,7 @@ interface UserSignupStoreState extends UserSignupState {
 const initialUserSignupState: UserSignupState = {
   id: '',
   email: '',
-  intersetedCategories: [],
+  interestedCategories: [],
 };
 
 export const useUserSignupStore = create<UserSignupStoreState>()(
@@ -93,8 +93,8 @@ export const useUserSignupStore = create<UserSignupStoreState>()(
     (set) => ({
       ...initialUserSignupState,
       setId: (id: string) => set({ id }),
-      setInterestedCategories: (intersetedCategories: number[]) =>
-        set({ intersetedCategories }),
+      setInterestedCategories: (interestedCategories: number[]) =>
+        set({ interestedCategories }),
       reset: () => set({ ...initialUserSignupState }),
     }),
     {
@@ -120,7 +120,7 @@ const initialSellerSignupState: SellerSignupState = {
     youtube: '',
     tiktok: '',
   },
-  intersetedCategories: [],
+  interestedCategories: [],
 };
 
 export const useSellerSignupStore = create<SellerSignupStoreState>()(
@@ -133,7 +133,7 @@ export const useSellerSignupStore = create<SellerSignupStoreState>()(
         tiktok: '',
       },
       email: '',
-      intersetedCategories: [],
+      interestedCategories: [],
       setId: (id: string) => set({ id }),
       setSns: (sns: Partial<SnsLinkProps>) =>
         set((state) => ({
@@ -143,8 +143,8 @@ export const useSellerSignupStore = create<SellerSignupStoreState>()(
           },
         })),
       setEmail: (email: string) => set({ email }),
-      setInterestedCategories: (intersetedCategories: number[]) =>
-        set({ intersetedCategories }),
+      setInterestedCategories: (interestedCategories: number[]) =>
+        set({ interestedCategories }),
       reset: () => set({ ...initialSellerSignupState }),
     }),
     {
