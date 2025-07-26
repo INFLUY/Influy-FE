@@ -5,6 +5,7 @@ import { SingleProfileImageUploader } from '@/components/seller/my/SellerMyProfi
 import { useState } from 'react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import ArrowIcon from '@/assets/icon/common/ArrowRight16.svg?react';
+import { PATH } from '@/routes/path';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -22,9 +23,9 @@ const MyPage = () => {
   );
 
   const menuItems = [
-    { label: '알림 설정', path: '' },
-    { label: '계정 설정', path: '' },
-    { label: 'INFLUY 고객센터', path: '' },
+    { label: '알림 설정', path: `${PATH.MY.NOTIFICATION}` },
+    { label: '계정 설정', path: `${PATH.MY.ACCOUNT_SETTING.BASE}` },
+    { label: 'INFLUY 고객센터', path: `${PATH.MY.SUPPORT}` },
   ];
 
   return (
@@ -55,7 +56,7 @@ const MyPage = () => {
                 role="button"
                 className="text-grey07 h-[.875rem] shrink-0 cursor-pointer"
                 onClick={() => {
-                  navigate(''); // TODO: 닉네임 변경으로 이동
+                  navigate(PATH.MY.NICKNAME); // TODO: 닉네임 변경으로 이동
                 }}
               />
             </div>

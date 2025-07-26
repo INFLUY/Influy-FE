@@ -36,6 +36,12 @@ import {
   KakaoLoginHandler,
   CalendarPage,
   SellerCalendarPage,
+  AccountSettingsPage,
+  UsernamePage,
+  DeleteAccountPage,
+  SupportPage,
+  NicknamePage,
+  NotificationSettingsPage,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -261,7 +267,43 @@ const router = createBrowserRouter([
       // 마이
       {
         path: PATH.MY.BASE,
-        element: <MyPage />,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <MyPage />,
+          },
+          {
+            path: `${PATH.MY.NOTIFICATION}`,
+            element: <NotificationSettingsPage />,
+          },
+          {
+            path: `${PATH.MY.NICKNAME}`,
+            element: <NicknamePage />,
+          },
+          {
+            path: `${PATH.MY.ACCOUNT_SETTING.BASE}`,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: <AccountSettingsPage />,
+              },
+              {
+                path: `${PATH.MY.ACCOUNT_SETTING.ID}`,
+                element: <UsernamePage />,
+              },
+              {
+                path: `${PATH.MY.ACCOUNT_SETTING.DELETE}`,
+                element: <DeleteAccountPage />,
+              },
+            ],
+          },
+          {
+            path: `${PATH.MY.SUPPORT}`,
+            element: <SupportPage />,
+          },
+        ],
       },
 
       // 셀러뷰
