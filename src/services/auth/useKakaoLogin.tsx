@@ -33,7 +33,13 @@ export const useKakaoLogin = () => {
           memberId: response.result.memberId,
           sellerId: response.result?.sellerId,
         });
-        navigate(PATH.HOME.BASE, { replace: true });
+        if (response.result?.sellerId === undefined) {
+          navigate(PATH.HOME.BASE, { replace: true });
+        } else {
+          navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`, {
+            replace: true,
+          });
+        }
       }
     },
     onError: () => {
