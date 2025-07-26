@@ -2,6 +2,7 @@ import { DefaultButton, PageHeader } from '@/components';
 import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useModalStore } from '@/store/useModalStore';
+import { PATH } from '@/routes/path';
 
 const DeleteAccountPage = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const DeleteAccountPage = () => {
       rightButtonClick: () => {
         // TODO: 삭제 로직
         console.log('탈퇴 완료');
+        navigate(PATH.HOME.BASE);
       },
     });
   };

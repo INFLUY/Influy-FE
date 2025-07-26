@@ -28,6 +28,11 @@ const GlobalModal = () => {
     }
   };
 
+  const handleRightModalButtonClick = () => {
+    config.rightButtonClick();
+    handleOnClose();
+  };
+
   return (
     <ModalPortal>
       <div className="modal">
@@ -51,7 +56,7 @@ const GlobalModal = () => {
                 theme="white"
               />
               <ModalButton
-                onClick={config.rightButtonClick}
+                onClick={handleRightModalButtonClick}
                 theme="black"
                 text={config.rightButtonText || '확인'}
               />

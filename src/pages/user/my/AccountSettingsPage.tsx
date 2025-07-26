@@ -2,9 +2,12 @@ import { AccoutSettingsMenuButton, PageHeader } from '@/components';
 import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { PATH } from '@/routes/path';
+import { useModalStore } from '@/store/useModalStore';
 
 const AccountSettingsPage = () => {
   const navigate = useNavigate();
+
+  const { showModal } = useModalStore();
 
   const userProfile = {
     id: 1,
@@ -12,6 +15,19 @@ const AccountSettingsPage = () => {
     nickname: '이민용',
     profileImg: '',
     createdAt: '2025-07-06T15:54:43.186Z',
+  };
+
+  const handleLogoutClick = () => {
+    showModal({
+      text: `로그아웃하시겠습니까?`,
+      leftButtonText: '취소',
+      rightButtonText: '확인',
+      rightButtonClick: () => {
+        // TODO: 로그아웃 로직
+        console.log('로그아웃 완료');
+        navigate(PATH.HOME.BASE);
+      },
+    });
   };
 
   return (
@@ -37,9 +53,7 @@ const AccountSettingsPage = () => {
 
         <AccoutSettingsMenuButton
           title="로그아웃"
-          onClick={() => {
-            // 로그아웃 로직
-          }}
+          onClick={() => handleLogoutClick()}
         />
 
         <AccoutSettingsMenuButton
