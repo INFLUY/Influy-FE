@@ -2,13 +2,36 @@ import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { DefaultButton, PageHeader } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
+import { useEffect } from 'react';
+import {
+  useAuthStore,
+  useSellerSignupStore,
+  useUserSignupStore,
+} from '@/store/authStore';
 
 export const WelcomePage = () => {
   const navigate = useNavigate();
+  const { sellerId, setKakaoId } = useAuthStore();
+  const { reset: sellerSignupStateReset } = useSellerSignupStore();
+  const { reset: userSignupStateReset } = useUserSignupStore();
+
+  useEffect(() => {
+    userSignupStateReset();
+    useUserSignupStore.persist.clearStorage();
+    sellerSignupStateReset();
+    useSellerSignupStore.persist.clearStorage();
+    setKakaoId(null);
+  }, []);
 
   // 다음 버튼 클릭 핸들러
   const handleClickNext = () => {
-    navigate(PATH.HOME.BASE, { replace: true });
+    if (sellerId !== null) {
+      navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`, {
+        replace: true,
+      });
+    } else {
+      navigate(PATH.HOME.BASE, { replace: true });
+    }
   };
 
   return (
@@ -21,7 +44,7 @@ export const WelcomePage = () => {
           />,
         ]}
         additionalStyles="border-0"
-      ></PageHeader>
+      />
       <section className="flex w-full flex-1 flex-col gap-11 px-5 py-[3.25rem]">
         <h1 className="headline2 whitespace-pre text-black">
           {`인플루이에 오신 것을\n환영합니다!`}

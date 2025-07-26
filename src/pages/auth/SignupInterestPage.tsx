@@ -35,25 +35,19 @@ export const SignupInterestPage = () => {
     email,
     interestedCategories: sellerInterestedCategories,
     setInterestedCategories: setSellerInterestedCategories,
-    reset: sellerSignupStateReset,
   } = useSellerSignupStore();
   const {
     id: userId,
     interestedCategories: userInterestedCategories,
     setInterestedCategories: setUserInterestedCategories,
-    reset: userSignupStateReset,
   } = useUserSignupStore();
-  const { kakaoId, clearAuthInfo } = useAuthStore();
+  const { kakaoId } = useAuthStore();
 
   const { data: itemCategory } = useGetItemCategory();
 
   const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!kakaoId) {
-      navigate(PATH.LOGIN.BASE);
-    }
-
     if (userType === 'influencer') {
       if (!sellerId) {
         navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
@@ -61,11 +55,13 @@ export const SignupInterestPage = () => {
         navigate(`../${PATH.REGISTER.TYPE.SELLER.SNS}`);
       }
       setSelectedCategories(sellerInterestedCategories);
+      return;
     } else if (userType === 'user') {
       if (!userId) {
         navigate(`../${PATH.REGISTER.TYPE.USER.ID}`);
       }
       setSelectedCategories(userInterestedCategories);
+      return;
     }
   }, [userType]);
 
@@ -77,18 +73,8 @@ export const SignupInterestPage = () => {
     }
   }, [selectedCategories]);
 
-  const onSuccess = () => {
-    userSignupStateReset();
-    useUserSignupStore.persist.clearStorage();
-    sellerSignupStateReset();
-    useSellerSignupStore.persist.clearStorage();
-    clearAuthInfo();
-
-    navigate(PATH.WELCOME.BASE);
-  };
-
-  const { mutate: registerSeller } = useRegisterSeller(() => onSuccess);
-  const { mutate: registerUser } = useRegisterUser(() => onSuccess);
+  const { mutate: registerSeller } = useRegisterSeller();
+  const { mutate: registerUser } = useRegisterUser();
 
   const handleSellerRegister = () => {
     const sns: SnsLinkProps & { email?: string } = {

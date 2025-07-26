@@ -3,11 +3,9 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { PATH } from './path';
 
 const RegisterRoute = () => {
-  const { accessToken, memberId, kakaoId } = useAuthStore();
+  const { kakaoId } = useAuthStore();
 
-  if (accessToken && memberId) {
-    return <Navigate to={PATH.HOME.BASE} replace />;
-  } else if (!kakaoId) {
+  if (!kakaoId) {
     return <Navigate to={PATH.LOGIN.BASE} replace />;
   }
 

@@ -17,7 +17,7 @@ interface AuthState {
     memberId: number;
     sellerId?: number | null;
   }) => void;
-  setKakaoId: (kakaoId: number) => void;
+  setKakaoId: (kakaoId: number | null) => void;
   logout: () => void;
   clearAuthInfo: () => void;
   reissue: () => Promise<boolean>;
@@ -36,7 +36,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       sellerId,
     });
   },
-  setKakaoId: (kakaoId: number) => {
+  setKakaoId: (kakaoId: number | null) => {
     set({ kakaoId });
   },
   logout: () => {
