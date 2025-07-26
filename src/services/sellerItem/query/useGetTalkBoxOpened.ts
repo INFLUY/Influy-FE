@@ -1,0 +1,10 @@
+import { fetchTalkBoxOpened } from '@/api/sellerItem/handleSellerItem.api';
+import { QUERY_KEYS } from '@/constants/api';
+import { useSuspenseQuery } from '@tanstack/react-query';
+
+export const useGetTalkBoxOpened = () => {
+  return useSuspenseQuery({
+    queryKey: [QUERY_KEYS.SELLER_TALKBOX_OPENED_ITEMS],
+    queryFn: () => fetchTalkBoxOpened(),
+  });
+};

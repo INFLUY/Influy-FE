@@ -36,11 +36,9 @@ export { default as DefaultMessageSettingPage } from './seller/talkBox/DefaultMe
 export { default as OnboardingIntroPage } from './seller/talkBox/onboarding/OnboardingIntroPage';
 export { default as OnboardingLayout } from './seller/talkBox/onboarding/OnboardingPage';
 
-export {
-  QuestionsListPage,
-  PendingQuestionsTab,
-  AnsweredQuestionsTab,
-} from './seller/talkBox/QuestionsListPage';
+export { QuestionsListPage } from './seller/talkBox/questionsList/QuestionsListPage';
+export { PendingQuestionsTab } from './seller/talkBox/questionsList/PendingQuestionsTab';
+export { AnsweredQuestionsTab } from './seller/talkBox/questionsList/AnsweredQuestionsTab';
 export { TalkBoxCategoryPage } from './seller/talkBox/category/TalkBoxCategoryPage';
 export { PendingCategoryTab } from './seller/talkBox/category/PendingCategoryTab';
 export { AnsweredCategoryTab } from './seller/talkBox/category/AnsweredCategoryTab';

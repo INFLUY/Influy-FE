@@ -5,7 +5,7 @@ import { useGetQuestionCategory } from '@/services/talkBox/query/useGetQuestionC
 
 export const PendingCategoryTab = () => {
   const navigate = useNavigate();
-  const { itemId } = useParams();
+  const { itemId, categoryId } = useParams();
 
   const { questionCategories } = useGetQuestionCategory({
     itemId: Number(itemId),

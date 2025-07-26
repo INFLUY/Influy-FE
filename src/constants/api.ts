@@ -25,7 +25,8 @@ export const SELLER_API_DOMAINS = {
     '/seller/:sellerId/items/:itemId/question-categories',
 
   // [톡박스] 질문 관리
-  SELLER_QUESTION_BY_TAG: '/seller/items/:itemId/talkbox/:questionTagId',
+  SELLER_ALL_QUESTIONS_IN_CATEGORY:
+    '/seller/item/talkbox/:questionCategoryId/questions',
 
   // [톡박스] 질문 카테고리
   SELLER_GENERATE_QUESTION_CATEGORY:
@@ -47,4 +48,5 @@ export const QUERY_KEYS = {
   SELLER_TALKBOX_OPEN_STATUS: 'sellerTalkBoxOpenStatus',
   SELLER_ADD_QUESTION_CATEGORIES: 'sellerAddQuestionCategories',
   SELLER_TALKBOX_OPENED_ITEMS: 'sellerTalkBoxOpenedItems',
+  SELLER_ALL_QUESTIONS_IN_CATEGORY: 'sellerAllQuestionsInCategory',
 };

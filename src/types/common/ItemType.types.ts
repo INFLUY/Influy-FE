@@ -66,3 +66,22 @@ export interface ItemOverviewDTO {
   talkBoxOpenStatus: TalkBoxOpenStatus;
 }
 export type TalkBoxOpenStatus = 'INITIAL' | 'OPENED' | 'CLOSED';
+
+export interface TalkBoxOpenedListDTO {
+  talkBoxOpenedDtoList: TalkBoxOpenedItem[];
+  cnt: number;
+}
+
+export interface TalkBoxOpenedItem {
+  itemId: number;
+  itemMainImg: string;
+  itemName: string;
+  talkBoxCntInfo: TalkBoxCntInfo;
+  newCnt: number;
+}
+
+export interface TalkBoxCntInfo {
+  talkBoxOpenStatus: TalkBoxOpenStatus;
+  waitingCnt: number;
+  completedCnt: number;
+}
