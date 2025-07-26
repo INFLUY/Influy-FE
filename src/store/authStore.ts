@@ -1,4 +1,4 @@
-import { postReissue } from '@/api/auth/postReissue.api';
+import { getReissue } from '@/api/auth/getReissue.api';
 import {
   SellerSignupState,
   SnsLinkProps,
@@ -56,7 +56,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
   reissue: async () => {
     try {
-      const data = await postReissue();
+      const data = await getReissue();
 
       if (!data.isSuccess || !data.result?.accessToken) {
         throw new Error('토큰 재발급 실패');
