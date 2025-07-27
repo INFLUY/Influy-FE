@@ -2,12 +2,15 @@ import {
   postRegisterSeller,
   postRegisterUser,
 } from '@/api/auth/handleRegisterUser.api';
+import { PATH } from '@/routes/path';
 import { useAuthStore } from '@/store/authStore';
 import { SellerSignup, UserSignup } from '@/types/common/AuthTypes.types';
 import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 export const useRegisterUser = (onSuccessCallback?: () => void) => {
   const { setAuthInfo } = useAuthStore();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: (data: UserSignup) => postRegisterUser({ data }),
@@ -17,6 +20,8 @@ export const useRegisterUser = (onSuccessCallback?: () => void) => {
         memberId: data.result.memberId,
         sellerId: null,
       });
+
+      navigate(PATH.WELCOME.BASE);
       onSuccessCallback?.();
     },
     onError: () => {
@@ -27,6 +32,7 @@ export const useRegisterUser = (onSuccessCallback?: () => void) => {
 
 export const useRegisterSeller = (onSuccessCallback?: () => void) => {
   const { setAuthInfo } = useAuthStore();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: (data: SellerSignup) => postRegisterSeller({ data }),
@@ -37,6 +43,7 @@ export const useRegisterSeller = (onSuccessCallback?: () => void) => {
         sellerId: data.result?.sellerId,
       });
 
+      navigate(PATH.WELCOME.BASE);
       onSuccessCallback?.();
     },
     onError: () => {
