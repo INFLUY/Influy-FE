@@ -53,10 +53,10 @@ const ReviewTab = lazy(() => import('@/pages/user/market/ReviewTab'));
 const MySelectionTab = lazy(
   () => import('@/pages/seller/sellerMyPage/MySelectionTab')
 );
-const MyITEMReviewTab = lazy(
+const MyItemReviewTab = lazy(
   () => import('@/pages/seller/sellerMyPage/MyItemReviewTab')
 );
-const MyStoredITEMTab = lazy(
+const MyStoredItemTab = lazy(
   () => import('@/pages/seller/sellerMyPage/MyStoredItemTab')
 );
 
@@ -305,11 +305,11 @@ const router = createBrowserRouter([
               },
               {
                 path: PATH.SELLER.MY.TABS.ARCHIVE,
-                element: <MyStoredITEMTab />,
+                element: <MyStoredItemTab />,
               },
               {
                 path: PATH.SELLER.MY.TABS.REVIEW,
-                element: <MyITEMReviewTab />,
+                element: <MyItemReviewTab />,
               },
             ],
           },

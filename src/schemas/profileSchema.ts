@@ -54,3 +54,8 @@ export const emailSchema = z
   .string()
   .min(1, { message: '이메일을 입력해 주세요.' })
   .email({ message: '올바른 양식으로 입력해주세요.' });
+
+export const nicknameSchema = z
+  .string()
+  .min(1, { message: '닉네임을 입력해주세요.' })
+  .max(8, { message: '8자 이내로 작성해주세요.' });
