@@ -40,7 +40,6 @@ import {
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import SellerRoute from './SellerRoute';
-import RegisterRoute from './RegisterRoute';
 
 const LikeItemTab = lazy(() => import('@/pages/user/like/LikeItemTab'));
 const LikeInfluencerTab = lazy(
@@ -93,7 +92,7 @@ const router = createBrowserRouter([
       },
       {
         path: PATH.REGISTER.BASE,
-        element: <RegisterRoute />,
+        element: <Outlet />,
         children: [
           {
             index: true,
