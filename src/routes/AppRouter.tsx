@@ -79,13 +79,7 @@ const router = createBrowserRouter([
       },
       {
         path: PATH.LOGIN.BASE,
-        element: <Outlet />,
-        children: [
-          {
-            index: true,
-            element: <LoginPage />,
-          },
-        ],
+        element: <LoginPage />,
       },
       {
         path: PATH.OAUTH.BASE,
