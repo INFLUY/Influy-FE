@@ -1,9 +1,8 @@
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import InfluyLogo from '@/assets/icon/common/InfluyIcon.svg?react';
 import KakaoIcon from '@/assets/icon/common/KakaoIcon.svg?react';
 import Arrow from '@/assets/icon/common/ArrowRight12.svg?react';
 import LoginBg from '@/assets/image/LoginBgImg.svg';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { useEffect } from 'react';
 import { PATH } from '@/routes/path';
@@ -11,7 +10,6 @@ import cn from '@/utils/cn';
 import { CloseComponent } from '@/components';
 
 const LoginPage = () => {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
   const isBasicLoginPage = pathname.includes(PATH.LOGIN.BASE);
 
@@ -23,10 +21,6 @@ const LoginPage = () => {
   }, []);
 
   const handleKakaoLogin = () => {
-    if (pathname !== PATH.LOGIN.BASE) {
-      // 로그인 이전 페이지로 리다이렉트하기 위해 경로 저장
-      sessionStorage.setItem('lastPath', location.pathname);
-    }
     window.location.href = import.meta.env.VITE_KAKAO_REDIRECT_URI;
   };
 

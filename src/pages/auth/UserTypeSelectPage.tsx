@@ -13,15 +13,24 @@ import { SelectUserButtonType, UserType } from '@/types/common/AuthTypes.types';
 import cn from '@/utils/cn';
 import { PATH } from '@/routes/path';
 import { useAuthStore } from '@/store/authStore';
+import { useKakaoStore } from '@/store/registerStore';
 
 export const UserTypeSelectPage = () => {
   const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState<UserType | null>(null);
 
   const { accessToken } = useAuthStore();
+  const { kakaoId } = useKakaoStore();
 
   useEffect(() => {
-    if (accessToken) navigate(PATH.HOME.BASE, { replace: true });
+    if (accessToken) {
+      navigate(PATH.HOME.BASE, { replace: true });
+      return;
+    }
+    if (!kakaoId) {
+      navigate(`${PATH.LOGIN.BASE}`, { replace: true });
+      return;
+    }
   }, []);
 
   const userType: SelectUserButtonType[] = [

@@ -5,7 +5,6 @@ import {
   SnackBar,
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
 import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
@@ -14,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { TextInput } from '@/components/common/DetailInput';
 import { snsSchema } from '@/schemas/profileSchema';
-import { useSellerSignupStore } from '@/store/registerStore';
+import { useKakaoStore, useSellerSignupStore } from '@/store/registerStore';
 
 export const SignupSnsLinkPage = () => {
   const navigate = useNavigate();
@@ -27,8 +26,13 @@ export const SignupSnsLinkPage = () => {
   const tiktokRef = useRef<HTMLInputElement | null>(null);
 
   const { id: sellerId, sns, setSns } = useSellerSignupStore();
+  const { kakaoId } = useKakaoStore();
 
   useEffect(() => {
+    if (!kakaoId) {
+      navigate(`${PATH.LOGIN.BASE}`, { replace: true });
+      return;
+    }
     if (!sellerId) {
       navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
     }

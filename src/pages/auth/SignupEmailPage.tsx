@@ -5,17 +5,17 @@ import {
   SnackBar,
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { TextInput } from '@/components/common/DetailInput';
 import { emailSchema } from '@/schemas/profileSchema';
-import { useSellerSignupStore } from '@/store/registerStore';
+import { useKakaoStore, useSellerSignupStore } from '@/store/registerStore';
 
 export const SignupEmailPage = () => {
   const navigate = useNavigate();
+  const { kakaoId } = useKakaoStore();
 
   const [emailValue, setEmailValue] = useState<string>('');
 
@@ -31,6 +31,10 @@ export const SignupEmailPage = () => {
   });
 
   useEffect(() => {
+    if (!kakaoId) {
+      navigate(`${PATH.LOGIN.BASE}`, { replace: true });
+      return;
+    }
     if (!sellerId) {
       navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
     } else if (!sns.instagram) {

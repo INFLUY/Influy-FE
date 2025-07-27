@@ -6,11 +6,9 @@ import {
   VanillaCategoryMultiSelector,
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { useAuthStore } from '@/store/authStore';
 import {
   useRegisterSeller,
   useRegisterUser,
@@ -18,6 +16,7 @@ import {
 import { SnsLinkProps } from '@/types/common/AuthTypes.types';
 import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
 import {
+  useKakaoStore,
   useSellerSignupStore,
   useUserSignupStore,
 } from '@/store/registerStore';
@@ -42,13 +41,17 @@ export const SignupInterestPage = () => {
     interestedCategories: userInterestedCategories,
     setInterestedCategories: setUserInterestedCategories,
   } = useUserSignupStore();
-  const { kakaoId } = useAuthStore();
+  const { kakaoId } = useKakaoStore();
 
   const { data: itemCategory } = useGetItemCategory();
 
   const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 
   useEffect(() => {
+    if (!kakaoId) {
+      navigate(`${PATH.LOGIN.BASE}`, { replace: true });
+      return;
+    }
     if (userType === 'influencer') {
       if (!sellerId) {
         navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);

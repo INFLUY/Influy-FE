@@ -31,6 +31,9 @@ const UserRoute = () => {
   }
 
   if (!memberId) {
+    // 로그인 후에 로그인 이전 페이지로 리다이렉트하기 위해 경로 저장
+    sessionStorage.setItem('lastPath', location.pathname);
+
     return (
       <div className="flex flex-1 pb-16">
         <LoginPage />
