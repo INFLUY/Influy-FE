@@ -42,9 +42,9 @@ const GlobalModal = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-col gap-2 break-words whitespace-break-spaces">
-              <h1 className="body1-b break-words whitespace-break-spaces">
+              <p className="body1-b break-words whitespace-break-spaces">
                 {config.text}
-              </h1>
+              </p>
               {config.description && (
                 <p className="body2-m text-grey08">{config.description}</p>
               )}

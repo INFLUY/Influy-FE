@@ -1,4 +1,4 @@
-import GlobalModal from '../common/globalModal';
+import GlobalModal from '@/components/common/GlobalModal';
 
 const GlobalLayout = ({ children }: { children: React.ReactNode }) => {
   return (
