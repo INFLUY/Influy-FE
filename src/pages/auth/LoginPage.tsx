@@ -57,7 +57,13 @@ const LoginPage = () => {
             <KakaoIcon />
             <span className="body2-b">카카오로 3초만에 시작하기</span>
           </button>
-          <button type="button" className="body2-r text-grey06 cursor-pointer">
+          <button
+            type="button"
+            className="body2-r text-grey06 cursor-pointer"
+            onClick={() =>
+              (window.location.href = `https://pf.kakao.com/_TXxlmn`)
+            }
+          >
             문의하기
           </button>
         </article>
