@@ -95,10 +95,10 @@ const MyQuestion = () => {
                 {myQuestion.content}
               </span>
             </span>
-            <span className="flex h-full shrink-0 flex-col items-end justify-between">
+            <div className="flex h-full shrink-0 flex-col items-end justify-between">
               <img
                 src={myQuestion?.mainImg ?? undefined}
-                alt="~~ 썸네일"
+                alt="~~ 썸네일" // TODO: ~~ 수정
                 className="bg-grey03 h-[2.125rem] w-[2.125rem] object-cover"
               />
               {myQuestion.messages !== 0 && (
@@ -106,7 +106,7 @@ const MyQuestion = () => {
                   {myQuestion.messages}
                 </div>
               )}
-            </span>
+            </div>
           </div>
         ))}
       </section>
