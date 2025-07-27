@@ -22,13 +22,13 @@ const UsernamePage = () => {
   const [validText, setValidText] = useState<string>('');
   // const { showSnackbar } = useSnackbarStore();
 
-  const isIdValid = useMemo(() => {
+  const isIdValid = () => {
     if (id.length === 0) return false;
 
     // 유효성 검사
     const result = idSchema.safeParse(id);
     return result.success;
-  }, [id]);
+  };
 
   useEffect(() => {
     if (!isDirty) return;

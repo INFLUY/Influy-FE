@@ -7,7 +7,6 @@ import {
 import { useAuthStore } from '@/store/authStore';
 import { PATH } from '@/routes/path';
 import { getReissue } from './getReissue.api';
-import { useNavigate } from 'react-router-dom';
 
 let isRefreshing = false; // 리프레시 토큰이 갱신 중인지
 const MAX_RETRIES = 3; // 최대 재시도 횟수
