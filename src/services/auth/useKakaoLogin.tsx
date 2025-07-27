@@ -35,7 +35,11 @@ export const useKakaoLogin = () => {
           memberId: response.result.memberId,
           sellerId: response.result?.sellerId,
         });
-        if (response.result?.sellerId === undefined) {
+        const lastPath = sessionStorage.getItem('lastPath');
+        if (lastPath) {
+          sessionStorage.removeItem('lastPath');
+          window.location.replace(lastPath);
+        } else if (response.result?.sellerId === undefined) {
           navigate(PATH.HOME.BASE, { replace: true });
         } else {
           navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`, {

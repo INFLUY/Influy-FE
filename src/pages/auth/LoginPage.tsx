@@ -3,12 +3,16 @@ import InfluyLogo from '@/assets/icon/common/InfluyIcon.svg?react';
 import KakaoIcon from '@/assets/icon/common/KakaoIcon.svg?react';
 import Arrow from '@/assets/icon/common/ArrowRight12.svg?react';
 import LoginBg from '@/assets/image/LoginBgImg.svg';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { useEffect } from 'react';
+import { PATH } from '@/routes/path';
+import cn from '@/utils/cn';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isBasicLoginPage = pathname.includes(PATH.LOGIN.BASE);
 
   const { logout } = useAuthStore();
 
@@ -22,18 +26,29 @@ const LoginPage = () => {
   };
 
   const handleKakaoLogin = () => {
+    if (pathname !== PATH.LOGIN.BASE) {
+      // 로그인 이전 페이지로 리다이렉트하기 위해 경로 저장
+      sessionStorage.setItem('lastPath', location.pathname);
+    }
     window.location.href = import.meta.env.VITE_KAKAO_REDIRECT_URI;
   };
 
   return (
     <div className="relative flex flex-1 overflow-hidden">
-      <XIcon
-        className="absolute top-[.625rem] left-5 z-20 h-6 w-6 cursor-pointer text-white"
-        role="button"
-        aria-label="로그인 창 닫기"
-        onClick={handleClose}
-      />
-      <section className="z-10 flex w-full flex-1 translate-y-[4.375rem] flex-col items-center justify-center gap-[13.25rem] px-5 text-center">
+      {isBasicLoginPage && (
+        <XIcon
+          className="absolute top-[.625rem] left-5 z-20 h-6 w-6 cursor-pointer text-white"
+          role="button"
+          aria-label="로그인 창 닫기"
+          onClick={handleClose}
+        />
+      )}
+      <section
+        className={cn(
+          'z-10 flex h-full w-full flex-1 translate-y-1/12 flex-col items-center justify-center gap-[20%] px-5 text-center',
+          { 'top-[30%] gap-[13%]': !isBasicLoginPage }
+        )}
+      >
         <div className="flex flex-col gap-[.8125rem]">
           <InfluyLogo className="h-[2.75rem] text-white" />
           <p className="text-grey04 text-[1.125rem] whitespace-pre">{`인플루언서의\n취향이 묻어나는 선택`}</p>
