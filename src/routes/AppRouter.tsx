@@ -36,13 +36,6 @@ import {
   KakaoLoginHandler,
   CalendarPage,
   SellerCalendarPage,
-  AccountSettingsPage,
-  UsernamePage,
-  DeleteAccountPage,
-  SupportPage,
-  NicknamePage,
-  NotificationSettingsPage,
-  MyQuestion,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -60,10 +53,10 @@ const ReviewTab = lazy(() => import('@/pages/user/market/ReviewTab'));
 const MySelectionTab = lazy(
   () => import('@/pages/seller/sellerMyPage/MySelectionTab')
 );
-const MyITEMReviewTab = lazy(
+const MyItemReviewTab = lazy(
   () => import('@/pages/seller/sellerMyPage/MyItemReviewTab')
 );
-const MyStoredITEMTab = lazy(
+const MyStoredItemTab = lazy(
   () => import('@/pages/seller/sellerMyPage/MyStoredItemTab')
 );
 
@@ -268,47 +261,7 @@ const router = createBrowserRouter([
       // 마이
       {
         path: PATH.MY.BASE,
-        element: <Outlet />,
-        children: [
-          {
-            index: true,
-            element: <MyPage />,
-          },
-          {
-            path: `${PATH.MY.MY_QUESTION}`,
-            element: <MyQuestion />,
-          },
-          {
-            path: `${PATH.MY.NOTIFICATION}`,
-            element: <NotificationSettingsPage />,
-          },
-          {
-            path: `${PATH.MY.NICKNAME}`,
-            element: <NicknamePage />,
-          },
-          {
-            path: `${PATH.MY.ACCOUNT_SETTING.BASE}`,
-            element: <Outlet />,
-            children: [
-              {
-                index: true,
-                element: <AccountSettingsPage />,
-              },
-              {
-                path: `${PATH.MY.ACCOUNT_SETTING.ID}`,
-                element: <UsernamePage />,
-              },
-              {
-                path: `${PATH.MY.ACCOUNT_SETTING.DELETE}`,
-                element: <DeleteAccountPage />,
-              },
-            ],
-          },
-          {
-            path: `${PATH.MY.SUPPORT}`,
-            element: <SupportPage />,
-          },
-        ],
+        element: <MyPage />,
       },
 
       // 셀러뷰
@@ -354,11 +307,11 @@ const router = createBrowserRouter([
               },
               {
                 path: PATH.SELLER.MY.TABS.ARCHIVE,
-                element: <MyStoredITEMTab />,
+                element: <MyStoredItemTab />,
               },
               {
                 path: PATH.SELLER.MY.TABS.REVIEW,
-                element: <MyITEMReviewTab />,
+                element: <MyItemReviewTab />,
               },
             ],
           },
