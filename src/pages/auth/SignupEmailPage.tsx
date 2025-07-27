@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { TextInput } from '@/components/common/DetailInput';
-import { useSellerSignupStore } from '@/store/authStore';
 import { emailSchema } from '@/schemas/profileSchema';
+import { useSellerSignupStore } from '@/store/registerStore';
 
 export const SignupEmailPage = () => {
   const navigate = useNavigate();

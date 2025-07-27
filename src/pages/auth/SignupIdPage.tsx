@@ -7,9 +7,12 @@ import { PATH } from '@/routes/path';
 import { IdInput } from '@/components/common/DetailInput';
 import { idSchema } from '@/schemas/profileSchema';
 import { useMemo } from 'react';
-import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useCheckIdDuplicate } from '@/services/auth/useCheckIdDuplicationCheck';
+import {
+  useSellerSignupStore,
+  useUserSignupStore,
+} from '@/store/registerStore';
 
 export const SignupIdPage = () => {
   const navigate = useNavigate();

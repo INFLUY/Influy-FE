@@ -3,15 +3,17 @@ import { PATH } from '@/routes/path';
 import { DefaultButton } from '@/components';
 import LoginBg from '@/assets/image/LoginBgImg.svg';
 import { useEffect } from 'react';
+import { useAuthStore } from '@/store/authStore';
 import {
-  useAuthStore,
+  useKakaoStore,
   useSellerSignupStore,
   useUserSignupStore,
-} from '@/store/authStore';
+} from '@/store/registerStore';
 
 export const WelcomePage = () => {
   const navigate = useNavigate();
-  const { sellerId, setKakaoId } = useAuthStore();
+  const { sellerId } = useAuthStore();
+  const { clearKakaoId } = useKakaoStore();
   const { reset: sellerSignupStateReset } = useSellerSignupStore();
   const { reset: userSignupStateReset } = useUserSignupStore();
 
@@ -20,7 +22,7 @@ export const WelcomePage = () => {
     useUserSignupStore.persist.clearStorage();
     sellerSignupStateReset();
     useSellerSignupStore.persist.clearStorage();
-    setKakaoId(null);
+    clearKakaoId();
   }, []);
 
   // 다음 버튼 클릭 핸들러

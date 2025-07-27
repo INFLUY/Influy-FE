@@ -8,26 +8,16 @@ import { useNavigate } from 'react-router-dom';
 import { SelectUserButtonType, UserType } from '@/types/common/AuthTypes.types';
 import cn from '@/utils/cn';
 import { PATH } from '@/routes/path';
-import {
-  useAuthStore,
-  useSellerSignupStore,
-  useUserSignupStore,
-} from '@/store/authStore';
+import { useAuthStore } from '@/store/authStore';
 
 export const UserTypeSelectPage = () => {
   const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState<UserType | null>(null);
 
   const { accessToken } = useAuthStore();
-  const { reset: sellerSignupStateReset } = useSellerSignupStore();
-  const { reset: userSignupStateReset } = useUserSignupStore();
 
   useEffect(() => {
-    sellerSignupStateReset();
-    useSellerSignupStore.persist.clearStorage();
-    userSignupStateReset();
-    useUserSignupStore.persist.clearStorage();
-    if (accessToken) navigate(PATH.HOME.BASE);
+    if (accessToken) navigate(PATH.HOME.BASE, { replace: true });
   }, []);
 
   const userType: SelectUserButtonType[] = [

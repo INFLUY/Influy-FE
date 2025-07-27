@@ -1,6 +1,7 @@
 import { handleKakaoLogin } from '@/api/auth/handleKakaoLogin.api';
 import { PATH } from '@/routes/path';
 import { useAuthStore } from '@/store/authStore';
+import { useKakaoStore } from '@/store/registerStore';
 import {
   LoginedUserAuthResponse,
   LoginedUserResult,
@@ -18,7 +19,8 @@ function isRegisterResult(
 
 export const useKakaoLogin = () => {
   const navigate = useNavigate();
-  const { setAuthInfo, setKakaoId } = useAuthStore();
+  const { setAuthInfo } = useAuthStore();
+  const { setKakaoId } = useKakaoStore();
   const redirectToLocal = import.meta.env.MODE === 'development';
 
   return useMutation({

@@ -9,17 +9,17 @@ import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import {
-  useAuthStore,
-  useSellerSignupStore,
-  useUserSignupStore,
-} from '@/store/authStore';
+import { useAuthStore } from '@/store/authStore';
 import {
   useRegisterSeller,
   useRegisterUser,
 } from '@/services/auth/useRegisterUser';
 import { SnsLinkProps } from '@/types/common/AuthTypes.types';
 import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
+import {
+  useSellerSignupStore,
+  useUserSignupStore,
+} from '@/store/registerStore';
 
 export const SignupInterestPage = () => {
   const navigate = useNavigate();

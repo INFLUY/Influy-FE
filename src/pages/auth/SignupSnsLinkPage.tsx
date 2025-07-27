@@ -8,8 +8,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { TextInput } from '@/components/common/DetailInput';
-import { useSellerSignupStore } from '@/store/authStore';
 import { snsSchema } from '@/schemas/profileSchema';
+import { useSellerSignupStore } from '@/store/registerStore';
 
 export const SignupSnsLinkPage = () => {
   const navigate = useNavigate();
