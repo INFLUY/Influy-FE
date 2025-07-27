@@ -8,6 +8,7 @@ import { useAuthStore } from '@/store/authStore';
 import { useEffect } from 'react';
 import { PATH } from '@/routes/path';
 import cn from '@/utils/cn';
+import { CloseComponent } from '@/components';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -21,10 +22,6 @@ const LoginPage = () => {
     // TODO: 로그아웃 처리
   }, []);
 
-  const handleClose = () => {
-    navigate(-1);
-  };
-
   const handleKakaoLogin = () => {
     if (pathname !== PATH.LOGIN.BASE) {
       // 로그인 이전 페이지로 리다이렉트하기 위해 경로 저장
@@ -35,14 +32,9 @@ const LoginPage = () => {
 
   return (
     <div className="relative flex flex-1 overflow-hidden">
-      {isBasicLoginPage && (
-        <XIcon
-          className="absolute top-[.625rem] left-5 z-20 h-6 w-6 cursor-pointer text-white"
-          role="button"
-          aria-label="로그인 창 닫기"
-          onClick={handleClose}
-        />
-      )}
+      <div className="absolute top-[.625rem] left-5 z-20 h-6 w-6 cursor-pointer text-white">
+        <CloseComponent />
+      </div>
       <section
         className={cn(
           'z-10 flex h-full w-full flex-1 translate-y-1/12 flex-col items-center justify-center gap-[20%] px-5 text-center',

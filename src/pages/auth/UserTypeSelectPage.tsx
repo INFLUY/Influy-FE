@@ -1,6 +1,10 @@
-import { DefaultButton, PageHeader, SnackBar } from '@/components';
+import {
+  CloseComponent,
+  DefaultButton,
+  PageHeader,
+  SnackBar,
+} from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import LoudSpeaker from '@/assets/icon/common/LoudSpeaker.svg?react';
 import ShoppingCart from '@/assets/icon/common/ShoppingCart.svg?react';
 import { useEffect, useState } from 'react';
@@ -62,12 +66,7 @@ export const UserTypeSelectPage = () => {
             onClick={() => navigate(-1)}
           />,
         ]}
-        rightIcons={[
-          <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate('')}
-          />,
-        ]}
+        rightIcons={[<CloseComponent />]}
       >
         회원가입
       </PageHeader>

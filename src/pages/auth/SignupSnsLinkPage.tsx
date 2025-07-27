@@ -1,4 +1,9 @@
-import { DefaultButton, PageHeader, SnackBar } from '@/components';
+import {
+  CloseComponent,
+  DefaultButton,
+  PageHeader,
+  SnackBar,
+} from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
@@ -104,12 +109,7 @@ export const SignupSnsLinkPage = () => {
             onClick={() => navigate(-1)}
           />,
         ]}
-        rightIcons={[
-          <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate('')}
-          />,
-        ]}
+        rightIcons={[<CloseComponent />]}
       >
         회원가입
       </PageHeader>

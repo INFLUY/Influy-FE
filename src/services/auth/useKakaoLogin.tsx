@@ -38,7 +38,7 @@ export const useKakaoLogin = () => {
         const lastPath = sessionStorage.getItem('lastPath');
         if (lastPath) {
           sessionStorage.removeItem('lastPath');
-          window.location.replace(lastPath);
+          navigate(lastPath);
         } else if (response.result?.sellerId === undefined) {
           navigate(PATH.HOME.BASE, { replace: true });
         } else {

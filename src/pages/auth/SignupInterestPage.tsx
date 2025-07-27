@@ -1,4 +1,5 @@
 import {
+  CloseComponent,
   DefaultButton,
   PageHeader,
   SnackBar,
@@ -132,12 +133,7 @@ export const SignupInterestPage = () => {
             onClick={() => navigate(-1)}
           />,
         ]}
-        rightIcons={[
-          <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate('')}
-          />,
-        ]}
+        rightIcons={[<CloseComponent />]}
       >
         회원가입
       </PageHeader>
