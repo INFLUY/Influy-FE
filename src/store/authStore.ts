@@ -1,11 +1,5 @@
-import { postReissue } from '@/api/auth/postReissue.api';
-import {
-  SellerSignupState,
-  SnsLinkProps,
-  UserSignupState,
-} from '@/types/common/AuthTypes.types';
+import { getReissue } from '@/api/auth/getReissue.api';
 import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface AuthState {
   memberId: number | null;
@@ -17,7 +11,6 @@ interface AuthState {
     memberId: number;
     sellerId?: number | null;
   }) => void;
-  setKakaoId: (kakaoId: number) => void;
   logout: () => void;
   clearAuthInfo: () => void;
   reissue: () => Promise<boolean>;
@@ -36,9 +29,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       sellerId,
     });
   },
-  setKakaoId: (kakaoId: number) => {
-    set({ kakaoId });
-  },
   logout: () => {
     set({
       accessToken: null,
@@ -51,12 +41,11 @@ export const useAuthStore = create<AuthState>((set) => ({
       accessToken: null,
       memberId: null,
       sellerId: null,
-      kakaoId: null,
     });
   },
   reissue: async () => {
     try {
-      const data = await postReissue();
+      const data = await getReissue();
 
       if (!data.isSuccess || !data.result?.accessToken) {
         throw new Error('토큰 재발급 실패');
@@ -75,81 +64,3 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 }));
-
-interface UserSignupStoreState extends UserSignupState {
-  setId: (id: string) => void;
-  setInterestedCategories: (categories: number[]) => void;
-  reset: () => void;
-}
-
-const initialUserSignupState: UserSignupState = {
-  id: '',
-  email: '',
-  intersetedCategories: [],
-};
-
-export const useUserSignupStore = create<UserSignupStoreState>()(
-  persist(
-    (set) => ({
-      ...initialUserSignupState,
-      setId: (id: string) => set({ id }),
-      setInterestedCategories: (intersetedCategories: number[]) =>
-        set({ intersetedCategories }),
-      reset: () => set({ ...initialUserSignupState }),
-    }),
-    {
-      name: 'user-signup-storage', // 저장소 이름
-      storage: createJSONStorage(() => sessionStorage),
-    }
-  )
-);
-
-interface SellerSignupStoreState extends SellerSignupState {
-  setId: (id: string) => void;
-  setEmail: (email: string) => void;
-  setSns: (sns: Partial<SnsLinkProps>) => void;
-  setInterestedCategories: (categories: number[]) => void;
-  reset: () => void;
-}
-
-const initialSellerSignupState: SellerSignupState = {
-  id: '',
-  email: '',
-  sns: {
-    instagram: '',
-    youtube: '',
-    tiktok: '',
-  },
-  intersetedCategories: [],
-};
-
-export const useSellerSignupStore = create<SellerSignupStoreState>()(
-  persist(
-    (set) => ({
-      id: '',
-      sns: {
-        instagram: '',
-        youtube: '',
-        tiktok: '',
-      },
-      email: '',
-      intersetedCategories: [],
-      setId: (id: string) => set({ id }),
-      setSns: (sns: Partial<SnsLinkProps>) =>
-        set((state) => ({
-          sns: {
-            ...state.sns,
-            ...sns,
-          },
-        })),
-      setEmail: (email: string) => set({ email }),
-      setInterestedCategories: (intersetedCategories: number[]) =>
-        set({ intersetedCategories }),
-      reset: () => set({ ...initialSellerSignupState }),
-    }),
-    {
-      name: 'seller-signup-storage', // 저장소 이름
-      storage: createJSONStorage(() => sessionStorage),
-    }
-  )
-);

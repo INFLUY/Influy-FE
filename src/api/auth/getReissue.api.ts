@@ -12,11 +12,7 @@ interface ReissueResponse {
   };
 }
 
-export const postReissue = async () => {
-  const response = await instance.post<ReissueResponse>(
-    API_DOMAINS.REISSUE,
-    {},
-    { withCredentials: true }
-  );
+export const getReissue = async () => {
+  const response = await instance.get<ReissueResponse>(API_DOMAINS.REISSUE, {});
   return response.data;
 };

@@ -35,9 +35,9 @@ export const CategoryMultiSelector = memo(
           {categoryList.slice(0, 5).map((category: CategoryType) => (
             <CategoryChip
               key={category.id}
-              text={category.category}
-              isSelected={selectedList.includes(category.category)}
-              onToggle={() => handleClickCategory(category.category)}
+              text={category.name}
+              isSelected={selectedList.includes(category.name)}
+              onToggle={() => handleClickCategory(category.name)}
             />
           ))}
         </div>
@@ -45,9 +45,9 @@ export const CategoryMultiSelector = memo(
           {categoryList.slice(5, 9).map((category: CategoryType) => (
             <CategoryChip
               key={category.id}
-              text={category.category}
-              isSelected={selectedList.includes(category.category)}
-              onToggle={() => handleClickCategory(category.category)}
+              text={category.name}
+              isSelected={selectedList.includes(category.name)}
+              onToggle={() => handleClickCategory(category.name)}
             />
           ))}
         </div>
@@ -55,9 +55,9 @@ export const CategoryMultiSelector = memo(
           {categoryList.slice(9).map((category: CategoryType) => (
             <CategoryChip
               key={category.id}
-              text={category.category}
-              isSelected={selectedList.includes(category.category)}
-              onToggle={() => handleClickCategory(category.category)}
+              text={category.name}
+              isSelected={selectedList.includes(category.name)}
+              onToggle={() => handleClickCategory(category.name)}
             />
           ))}
         </div>

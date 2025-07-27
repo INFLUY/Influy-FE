@@ -1,15 +1,23 @@
-import { DefaultButton, PageHeader, SnackBar } from '@/components';
+import {
+  CloseComponent,
+  DefaultButton,
+  PageHeader,
+  SnackBar,
+} from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { IdInput } from '@/components/common/DetailInput';
 import { idSchema } from '@/schemas/profileSchema';
 import { useMemo } from 'react';
-import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useCheckIdDuplicate } from '@/services/auth/useCheckIdDuplicationCheck';
+import {
+  useKakaoStore,
+  useSellerSignupStore,
+  useUserSignupStore,
+} from '@/store/registerStore';
 
 export const SignupIdPage = () => {
   const navigate = useNavigate();
@@ -22,7 +30,13 @@ export const SignupIdPage = () => {
   const { id: sellerId, setId: setSellerId } = useSellerSignupStore();
   const { id: userId, setId: setUserId } = useUserSignupStore();
 
+  const { kakaoId } = useKakaoStore();
+
   useEffect(() => {
+    if (!kakaoId) {
+      navigate(`${PATH.LOGIN.BASE}`, { replace: true });
+      return;
+    }
     // userType에 따라 초기 아이디 값을 설정
     if (userType === 'influencer') {
       setId(sellerId);
@@ -134,12 +148,7 @@ export const SignupIdPage = () => {
             onClick={() => navigate(-1)}
           />,
         ]}
-        rightIcons={[
-          <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate('')}
-          />,
-        ]}
+        rightIcons={[<CloseComponent />]}
       >
         회원가입
       </PageHeader>

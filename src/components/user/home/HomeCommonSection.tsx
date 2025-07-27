@@ -90,7 +90,7 @@ const HomeCommonSection = ({
             categoryList.map((category: CategoryType) => (
               <CategoryChip
                 key={category.id}
-                text={category.category}
+                text={category.name}
                 isSelected={selectedCategory == category.id}
                 onToggle={() => setSelectedCategory(category.id)}
                 theme="home"

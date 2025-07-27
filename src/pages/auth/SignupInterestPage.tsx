@@ -1,25 +1,25 @@
 import {
+  CloseComponent,
   DefaultButton,
   PageHeader,
   SnackBar,
   VanillaCategoryMultiSelector,
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import {
-  useAuthStore,
-  useSellerSignupStore,
-  useUserSignupStore,
-} from '@/store/authStore';
-import PRODUCT_CATEGORIES from '@/constants/productCategories';
 import {
   useRegisterSeller,
   useRegisterUser,
 } from '@/services/auth/useRegisterUser';
 import { SnsLinkProps } from '@/types/common/AuthTypes.types';
+import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
+import {
+  useKakaoStore,
+  useSellerSignupStore,
+  useUserSignupStore,
+} from '@/store/registerStore';
 
 export const SignupInterestPage = () => {
   const navigate = useNavigate();
@@ -33,37 +33,39 @@ export const SignupInterestPage = () => {
     id: sellerId,
     sns,
     email,
-    intersetedCategories: sellerIntersetedCategories,
+    interestedCategories: sellerInterestedCategories,
     setInterestedCategories: setSellerInterestedCategories,
-    reset: sellerSignupStateReset,
   } = useSellerSignupStore();
   const {
     id: userId,
-    intersetedCategories: userIntersetedCategories,
+    interestedCategories: userInterestedCategories,
     setInterestedCategories: setUserInterestedCategories,
-    reset: userSignupStateReset,
   } = useUserSignupStore();
-  const { kakaoId, clearAuthInfo } = useAuthStore();
+  const { kakaoId } = useKakaoStore();
+
+  const { data: itemCategory } = useGetItemCategory();
 
   const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (!kakaoId) {
-      navigate(PATH.LOGIN.BASE);
+      navigate(`${PATH.LOGIN.BASE}`, { replace: true });
+      return;
     }
-
     if (userType === 'influencer') {
       if (!sellerId) {
         navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
       } else if (!sns.instagram) {
         navigate(`../${PATH.REGISTER.TYPE.SELLER.SNS}`);
       }
-      setSelectedCategories(sellerIntersetedCategories);
+      setSelectedCategories(sellerInterestedCategories);
+      return;
     } else if (userType === 'user') {
       if (!userId) {
         navigate(`../${PATH.REGISTER.TYPE.USER.ID}`);
       }
-      setSelectedCategories(userIntersetedCategories);
+      setSelectedCategories(userInterestedCategories);
+      return;
     }
   }, [userType]);
 
@@ -75,18 +77,8 @@ export const SignupInterestPage = () => {
     }
   }, [selectedCategories]);
 
-  const onSuccess = () => {
-    userSignupStateReset();
-    useUserSignupStore.persist.clearStorage();
-    sellerSignupStateReset();
-    useSellerSignupStore.persist.clearStorage();
-    clearAuthInfo();
-
-    navigate(PATH.WELCOME.BASE);
-  };
-
-  const { mutate: registerSeller } = useRegisterSeller(() => onSuccess);
-  const { mutate: registerUser } = useRegisterUser(() => onSuccess);
+  const { mutate: registerSeller } = useRegisterSeller();
+  const { mutate: registerUser } = useRegisterUser();
 
   const handleSellerRegister = () => {
     const sns: SnsLinkProps & { email?: string } = {
@@ -105,7 +97,7 @@ export const SignupInterestPage = () => {
       userInfo: {
         username: sellerId,
         kakaoId: kakaoId!!,
-        intersetedCategories: selectedCategories,
+        interestedCategories: selectedCategories,
       },
       instagram: sns.instagram,
       ...optionalSns,
@@ -116,7 +108,7 @@ export const SignupInterestPage = () => {
     registerUser({
       username: userId,
       kakaoId: kakaoId!!,
-      intersetedCategories: selectedCategories,
+      interestedCategories: selectedCategories,
     });
   };
 
@@ -144,12 +136,7 @@ export const SignupInterestPage = () => {
             onClick={() => navigate(-1)}
           />,
         ]}
-        rightIcons={[
-          <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate('')}
-          />,
-        ]}
+        rightIcons={[<CloseComponent />]}
       >
         회원가입
       </PageHeader>
@@ -160,7 +147,7 @@ export const SignupInterestPage = () => {
         <VanillaCategoryMultiSelector
           selectedCategory={selectedCategories}
           setSelectedCategory={setSelectedCategories}
-          categoryList={PRODUCT_CATEGORIES}
+          categoryList={itemCategory.result.categoryDtoList}
           theme="interest"
           max={999}
         />

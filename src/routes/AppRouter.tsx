@@ -40,7 +40,7 @@ import {
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import SellerRoute from './SellerRoute';
-import RegisterRoute from './RegisterRoute';
+import UserRoute from './UserRoute';
 
 const LikeItemTab = lazy(() => import('@/pages/user/like/LikeItemTab'));
 const LikeInfluencerTab = lazy(
@@ -79,13 +79,7 @@ const router = createBrowserRouter([
       },
       {
         path: PATH.LOGIN.BASE,
-        element: <Outlet />,
-        children: [
-          {
-            index: true,
-            element: <LoginPage />,
-          },
-        ],
+        element: <LoginPage />,
       },
       {
         path: PATH.OAUTH.BASE,
@@ -93,7 +87,7 @@ const router = createBrowserRouter([
       },
       {
         path: PATH.REGISTER.BASE,
-        element: <RegisterRoute />,
+        element: <Outlet />,
         children: [
           {
             index: true,
@@ -227,43 +221,47 @@ const router = createBrowserRouter([
           },
         ],
       },
-
-      // 찜
       {
-        path: PATH.LIKE.BASE,
-        element: (
-          <LikePage>
-            <Outlet />
-          </LikePage>
-        ),
+        path: '',
+        element: <UserRoute />,
         children: [
+          // 찜
           {
-            index: true,
-            element: <Navigate to={PATH.LIKE.TABS.ITEM} replace />,
+            path: PATH.LIKE.BASE,
+            element: (
+              <LikePage>
+                <Outlet />
+              </LikePage>
+            ),
+            children: [
+              {
+                index: true,
+                element: <Navigate to={PATH.LIKE.TABS.ITEM} replace />,
+              },
+              {
+                path: PATH.LIKE.TABS.ITEM,
+                element: <LikeItemTab />,
+              },
+              {
+                path: PATH.LIKE.TABS.SELLER,
+                element: <LikeInfluencerTab />,
+              },
+            ],
           },
+
+          // 캘린더
           {
-            path: PATH.LIKE.TABS.ITEM,
-            element: <LikeItemTab />,
+            path: PATH.CALENDAR.BASE,
+            element: <CalendarPage />,
           },
+
+          // 마이
           {
-            path: PATH.LIKE.TABS.SELLER,
-            element: <LikeInfluencerTab />,
+            path: PATH.MY.BASE,
+            element: <MyPage />,
           },
         ],
       },
-
-      // 캘린더
-      {
-        path: PATH.CALENDAR.BASE,
-        element: <CalendarPage />,
-      },
-
-      // 마이
-      {
-        path: PATH.MY.BASE,
-        element: <MyPage />,
-      },
-
       // 셀러뷰
       {
         path: PATH.SELLER.BASE,
