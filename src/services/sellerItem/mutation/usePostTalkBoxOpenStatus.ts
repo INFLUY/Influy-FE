@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postTalkBoxOpenStatus } from '@/api/talkBox/handleSellerAnswer.api';
+import { postTalkBoxOpenStatus } from '@/api/sellerItem/handleSellerItem.api';
 import { TalkBoxOpenStatus } from '@/types/common/ItemType.types';
 import { QUERY_KEYS } from '@/constants/api';
 
@@ -16,7 +16,7 @@ export const usePostTalkBoxOpenStatus = ({
     mutationFn: () => postTalkBoxOpenStatus({ itemId, openStatus }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.SELLER_TALKBOX_OPEN_STATUS, itemId],
+        queryKey: [QUERY_KEYS.SELLER_ITEM_OVERVIEW, itemId],
       });
     },
     onError: () => {

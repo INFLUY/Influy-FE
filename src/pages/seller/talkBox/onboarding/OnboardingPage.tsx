@@ -17,7 +17,7 @@ import { QuestionCategoryDTO } from '@/types/seller/TalkBox.types';
 //api
 import { usePostGenerateQuestionCategory } from '@/services/talkBox/mutation/usePostGenerateQuestionCategory';
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
-import { usePostTalkBoxOpenStatus } from '@/services/talkBox/mutation/usePostTalkBoxOpenStatus';
+import { usePostTalkBoxOpenStatus } from '@/services/sellerItem/mutation/usePostTalkBoxOpenStatus';
 import { usePostAddQuestionCategories } from '@/services/talkBox/mutation/usePostAddQuestionCategories';
 
 const OnboardingLayout = () => {
@@ -122,9 +122,9 @@ const OnboardingLayout = () => {
         <div className="flex w-full flex-col gap-6 px-5">
           {itemOverview && (
             <TalkBoxQuestionItemCard
-              title={itemOverview.itemName}
+              itemName={itemOverview.itemName}
               tagline={itemOverview.tagline}
-              imgUrl={itemOverview.mainImg}
+              mainImg={itemOverview.mainImg}
             />
           )}
 

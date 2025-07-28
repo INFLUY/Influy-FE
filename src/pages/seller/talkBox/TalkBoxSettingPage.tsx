@@ -4,14 +4,31 @@ import { PageHeader, TalkBoxBottomItemCard, ToggleButton } from '@/components';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate, useParams } from 'react-router-dom';
+//api
+import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
+import { usePostTalkBoxOpenStatus } from '@/services/sellerItem/mutation/usePostTalkBoxOpenStatus';
 const TalkBoxSettingPage = () => {
   const navigate = useNavigate();
-  const [isToggleChecked, setIsToggleChecked] = useState(false);
+
   const handleToggleClick = () => {
-    setIsToggleChecked(!isToggleChecked);
+    updateStatus();
   };
+
+  const { itemId } = useParams();
+
+  // 하단 상품 정보
+  const { itemOverview } = useItemOverview({
+    sellerId: 2, // TODO: 수정 필요
+    itemId: Number(itemId),
+  });
+
+  // 톡박스 활성화 상태 업데이트
+  const { mutate: updateStatus } = usePostTalkBoxOpenStatus({
+    itemId: Number(itemId),
+    openStatus:
+      itemOverview?.talkBoxOpenStatus === 'OPENED' ? 'CLOSED' : 'OPENED',
+  });
 
   return (
     <>
@@ -57,17 +74,20 @@ const TalkBoxSettingPage = () => {
           </div>
           <ToggleButton
             name="톡박스 활성화"
-            isChecked={isToggleChecked}
+            isChecked={itemOverview?.talkBoxOpenStatus === 'OPENED'}
             setIsChecked={handleToggleClick}
           />
         </article>
       </section>
-      <TalkBoxBottomItemCard
-        onCardClick={() => {}}
-        title="[11차] 워크팬츠_navy"
-        tagline="오버핏이 감각적인 워크팬츠, 제작템입니다. 글글글글글글글"
-        imgUrl=""
-      />
+      {/* TODO: opened 처리 */}
+      {itemOverview && (
+        <TalkBoxBottomItemCard
+          onCardClick={() => {}}
+          itemName={itemOverview.itemName}
+          tagline={itemOverview.tagline}
+          mainImg={itemOverview.mainImg}
+        />
+      )}
     </>
   );
 };
