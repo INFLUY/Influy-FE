@@ -31,8 +31,6 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
   const sentCount = location.state?.sentCount;
 
-  const { selectedQuestions } = useSelectModeStore();
-
   const { itemId, categoryId } = useParams();
 
   const { data } = useGetCategoryQuestionCounts(Number(categoryId));
@@ -47,11 +45,11 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (sentCount) {
+      const message = sentCount + '개의 답변이 정상적으로 전송되었습니다.';
       setSnackBarState({
         isOpen: true,
-        message: sentCount + '개의 답변이 정상적으로 전송되었습니다.',
+        message: message,
       });
-      window.history.replaceState({}, document.title, location.pathname);
     }
   }, [sentCount]);
 
@@ -109,7 +107,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
             setSnackBarState({ message: '', isOpen: false })
           }
         >
-          {sentCount}개의 답변이 정상적으로 전송되었습니다.
+          {snackBarState.message}
         </SnackBar>
       )}
     </section>

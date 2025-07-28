@@ -14,7 +14,7 @@ export const getTagAnswers = async ({
   questionTagId: number;
 }): Promise<TagAnswerResponse> => {
   const response = await instance.get(
-    generateApiPath(SELLER_API_DOMAINS.SELLER_TAG_ANSWER_LIST, {
+    generateApiPath(SELLER_API_DOMAINS.SELLER_ANSWER, {
       itemId,
       questionCategoryId,
     }),
@@ -23,6 +23,40 @@ export const getTagAnswers = async ({
         questionTagId,
       },
     }
+  );
+
+  return response.data.result;
+};
+
+export interface PostBulkAnswerRequest {
+  questionIdList: number[];
+  answerContent: string;
+}
+
+export interface PostBulkAnswerResponse {
+  answeredCnt: number;
+  answerDtoList: {
+    questionId: number;
+    answerId: number;
+    answerType: 'INDIVIDUAL' | 'BULK'; // 타입이 여러 개일 수 있으니 enum 처리 가능
+  }[];
+}
+
+export const postBulkAnswer = async ({
+  itemId,
+  questionCategoryId,
+  data,
+}: {
+  itemId: number;
+  questionCategoryId: number;
+  data: PostBulkAnswerRequest;
+}): Promise<PostBulkAnswerResponse> => {
+  const response = await instance.post(
+    generateApiPath(SELLER_API_DOMAINS.SELLER_ANSWER, {
+      itemId,
+      questionCategoryId,
+    }),
+    data
   );
 
   return response.data.result;

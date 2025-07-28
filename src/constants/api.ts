@@ -17,8 +17,7 @@ export const API_DOMAINS = {
 
 export const SELLER_API_DOMAINS = {
   // [톡박스] 셀러 톡박스 답변
-  SELLER_TAG_ANSWER_LIST:
-    '/seller/items/:itemId/talkbox/:questionCategoryId/answers',
+  SELLER_ANSWER: '/seller/items/:itemId/talkbox/:questionCategoryId/answers',
 
   // 셀러 아이템
   ITEM_OVERVIEW: '/seller/:sellerId/items/:itemId/item-overview',

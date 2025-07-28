@@ -25,6 +25,7 @@ import { useSelectModeStore } from '@/store/talkBoxStore';
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
 import { useGetTagAnswers } from '@/services/talkBox/query/useGetTagAnswers';
+import { usePostBulkAnswer } from '@/services/talkBox/mutation/usePostBulkAnswer';
 
 const BulkReplyPage = () => {
   const navigate = useNavigate();
@@ -62,19 +63,24 @@ const BulkReplyPage = () => {
     navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`); // 홈으로 이동
   };
 
+  const { mutate: postBulkAnswer } = usePostBulkAnswer({
+    itemId: Number(itemId),
+    questionCategoryId: Number(categoryId),
+    onSuccessCallback: (count) => {
+      console.log('카운드', count);
+      navigate(`../`, {
+        state: { sentCount: count },
+        replace: true,
+      });
+    },
+  });
+
   const handleReplySubmit = () => {
-    // if (answerText.length === 0) return;
-    // const sentCount = selectedChat.length;
-    // const path = generatePath(
-    //   `${PATH.SELLER.base}/${PATH.SELLER.talkBox.base}/${PATH.SELLER.talkBox.item.base}/${PATH.SELLER.talkBox.item.category.base}/${PATH.SELLER.talkBox.item.category.tabs.pending}`,
-    //   {
-    //     itemId: String(itemId),
-    //     categoryId: String(categoryId),
-    //   }
-    // );
-    // navigate(path, {
-    //   state: { sentCount },
-    // });
+    if (answerText.length === 0) return;
+    postBulkAnswer({
+      questionIdList: selectedQuestions.map((q) => q.questionId),
+      answerContent: answerText,
+    });
   };
 
   return (
@@ -83,7 +89,7 @@ const BulkReplyPage = () => {
         leftIcons={[
           <ArrowLeftIcon
             className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate(`../`, { replace: true })}
             role="button"
             aria-label="뒤로 가기"
             tabIndex={0}
