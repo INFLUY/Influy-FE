@@ -4,10 +4,10 @@ import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import { ItemCardType } from '@/types/common/ItemType.types';
 import { generatePath, useNavigate } from 'react-router-dom';
-import { dummyCategory as categoryList } from '@/pages/seller/item/ItemDetailDummyData';
 import { useState } from 'react';
 import { ITEM_DEATIL } from '@/utils/generatePath';
 import { CategoryType } from '@/types/common/CategoryType.types';
+import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
 const itemMockData: ItemCardType[] = [
   {
     itemId: 101,
@@ -117,7 +117,8 @@ const itemMockData: ItemCardType[] = [
   },
 ];
 const CategoryPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [selectedCategory, setSelectedCategory] = useState<number>(1);
+  const itemCategories = useGetItemCategory();
   const navigate = useNavigate();
 
   return (
@@ -141,9 +142,9 @@ const CategoryPage = () => {
         카테고리별 추천
       </PageHeader>
       <div className="scrollbar-hide mt-3 flex w-full shrink-0 flex-nowrap items-center gap-2 overflow-x-scroll px-5 py-2">
-        {categoryList &&
-          categoryList.length > 0 &&
-          categoryList.map((category: CategoryType) => (
+        {itemCategories?.categoryDtoList &&
+          itemCategories?.categoryDtoList.length > 0 &&
+          itemCategories?.categoryDtoList.map((category: CategoryType) => (
             <CategoryChip
               key={category.id}
               text={category.name}
