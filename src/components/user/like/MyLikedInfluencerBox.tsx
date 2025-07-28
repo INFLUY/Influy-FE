@@ -2,12 +2,16 @@ import { LikedInfluencerListType } from '@/types/user/Like.types';
 import { formatNumber } from '@/utils/formatNumber';
 import { useState } from 'react';
 import ScrapButton from '@/components/common/ScrapButton';
+import { generatePath, useNavigate } from 'react-router-dom';
+import { MARKET_DEATIL } from '@/utils/generatePath';
 
 const MyLikedInfluencerBox = ({
   influencer,
 }: {
   influencer: LikedInfluencerListType;
 }) => {
+  const navigate = useNavigate();
+
   const [like, setLike] = useState<boolean>(true);
 
   const handleLikeClick = () => {
@@ -19,6 +23,9 @@ const MyLikedInfluencerBox = ({
       className="flex w-full justify-between px-5 py-3"
       aria-label={influencer.nickName + '프로필 바로가기'}
       role="button"
+      onClick={() =>
+        navigate(generatePath(MARKET_DEATIL, { marketId: influencer.sellerId }))
+      }
     >
       <div className="flex gap-3">
         <img
