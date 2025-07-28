@@ -24,7 +24,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
   const sentCount = location.state?.sentCount;
 
-  const { selectedIds } = useSelectModeStore();
+  const { selectedQuestions } = useSelectModeStore();
 
   const { questionsByTag, selectedTag } = useTalkBoxQuestionStore();
 
@@ -43,7 +43,9 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   );
   const isAllSelected =
     questionsByTag?.[selectedTag?.name]?.length > 0 &&
-    allChatIds?.every((id) => selectedIds.includes(id));
+    allChatIds?.every((id) =>
+      selectedQuestions.map((q) => q.questionId).includes(id)
+    );
 
   const headerRef = useRef<HTMLDivElement>(null);
 

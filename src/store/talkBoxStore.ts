@@ -7,32 +7,33 @@ import {
 
 interface SelectModeState {
   mode: TALK_BOX_MODE;
-  selectedIds: number[];
+  selectedQuestions: QuestionDTO[];
 
   setMode: (value: TALK_BOX_MODE) => void;
-  setSelectedIds: (ids: number[]) => void; // 질문 선택 모드에서 선택된 질문들
-  toggleSelectAll: (allIds: number[]) => void; // 질문 선택 모드에서 전체 질문 선택
+  setSelectedQuestions: (q: QuestionDTO[]) => void; // 질문 선택 모드에서 선택된 질문들
+  toggleSelectAll: (allQuestions: QuestionDTO[]) => void; // 질문 선택 모드에서 전체 질문 선택
 }
 
 export const useSelectModeStore = create<SelectModeState>((set, get) => ({
   mode: 'default',
-  selectedIds: [],
+  selectedQuestions: [],
 
   setMode: (value) => {
     // 'default'로 전환될 때는 선택된 항목 초기화
     if (value === 'default') {
-      set({ selectedIds: [] });
+      set({ selectedQuestions: [] });
     }
     set({ mode: value });
   },
 
-  setSelectedIds: (ids) => set({ selectedIds: ids }),
+  setSelectedQuestions: (questions) => set({ selectedQuestions: questions }),
 
-  toggleSelectAll: (allIds) => {
-    const current = get().selectedIds;
-    const isAllSelected = allIds.every((id) => current.includes(id));
-
-    set({ selectedIds: isAllSelected ? [] : allIds });
+  toggleSelectAll: (allQuestions) => {
+    const current = get().selectedQuestions;
+    const isAllSelected = allQuestions.every((q) =>
+      current.some((c) => c.questionId === q.questionId)
+    );
+    set({ selectedQuestions: isAllSelected ? [] : allQuestions });
   },
 }));
 

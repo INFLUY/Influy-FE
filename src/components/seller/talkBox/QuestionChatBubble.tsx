@@ -19,18 +19,19 @@ const QuestionChatBubble = ({
   onSelectSingle,
   onDelete,
 }: SellerChatBubbleProps) => {
-  const { mode, selectedIds, setSelectedIds } = useSelectModeStore();
+  const { mode, selectedQuestions, setSelectedQuestions } =
+    useSelectModeStore();
 
   const [isLongPressChat, setIsLongPressChat] = useState<boolean | null>(null);
 
-  const isSelected = selectedIds.includes(chat.questionId);
+  const isSelected = selectedQuestions.includes(chat);
 
   const handleCheckboxClick = () => {
     if (mode !== 'select') return;
     if (isSelected) {
-      setSelectedIds(selectedIds.filter((id) => id !== chat.questionId));
+      setSelectedQuestions(selectedQuestions.filter((q) => q !== chat));
     } else {
-      setSelectedIds([...selectedIds, chat.questionId]);
+      setSelectedQuestions([...selectedQuestions, chat]);
     }
   };
 

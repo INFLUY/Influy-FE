@@ -20,7 +20,6 @@ import { useGetAllQuestions } from '@/services/talkBox/query/useGetAllQuestions'
 import { useGetQuestionTags } from '@/services/talkBox/query/useGetQuestionTags';
 import { useGetQuestionsByTag } from '@/services/talkBox/query/useGetQuestionsByTag';
 import { useDeleteCategoryQuestions } from '@/services/talkBox/mutation/useDeleteCategoryQuestions';
-import { useQueryClient } from '@tanstack/react-query';
 
 export const PendingQuestionsTab = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -31,7 +30,7 @@ export const PendingQuestionsTab = () => {
 
   const navigate = useNavigate();
 
-  const { mode, selectedIds, setMode } = useSelectModeStore();
+  const { mode, selectedQuestions, setMode } = useSelectModeStore();
 
   const {
     questionTags,
@@ -146,21 +145,6 @@ export const PendingQuestionsTab = () => {
   const hasNextPage = isAll ? hasNextPageAll : hasNextPageByTag;
   const isFetching = isAll ? isFetchingNextPageAll : isFetchingNextPageByTag;
 
-  const queryClient = useQueryClient();
-
-  const tagNamesToInvalidate = Object.entries(questionsByTag)
-    .filter(([tagName, questions]) =>
-      questions.some((q) => selectedIds.includes(q.questionId))
-    )
-    .map(([tagName]) => tagName);
-
-  const tagNamesToInvalidate2 = selectedIds.map((selectedId) => {});
-
-  console.log(tagNamesToInvalidate2);
-
-  const queries = queryClient.getQueryCache().getAll();
-  // console.log(queries.map((q) => q.queryKey));
-
   // 질문 삭제
   const { mutate: deleteQuestions } = useDeleteCategoryQuestions({
     itemId: Number(itemId),
@@ -172,8 +156,12 @@ export const PendingQuestionsTab = () => {
   });
 
   const handleConfirmDelete = () => {
-    deleteQuestions(selectedIds);
+    const selectedId: number[] = selectedQuestions.map((q) => q.questionId);
+    deleteQuestions(selectedId);
   };
+
+  // 일괄 답변
+  const handleBulkReply = () => {};
 
   return (
     <>
@@ -235,18 +223,19 @@ export const PendingQuestionsTab = () => {
               setIsDeleteModalOpen(true);
             }}
             text="삭제하기"
-            disabled={selectedIds.length === 0}
+            disabled={selectedQuestions.length === 0}
             activeTheme="white"
             disabledTheme="greyLine"
           />
           <DefaultButton
             type="submit"
             text={
-              selectedIds.length > 0
-                ? `(${selectedIds.length}개) 일괄 답변하기`
+              selectedQuestions.length > 0
+                ? `(${selectedQuestions.length}개) 일괄 답변하기`
                 : '일괄 답변하기'
             }
-            disabled={selectedIds.length === 0}
+            disabled={selectedQuestions.length === 0}
+            onClick={handleBulkReply}
           />
         </section>
       )}
@@ -254,7 +243,7 @@ export const PendingQuestionsTab = () => {
       {/* 일괄 삭제 */}
       {isDeleteModalOpen && (
         <SellerModal
-          text={`질문들(${selectedIds.length}개)을 삭제하시겠습니까? 한 번 삭제한 질문은 되돌릴 수 없습니다.`}
+          text={`질문들(${selectedQuestions.length}개)을 삭제하시겠습니까? 한 번 삭제한 질문은 되돌릴 수 없습니다.`}
           leftButtonText="취소"
           rightButtonText="확인"
           leftButtonClick={() => setIsDeleteModalOpen(false)}
