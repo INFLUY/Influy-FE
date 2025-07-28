@@ -60,3 +60,23 @@ export const getQuestionsByTag = async ({
 
   return response.data.result;
 };
+
+export const deleteCategoryQuestions = async ({
+  itemId,
+  questionCategoryId,
+  questionIdList,
+}: {
+  itemId: number;
+  questionCategoryId: number;
+  questionIdList: number[];
+}): Promise<void> => {
+  await instance.delete(
+    generateApiPath(SELLER_API_DOMAINS.SELLER_DELETE_QUESTIONS_IN_CATEGORY, {
+      itemId,
+      questionCategoryId,
+    }),
+    {
+      data: { questionIdList },
+    }
+  );
+};

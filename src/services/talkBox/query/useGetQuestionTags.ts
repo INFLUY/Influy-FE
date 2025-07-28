@@ -10,11 +10,7 @@ export const useGetQuestionTags = ({
   isAnswered: boolean;
 }) => {
   const { data } = useQuery({
-    queryKey: [
-      QUERY_KEYS.SELLER_QUESTION_CATEGORY,
-      questionCategoryId,
-      isAnswered,
-    ],
+    queryKey: [QUERY_KEYS.SELLER_QUESTION_TAGS, questionCategoryId, isAnswered],
     queryFn: () =>
       fetchQuestionTagsByCategory({ questionCategoryId, isAnswered }),
   });

@@ -19,25 +19,22 @@ export const SELLER_API_DOMAINS = {
   // 셀러 아이템
   ITEM_OVERVIEW: '/seller/:sellerId/items/:itemId/item-overview',
   TALKBOX_OPENED_ITEMS: '/seller/talkbox/opened',
-
-  // 질문 카테고리
-  SELLER_QUESTION_CATEGORY:
-    '/seller/:sellerId/items/:itemId/question-categories',
+  SELLER_TALKBOX_OPEN_STATUS: '/seller/items/:itemId/talkbox/open-status',
 
   // [톡박스] 질문 관리
   SELLER_ALL_QUESTIONS_IN_CATEGORY:
     '/seller/item/talkbox/:questionCategoryId/questions',
-
   SELLER_QUESTIONS_BY_TAG:
     '/seller/item/talkbox/items/question-categories/:questionTagId/questions',
+  SELLER_DELETE_QUESTIONS_IN_CATEGORY:
+    '/seller/items/:itemId/talkbox/:questionCategoryId/questions',
+
   // [톡박스] 질문 카테고리
   SELLER_GENERATE_QUESTION_CATEGORY:
     '/seller/items/:itemId/question-categories/generate',
   SELLER_ADD_QUESTION_CATEGORIES: '/seller/items/:itemId/question-categories',
   SELLER_CATEGORY_QUESTION_COUNTS: '/seller/items/talkbox/:questionCategoryId',
-
-  // [톡박스] 셀러 톡박스 답변
-  SELLER_TALKBOX_OPEN_STATUS: '/seller/items/:itemId/talkbox/open-status',
+  SELLER_CATEGORY_LIST: '/seller/items/:itemId/talkbox/question-categories',
 
   //[톡박스] 질문태그(소분류)
   SELLER_TALKBOX_CATEGORY_TAGS: '/seller/item/talkbox/:questionCategoryId/tags',
@@ -48,7 +45,6 @@ export const QUERY_KEYS = {
   SELLER_ANNOUNCEMENT: 'sellerMyAnnouncements',
   SELLER_PRIMARY_ANNOUNCEMENT: 'sellerMyPrimaryAnnouncement',
   SELLER_ITEM_OVERVIEW: 'sellerItemOverview',
-  SELLER_QUESTION_CATEGORY: 'sellerQuestionCategory',
   SELLER_GENERATE_QUESTION_CATEGORY: 'sellerGenerateQuestionCategory',
   SELLER_TALKBOX_OPEN_STATUS: 'sellerTalkBoxOpenStatus',
   SELLER_ADD_QUESTION_CATEGORIES: 'sellerAddQuestionCategories',
@@ -57,4 +53,7 @@ export const QUERY_KEYS = {
   SELLER_TALKBOX_CATEGORY_TAGS: 'sellerTalkBoxCategoryTags',
   SELLER_QUESTIONS_BY_TAG: 'sellerQuestionsByTag',
   SELLER_CATEGORY_QUESTION_COUNTS: 'sellerCategoryQuestionCounts',
+  SELLER_CATEGORY_LIST: 'sellerCategoryList',
+  SELLER_DELETE_QUESTIONS_IN_CATEGORY: 'sellerDeleteQuestionsInCategory',
+  SELLER_QUESTION_TAGS: 'sellerQuestionTags',
 };

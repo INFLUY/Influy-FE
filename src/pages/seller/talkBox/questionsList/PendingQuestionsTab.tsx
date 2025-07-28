@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   SubCategoryChip,
@@ -14,12 +14,13 @@ import {
   useSelectModeStore,
   useTalkBoxQuestionStore,
 } from '@/store/talkBoxStore';
-import { PATH } from '@/routes/path';
 
 // api
 import { useGetAllQuestions } from '@/services/talkBox/query/useGetAllQuestions';
 import { useGetQuestionTags } from '@/services/talkBox/query/useGetQuestionTags';
 import { useGetQuestionsByTag } from '@/services/talkBox/query/useGetQuestionsByTag';
+import { useDeleteCategoryQuestions } from '@/services/talkBox/mutation/useDeleteCategoryQuestions';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const PendingQuestionsTab = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -40,11 +41,6 @@ export const PendingQuestionsTab = () => {
     setSelectedTag,
     setQuestionsByTag,
   } = useTalkBoxQuestionStore();
-
-  const handleConfirmDelete = () => {
-    setIsDeleteModalOpen(false);
-    navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`); // 홈으로 이동
-  };
 
   useEffect(() => {
     setMode('default');
@@ -149,6 +145,35 @@ export const PendingQuestionsTab = () => {
   const fetchNext = isAll ? fetchNextPageAll : fetchNextPageByTag;
   const hasNextPage = isAll ? hasNextPageAll : hasNextPageByTag;
   const isFetching = isAll ? isFetchingNextPageAll : isFetchingNextPageByTag;
+
+  const queryClient = useQueryClient();
+
+  const tagNamesToInvalidate = Object.entries(questionsByTag)
+    .filter(([tagName, questions]) =>
+      questions.some((q) => selectedIds.includes(q.questionId))
+    )
+    .map(([tagName]) => tagName);
+
+  const tagNamesToInvalidate2 = selectedIds.map((selectedId) => {});
+
+  console.log(tagNamesToInvalidate2);
+
+  const queries = queryClient.getQueryCache().getAll();
+  // console.log(queries.map((q) => q.queryKey));
+
+  // 질문 삭제
+  const { mutate: deleteQuestions } = useDeleteCategoryQuestions({
+    itemId: Number(itemId),
+    questionCategoryId: Number(categoryId),
+    onSuccessCallback: () => {
+      setIsDeleteModalOpen(false);
+      setMode('default');
+    },
+  });
+
+  const handleConfirmDelete = () => {
+    deleteQuestions(selectedIds);
+  };
 
   return (
     <>
