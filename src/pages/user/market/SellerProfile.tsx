@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   ExternalLinkChip,
   NoticeBanner,
+  PageHeader,
   SellerProfileCard,
   SellerProfileHeader,
 } from '@/components';
@@ -40,13 +41,16 @@ const SellerView = ({ children }: { children: ReactNode }) => {
 
   return (
     <section className="relative flex w-full flex-1 flex-col">
-      <header className="sticky top-0 z-20 flex h-11 items-center bg-black px-5">
-        <XIcon className="text-white" onClick={() => navigate(-1)} />
-      </header>
-      <h1 className="caption-m text-grey10 bg-grey02 sticky top-11 z-20 flex h-[2.3125rem] items-center justify-center gap-2.5 p-2.5">
+      <PageHeader
+        leftIcons={[
+          <XIcon className="text-white" onClick={() => navigate(-1)} />,
+        ]}
+        additionalStyles="bg-black"
+      />
+      <h1 className="caption-m text-grey10 bg-grey02 fixed top-11 z-20 flex h-[2.3125rem] w-full max-w-[40rem] min-w-[20rem] items-center justify-center gap-2.5 p-2.5 md:w-[28rem]">
         일반 사용자에게 보이는 화면입니다.
       </h1>
-      <article className="pointer-events-none flex w-full flex-1 flex-col">
+      <article className="pointer-events-none flex w-full flex-1 flex-col pt-[5.0625rem]">
         <SellerProfile marketId={sellerId!} seller={true}>
           {children}
         </SellerProfile>
