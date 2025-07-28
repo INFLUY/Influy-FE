@@ -34,14 +34,20 @@ const LikeInfluencerTab = () => {
   ];
   return (
     <section className="scrollbar-hide bg-grey01 relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
-      <ul className="flex w-full flex-1 flex-col gap-3">
-        {influencers?.map((influencer) => (
-          <MyLikedInfluencerBox
-            key={influencer.sellerId}
-            influencer={influencer}
-          />
-        ))}
-      </ul>
+      {influencers?.length > 0 ? (
+        <ul className="flex w-full flex-1 flex-col gap-3">
+          {influencers?.map((influencer) => (
+            <MyLikedInfluencerBox
+              key={influencer.sellerId}
+              influencer={influencer}
+            />
+          ))}
+        </ul>
+      ) : (
+        <div className="flex flex-1 items-center justify-center">
+          <p className="text-grey09 body2-m">찜한 인플루언서가 아직 없어요</p>
+        </div>
+      )}
     </section>
   );
 };
