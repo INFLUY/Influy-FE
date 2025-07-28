@@ -4,18 +4,9 @@ import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { PATH } from '@/routes/path';
 import { useModalStore } from '@/store/useModalStore';
 
-const AccountSettingsPage = () => {
+const SellerSettingsPage = () => {
   const navigate = useNavigate();
-
   const { showModal } = useModalStore();
-
-  const userProfile = {
-    id: 1,
-    username: '@crazy_dog',
-    nickname: '이민용',
-    profileImg: '',
-    createdAt: '2025-07-06T15:54:43.186Z',
-  };
 
   const handleLogoutClick = () => {
     showModal({
@@ -40,31 +31,33 @@ const AccountSettingsPage = () => {
           />,
         ]}
       >
-        알림 설정
+        설정
       </PageHeader>
       <section className="flex flex-1 flex-col pt-[.5625rem]">
         <AccoutSettingsMenuButton
-          title="아이디 변경"
-          subText={userProfile?.username}
+          title="알림 설정"
           onClick={() => {
-            navigate(PATH.MY.ACCOUNT_SETTING.ID);
+            navigate(PATH.SELLER.MY.SETTING.NOTIFICATION);
           }}
+        />
+
+        <AccoutSettingsMenuButton
+          title="계정 설정"
+          onClick={() => navigate(PATH.SELLER.MY.SETTING.ACCOUNT_SETTING.BASE)}
+        />
+
+        <AccoutSettingsMenuButton
+          title="INFLUY 고객센터"
+          onClick={() => navigate(PATH.SELLER.MY.SETTING.SUPPORT.BASE)}
         />
 
         <AccoutSettingsMenuButton
           title="로그아웃"
           onClick={() => handleLogoutClick()}
         />
-
-        <AccoutSettingsMenuButton
-          title="회원 탈퇴"
-          onClick={() => {
-            navigate(PATH.MY.ACCOUNT_SETTING.DELETE);
-          }}
-        />
       </section>
     </div>
   );
 };
 
-export default AccountSettingsPage;
+export default SellerSettingsPage;

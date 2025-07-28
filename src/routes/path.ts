@@ -102,6 +102,19 @@ export const PATH = {
         BASE: 'profile',
         EDIT: 'edit',
       },
+      SETTING: {
+        BASE: 'settings',
+        NOTIFICATION: 'notification',
+        ACCOUNT_SETTING: {
+          BASE: 'account',
+          ID: 'id',
+          DELETE: 'delete',
+        },
+        SUPPORT: {
+          BASE: 'support',
+          FAQ: ':supportFaqId',
+        },
+      },
     },
     ITEM: {
       BASE: 'item',

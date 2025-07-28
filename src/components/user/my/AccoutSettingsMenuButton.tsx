@@ -11,7 +11,7 @@ const AccoutSettingsMenuButton = ({
   return (
     <button
       type="button"
-      className="flex h-[3.625rem] w-full cursor-pointer items-center justify-between"
+      className="flex h-[3.625rem] w-full cursor-pointer items-center justify-between px-5"
       onClick={onClick}
     >
       <span className="body1-m text-grey10">{title}</span>

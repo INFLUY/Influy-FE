@@ -44,6 +44,8 @@ import {
   UsernamePage,
   SupportPage,
   SupportFaqPage,
+  SellerSettingsPage,
+  SellerAccountSettingsPage,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -410,6 +412,52 @@ const router = createBrowserRouter([
                     index: true,
                     path: PATH.SELLER.MY.PROFILE.EDIT,
                     element: <SellerMyProfileEditPage />,
+                  },
+                ],
+              },
+              {
+                path: PATH.SELLER.MY.SETTING.BASE,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    element: <SellerSettingsPage />,
+                  },
+                  {
+                    path: PATH.SELLER.MY.SETTING.NOTIFICATION,
+                    element: <NotificationSettingsPage />,
+                  },
+                  {
+                    path: PATH.SELLER.MY.SETTING.ACCOUNT_SETTING.BASE,
+                    element: <Outlet />,
+                    children: [
+                      {
+                        index: true,
+                        element: <SellerAccountSettingsPage />,
+                      },
+                      {
+                        path: PATH.SELLER.MY.SETTING.ACCOUNT_SETTING.ID,
+                        element: <UsernamePage />,
+                      },
+                      {
+                        path: PATH.SELLER.MY.SETTING.ACCOUNT_SETTING.DELETE,
+                        element: <DeleteAccountPage />,
+                      },
+                    ],
+                  },
+                  {
+                    path: PATH.SELLER.MY.SETTING.SUPPORT.BASE,
+                    element: <Outlet />,
+                    children: [
+                      {
+                        index: true,
+                        element: <SupportPage />,
+                      },
+                      {
+                        path: PATH.SELLER.MY.SETTING.SUPPORT.FAQ,
+                        element: <SupportFaqPage />,
+                      },
+                    ],
                   },
                 ],
               },

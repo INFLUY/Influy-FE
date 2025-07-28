@@ -35,9 +35,12 @@ export { default as SellerProfilePage } from './user/market/SellerProfile';
 
 // 셀러
 export { default as SellerHomePage } from './seller/home/SellerHomePage';
+
 export { default as SellerMyProfile } from './seller/sellerMyPage/SellerMyProfile';
 export { default as Notice } from './seller/notice/NoticePage';
 export { default as SellerMyProfileEditPage } from './seller/sellerMyPage/SellerMyProfileEditPage';
+export { default as SellerSettingsPage } from './seller/sellerMyPage/settings/SellerSettingsPage';
+export { default as SellerAccountSettingsPage } from './seller/sellerMyPage/settings/SellerAccountSettingsPage';
 
 export { default as NotFound } from './error/NotFound';
 export { default as ErrorPage } from './error/ErrorPage';

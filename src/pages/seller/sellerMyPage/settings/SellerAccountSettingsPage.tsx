@@ -1,13 +1,16 @@
-import { AccoutSettingsMenuButton, PageHeader } from '@/components';
+import {
+  AccoutSettingsMenuButton,
+  PageHeader,
+  ToggleButton,
+} from '@/components';
 import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { PATH } from '@/routes/path';
-import { useModalStore } from '@/store/useModalStore';
+import { useState } from 'react';
 
-const AccountSettingsPage = () => {
+const SellerAccountSettingsPage = () => {
   const navigate = useNavigate();
-
-  const { showModal } = useModalStore();
+  const [isPublic, setIsPublic] = useState<boolean>(false);
 
   const userProfile = {
     id: 1,
@@ -15,19 +18,6 @@ const AccountSettingsPage = () => {
     nickname: '이민용',
     profileImg: '',
     createdAt: '2025-07-06T15:54:43.186Z',
-  };
-
-  const handleLogoutClick = () => {
-    showModal({
-      text: `로그아웃하시겠습니까?`,
-      leftButtonText: '취소',
-      rightButtonText: '확인',
-      rightButtonClick: () => {
-        // TODO: 로그아웃 로직
-        console.log('로그아웃 완료');
-        navigate(PATH.HOME.BASE);
-      },
-    });
   };
 
   return (
@@ -51,10 +41,21 @@ const AccountSettingsPage = () => {
           }}
         />
 
-        <AccoutSettingsMenuButton
-          title="로그아웃"
-          onClick={() => handleLogoutClick()}
-        />
+        <article className="flex h-[5.1875rem] items-center justify-between px-5">
+          <div className="flex w-full justify-between">
+            <div className="flex flex-col gap-1">
+              <p className="body1-m text-grey10">프로필 비공개 전환</p>
+              <span className="text-grey07 body2-m">
+                비공개 전환 시, 셀러 본인만 접근 가능합니다.
+              </span>
+            </div>
+            <ToggleButton
+              name="프로필 비공개 전환"
+              isChecked={isPublic}
+              setIsChecked={setIsPublic}
+            />
+          </div>
+        </article>
 
         <AccoutSettingsMenuButton
           title="회원 탈퇴"
@@ -67,4 +68,4 @@ const AccountSettingsPage = () => {
   );
 };
 
-export default AccountSettingsPage;
+export default SellerAccountSettingsPage;
