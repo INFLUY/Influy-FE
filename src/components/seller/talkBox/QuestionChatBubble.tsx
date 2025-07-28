@@ -4,29 +4,26 @@ import CheckOff from '@/assets/icon/common/CheckCircleOff.svg?react';
 import { useSelectModeStore } from '@/store/talkBoxStore';
 import cn from '@/utils/cn';
 import { formatIsoToTimeOrDate } from '@/utils/formatDate';
-import { Chat, TALK_BOX_MODE } from '@/types/seller/TalkBox.types';
+import { QuestionDTO } from '@/types/seller/TalkBox.types';
 import { useState } from 'react';
 
 interface SellerChatBubbleProps {
-  chat: Chat;
+  chat: QuestionDTO;
   selectedSubCategory?: string;
-  isSelected?: boolean;
-  mode: TALK_BOX_MODE;
-  onSelectSingle?: (chat: Chat) => void;
+  onSelectSingle?: (chat: QuestionDTO) => void;
   onDelete?: () => void;
 }
 
-const SellerChatBubble = ({
+const QuestionChatBubble = ({
   chat,
-  selectedSubCategory,
-  isSelected,
-  mode,
   onSelectSingle,
   onDelete,
 }: SellerChatBubbleProps) => {
-  const { selectedIds, setSelectedIds } = useSelectModeStore();
+  const { mode, selectedIds, setSelectedIds } = useSelectModeStore();
 
   const [isLongPressChat, setIsLongPressChat] = useState<boolean | null>(null);
+
+  const isSelected = selectedIds.includes(chat.questionId);
 
   const handleCheckboxClick = () => {
     if (mode !== 'select') return;
@@ -70,7 +67,7 @@ const SellerChatBubble = ({
         )}
         role="group"
         aria-roledescription="채팅 말풍선"
-        aria-label={`질문자 ${chat.username}의 채팅 말풍선${selectedSubCategory ? `, 카테고리: ${selectedSubCategory}` : ''}`}
+        aria-label={`질문자 ${chat.username}의 채팅 말풍선, 카테고리: ${chat.tagName}`}
       >
         {/* 상단 유저 및 시간 */}
         <div className="col-span-1 col-start-1 row-span-1 row-start-1 flex items-center justify-between">
@@ -94,9 +91,9 @@ const SellerChatBubble = ({
             </span>
             <div
               className="bg-sub-light text-grey09 caption-m rounded-[.1875rem] px-1.5 py-0.5"
-              aria-label={`질문 횟수: ${chat.askedCount}회`}
+              aria-label={`질문 횟수: ${chat.nthQuestion}회`}
             >
-              {chat.askedCount}회질문
+              {chat.nthQuestion}회질문
             </div>
           </div>
           <span
@@ -106,6 +103,7 @@ const SellerChatBubble = ({
             {formatIsoToTimeOrDate(chat.createdAt)}
           </span>
         </div>
+
         {/* 말풍선 */}
         <div
           onClick={() => handleCheckboxClick()}
@@ -118,7 +116,7 @@ const SellerChatBubble = ({
             }
           )}
           role="region"
-          aria-label={`질문 내용: ${chat.content}${selectedSubCategory ? `, 카테고리: ${selectedSubCategory}` : ''}`}
+          aria-label={`질문 내용: ${chat.content}`}
           aria-checked={mode === 'select' ? isSelected : undefined}
           tabIndex={0}
           onMouseDown={startPress}
@@ -129,14 +127,14 @@ const SellerChatBubble = ({
         >
           <p
             className="text-sub w-full"
-            aria-label={`카테고리: ${selectedSubCategory}`}
+            aria-label={`카테고리: ${chat.tagName}`}
           >
-            #{selectedSubCategory}
+            #{chat.tagName}
           </p>
-          {!chat.isChecked && (
+          {chat.new && (
             <div
               className="bg-main absolute top-3 right-3 h-1.5 w-1.5 rounded-full"
-              aria-label="새로운 질문 알림"
+              aria-label="새로운 질문"
             />
           )}
           <p
@@ -168,15 +166,7 @@ const SellerChatBubble = ({
             />
           ) : null}
         </div>
-        {mode === 'single' && !isLongPressChat && (
-          <button
-            type="button"
-            className="border-grey03 body2-m row-span-1 row-start-3 mt-3 ml-10 flex-1 rounded-lg border py-[.5625rem] text-center text-base text-black"
-            aria-label="이 질문 FAQ 등록하기"
-          >
-            이 질문 FAQ 등록하기
-          </button>
-        )}
+
         {mode === 'single' && isLongPressChat && (
           <div className="row-span-1 row-start-3 mt-3 ml-10 flex flex-1 flex-col gap-[.5625rem] transition-all duration-100">
             <button
@@ -213,4 +203,4 @@ const SellerChatBubble = ({
   );
 };
 
-export default SellerChatBubble;
+export default QuestionChatBubble;

@@ -1,3 +1,4 @@
+// 스웨거 '질문 관리'
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { SELLER_API_DOMAINS } from '@/constants/api';
@@ -17,6 +18,36 @@ export const getAllQuestions = async ({
   const response = await instance.get(
     generateApiPath(SELLER_API_DOMAINS.SELLER_ALL_QUESTIONS_IN_CATEGORY, {
       questionCategoryId,
+    }),
+    {
+      params: {
+        isAnswered,
+        page,
+        size,
+      },
+    }
+  );
+
+  return response.data.result;
+};
+
+export const getQuestionsByTag = async ({
+  questionTagId,
+  isAnswered,
+  page = 0,
+  size = 10,
+}: {
+  questionTagId: number | null;
+  isAnswered: boolean;
+  page?: number;
+  size?: number;
+}): Promise<QuestionResponse> => {
+  if (questionTagId === null) {
+    throw new Error('questionTagId must not be null');
+  }
+  const response = await instance.get(
+    generateApiPath(SELLER_API_DOMAINS.SELLER_QUESTIONS_BY_TAG, {
+      questionTagId,
     }),
     {
       params: {

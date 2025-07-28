@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  SellerChatBubble,
+  QuestionChatBubble,
   PrevReplyBottomSheet,
   ChatBarTextArea,
   SellerModal,
@@ -71,7 +71,7 @@ const SingleReplyBottomSheet = ({
           <div className="bg-grey06 caption-m flex w-fit items-center justify-center gap-2.5 rounded-xl px-3 py-1 text-white">
             20.02.65(화)
           </div>
-          <SellerChatBubble
+          <QuestionChatBubble
             chat={question}
             selectedSubCategory="네이비"
             mode="single"

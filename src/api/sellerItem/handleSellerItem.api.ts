@@ -5,6 +5,7 @@ import {
   TalkBoxOpenedListDTO,
 } from '@/types/common/ItemType.types';
 import { SELLER_API_DOMAINS } from '@/constants/api';
+
 export const fetchItemOverview = async ({
   sellerId,
   itemId,

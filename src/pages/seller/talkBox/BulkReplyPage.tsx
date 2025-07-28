@@ -1,7 +1,7 @@
 import {
   PageHeader,
   TalkBoxQuestionItemCard,
-  SellerChatBubble,
+  QuestionChatBubble,
   ChatBarTextArea,
   PrevReplyBottomSheet,
   SellerModal,
@@ -99,7 +99,7 @@ const BulkReplyPage = () => {
       <section className="mt-[1.4375rem] flex w-full flex-col gap-5 pb-22">
         {selectedChat &&
           selectedChat.map((chat) => (
-            <SellerChatBubble
+            <QuestionChatBubble
               key={chat.questionId}
               chat={chat}
               mode="select"

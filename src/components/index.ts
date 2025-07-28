@@ -124,12 +124,13 @@ export {
   TalkBoxBottomItemCard,
   TalkBoxQuestionItemCard,
 } from './seller/talkBox/TalkBoxItemCard';
-export { TalkBoxCategoryItem } from './seller/talkBox/TalkBoxCategoryItem.tsx';
-export { SubCategoryChip } from './seller/talkBox/SubCategoryChip.tsx';
-export { default as SellerChatBubble } from './seller/talkBox/SellerChatBubble.tsx';
-export { default as SellerReplyBubble } from './seller/talkBox/SellerReplyBubble.tsx';
-export { default as TalkBoxBottomSheetLayout } from './seller/talkBox/TalkBoxBottomSheetLayout.tsx';
+export { TalkBoxCategoryItem } from './seller/talkBox/TalkBoxCategoryItem';
+export { SubCategoryChip } from './seller/talkBox/SubCategoryChip';
+export { default as QuestionChatBubble } from './seller/talkBox/QuestionChatBubble';
+export { default as SellerReplyBubble } from './seller/talkBox/SellerReplyBubble';
+export { default as TalkBoxBottomSheetLayout } from './seller/talkBox/TalkBoxBottomSheetLayout';
 
-export { default as PrevReplyBottomSheet } from './seller/talkBox/PrevReplyBottomSheet.tsx';
-export { default as SingleReplyBottomSheet } from './seller/talkBox/SingleReplyBottomSheet.tsx';
-export { QuestionListHeader } from './seller/talkBox/questionList/QuestionListHeader.tsx';
+export { default as PrevReplyBottomSheet } from './seller/talkBox/PrevReplyBottomSheet';
+export { default as SingleReplyBottomSheet } from './seller/talkBox/SingleReplyBottomSheet';
+export { QuestionListHeader } from './seller/talkBox/questionList/QuestionListHeader';
+export { InfiniteQuestionList } from './seller/talkBox/questionList/InfiniteQuestionList';

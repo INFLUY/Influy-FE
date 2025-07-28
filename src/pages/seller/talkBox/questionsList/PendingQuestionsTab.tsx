@@ -1,65 +1,157 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   SubCategoryChip,
-  SellerChatBubble,
   DefaultButton,
   SellerModal,
   SingleReplyBottomSheet,
+  QuestionChatBubble,
+  LoadingSpinner,
+  InfiniteQuestionList,
 } from '@/components';
 
-import { dummySubCategories } from '../talkboxMockData';
-import { SubCategory, Chat } from '@/types/seller/TalkBox.types';
-import { useSelectModeStore } from '@/store/talkBoxStore';
+import { QuestionDTO } from '@/types/seller/TalkBox.types';
+import {
+  useSelectModeStore,
+  useTalkBoxQuestionStore,
+} from '@/store/talkBoxStore';
 import { PATH } from '@/routes/path';
-import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 
 // api
-import { useGetCategoryQuestions } from '@/services/talkBox/query/useGetAllQuestions';
+import { useGetAllQuestions } from '@/services/talkBox/query/useGetAllQuestions';
+import { useGetQuestionTags } from '@/services/talkBox/query/useGetQuestionTags';
+import { useGetQuestionsByTag } from '@/services/talkBox/query/useGetQuestionsByTag';
 
 export const PendingQuestionsTab = () => {
-  const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategory>();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [singleReplyChat, setSingleReplyChat] = useState<Chat | null>(null);
+  const [singleReplyChat, setSingleReplyChat] = useState<QuestionDTO | null>(
+    null
+  );
   const { itemId, categoryId } = useParams();
 
   const navigate = useNavigate();
 
-  const { mode, selectedIds, chatsByCategory, getChatsByCategory, setMode } =
-    useSelectModeStore();
+  const { mode, selectedIds, setMode } = useSelectModeStore();
+
+  const {
+    questionTags,
+    setQuestionTags,
+    questionsByTag,
+    selectedTag,
+    setSelectedTag,
+    setQuestionsByTag,
+  } = useTalkBoxQuestionStore();
 
   const handleConfirmDelete = () => {
     setIsDeleteModalOpen(false);
     navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`); // 홈으로 이동
   };
 
-  //임시
   useEffect(() => {
-    setSelectedSubCategory(dummySubCategories[0]);
     setMode('default');
   }, []);
 
-  //api
-  // TODO: 인피니트 쿼리 적용 및 되는지 확인 필요
-  const {
-    data: allQuestions,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useGetCategoryQuestions({
+  // -- api
+  // 상단 태그 목록 get
+  const { data: questionTagData } = useGetQuestionTags({
     questionCategoryId: Number(categoryId),
     isAnswered: false,
   });
-  console.log('data', allQuestions);
 
-  const observerRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (questionTagData) {
+      setQuestionTags(questionTagData);
 
-  useInfiniteScroll({
-    targetRef: observerRef,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
+      setQuestionsByTag(
+        questionTagData.reduce(
+          (acc, tag) => {
+            acc[tag.name] = [];
+            return acc;
+          },
+          {} as Record<string, QuestionDTO[]>
+        )
+      );
+
+      setSelectedTag(questionTagData[0]);
+    }
+  }, [questionTagData]);
+
+  // '전체' 카테고리 get
+  const {
+    data: allQuestionsData,
+    fetchNextPage: fetchNextPageAll,
+    hasNextPage: hasNextPageAll,
+    isFetchingNextPage: isFetchingNextPageAll,
+  } = useGetAllQuestions({
+    questionCategoryId: Number(categoryId),
+    isAnswered: false,
   });
+
+  // '전체' 태그의 질문들을 questionsByTag에 저장 - 메모이제이션으로 최적화
+  const allQuestions = useMemo(() => {
+    if (!allQuestionsData) return [];
+    return allQuestionsData.pages.flatMap((page) => page?.questions ?? []);
+  }, [allQuestionsData]);
+
+  useEffect(() => {
+    if (allQuestions.length > 0 && selectedTag?.name === '전체') {
+      const updatedMap = { ...questionsByTag, 전체: allQuestions };
+      setQuestionsByTag(updatedMap);
+    }
+  }, [selectedTag?.name, allQuestions]);
+
+  // 개별 카테고리 질문 get
+  const {
+    data: questionsByTagData,
+    fetchNextPage: fetchNextPageByTag,
+    hasNextPage: hasNextPageByTag,
+    isFetchingNextPage: isFetchingNextPageByTag,
+  } = useGetQuestionsByTag({
+    questionTagId: selectedTag?.id ?? null,
+    isAnswered: false,
+  });
+
+  // 개별 태그 질문들을 메모이제이션
+  const tagQuestions = useMemo(() => {
+    console.log('questionsByTagData', questionsByTagData);
+    if (!questionsByTagData || !selectedTag || selectedTag.name === '전체')
+      return [];
+    return questionsByTagData.pages.flatMap((p) => p.questions ?? []);
+  }, [questionsByTagData, selectedTag]);
+
+  // 태그별 질문 데이터 업데이트 - 최적화된 버전
+  useEffect(() => {
+    if (tagQuestions.length > 0 && selectedTag && selectedTag.name !== '전체') {
+      console.log('tagQuestions', tagQuestions);
+      const updatedMap = {
+        ...questionsByTag,
+        [selectedTag.name]: tagQuestions,
+      };
+      setQuestionsByTag(updatedMap);
+    }
+  }, [tagQuestions]);
+
+  // 1) When selectedTag changes, if it's not '전체' and we haven't loaded it yet, fetch
+  useEffect(() => {
+    if (
+      selectedTag &&
+      selectedTag.name !== '전체' &&
+      selectedTag.id !== 0 &&
+      questionsByTag[selectedTag.name]?.length === 0
+    ) {
+      fetchNextPageByTag();
+    }
+  }, [selectedTag?.id, selectedTag?.name]);
+
+  // 현재 선택된 태그의 질문들
+  const currentQuestions = useMemo(() => {
+    return questionsByTag[selectedTag?.name] ?? [];
+  }, [questionsByTag, selectedTag?.name]);
+
+  const isAll = selectedTag?.name === '전체';
+  const fetchNext = isAll ? fetchNextPageAll : fetchNextPageByTag;
+  const hasNextPage = isAll ? hasNextPageAll : hasNextPageByTag;
+  const isFetching = isAll ? isFetchingNextPageAll : isFetchingNextPageByTag;
 
   return (
     <>
@@ -69,16 +161,16 @@ export const PendingQuestionsTab = () => {
         style={{ top: 'var(--headerHeight)' }}
       >
         <div className="scrollbar-hide flex shrink-0 items-center gap-[.5625rem] overflow-x-scroll bg-white px-5 py-3">
-          {dummySubCategories &&
-            dummySubCategories.length > 0 &&
-            dummySubCategories.map((subCategory) => (
+          {questionTags &&
+            questionTags.length > 0 &&
+            questionTags.map((c) => (
               <SubCategoryChip
-                key={subCategory.text}
-                text={subCategory.text}
-                count={subCategory.totalCount}
-                isSelected={selectedSubCategory?.id === subCategory.id}
-                hasNew={!!subCategory.newCount && subCategory.newCount > 0}
-                onToggle={() => setSelectedSubCategory(subCategory)}
+                key={c.id}
+                text={c.name}
+                count={c.totalQuestions}
+                isSelected={c === selectedTag}
+                hasNew={c.uncheckedExists}
+                onToggle={() => setSelectedTag(c)}
               />
             ))}
         </div>
@@ -88,60 +180,52 @@ export const PendingQuestionsTab = () => {
         {/* 상단 제목 */}
         <div className="flex w-full items-center justify-between px-5">
           <div className="body1-sb flex gap-1">
-            <span className="text-sub">#{selectedSubCategory?.text}</span>
-            <span className="text-grey11">
-              ({selectedSubCategory?.totalCount})
-            </span>
+            <span className="text-sub">#{selectedTag.name}</span>
+            <span className="text-grey11">({selectedTag?.totalQuestions})</span>
           </div>
-          <span className="body2-sb text-grey11">
-            새 질문 ({selectedSubCategory?.newCount})
-          </span>
+          <span className="body2-sb text-grey11">새 질문 (Z)</span>
         </div>
 
-        {/* 말풍선 */}
-        {selectedSubCategory &&
-          getChatsByCategory(selectedSubCategory?.text).map((chat) => (
-            <SellerChatBubble
-              key={chat.questionId}
-              chat={chat}
-              isSelected={selectedIds.includes(chat.questionId)}
-              selectedSubCategory={selectedSubCategory?.text}
-              mode={mode}
-              onSelectSingle={(selectedChat) => {
-                setSingleReplyChat(selectedChat); // QuestionsListPage 상태 세팅
-                setMode('single'); // BottomSheet 모드로 전환
-              }}
-            />
-          ))}
-        {/* 하단 버튼 */}
-        {mode === 'select' && (
-          <section className="bottom-bar flex w-full shrink-0 items-center justify-center gap-[.4375rem] bg-white px-5 py-2">
-            <DefaultButton
-              onClick={() => {
-                setIsDeleteModalOpen(true);
-              }}
-              text="삭제하기"
-              disabled={selectedIds.length === 0}
-              activeTheme="white"
-              disabledTheme="greyLine"
-            />
-            <DefaultButton
-              type="submit"
-              text={
-                selectedIds.length > 0
-                  ? `(${selectedIds.length}개) 일괄 답변하기`
-                  : '일괄 답변하기'
-              }
-              disabled={selectedIds.length === 0}
-            />
-          </section>
-        )}
+        <InfiniteQuestionList
+          questions={currentQuestions}
+          fetchNextPage={fetchNext}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetching}
+          onSelectSingle={(q) => {
+            setSingleReplyChat(q);
+            setMode('single');
+          }}
+        />
       </section>
+
+      {/* 하단 버튼 */}
+      {mode === 'select' && (
+        <section className="bottom-bar flex w-full shrink-0 items-center justify-center gap-[.4375rem] bg-white px-5 py-2">
+          <DefaultButton
+            onClick={() => {
+              setIsDeleteModalOpen(true);
+            }}
+            text="삭제하기"
+            disabled={selectedIds.length === 0}
+            activeTheme="white"
+            disabledTheme="greyLine"
+          />
+          <DefaultButton
+            type="submit"
+            text={
+              selectedIds.length > 0
+                ? `(${selectedIds.length}개) 일괄 답변하기`
+                : '일괄 답변하기'
+            }
+            disabled={selectedIds.length === 0}
+          />
+        </section>
+      )}
 
       {/* 일괄 삭제 */}
       {isDeleteModalOpen && (
         <SellerModal
-          text={`질문들(12개)을 삭제하시겠습니까? 한 번 삭제한 질문은 되돌릴 수 없습니다.`}
+          text={`질문들(${selectedIds.length}개)을 삭제하시겠습니까? 한 번 삭제한 질문은 되돌릴 수 없습니다.`}
           leftButtonText="취소"
           rightButtonText="확인"
           leftButtonClick={() => setIsDeleteModalOpen(false)}
@@ -151,12 +235,18 @@ export const PendingQuestionsTab = () => {
       )}
 
       {/* 질문 하나 선택시 */}
-      {mode === 'single' && singleReplyChat && (
+      {/* {mode === 'single' && singleReplyChat && (
         <SingleReplyBottomSheet
           question={singleReplyChat}
           onClose={() => setMode('default')}
           itemId={itemId}
         />
+      )} */}
+
+      {isFetching && (
+        <div className="flex justify-center">
+          <LoadingSpinner />
+        </div>
       )}
     </>
   );

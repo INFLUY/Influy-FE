@@ -1,25 +1,21 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getAllQuestions } from '@/api/talkBox/handleTalkBox.api';
+import { getQuestionsByTag } from '@/api/talkBox/handleTalkBox.api';
 import { QUERY_KEYS } from '@/constants/api';
 
-export const useGetAllQuestions = ({
-  questionCategoryId,
+export const useGetQuestionsByTag = ({
+  questionTagId,
   isAnswered,
   size = 10,
 }: {
-  questionCategoryId: number;
+  questionTagId: number | null;
   isAnswered: boolean;
   size?: number;
 }) => {
   return useInfiniteQuery({
-    queryKey: [
-      QUERY_KEYS.SELLER_ALL_QUESTIONS_IN_CATEGORY,
-      questionCategoryId,
-      isAnswered,
-    ],
+    queryKey: [QUERY_KEYS.SELLER_QUESTIONS_BY_TAG, questionTagId, isAnswered],
     queryFn: ({ pageParam = 1 }: { pageParam: number }) =>
-      getAllQuestions({
-        questionCategoryId,
+      getQuestionsByTag({
+        questionTagId,
         isAnswered,
         page: pageParam,
         size,
@@ -34,5 +30,6 @@ export const useGetAllQuestions = ({
       return undefined; // hasNextPage: false
     },
     initialPageParam: 1,
+    enabled: false, // 자동 실행 방지
   });
 };

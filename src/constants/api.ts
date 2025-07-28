@@ -28,6 +28,8 @@ export const SELLER_API_DOMAINS = {
   SELLER_ALL_QUESTIONS_IN_CATEGORY:
     '/seller/item/talkbox/:questionCategoryId/questions',
 
+  SELLER_QUESTIONS_BY_TAG:
+    '/seller/item/talkbox/items/question-categories/:questionTagId/questions',
   // [톡박스] 질문 카테고리
   SELLER_GENERATE_QUESTION_CATEGORY:
     '/seller/items/:itemId/question-categories/generate',
@@ -35,6 +37,9 @@ export const SELLER_API_DOMAINS = {
 
   // [톡박스] 셀러 톡박스 답변
   SELLER_TALKBOX_OPEN_STATUS: '/seller/items/:itemId/talkbox/open-status',
+
+  //[톡박스] 질문태그(소분류)
+  SELLER_TALKBOX_CATEGORY_TAGS: '/seller/item/talkbox/:questionCategoryId/tags',
 };
 
 export const QUERY_KEYS = {
@@ -43,10 +48,11 @@ export const QUERY_KEYS = {
   SELLER_PRIMARY_ANNOUNCEMENT: 'sellerMyPrimaryAnnouncement',
   SELLER_ITEM_OVERVIEW: 'sellerItemOverview',
   SELLER_QUESTION_CATEGORY: 'sellerQuestionCategory',
-  SELLER_QUESTION_BY_TAG: 'sellerQuestionByTag',
   SELLER_GENERATE_QUESTION_CATEGORY: 'sellerGenerateQuestionCategory',
   SELLER_TALKBOX_OPEN_STATUS: 'sellerTalkBoxOpenStatus',
   SELLER_ADD_QUESTION_CATEGORIES: 'sellerAddQuestionCategories',
   SELLER_TALKBOX_OPENED_ITEMS: 'sellerTalkBoxOpenedItems',
   SELLER_ALL_QUESTIONS_IN_CATEGORY: 'sellerAllQuestionsInCategory',
+  SELLER_TALKBOX_CATEGORY_TAGS: 'sellerTalkBoxCategoryTags',
+  SELLER_QUESTIONS_BY_TAG: 'sellerQuestionsByTag',
 };

@@ -35,11 +35,11 @@ export interface QuestionResponse {
   isLast: boolean;
 }
 
-export interface SubCategory {
-  id: number;
-  text: string;
-  totalCount: number;
-  newCount?: number;
+export interface CategoryTagsDTO {
+  id: number | null;
+  name: string;
+  totalQuestions: number;
+  uncheckedExists: boolean;
 }
 
 export interface Chat {

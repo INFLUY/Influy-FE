@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
   SubCategoryChip,
-  SellerChatBubble,
+  QuestionChatBubble,
   SingleReplyBottomSheet,
 } from '@/components';
 
@@ -61,7 +61,7 @@ export const AnsweredQuestionsTab = () => {
         {/* 말풍선 */}
         {selectedSubCategory &&
           getChatsByCategory(selectedSubCategory?.text).map((chat) => (
-            <SellerChatBubble
+            <QuestionChatBubble
               key={chat.questionId}
               chat={chat}
               isSelected={selectedIds.includes(chat.questionId)}

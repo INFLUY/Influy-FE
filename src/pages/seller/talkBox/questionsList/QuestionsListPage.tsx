@@ -11,7 +11,10 @@ import {
   dummyChats2,
 } from '../talkboxMockData';
 import { useLocation, useParams } from 'react-router-dom';
-import { useSelectModeStore } from '@/store/talkBoxStore';
+import {
+  useSelectModeStore,
+  useTalkBoxQuestionStore,
+} from '@/store/talkBoxStore';
 
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
@@ -31,8 +34,9 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
   const sentCount = location.state?.sentCount;
 
-  const { mode, setMode, selectedIds, toggleSelectAll, setChatsByCategory } =
-    useSelectModeStore();
+  const { selectedIds } = useSelectModeStore();
+
+  const { questionsByTag, selectedTag } = useTalkBoxQuestionStore();
 
   const { itemId } = useParams();
 
@@ -42,16 +46,18 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     itemId: Number(itemId),
   });
 
-  const allChatIds = dummyChats.map((chat) => chat.questionId);
-  const isAllSelected = allChatIds.every((id) => selectedIds.includes(id));
+  const allChatIds = questionsByTag?.[selectedTag?.name]?.map(
+    (q) => q?.questionId
+  );
+  const isAllSelected =
+    questionsByTag?.[selectedTag?.name]?.length > 0 &&
+    allChatIds?.every((id) => selectedIds.includes(id));
 
   const headerRef = useRef<HTMLDivElement>(null);
 
   //임시
   useEffect(() => {
     setTabCounts({ pending: 2, answered: 3 });
-    setChatsByCategory(dummySubCategories[0].text, dummyChats);
-    setChatsByCategory(dummySubCategories[1].text, dummyChats2);
   }, []);
 
   useEffect(() => {
@@ -60,6 +66,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
         isOpen: true,
         message: sentCount + '개의 답변이 정상적으로 전송되었습니다.',
       });
+      window.history.replaceState({}, document.title, location.pathname);
     }
   }, [sentCount]);
 
