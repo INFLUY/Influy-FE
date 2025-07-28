@@ -6,9 +6,9 @@ import {
 } from '@/components';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { ItemCategoryType } from '@/types/common/CategoryType.types';
 import { ItemCardType } from '@/types/common/ItemType.types';
 import { ITEM_DEATIL } from '@/utils/generatePath';
+import { CategoryType } from '@/types/common/CategoryType.types';
 
 const HomeCommonSection = ({
   expiringItem,
@@ -21,7 +21,7 @@ const HomeCommonSection = ({
   expiringItem: ItemCardType[];
   trendingItem: ItemCardType[];
   recommendedItem: ItemCardType[];
-  categoryList: ItemCategoryType[];
+  categoryList: CategoryType[];
   selectedCategory: number;
   setSelectedCategory: (id: number) => void;
 }) => {
@@ -87,11 +87,11 @@ const HomeCommonSection = ({
         <div className="scrollbar-hide flex w-full flex-nowrap items-center gap-2 overflow-x-scroll px-5">
           {categoryList &&
             categoryList.length > 0 &&
-            categoryList.map((category: ItemCategoryType) => (
+            categoryList.map((category: CategoryType) => (
               <CategoryChip
                 key={category.id}
                 text={category.name}
-                isSelected={selectedCategory == category.id}
+                isSelected={selectedCategory === category.id}
                 onToggle={() => setSelectedCategory(category.id)}
                 theme="home"
               />

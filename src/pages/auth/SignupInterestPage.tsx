@@ -43,7 +43,7 @@ export const SignupInterestPage = () => {
   } = useUserSignupStore();
   const { kakaoId } = useKakaoStore();
 
-  const { data: itemCategory } = useGetItemCategory();
+  const itemCategory = useGetItemCategory();
 
   useEffect(() => {
     if (!kakaoId) {
@@ -147,7 +147,7 @@ export const SignupInterestPage = () => {
         <VanillaCategoryMultiSelector
           selectedCategory={selectedCategories}
           setSelectedCategory={setSelectedCategories}
-          categoryList={itemCategory.result.categoryDtoList}
+          categoryList={itemCategory?.categoryDtoList || []}
           theme="interest"
           max={999}
         />

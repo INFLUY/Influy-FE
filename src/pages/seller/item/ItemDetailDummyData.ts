@@ -1,6 +1,6 @@
 import { ItemDetail, SellerCard } from '@/types/common/ItemType.types';
 import { FAQCardList } from '@/types/common/FAQ.types';
-import { ItemCategoryType } from '@/types/common/CategoryType.types';
+import { CategoryType } from '@/types/common/CategoryType.types';
 
 export const dummySellerInfo: SellerCard = {
   id: 1,
@@ -29,7 +29,7 @@ export const dummyItem: ItemDetail = {
   salePrice: null,
 };
 
-export const dummyCategory: ItemCategoryType[] = [
+export const dummyCategory: CategoryType[] = [
   { id: 0, name: '사이즈' },
   { id: 1, name: '색상' },
   { id: 2, name: '디테일' },

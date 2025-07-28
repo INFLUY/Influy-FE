@@ -1,6 +1,6 @@
-import { ItemCategoryType } from '@/types/common/CategoryType.types';
+import { CategoryType } from '@/types/common/CategoryType.types';
 
-const PRODUCT_CATEGORIES: ItemCategoryType[] = [
+const PRODUCT_CATEGORIES: CategoryType[] = [
   { id: 0, name: '뷰티' },
   { id: 1, name: '패션' },
   { id: 2, name: '푸드' },
