@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import ArrowIcon from '@/assets/icon/common/ArrowRight12.svg?react';
 import cn from '@/utils/cn';
-
+import { TagAnswerResponse } from '@/types/seller/TalkBox.types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -9,20 +9,12 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './talkBoxSwiper.css';
 
-interface Answer {
-  id: number;
-  content: string;
-}
-
-interface Props {
-  answers: Answer[];
-  onSelect: (prevAnswer: string) => void;
-}
-
 const PrevReplyBottomSheet = ({
   handleAnswerSelect,
+  prevAnswers,
 }: {
   handleAnswerSelect: (prevAnswer: string) => void;
+  prevAnswers: TagAnswerResponse;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const handleBarRef = useRef<HTMLDivElement | null>(null);
@@ -44,7 +36,7 @@ const PrevReplyBottomSheet = ({
         <div className="flex flex-col text-[#242424]">
           <span className="body1-b">이전 답변을 다시 사용하세요!</span>
           <div className="flex gap-0.5">
-            <span className="body2-sb text-sub">#연속 예약</span>
+            <span className="body2-sb text-sub">#{prevAnswers.tag}</span>
             <span className="body2-m text-grey10">
               에 남겼던 모든 답변들을 저장해뒀어요.
             </span>
@@ -60,7 +52,7 @@ const PrevReplyBottomSheet = ({
       </article>
 
       {/* 이전 답변 목록 */}
-      {isOpen && (
+      {isOpen && prevAnswers.answerList.length > 0 && (
         <div className="talk-box-swiper-section">
           <Swiper
             spaceBetween={12} // 카드 간격
@@ -76,16 +68,16 @@ const PrevReplyBottomSheet = ({
               },
             }}
           >
-            {dummyAnswers &&
-              dummyAnswers.map((answer) => (
-                <SwiperSlide key={answer.id}>
+            {prevAnswers.answerList &&
+              prevAnswers.answerList.map((answer) => (
+                <SwiperSlide key={answer}>
                   <article className="bg-grey01 flex h-[9.125rem] w-full shrink-0 flex-col items-end justify-between gap-2.5 rounded-[.3125rem] p-3">
                     <p className="caption-m line-clamp-5 text-black">
-                      {answer.content}
+                      {answer}
                     </p>
                     <button
                       className="caption-m bg-grey11 cursor-pointer rounded-[.1875rem] px-2.5 py-1 text-white"
-                      onClick={() => handleAnswerSelect(answer.content)}
+                      onClick={() => handleAnswerSelect(answer)}
                     >
                       이 답변 사용
                     </button>
@@ -100,16 +92,3 @@ const PrevReplyBottomSheet = ({
 };
 
 export default PrevReplyBottomSheet;
-
-const dummyAnswers = [
-  {
-    id: 1,
-    content:
-      '말씀하신 블랙 컬러와 실제로 비교해보면, 이 제품은 아주 딥한 네이비 색상이에요 :) 거의 블랙에 가까운 어두운 남색이라서.말씀하신 블랙 컬러와 실제로 비교해보면, 이 제품은 아주 딥한 네이비 색상이에요 :) 거의 블랙에 가까운 어두운 남색이라서. 말씀하신 블랙 컬러와 실제로 비교해보면, 이 제품은 아주 딥한 네이비 색상이에요 :) 거의 블랙에 가까운 어두운 남색이라서. ',
-  },
-  {
-    id: 2,
-    content:
-      '실내 조명이나 자연광에 따라 블랙처럼 보이기도 하고 살짝 푸른빛이 도는 느낌도 있어요! 구매에 참고가 되셨길 바라요🙏🏻💙',
-  },
-];

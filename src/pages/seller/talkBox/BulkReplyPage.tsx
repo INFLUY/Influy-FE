@@ -24,6 +24,7 @@ import { useSelectModeStore } from '@/store/talkBoxStore';
 
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
+import { useGetTagAnswers } from '@/services/talkBox/query/useGetTagAnswers';
 
 const BulkReplyPage = () => {
   const navigate = useNavigate();
@@ -33,8 +34,14 @@ const BulkReplyPage = () => {
 
   const { itemId, categoryId } = useParams();
 
+  const { data: prevAnswers } = useGetTagAnswers({
+    itemId: Number(itemId),
+    questionCategoryId: Number(categoryId),
+    questionTagId: Number(tagId),
+  });
   // 질문 리스트
   const { selectedQuestions, setMode } = useSelectModeStore();
+
   useEffect(() => {
     setMode('bulk-reply');
   }, []);
@@ -116,7 +123,10 @@ const BulkReplyPage = () => {
           ))}
       </section>
       <section className="bottom-bar flex w-full flex-col overflow-x-clip">
-        <PrevReplyBottomSheet handleAnswerSelect={handleAnswerSelect} />
+        <PrevReplyBottomSheet
+          prevAnswers={prevAnswers}
+          handleAnswerSelect={handleAnswerSelect}
+        />
         <ChatBarTextArea
           text={answerText}
           setText={setAnswerText}

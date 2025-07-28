@@ -42,15 +42,9 @@ export interface CategoryTagsDTO {
   uncheckedExists: boolean;
 }
 
-export interface Chat {
-  questionId: number;
-  content: string;
-  createdAt: string;
-  memberId: number;
-  profileImg: string | null;
-  username: string;
-  askedCount: number;
-  isChecked: boolean;
+export interface TagAnswerResponse {
+  tag: string;
+  answerList: string[];
 }
 
 export type TALK_BOX_MODE =
