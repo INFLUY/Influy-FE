@@ -108,8 +108,8 @@ const QuestionChatBubble = ({
         <div
           onClick={() => handleCheckboxClick()}
           className={cn(
-            'border-grey02 bg-grey02 body2-m relative col-span-1 col-start-1 row-span-1 row-start-2 ml-10 flex h-fit shrink-0 cursor-pointer flex-col items-end gap-1 rounded-lg border border-solid px-[.875rem] pt-2 pb-2.5 transition-all duration-100',
-            mode === 'select' && isSelected && 'border-black',
+            'border-grey02 bg-grey02 body2-m relative col-span-1 col-start-1 row-span-1 row-start-2 ml-10 flex h-fit shrink-0 cursor-pointer flex-col items-end gap-1 rounded-lg border border-solid px-[.875rem] pt-2 pb-2.5 transition-all duration-50',
+            mode === 'select' && isSelected && 'bg-grey03 border-black',
             {
               'shadow-[0rem_.25rem_1.125rem_0rem_rgba(0,0,0,0.25)]':
                 isLongPressChat,
