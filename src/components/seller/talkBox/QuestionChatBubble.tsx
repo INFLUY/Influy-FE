@@ -23,7 +23,9 @@ const QuestionChatBubble = ({
 
   const [isLongPressChat, setIsLongPressChat] = useState<boolean | null>(null);
 
-  const isSelected = selectedQuestions.includes(chat);
+  const isSelected = selectedQuestions.some(
+    (q) => q.questionId === chat.questionId
+  );
 
   const handleCheckboxClick = () => {
     if (mode !== 'select') return;

@@ -9,7 +9,7 @@ import {
   InfiniteQuestionList,
 } from '@/components';
 
-import { QuestionDTO } from '@/types/seller/TalkBox.types';
+import { QuestionDTO, CategoryTagsDTO } from '@/types/seller/TalkBox.types';
 import {
   useSelectModeStore,
   useTalkBoxQuestionStore,
@@ -163,7 +163,34 @@ export const PendingQuestionsTab = () => {
 
   // 일괄 답변하기
   const handleBulkReply = () => {
-    navigate(`../${PATH.SELLER.talkBox.item.category.bulkReply}`);
+    const tagId = getMostFrequentTagId(selectedQuestions, questionTags);
+    navigate(`../${PATH.SELLER.talkBox.item.category.bulkReply}`, {
+      state: { tagId: tagId },
+    });
+  };
+
+  const getMostFrequentTagId = (
+    selectedQuestions: QuestionDTO[],
+    questionTags: CategoryTagsDTO[]
+  ): number | null => {
+    const tagCountMap = new Map<string, number>();
+
+    selectedQuestions.forEach((q) =>
+      tagCountMap.set(q.tagName, (tagCountMap.get(q.tagName) ?? 0) + 1)
+    );
+
+    let mostFrequentTagName = '';
+    let maxCount = 0;
+
+    tagCountMap.forEach((count, tagName) => {
+      if (count > maxCount) {
+        maxCount = count;
+        mostFrequentTagName = tagName;
+      }
+    });
+    const tag = questionTags.find((tag) => tag.name === mostFrequentTagName);
+
+    return tag?.id ?? null;
   };
 
   return (

@@ -1,4 +1,11 @@
-import { ReactNode, useState, useEffect, useLayoutEffect, useRef } from 'react';
+import {
+  ReactNode,
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useMemo,
+} from 'react';
 import {
   TalkBoxQuestionItemCard,
   SnackBar,
@@ -26,8 +33,6 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
 
   const { selectedQuestions } = useSelectModeStore();
 
-  const { questionsByTag, selectedTag } = useTalkBoxQuestionStore();
-
   const { itemId, categoryId } = useParams();
 
   const { data } = useGetCategoryQuestionCounts(Number(categoryId));
@@ -37,16 +42,6 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     sellerId: 2, // TODO: 수정 필요
     itemId: Number(itemId),
   });
-
-  const allChatIds = questionsByTag?.[selectedTag?.name]?.map(
-    (q) => q?.questionId
-  );
-
-  const isAllSelected =
-    questionsByTag?.[selectedTag?.name]?.length > 0 &&
-    allChatIds?.every((id) =>
-      selectedQuestions.map((q) => q.questionId).includes(id)
-    );
 
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -90,8 +85,6 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
       <QuestionListHeader
         headerRef={headerRef}
-        allChatIds={allChatIds}
-        isAllSelected={isAllSelected}
         category={category}
         tabCounts={data}
       />

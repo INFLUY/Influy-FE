@@ -9,7 +9,12 @@ import {
 import { QuestionDTO } from '@/types/seller/TalkBox.types';
 
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams, generatePath } from 'react-router-dom';
+import {
+  useNavigate,
+  useParams,
+  generatePath,
+  useLocation,
+} from 'react-router-dom';
 import { PATH } from '@/routes/path';
 
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
@@ -24,6 +29,7 @@ const BulkReplyPage = () => {
   const navigate = useNavigate();
   const [answerText, setAnswerText] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { tagId } = useLocation().state;
 
   const { itemId, categoryId } = useParams();
 
@@ -45,6 +51,7 @@ const BulkReplyPage = () => {
 
   const handleConfirmExit = () => {
     setIsModalOpen(false);
+    useSelectModeStore.persist.clearStorage();
     navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`); // 홈으로 이동
   };
 

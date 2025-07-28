@@ -28,8 +28,7 @@ export const useSelectModeStore = create<SelectModeState>()(
         set({ mode: value });
       },
 
-      setSelectedQuestions: (questions) =>
-        set({ selectedQuestions: questions }),
+      setSelectedQuestions: (q) => set({ selectedQuestions: q }),
 
       toggleSelectAll: (allQuestions) => {
         const current = get().selectedQuestions;

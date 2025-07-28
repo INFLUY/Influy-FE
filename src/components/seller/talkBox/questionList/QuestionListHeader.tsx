@@ -1,30 +1,45 @@
 import { PageHeader, Tab, Tabs } from '@/components';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
-import { useSelectModeStore } from '@/store/talkBoxStore';
-import React from 'react';
+import {
+  useSelectModeStore,
+  useTalkBoxQuestionStore,
+} from '@/store/talkBoxStore';
+import React, { useMemo } from 'react';
 import { PATH } from '@/routes/path';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 export const QuestionListHeader = ({
   headerRef,
-  allChatIds,
-  isAllSelected,
   category,
   tabCounts,
 }: {
   headerRef: React.RefObject<HTMLDivElement | null>;
-  allChatIds: number[];
-  isAllSelected: boolean;
+
   category: string;
   tabCounts: {
     waitingCnt: number;
     completedCnt: number;
   };
 }) => {
-  const { mode, setMode, toggleSelectAll } = useSelectModeStore();
+  const { mode, setMode, toggleSelectAll, selectedQuestions } =
+    useSelectModeStore();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
+  const { questionsByTag, selectedTag } = useTalkBoxQuestionStore();
+
+  const { allChat, isAllSelected } = useMemo(() => {
+    if (mode !== 'select') return { allChat: [], isAllSelected: false };
+
+    const all = questionsByTag?.[selectedTag?.name];
+    const allIds = all.map((q) => q.questionId);
+    const isSelected =
+      all.length > 0 &&
+      allIds.every((id) => selectedQuestions.some((q) => q.questionId === id));
+
+    return { allChat: all, isAllSelected: isSelected };
+  }, [mode, questionsByTag, selectedTag?.name, selectedQuestions]);
 
   const handleSelectMode = () => {
     if (mode === 'answered') {
@@ -47,13 +62,14 @@ export const QuestionListHeader = ({
       path: PATH.SELLER.talkBox.item.tabs.answered,
     },
   ];
+
   return (
     <div ref={headerRef} className="sticky top-0 z-50">
       <PageHeader
         leftIcons={[
           mode === 'select' ? (
             <button
-              onClick={() => toggleSelectAll(allChatIds)}
+              onClick={() => toggleSelectAll(allChat)}
               type="button"
               className="bg-grey03 body2-m text-grey10 flex cursor-pointer items-center justify-center gap-0.5 rounded-xs px-2 py-[.1875rem]"
             >
