@@ -27,7 +27,7 @@ const itemMockData: ItemCardType[] = [
     sellerName: 'minwhite',
     mainImg: '/img1.png',
     sellerId: 5,
-    isScrapped: false,
+    isScrapped: true,
   },
   {
     itemId: 103,
@@ -54,7 +54,7 @@ const itemMockData: ItemCardType[] = [
     sellerName: 'outermint',
     sellerId: 9,
     mainImg: '/img1.png',
-    isScrapped: false,
+    isScrapped: true,
   },
   {
     itemId: 106,
@@ -80,7 +80,7 @@ const itemMockData: ItemCardType[] = [
     sellerName: 'minwhite',
     mainImg: '/img1.png',
     sellerId: 5,
-    isScrapped: false,
+    isScrapped: true,
   },
   {
     itemId: 108,
@@ -107,7 +107,7 @@ const itemMockData: ItemCardType[] = [
     sellerName: 'outermint',
     sellerId: 9,
     mainImg: '/img1.png',
-    isScrapped: false,
+    isScrapped: true,
   },
 ];
 const EndingSoonPage = () => {

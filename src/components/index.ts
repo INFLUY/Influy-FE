@@ -36,10 +36,10 @@ export { default as HorizontalRankingCard } from './common/card/HorizontalRankin
 {
   /* user */
 }
-//common
+// user/common
 export { ItemGrid } from './user/common/Item';
 export { TimeChip, SoldOutChip, ExtendChip } from './user/common/Chip';
-//seller
+// user/seller
 export { default as SellerProfileHeader } from './user/seller/SellerProfileHeader';
 export { default as SellerNoticeBottomSheet } from './user/seller/SellerNoticeBottomSheet';
 
@@ -48,6 +48,9 @@ export { default as TopBannerSwiper } from './user/home/TopBannerSwiper.tsx';
 export { HomeSectionTitle } from './user/home/HomeSectionTitle.tsx';
 export { default as HomeCommonSection } from './user/home/HomeCommonSection.tsx';
 export { MoreButton } from './user/home/MoreButton.tsx';
+
+// user/like
+export { default as MyLikedInfluencerBox } from './user/like/MyLikedInfluencerBox.tsx';
 
 {
   /* seller */
