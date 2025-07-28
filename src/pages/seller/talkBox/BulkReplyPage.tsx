@@ -67,7 +67,6 @@ const BulkReplyPage = () => {
     itemId: Number(itemId),
     questionCategoryId: Number(categoryId),
     onSuccessCallback: (count) => {
-      console.log('카운드', count);
       navigate(`../`, {
         state: { sentCount: count },
         replace: true,
