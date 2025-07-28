@@ -18,8 +18,8 @@ export const QuestionListHeader = ({
   isAllSelected: boolean;
   category: string;
   tabCounts: {
-    pending: number;
-    answered: number;
+    waitingCnt: number;
+    completedCnt: number;
   };
 }) => {
   const { mode, setMode, toggleSelectAll } = useSelectModeStore();
@@ -38,12 +38,12 @@ export const QuestionListHeader = ({
   const TABS = [
     {
       id: 0,
-      name: `답변대기(${tabCounts.pending})`,
+      name: `답변대기(${tabCounts.waitingCnt})`,
       path: PATH.SELLER.talkBox.item.tabs.pending,
     },
     {
       id: 1,
-      name: `완료한 질답(${tabCounts.answered})`,
+      name: `완료한 질답(${tabCounts.completedCnt})`,
       path: PATH.SELLER.talkBox.item.tabs.answered,
     },
   ];

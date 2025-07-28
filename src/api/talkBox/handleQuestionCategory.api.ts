@@ -1,3 +1,4 @@
+//스웨거 질문 카테고리
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { SELLER_API_DOMAINS } from '@/constants/api';
@@ -32,5 +33,19 @@ export const postAddQuestionCategories = async ({
     }
   );
 
-  return JSON.parse(response.data.result.viewList); // "[사이즈, 세탁]" → ["사이즈", "세탁"]
+  return JSON.parse(response.data.result.viewList);
+};
+
+export const getCategoryQuestionCounts = async ({
+  questionCategoryId,
+}: {
+  questionCategoryId: number;
+}): Promise<{ waitingCnt: number; completedCnt: number }> => {
+  const response = await instance.get(
+    generateApiPath(SELLER_API_DOMAINS.SELLER_CATEGORY_QUESTION_COUNTS, {
+      questionCategoryId,
+    })
+  );
+
+  return response.data.result;
 };

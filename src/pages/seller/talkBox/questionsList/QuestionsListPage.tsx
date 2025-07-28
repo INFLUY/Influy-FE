@@ -13,14 +13,9 @@ import {
 
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
+import { useGetCategoryQuestionCounts } from '@/services/talkBox/query/useGetCategoryQuestionCounts';
 
 export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
-  // 탭 답변대기, 완료한 질답 갯수
-  const [tabCounts, setTabCounts] = useState({
-    pending: 0,
-    answered: 0,
-  });
-
   const [snackBarState, setSnackBarState] = useState<{
     message: string;
     isOpen: boolean;
@@ -33,7 +28,9 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
 
   const { questionsByTag, selectedTag } = useTalkBoxQuestionStore();
 
-  const { itemId } = useParams();
+  const { itemId, categoryId } = useParams();
+
+  const { data } = useGetCategoryQuestionCounts(Number(categoryId));
 
   // 상단 상품 정보
   const { itemOverview } = useItemOverview({
@@ -49,11 +46,6 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     allChatIds?.every((id) => selectedIds.includes(id));
 
   const headerRef = useRef<HTMLDivElement>(null);
-
-  //임시
-  useEffect(() => {
-    setTabCounts({ pending: 2, answered: 3 });
-  }, []);
 
   useEffect(() => {
     if (sentCount) {
@@ -96,7 +88,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
         allChatIds={allChatIds}
         isAllSelected={isAllSelected}
         category={category}
-        tabCounts={tabCounts}
+        tabCounts={data}
       />
       <article className="flex w-full flex-col gap-2.5 px-5 pt-4">
         {itemOverview && (
