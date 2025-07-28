@@ -85,7 +85,7 @@ export const influencerMockData: InfluencerCardType[] = [
     id: 6,
     nickname: '호호',
     username: '@thg2usth',
-    profileImage: '/profile4.png',
+    profileImage: '',
   },
 ];
 

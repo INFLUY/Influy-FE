@@ -1,6 +1,7 @@
 import { LikedInfluencerListType } from '@/types/user/Like.types';
 import { formatNumber } from '@/utils/formatNumber';
 import { useState } from 'react';
+import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 import ScrapButton from '@/components/common/ScrapButton';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { MARKET_DEATIL } from '@/utils/generatePath';
@@ -31,7 +32,7 @@ const MyLikedInfluencerBox = ({
         <img
           src={
             influencer.profileImgLink === ''
-              ? undefined
+              ? ProfileIcon
               : influencer.profileImgLink
           }
           alt={influencer.nickName + ' 프로필 이미지'}
