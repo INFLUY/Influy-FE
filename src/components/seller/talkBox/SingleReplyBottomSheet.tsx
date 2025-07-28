@@ -11,17 +11,30 @@ import { QuestionDTO } from '@/types/seller/TalkBox.types';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 
+//api
+import { useGetTagAnswers } from '@/services/talkBox/query/useGetTagAnswers';
+
 const SingleReplyBottomSheet = ({
   question,
   onClose,
   itemId,
+  categoryId,
+  tagId,
 }: {
   question: QuestionDTO;
   onClose: () => void;
-  itemId?: string;
+  itemId: number;
+  categoryId: number;
+  tagId: number;
 }) => {
   const navigate = useNavigate();
   const isBottomSheetOpen = true;
+
+  const { data: prevAnswers } = useGetTagAnswers({
+    itemId: itemId,
+    questionCategoryId: categoryId,
+    questionTagId: tagId,
+  });
 
   const [answerText, setAnswerText] = useState<string>('');
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -48,7 +61,7 @@ const SingleReplyBottomSheet = ({
     if (!itemId) return;
     const path = generatePath(
       `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${PATH.SELLER.items.item.administration.base}/${PATH.SELLER.items.item.administration.faq.base}/${PATH.SELLER.items.item.administration.faq.registration.base}`,
-      { itemId: itemId }
+      { itemId: String(itemId) }
     );
     navigate(path, {
       state: {
@@ -73,7 +86,6 @@ const SingleReplyBottomSheet = ({
           </div>
           <QuestionChatBubble
             chat={question}
-            selectedSubCategory="네이비"
             onSelectSingle={() => {}} // TODO: 추후 수정
             onDelete={handleDelete}
           />
@@ -85,7 +97,10 @@ const SingleReplyBottomSheet = ({
             onClickFaq={handleFaqRegister}
           />
           <section className="bottom-bar flex w-full flex-col overflow-x-clip">
-            <PrevReplyBottomSheet handleAnswerSelect={handleAnswerSelect} />
+            <PrevReplyBottomSheet
+              prevAnswers={prevAnswers}
+              handleAnswerSelect={handleAnswerSelect}
+            />
             <ChatBarTextArea
               text={answerText}
               setText={setAnswerText}

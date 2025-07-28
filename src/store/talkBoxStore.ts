@@ -88,3 +88,21 @@ export const useTalkBoxQuestionStore = create<TalkBoxQuestionStore>(
     },
   })
 );
+
+// interface TalkBoxBottomSheetStore {
+//   bottomSheetQuestion: QuestionDTO | null;
+//   setBottomSheetQuestion: (q: QuestionDTO | null) => void;
+
+//   questionTagId: number | null;
+//   setQuestionTagId: (tagId: number) => void;
+// }
+
+// export const useTalkBoxBottomSheetStore = create<TalkBoxBottomSheetStore>(
+//   (set) => ({
+//     bottomSheetQuestion: null,
+//     setBottomSheetQuestion: (q) => set({ question: q }),
+
+//     questionTagId: null,
+//     setQuestionTagId: (tagId) => set({ questionTagId: tagId }),
+//   })
+// );

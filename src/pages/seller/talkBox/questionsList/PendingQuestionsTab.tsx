@@ -42,6 +42,13 @@ export const PendingQuestionsTab = () => {
     setQuestionsByTag,
   } = useTalkBoxQuestionStore();
 
+  // const {
+  //   bottomSheetQuestion,
+  //   setBottomSheetQuestion,
+  //   questionTagId,
+  //   setQuestionTagId,
+  // } = useTalkBoxBottomSheetStore();
+
   useEffect(() => {
     setMode('default');
   }, []);
@@ -287,7 +294,9 @@ export const PendingQuestionsTab = () => {
         <SingleReplyBottomSheet
           question={singleReplyChat}
           onClose={() => setMode('default')}
-          itemId={itemId}
+          itemId={Number(itemId)}
+          categoryId={Number(categoryId)}
+          tagId={selectedTag.id || 23} //todo: 수정
         />
       )}
 
