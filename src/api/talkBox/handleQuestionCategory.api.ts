@@ -40,7 +40,8 @@ export const postAddQuestionCategories = async ({
 interface CategoryListResponse {
   completedCnt: number;
   waitingCnt: number;
-  categoryList: QuestionCategoryDTO[];
+  completedCategoryList: QuestionCategoryDTO[];
+  waitingCategoryList: QuestionCategoryDTO[];
 }
 
 export const getCategoryList = async ({
