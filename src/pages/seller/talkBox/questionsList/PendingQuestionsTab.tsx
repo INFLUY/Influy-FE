@@ -239,13 +239,13 @@ export const PendingQuestionsTab = () => {
       )}
 
       {/* 질문 하나 선택시 */}
-      {/* {mode === 'single' && singleReplyChat && (
+      {mode === 'single' && singleReplyChat && (
         <SingleReplyBottomSheet
           question={singleReplyChat}
           onClose={() => setMode('default')}
           itemId={itemId}
         />
-      )} */}
+      )}
 
       {isFetching && (
         <div className="flex justify-center">

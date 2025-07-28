@@ -7,7 +7,7 @@ import {
   SellerReplyBubble,
   TalkBoxBottomSheetLayout,
 } from '@/components';
-import { Chat } from '@/types/seller/TalkBox.types';
+import { QuestionDTO } from '@/types/seller/TalkBox.types';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 
@@ -16,7 +16,7 @@ const SingleReplyBottomSheet = ({
   onClose,
   itemId,
 }: {
-  question: Chat;
+  question: QuestionDTO;
   onClose: () => void;
   itemId?: string;
 }) => {
@@ -37,7 +37,7 @@ const SingleReplyBottomSheet = ({
   };
 
   const confirmDelete = () => {
-    // 실제 삭제 로직 작성
+    // TODO: 실제 삭제 로직 작성
     console.log('삭제 확정');
     setIsDeleteModalOpen(false);
     onClose();
@@ -74,8 +74,7 @@ const SingleReplyBottomSheet = ({
           <QuestionChatBubble
             chat={question}
             selectedSubCategory="네이비"
-            mode="single"
-            onSelectSingle={() => {}}
+            onSelectSingle={() => {}} // TODO: 추후 수정
             onDelete={handleDelete}
           />
           <SellerReplyBubble
