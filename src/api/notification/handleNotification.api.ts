@@ -13,7 +13,7 @@ export const postNotification = async ({ data }: { data: BaseNotice }) => {
     API_DOMAINS.SELLER_MY_ANNOUNCEMENT,
     data
   );
-  return response.data.result;
+  return response.data;
 };
 
 export const patchNotification = async ({
@@ -74,5 +74,5 @@ export const deleteNotification = async ({
       announcementId,
     })
   );
-  return response.data.result;
+  return response.data;
 };

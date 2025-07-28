@@ -40,5 +40,5 @@ export const deleteMarketLink = async ({ linkId }: { linkId: number }) => {
   const response = await instance.delete(
     generateApiPath(API_DOMAINS.SELLER_MY_HANDLE_MARKET_LINKS, { linkId })
   );
-  return response.data.result;
+  return response.data;
 };
