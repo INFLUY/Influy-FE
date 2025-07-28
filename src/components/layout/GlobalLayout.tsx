@@ -1,5 +1,4 @@
 import GlobalModal from '@/components/common/GlobalModal';
-import GlobalErrorSnackBar from '@/components/error/ErrorSnackBar';
 import GlobalSnackBar from '@/components/common/GlobalSnackBar';
 
 const GlobalLayout = ({ children }: { children: React.ReactNode }) => {
@@ -8,7 +7,6 @@ const GlobalLayout = ({ children }: { children: React.ReactNode }) => {
       <main className="scrollbar-hide relative flex flex-1 flex-col overflow-y-auto">
         {children}
         <GlobalModal />
-        <GlobalErrorSnackBar />
         <GlobalSnackBar />
       </main>
     </div>
