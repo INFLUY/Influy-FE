@@ -104,10 +104,8 @@ export const setupInterceptors = (instance: AxiosInstance) => {
           processQueue(refreshError, null);
 
           useAuthStore.getState().clearAuthInfo();
-
-          if (window.location.pathname !== PATH.LOGIN.BASE) {
-            window.location.replace(PATH.LOGIN.BASE);
-          }
+          sessionStorage.setItem('lastPath', window.location.pathname);
+          window.location.replace(PATH.LOGIN.BASE);
 
           return Promise.reject(refreshError);
         } finally {
@@ -118,12 +116,15 @@ export const setupInterceptors = (instance: AxiosInstance) => {
       // 재시도 횟수 초과한 401 에러 처리 -> 로그인 페이지로 이동
       if (status === 401 && retryCount >= MAX_RETRIES) {
         console.warn('다시 로그인해주세요.'); // TODO: 스낵바로 변경
+
         useAuthStore.getState().clearAuthInfo();
+        sessionStorage.setItem('lastPath', window.location.pathname);
         window.location.replace(PATH.LOGIN.BASE);
+
         return Promise.reject(error);
       }
 
-      if (status === 403) {
+      if (status === 403 && retryCount >= MAX_RETRIES) {
         // 권한 문제는 토큰이 유효할 수 있음
         console.warn('접근 권한이 없습니다.'); // TODO: 스낵바로 변경
         return Promise.reject(error);

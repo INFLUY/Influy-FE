@@ -23,6 +23,7 @@ export {
   LinkInput,
 } from './common/DetailInput.tsx';
 export { PeriodChip } from './common/chip/PeriodChip.tsx';
+export { default as CloseComponent } from './common/auth/CloseComponent.tsx';
 
 // common/item
 export { ItemDetailProfile } from './common/item/ItemDetailProfile';
@@ -51,6 +52,8 @@ export { MoreButton } from './user/home/MoreButton.tsx';
 
 // user/like
 export { default as MyLikedInfluencerBox } from './user/like/MyLikedInfluencerBox.tsx';
+// user/my
+export { default as AccoutSettingsMenuButton } from './user/my/AccoutSettingsMenuButton.tsx';
 
 {
   /* seller */

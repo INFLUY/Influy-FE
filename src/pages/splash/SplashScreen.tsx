@@ -8,8 +8,7 @@ const SplashScreen = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      // 로그인 여부 확인 필요
-      navigate(PATH.LOGIN.BASE);
+      navigate(PATH.HOME.BASE);
     }, 1500);
 
     return () => clearTimeout(timer);

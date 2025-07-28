@@ -1,25 +1,25 @@
 import {
+  CloseComponent,
   DefaultButton,
   PageHeader,
   SnackBar,
   VanillaCategoryMultiSelector,
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import {
-  useAuthStore,
-  useSellerSignupStore,
-  useUserSignupStore,
-} from '@/store/authStore';
 import {
   useRegisterSeller,
   useRegisterUser,
 } from '@/services/auth/useRegisterUser';
 import { SnsLinkProps } from '@/types/common/AuthTypes.types';
 import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
+import {
+  useKakaoStore,
+  useSellerSignupStore,
+  useUserSignupStore,
+} from '@/store/registerStore';
 
 export const SignupInterestPage = () => {
   const navigate = useNavigate();
@@ -35,15 +35,13 @@ export const SignupInterestPage = () => {
     email,
     interestedCategories: sellerInterestedCategories,
     setInterestedCategories: setSellerInterestedCategories,
-    reset: sellerSignupStateReset,
   } = useSellerSignupStore();
   const {
     id: userId,
     interestedCategories: userInterestedCategories,
     setInterestedCategories: setUserInterestedCategories,
-    reset: userSignupStateReset,
   } = useUserSignupStore();
-  const { kakaoId, clearAuthInfo } = useAuthStore();
+  const { kakaoId } = useKakaoStore();
 
   const { data: itemCategory } = useGetItemCategory();
 
@@ -51,9 +49,9 @@ export const SignupInterestPage = () => {
 
   useEffect(() => {
     if (!kakaoId) {
-      navigate(PATH.LOGIN.BASE);
+      navigate(`${PATH.LOGIN.BASE}`, { replace: true });
+      return;
     }
-
     if (userType === 'influencer') {
       if (!sellerId) {
         navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
@@ -61,11 +59,13 @@ export const SignupInterestPage = () => {
         navigate(`../${PATH.REGISTER.TYPE.SELLER.SNS}`);
       }
       setSelectedCategories(sellerInterestedCategories);
+      return;
     } else if (userType === 'user') {
       if (!userId) {
         navigate(`../${PATH.REGISTER.TYPE.USER.ID}`);
       }
       setSelectedCategories(userInterestedCategories);
+      return;
     }
   }, [userType]);
 
@@ -77,18 +77,8 @@ export const SignupInterestPage = () => {
     }
   }, [selectedCategories]);
 
-  const onSuccess = () => {
-    userSignupStateReset();
-    useUserSignupStore.persist.clearStorage();
-    sellerSignupStateReset();
-    useSellerSignupStore.persist.clearStorage();
-    clearAuthInfo();
-
-    navigate(PATH.WELCOME.BASE);
-  };
-
-  const { mutate: registerSeller } = useRegisterSeller(() => onSuccess);
-  const { mutate: registerUser } = useRegisterUser(() => onSuccess);
+  const { mutate: registerSeller } = useRegisterSeller();
+  const { mutate: registerUser } = useRegisterUser();
 
   const handleSellerRegister = () => {
     const sns: SnsLinkProps & { email?: string } = {
@@ -146,12 +136,7 @@ export const SignupInterestPage = () => {
             onClick={() => navigate(-1)}
           />,
         ]}
-        rightIcons={[
-          <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate('')}
-          />,
-        ]}
+        rightIcons={[<CloseComponent />]}
       >
         회원가입
       </PageHeader>
