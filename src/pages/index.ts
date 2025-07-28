@@ -24,7 +24,7 @@ export { default as CalendarPage } from './user/calendar/CalendarPage';
 export { default as MyPage } from './user/my/MyPage';
 export { default as MyQuestion } from './user/my/MyQuestion';
 export { default as AccountSettingsPage } from './user/my/AccountSettingsPage';
-export { default as DeleteAccountPage } from './user/my/DeleteAccountPage';
+export { default as DeleteAccountPage } from './common/mypage/DeleteAccountPage';
 export { default as NicknamePage } from './user/my/NicknamePage';
 export { default as NotificationSettingsPage } from './common/mypage/NotificationSettingsPage';
 export { default as SupportPage } from './common/mypage/SupportPage';
