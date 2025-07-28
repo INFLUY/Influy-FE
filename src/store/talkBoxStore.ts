@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import {
-  Chat,
   TALK_BOX_MODE,
   CategoryTagsDTO,
   QuestionDTO,

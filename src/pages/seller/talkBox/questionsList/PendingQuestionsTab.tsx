@@ -5,7 +5,6 @@ import {
   DefaultButton,
   SellerModal,
   SingleReplyBottomSheet,
-  QuestionChatBubble,
   LoadingSpinner,
   InfiniteQuestionList,
 } from '@/components';
@@ -113,7 +112,6 @@ export const PendingQuestionsTab = () => {
 
   // 개별 태그 질문들을 메모이제이션
   const tagQuestions = useMemo(() => {
-    console.log('questionsByTagData', questionsByTagData);
     if (!questionsByTagData || !selectedTag || selectedTag.name === '전체')
       return [];
     return questionsByTagData.pages.flatMap((p) => p.questions ?? []);
@@ -122,7 +120,6 @@ export const PendingQuestionsTab = () => {
   // 태그별 질문 데이터 업데이트 - 최적화된 버전
   useEffect(() => {
     if (tagQuestions.length > 0 && selectedTag && selectedTag.name !== '전체') {
-      console.log('tagQuestions', tagQuestions);
       const updatedMap = {
         ...questionsByTag,
         [selectedTag.name]: tagQuestions,
@@ -183,7 +180,14 @@ export const PendingQuestionsTab = () => {
             <span className="text-sub">#{selectedTag.name}</span>
             <span className="text-grey11">({selectedTag?.totalQuestions})</span>
           </div>
-          <span className="body2-sb text-grey11">새 질문 (Z)</span>
+          <span className="body2-sb text-grey11">
+            새 질문 (
+            {questionsByTagData?.pages[questionsByTagData.pages.length - 1]
+              .newQuestionCnt ||
+              allQuestionsData?.pages[allQuestionsData.pages.length - 1]
+                .newQuestionCnt}
+            )
+          </span>
         </div>
 
         <InfiniteQuestionList

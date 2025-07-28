@@ -5,11 +5,6 @@ import {
   QuestionListHeader,
 } from '@/components';
 
-import {
-  dummySubCategories,
-  dummyChats,
-  dummyChats2,
-} from '../talkboxMockData';
 import { useLocation, useParams } from 'react-router-dom';
 import {
   useSelectModeStore,
