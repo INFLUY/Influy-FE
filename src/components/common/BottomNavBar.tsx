@@ -5,7 +5,7 @@ import SellerMyIcon from '@/assets/icon/seller/MyNavbar.svg?react';
 import SellerMyIcon2 from '@/assets/icon/seller/MyNavbarActive.svg?react';
 import UserMyIcon from '@/assets/icon/user/MyNavbar.svg?react';
 import TalkBoxIcon from '@/assets/icon/common/TalkBoxIcon.svg?react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import cn from '@/utils/cn';
 import { PATH } from '@/routes/path';
 
@@ -122,8 +122,10 @@ export const BottomNavBar = ({
   items,
   type = 'link',
 }: BottomNavBarProps) => {
+  const { pathname } = useLocation();
   const navItems: BottomNavItem[] =
     items ?? (userType === 'SELLER' ? sellerNavItems : userNavItems);
+
   return (
     <nav
       className="border-t-grey03 bg-grey01 fixed bottom-0 z-20 flex h-[4.0625rem] w-full max-w-[40rem] min-w-[20rem] flex-col items-start justify-center border-t border-solid md:w-[28rem]"
@@ -138,11 +140,7 @@ export const BottomNavBar = ({
           >
             {type === 'link' && item.to ? (
               (() => {
-                const isActive = isTabActive(
-                  location.pathname,
-                  item.to,
-                  userType
-                );
+                const isActive = isTabActive(pathname, item.to, userType);
                 return (
                   <NavLink
                     to={item.to}
