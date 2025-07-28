@@ -55,7 +55,10 @@ export const PATH = {
       ID: 'id',
       DELETE: 'delete',
     },
-    SUPPORT: 'support',
+    SUPPORT: {
+      BASE: 'support',
+      FAQ: ':supportFaqId',
+    },
   },
   MARKET: {
     BASE: '/market',

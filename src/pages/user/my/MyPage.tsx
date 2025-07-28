@@ -25,7 +25,7 @@ const MyPage = () => {
   const menuItems = [
     { label: '알림 설정', path: `${PATH.MY.NOTIFICATION}` },
     { label: '계정 설정', path: `${PATH.MY.ACCOUNT_SETTING.BASE}` },
-    { label: 'INFLUY 고객센터', path: `${PATH.MY.SUPPORT}` },
+    { label: 'INFLUY 고객센터', path: `${PATH.MY.SUPPORT.BASE}` },
   ];
 
   return (

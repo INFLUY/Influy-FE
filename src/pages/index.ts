@@ -28,6 +28,7 @@ export { default as DeleteAccountPage } from './user/my/DeleteAccountPage';
 export { default as NicknamePage } from './user/my/NicknamePage';
 export { default as NotificationSettingsPage } from './user/my/NotificationSettingsPage';
 export { default as SupportPage } from './common/mypage/SupportPage';
+export { default as SupportFaqPage } from './common/mypage/SupportFaqPage';
 export { default as UsernamePage } from './common/mypage/UsernamePage';
 
 export { default as SellerProfilePage } from './user/market/SellerProfile';
