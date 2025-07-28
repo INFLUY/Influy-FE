@@ -4,6 +4,7 @@ import {
   CategoryTagsDTO,
   QuestionDTO,
 } from '@/types/seller/TalkBox.types';
+import { persist } from 'zustand/middleware';
 
 interface SelectModeState {
   mode: TALK_BOX_MODE;
@@ -14,28 +15,38 @@ interface SelectModeState {
   toggleSelectAll: (allQuestions: QuestionDTO[]) => void; // 질문 선택 모드에서 전체 질문 선택
 }
 
-export const useSelectModeStore = create<SelectModeState>((set, get) => ({
-  mode: 'default',
-  selectedQuestions: [],
+export const useSelectModeStore = create<SelectModeState>()(
+  persist(
+    (set, get) => ({
+      mode: 'default',
+      selectedQuestions: [],
 
-  setMode: (value) => {
-    // 'default'로 전환될 때는 선택된 항목 초기화
-    if (value === 'default') {
-      set({ selectedQuestions: [] });
+      setMode: (value) => {
+        if (value === 'default') {
+          set({ selectedQuestions: [] });
+        }
+        set({ mode: value });
+      },
+
+      setSelectedQuestions: (questions) =>
+        set({ selectedQuestions: questions }),
+
+      toggleSelectAll: (allQuestions) => {
+        const current = get().selectedQuestions;
+        const isAllSelected = allQuestions.every((q) =>
+          current.some((c) => c.questionId === q.questionId)
+        );
+        set({ selectedQuestions: isAllSelected ? [] : allQuestions });
+      },
+    }),
+    {
+      name: 'talkbox-selected-questions',
+      partialize: (state) => ({
+        selectedQuestions: state.selectedQuestions,
+      }),
     }
-    set({ mode: value });
-  },
-
-  setSelectedQuestions: (questions) => set({ selectedQuestions: questions }),
-
-  toggleSelectAll: (allQuestions) => {
-    const current = get().selectedQuestions;
-    const isAllSelected = allQuestions.every((q) =>
-      current.some((c) => c.questionId === q.questionId)
-    );
-    set({ selectedQuestions: isAllSelected ? [] : allQuestions });
-  },
-}));
+  )
+);
 
 interface TalkBoxQuestionStore {
   questionTags: CategoryTagsDTO[];

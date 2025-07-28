@@ -41,6 +41,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   const allChatIds = questionsByTag?.[selectedTag?.name]?.map(
     (q) => q?.questionId
   );
+
   const isAllSelected =
     questionsByTag?.[selectedTag?.name]?.length > 0 &&
     allChatIds?.every((id) =>
@@ -83,6 +84,8 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     return () => ro.disconnect();
   }, []);
 
+  // TODO: 로컬스토리지에서 삭제 처리
+  // useSelectModeStore.persist.clearStorage();
   return (
     <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
       <QuestionListHeader

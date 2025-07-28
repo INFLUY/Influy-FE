@@ -14,6 +14,7 @@ import {
   useSelectModeStore,
   useTalkBoxQuestionStore,
 } from '@/store/talkBoxStore';
+import { PATH } from '@/routes/path';
 
 // api
 import { useGetAllQuestions } from '@/services/talkBox/query/useGetAllQuestions';
@@ -160,8 +161,10 @@ export const PendingQuestionsTab = () => {
     deleteQuestions(selectedId);
   };
 
-  // 일괄 답변
-  const handleBulkReply = () => {};
+  // 일괄 답변하기
+  const handleBulkReply = () => {
+    navigate(`../${PATH.SELLER.talkBox.item.category.bulkReply}`);
+  };
 
   return (
     <>

@@ -6,27 +6,38 @@ import {
   PrevReplyBottomSheet,
   SellerModal,
 } from '@/components';
-import { Chat } from '@/types/seller/TalkBox.types';
+import { QuestionDTO } from '@/types/seller/TalkBox.types';
 
 import { useState, useEffect } from 'react';
-import {
-  useNavigate,
-  useLocation,
-  useParams,
-  generatePath,
-} from 'react-router-dom';
+import { useNavigate, useParams, generatePath } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-
-import { dummyChats } from './talkboxMockData';
 
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
 
+import { useSelectModeStore } from '@/store/talkBoxStore';
+
+//api
+import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
+
 const BulkReplyPage = () => {
   const navigate = useNavigate();
-  const [selectedChat, setSelectedChat] = useState<Chat[]>([]);
   const [answerText, setAnswerText] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { itemId, categoryId } = useParams();
+
+  // 질문 리스트
+  const { selectedQuestions, setMode } = useSelectModeStore();
+  useEffect(() => {
+    setMode('bulk-reply');
+  }, []);
+
+  // 상단 상품 정보
+  const { itemOverview } = useItemOverview({
+    sellerId: 2, // TODO: 수정 필요
+    itemId: Number(itemId),
+  });
 
   const handleAnswerSelect = (prevAnswer: string) => {
     setAnswerText(answerText + prevAnswer);
@@ -37,28 +48,21 @@ const BulkReplyPage = () => {
     navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`); // 홈으로 이동
   };
 
-  const { categoryId, itemId } = useParams();
-  console.log('카테', categoryId, itemId);
-
   const handleReplySubmit = () => {
-    if (answerText.length === 0) return;
-    const sentCount = selectedChat.length;
-    const path = generatePath(
-      `${PATH.SELLER.base}/${PATH.SELLER.talkBox.base}/${PATH.SELLER.talkBox.item.base}/${PATH.SELLER.talkBox.item.category.base}/${PATH.SELLER.talkBox.item.category.tabs.pending}`,
-      {
-        itemId: String(itemId),
-        categoryId: String(categoryId),
-      }
-    );
-    navigate(path, {
-      state: { sentCount },
-    });
+    // if (answerText.length === 0) return;
+    // const sentCount = selectedChat.length;
+    // const path = generatePath(
+    //   `${PATH.SELLER.base}/${PATH.SELLER.talkBox.base}/${PATH.SELLER.talkBox.item.base}/${PATH.SELLER.talkBox.item.category.base}/${PATH.SELLER.talkBox.item.category.tabs.pending}`,
+    //   {
+    //     itemId: String(itemId),
+    //     categoryId: String(categoryId),
+    //   }
+    // );
+    // navigate(path, {
+    //   state: { sentCount },
+    // });
   };
 
-  //임시
-  useEffect(() => {
-    setSelectedChat(dummyChats);
-  }, []);
   return (
     <section className="scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-y-auto bg-white">
       <PageHeader
@@ -84,28 +88,24 @@ const BulkReplyPage = () => {
         일괄답변
       </PageHeader>
       <article className="bg-grey01 flex w-full flex-col gap-2.5 px-5 pt-4">
-        <TalkBoxQuestionItemCard
-          title="헤이드 리본 레이어드 티"
-          tagline="[소현X아로셀] 제작 살 안타템![소현X아로셀] 제작 살 안타템![소현X아로셀] 제작 살 안타템!"
-          imgUrl="/img1.png"
-        />
+        {itemOverview && (
+          <TalkBoxQuestionItemCard
+            itemName={itemOverview.itemName}
+            tagline={itemOverview.tagline}
+            mainImg={itemOverview.mainImg}
+          />
+        )}
         <p className="subhead-sb py-3">
           이 상품의 <span className="text-sub">색상</span> 관련 질문{' '}
-          {selectedChat.length}개에 대한
+          {selectedQuestions.length}개에 대한
           <br />
           일괄 답변을 작성해주세요.
         </p>
       </article>
       <section className="mt-[1.4375rem] flex w-full flex-col gap-5 pb-22">
-        {selectedChat &&
-          selectedChat.map((chat) => (
-            <QuestionChatBubble
-              key={chat.questionId}
-              chat={chat}
-              mode="select"
-              selectedSubCategory="네이비"
-              isSelected={true}
-            />
+        {selectedQuestions &&
+          selectedQuestions.map((q) => (
+            <QuestionChatBubble key={q.questionId} chat={q} />
           ))}
       </section>
       <section className="bottom-bar flex w-full flex-col overflow-x-clip">

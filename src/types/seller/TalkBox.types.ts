@@ -53,4 +53,9 @@ export interface Chat {
   isChecked: boolean;
 }
 
-export type TALK_BOX_MODE = 'default' | 'select' | 'single' | 'answered';
+export type TALK_BOX_MODE =
+  | 'default'
+  | 'select'
+  | 'single'
+  | 'answered'
+  | 'bulk-reply';
