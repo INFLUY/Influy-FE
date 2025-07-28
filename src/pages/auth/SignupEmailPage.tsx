@@ -1,17 +1,17 @@
-import { DefaultButton, PageHeader } from '@/components';
+import { CloseComponent, DefaultButton, PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { TextInput } from '@/components/common/DetailInput';
-import { useSellerSignupStore } from '@/store/authStore';
 import { emailSchema } from '@/schemas/profileSchema';
+import { useKakaoStore, useSellerSignupStore } from '@/store/registerStore';
 import { useSnackbarStore } from '@/store/snackbarStore';
 
 export const SignupEmailPage = () => {
   const navigate = useNavigate();
+  const { kakaoId } = useKakaoStore();
 
   const [emailValue, setEmailValue] = useState<string>('');
 
@@ -21,6 +21,10 @@ export const SignupEmailPage = () => {
   const { showSnackbar } = useSnackbarStore();
 
   useEffect(() => {
+    if (!kakaoId) {
+      navigate(`${PATH.LOGIN.BASE}`, { replace: true });
+      return;
+    }
     if (!sellerId) {
       navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
     } else if (!sns.instagram) {
@@ -67,12 +71,7 @@ export const SignupEmailPage = () => {
             onClick={() => navigate(-1)}
           />,
         ]}
-        rightIcons={[
-          <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate('')}
-          />,
-        ]}
+        rightIcons={[<CloseComponent />]}
       >
         회원가입
       </PageHeader>

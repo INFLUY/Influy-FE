@@ -47,6 +47,15 @@ export const PATH = {
   },
   MY: {
     BASE: '/mypage',
+    MY_QUESTION: 'question',
+    NOTIFICATION: 'notification',
+    NICKNAME: 'nickname',
+    ACCOUNT_SETTING: {
+      BASE: 'account',
+      ID: 'id',
+      DELETE: 'delete',
+    },
+    SUPPORT: 'support',
   },
   MARKET: {
     BASE: '/market',

@@ -1,11 +1,14 @@
 import { memo, SetStateAction } from 'react';
 import CategoryChip from '@/components/seller/common/CategoryChip';
-import { CategoryType } from '@/types/common/CategoryType.types';
+import {
+  CategoryType,
+  ItemCategoryType,
+} from '@/types/common/CategoryType.types';
 import cn from '@/utils/cn';
 
 // form을 사용하지 않는 category multi selector
 interface BaseProps {
-  categoryList: CategoryType[];
+  categoryList: ItemCategoryType[];
   selectedCategory: number[];
   max?: number; // 최대 선택 가능한 개수(기본 1개)
   theme?: 'faq' | 'item' | 'interest';
@@ -51,6 +54,12 @@ const VanillaCategoryMultiSelector = memo(
       }
     };
 
+    function isItemCategoryType(
+      category: CategoryType | ItemCategoryType
+    ): category is ItemCategoryType {
+      return 'name' in category;
+    }
+
     return (
       <article
         className={cn(
@@ -58,10 +67,14 @@ const VanillaCategoryMultiSelector = memo(
           theme === 'interest' && 'gap-x-3 gap-y-[.875rem]'
         )}
       >
-        {categoryList?.map((category: CategoryType) => (
+        {categoryList?.map((category: CategoryType | ItemCategoryType) => (
           <CategoryChip
             key={category.id}
-            text={category.category}
+            text={
+              isItemCategoryType(category)
+                ? category.name
+                : (category as CategoryType).category
+            }
             isSelected={selectedCategory.includes(category.id)}
             onToggle={() => handleClickCategory(category.id)}
             theme={theme === 'interest' ? 'item' : theme}

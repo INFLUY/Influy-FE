@@ -1,6 +1,5 @@
-import { DefaultButton, PageHeader } from '@/components';
+import { CloseComponent, DefaultButton, PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
 import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
@@ -8,9 +7,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { TextInput } from '@/components/common/DetailInput';
-import { useSellerSignupStore } from '@/store/authStore';
 import { snsSchema } from '@/schemas/profileSchema';
 import { useSnackbarStore } from '@/store/snackbarStore';
+import { useKakaoStore, useSellerSignupStore } from '@/store/registerStore';
 
 export const SignupSnsLinkPage = () => {
   const navigate = useNavigate();
@@ -23,8 +22,13 @@ export const SignupSnsLinkPage = () => {
   const tiktokRef = useRef<HTMLInputElement | null>(null);
 
   const { id: sellerId, sns, setSns } = useSellerSignupStore();
+  const { kakaoId } = useKakaoStore();
 
   useEffect(() => {
+    if (!kakaoId) {
+      navigate(`${PATH.LOGIN.BASE}`, { replace: true });
+      return;
+    }
     if (!sellerId) {
       navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
     }
@@ -94,12 +98,7 @@ export const SignupSnsLinkPage = () => {
             onClick={() => navigate(-1)}
           />,
         ]}
-        rightIcons={[
-          <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate('')}
-          />,
-        ]}
+        rightIcons={[<CloseComponent />]}
       >
         회원가입
       </PageHeader>

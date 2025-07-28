@@ -23,6 +23,7 @@ export {
   LinkInput,
 } from './common/DetailInput.tsx';
 export { PeriodChip } from './common/chip/PeriodChip.tsx';
+export { default as CloseComponent } from './common/auth/CloseComponent.tsx';
 
 // common/item
 export { ItemDetailProfile } from './common/item/ItemDetailProfile';
@@ -48,6 +49,9 @@ export { default as TopBannerSwiper } from './user/home/TopBannerSwiper.tsx';
 export { HomeSectionTitle } from './user/home/HomeSectionTitle.tsx';
 export { default as HomeCommonSection } from './user/home/HomeCommonSection.tsx';
 export { MoreButton } from './user/home/MoreButton.tsx';
+
+// user/my
+export { default as AccoutSettingsMenuButton } from './user/my/AccoutSettingsMenuButton.tsx';
 
 {
   /* seller */

@@ -15,7 +15,7 @@ import Link2Icon from '@/assets/icon/common/Link2Icon.svg?react';
 import LockIcon from '@/assets/icon/common/LockIcon.svg?react';
 import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
-import { CategoryType } from '@/types/common/CategoryType.types';
+import { ItemCategoryType } from '@/types/common/CategoryType.types';
 import { dummyCategory, dummyFaq, dummyItem } from './ItemDetailDummyData';
 import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
 
@@ -110,10 +110,10 @@ const ItemDetailPage = () => {
       {isFaqCategoryTop ? (
         <header className="sticky top-0 z-20 flex w-full flex-nowrap gap-2 bg-[rgba(241,241,241,0.30)]">
           <div className="scrollbar-hide flex items-center gap-2 overflow-x-scroll px-5 pt-2 pb-[.4375rem]">
-            {dummyCategory.map((category: CategoryType) => (
+            {dummyCategory.map((category: ItemCategoryType) => (
               <CategoryChip
                 key={category.id}
-                text={category.category}
+                text={category.name}
                 isSelected={selectedCategory == category.id}
                 onToggle={() => setSelectedCategory(category.id)}
                 theme="faq"
@@ -166,10 +166,10 @@ const ItemDetailPage = () => {
             <article className="flex w-full flex-wrap gap-2">
               {dummyCategory &&
                 dummyCategory.length > 0 &&
-                dummyCategory.map((category: CategoryType) => (
+                dummyCategory.map((category: ItemCategoryType) => (
                   <CategoryChip
                     key={category.id}
-                    text={category.category}
+                    text={category.name}
                     isSelected={selectedCategory == category.id}
                     onToggle={() => setSelectedCategory(category.id)}
                     theme="faq"

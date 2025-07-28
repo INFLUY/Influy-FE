@@ -1,6 +1,6 @@
 import { getFaqCategory } from '@/api/faqCategory/handleFaqCategory.api';
 import { QUERY_KEYS } from '@/constants/api';
-import { CategoryType } from '@/types/common/CategoryType.types';
+import { ItemCategoryType } from '@/types/common/CategoryType.types';
 import {
   useSuspenseQuery,
   UseSuspenseQueryResult,
@@ -12,7 +12,7 @@ export const useGetItemFaqCategory = ({
 }: {
   sellerId: number;
   itemId: number;
-}): UseSuspenseQueryResult<CategoryType[] | [], Error> => {
+}): UseSuspenseQueryResult<ItemCategoryType[] | [], Error> => {
   return useSuspenseQuery({
     queryKey: [QUERY_KEYS.SELLER_MARKET_LINKS, sellerId],
     queryFn: async () => {

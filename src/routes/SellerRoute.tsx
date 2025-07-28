@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { PATH } from './path';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { UIError } from '@/libs/error/UIError';
@@ -6,6 +6,7 @@ import { LoadingSpinner } from '@/components';
 
 const SellerRoute = () => {
   const { isLoading, needsLogin, sellerId } = useStrictId();
+  const { pathname } = useLocation();
 
   if (isLoading) {
     return (
@@ -17,6 +18,7 @@ const SellerRoute = () => {
 
   // 로그인 필요
   if (needsLogin) {
+    sessionStorage.setItem('lastPath', pathname);
     return <Navigate to={PATH.LOGIN.BASE} replace />;
   }
 

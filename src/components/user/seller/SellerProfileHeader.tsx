@@ -21,7 +21,7 @@ const SellerProfileHeader = ({
   const copyUrl = useCopyUrl();
 
   useEffect(() => {
-    const newRootMargin = seller ? '-0.6875rem 0rem 0rem 0rem' : undefined;
+    const newRootMargin = seller ? '-11px 0px 0px 0px' : undefined;
     const observer = new IntersectionObserver(
       ([entry]) => {
         setScrolled(!entry.isIntersecting);

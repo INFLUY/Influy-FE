@@ -1,6 +1,6 @@
 import { ItemDetail, SellerCard } from '@/types/common/ItemType.types';
 import { FAQCardList } from '@/types/common/FAQ.types';
-import { CategoryType } from '@/types/common/CategoryType.types';
+import { ItemCategoryType } from '@/types/common/CategoryType.types';
 
 export const dummySellerInfo: SellerCard = {
   id: 1,
@@ -29,20 +29,20 @@ export const dummyItem: ItemDetail = {
   salePrice: null,
 };
 
-export const dummyCategory: CategoryType[] = [
-  { id: 0, category: '사이즈' },
-  { id: 1, category: '색상' },
-  { id: 2, category: '디테일' },
-  { id: 3, category: '배송관련' },
-  { id: 4, category: '색상1' },
-  { id: 5, category: '색상2' },
-  { id: 6, category: '사이즈1' },
-  { id: 7, category: '사이즈2' },
-  { id: 8, category: '사이즈' },
-  { id: 9, category: '색상' },
-  { id: 10, category: '디테일' },
-  { id: 11, category: '배송관련' },
-  { id: 12, category: '색상1' },
+export const dummyCategory: ItemCategoryType[] = [
+  { id: 0, name: '사이즈' },
+  { id: 1, name: '색상' },
+  { id: 2, name: '디테일' },
+  { id: 3, name: '배송관련' },
+  { id: 4, name: '색상1' },
+  { id: 5, name: '색상2' },
+  { id: 6, name: '사이즈1' },
+  { id: 7, name: '사이즈2' },
+  { id: 8, name: '사이즈' },
+  { id: 9, name: '색상' },
+  { id: 10, name: '디테일' },
+  { id: 11, name: '배송관련' },
+  { id: 12, name: '색상1' },
 ];
 
 export const dummyFaq: FAQCardList[] = [

@@ -2,6 +2,7 @@ import CameraCircleIcon from '@/assets/icon/common/CameraCircle.svg?react';
 import { useFormContext, useController } from 'react-hook-form';
 import { useSingleImageUploader } from '@/hooks/useSingleImageUploader';
 import CameraIcon from '@/assets/icon/common/Camera.svg?react';
+import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 
 export const ProfileEditWrapper = ({
   title,
@@ -48,13 +49,11 @@ export const ProfileImageUploader = ({ name }: { name: string }) => {
         className="hidden"
         onChange={handleFileChange}
       />
-      {value && (
-        <img
-          src={value}
-          alt={'프로필 이미지'}
-          className="h-full w-full rounded-full object-cover"
-        />
-      )}
+      <img
+        src={value === '' ? ProfileIcon : value}
+        alt={'프로필 이미지'}
+        className="h-full w-full rounded-full object-cover"
+      />
     </div>
   );
 };

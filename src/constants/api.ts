@@ -15,6 +15,8 @@ export const API_DOMAINS = {
   SELLER_MARKET_ITEM: '/seller/:sellerId/items/:itemId',
   SELLER_FAQ_CATEGORIES: '/seller/:sellerId/items/:itemId/faq-categories',
 
+  ITEM_CATEGORIES: '/categories',
+
   // seller
   SELLER_MY_JOIN: '/member/register/seller',
   SELLER_MY_ANNOUNCEMENT: '/seller/announcements',
@@ -40,4 +42,6 @@ export const QUERY_KEYS = {
   SELLER_FAQ_CATEGORIES: 'sellerFaqCategories',
   SELLER_FAQ_CARD: 'sellerFaqCard',
   ID_DUPLICATE_CHECK: 'checkId',
+
+  ITEM_CATEGORIES: 'itemCategories',
 };

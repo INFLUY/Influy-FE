@@ -36,11 +36,18 @@ import {
   KakaoLoginHandler,
   CalendarPage,
   SellerCalendarPage,
+  AccountSettingsPage,
+  NicknamePage,
+  NotificationSettingsPage,
+  MyQuestion,
+  DeleteAccountPage,
+  UsernamePage,
+  SupportPage,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import SellerRoute from './SellerRoute';
-import RegisterRoute from './RegisterRoute';
+import UserRoute from './UserRoute';
 
 const LikeItemTab = lazy(() => import('@/pages/user/like/LikeItemTab'));
 const LikeInfluencerTab = lazy(
@@ -53,10 +60,10 @@ const ReviewTab = lazy(() => import('@/pages/user/market/ReviewTab'));
 const MySelectionTab = lazy(
   () => import('@/pages/seller/sellerMyPage/MySelectionTab')
 );
-const MyITEMReviewTab = lazy(
+const MyItemReviewTab = lazy(
   () => import('@/pages/seller/sellerMyPage/MyItemReviewTab')
 );
-const MyStoredITEMTab = lazy(
+const MyStoredItemTab = lazy(
   () => import('@/pages/seller/sellerMyPage/MyStoredItemTab')
 );
 
@@ -79,13 +86,7 @@ const router = createBrowserRouter([
       },
       {
         path: PATH.LOGIN.BASE,
-        element: <Outlet />,
-        children: [
-          {
-            index: true,
-            element: <LoginPage />,
-          },
-        ],
+        element: <LoginPage />,
       },
       {
         path: PATH.OAUTH.BASE,
@@ -93,7 +94,7 @@ const router = createBrowserRouter([
       },
       {
         path: PATH.REGISTER.BASE,
-        element: <RegisterRoute />,
+        element: <Outlet />,
         children: [
           {
             index: true,
@@ -227,43 +228,88 @@ const router = createBrowserRouter([
           },
         ],
       },
-
-      // 찜
       {
-        path: PATH.LIKE.BASE,
-        element: (
-          <LikePage>
-            <Outlet />
-          </LikePage>
-        ),
+        path: '',
+        element: <UserRoute />,
         children: [
+          // 찜
           {
-            index: true,
-            element: <Navigate to={PATH.LIKE.TABS.ITEM} replace />,
+            path: PATH.LIKE.BASE,
+            element: (
+              <LikePage>
+                <Outlet />
+              </LikePage>
+            ),
+            children: [
+              {
+                index: true,
+                element: <Navigate to={PATH.LIKE.TABS.ITEM} replace />,
+              },
+              {
+                path: PATH.LIKE.TABS.ITEM,
+                element: <LikeItemTab />,
+              },
+              {
+                path: PATH.LIKE.TABS.SELLER,
+                element: <LikeInfluencerTab />,
+              },
+            ],
           },
+
+          // 캘린더
           {
-            path: PATH.LIKE.TABS.ITEM,
-            element: <LikeItemTab />,
+            path: PATH.CALENDAR.BASE,
+            element: <CalendarPage />,
           },
+
+          // 마이
+          // 마이
           {
-            path: PATH.LIKE.TABS.SELLER,
-            element: <LikeInfluencerTab />,
+            path: PATH.MY.BASE,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: <MyPage />,
+              },
+              {
+                path: `${PATH.MY.MY_QUESTION}`,
+                element: <MyQuestion />,
+              },
+              {
+                path: `${PATH.MY.NOTIFICATION}`,
+                element: <NotificationSettingsPage />,
+              },
+              {
+                path: `${PATH.MY.NICKNAME}`,
+                element: <NicknamePage />,
+              },
+              {
+                path: `${PATH.MY.ACCOUNT_SETTING.BASE}`,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    element: <AccountSettingsPage />,
+                  },
+                  {
+                    path: `${PATH.MY.ACCOUNT_SETTING.ID}`,
+                    element: <UsernamePage />,
+                  },
+                  {
+                    path: `${PATH.MY.ACCOUNT_SETTING.DELETE}`,
+                    element: <DeleteAccountPage />,
+                  },
+                ],
+              },
+              {
+                path: `${PATH.MY.SUPPORT}`,
+                element: <SupportPage />,
+              },
+            ],
           },
         ],
       },
-
-      // 캘린더
-      {
-        path: PATH.CALENDAR.BASE,
-        element: <CalendarPage />,
-      },
-
-      // 마이
-      {
-        path: PATH.MY.BASE,
-        element: <MyPage />,
-      },
-
       // 셀러뷰
       {
         path: PATH.SELLER.BASE,
@@ -307,11 +353,11 @@ const router = createBrowserRouter([
               },
               {
                 path: PATH.SELLER.MY.TABS.ARCHIVE,
-                element: <MyStoredITEMTab />,
+                element: <MyStoredItemTab />,
               },
               {
                 path: PATH.SELLER.MY.TABS.REVIEW,
-                element: <MyITEMReviewTab />,
+                element: <MyItemReviewTab />,
               },
             ],
           },

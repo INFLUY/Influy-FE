@@ -2,11 +2,14 @@ import { memo } from 'react';
 import CategoryChip from '../../common/CategoryChip';
 import { ItemFormValues } from '@/types/item.types';
 import { useFormContext, useController } from 'react-hook-form';
-import { CategoryType } from '@/types/common/CategoryType.types';
+import {
+  CategoryType,
+  ItemCategoryType,
+} from '@/types/common/CategoryType.types';
 import { CATEGORY_MAX_COUNT } from '@/schemas/itemSchema';
 interface CategoryMultiSelectorProps {
   name: keyof ItemFormValues; // 폼 필드 이름
-  categoryList: CategoryType[];
+  categoryList: CategoryType[] | ItemCategoryType[];
   ref: React.RefObject<HTMLDivElement | null>; // 스크롤 이동을 위한 ref
 }
 
@@ -32,34 +35,46 @@ export const CategoryMultiSelector = memo(
       <article className="flex w-full flex-col gap-y-3" ref={ref}>
         {/* 수정 필요 */}
         <div className="flex w-full justify-center gap-[.625rem]">
-          {categoryList.slice(0, 5).map((category: CategoryType) => (
-            <CategoryChip
-              key={category.id}
-              text={category.category}
-              isSelected={selectedList.includes(category.category)}
-              onToggle={() => handleClickCategory(category.category)}
-            />
-          ))}
+          {categoryList.slice(5, 9).map((category) => {
+            const text = 'name' in category ? category.name : category.category;
+
+            return (
+              <CategoryChip
+                key={category.id}
+                text={text}
+                isSelected={selectedList.includes(text)}
+                onToggle={() => handleClickCategory(text)}
+              />
+            );
+          })}
         </div>
         <div className="flex w-full justify-center gap-x-3">
-          {categoryList.slice(5, 9).map((category: CategoryType) => (
-            <CategoryChip
-              key={category.id}
-              text={category.category}
-              isSelected={selectedList.includes(category.category)}
-              onToggle={() => handleClickCategory(category.category)}
-            />
-          ))}
+          {categoryList.slice(5, 9).map((category) => {
+            const text = 'name' in category ? category.name : category.category;
+
+            return (
+              <CategoryChip
+                key={category.id}
+                text={text}
+                isSelected={selectedList.includes(text)}
+                onToggle={() => handleClickCategory(text)}
+              />
+            );
+          })}
         </div>
         <div className="flex w-full justify-center gap-x-3">
-          {categoryList.slice(9).map((category: CategoryType) => (
-            <CategoryChip
-              key={category.id}
-              text={category.category}
-              isSelected={selectedList.includes(category.category)}
-              onToggle={() => handleClickCategory(category.category)}
-            />
-          ))}
+          {categoryList.slice(5, 9).map((category) => {
+            const text = 'name' in category ? category.name : category.category;
+
+            return (
+              <CategoryChip
+                key={category.id}
+                text={text}
+                isSelected={selectedList.includes(text)}
+                onToggle={() => handleClickCategory(text)}
+              />
+            );
+          })}
         </div>
       </article>
     );

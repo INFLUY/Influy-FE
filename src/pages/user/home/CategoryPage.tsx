@@ -4,7 +4,7 @@ import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import { ItemCardType } from '@/types/common/ItemType.types';
 import { generatePath, useNavigate } from 'react-router-dom';
-import { CategoryType } from '@/types/common/CategoryType.types';
+import { ItemCategoryType } from '@/types/common/CategoryType.types';
 import { dummyCategory as categoryList } from '@/pages/seller/item/ItemDetailDummyData';
 import { useState } from 'react';
 import { ITEM_DEATIL } from '@/utils/generatePath';
@@ -143,10 +143,10 @@ const CategoryPage = () => {
       <div className="scrollbar-hide mt-3 flex w-full shrink-0 flex-nowrap items-center gap-2 overflow-x-scroll px-5 py-2">
         {categoryList &&
           categoryList.length > 0 &&
-          categoryList.map((category: CategoryType) => (
+          categoryList.map((category: ItemCategoryType) => (
             <CategoryChip
               key={category.id}
-              text={category.category}
+              text={category.name}
               isSelected={selectedCategory === category.id}
               onToggle={() => setSelectedCategory(category.id)}
               theme="home"

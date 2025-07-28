@@ -12,7 +12,7 @@ export interface SelectUserButtonType {
 export interface UserSignupState {
   id: string;
   email: string;
-  intersetedCategories: number[];
+  interestedCategories: number[];
 }
 
 export interface SnsLinkProps {
@@ -25,20 +25,20 @@ export interface SellerSignupState {
   id: string;
   email: string;
   sns: SnsLinkProps;
-  intersetedCategories: number[];
+  interestedCategories: number[];
 }
 
 export interface UserSignup {
   username: string;
   kakaoId: number;
-  intersetedCategories: number[];
+  interestedCategories: number[];
 }
 
 export interface SellerSignup {
   userInfo: {
     username: string;
     kakaoId: number;
-    intersetedCategories: number[];
+    interestedCategories: number[];
   };
   email?: string;
   instagram: string;
