@@ -1,11 +1,10 @@
-import { useNavigate, generatePath, useParams } from 'react-router-dom';
+import { useNavigate, generatePath } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { TalkBoxCategoryItem } from '@/components';
 import { useTalkBoxCategoryContext } from '@/contexts/TalkBoxCategoryContext';
 
 export const AnsweredCategoryTab = () => {
   const navigate = useNavigate();
-  const { itemId } = useParams();
   const { categoryData } = useTalkBoxCategoryContext();
 
   const handleCategoryClick = (categoryId: number) => {

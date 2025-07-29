@@ -9,7 +9,7 @@ import {
   InfiniteQuestionList,
 } from '@/components';
 
-import { QuestionDTO, CategoryTagsDTO } from '@/types/seller/TalkBox.types';
+import { QuestionDTO } from '@/types/seller/TalkBox.types';
 import {
   useSelectModeStore,
   useTalkBoxQuestionStore,
@@ -165,39 +165,42 @@ export const PendingQuestionsTab = () => {
 
   const handleConfirmDelete = () => {
     const selectedId: number[] = selectedQuestions.map((q) => q.questionId);
+    const tagsToInvalidate: number[] = Array.from(
+      new Set(selectedQuestions.map((q) => q.tagId))
+    );
+    console.log(tagsToInvalidate);
     deleteQuestions(selectedId);
   };
 
   // 일괄 답변하기
   const handleBulkReply = () => {
-    const tagId = getMostFrequentTagId(selectedQuestions, questionTags);
+    const tagId = getMostFrequentTagId(selectedQuestions);
     navigate(`../${PATH.SELLER.talkBox.item.category.bulkReply}`, {
       state: { tagId: tagId },
     });
+    console.log(tagId);
   };
 
   const getMostFrequentTagId = (
-    selectedQuestions: QuestionDTO[],
-    questionTags: CategoryTagsDTO[]
+    selectedQuestions: QuestionDTO[]
   ): number | null => {
-    const tagCountMap = new Map<string, number>();
+    if (selectedQuestions.length === 0) return null;
 
-    selectedQuestions.forEach((q) =>
-      tagCountMap.set(q.tagName, (tagCountMap.get(q.tagName) ?? 0) + 1)
-    );
-
-    let mostFrequentTagName = '';
+    const countMap = new Map<number, number>();
+    let mostFrequentTagId: number | null = null;
     let maxCount = 0;
 
-    tagCountMap.forEach((count, tagName) => {
-      if (count > maxCount) {
-        maxCount = count;
-        mostFrequentTagName = tagName;
-      }
-    });
-    const tag = questionTags.find((tag) => tag.name === mostFrequentTagName);
+    for (const { tagId } of selectedQuestions) {
+      const currentCount = (countMap.get(tagId) || 0) + 1;
+      countMap.set(tagId, currentCount);
 
-    return tag?.id ?? null;
+      if (currentCount > maxCount) {
+        maxCount = currentCount;
+        mostFrequentTagId = tagId;
+      }
+    }
+
+    return mostFrequentTagId;
   };
 
   return (

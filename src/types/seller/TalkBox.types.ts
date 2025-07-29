@@ -24,6 +24,8 @@ export interface QuestionDTO {
   nthQuestion: number;
   createdAt: string;
   new: boolean;
+  profileImg: string | null;
+  tagId: number;
 }
 export interface QuestionResponse {
   questions: QuestionDTO[];

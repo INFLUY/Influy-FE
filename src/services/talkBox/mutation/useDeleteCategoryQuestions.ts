@@ -13,8 +13,12 @@ export const useDeleteCategoryQuestions = ({
 }) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (questionIdList: number[]) =>
-      deleteCategoryQuestions({ itemId, questionCategoryId, questionIdList }),
+    mutationFn: (payload: { questionIdList: number[]; tagIds: number[] }) =>
+      deleteCategoryQuestions({
+        itemId,
+        questionCategoryId,
+        questionIdList: payload.questionIdList,
+      }),
     onSuccess: () => {
       if (onSuccessCallback) onSuccessCallback();
 
