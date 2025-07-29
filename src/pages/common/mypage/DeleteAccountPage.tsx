@@ -3,15 +3,23 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useModalStore } from '@/store/useModalStore';
 import { PATH } from '@/routes/path';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 const DeleteAccountPage = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const isSeller = pathname.includes(PATH.SELLER.BASE);
   const { showModal } = useModalStore();
+  const { showSnackbar } = useSnackbarStore();
 
   const handlePublicProfileClick = () => {
-    // TODO: 스낵바 & 백 연동
+    // TODO: 백 연동
+    // 백 결과에 따라서 스낵바 띄우기
+    if (true) {
+      showSnackbar('계정이 비공개로 전환되었습니다.');
+    } else {
+      showSnackbar('이미 비공개처리 되어있습니다.');
+    }
   };
 
   const handleDeleteAccountClick = () => {

@@ -6,11 +6,13 @@ import {
 import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { PATH } from '@/routes/path';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 const SellerAccountSettingsPage = () => {
   const navigate = useNavigate();
-  const [isPublic, setIsPublic] = useState<boolean>(false);
+  const [isPrivate, setIsPrivate] = useState<boolean>(false);
+  const { showSnackbar } = useSnackbarStore();
 
   const userProfile = {
     id: 1,
@@ -21,9 +23,15 @@ const SellerAccountSettingsPage = () => {
   };
 
   const handlePublicProfileClick = () => {
-    setIsPublic((prev) => !prev);
-    // TODO: 스낵바 & 백 연동
+    setIsPrivate((prev) => !prev);
+    // TODO: 백 연동
   };
+
+  useEffect(() => {
+    if (isPrivate) {
+      showSnackbar('계정이 비공개로 전환되었습니다.');
+    }
+  }, [isPrivate]);
 
   return (
     <div className="flex h-full w-full flex-1 flex-col pt-11">
@@ -51,14 +59,14 @@ const SellerAccountSettingsPage = () => {
             <div className="flex flex-col gap-1">
               <p className="body1-m text-grey10">프로필 비공개 전환</p>
               <span className="text-grey07 body2-m">
-                {isPublic
-                  ? '비공개 전환 시, 셀러 본인만 접근 가능합니다.'
-                  : '현재 계정이 비공개 상태입니다.'}
+                {isPrivate
+                  ? '현재 계정이 비공개 상태입니다.'
+                  : '비공개 전환 시, 셀러 본인만 접근 가능합니다.'}
               </span>
             </div>
             <ToggleButton
               name="프로필 비공개 전환"
-              isChecked={isPublic}
+              isChecked={isPrivate}
               setIsChecked={handlePublicProfileClick}
             />
           </div>

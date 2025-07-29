@@ -9,11 +9,14 @@ import { useMemo } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useCheckIdDuplicate } from '@/services/auth/useCheckIdDuplicationCheck';
 import { PATH } from '@/routes/path';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 const UsernamePage = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const isSeller = pathname.includes(PATH.SELLER.BASE);
+
+  const { showSnackbar } = useSnackbarStore();
 
   const [id, setId] = useState<string>('');
   const [isDirty, setIsDirty] = useState(false); // 입력값이 한번이라도 바뀌었는지
@@ -22,7 +25,6 @@ const UsernamePage = () => {
 
   const [errorText, setErrorText] = useState<string>('');
   const [validText, setValidText] = useState<string>('');
-  // const { showSnackbar } = useSnackbarStore();
 
   const isIdValid = () => {
     if (id.length === 0) return false;
@@ -56,12 +58,12 @@ const UsernamePage = () => {
   const handleClickSave = () => {
     setIsDirty(true);
     if (!isIdValid) {
-      // showSnackbar(errorText || '아이디를 입력해 주세요.'); // TODO: 스낵바
+      showSnackbar(errorText || '아이디를 입력해 주세요.');
       inputRef.current?.focus();
     } else {
       // 백 연동
       console.log(id);
-      // showSnackbar('저장되었습니다.'); // TODO: 스낵바
+      showSnackbar('저장되었습니다.');
     }
   };
 
