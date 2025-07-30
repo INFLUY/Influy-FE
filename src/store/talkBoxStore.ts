@@ -97,10 +97,11 @@ export const useTalkBoxQuestionStore = create<TalkBoxQuestionStore>(
         uncheckedExists: false,
       },
     ],
-    setAnsweredQuestionTags: (tags) => set({ questionTags: tags }),
+    setAnsweredQuestionTags: (tags) => set({ answeredQuestionTags: tags }),
 
     answeredQuestionsByTag: {},
-    setAnsweredQuestionsByTag: (questionsByTag) => set({ questionsByTag }),
+    setAnsweredQuestionsByTag: (answeredQuestionsByTag) =>
+      set({ answeredQuestionsByTag }),
   })
 );
 

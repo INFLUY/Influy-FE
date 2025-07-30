@@ -3,6 +3,7 @@ import {
   SubCategoryChip,
   QuestionChatBubble,
   SingleReplyBottomSheet,
+  InfiniteQuestionList,
 } from '@/components';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -19,7 +20,7 @@ import { useGetAllQuestions } from '@/services/talkBox/query/useGetAllQuestions'
 import { useGetQuestionTags } from '@/services/talkBox/query/useGetQuestionTags';
 import { useGetQuestionsByTag } from '@/services/talkBox/query/useGetQuestionsByTag';
 import { useDeleteCategoryQuestions } from '@/services/talkBox/mutation/useDeleteCategoryQuestions';
-
+import { useTalkBoxQuestions } from '@/services/talkBox/query/useTalkBoxQuestions';
 export const AnsweredQuestionsTab = () => {
   const [singleReplyChat, setSingleReplyChat] = useState<QuestionDTO | null>(
     null
@@ -44,11 +45,11 @@ export const AnsweredQuestionsTab = () => {
   }, []);
 
   // -- api
-  // 상단 태그 목록 get
-  const { data: questionTagData } = useGetQuestionTags({
-    questionCategoryId: Number(categoryId),
-    isAnswered: true,
-  });
+  const { questions, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useTalkBoxQuestions({
+      questionCategoryId: Number(categoryId),
+      isAnswered: true,
+    });
 
   return (
     <>
@@ -58,15 +59,15 @@ export const AnsweredQuestionsTab = () => {
         style={{ top: 'var(--headerHeight)' }}
       >
         <div className="scrollbar-hide flex shrink-0 items-center gap-[.5625rem] overflow-x-scroll bg-white px-5 py-3">
-          {dummySubCategories &&
-            dummySubCategories.length > 0 &&
-            dummySubCategories.map((subCategory) => (
+          {answeredQuestionTags &&
+            answeredQuestionTags.length > 0 &&
+            answeredQuestionTags.map((c) => (
               <SubCategoryChip
-                key={subCategory.text}
-                text={subCategory.text}
-                count={subCategory.totalCount}
-                isSelected={selectedSubCategory?.id === subCategory.id}
-                onToggle={() => setSelectedSubCategory(subCategory)}
+                key={c.id}
+                text={c.name}
+                count={c.totalQuestions}
+                isSelected={c === selectedTag}
+                onToggle={() => setSelectedTag(c)}
               />
             ))}
         </div>
@@ -76,41 +77,31 @@ export const AnsweredQuestionsTab = () => {
         {/* 상단 제목 */}
         <div className="flex w-full items-center justify-between px-5">
           <div className="body1-sb flex gap-1">
-            <span className="text-sub">#{selectedSubCategory?.text}</span>
-            <span className="text-grey11">
-              ({selectedSubCategory?.totalCount})
-            </span>
+            <span className="text-sub">#{selectedTag.name}</span>
+            <span className="text-grey11">({selectedTag?.totalQuestions})</span>
           </div>
-          <span className="body2-sb text-grey11">
-            새 질문 ({selectedSubCategory?.newCount})
-          </span>
+          <span className="body2-sb text-grey11">새 질문 asdf</span>
         </div>
-
-        {/* 말풍선 */}
-        {selectedSubCategory &&
-          getChatsByCategory(selectedSubCategory?.text).map((chat) => (
-            <QuestionChatBubble
-              key={chat.questionId}
-              chat={chat}
-              isSelected={selectedIds.includes(chat.questionId)}
-              selectedSubCategory={selectedSubCategory?.text}
-              mode={mode}
-              onSelectSingle={(selectedChat) => {
-                setSingleReplyChat(selectedChat); // QuestionsListPage 상태 세팅
-                setMode('single'); // BottomSheet 모드로 전환
-              }}
-            />
-          ))}
+        <InfiniteQuestionList
+          questions={questions}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          onSelectSingle={(q) => {
+            setSingleReplyChat(q);
+            setMode('single');
+          }}
+        />
       </section>
 
       {/* 질문 하나 선택시 */}
       {/* TODO: faq 등록했을 경우, faq 등록하기 로직 추가 필요 */}
-      {mode === 'single' && singleReplyChat && (
+      {/* {mode === 'single' && singleReplyChat && (
         <SingleReplyBottomSheet
           question={singleReplyChat}
           onClose={() => setMode('answered')}
         />
-      )}
+      )} */}
     </>
   );
 };

@@ -22,6 +22,8 @@ import { useGetQuestionTags } from '@/services/talkBox/query/useGetQuestionTags'
 import { useGetQuestionsByTag } from '@/services/talkBox/query/useGetQuestionsByTag';
 import { useDeleteCategoryQuestions } from '@/services/talkBox/mutation/useDeleteCategoryQuestions';
 
+import { useTalkBoxQuestions } from '@/services/talkBox/query/useTalkBoxQuestions';
+
 export const PendingQuestionsTab = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [singleReplyChat, setSingleReplyChat] = useState<QuestionDTO | null>(
