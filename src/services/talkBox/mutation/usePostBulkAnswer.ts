@@ -1,6 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { postBulkAnswer } from '@/api/talkBox/handleSellerTalkBoxAnswer';
-import { QUERY_KEYS } from '@/constants/api';
 
 export const usePostBulkAnswer = ({
   itemId,
@@ -11,8 +10,6 @@ export const usePostBulkAnswer = ({
   questionCategoryId: number;
   onSuccessCallback?: (answeredCnt: number) => void;
 }) => {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (data: { questionIdList: number[]; answerContent: string }) =>
       postBulkAnswer({ itemId, questionCategoryId, data }),

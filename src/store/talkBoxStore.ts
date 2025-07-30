@@ -66,59 +66,39 @@ interface TalkBoxQuestionStore {
   ) => void;
 }
 
-export const useTalkBoxQuestionStore = create<TalkBoxQuestionStore>(
-  (set, get) => ({
-    questionTags: [
-      {
-        id: null,
-        name: '전체',
-        totalQuestions: 0,
-        uncheckedExists: false,
-      },
-    ],
-    setQuestionTags: (tags) => set({ questionTags: tags }),
-
-    questionsByTag: {},
-    setQuestionsByTag: (questionsByTag) => set({ questionsByTag }),
-
-    selectedTag: {
+export const useTalkBoxQuestionStore = create<TalkBoxQuestionStore>((set) => ({
+  questionTags: [
+    {
       id: null,
       name: '전체',
       totalQuestions: 0,
       uncheckedExists: false,
     },
-    setSelectedTag: (category) => set({ selectedTag: category }),
+  ],
+  setQuestionTags: (tags) => set({ questionTags: tags }),
 
-    answeredQuestionTags: [
-      {
-        id: null,
-        name: '전체',
-        totalQuestions: 0,
-        uncheckedExists: false,
-      },
-    ],
-    setAnsweredQuestionTags: (tags) => set({ answeredQuestionTags: tags }),
+  questionsByTag: {},
+  setQuestionsByTag: (questionsByTag) => set({ questionsByTag }),
 
-    answeredQuestionsByTag: {},
-    setAnsweredQuestionsByTag: (answeredQuestionsByTag) =>
-      set({ answeredQuestionsByTag }),
-  })
-);
+  selectedTag: {
+    id: null,
+    name: '전체',
+    totalQuestions: 0,
+    uncheckedExists: false,
+  },
+  setSelectedTag: (category) => set({ selectedTag: category }),
 
-// interface TalkBoxBottomSheetStore {
-//   bottomSheetQuestion: QuestionDTO | null;
-//   setBottomSheetQuestion: (q: QuestionDTO | null) => void;
+  answeredQuestionTags: [
+    {
+      id: null,
+      name: '전체',
+      totalQuestions: 0,
+      uncheckedExists: false,
+    },
+  ],
+  setAnsweredQuestionTags: (tags) => set({ answeredQuestionTags: tags }),
 
-//   questionTagId: number | null;
-//   setQuestionTagId: (tagId: number) => void;
-// }
-
-// export const useTalkBoxBottomSheetStore = create<TalkBoxBottomSheetStore>(
-//   (set) => ({
-//     bottomSheetQuestion: null,
-//     setBottomSheetQuestion: (q) => set({ question: q }),
-
-//     questionTagId: null,
-//     setQuestionTagId: (tagId) => set({ questionTagId: tagId }),
-//   })
-// );
+  answeredQuestionsByTag: {},
+  setAnsweredQuestionsByTag: (answeredQuestionsByTag) =>
+    set({ answeredQuestionsByTag }),
+}));

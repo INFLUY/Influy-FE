@@ -1,7 +1,6 @@
-import { ReactNode, useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { ReactNode, useState, useLayoutEffect, useRef } from 'react';
 import {
   TalkBoxQuestionItemCard,
-  SnackBar,
   QuestionListHeader,
   SingleQuestionBottomSheet,
 } from '@/components';
@@ -28,7 +27,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     sellerId: 2, // TODO: 수정 필요
     itemId: Number(itemId),
   });
-  const { mode, setMode } = useSelectModeStore();
+  const { mode } = useSelectModeStore();
 
   const headerRef = useRef<HTMLDivElement>(null);
 
