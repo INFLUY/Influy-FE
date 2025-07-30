@@ -1,4 +1,4 @@
-import { ItemGrid } from '@/components/user/common/Item';
+import { ItemGridCard } from '@/components/user/common/ItemGridCard';
 import { useState } from 'react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
@@ -17,11 +17,6 @@ const SelectionTab = () => {
       tagline: '음악의 감성을 되살리다',
       currentStatus: 'DEFAULT',
       liked: false,
-      talkBoxInfo: {
-        talkBoxOpenStatus: 'INITIAL',
-        waitingCnt: 2,
-        completedCnt: 1,
-      },
       mainImg: '/img1.png',
     },
     {
@@ -35,12 +30,7 @@ const SelectionTab = () => {
       tagline: '추억을 담는 새로운 방법',
       currentStatus: 'EXTEND',
       liked: false,
-      talkBoxInfo: {
-        talkBoxOpenStatus: 'OPENED',
-        waitingCnt: 0,
-        completedCnt: 5,
-      },
-      mainImg: '/img1.png',
+      mainImg: '/product.png',
     },
     {
       itemId: 3,
@@ -53,11 +43,6 @@ const SelectionTab = () => {
       tagline: '마니아를 위한 최고의 선택',
       currentStatus: 'DEFAULT',
       liked: false,
-      talkBoxInfo: {
-        talkBoxOpenStatus: 'CLOSED',
-        waitingCnt: 3,
-        completedCnt: 10,
-      },
       mainImg: '/img1.png',
     },
   ];
@@ -91,7 +76,7 @@ const SelectionTab = () => {
       {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 ? (
         <ul className="grid grid-cols-2 content-start items-start gap-x-[.1875rem] gap-y-8">
           {PRODUCT_LIST?.map((item) => (
-            <ItemGrid key={item?.itemId} item={item} />
+            <ItemGridCard key={item?.itemId} item={item} />
           ))}
         </ul>
       ) : (

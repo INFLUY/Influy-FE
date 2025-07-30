@@ -5,15 +5,15 @@ import {
 import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { SELLER_ITEM_DETAIL } from '@/utils/generatePath';
-import { ItemPreviewList } from '@/types/common/ItemType.types';
+import { SellerItemPreviewList } from '@/types/common/ItemType.types';
 import { formatKrDate } from '@/utils/formatDate';
 
-const SellerMyItem = ({
+const SellerMyItemCard = ({
   item,
   openStatusModal,
   openEditModal,
 }: {
-  item: ItemPreviewList;
+  item: SellerItemPreviewList;
   openStatusModal: () => void;
   openEditModal: () => void;
 }) => {
@@ -95,4 +95,4 @@ const SellerMyItem = ({
   );
 };
 
-export default SellerMyItem;
+export default SellerMyItemCard;

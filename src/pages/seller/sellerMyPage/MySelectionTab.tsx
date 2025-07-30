@@ -2,12 +2,12 @@ import { lazy, Suspense, useState } from 'react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { AddButton, SellerMyItem } from '@/components';
+import { AddButton, SellerMyItemCard } from '@/components';
 import Arrow from '@/assets/icon/common/Chevron.svg?react';
 import cn from '@/utils/cn';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
 import { PATH } from '@/routes/path';
-import { ItemPreviewList } from '@/types/common/ItemType.types';
+import { SellerItemPreviewList } from '@/types/common/ItemType.types';
 
 const MySelectionTab = () => {
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const MySelectionTab = () => {
     },
   ];
 
-  const PRODUCT_LIST: ItemPreviewList[] = [
+  const PRODUCT_LIST: SellerItemPreviewList[] = [
     {
       itemId: 1,
       sellerId: 101,
@@ -238,7 +238,7 @@ const MySelectionTab = () => {
       {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 && (
         <ul className="flex flex-col items-start gap-5 self-stretch pb-1">
           {PRODUCT_LIST?.map((item) => (
-            <SellerMyItem
+            <SellerMyItemCard
               key={item.itemId}
               item={item}
               openStatusModal={() => openStatusModal(item.itemId)}

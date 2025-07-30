@@ -38,7 +38,7 @@ export { default as HorizontalRankingCard } from './common/card/HorizontalRankin
   /* user */
 }
 //common
-export { ItemGrid } from './user/common/Item';
+export { ItemGridCard } from './user/common/ItemGridCard.tsx';
 export { TimeChip, SoldOutChip, ExtendChip } from './user/common/Chip';
 //seller
 export { default as SellerProfileHeader } from './user/seller/SellerProfileHeader';
@@ -86,7 +86,7 @@ export {
 } from './seller/item/administration/EditStatusChip';
 export { default as ExternalLinkBottomSheet } from './seller/item/administration/ExternalLinkBottomSheet';
 export { default as AdminItemBottomSheet } from './seller/item/administration/AdminItemBottomSheet';
-export { default as SellerMyItem } from './seller/item/administration/SellerMyItem';
+export { default as SellerMyItemCard } from './seller/item/administration/SellerMyItemCard.tsx';
 export { default as FaqListEdit } from './seller/item/registration/FaqListEdit';
 // faq
 export { default as VanillaCategoryMultiSelector } from './seller/item/faq/VanillaCategoryMultiSelector';

@@ -1,4 +1,4 @@
-export type ItemPreviewList = {
+export type SellerItemPreviewList = {
   itemId: number;
   sellerId: number;
   itemPeriod: number;
@@ -18,7 +18,7 @@ export type ItemPreviewList = {
 };
 
 export type SellerItemsResponse = {
-  itemPreviewList: ItemPreviewList[] | [];
+  itemPreviewList: SellerItemPreviewList[] | [];
   listSize: number;
   totalPage: number;
   totalElements: number;
@@ -72,15 +72,16 @@ export type FaqQuestion = {
   updatedAt: string;
 };
 
-export type itemPreviewList = {
+export type ItemPreviewList = {
   itemId: number;
+  sellerId: number;
   itemPeriod: number;
   itemName: string;
   sellerName: string;
   startDate: string;
   endDate: string;
   tagline: string;
-  currentStatus: 'DEFAULT' | 'ON_SALE' | 'CLOSED';
+  currentStatus: 'DEFAULT' | 'EXTEND' | 'SOLD_OUT';
   liked: false;
   mainImg: string;
 };
