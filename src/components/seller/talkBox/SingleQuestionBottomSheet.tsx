@@ -14,7 +14,7 @@ import { PATH } from '@/routes/path';
 //api
 import { useGetTagAnswers } from '@/services/talkBox/query/useGetTagAnswers';
 
-const SingleReplyBottomSheet = ({
+const SingleQuestionBottomSheet = ({
   question,
   onClose,
   itemId,
@@ -97,10 +97,12 @@ const SingleReplyBottomSheet = ({
             onClickFaq={handleFaqRegister}
           />
           <section className="bottom-bar flex w-full flex-col overflow-x-clip">
-            <PrevReplyBottomSheet
-              prevAnswers={prevAnswers}
-              handleAnswerSelect={handleAnswerSelect}
-            />
+            {prevAnswers && (
+              <PrevReplyBottomSheet
+                prevAnswers={prevAnswers}
+                handleAnswerSelect={handleAnswerSelect}
+              />
+            )}
             <ChatBarTextArea
               text={answerText}
               setText={setAnswerText}
@@ -125,4 +127,4 @@ const SingleReplyBottomSheet = ({
     </>
   );
 };
-export default SingleReplyBottomSheet;
+export default SingleQuestionBottomSheet;

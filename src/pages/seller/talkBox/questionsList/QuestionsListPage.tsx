@@ -3,23 +3,26 @@ import {
   TalkBoxQuestionItemCard,
   SnackBar,
   QuestionListHeader,
+  SingleQuestionBottomSheet,
 } from '@/components';
 
 import { useLocation, useParams } from 'react-router-dom';
-import {
-  useSelectModeStore,
-  useTalkBoxQuestionStore,
-} from '@/store/talkBoxStore';
+import { BottomSheetContext } from '@/contexts/TalkBoxCategoryContext';
 
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
 import { useGetCategoryQuestionCounts } from '@/services/talkBox/query/useGetCategoryQuestionCounts';
+import { useSelectModeStore } from '@/store/talkBoxStore';
+import { QuestionDTO } from '@/types/seller/TalkBox.types';
 
 export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   const [snackBarState, setSnackBarState] = useState<{
     message: string;
     isOpen: boolean;
   }>({ message: '', isOpen: false });
+  const [singleQuestion, setSingleQuestion] = useState<QuestionDTO | null>(
+    null
+  );
 
   const location = useLocation();
   const sentCount = location.state?.sentCount;
@@ -33,6 +36,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     sellerId: 2, // TODO: 수정 필요
     itemId: Number(itemId),
   });
+  const { mode, setMode } = useSelectModeStore();
 
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -73,36 +77,52 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   // TODO: 로컬스토리지에서 삭제 처리
   // useSelectModeStore.persist.clearStorage();
   return (
-    <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
-      <QuestionListHeader
-        headerRef={headerRef}
-        category={category}
-        tabCounts={data}
-      />
-      <article className="flex w-full flex-col gap-2.5 px-5 pt-4">
-        {itemOverview && (
-          <TalkBoxQuestionItemCard
-            itemName={itemOverview.itemName}
-            tagline={itemOverview.tagline}
-            mainImg={itemOverview.mainImg}
-          />
+    <BottomSheetContext.Provider value={{ singleQuestion, setSingleQuestion }}>
+      <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+        <QuestionListHeader
+          headerRef={headerRef}
+          category={category}
+          tabCounts={data}
+        />
+        <article className="flex w-full flex-col gap-2.5 px-5 pt-4">
+          {itemOverview && (
+            <TalkBoxQuestionItemCard
+              itemName={itemOverview.itemName}
+              tagline={itemOverview.tagline}
+              mainImg={itemOverview.mainImg}
+            />
+          )}
+          <p className="subhead-sb py-3">
+            이 상품의 <span className="text-sub">{category}</span> 관련 질문 중
+            <br />
+            비슷한 질문들끼리 분류했어요.
+          </p>
+        </article>
+        {children}
+        {snackBarState.isOpen && (
+          <SnackBar
+            handleSnackBarClose={() =>
+              setSnackBarState({ message: '', isOpen: false })
+            }
+          >
+            {snackBarState.message}
+          </SnackBar>
         )}
-        <p className="subhead-sb py-3">
-          이 상품의 <span className="text-sub">{category}</span> 관련 질문 중
-          <br />
-          비슷한 질문들끼리 분류했어요.
-        </p>
-      </article>
-      {children}
-      {snackBarState.isOpen && (
-        <SnackBar
-          handleSnackBarClose={() =>
-            setSnackBarState({ message: '', isOpen: false })
-          }
-        >
-          {snackBarState.message}
-        </SnackBar>
+      </section>
+
+      {/* 질문 하나 선택시 */}
+      {mode === 'single' && singleQuestion && (
+        <SingleQuestionBottomSheet
+          question={singleQuestion}
+          onClose={() => {
+            setMode('default');
+            setSingleQuestion(null);
+          }}
+          itemId={Number(itemId)}
+          categoryId={Number(categoryId)}
+          tagId={singleQuestion.tagId}
+        />
       )}
-    </section>
+    </BottomSheetContext.Provider>
   );
 };

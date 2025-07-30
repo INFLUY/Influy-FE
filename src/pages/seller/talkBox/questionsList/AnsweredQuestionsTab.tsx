@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {
   SubCategoryChip,
   QuestionChatBubble,
-  SingleReplyBottomSheet,
+  SingleQuestionBottomSheet,
   InfiniteQuestionList,
 } from '@/components';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -97,7 +97,7 @@ export const AnsweredQuestionsTab = () => {
       {/* 질문 하나 선택시 */}
       {/* TODO: faq 등록했을 경우, faq 등록하기 로직 추가 필요 */}
       {/* {mode === 'single' && singleReplyChat && (
-        <SingleReplyBottomSheet
+        <SingleQuestionBottomSheet
           question={singleReplyChat}
           onClose={() => setMode('answered')}
         />

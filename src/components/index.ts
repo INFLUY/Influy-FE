@@ -131,6 +131,6 @@ export { default as SellerReplyBubble } from './seller/talkBox/SellerReplyBubble
 export { default as TalkBoxBottomSheetLayout } from './seller/talkBox/TalkBoxBottomSheetLayout';
 
 export { default as PrevReplyBottomSheet } from './seller/talkBox/PrevReplyBottomSheet';
-export { default as SingleReplyBottomSheet } from './seller/talkBox/SingleReplyBottomSheet';
+export { default as SingleQuestionBottomSheet } from './seller/talkBox/SingleQuestionBottomSheet';
 export { QuestionListHeader } from './seller/talkBox/questionList/QuestionListHeader';
 export { InfiniteQuestionList } from './seller/talkBox/questionList/InfiniteQuestionList';

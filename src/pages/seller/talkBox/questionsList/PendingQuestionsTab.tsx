@@ -4,7 +4,6 @@ import {
   SubCategoryChip,
   DefaultButton,
   SellerModal,
-  SingleReplyBottomSheet,
   LoadingSpinner,
   InfiniteQuestionList,
 } from '@/components';
@@ -21,11 +20,11 @@ import { useDeleteCategoryQuestions } from '@/services/talkBox/mutation/useDelet
 
 import { useTalkBoxQuestions } from '@/services/talkBox/query/useTalkBoxQuestions';
 
+import { useBottomSheetContext } from '@/contexts/TalkBoxCategoryContext';
+
 export const PendingQuestionsTab = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [singleReplyChat, setSingleReplyChat] = useState<QuestionDTO | null>(
-    null
-  );
+
   const { itemId, categoryId } = useParams();
 
   const navigate = useNavigate();
@@ -34,13 +33,6 @@ export const PendingQuestionsTab = () => {
 
   const { questionTags, selectedTag, setSelectedTag } =
     useTalkBoxQuestionStore();
-
-  // const {
-  //   bottomSheetQuestion,
-  //   setBottomSheetQuestion,
-  //   questionTagId,
-  //   setQuestionTagId,
-  // } = useTalkBoxBottomSheetStore();
 
   useEffect(() => {
     setMode('default');
@@ -68,7 +60,6 @@ export const PendingQuestionsTab = () => {
     const tagsToInvalidate: number[] = Array.from(
       new Set(selectedQuestions.map((q) => q.tagId))
     );
-    console.log(tagsToInvalidate);
     deleteQuestions({ questionIdList: selectedId, tagIds: tagsToInvalidate });
   };
 
@@ -102,6 +93,8 @@ export const PendingQuestionsTab = () => {
 
     return mostFrequentTagId;
   };
+
+  const { setSingleQuestion } = useBottomSheetContext();
 
   return (
     <>
@@ -149,7 +142,7 @@ export const PendingQuestionsTab = () => {
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
           onSelectSingle={(q) => {
-            setSingleReplyChat(q);
+            setSingleQuestion(q);
             setMode('single');
           }}
         />
@@ -189,17 +182,6 @@ export const PendingQuestionsTab = () => {
           leftButtonClick={() => setIsDeleteModalOpen(false)}
           rightButtonClick={handleConfirmDelete}
           setIsModalOpen={setIsDeleteModalOpen}
-        />
-      )}
-
-      {/* 질문 하나 선택시 */}
-      {mode === 'single' && singleReplyChat && (
-        <SingleReplyBottomSheet
-          question={singleReplyChat}
-          onClose={() => setMode('default')}
-          itemId={Number(itemId)}
-          categoryId={Number(categoryId)}
-          tagId={selectedTag.id || 23} //todo: 수정
         />
       )}
 
