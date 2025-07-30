@@ -66,7 +66,7 @@ export const AnsweredQuestionsTab = () => {
                 key={c.id}
                 text={c.name}
                 count={c.totalQuestions}
-                isSelected={c === selectedTag}
+                isSelected={c.name === selectedTag.name}
                 onToggle={() => setSelectedTag(c)}
               />
             ))}

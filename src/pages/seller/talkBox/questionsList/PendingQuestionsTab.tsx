@@ -17,9 +17,6 @@ import {
 import { PATH } from '@/routes/path';
 
 // api
-import { useGetAllQuestions } from '@/services/talkBox/query/useGetAllQuestions';
-import { useGetQuestionTags } from '@/services/talkBox/query/useGetQuestionTags';
-import { useGetQuestionsByTag } from '@/services/talkBox/query/useGetQuestionsByTag';
 import { useDeleteCategoryQuestions } from '@/services/talkBox/mutation/useDeleteCategoryQuestions';
 
 import { useTalkBoxQuestions } from '@/services/talkBox/query/useTalkBoxQuestions';
@@ -35,14 +32,8 @@ export const PendingQuestionsTab = () => {
 
   const { mode, selectedQuestions, setMode } = useSelectModeStore();
 
-  const {
-    questionTags,
-    setQuestionTags,
-    questionsByTag,
-    selectedTag,
-    setSelectedTag,
-    setQuestionsByTag,
-  } = useTalkBoxQuestionStore();
+  const { questionTags, selectedTag, setSelectedTag } =
+    useTalkBoxQuestionStore();
 
   // const {
   //   bottomSheetQuestion,
@@ -56,104 +47,11 @@ export const PendingQuestionsTab = () => {
   }, []);
 
   // -- api
-  // 상단 태그 목록 get
-  const { data: questionTagData } = useGetQuestionTags({
-    questionCategoryId: Number(categoryId),
-    isAnswered: false,
-  });
-
-  useEffect(() => {
-    if (questionTagData) {
-      setQuestionTags(questionTagData);
-
-      setQuestionsByTag(
-        questionTagData.reduce(
-          (acc, tag) => {
-            acc[tag.name] = [];
-            return acc;
-          },
-          {} as Record<string, QuestionDTO[]>
-        )
-      );
-
-      setSelectedTag(questionTagData[0]);
-    }
-  }, [questionTagData]);
-
-  // '전체' 카테고리 get
-  const {
-    data: allQuestionsData,
-    fetchNextPage: fetchNextPageAll,
-    hasNextPage: hasNextPageAll,
-    isFetchingNextPage: isFetchingNextPageAll,
-  } = useGetAllQuestions({
-    questionCategoryId: Number(categoryId),
-    isAnswered: false,
-  });
-
-  // '전체' 태그의 질문들을 questionsByTag에 저장 - 메모이제이션으로 최적화
-  const allQuestions = useMemo(() => {
-    if (!allQuestionsData) return [];
-    return allQuestionsData.pages.flatMap((page) => page?.questions ?? []);
-  }, [allQuestionsData]);
-
-  useEffect(() => {
-    if (allQuestions.length > 0 && selectedTag?.name === '전체') {
-      const updatedMap = { ...questionsByTag, 전체: allQuestions };
-      setQuestionsByTag(updatedMap);
-    }
-  }, [selectedTag?.name, allQuestions]);
-
-  // 개별 카테고리 질문 get
-  const {
-    data: questionsByTagData,
-    fetchNextPage: fetchNextPageByTag,
-    hasNextPage: hasNextPageByTag,
-    isFetchingNextPage: isFetchingNextPageByTag,
-  } = useGetQuestionsByTag({
-    questionTagId: selectedTag?.id ?? null,
-    isAnswered: false,
-  });
-
-  // 개별 태그 질문들을 메모이제이션
-  const tagQuestions = useMemo(() => {
-    if (!questionsByTagData || !selectedTag || selectedTag.name === '전체')
-      return [];
-    return questionsByTagData.pages.flatMap((p) => p.questions ?? []);
-  }, [questionsByTagData, selectedTag]);
-
-  // 태그별 질문 데이터 업데이트 - 최적화된 버전
-  useEffect(() => {
-    if (tagQuestions.length > 0 && selectedTag && selectedTag.name !== '전체') {
-      const updatedMap = {
-        ...questionsByTag,
-        [selectedTag.name]: tagQuestions,
-      };
-      setQuestionsByTag(updatedMap);
-    }
-  }, [tagQuestions]);
-
-  // 1) When selectedTag changes, if it's not '전체' and we haven't loaded it yet, fetch
-  useEffect(() => {
-    if (
-      selectedTag &&
-      selectedTag.name !== '전체' &&
-      selectedTag.id !== 0 &&
-      questionsByTag[selectedTag.name]?.length === 0
-    ) {
-      fetchNextPageByTag();
-    }
-  }, [selectedTag?.id, selectedTag?.name]);
-
-  // 현재 선택된 태그의 질문들
-  const currentQuestions = useMemo(() => {
-    return questionsByTag[selectedTag?.name] ?? [];
-  }, [questionsByTag, selectedTag?.name]);
-
-  const isAll = selectedTag?.name === '전체';
-  const fetchNext = isAll ? fetchNextPageAll : fetchNextPageByTag;
-  const hasNextPage = isAll ? hasNextPageAll : hasNextPageByTag;
-  const isFetching = isAll ? isFetchingNextPageAll : isFetchingNextPageByTag;
+  const { questions, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useTalkBoxQuestions({
+      questionCategoryId: Number(categoryId),
+      isAnswered: false,
+    });
 
   // 질문 삭제
   const { mutate: deleteQuestions } = useDeleteCategoryQuestions({
@@ -220,7 +118,7 @@ export const PendingQuestionsTab = () => {
                 key={c.id}
                 text={c.name}
                 count={c.totalQuestions}
-                isSelected={c === selectedTag}
+                isSelected={c.name === selectedTag.name}
                 hasNew={c.uncheckedExists}
                 onToggle={() => setSelectedTag(c)}
               />
@@ -237,19 +135,19 @@ export const PendingQuestionsTab = () => {
           </div>
           <span className="body2-sb text-grey11">
             새 질문 (
-            {questionsByTagData?.pages[questionsByTagData.pages.length - 1]
+            {/* {questionsByTagData?.pages[questionsByTagData.pages.length - 1]
               .newQuestionCnt ||
               allQuestionsData?.pages[allQuestionsData.pages.length - 1]
-                .newQuestionCnt}
+                .newQuestionCnt} */}
             )
           </span>
         </div>
 
         <InfiniteQuestionList
-          questions={currentQuestions}
-          fetchNextPage={fetchNext}
+          questions={questions}
+          fetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetching}
+          isFetchingNextPage={isFetchingNextPage}
           onSelectSingle={(q) => {
             setSingleReplyChat(q);
             setMode('single');
@@ -305,11 +203,11 @@ export const PendingQuestionsTab = () => {
         />
       )}
 
-      {isFetching && (
+      {/* {isFetching && (
         <div className="flex justify-center">
           <LoadingSpinner />
         </div>
-      )}
+      )} */}
     </>
   );
 };

@@ -4,13 +4,10 @@ import { useGetQuestionTags } from './useGetQuestionTags';
 import { useGetAllQuestions } from './useGetAllQuestions';
 import { useGetQuestionsByTag } from './useGetQuestionsByTag';
 import { useTalkBoxQuestionStore } from '@/store/talkBoxStore';
-import type {
-  QuestionDTO,
-  CategoryTagsDTO,
-} from '@/types/seller/TalkBox.types';
 
 const ALL_KEY = '전체';
 
+// TODO: 태그랑 전체 질문 불러오는거 계속 호출됨
 export function useTalkBoxQuestions(opts: {
   questionCategoryId: number;
   isAnswered: boolean;
@@ -19,11 +16,9 @@ export function useTalkBoxQuestions(opts: {
 
   // ① Zustand 스토어 멤버
   const {
-    questionTags,
     setQuestionTags,
     questionsByTag,
     setQuestionsByTag,
-    answeredQuestionTags,
     setAnsweredQuestionTags,
     answeredQuestionsByTag,
     setAnsweredQuestionsByTag,
@@ -52,9 +47,6 @@ export function useTalkBoxQuestions(opts: {
         rawTags.reduce((acc, t) => ({ ...acc, [t.name]: [] }), {})
       );
     }
-
-    // 초기 선택 tag
-    setSelectedTag(rawTags[0]);
   }, [rawTags, isAnswered]);
 
   // ③ “전체” 질문 infinite-query
