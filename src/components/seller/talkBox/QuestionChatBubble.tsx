@@ -160,7 +160,7 @@ const QuestionChatBubble = ({
             }
           )}
         >
-          {mode === 'default' || mode === 'answered' ? (
+          {mode === 'default' ? (
             <ArrowRight
               className="text-grey06"
               aria-label="개별 답변"

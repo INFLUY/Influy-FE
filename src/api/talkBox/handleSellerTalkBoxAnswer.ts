@@ -61,3 +61,46 @@ export const postBulkAnswer = async ({
 
   return response.data.result;
 };
+
+export interface PostIndividualAnswerRequest {
+  answerContent: string;
+}
+
+export interface PostIndividualAnswerResponse {
+  questionId: number;
+  answerId: number;
+  answerType: 'INDIVIDUAL' | 'COMMON' | 'FAQ';
+}
+
+export const postIndividualAnswer = async ({
+  itemId,
+  questionCategoryId,
+  questionTagId,
+  questionId,
+  answerContent,
+}: {
+  itemId: number;
+  questionCategoryId: number;
+  questionTagId: number;
+  questionId: number;
+  answerContent: string;
+}): Promise<PostIndividualAnswerResponse> => {
+  const response = await instance.post(
+    generateApiPath(SELLER_API_DOMAINS.POST_INDIVIDUAL_ANSWER, {
+      itemId,
+      questionCategoryId,
+      questionTagId,
+      questionId,
+    }),
+    {
+      answerContent,
+    },
+    {
+      params: {
+        answerType: 'INDIVIDUAL',
+      },
+    }
+  );
+
+  return response.data.result;
+};

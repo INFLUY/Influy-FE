@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import { useGetCategoryList } from '@/services/talkBox/query/useGetCategoryList';
-import { QuestionDTO } from '@/types/seller/TalkBox.types';
+import { SingleQuestionAnswerDTO } from '@/types/seller/TalkBox.types';
 interface TalkBoxCategoryContextType {
   itemId: number;
   categoryData: Awaited<ReturnType<typeof useGetCategoryList>>['data'] | null;
@@ -21,8 +21,8 @@ export const useTalkBoxCategoryContext = () => {
 };
 
 interface BottomSheetContextType {
-  singleQuestion: QuestionDTO | null;
-  setSingleQuestion: (q: QuestionDTO | null) => void;
+  singleQuestion: SingleQuestionAnswerDTO | null;
+  setSingleQuestion: (q: SingleQuestionAnswerDTO | null) => void;
 }
 
 export const BottomSheetContext = createContext<

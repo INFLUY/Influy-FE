@@ -2,7 +2,10 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { SELLER_API_DOMAINS } from '@/constants/api';
-import { QuestionResponse } from '@/types/seller/TalkBox.types';
+import {
+  QuestionResponse,
+  SingleQuestionAnswerDTO,
+} from '@/types/seller/TalkBox.types';
 
 export const getAllQuestions = async ({
   questionCategoryId,
@@ -79,4 +82,26 @@ export const deleteCategoryQuestions = async ({
       data: { questionIdList },
     }
   );
+};
+
+export const getSingleQuestionAnswer = async ({
+  itemId,
+  questionCategoryId,
+  questionTagId,
+  questionId,
+}: {
+  itemId: number;
+  questionCategoryId: number;
+  questionTagId: number;
+  questionId: number;
+}): Promise<SingleQuestionAnswerDTO> => {
+  const response = await instance.get(
+    generateApiPath(SELLER_API_DOMAINS.GET_SINGLE_QUESTION_ANSWER, {
+      itemId,
+      questionCategoryId,
+      questionTagId,
+      questionId,
+    })
+  );
+  return response.data.result;
 };

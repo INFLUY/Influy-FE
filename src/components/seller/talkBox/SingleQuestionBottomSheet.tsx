@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   QuestionChatBubble,
   PrevReplyBottomSheet,
@@ -6,7 +6,10 @@ import {
   SellerReplyBubble,
   TalkBoxBottomSheetLayout,
 } from '@/components';
-import { QuestionDTO } from '@/types/seller/TalkBox.types';
+import {
+  QuestionDTO,
+  SingleQuestionAnswerDTO,
+} from '@/types/seller/TalkBox.types';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 
@@ -16,50 +19,72 @@ import {
   useSelectModeStore,
   useTalkBoxQuestionStore,
 } from '@/store/talkBoxStore';
+import { useBottomSheetContext } from '@/contexts/TalkBoxCategoryContext';
 
 import { formatDate } from '@/utils/formatDate';
 //api
 import { useGetTagAnswers } from '@/services/talkBox/query/useGetTagAnswers';
 import { useDeleteCategoryQuestions } from '@/services/talkBox/mutation/useDeleteCategoryQuestions';
-
+import { usePostIndividualAnswer } from '@/services/talkBox/mutation/usePostIndividualAnswer';
+import { useGetSingleQuestionAnswer } from '@/services/talkBox/query/useGetSingleQuestionAnswer';
 const SingleQuestionBottomSheet = ({
-  singleQuestion,
-  onClose,
   itemId,
-  categoryId,
-  tagId,
+  questionCategoryId,
 }: {
-  singleQuestion: QuestionDTO;
-  onClose: () => void;
   itemId: number;
-  categoryId: number;
-  tagId: number;
+  questionCategoryId: number;
 }) => {
   const navigate = useNavigate();
-  const isBottomSheetOpen = true;
+  const isBottomSheetOpen = true; //TODO:삭제
+  const [answerText, setAnswerText] = useState<string>('');
 
   const { showModal, hideModal } = useModalStore();
   const { showSnackbar } = useSnackbarStore();
   const { setMode } = useSelectModeStore();
+  const { setSingleQuestion, singleQuestion } = useBottomSheetContext();
+
+  const { data: fetchedDetail } = useGetSingleQuestionAnswer({
+    itemId,
+    questionCategoryId,
+    questionTagId: singleQuestion?.questionDto.tagId ?? -1,
+    questionId: singleQuestion?.questionDto.questionId ?? -1,
+  });
+
+  useEffect(() => {
+    if (fetchedDetail) {
+      setSingleQuestion(fetchedDetail);
+    }
+  }, [fetchedDetail]);
 
   const { data: prevAnswers } = useGetTagAnswers({
     itemId: itemId,
-    questionCategoryId: categoryId,
-    questionTagId: tagId,
+    questionCategoryId: questionCategoryId,
+    questionTagId: singleQuestion?.questionDto.tagId ?? -1,
   });
-
-  const [answerText, setAnswerText] = useState<string>('');
 
   const handleAnswerSelect = (prevAnswer: string) => {
     setAnswerText(answerText + prevAnswer);
   };
 
-  const handleReplySubmit = () => {};
+  const handleReplySubmit = () => {
+    if (!answerText) return;
+    postAnswer(answerText);
+  };
+
+  const { mutate: postAnswer } = usePostIndividualAnswer({
+    itemId,
+    questionCategoryId,
+    questionTagId: singleQuestion?.questionDto.tagId ?? -1,
+    questionId: singleQuestion?.questionDto.questionId ?? -1,
+    onSuccessCallback: () => {
+      setAnswerText('');
+    },
+  });
 
   // 질문 삭제
   const { mutate: deleteQuestions } = useDeleteCategoryQuestions({
-    itemId: Number(itemId),
-    questionCategoryId: Number(categoryId),
+    itemId,
+    questionCategoryId,
     onSuccessCallback: () => {
       showSnackbar('질문이 삭제되었습니다.');
       hideModal();
@@ -79,8 +104,13 @@ const SingleQuestionBottomSheet = ({
 
   //질문 삭제 확정
   const handleDeleteConfirm = () => {
-    const selectedId: number = singleQuestion.questionId;
-    const tagsToInvalidate: number = singleQuestion.tagId;
+    if (
+      !singleQuestion?.questionDto.questionId ||
+      !singleQuestion?.questionDto.questionId
+    )
+      return;
+    const selectedId: number = singleQuestion?.questionDto.questionId;
+    const tagsToInvalidate: number = singleQuestion?.questionDto.tagId;
     deleteQuestions({
       questionIdList: [selectedId],
       tagIds: [tagsToInvalidate],
@@ -103,29 +133,45 @@ const SingleQuestionBottomSheet = ({
     // });
   };
 
+  const handleBottomSheetClose = () => {
+    setMode('default');
+    setSingleQuestion(null);
+  };
+
+  if (!singleQuestion) return;
+
   return (
     <>
       <TalkBoxBottomSheetLayout
-        onClose={onClose}
+        onClose={handleBottomSheetClose}
         isBottomSheetOpen={isBottomSheetOpen}
-        title={singleQuestion.username + '님의 질문'}
+        title={singleQuestion.questionDto.username + '님의 질문'}
       >
         {/* 바텀 시트 콘텐츠 */}
         <div className="scrollbar-hide mt-4 flex h-fit w-full flex-col items-center gap-6 overflow-auto pb-40">
           <div className="bg-grey06 caption-m flex w-fit items-center justify-center gap-2.5 rounded-xl px-3 py-1 text-white">
-            {formatDate({
-              date: new Date(singleQuestion.createdAt),
-              twoDigitYear: true,
-            })}
+            {singleQuestion.questionDto.createdAt &&
+              formatDate({
+                date: new Date(singleQuestion.questionDto.createdAt),
+                twoDigitYear: true,
+              })}
           </div>
-          <QuestionChatBubble chat={singleQuestion} onDelete={handleDelete} />
-          <SellerReplyBubble
-            question={singleQuestion.content}
-            reply="개별답변 말씀하신 블랙 컬러와 실제로 비교해보면, 이 제품은 아주 딥한 네이비 색상이에요 :) 거의 블랙에 가까운 어두운 남색이라서, 실내 조명이나 자연광에 따라 블랙처럼 보이기도 하고 살짝 푸른빛이 도는 느낌도 있어요! 구매에 참고가 되셨길 바라요🙏🏻💙"
-            date="2025년 6월 19일 오후 4:05"
-            questioner="dpdms02"
-            onClickFaq={handleFaqRegister}
+          <QuestionChatBubble
+            chat={singleQuestion.questionDto}
+            onDelete={handleDelete}
           />
+          {singleQuestion.answerListDto.answerViewList.length > 0 &&
+            singleQuestion.answerListDto.answerViewList.map((answer) => (
+              <SellerReplyBubble
+                question={singleQuestion.questionDto.content}
+                reply={answer.answerContent}
+                date={answer.answerTime}
+                questioner={singleQuestion.questionDto.username}
+                onClickFaq={handleFaqRegister}
+                key={answer.answerId}
+                answerType={answer.answerType}
+              />
+            ))}
           <section className="bottom-bar flex w-full flex-col overflow-x-clip">
             {prevAnswers && (
               <PrevReplyBottomSheet

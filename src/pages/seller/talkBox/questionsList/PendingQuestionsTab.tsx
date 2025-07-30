@@ -6,31 +6,38 @@ import {
   InfiniteQuestionList,
 } from '@/components';
 
-import { QuestionDTO } from '@/types/seller/TalkBox.types';
+//type
+import {
+  QuestionDTO,
+  SingleQuestionAnswerDTO,
+} from '@/types/seller/TalkBox.types';
+
+// store
 import {
   useSelectModeStore,
   useTalkBoxQuestionStore,
 } from '@/store/talkBoxStore';
-import { PATH } from '@/routes/path';
 import { useModalStore } from '@/store/useModalStore';
 import { useSnackbarStore } from '@/store/snackbarStore';
+import { useBottomSheetContext } from '@/contexts/TalkBoxCategoryContext';
+
+import { PATH } from '@/routes/path';
+
 // api
 import { useDeleteCategoryQuestions } from '@/services/talkBox/mutation/useDeleteCategoryQuestions';
 import { useTalkBoxQuestions } from '@/services/talkBox/query/useTalkBoxQuestions';
 
-import { useBottomSheetContext } from '@/contexts/TalkBoxCategoryContext';
-
 export const PendingQuestionsTab = () => {
   const { itemId, categoryId } = useParams();
-  const { showModal, hideModal } = useModalStore();
-  const { showSnackbar } = useSnackbarStore();
-
   const navigate = useNavigate();
 
+  // store 및 context
+  const { showModal, hideModal } = useModalStore();
+  const { showSnackbar } = useSnackbarStore();
   const { mode, selectedQuestions, setMode } = useSelectModeStore();
-
   const { questionTags, selectedTag, setSelectedTag } =
     useTalkBoxQuestionStore();
+  const { setSingleQuestion } = useBottomSheetContext();
 
   useEffect(() => {
     setMode('default');
@@ -93,7 +100,15 @@ export const PendingQuestionsTab = () => {
     return mostFrequentTagId;
   };
 
-  const { setSingleQuestion } = useBottomSheetContext();
+  // 질문 버블의 오른쪽 화살표 클릭시
+  const handleSelectSingleQuestion = (q: QuestionDTO) => {
+    const singleQuestion: SingleQuestionAnswerDTO = {
+      questionDto: { ...q },
+      answerListDto: { answerViewList: [] },
+    };
+    setSingleQuestion(singleQuestion);
+    setMode('single');
+  };
 
   return (
     <>
@@ -140,10 +155,7 @@ export const PendingQuestionsTab = () => {
           fetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
-          onSelectSingle={(q) => {
-            setSingleQuestion(q);
-            setMode('single');
-          }}
+          onSelectSingle={(q) => handleSelectSingleQuestion(q)}
         />
       </section>
 

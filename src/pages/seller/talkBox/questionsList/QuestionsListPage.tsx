@@ -13,12 +13,11 @@ import { BottomSheetContext } from '@/contexts/TalkBoxCategoryContext';
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
 import { useGetCategoryQuestionCounts } from '@/services/talkBox/query/useGetCategoryQuestionCounts';
 import { useSelectModeStore } from '@/store/talkBoxStore';
-import { QuestionDTO } from '@/types/seller/TalkBox.types';
+import { SingleQuestionAnswerDTO } from '@/types/seller/TalkBox.types';
 
 export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
-  const [singleQuestion, setSingleQuestion] = useState<QuestionDTO | null>(
-    null
-  );
+  const [singleQuestion, setSingleQuestion] =
+    useState<SingleQuestionAnswerDTO | null>(null);
 
   const { itemId, categoryId } = useParams();
 
@@ -87,14 +86,8 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
       {/* 질문 하나 선택시 */}
       {mode === 'single' && singleQuestion && (
         <SingleQuestionBottomSheet
-          singleQuestion={singleQuestion}
-          onClose={() => {
-            setMode('default');
-            setSingleQuestion(null);
-          }}
           itemId={Number(itemId)}
-          categoryId={Number(categoryId)}
-          tagId={singleQuestion.tagId}
+          questionCategoryId={Number(categoryId)}
         />
       )}
     </BottomSheetContext.Provider>

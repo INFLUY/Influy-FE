@@ -1,47 +1,37 @@
-import { useState, useEffect } from 'react';
-import {
-  SubCategoryChip,
-  QuestionChatBubble,
-  SingleQuestionBottomSheet,
-  InfiniteQuestionList,
-} from '@/components';
+import { useEffect } from 'react';
+import { SubCategoryChip, InfiniteQuestionList } from '@/components';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { dummySubCategories } from '../talkboxMockData';
-import { QuestionDTO } from '@/types/seller/TalkBox.types';
+// type
+import {
+  QuestionDTO,
+  SingleQuestionAnswerDTO,
+} from '@/types/seller/TalkBox.types';
+
+// store
 import {
   useSelectModeStore,
   useTalkBoxQuestionStore,
 } from '@/store/talkBoxStore';
+import { useBottomSheetContext } from '@/contexts/TalkBoxCategoryContext';
+
 import { PATH } from '@/routes/path';
 
 // api
-import { useGetAllQuestions } from '@/services/talkBox/query/useGetAllQuestions';
-import { useGetQuestionTags } from '@/services/talkBox/query/useGetQuestionTags';
-import { useGetQuestionsByTag } from '@/services/talkBox/query/useGetQuestionsByTag';
-import { useDeleteCategoryQuestions } from '@/services/talkBox/mutation/useDeleteCategoryQuestions';
 import { useTalkBoxQuestions } from '@/services/talkBox/query/useTalkBoxQuestions';
+
 export const AnsweredQuestionsTab = () => {
-  const [singleReplyChat, setSingleReplyChat] = useState<QuestionDTO | null>(
-    null
-  );
-  const { itemId, categoryId } = useParams();
+  const { categoryId } = useParams();
   const navigate = useNavigate();
 
-  const { mode, selectedQuestions, setMode } = useSelectModeStore();
+  // store 및 context
+  const { setMode } = useSelectModeStore();
+  const { answeredQuestionTags, selectedTag, setSelectedTag } =
+    useTalkBoxQuestionStore();
+  const { setSingleQuestion } = useBottomSheetContext();
 
-  const {
-    answeredQuestionTags,
-    setAnsweredQuestionTags,
-    answeredQuestionsByTag,
-    selectedTag,
-    setSelectedTag,
-    setAnsweredQuestionsByTag,
-  } = useTalkBoxQuestionStore();
-
-  //임시
   useEffect(() => {
-    setMode('answered');
+    setMode('default');
   }, []);
 
   // -- api
@@ -50,6 +40,16 @@ export const AnsweredQuestionsTab = () => {
       questionCategoryId: Number(categoryId),
       isAnswered: true,
     });
+
+  // 질문 버블의 오른쪽 화살표 클릭시
+  const handleSelectSingleQuestion = (q: QuestionDTO) => {
+    const singleQuestion: SingleQuestionAnswerDTO = {
+      questionDto: { ...q },
+      answerListDto: { answerViewList: [] },
+    };
+    setSingleQuestion(singleQuestion);
+    setMode('single');
+  };
 
   return (
     <>
@@ -87,21 +87,9 @@ export const AnsweredQuestionsTab = () => {
           fetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
-          onSelectSingle={(q) => {
-            setSingleReplyChat(q);
-            setMode('single');
-          }}
+          onSelectSingle={(q) => handleSelectSingleQuestion(q)}
         />
       </section>
-
-      {/* 질문 하나 선택시 */}
-      {/* TODO: faq 등록했을 경우, faq 등록하기 로직 추가 필요 */}
-      {/* {mode === 'single' && singleReplyChat && (
-        <SingleQuestionBottomSheet
-          question={singleReplyChat}
-          onClose={() => setMode('answered')}
-        />
-      )} */}
     </>
   );
 };

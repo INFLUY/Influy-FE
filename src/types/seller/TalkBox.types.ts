@@ -27,6 +27,7 @@ export interface QuestionDTO {
   profileImg: string | null;
   tagId: number;
 }
+
 export interface QuestionResponse {
   questions: QuestionDTO[];
   listSize: number;
@@ -49,9 +50,16 @@ export interface TagAnswerResponse {
   answerList: string[];
 }
 
-export type TALK_BOX_MODE =
-  | 'default'
-  | 'select'
-  | 'single'
-  | 'answered'
-  | 'bulk-reply';
+export type TALK_BOX_MODE = 'default' | 'select' | 'single' | 'bulk-reply';
+
+export interface SingleQuestionAnswerDTO {
+  questionDto: QuestionDTO;
+  answerListDto: {
+    answerViewList: {
+      answerId: number;
+      answerType: 'INDIVIDUAL' | 'COMMON' | 'FAQ';
+      answerContent: string;
+      answerTime: string;
+    }[];
+  };
+}

@@ -35,6 +35,8 @@ export const API_DOMAINS = {
 export const SELLER_API_DOMAINS = {
   // [톡박스] 셀러 톡박스 답변
   SELLER_ANSWER: '/seller/items/:itemId/talkbox/:questionCategoryId/answers',
+  POST_INDIVIDUAL_ANSWER:
+    '/seller/items/:itemId/talkbox/:questionCategoryId/questions/:questionTagId/:questionId/answers',
 
   // 셀러 아이템
   ITEM_OVERVIEW: '/seller/:sellerId/items/:itemId/item-overview',
@@ -51,6 +53,8 @@ export const SELLER_API_DOMAINS = {
     '/seller/item/talkbox/items/question-categories/:questionTagId/questions',
   SELLER_DELETE_QUESTIONS_IN_CATEGORY:
     '/seller/items/:itemId/talkbox/:questionCategoryId/questions',
+  GET_SINGLE_QUESTION_ANSWER:
+    '/seller/items/:itemId/talkbox/:questionCategoryId/questions/:questionTagId/:questionId',
 
   // [톡박스] 질문 카테고리
   SELLER_GENERATE_QUESTION_CATEGORY:
@@ -89,4 +93,6 @@ export const QUERY_KEYS = {
   SELLER_QUESTION_TAGS: 'sellerQuestionTags',
   SELLER_TAG_ANSWER_LIST: 'sellerTagAnswerList',
   SELLER_TALKBOX_COMMENT: 'sellerTalkBoxComment',
+  SELLER_POST_INDIVIDUAL_ANSWER: 'sellerPostIndividualAnswer',
+  SELLER_SINGLE_QUESTION_ANSWER: 'sellerSingleQuestionAnswer',
 };

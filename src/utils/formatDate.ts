@@ -73,6 +73,7 @@ export const parseISOString = (isoString: string) => {
   return new Date(isoString.split('.')[0]);
 };
 
+// 예시: 2025.07.28. (월) 16:52
 export const formatFullDateWithDay = ({
   isoString,
   includeYear = true,
@@ -100,6 +101,7 @@ export const parseDateString = (dateString: string) => {
   return dateString.split('T')[0].replace(/-/g, '.');
 };
 
+// 예시: 2025.07.28(월)
 export const formatKrDate = (dateIso: string) => {
   const days = ['일', '월', '화', '수', '목', '금', '토'];
   const date = new Date(dateIso);
@@ -129,4 +131,27 @@ export const formatIsoToTimeOrDate = (isoString: string): string => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}.${month}.${day}`; // 2025.02.03
   }
+};
+
+// iso string을 2025년 6월 19일 오후 4:05 형태로 변환
+export const formatIsoToKoreanLong = ({
+  isoString,
+}: {
+  isoString: string;
+}): string => {
+  const date = parseISOString(isoString);
+
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1; // 0-based
+  const day = date.getDate();
+  let hour = date.getHours();
+  const minute = date.getMinutes();
+
+  const isAfternoon = hour >= 12;
+  const period = isAfternoon ? '오후' : '오전';
+  hour = hour % 12 === 0 ? 12 : hour % 12;
+
+  return `${year}년 ${month}월 ${day}일 ${period} ${hour}:${minute
+    .toString()
+    .padStart(2, '0')}`;
 };
