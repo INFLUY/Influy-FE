@@ -8,7 +8,6 @@ import {
 
 import { useParams } from 'react-router-dom';
 import { BottomSheetContext } from '@/contexts/TalkBoxCategoryContext';
-import { useSnackbarStore } from '@/store/snackbarStore';
 
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
@@ -88,7 +87,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
       {/* 질문 하나 선택시 */}
       {mode === 'single' && singleQuestion && (
         <SingleQuestionBottomSheet
-          question={singleQuestion}
+          singleQuestion={singleQuestion}
           onClose={() => {
             setMode('default');
             setSingleQuestion(null);

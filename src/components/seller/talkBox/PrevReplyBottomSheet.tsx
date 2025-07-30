@@ -72,7 +72,7 @@ const PrevReplyBottomSheet = ({
               prevAnswers.answerList.map((answer) => (
                 <SwiperSlide key={answer}>
                   <article className="bg-grey01 flex h-[9.125rem] w-full shrink-0 flex-col items-end justify-between gap-2.5 rounded-[.3125rem] p-3">
-                    <p className="caption-m line-clamp-5 text-black">
+                    <p className="caption-m line-clamp-5 w-full text-black">
                       {answer}
                     </p>
                     <button

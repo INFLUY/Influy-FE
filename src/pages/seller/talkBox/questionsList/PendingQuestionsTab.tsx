@@ -1,10 +1,8 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   SubCategoryChip,
   DefaultButton,
-  SellerModal,
-  LoadingSpinner,
   InfiniteQuestionList,
 } from '@/components';
 
@@ -14,18 +12,18 @@ import {
   useTalkBoxQuestionStore,
 } from '@/store/talkBoxStore';
 import { PATH } from '@/routes/path';
-
+import { useModalStore } from '@/store/useModalStore';
+import { useSnackbarStore } from '@/store/snackbarStore';
 // api
 import { useDeleteCategoryQuestions } from '@/services/talkBox/mutation/useDeleteCategoryQuestions';
-
 import { useTalkBoxQuestions } from '@/services/talkBox/query/useTalkBoxQuestions';
 
 import { useBottomSheetContext } from '@/contexts/TalkBoxCategoryContext';
 
 export const PendingQuestionsTab = () => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
   const { itemId, categoryId } = useParams();
+  const { showModal, hideModal } = useModalStore();
+  const { showSnackbar } = useSnackbarStore();
 
   const navigate = useNavigate();
 
@@ -50,12 +48,13 @@ export const PendingQuestionsTab = () => {
     itemId: Number(itemId),
     questionCategoryId: Number(categoryId),
     onSuccessCallback: () => {
-      setIsDeleteModalOpen(false);
+      showSnackbar('질문이 삭제되었습니다.');
+      hideModal();
       setMode('default');
     },
   });
 
-  const handleConfirmDelete = () => {
+  const handleDeleteConfirm = () => {
     const selectedId: number[] = selectedQuestions.map((q) => q.questionId);
     const tagsToInvalidate: number[] = Array.from(
       new Set(selectedQuestions.map((q) => q.tagId))
@@ -153,7 +152,12 @@ export const PendingQuestionsTab = () => {
         <section className="bottom-bar flex w-full shrink-0 items-center justify-center gap-[.4375rem] bg-white px-5 py-2">
           <DefaultButton
             onClick={() => {
-              setIsDeleteModalOpen(true);
+              showModal({
+                text: `해당 질문을 삭제하시겠습니까?\n한 번 삭제한 질문은 되돌릴 수 없습니다.`,
+                description: '*상대방은 삭제 여부를 알 수 없습니다.',
+                leftButtonClick: () => hideModal(),
+                rightButtonClick: () => handleDeleteConfirm(),
+              });
             }}
             text="삭제하기"
             disabled={selectedQuestions.length === 0}
@@ -171,18 +175,6 @@ export const PendingQuestionsTab = () => {
             onClick={handleBulkReply}
           />
         </section>
-      )}
-
-      {/* 일괄 삭제 */}
-      {isDeleteModalOpen && (
-        <SellerModal
-          text={`질문들(${selectedQuestions.length}개)을 삭제하시겠습니까? 한 번 삭제한 질문은 되돌릴 수 없습니다.`}
-          leftButtonText="취소"
-          rightButtonText="확인"
-          leftButtonClick={() => setIsDeleteModalOpen(false)}
-          rightButtonClick={handleConfirmDelete}
-          setIsModalOpen={setIsDeleteModalOpen}
-        />
       )}
 
       {/* {isFetching && (
