@@ -29,7 +29,7 @@ const FaqItemBanner = ({
   return (
     <article className="border-grey02 flex w-full items-start justify-start gap-[.5625rem] border-b px-5 pb-[.875rem]">
       <img
-        src="/img1.png"
+        src={itemData?.itemImgList[0]}
         alt={`${itemData?.itemName} 이미지`}
         className="h-[3.125rem] w-[3.125rem] object-cover"
       />

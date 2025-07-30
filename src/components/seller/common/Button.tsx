@@ -22,19 +22,19 @@ export const DefaultButton = ({
         'body2-m box-border flex h-[3.0625rem] w-full items-center justify-center rounded-xs bg-black text-white',
         {
           'bg-grey05 cursor-default':
-            useDisabled && disabled && disabledTheme === 'base',
+            isActuallyDisabled && disabledTheme === 'base',
 
           'cursor-pointer bg-black text-white':
-            (!useDisabled || !disabled) && activeTheme === 'black',
+            !isActuallyDisabled && activeTheme === 'black',
 
           'cursor-pointer border border-black bg-white text-black':
-            (!useDisabled || !disabled) && activeTheme === 'white',
+            !isActuallyDisabled && activeTheme === 'white',
 
           'bg-grey04 cursor-pointer text-black':
-            (!useDisabled || !disabled) && activeTheme === 'grey',
+            !isActuallyDisabled && activeTheme === 'grey',
 
           'text-grey05 border-grey05 cursor-pointer border bg-white':
-            (!useDisabled || !disabled) && activeTheme === 'borderGrey',
+            !isActuallyDisabled && activeTheme === 'borderGrey',
         },
         additionalStyles
       )}

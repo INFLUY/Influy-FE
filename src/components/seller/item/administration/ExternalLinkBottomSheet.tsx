@@ -1,17 +1,17 @@
-import BottomSheet from '@/components/common/BottomSheet';
-import { SetStateAction, useState } from 'react';
-import { DefaultButton } from '@/components/seller/common/Button';
-import { usePostMarketLinks } from '@/services/marketLinks/mutation/usePostMarketLinks';
 import {
+  BottomSheet,
+  SellerModal,
   FormLimitedTextInput,
   FormLinkInput,
-} from '@/components/common/FormTextInput';
+  DefaultButton,
+} from '@/components';
+import { SetStateAction, useState } from 'react';
+import { usePostMarketLinks } from '@/services/marketLinks/mutation/usePostMarketLinks';
 import { FormProvider, useForm } from 'react-hook-form';
 import { MarketLinkFormValues, marketLinkSchema } from '@/schemas/linkSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BaseLinkType, LinkType } from '@/types/seller/LinkType.types';
 import { useDeleteMarketLink } from '@/services/marketLinks/mutation/useDeleteMarketLink';
-import SellerModal from '../../common/SellerModal';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { usePatchMarketLink } from '@/services/marketLinks/mutation/usePatchMarketLink';
 

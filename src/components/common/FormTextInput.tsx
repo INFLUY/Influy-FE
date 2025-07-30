@@ -423,7 +423,7 @@ export const FormEmailInput = <T extends FieldValues>({
       <input
         className={cn(
           'body2-m placeholder:text-grey06 w-full flex-1 resize-none overflow-hidden rounded-xs border px-3.5 py-2.5 break-keep',
-          error ? 'border-error' : 'border-grey03 focus-within:border-grey05'
+          error ? 'border-error' : 'border-grey03 focus:border-grey05'
         )}
         value={value}
         placeholder="링크 URL을 입력해 주세요."
@@ -466,7 +466,7 @@ export const FormSNSInput = <T extends FieldValues>({
       <input
         className={cn(
           'body2-m placeholder:text-grey06 w-full flex-1 resize-none overflow-hidden rounded-xs border px-3.5 py-2.5 break-keep',
-          error ? 'border-error' : 'border-grey03 focus-within:border-grey05'
+          error ? 'border-error' : 'border-grey03 focus:border-grey05'
         )}
         value={value}
         placeholder={placeholder}
@@ -506,7 +506,7 @@ export const FormLinkInput = <T extends FieldValues>({
       <input
         className={cn(
           'body2-m placeholder:text-grey06 w-full flex-1 rounded-xs border px-3.5 py-2.5 break-keep',
-          error ? 'border-error' : 'border-grey03 focus-within:border-grey05'
+          error ? 'border-error' : 'border-grey03 focus:border-grey05'
         )}
         value={value}
         placeholder={placeHolderContent ?? 'https://'}

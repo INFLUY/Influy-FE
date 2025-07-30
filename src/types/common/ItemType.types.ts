@@ -50,8 +50,8 @@ export interface ItemDetail {
   currentStatus: 'DEFAULT' | 'ON_SALE' | 'CLOSED'; // 예시: 상태 enum 확장 가능
   marketLink: string | null;
   isArchived: boolean;
-  itemImgList: string[] | null;
-  itemCategoryList: string[] | null;
+  itemImgList: string[] | [];
+  itemCategoryList: string[] | [];
   comment: string | null;
   regularPrice: number | null;
   salePrice: number | null;
