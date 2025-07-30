@@ -17,17 +17,6 @@ export const usePostBulkAnswer = ({
     mutationFn: (data: { questionIdList: number[]; answerContent: string }) =>
       postBulkAnswer({ itemId, questionCategoryId, data }),
     onSuccess: (res) => {
-      // 캐시 무효화
-      //   queryClient.invalidateQueries({
-      //     queryKey: [
-      //       QUERY_KEYS.SELLER_ALL_QUESTIONS_IN_CATEGORY,
-      //       questionCategoryId,
-      //     ],
-      //   });
-      //   queryClient.invalidateQueries({
-      //     queryKey: [QUERY_KEYS.SELLER_QUESTION_TAGS, questionCategoryId],
-      //   });
-
       if (onSuccessCallback) {
         onSuccessCallback(res.answeredCnt);
       }

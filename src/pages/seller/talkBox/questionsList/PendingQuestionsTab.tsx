@@ -177,8 +177,8 @@ export const PendingQuestionsTab = () => {
     const tagId = getMostFrequentTagId(selectedQuestions);
     navigate(`../${PATH.SELLER.talkBox.item.category.bulkReply}`, {
       state: { tagId: tagId },
+      replace: true,
     });
-    console.log(tagId);
   };
 
   const getMostFrequentTagId = (

@@ -4,23 +4,51 @@ import {
   QuestionChatBubble,
   SingleReplyBottomSheet,
 } from '@/components';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { dummySubCategories } from '../talkboxMockData';
-import { SubCategory, Chat } from '@/types/seller/TalkBox.types';
-import { useSelectModeStore } from '@/store/talkBoxStore';
+import { QuestionDTO } from '@/types/seller/TalkBox.types';
+import {
+  useSelectModeStore,
+  useTalkBoxQuestionStore,
+} from '@/store/talkBoxStore';
+import { PATH } from '@/routes/path';
+
+// api
+import { useGetAllQuestions } from '@/services/talkBox/query/useGetAllQuestions';
+import { useGetQuestionTags } from '@/services/talkBox/query/useGetQuestionTags';
+import { useGetQuestionsByTag } from '@/services/talkBox/query/useGetQuestionsByTag';
+import { useDeleteCategoryQuestions } from '@/services/talkBox/mutation/useDeleteCategoryQuestions';
 
 export const AnsweredQuestionsTab = () => {
-  const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategory>();
-  const [singleReplyChat, setSingleReplyChat] = useState<Chat | null>(null);
+  const [singleReplyChat, setSingleReplyChat] = useState<QuestionDTO | null>(
+    null
+  );
+  const { itemId, categoryId } = useParams();
+  const navigate = useNavigate();
 
-  const { mode, selectedIds, chatsByCategory, getChatsByCategory, setMode } =
-    useSelectModeStore();
+  const { mode, selectedQuestions, setMode } = useSelectModeStore();
+
+  const {
+    answeredQuestionTags,
+    setAnsweredQuestionTags,
+    answeredQuestionsByTag,
+    selectedTag,
+    setSelectedTag,
+    setAnsweredQuestionsByTag,
+  } = useTalkBoxQuestionStore();
 
   //임시
   useEffect(() => {
-    setSelectedSubCategory(dummySubCategories[0]);
     setMode('answered');
   }, []);
+
+  // -- api
+  // 상단 태그 목록 get
+  const { data: questionTagData } = useGetQuestionTags({
+    questionCategoryId: Number(categoryId),
+    isAnswered: true,
+  });
 
   return (
     <>

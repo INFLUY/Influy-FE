@@ -121,12 +121,16 @@ const BulkReplyPage = () => {
           일괄 답변을 작성해주세요.
         </p>
       </article>
-      <section className="mt-[1.4375rem] flex w-full flex-col gap-5 pb-22">
+
+      {/* 질문 리스트 */}
+      <section className="mt-[1.4375rem] mb-20 flex w-full flex-col gap-5 pb-22">
         {selectedQuestions &&
           selectedQuestions.map((q) => (
             <QuestionChatBubble key={q.questionId} chat={q} />
           ))}
       </section>
+
+      {/* 하단 이전 답변 및 채팅바 */}
       <section className="bottom-bar flex w-full flex-col overflow-x-clip">
         <PrevReplyBottomSheet
           prevAnswers={prevAnswers}

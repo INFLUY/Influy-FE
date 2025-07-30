@@ -51,13 +51,19 @@ interface TalkBoxQuestionStore {
   questionTags: CategoryTagsDTO[];
   setQuestionTags: (tags: CategoryTagsDTO[]) => void;
 
-  questionsByTag: Record<string, QuestionDTO[]>; // key: tagId 또는 tagName
+  questionsByTag: Record<string, QuestionDTO[]>;
   setQuestionsByTag: (questionsByTag: Record<string, QuestionDTO[]>) => void;
 
   selectedTag: CategoryTagsDTO;
   setSelectedTag: (category: CategoryTagsDTO) => void;
 
-  getQuestionsByTagName: (tag: string) => QuestionDTO[];
+  answeredQuestionTags: CategoryTagsDTO[];
+  setAnsweredQuestionTags: (tags: CategoryTagsDTO[]) => void;
+
+  answeredQuestionsByTag: Record<string, QuestionDTO[]>;
+  setAnsweredQuestionsByTag: (
+    answeredQuestionsByTag: Record<string, QuestionDTO[]>
+  ) => void;
 }
 
 export const useTalkBoxQuestionStore = create<TalkBoxQuestionStore>(
@@ -83,9 +89,18 @@ export const useTalkBoxQuestionStore = create<TalkBoxQuestionStore>(
     },
     setSelectedTag: (category) => set({ selectedTag: category }),
 
-    getQuestionsByTagName: (tag: string) => {
-      return get().questionsByTag[tag] ?? [];
-    },
+    answeredQuestionTags: [
+      {
+        id: null,
+        name: '전체',
+        totalQuestions: 0,
+        uncheckedExists: false,
+      },
+    ],
+    setAnsweredQuestionTags: (tags) => set({ questionTags: tags }),
+
+    answeredQuestionsByTag: {},
+    setAnsweredQuestionsByTag: (questionsByTag) => set({ questionsByTag }),
   })
 );
 
