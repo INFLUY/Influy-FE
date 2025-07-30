@@ -17,10 +17,10 @@ import InfluencerCard, {
   InfluencerCardType,
 } from '@/components/user/home/InfluencerCard';
 import UserTypeSwithBanner from '@/components/seller/home/UserTypeSwitchBanner';
-import { useAuthStore } from '@/store/authStore';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { ITEM_DEATIL, MARKET_DEATIL } from '@/utils/generatePath';
 import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
+import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
 
 interface TopBannerItem {
   image: string;
@@ -135,15 +135,9 @@ const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState<number>(1);
   const [selectedInfluencer, setSelectedInfluencer] = useState<number>(1);
 
-  const { sellerId } = useAuthStore();
   const itemCategories = useGetItemCategory();
 
-  const MyProfile = {
-    id: 1,
-    nickname: '혜선',
-    username: '@thgusth',
-    profileImage: '/profile.png',
-  };
+  const { data: sellerMyProfile } = useGetSellerProfile();
 
   return (
     <section className="top-banner-swiper-section bg-grey01 flex w-full flex-1 flex-col pt-11">
@@ -165,9 +159,9 @@ const HomePage = () => {
         additionalStyles="border-0 h-11"
       />
       <section className="scrollbar-hide flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
-        {sellerId !== null && (
+        {sellerMyProfile && (
           <span className="flex w-full px-5 pt-4 pb-7">
-            <UserTypeSwithBanner influencer={MyProfile} userType="user" />
+            <UserTypeSwithBanner influencer={sellerMyProfile} userType="user" />
           </span>
         )}
         <TopBannerSwiper data={topBannerMockData} />

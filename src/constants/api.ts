@@ -32,6 +32,10 @@ export const API_DOMAINS = {
   USER_JOIN: '/member/register/user',
 };
 
+export const SELLER_API_DOMAINS = {
+  SELLER_MY_PROFILE: '/seller/profile',
+};
+
 export const QUERY_KEYS = {
   SELLER_ANNOUNCEMENT: 'sellerAnnouncements',
   SELLER_PRIMARY_ANNOUNCEMENT: 'sellerPrimaryAnnouncement',
@@ -44,4 +48,6 @@ export const QUERY_KEYS = {
   ID_DUPLICATE_CHECK: 'checkId',
 
   ITEM_CATEGORIES: 'itemCategories',
+
+  SELLER_MY_PROFILE: 'sellerMyProfile',
 };

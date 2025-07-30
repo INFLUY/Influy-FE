@@ -1,15 +1,12 @@
-export interface SellerProfileEditValues {
+export interface SellerProfileType {
+  id: number;
+  sellerId: number;
+  username: string;
+  nickname: string;
   backgroundImg: string | null;
   profileImg: string | null;
-  nickname: string;
-  instagram: string | null;
-  youtube: string | null;
+  instagram: string;
   tiktok: string | null;
-  email: string;
-  isPublic: boolean;
-}
-
-export interface SellerProfile extends SellerProfileEditValues {
-  id: number;
-  itemSortType: string;
+  youtube: string | null;
+  email: string | null;
 }

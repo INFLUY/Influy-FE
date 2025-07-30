@@ -10,7 +10,7 @@ import {
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { SellerProfileEditValues } from '@/types/seller/SellerProfile';
+import { SellerProfileType } from '@/types/seller/SellerProfile';
 import { sellerProfileSchema } from '@/schemas/sellerProfileSchema';
 import { useForm, FormProvider } from 'react-hook-form';
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
@@ -42,20 +42,22 @@ const snsInputs = [
   },
 ] as const;
 
-const sellerProfileMock: SellerProfileEditValues = {
-  backgroundImg: '',
-  profileImg: '',
+const sellerProfileMock: SellerProfileType = {
+  id: 1,
+  sellerId: 1,
+  username: '@sohyeon',
   nickname: '소현소현',
-  instagram: '',
-  youtube: '',
+  backgroundImg: null,
+  profileImg: null,
+  instagram: '@sohyeon',
   tiktok: 'https://www.tiktok.com/@소현소현',
-  email: 'influy@gmail.com',
-  isPublic: true,
+  youtube: null,
+  email: null,
 };
 const SellerMyProfileEditPage = () => {
   const navigate = useNavigate();
 
-  const methods = useForm<SellerProfileEditValues>({
+  const methods = useForm<SellerProfileType>({
     resolver: standardSchemaResolver(sellerProfileSchema),
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -67,7 +69,7 @@ const SellerMyProfileEditPage = () => {
     formState: { isSubmitting, isValid },
   } = methods;
 
-  const handleSubmitSuccess = async (formData: SellerProfileEditValues) => {
+  const handleSubmitSuccess = async (formData: SellerProfileType) => {
     // 서버 제출용 데이터로 가공
     console.log('성공: ', formData);
   };
@@ -103,7 +105,7 @@ const SellerMyProfileEditPage = () => {
 
           {/* nickname input */}
           <ProfileEditWrapper title="닉네임">
-            <FormLimitedTextInput<SellerProfileEditValues>
+            <FormLimitedTextInput<SellerProfileType>
               name="nickname"
               maxLength={8}
               placeHolderContent="기존 nickname"
@@ -114,7 +116,7 @@ const SellerMyProfileEditPage = () => {
           {/* SNS inputs */}
           <ProfileEditWrapper title="SNS 설정">
             {snsInputs.map(({ name, placeholder, icon }) => (
-              <FormSNSInput<SellerProfileEditValues>
+              <FormSNSInput<SellerProfileType>
                 key={name}
                 name={name}
                 placeholder={placeholder}
@@ -125,7 +127,7 @@ const SellerMyProfileEditPage = () => {
 
           {/* email input */}
           <ProfileEditWrapper title="이메일">
-            <FormEmailInput<SellerProfileEditValues> name="email" />
+            <FormEmailInput<SellerProfileType> name="email" />
           </ProfileEditWrapper>
         </div>
 

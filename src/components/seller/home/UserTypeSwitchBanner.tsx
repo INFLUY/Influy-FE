@@ -1,35 +1,27 @@
 import cn from '@/utils/cn';
 import UserTypeToggleButton from '@/components/seller/home/UserTypeToggleButton';
 import MyIcon from '@/assets/icon/seller/MyNavbar.svg';
-
-export interface SimpleInfluencerType {
-  id: number;
-  nickname: string;
-  username: string;
-  profileImage: string;
-}
+import { SellerProfileType } from '@/types/seller/SellerProfile';
 
 const UserTypeSwithBanner = ({
   influencer,
   userType,
 }: {
-  influencer: SimpleInfluencerType;
+  influencer: SellerProfileType;
   userType: 'influencer' | 'user';
 }) => {
   return (
     <article className="border-grey03 bg-grey02 flex h-[86px] w-full justify-between gap-2.5 rounded-[3px] border px-3.5 py-5">
       <div className="flex gap-[.625rem]">
-        <div className="relative h-fit w-fit">
+        <div className="relative h-[2.875rem] w-[2.875rem]">
           <img
-            src={
-              influencer.profileImage === '' ? MyIcon : influencer.profileImage
-            }
+            src={influencer.profileImg ?? MyIcon}
             alt="프로필 사진"
-            className="aspect-square h-[2.875rem] rounded-full object-cover"
+            className="h-[2.875rem] w-[2.875rem] shrink-0 rounded-full object-cover"
           />
           <span
             className={cn(
-              'border-main absolute top-0 left-0 z-[1] h-full w-full rounded-full border',
+              'border-main absolute top-0 left-0 z-[1] h-full w-full shrink-0 rounded-full border',
               userType === 'user' && 'border-black'
             )}
           />
@@ -39,7 +31,7 @@ const UserTypeSwithBanner = ({
             {influencer.nickname}
           </p>
           <p className="text-grey08 body2-m line-clamp-1">
-            {influencer.username}
+            @{influencer.username}
           </p>
         </div>
       </div>

@@ -3,14 +3,10 @@ import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import UserTypeSwithBanner from '@/components/seller/home/UserTypeSwitchBanner';
+import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
 
 const SellerHomePage = () => {
-  const MyProfile = {
-    id: 1,
-    nickname: '혜선',
-    username: '@thgusth',
-    profileImage: '/profile.png',
-  };
+  const { data: sellerMyProfile } = useGetSellerProfile();
 
   return (
     <section className="bg-grey01 relative mt-11 flex w-full flex-1 flex-col">
@@ -32,9 +28,14 @@ const SellerHomePage = () => {
         additionalStyles="border-0 h-11"
       />
       <section className="scrollbar-hide flex w-full flex-1 flex-col gap-4 overflow-x-hidden overflow-y-auto py-4">
-        <span className="w-full px-5">
-          <UserTypeSwithBanner influencer={MyProfile} userType="influencer" />
-        </span>
+        {sellerMyProfile && (
+          <span className="w-full px-5">
+            <UserTypeSwithBanner
+              influencer={sellerMyProfile}
+              userType="influencer"
+            />
+          </span>
+        )}
 
         <MyProductStatus />
 
