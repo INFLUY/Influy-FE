@@ -37,6 +37,7 @@ interface IdInputProps {
   placeHolderContent: string;
   maxLength: number;
   descriptionText?: string;
+  validText?: string;
   errorText?: string;
   ref: React.RefObject<HTMLInputElement | null>;
 }
@@ -243,6 +244,7 @@ export const IdInput = ({
   handleChange,
   descriptionText,
   errorText,
+  validText,
   maxLength,
   placeHolderContent,
   ref,
@@ -282,12 +284,66 @@ export const IdInput = ({
         <div className="flex items-center gap-1">
           {errorText && <WarningIcon className="shrink-0" />}
           <span
-            className={cn(
-              'caption-m',
-              errorText ? 'text-error' : 'text-grey06'
-            )}
+            className={cn('caption-m', {
+              'text-error': errorText,
+              'text-sub': !errorText && validText,
+              'text-grey06': !errorText && !validText,
+            })}
           >
-            {errorText || descriptionText}
+            {errorText || validText || descriptionText}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const LimitedTextInputWithFocus = ({
+  text,
+  setText,
+  maxLength,
+  placeHolderContent,
+  inputRef,
+  error = false,
+}: LimitedTextInputProps & {
+  inputRef: React.RefObject<HTMLInputElement | null>;
+  error?: boolean;
+}) => {
+  return (
+    <div className="flex w-full flex-col">
+      <div
+        onClick={() => inputRef.current?.focus()}
+        className={cn(
+          'flex h-fit w-full items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5',
+          text.length > maxLength || error
+            ? 'border-error'
+            : 'border-grey03 focus-within:border-grey05'
+        )}
+      >
+        <input
+          ref={inputRef}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder={placeHolderContent}
+          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault(); // Enter 키 입력 방지
+            }
+          }}
+        />
+        <div className="caption-m text-grey06 h-fit">
+          <span className={cn(text.length > maxLength && 'text-error')}>
+            {text.length}
+          </span>
+          <span>/{maxLength}</span>
+        </div>
+      </div>
+      {text.length > maxLength && (
+        <div className="mt-1 flex items-center space-x-1">
+          <WarningIcon />
+          <span className="caption-m text-error">
+            {maxLength}자 이내로 작성해주세요.
           </span>
         </div>
       )}

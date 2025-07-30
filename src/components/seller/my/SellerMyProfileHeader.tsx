@@ -1,8 +1,9 @@
 import EyeIcon from '@/assets/icon/common/EyeIcon.svg?react';
 import SettingsIcon from '@/assets/icon/common/SettingsIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
-import { SnackBar, PreviewButton } from '@/components';
+import { PATH } from '@/routes/path';
 import cn from '@/utils/cn';
+import useCopyUrl from '@/utils/useCopyUrl';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,8 +11,7 @@ const SellerMyProfileHeader = () => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState<boolean>(false);
   const triggerRef = useRef(null);
-  const [isLinkCopiedSnackBarOpen, setIsLinkCopiedSnackBarOpen] =
-    useState<boolean>(false);
+  const copyUrl = useCopyUrl();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -31,11 +31,6 @@ const SellerMyProfileHeader = () => {
     };
   }, []);
 
-  const handleLinkCopy = () => {
-    // 페이지 링크 복사
-    setIsLinkCopiedSnackBarOpen(true);
-  };
-
   return (
     <>
       <div ref={triggerRef} className="h-2 w-full bg-[#8B8B8D]" />
@@ -48,25 +43,29 @@ const SellerMyProfileHeader = () => {
         )}
       >
         <span className="flex shrink-0 gap-3">
-          <PreviewButton
-            onClickPreview={() => {
-              navigate('');
-            }}
-          />
+          <button
+            type="button"
+            className="bg-grey01 flex cursor-pointer items-center gap-1 rounded-[.125rem] px-2 py-[.1875rem]"
+          >
+            <EyeIcon className="text-grey08 h-[.875rem] w-[.875rem]" />
+            <span
+              className="caption-m text-grey08"
+              onClick={() =>
+                navigate(
+                  `${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}/${PATH.SELLER.MY.PREVIEW.BASE}`
+                )
+              }
+            >
+              미리보기
+            </span>
+          </button>
           <ShareIcon
-            onClick={handleLinkCopy}
+            onClick={copyUrl}
             className="h-6 w-6 cursor-pointer text-white"
           />
           <SettingsIcon className="h-6 w-6 cursor-pointer text-white" />
         </span>
       </header>
-      {isLinkCopiedSnackBarOpen && (
-        <SnackBar
-          handleSnackBarClose={() => setIsLinkCopiedSnackBarOpen(false)}
-        >
-          링크가 클립보드에 복사되었습니다.
-        </SnackBar>
-      )}
     </>
   );
 };

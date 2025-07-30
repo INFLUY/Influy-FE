@@ -1,11 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate } from 'react-router-dom';
 import { SetStateAction, useState, useRef } from 'react';
 
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { FaqQuestion } from '@/types/common/ItemType.types';
 
 import { parseDateString } from '@/utils/formatDate';
-import { PATH } from '@/routes/path';
 
 import {
   BottomSheet,
@@ -13,7 +12,6 @@ import {
   CategoryChip,
   AddButton,
   TextInput,
-  SnackBar,
   EmptyCategoryPlaceholder,
   SellerModal,
 } from '@/components';
@@ -44,6 +42,11 @@ import {
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import {
+  SELLER_ITEM_FAQ_EDIT_PATH,
+  SELLER_ITEM_FAQ_REGISTER_PATH,
+} from '@/utils/generatePath';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 type SheetMode =
   | 'none'
@@ -77,11 +80,7 @@ const FaqListEdit = ({
   // 4) BottomSheet 의 인풋에 바인딩할 임시 텍스트
   const [draftName, setDraftName] = useState('');
 
-  //스낵바
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
-  });
+  const { showSnackbar } = useSnackbarStore();
 
   // 삭제할 카테고리
   const [categoryToDelete, setCategoryToDelete] = useState<number | null>(null);
@@ -97,7 +96,7 @@ const FaqListEdit = ({
 
   const openTextEditSheet = (id: number) => {
     const cat = categories.find((c) => c.id === id);
-    setDraftName(cat?.category ?? '');
+    setDraftName(cat?.name ?? '');
     setActiveCategoryId(id);
     setSheetMode('editText');
   };
@@ -109,13 +108,10 @@ const FaqListEdit = ({
       ...prev,
       {
         id: Math.max(0, ...prev.map((c) => c.id)) + 1,
-        category: draftName.trim(),
+        name: draftName.trim(),
       },
     ]);
-    setSnackbar({
-      open: true,
-      message: '저장되었습니다',
-    });
+    showSnackbar('저장되었습니다');
     setDraftName('');
     setSheetMode('editList');
   };
@@ -127,10 +123,7 @@ const FaqListEdit = ({
         c.id === activeCategoryId ? { ...c, category: draftName.trim() } : c
       )
     );
-    setSnackbar({
-      open: true,
-      message: '저장되었습니다',
-    });
+    showSnackbar('저장되었습니다');
     setDraftName('');
     setSheetMode('editList');
   };
@@ -186,7 +179,7 @@ const FaqListEdit = ({
               {categories.map((category: CategoryType) => (
                 <CategoryChip
                   key={category.id}
-                  text={category.category}
+                  text={category.name}
                   isSelected={selectedCategory == category.id}
                   onToggle={() => setSelectedCategory(category.id)}
                   theme="faq"
@@ -214,7 +207,7 @@ const FaqListEdit = ({
             <AddButton
               handleOnClick={() =>
                 navigate(
-                  `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${PATH.SELLER.items.item.administration.faq.base}`
+                  generatePath(SELLER_ITEM_FAQ_REGISTER_PATH, { itemId })
                 )
               }
             >
@@ -322,10 +315,7 @@ const FaqListEdit = ({
             setCategories((prev) =>
               prev.filter((cat) => cat.id !== categoryToDelete)
             );
-            setSnackbar({
-              open: true,
-              message: '삭제되었습니다',
-            });
+            showSnackbar('삭제되었습니다');
             setSheetMode('none');
             setCategoryToDelete(null);
           }}
@@ -334,15 +324,6 @@ const FaqListEdit = ({
             setCategoryToDelete(null);
           }}
         />
-      )}
-
-      {/* 스낵바 */}
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
       )}
     </>
   );
@@ -442,7 +423,7 @@ const SortableCategoryItem = ({
         onClick={() => onEdit(id)}
         className="border-grey03 body2-m flex-1 rounded-xs border bg-white px-[.8125rem] py-2.5 text-left text-black"
       >
-        {category.category}
+        {category.name}
       </button>
       <DndIcon {...listeners} {...attributes} className="h-6 w-6 cursor-grab" />
     </div>
@@ -488,11 +469,11 @@ const FaqQuestionCard = ({
           <button
             type="button"
             className="text-grey09 flex cursor-pointer items-center justify-center gap-0.5 self-end"
-            onClick={() =>
+            onClick={() => {
               navigate(
-                `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${PATH.SELLER.items.item.administration.faq.base}/${id}/${PATH.SELLER.items.item.administration.faq.administration.faqDetail.edit}`
-              )
-            }
+                generatePath(SELLER_ITEM_FAQ_EDIT_PATH, { itemId, faqId: id })
+              );
+            }}
           >
             <span className="body2-sb">수정하기</span>
             <RightIcon className="h-3.5 w-3.5" />
@@ -506,25 +487,33 @@ const FaqQuestionCard = ({
           onClose={() => setSheetMode('none')}
           isBottomSheetOpen={sheetMode === 'questionEdit'}
         >
-          <section className="body1-b divide-grey02 mt-[.875rem] mb-8 flex w-full flex-col space-y-5 divide-y-[.0938rem] px-5 text-center">
-            <button type="button" className="cursor-pointer pb-4 text-black">
-              {pinned ? '고정 해제' : '맨 앞에 고정'}
+          <div className="divide-grey02 flex flex-col items-center divide-y px-5 pb-4">
+            <button
+              type="button"
+              className="body1-b w-full cursor-pointer py-4 text-center"
+              // onClick={handlePin}
+            >
+              {pinned ? '고정해제' : '맨 앞에 고정'}
             </button>
             <button
               type="button"
-              className="cursor-pointer pb-4 text-black"
+              className="body1-b w-full cursor-pointer py-4 text-center"
               onClick={() =>
                 navigate(
-                  `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${itemId}/${PATH.SELLER.items.item.administration.faq.base}/${id}/${PATH.SELLER.items.item.administration.faq.administration.faqDetail.edit}`
+                  generatePath(SELLER_ITEM_FAQ_EDIT_PATH, { itemId, faqID: id })
                 )
               }
             >
               수정
             </button>
-            <button type="button" className="text-error cursor-pointer">
+            <button
+              type="button"
+              className="body1-b text-error w-full cursor-pointer py-4 text-center"
+              // onClick={handleDeleteFaq}
+            >
               삭제
             </button>
-          </section>
+          </div>
         </BottomSheet>
       )}
     </>

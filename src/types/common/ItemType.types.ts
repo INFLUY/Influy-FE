@@ -1,14 +1,29 @@
-export type ItemType = {
+export type SellerItemPreviewList = {
   itemId: number;
-  title: string;
-  name: string;
-  content?: string;
-  thumbnail: string | null;
-  open: string;
-  deadline: string;
-  scrapped: boolean;
-  extend?: boolean;
-  soldOut?: boolean;
+  sellerId: number;
+  itemPeriod: number;
+  itemName: string;
+  sellerName: string;
+  startDate?: string;
+  endDate?: string;
+  tagline?: string;
+  currentStatus: 'DEFAULT' | 'EXTEND' | 'SOLD_OUT';
+  liked: false;
+  talkBoxInfo: {
+    talkBoxOpenStatus: 'INITIAL' | 'OPENED' | 'CLOSED';
+    waitingCnt: number;
+    completedCnt: number;
+  };
+  mainImg: string;
+};
+
+export type SellerItemsResponse = {
+  itemPreviewList: SellerItemPreviewList[] | [];
+  listSize: number;
+  totalPage: number;
+  totalElements: number;
+  isFirst: boolean;
+  isLast: boolean;
 };
 
 export interface ItemCardType {
@@ -20,6 +35,7 @@ export interface ItemCardType {
   tagline: string | null;
   currentStatus: 'DEFAULT' | 'EXTEND' | 'SOLD_OUT'; // 예시: 상태 enum 확장 가능
   sellerName: string;
+  sellerId: number;
   mainImg: string | null;
   isScrapped: boolean;
 }
@@ -34,15 +50,13 @@ export interface ItemDetail {
   currentStatus: 'DEFAULT' | 'ON_SALE' | 'CLOSED'; // 예시: 상태 enum 확장 가능
   marketLink: string | null;
   isArchived: boolean;
-  itemImgList: string[] | null;
-  itemCategoryList: string[] | null;
+  itemImgList: string[] | [];
+  itemCategoryList: string[] | [];
   comment: string | null;
   regularPrice: number | null;
   salePrice: number | null;
   sellerInfo: SellerCard;
 }
-
-export type ItemStatus = 'archived' | 'published' | null;
 
 export interface SellerCard {
   id: number;
@@ -56,6 +70,20 @@ export type FaqQuestion = {
   questionContent: string;
   pinned: true;
   updatedAt: string;
+};
+
+export type ItemPreviewList = {
+  itemId: number;
+  sellerId: number;
+  itemPeriod: number;
+  itemName: string;
+  sellerName: string;
+  startDate: string;
+  endDate: string;
+  tagline: string;
+  currentStatus: 'DEFAULT' | 'EXTEND' | 'SOLD_OUT';
+  liked: false;
+  mainImg: string;
 };
 
 export interface ItemOverviewDTO {

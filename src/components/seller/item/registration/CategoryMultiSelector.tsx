@@ -32,32 +32,32 @@ export const CategoryMultiSelector = memo(
       <article className="flex w-full flex-col gap-y-3" ref={ref}>
         {/* 수정 필요 */}
         <div className="flex w-full justify-center gap-[.625rem]">
-          {categoryList.slice(0, 5).map((category: CategoryType) => (
+          {categoryList.slice(0, 5).map((category) => (
             <CategoryChip
               key={category.id}
-              text={category.category}
-              isSelected={selectedList.includes(category.category)}
-              onToggle={() => handleClickCategory(category.category)}
+              text={category.name}
+              isSelected={selectedList.includes(category.name)}
+              onToggle={() => handleClickCategory(category.name)}
             />
           ))}
         </div>
         <div className="flex w-full justify-center gap-x-3">
-          {categoryList.slice(5, 9).map((category: CategoryType) => (
+          {categoryList.slice(5, 9).map((category) => (
             <CategoryChip
               key={category.id}
-              text={category.category}
-              isSelected={selectedList.includes(category.category)}
-              onToggle={() => handleClickCategory(category.category)}
+              text={category.name}
+              isSelected={selectedList.includes(category.name)}
+              onToggle={() => handleClickCategory(category.name)}
             />
           ))}
         </div>
         <div className="flex w-full justify-center gap-x-3">
-          {categoryList.slice(9).map((category: CategoryType) => (
+          {categoryList.slice(9).map((category) => (
             <CategoryChip
               key={category.id}
-              text={category.category}
-              isSelected={selectedList.includes(category.category)}
-              onToggle={() => handleClickCategory(category.category)}
+              text={category.name}
+              isSelected={selectedList.includes(category.name)}
+              onToggle={() => handleClickCategory(category.name)}
             />
           ))}
         </div>

@@ -5,9 +5,9 @@ export interface SellerModalProps {
   text: string;
   description?: string;
   leftButtonText?: string;
-  leftButtonClick?: () => void;
+  leftButtonClick?: (arg?: any) => void;
   rightButtonText?: string;
-  rightButtonClick: () => void;
+  rightButtonClick: (arg?: any) => void;
   onClose?: () => void;
   setIsModalOpen: React.Dispatch<SetStateAction<boolean>>;
 }

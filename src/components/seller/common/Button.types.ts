@@ -3,7 +3,7 @@ import type { MouseEventHandler } from 'react';
 export interface DefaultButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
-  activeTheme?: 'black' | 'white' | 'grey';
+  activeTheme?: 'black' | 'white' | 'grey' | 'borderGrey';
   disabledTheme?: 'base' | 'greyLine';
   text?: string;
   // 추가적인 테일윈드 요소

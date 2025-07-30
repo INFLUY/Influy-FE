@@ -17,3 +17,9 @@ export interface NoticeResponse {
   isFirst: boolean;
   isLast: boolean;
 }
+
+export interface PrimaryNoticeResponse {
+  id: number;
+  title: string;
+  totalAnnouncements: number;
+}

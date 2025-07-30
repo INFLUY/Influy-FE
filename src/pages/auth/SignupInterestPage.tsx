@@ -1,56 +1,134 @@
 import {
+  CloseComponent,
   DefaultButton,
   PageHeader,
-  SnackBar,
   VanillaCategoryMultiSelector,
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
-import PRODUCT_CATEGORIES from '@/constants/productCategories';
+import { useSnackbarStore } from '@/store/snackbarStore';
+import {
+  useRegisterSeller,
+  useRegisterUser,
+} from '@/services/auth/useRegisterUser';
+import { SnsLinkProps } from '@/types/common/AuthTypes.types';
+import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
+import {
+  useKakaoStore,
+  useSellerSignupStore,
+  useUserSignupStore,
+} from '@/store/registerStore';
 
 export const SignupInterestPage = () => {
   const navigate = useNavigate();
-
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 
-  const { reset: sellerSignupStateReset } = useSellerSignupStore();
+  const location = useLocation();
+  const path = location.pathname.split('/');
+  const userType = path[path.length - 2];
+
+  const {
+    id: sellerId,
+    sns,
+    email,
+    interestedCategories: sellerInterestedCategories,
+    setInterestedCategories: setSellerInterestedCategories,
+  } = useSellerSignupStore();
   const {
     id: userId,
-    setInterestedCategories,
-    reset: userSignupStateReset,
+    interestedCategories: userInterestedCategories,
+    setInterestedCategories: setUserInterestedCategories,
   } = useUserSignupStore();
-  const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
+  const { kakaoId } = useKakaoStore();
+
+  const itemCategory = useGetItemCategory();
 
   useEffect(() => {
-    if (!userId) {
-      navigate(`../${PATH.REGISTER.type.user.id}`);
+    if (!kakaoId) {
+      navigate(`${PATH.LOGIN.BASE}`, { replace: true });
+      return;
     }
-  }, []);
+    if (userType === 'influencer') {
+      if (!sellerId) {
+        navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
+      } else if (!sns.instagram) {
+        navigate(`../${PATH.REGISTER.TYPE.SELLER.SNS}`);
+      }
+      setSelectedCategories(sellerInterestedCategories);
+      return;
+    } else if (userType === 'user') {
+      if (!userId) {
+        navigate(`../${PATH.REGISTER.TYPE.USER.ID}`);
+      }
+      setSelectedCategories(userInterestedCategories);
+      return;
+    }
+  }, [userType]);
+
+  useEffect(() => {
+    if (userType === 'influencer') {
+      setSellerInterestedCategories(selectedCategories);
+    } else if (userType === 'user') {
+      setUserInterestedCategories(selectedCategories);
+    }
+  }, [selectedCategories]);
+
+  const { mutate: registerSeller } = useRegisterSeller();
+  const { mutate: registerUser } = useRegisterUser();
+
+  const handleSellerRegister = () => {
+    const sns: SnsLinkProps & { email?: string } = {
+      ...useSellerSignupStore.getState().sns,
+      email: email,
+    };
+
+    const optionalSns = Object.fromEntries(
+      Object.entries(sns).filter(([key, value]) => {
+        if (key === 'instagram') return false;
+        return value;
+      })
+    );
+
+    registerSeller({
+      userInfo: {
+        username: sellerId,
+        kakaoId: kakaoId!!,
+        interestedCategories: selectedCategories,
+      },
+      instagram: sns.instagram,
+      ...optionalSns,
+    });
+  };
+
+  const handleUserRegister = () => {
+    registerUser({
+      username: userId,
+      kakaoId: kakaoId!!,
+      interestedCategories: selectedCategories,
+    });
+  };
+
+  const { showSnackbar } = useSnackbarStore();
 
   // 다음 버튼 클릭 핸들러
   const handleClickNext = () => {
     if (selectedCategories.length === 0) {
-      setIsSnackbarOpen(true);
+      showSnackbar('카테고리를 선택해 주세요.');
       return;
     }
 
-    setInterestedCategories(selectedCategories);
-
     // 백 연동
-
-    userSignupStateReset();
-    useUserSignupStore.persist.clearStorage();
-    sellerSignupStateReset();
-    useSellerSignupStore.persist.clearStorage();
-    navigate(PATH.WELCOME.base);
+    if (userType === 'influencer') {
+      handleSellerRegister();
+    } else if (userType === 'user') {
+      handleUserRegister();
+    }
   };
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col">
+    <div className="flex h-full w-full flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[
           <ArrowIcon
@@ -58,12 +136,7 @@ export const SignupInterestPage = () => {
             onClick={() => navigate(-1)}
           />,
         ]}
-        rightIcons={[
-          <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate('')}
-          />,
-        ]}
+        rightIcons={[<CloseComponent />]}
       >
         회원가입
       </PageHeader>
@@ -74,7 +147,7 @@ export const SignupInterestPage = () => {
         <VanillaCategoryMultiSelector
           selectedCategory={selectedCategories}
           setSelectedCategory={setSelectedCategories}
-          categoryList={PRODUCT_CATEGORIES}
+          categoryList={itemCategory?.categoryDtoList || []}
           theme="interest"
           max={999}
         />
@@ -88,13 +161,6 @@ export const SignupInterestPage = () => {
           onClick={handleClickNext}
         />
       </div>
-
-      {/* 스낵바 */}
-      {isSnackbarOpen && (
-        <SnackBar handleSnackBarClose={() => setIsSnackbarOpen(false)}>
-          카테고리를 선택해 주세요.
-        </SnackBar>
-      )}
     </div>
   );
 };

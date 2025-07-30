@@ -5,68 +5,58 @@ import {
   FormWideTextArea,
   FaqItemBanner,
   PageHeader,
-  SnackBar,
   TipTooltip,
   ToggleButton,
   VanillaCategoryMultiSelector,
   EmptyCategoryPlaceholder,
+  LoadingSpinner,
 } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useRef, useState, Suspense } from 'react';
 import { CategoryType } from '@/types/common/CategoryType.types';
-import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
+import {
+  useForm,
+  FormProvider,
+  FieldErrors,
+  useController,
+} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
+import { useSnackbarStore } from '@/store/snackbarStore';
+import { useGetItemFaqCategory } from '@/services/sellerItemFaq/query/useGetItemFaqCategory';
+import { FaqCardRequestBody } from '@/types/common/FaqCardType.types';
+import { usePostFaqCard } from '@/services/sellerFaqCard/mutation/usePostFaqCard';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const FaqRegistrationPage = () => {
   const navigate = useNavigate();
 
-  const CATEGORIES: CategoryType[] = [
-    { id: 1, category: '색상' },
-    { id: 2, category: '구성' },
-    { id: 3, category: '디테일' },
-    { id: 4, category: '사이즈' },
-    { id: 5, category: '가격' },
-    { id: 6, category: '진행일정' },
-    { id: 7, category: '재고/수량' },
-  ];
+  const { sellerId } = useStrictId();
+  const { itemId } = useParams();
 
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
+  const { data: categories } = useGetItemFaqCategory({
+    sellerId: sellerId!,
+    itemId: Number(itemId),
   });
+
+  const { showSnackbar } = useSnackbarStore();
 
   // 톡박스에서 질문 등록하기로 올 경우 질문, 답변 자동 입력
   const { talkBoxQ, talkBoxA, talkBoxCategoryId } = useLocation().state;
 
   const categoryRef = useRef<HTMLDivElement | null>(null);
 
-  const itemData = {
-    itemImgList: ['xxx.png', 'xxxxx.png', 'xxxxxx.png'],
-    name: '제작 원피스',
-    itemCategoryList: ['뷰티', '패션'],
-    startDate: '2025-06-22T08:57:56.040Z',
-    endDate: '2025-06-22T08:57:56.040Z',
-    tagline: '빤짝거리는 원피스입니다',
-    regularPrice: 100000,
-    salePrice: 80000,
-    marketLink: 'xxxx.com',
-    itemPeriod: 1,
-    comment: '이렇게 빤짝이는 드레스 흔하지 않아요 어렵게 구해왔어요',
-    isArchived: false,
-  };
-
   const methods = useForm<FaqFormValues>({
-    resolver: zodResolver(faqSchema(false)),
+    resolver: zodResolver(faqSchema),
     mode: 'onChange',
     reValidateMode: 'onChange',
     shouldFocusError: false,
     defaultValues: {
-      category: [`${talkBoxCategoryId}`],
-      question: talkBoxQ || '',
-      answer: talkBoxA || '',
+      category: undefined,
+      question: '',
+      answer: '',
       image: '',
       isPinned: false,
       adjustImg: false,
@@ -75,8 +65,6 @@ const FaqRegistrationPage = () => {
 
   const {
     handleSubmit,
-    getValues,
-    setValue,
     formState: { isSubmitting, isValid },
   } = methods;
 
@@ -87,37 +75,60 @@ const FaqRegistrationPage = () => {
         behavior: 'smooth',
         block: 'center',
       });
-      setSnackbar({
-        open: true,
-        message: errors.category.message || '카테고리를 확인해 주세요.',
-      });
+      showSnackbar(errors.category.message || '카테고리를 확인해 주세요.');
       return;
     }
     if (errors.question) {
       document.getElementById('question')?.focus();
-      setSnackbar({
-        open: true,
-        message: errors.question.message || '질문을 확인해 주세요.',
-      });
+      showSnackbar(errors.question.message || '질문을 확인해 주세요.');
       return;
     }
 
     if (errors.answer) {
       document.getElementById('answer')?.focus();
-      setSnackbar({
-        open: true,
-        message: errors.answer.message || '답변을 확인해 주세요.',
-      });
+      showSnackbar(errors.answer.message || '답변을 확인해 주세요.');
       return;
     }
   };
 
+  const { mutate: postFaqCard } = usePostFaqCard(() => {
+    navigate(''); // TODO: 답변 상세?로 이동
+    showSnackbar('답변이 등록되었습니다.');
+  });
+
   const onSubmit = (data: FaqFormValues) => {
-    console.log('폼 제출됨:', data);
+    const formattedData: FaqCardRequestBody = {
+      questionContent: data.question,
+      answerContent: data.answer,
+      backgroundImgLink: data.image,
+      pinned: data.isPinned,
+      adjustImg: data.adjustImg,
+    };
+    postFaqCard({
+      sellerId: sellerId!,
+      faqCategoryId: data.category,
+      itemId: Number(itemId),
+      data: formattedData,
+    });
   };
 
+  const { field: categoryField } = useController({
+    name: 'category',
+    control: methods.control,
+  });
+
+  const { field: adjustImgField } = useController({
+    name: 'adjustImg',
+    control: methods.control,
+  });
+
+  const { field: isPinnedField } = useController({
+    name: 'isPinned',
+    control: methods.control,
+  });
+
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[
           <XIcon
@@ -129,14 +140,16 @@ const FaqRegistrationPage = () => {
       >
         FAQ 등록
       </PageHeader>
-      {CATEGORIES.length === 0 ? (
+      {categories?.length === 0 ? (
         // 카테고리 없을 때
         <EmptyCategoryPlaceholder openAddSheet={() => {}} />
       ) : (
         // 카테고리 있을 때
         <FormProvider {...methods}>
           <div className="flex flex-1 flex-col gap-6 pt-4 pb-[5.1875rem]">
-            <FaqItemBanner name={itemData?.name} tagline={itemData?.tagline} />
+            <Suspense fallback={<LoadingSpinner />}>
+              <FaqItemBanner sellerId={sellerId!} itemId={Number(itemId)} />
+            </Suspense>
             <form
               onSubmit={handleSubmit(onSubmit, onError)}
               className="flex flex-col gap-[1.875rem]"
@@ -161,10 +174,12 @@ const FaqRegistrationPage = () => {
                 </div>
                 {/* FAQ 카테고리 */}
                 <VanillaCategoryMultiSelector
-                  categoryList={CATEGORIES}
-                  selectedCategory={(getValues('category') ?? []).map(Number)}
+                  categoryList={categories}
+                  selectedCategory={
+                    categoryField.value ? [Number(categoryField.value)] : []
+                  }
                   setSelectedCategory={(value: number[]) =>
-                    setValue('category', value, { shouldValidate: true })
+                    categoryField.onChange(value[0])
                   }
                 />
               </article>
@@ -204,9 +219,9 @@ const FaqRegistrationPage = () => {
                 </span>
                 <FaqImageUploader
                   name={'image'}
-                  adjustImg={getValues('adjustImg')}
+                  adjustImg={adjustImgField.value}
                   setAdjustImg={(value: boolean) =>
-                    setValue('adjustImg', value, { shouldValidate: true })
+                    adjustImgField.onChange(value)
                   }
                 />
               </article>
@@ -220,9 +235,9 @@ const FaqRegistrationPage = () => {
                 </div>
                 <ToggleButton
                   name="핀 버튼"
-                  isChecked={getValues('isPinned')}
+                  isChecked={isPinnedField.value}
                   setIsChecked={(value: boolean) =>
-                    setValue('isPinned', value, { shouldValidate: true })
+                    isPinnedField.onChange(value)
                   }
                 />
               </article>
@@ -239,14 +254,6 @@ const FaqRegistrationPage = () => {
           onClick={handleSubmit(onSubmit, onError)}
         />
       </div>
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-          additionalStyles="bottom-[5.6875rem]"
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
     </div>
   );
 };

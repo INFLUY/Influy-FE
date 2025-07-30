@@ -1,4 +1,9 @@
-export type CategoryType = {
+export interface CategoryType {
   id: number;
-  category: string;
-};
+  name: string;
+  categoryOrder?: number;
+}
+
+export interface CategoryOrderType extends CategoryType {
+  categoryOrder?: number;
+}

@@ -1,7 +1,7 @@
 import {
   TipTooltip,
   CategoryMultiSelector,
-  FormLinkInput,
+  FormLinkTextarea,
   ItemImageUploader,
   FormPriceInput,
   FormSalePriceInput,
@@ -13,13 +13,13 @@ import {
 } from '@/components';
 import BottomSheet from '@/components/common/BottomSheet';
 import CalendarIcon from '@/assets/icon/common/Calendar.svg?react';
-import PRODUCT_CATEGORIES from '@/constants/productCategories';
 import { useState } from 'react';
 import { useFormContext, useController } from 'react-hook-form';
 import { ItemFormValues } from '@/types/item.types';
 import CheckBoxOnIcon from '@/assets/icon/common/CheckBox24On.svg?react';
 import CheckBoxOffIcon from '@/assets/icon/common/CheckBox24Off.svg?react';
 import cn from '@/utils/cn';
+import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
 
 interface ItemFormProps {
   mode: 'create' | 'edit';
@@ -36,10 +36,11 @@ export const ItemForm = ({
   startDateWrapperRef,
   endDateWrapperRef,
 }: ItemFormProps) => {
-  console.log(mode); // 'mode' is declared but its value is never read. 에러 해결을 위함
   const [isStartDateTimeSheetOpen, setIsStartDateTimeSheetOpen] =
     useState(false);
   const [isEndDateTimeSheetOpen, setIsEndDateTimeSheetOpen] = useState(false);
+
+  const itemCategories = useGetItemCategory();
 
   const { control } = useFormContext<ItemFormValues>();
 
@@ -114,14 +115,16 @@ export const ItemForm = ({
   };
 
   return (
-    <section className="mb-[8.25rem] box-border flex flex-col items-start gap-8">
+    <section className="box-border flex flex-1 flex-col items-start gap-8">
       {/* 사진 업로드 */}
       <article
         ref={imagesWrapperRef}
         tabIndex={-1}
         className="flex h-fit w-full flex-col items-start"
       >
-        <p className="body1-b w-full px-5 py-0 text-black">사진 *</p>
+        <p className="body1-b w-full px-5 py-0 text-black">
+          사진 <span className="text-main">*</span>
+        </p>
         <ItemImageUploader name="images" />
 
         <div className="w-full px-5">
@@ -130,7 +133,7 @@ export const ItemForm = ({
       </article>
 
       {/* 제목 */}
-      <ItemSection label="제목 *">
+      <ItemSection label="제목" required={true}>
         <FormLimitedTextInput<ItemFormValues>
           name="titleText"
           maxLength={40}
@@ -140,18 +143,19 @@ export const ItemForm = ({
 
       {/* 상품 카테고리 */}
       <ItemSection
-        label="상품 카테고리 *"
+        label="상품 카테고리"
+        required={true}
         tooltipText="1개 이상, 최대 3가지의 카테고리를 선택할 수 있습니다!"
       >
         <CategoryMultiSelector
           name="selectedCategoryList"
-          categoryList={PRODUCT_CATEGORIES}
+          categoryList={itemCategories?.categoryDtoList || []}
           ref={categoryWrapperRef}
         />
       </ItemSection>
 
       {/* 기간 */}
-      <ItemSection label="기간 *">
+      <ItemSection label="기간" required={true}>
         <div className="flex w-full flex-col items-start gap-4">
           {/* 시작일 */}
           <div
@@ -270,7 +274,8 @@ export const ItemForm = ({
 
       {/* 한 줄 소개 */}
       <ItemSection
-        label="한 줄 소개 *"
+        label="한 줄 소개"
+        required={true}
         tooltipText="제품의 특징을 간단하게 소개해 주세요!"
       >
         <FormLimitedTextInput<ItemFormValues>
@@ -296,7 +301,7 @@ export const ItemForm = ({
 
       {/* 판매 링크 */}
       <ItemSection label="판매 링크">
-        <FormLinkInput<ItemFormValues> name="linkText" />
+        <FormLinkTextarea<ItemFormValues> name="linkText" />
       </ItemSection>
 
       {/* 진행 회차 */}
@@ -307,10 +312,21 @@ export const ItemForm = ({
       {/* COMMENT */}
       <ItemSection label="COMMENT">
         <FormWideTextArea
-          name={'commentText'}
+          name="commentText"
           placeHolderContent="제품 선택 이유, 특징, 사용 경험 등 제품의 매력을 보여줄 수 있는 내용을 자유롭게 작성해 주세요."
         />
       </ItemSection>
+
+      {mode === 'create' && (
+        <span className="w-full px-5">
+          <TipTooltip
+            tip={false}
+            text={`상품 FAQ 관리의 경우, 상품 등록 후 상품 정보 수정하기 페이지 또는 상품 상세페이지 안에서 가능합니다.`}
+            bgColor="bg-grey01"
+            textColor="text-grey10"
+          />
+        </span>
+      )}
     </section>
   );
 };

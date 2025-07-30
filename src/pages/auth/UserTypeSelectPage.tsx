@@ -1,6 +1,5 @@
-import { DefaultButton, PageHeader, SnackBar } from '@/components';
+import { CloseComponent, DefaultButton, PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import LoudSpeaker from '@/assets/icon/common/LoudSpeaker.svg?react';
 import ShoppingCart from '@/assets/icon/common/ShoppingCart.svg?react';
 import { useEffect, useState } from 'react';
@@ -8,20 +7,26 @@ import { useNavigate } from 'react-router-dom';
 import { SelectUserButtonType, UserType } from '@/types/common/AuthTypes.types';
 import cn from '@/utils/cn';
 import { PATH } from '@/routes/path';
-import { useSellerSignupStore, useUserSignupStore } from '@/store/authStore';
+import { useSnackbarStore } from '@/store/snackbarStore';
+import { useAuthStore } from '@/store/authStore';
+import { useKakaoStore } from '@/store/registerStore';
 
 export const UserTypeSelectPage = () => {
   const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState<UserType | null>(null);
 
-  const { reset: sellerSignupStateReset } = useSellerSignupStore();
-  const { reset: userSignupStateReset } = useUserSignupStore();
+  const { accessToken } = useAuthStore();
+  const { kakaoId } = useKakaoStore();
 
   useEffect(() => {
-    sellerSignupStateReset();
-    useSellerSignupStore.persist.clearStorage();
-    userSignupStateReset();
-    useUserSignupStore.persist.clearStorage();
+    if (accessToken) {
+      navigate(PATH.HOME.BASE, { replace: true });
+      return;
+    }
+    if (!kakaoId) {
+      navigate(`${PATH.LOGIN.BASE}`, { replace: true });
+      return;
+    }
   }, []);
 
   const userType: SelectUserButtonType[] = [
@@ -39,26 +44,26 @@ export const UserTypeSelectPage = () => {
     },
   ];
 
-  const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
+  const { showSnackbar } = useSnackbarStore();
 
   const handleClickNext = () => {
     if (!selectedType) {
-      setIsSnackbarOpen(true);
+      showSnackbar('사용자 유형을 선택해 주세요.');
     } else {
       if (selectedType === 'influencer') {
         navigate(
-          `${PATH.REGISTER.base}/${PATH.REGISTER.type.seller.base}/${PATH.REGISTER.type.seller.id}`
+          `${PATH.REGISTER.BASE}/${PATH.REGISTER.TYPE.SELLER.BASE}/${PATH.REGISTER.TYPE.SELLER.ID}`
         );
       } else {
         navigate(
-          `${PATH.REGISTER.base}/${PATH.REGISTER.type.user.base}/${PATH.REGISTER.type.user.id}`
+          `${PATH.REGISTER.BASE}/${PATH.REGISTER.TYPE.USER.BASE}/${PATH.REGISTER.TYPE.USER.ID}`
         );
       }
     }
   };
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col">
+    <div className="flex h-full w-full flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[
           <ArrowIcon
@@ -66,12 +71,7 @@ export const UserTypeSelectPage = () => {
             onClick={() => navigate(-1)}
           />,
         ]}
-        rightIcons={[
-          <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate('')}
-          />,
-        ]}
+        rightIcons={[<CloseComponent />]}
       >
         회원가입
       </PageHeader>
@@ -106,13 +106,6 @@ export const UserTypeSelectPage = () => {
           onClick={handleClickNext}
         />
       </div>
-
-      {/* 스낵바 */}
-      {isSnackbarOpen && (
-        <SnackBar handleSnackBarClose={() => setIsSnackbarOpen(false)}>
-          사용자 유형을 선택해 주세요.
-        </SnackBar>
-      )}
     </div>
   );
 };

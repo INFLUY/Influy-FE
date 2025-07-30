@@ -9,7 +9,7 @@ import { GlobalLayout, LoadingSpinner } from '@/components';
 import {
   NotFound,
   HomePage,
-  SellerProfile,
+  SellerProfilePage,
   SellerMyProfile,
   ItemRegistrationPage,
   ItemFaqTab,
@@ -18,11 +18,9 @@ import {
   ErrorPage,
   SellerMyProfileEditPage,
   FaqRegistrationPage,
-  SellerItemDetailPage,
   FaqEditPage,
   SellerHomePage,
   CategoryPage,
-  TrendingPage,
   EndingSoonPage,
   SplashScreen,
   LoginPage,
@@ -32,6 +30,19 @@ import {
   SignupSnsLinkPage,
   WelcomePage,
   SignupEmailPage,
+  ItemDetailPage,
+  LikePage,
+  MyPage,
+  KakaoLoginHandler,
+  CalendarPage,
+  SellerCalendarPage,
+  AccountSettingsPage,
+  NicknamePage,
+  NotificationSettingsPage,
+  MyQuestion,
+  DeleteAccountPage,
+  UsernamePage,
+  SupportPage,
   SellerTalkBoxItemListPage,
   BulkReplyPage,
   QuestionsListPage,
@@ -47,12 +58,16 @@ import {
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { SellerAuthInterceptor } from './AuthInterceptor';
+import SellerRoute from './SellerRoute';
+import UserRoute from './UserRoute';
 
-const SelectionTab = lazy(
-  () => import('@/pages/user/sellerProfile/SelectionTab')
+const LikeItemTab = lazy(() => import('@/pages/user/like/LikeItemTab'));
+const LikeInfluencerTab = lazy(
+  () => import('@/pages/user/like/LikeInfluencerTab')
 );
-const ReviewTab = lazy(() => import('@/pages/user/sellerProfile/ReviewTab'));
+
+const SelectionTab = lazy(() => import('@/pages/user/market/SelectionTab'));
+const ReviewTab = lazy(() => import('@/pages/user/market/ReviewTab'));
 
 const MySelectionTab = lazy(
   () => import('@/pages/seller/sellerMyPage/MySelectionTab')
@@ -82,256 +97,406 @@ const router = createBrowserRouter([
         element: <SplashScreen />,
       },
       {
-        path: PATH.LOGIN.base,
-        element: <Outlet />,
-        children: [
-          {
-            index: true,
-            element: <LoginPage />,
-          },
-        ],
+        path: PATH.LOGIN.BASE,
+        element: <LoginPage />,
       },
       {
-        path: PATH.REGISTER.base,
+        path: PATH.OAUTH.BASE,
+        element: <KakaoLoginHandler />,
+      },
+      {
+        path: PATH.REGISTER.BASE,
         element: <Outlet />,
         children: [
           {
             index: true,
-            element: <Navigate to={PATH.REGISTER.type.base} replace />,
+            element: <Navigate to={PATH.REGISTER.TYPE.BASE} replace />,
           },
           {
-            path: PATH.REGISTER.type.base,
+            path: PATH.REGISTER.TYPE.BASE,
             element: <UserTypeSelectPage />,
           },
           {
-            path: PATH.REGISTER.type.user.base,
+            path: PATH.REGISTER.TYPE.USER.BASE,
             element: <Outlet />,
             children: [
               {
                 index: true,
-                element: <Navigate to={PATH.REGISTER.type.user.id} replace />,
+                element: <Navigate to={PATH.REGISTER.TYPE.USER.ID} replace />,
               },
               {
-                path: PATH.REGISTER.type.user.id,
+                path: PATH.REGISTER.TYPE.USER.ID,
                 element: <SignupIdPage />,
               },
               {
-                path: PATH.REGISTER.type.user.interest,
+                path: PATH.REGISTER.TYPE.USER.INTEREST,
                 element: <SignupInterestPage />,
               },
             ],
           },
           {
-            path: PATH.REGISTER.type.seller.base,
+            path: PATH.REGISTER.TYPE.SELLER.BASE,
             element: <Outlet />,
             children: [
               {
                 index: true,
-                element: <Navigate to={PATH.REGISTER.type.seller.id} replace />,
+                element: <Navigate to={PATH.REGISTER.TYPE.SELLER.ID} replace />,
               },
               {
-                path: PATH.REGISTER.type.seller.id,
+                path: PATH.REGISTER.TYPE.SELLER.ID,
                 element: <SignupIdPage />,
               },
               {
-                path: PATH.REGISTER.type.seller.sns,
+                path: PATH.REGISTER.TYPE.SELLER.SNS,
                 element: <SignupSnsLinkPage />,
               },
               {
-                path: PATH.REGISTER.type.seller.email,
+                path: PATH.REGISTER.TYPE.SELLER.EMAIL,
                 element: <SignupEmailPage />,
+              },
+              {
+                path: PATH.REGISTER.TYPE.SELLER.INTEREST,
+                element: <SignupInterestPage />,
               },
             ],
           },
         ],
       },
       {
-        path: PATH.WELCOME.base,
+        path: PATH.WELCOME.BASE,
         element: <WelcomePage />,
       },
+
+      // 유저뷰
       {
-        path: PATH.HOME.base,
+        path: PATH.HOME.BASE,
         element: <Outlet />,
         children: [
           {
             index: true,
             element: <HomePage />,
           },
-        ],
-      },
-      {
-        path: PATH.USER.base,
-        element: (
-          <SellerProfile>
-            <Outlet />
-          </SellerProfile>
-        ),
-        children: [
           {
-            index: true,
-            element: <Navigate to={PATH.USER.tabs.selection} replace />,
+            path: PATH.HOME.MORE.ENDING_SOON,
+            element: <EndingSoonPage />,
           },
           {
-            path: PATH.USER.tabs.selection,
-            element: <SelectionTab />,
-          },
-          {
-            path: PATH.USER.tabs.review,
-            element: <ReviewTab />,
+            path: PATH.HOME.MORE.CATEGORY,
+            element: <CategoryPage />,
           },
         ],
       },
       {
-        path: PATH.SELLER.base,
-        element: (
-          <SellerMyProfile>
-            <SellerAuthInterceptor />
-          </SellerMyProfile>
-        ),
-        children: [
-          {
-            index: true,
-            element: <Navigate to={PATH.SELLER.tabs.selection} replace />,
-          },
-          {
-            path: PATH.SELLER.tabs.selection,
-            element: <MySelectionTab />,
-          },
-          {
-            path: PATH.SELLER.tabs.stored,
-            element: <MyStoredItemTab />,
-          },
-          {
-            path: PATH.SELLER.tabs.review,
-            element: <MyItemReviewTab />,
-          },
-        ],
-      },
-      {
-        path: PATH.SELLER.base,
+        path: PATH.MARKET.BASE,
         element: <Outlet />,
         children: [
           {
-            path: PATH.SELLER.home.base,
-            element: <Outlet />,
+            index: true,
+            element: <NotFound />,
+          },
+          {
+            path: PATH.MARKET.DETAIL.BASE,
+            element: (
+              <SellerProfilePage>
+                <Outlet />
+              </SellerProfilePage>
+            ),
             children: [
               {
                 index: true,
-                element: <SellerHomePage />,
+                element: (
+                  <Navigate to={PATH.MARKET.DETAIL.TABS.SELECTION} replace />
+                ),
               },
               {
-                path: PATH.SELLER.home.more.endingSoon,
-                element: <EndingSoonPage />,
+                path: PATH.MARKET.DETAIL.TABS.SELECTION,
+                element: <SelectionTab />,
               },
               {
-                path: PATH.SELLER.home.more.trending,
-                element: <TrendingPage />,
-              },
-              {
-                path: PATH.SELLER.home.more.category,
-                element: <CategoryPage />,
+                path: PATH.MARKET.DETAIL.TABS.REVIEW,
+                element: <ReviewTab />,
               },
             ],
           },
           {
-            path: PATH.SELLER.notice.base,
+            path: PATH.MARKET.DETAIL.BASE,
+            element: <Outlet />,
+            children: [
+              {
+                path: PATH.MARKET.DETAIL.ITEM.BASE,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    element: <NotFound />,
+                  },
+                  {
+                    path: PATH.MARKET.DETAIL.ITEM.ITEM_ID,
+                    element: <ItemDetailPage />,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: '',
+        element: <UserRoute />,
+        children: [
+          // 찜
+          {
+            path: PATH.LIKE.BASE,
+            element: (
+              <LikePage>
+                <Outlet />
+              </LikePage>
+            ),
+            children: [
+              {
+                index: true,
+                element: <Navigate to={PATH.LIKE.TABS.ITEM} replace />,
+              },
+              {
+                path: PATH.LIKE.TABS.ITEM,
+                element: <LikeItemTab />,
+              },
+              {
+                path: PATH.LIKE.TABS.SELLER,
+                element: <LikeInfluencerTab />,
+              },
+            ],
+          },
+
+          // 캘린더
+          {
+            path: PATH.CALENDAR.BASE,
+            element: <CalendarPage />,
+          },
+
+          // 마이
+          // 마이
+          {
+            path: PATH.MY.BASE,
             element: <Outlet />,
             children: [
               {
                 index: true,
-                element: <Notice />,
+                element: <MyPage />,
+              },
+              {
+                path: `${PATH.MY.MY_QUESTION}`,
+                element: <MyQuestion />,
+              },
+              {
+                path: `${PATH.MY.NOTIFICATION}`,
+                element: <NotificationSettingsPage />,
+              },
+              {
+                path: `${PATH.MY.NICKNAME}`,
+                element: <NicknamePage />,
+              },
+              {
+                path: `${PATH.MY.ACCOUNT_SETTING.BASE}`,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    element: <AccountSettingsPage />,
+                  },
+                  {
+                    path: `${PATH.MY.ACCOUNT_SETTING.ID}`,
+                    element: <UsernamePage />,
+                  },
+                  {
+                    path: `${PATH.MY.ACCOUNT_SETTING.DELETE}`,
+                    element: <DeleteAccountPage />,
+                  },
+                ],
+              },
+              {
+                path: `${PATH.MY.SUPPORT}`,
+                element: <SupportPage />,
               },
             ],
           },
+        ],
+      },
+      // 셀러뷰
+      {
+        path: PATH.SELLER.BASE,
+        element: <SellerRoute />,
+        children: [
           {
-            path: PATH.SELLER.profile.base,
-            element: <Outlet />,
+            index: true,
+            element: <Navigate to={PATH.SELLER.HOME.BASE} replace />,
+          },
+
+          // 홈
+          {
+            path: PATH.SELLER.HOME.BASE,
+            element: <SellerHomePage />,
+          },
+
+          // 캘린더
+          {
+            path: PATH.SELLER.CALENDER.BASE,
+            element: <SellerCalendarPage />,
+          },
+
+          // 마이
+          {
+            path: PATH.SELLER.MY.BASE,
+            element: (
+              <SellerMyProfile>
+                <Outlet />
+              </SellerMyProfile>
+            ),
             children: [
               {
                 index: true,
-                path: PATH.SELLER.profile.edit,
-                element: <SellerMyProfileEditPage />,
+                element: (
+                  <Navigate to={PATH.SELLER.MY.TABS.SELECTION} replace />
+                ),
+              },
+              {
+                path: PATH.SELLER.MY.TABS.SELECTION,
+                element: <MySelectionTab />,
+              },
+              {
+                path: PATH.SELLER.MY.TABS.ARCHIVE,
+                element: <MyStoredItemTab />,
+              },
+              {
+                path: PATH.SELLER.MY.TABS.REVIEW,
+                element: <MyItemReviewTab />,
               },
             ],
           },
           {
-            path: PATH.SELLER.items.base,
+            path: PATH.SELLER.MY.BASE,
             element: <Outlet />,
             children: [
               {
-                path: PATH.SELLER.items.item.registration.base,
-                element: <ItemRegistrationPage />, // 더 이상 중첩 X
+                path: PATH.SELLER.MY.PREVIEW.BASE,
+                element: (
+                  <SellerProfilePage>
+                    <Outlet />
+                  </SellerProfilePage>
+                ),
                 children: [
                   {
                     index: true,
                     element: (
                       <Navigate
-                        to={PATH.SELLER.items.item.registration.tabs.info}
+                        to={PATH.SELLER.MY.PREVIEW.TABS.SELECTION}
                         replace
                       />
                     ),
                   },
                   {
-                    path: PATH.SELLER.items.item.registration.tabs.info,
-                    element: <ItemInfoTab />, // 새로 분리한 컴포넌트
-                  },
-                  {
-                    path: PATH.SELLER.items.item.registration.tabs.faq,
-                    element: <ItemFaqTab />, // 새로 분리한 컴포넌트
+                    path: PATH.SELLER.MY.PREVIEW.TABS.SELECTION,
+                    element: <SelectionTab />,
                   },
                 ],
               },
-
               {
-                path: PATH.SELLER.items.item.administration.base,
+                path: PATH.SELLER.MY.NOTICE.BASE,
+                element: <Notice />,
+              },
+              {
+                path: PATH.SELLER.MY.PROFILE.BASE,
                 element: <Outlet />,
                 children: [
                   {
                     index: true,
-                    path: PATH.SELLER.items.item.administration.itemDetail
-                      .published,
-                    element: <SellerItemDetailPage />, // 게시한 상품 조회 페이지
+                    path: PATH.SELLER.MY.PROFILE.EDIT,
+                    element: <SellerMyProfileEditPage />,
                   },
+                ],
+              },
+            ],
+          },
+          // 아이템
+          {
+            path: PATH.SELLER.ITEM.BASE,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: (
+                  <Navigate to={PATH.SELLER.ITEM.REGISTRATION.BASE} replace />
+                ),
+              },
+              {
+                path: PATH.SELLER.ITEM.REGISTRATION.BASE,
+                element: <ItemRegistrationPage mode="create" />,
+                children: [
                   {
                     index: true,
-                    path: PATH.SELLER.items.item.administration.itemDetail
-                      .archived,
-                    element: <SellerItemDetailPage />, // 보관한 상품 조회 페이지
+                    element: <ItemInfoTab mode="create" />,
+                  },
+                ],
+              },
+              {
+                path: PATH.SELLER.ITEM.ITEM_ID.BASE,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    element: <ItemDetailPage />, // 셀러 상품 상세페이지
                   },
                   {
-                    path: PATH.SELLER.items.item.administration.faq.base,
+                    path: PATH.SELLER.ITEM.ITEM_ID.EDIT.BASE,
+                    element: <ItemRegistrationPage mode="edit" />,
+                    children: [
+                      {
+                        index: true,
+                        element: (
+                          <Navigate
+                            to={PATH.SELLER.ITEM.ITEM_ID.EDIT.TABS.INFO}
+                            replace
+                          />
+                        ),
+                      },
+                      {
+                        path: PATH.SELLER.ITEM.ITEM_ID.EDIT.TABS.INFO,
+                        element: <ItemInfoTab mode="edit" />,
+                      },
+                      {
+                        path: PATH.SELLER.ITEM.ITEM_ID.EDIT.TABS.FAQ,
+                        element: <ItemFaqTab />,
+                      },
+                    ],
+                  },
+                  {
+                    path: PATH.SELLER.ITEM.FAQ.BASE,
                     element: <Outlet />,
                     children: [
                       {
                         index: true,
-                        element: <FaqRegistrationPage />, // (임시) faq 조회 페이지
+                        element: <FaqRegistrationPage />, // (임시) FAQ 조회 페이지
                       },
                       {
-                        path: PATH.SELLER.items.item.administration.faq
-                          .registration.base,
+                        path: PATH.SELLER.ITEM.FAQ.REGISTRATION.BASE,
                         element: <FaqRegistrationPage />,
                       },
                       {
-                        path: PATH.SELLER.items.item.administration.faq
-                          .administration.base,
+                        path: PATH.SELLER.ITEM.FAQ.FAQ_ID.BASE,
                         element: <Outlet />,
                         children: [
                           {
                             index: true,
                             element: (
                               <Navigate
-                                to={
-                                  PATH.SELLER.items.item.administration.faq
-                                    .administration.faqDetail.edit
-                                }
+                                to={PATH.SELLER.ITEM.FAQ.FAQ_ID.FAQ_DETAIL.EDIT}
                                 replace
                               />
                             ),
                           },
                           {
-                            path: PATH.SELLER.items.item.administration.faq
-                              .administration.faqDetail.edit,
-                            element: <FaqEditPage />, // 개별 faq 수정 페이지
+                            path: PATH.SELLER.ITEM.FAQ.FAQ_ID.FAQ_DETAIL.EDIT,
+                            element: <FaqEditPage />, // 개별 FAQ 수정 페이지
                           },
                         ],
                       },

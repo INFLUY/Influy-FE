@@ -1,6 +1,5 @@
-import { DefaultButton, PageHeader, SnackBar } from '@/components';
+import { CloseComponent, DefaultButton, PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
 import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
@@ -8,8 +7,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { TextInput } from '@/components/common/DetailInput';
-import { useSellerSignupStore } from '@/store/authStore';
 import { snsSchema } from '@/schemas/profileSchema';
+import { useSnackbarStore } from '@/store/snackbarStore';
+import { useKakaoStore, useSellerSignupStore } from '@/store/registerStore';
 
 export const SignupSnsLinkPage = () => {
   const navigate = useNavigate();
@@ -22,10 +22,15 @@ export const SignupSnsLinkPage = () => {
   const tiktokRef = useRef<HTMLInputElement | null>(null);
 
   const { id: sellerId, sns, setSns } = useSellerSignupStore();
+  const { kakaoId } = useKakaoStore();
 
   useEffect(() => {
+    if (!kakaoId) {
+      navigate(`${PATH.LOGIN.BASE}`, { replace: true });
+      return;
+    }
     if (!sellerId) {
-      navigate(`../${PATH.REGISTER.type.seller.id}`);
+      navigate(`../${PATH.REGISTER.TYPE.SELLER.ID}`);
     }
     // 기존에 저장된 SNS 정보가 있다면 초기화
     if (sns) {
@@ -36,24 +41,22 @@ export const SignupSnsLinkPage = () => {
   }, []);
 
   const [isDirty, setIsDirty] = useState(false); // 입력값이 한번이라도 바뀌었는지
-  const [snackbar, setSnackbar] = useState<{
-    open: boolean;
-    message: string;
-  }>({
-    open: false,
-    message: '',
-  });
+
+  const { showSnackbar } = useSnackbarStore();
 
   const partialSnsSchema = snsSchema.partial();
+
+  const handleInstagramInput = (value: string) => {
+    if (!isDirty) setIsDirty(true);
+    setInstagramUrl(value);
+  };
 
   // 다음 버튼 클릭 핸들러
   const handleClickNext = () => {
     if (!isDirty) setIsDirty(true);
     if (!instagramUrl) {
-      setSnackbar({
-        open: true,
-        message: '인스타그램 URL을 입력해 주세요.',
-      });
+      showSnackbar('인스타그램 URL을 입력해 주세요.');
+
       instagramRef.current?.focus();
     } else {
       const result = snsSchema.safeParse({
@@ -74,24 +77,20 @@ export const SignupSnsLinkPage = () => {
             tiktokRef.current?.focus();
             break;
         }
-
-        setSnackbar({
-          open: true,
-          message: firstError.message,
-        });
+        showSnackbar(firstError.message);
       } else {
         setSns({
           instagram: instagramUrl,
           youtube: youtubeUrl,
           tiktok: tiktokUrl,
         });
-        navigate(`../${PATH.REGISTER.type.seller.email}`);
+        navigate(`../${PATH.REGISTER.TYPE.SELLER.EMAIL}`);
       }
     }
   };
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col">
+    <div className="flex h-full w-full flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[
           <ArrowIcon
@@ -99,12 +98,7 @@ export const SignupSnsLinkPage = () => {
             onClick={() => navigate(-1)}
           />,
         ]}
-        rightIcons={[
-          <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate('')}
-          />,
-        ]}
+        rightIcons={[<CloseComponent />]}
       >
         회원가입
       </PageHeader>
@@ -124,13 +118,13 @@ export const SignupSnsLinkPage = () => {
           </div>
           <TextInput
             text={instagramUrl}
-            setText={setInstagramUrl}
+            setText={handleInstagramInput}
             inputRef={instagramRef}
             isValid={
               !isDirty ||
-              snsSchema.safeParse({ instagram: instagramUrl }).success
+              partialSnsSchema.safeParse({ instagram: instagramUrl }).success
             }
-            placeHolderContent="링크 URL을 입력해 주세요."
+            placeHolderContent="https://www.instagram.com/"
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -145,7 +139,7 @@ export const SignupSnsLinkPage = () => {
             isValid={
               partialSnsSchema.safeParse({ youtube: youtubeUrl }).success
             }
-            placeHolderContent="링크 URL을 입력해 주세요."
+            placeHolderContent="https://www.youtube.com/"
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -158,7 +152,7 @@ export const SignupSnsLinkPage = () => {
             setText={setTiktokUrl}
             inputRef={tiktokRef}
             isValid={partialSnsSchema.safeParse({ tiktok: tiktokUrl }).success}
-            placeHolderContent="링크 URL을 입력해 주세요."
+            placeHolderContent="https://www.tiktok.com/"
           />
         </div>
       </section>
@@ -177,15 +171,6 @@ export const SignupSnsLinkPage = () => {
           onClick={handleClickNext}
         />
       </div>
-
-      {/* 스낵바 */}
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
     </div>
   );
 };

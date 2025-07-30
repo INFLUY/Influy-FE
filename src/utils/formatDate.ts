@@ -100,6 +100,21 @@ export const parseDateString = (dateString: string) => {
   return dateString.split('T')[0].replace(/-/g, '.');
 };
 
+export const formatKrDate = (dateIso: string) => {
+  const days = ['일', '월', '화', '수', '목', '금', '토'];
+  const date = new Date(dateIso);
+  const startDay = days[date.getDay()];
+
+  const startFormatted = `${date.getFullYear()}.${(date.getMonth() + 1)
+    .toString()
+    .padStart(
+      2,
+      '0'
+    )}.${date.getDate().toString().padStart(2, '0')}(${startDay})`;
+
+  return `${startFormatted}`;
+};
+
 // iso string 받아서 오늘이면 오후 HH:MM 형태로 반환, 아니면 날짜 형식으로 반환
 export const formatIsoToTimeOrDate = (isoString: string): string => {
   const date = parseISOString(isoString); // 기존 함수 재사용

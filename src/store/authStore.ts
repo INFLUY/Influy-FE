@@ -1,90 +1,66 @@
-import {
-  SellerSignupState,
-  SnsLinkProps,
-  UserSignupState,
-} from '@/types/common/AuthTypes.types';
+import { getReissue } from '@/api/auth/getReissue.api';
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 
 interface AuthState {
+  memberId: number | null;
   sellerId: number | null;
-  setSellerId: (id: number) => void;
+  accessToken: string | null;
+  kakaoId: number | null;
+  setAuthInfo: (auth: {
+    accessToken: string;
+    memberId: number;
+    sellerId?: number | null;
+  }) => void;
   logout: () => void;
+  clearAuthInfo: () => void;
+  reissue: () => Promise<boolean>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  sellerId: 1, // 로그인 구현 전 개발을 위한 Default value
-  setSellerId: (id) => set({ sellerId: id }),
-  logout: () => set({ sellerId: null }),
-}));
+  memberId: null,
+  sellerId: null,
+  accessToken: null,
+  kakaoId: null,
 
-interface UserSignupStoreState extends UserSignupState {
-  setId: (id: string) => void;
-  setInterestedCategories: (categories: number[]) => void;
-  reset: () => void;
-}
-
-const initialUserSignupState: UserSignupState = {
-  id: '',
-  email: '',
-  intersetedCategories: [],
-};
-
-export const useUserSignupStore = create<UserSignupStoreState>()(
-  persist(
-    (set) => ({
-      ...initialUserSignupState,
-      setId: (id: string) => set({ id }),
-      setInterestedCategories: (intersetedCategories: number[]) =>
-        set({ intersetedCategories }),
-      reset: () => set({ ...initialUserSignupState }),
-    }),
-    {
-      name: 'user-signup-storage', // 저장소 이름
-    }
-  )
-);
-
-interface SellerSignupStoreState extends SellerSignupState {
-  setId: (id: string) => void;
-  setEmail: (email: string) => void;
-  setSns: (sns: Partial<SnsLinkProps>) => void;
-  reset: () => void;
-}
-
-const initialSellerSignupState: SellerSignupState = {
-  id: '',
-  email: '',
-  sns: {
-    instagram: '',
-    youtube: '',
-    tiktok: '',
+  setAuthInfo: ({ accessToken, memberId, sellerId = null }) => {
+    set({
+      accessToken,
+      memberId,
+      sellerId,
+    });
   },
-};
+  logout: () => {
+    set({
+      accessToken: null,
+      memberId: null,
+      sellerId: null,
+    });
+  },
+  clearAuthInfo: () => {
+    set({
+      accessToken: null,
+      memberId: null,
+      sellerId: null,
+    });
+  },
+  reissue: async () => {
+    try {
+      const data = await getReissue();
 
-export const useSellerSignupStore = create<SellerSignupStoreState>()(
-  persist(
-    (set) => ({
-      id: '',
-      sns: {
-        instagram: '',
-        youtube: '',
-        tiktok: '',
-      },
-      email: '',
-      setId: (id: string) => set({ id }),
-      setSns: (sns: Partial<SnsLinkProps>) =>
-        set((state) => ({
-          sns: {
-            ...state.sns,
-            ...sns,
-          },
-        })),
-      setEmail: (email: string) => set({ email }),
-      reset: () => set({ ...initialSellerSignupState }),
-    }),
-    {
-      name: 'seller-signup-storage', // 저장소 이름
+      if (!data.isSuccess || !data.result?.accessToken) {
+        throw new Error('토큰 재발급 실패');
+      }
+
+      set({
+        accessToken: data.result.accessToken,
+        memberId: data.result.memberId,
+        sellerId: data.result.sellerId ?? null,
+      });
+
+      return true;
+    } catch (error) {
+      console.error('토큰 재발급 실패', error);
+      return false;
     }
-  )
-);
+  },
+}));

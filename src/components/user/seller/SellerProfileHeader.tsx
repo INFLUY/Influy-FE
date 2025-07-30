@@ -4,21 +4,29 @@ import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
 import cn from '@/utils/cn';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SnackBar } from '@/components';
+import useCopyUrl from '@/utils/useCopyUrl';
 
-const SellerProfileHeader = ({ name, id }: { name: string; id: string }) => {
+const SellerProfileHeader = ({
+  name,
+  id,
+  seller,
+}: {
+  name: string;
+  id: string;
+  seller: boolean;
+}) => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState<boolean>(false);
   const triggerRef = useRef<HTMLDivElement | null>(null);
-  const [isLinkCopiedSnackBarOpen, setIsLinkCopiedSnackBarOpen] =
-    useState<boolean>(false);
+  const copyUrl = useCopyUrl();
 
   useEffect(() => {
+    const newRootMargin = seller ? '-11px 0px 0px 0px' : undefined;
     const observer = new IntersectionObserver(
       ([entry]) => {
         setScrolled(!entry.isIntersecting);
       },
-      { threshold: 0.01 }
+      { threshold: 0.01, rootMargin: newRootMargin }
     );
     if (triggerRef.current) {
       observer.observe(triggerRef.current);
@@ -31,11 +39,6 @@ const SellerProfileHeader = ({ name, id }: { name: string; id: string }) => {
     };
   }, []);
 
-  const handleLinkCopy = () => {
-    // 페이지 링크 복사
-    setIsLinkCopiedSnackBarOpen(true);
-  };
-
   return (
     <>
       <div ref={triggerRef} className="h-2 w-full bg-[#8B8B8D]" />
@@ -44,6 +47,7 @@ const SellerProfileHeader = ({ name, id }: { name: string; id: string }) => {
           'fixed top-0 z-20 flex w-screen max-w-[40rem] min-w-[20rem] justify-between overflow-visible px-5 py-[.9375rem] text-white md:w-[28rem]',
           {
             'text-grey09 bg-white': scrolled,
+            'top-[5.0625rem]': seller,
           }
         )}
       >
@@ -60,18 +64,11 @@ const SellerProfileHeader = ({ name, id }: { name: string; id: string }) => {
         <span className="flex shrink-0 gap-3">
           <SearchIcon className="h-6 w-6 cursor-pointer" />
           <ShareIcon
-            onClick={handleLinkCopy}
+            onClick={() => copyUrl()}
             className="h-6 w-6 cursor-pointer"
           />
         </span>
       </header>
-      {isLinkCopiedSnackBarOpen && (
-        <SnackBar
-          handleSnackBarClose={() => setIsLinkCopiedSnackBarOpen(false)}
-        >
-          링크가 클립보드에 복사되었습니다.
-        </SnackBar>
-      )}
     </>
   );
 };

@@ -8,7 +8,7 @@ const NotFound = () => {
       <ErrorContent
         message="잘못된 경로입니다."
         buttonText="홈으로 가기"
-        onClickHandler={() => window.location.replace(PATH.HOME.base)}
+        onClickHandler={() => window.location.replace(PATH.HOME.BASE)}
       />
     </div>
   );

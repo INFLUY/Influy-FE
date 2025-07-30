@@ -5,6 +5,7 @@ import { useGetNotification } from '@/services/notification/query/useGetNotifica
 import { NoticeType } from '@/types/common/NoticeType.types';
 import { parseDateString } from '@/utils/formatDate';
 import { SetStateAction, useRef } from 'react';
+import PinIcon from '@/assets/icon/user/PinIcon.svg?react';
 
 const SellerNoticeBottomSheet = ({
   marketId,
@@ -31,6 +32,13 @@ const SellerNoticeBottomSheet = ({
     isFetchingNextPage,
   });
 
+  const primaryNotice = notices?.pages
+    ?.flatMap((p) => p?.announcements)
+    ?.find((notice: NoticeType) => notice?.isPrimary);
+  const otherNotices = notices?.pages
+    ?.flatMap((p) => p?.announcements)
+    ?.filter((notice: NoticeType) => !notice?.isPrimary);
+
   return (
     <BottomSheet
       onClose={() => setIsBottomSheetOpen(false)}
@@ -46,10 +54,28 @@ const SellerNoticeBottomSheet = ({
               </span>
             </div>
           ) : (
-            notices?.pages
-              ?.flatMap((p) => p.announcements)
-              ?.map((notice: NoticeType) => (
-                <div
+            <ul className="flex flex-col gap-4">
+              {primaryNotice && (
+                <li
+                  key={primaryNotice.id}
+                  className="border-grey03 flex h-fit w-full flex-col gap-2 border-b px-5 pb-5"
+                >
+                  <div className="flex flex-col">
+                    <span className="flex justify-between">
+                      <h2 className="body1-m text-grey10">
+                        {primaryNotice.title}
+                      </h2>
+                      <PinIcon className="h-6 w-6 shrink-0 text-black" />
+                    </span>
+                    <span className="caption-m text-grey05">
+                      {parseDateString(primaryNotice.createdAt)}
+                    </span>
+                  </div>
+                  <p className="body2-r text-grey09">{primaryNotice.content}</p>
+                </li>
+              )}
+              {otherNotices?.map((notice: NoticeType) => (
+                <li
                   key={notice.id}
                   className="border-grey03 flex h-fit w-full flex-col gap-2 border-b px-5 pb-5"
                 >
@@ -60,8 +86,9 @@ const SellerNoticeBottomSheet = ({
                     </span>
                   </div>
                   <p className="body2-r text-grey09">{notice.content}</p>
-                </div>
-              ))
+                </li>
+              ))}
+            </ul>
           )}
           {hasNextPage && (
             <div ref={observerRef} className="h-4 w-full">
