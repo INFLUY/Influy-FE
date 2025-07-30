@@ -94,9 +94,9 @@ export const parseDateString = (dateString: string) => {
   return dateString.split('T')[0].replace(/-/g, '.');
 };
 
-export const formatKrDate = (DateISO: string) => {
+export const formatKrDate = (dateIso: string) => {
   const days = ['일', '월', '화', '수', '목', '금', '토'];
-  const date = new Date(DateISO);
+  const date = new Date(dateIso);
   const startDay = days[date.getDay()];
 
   const startFormatted = `${date.getFullYear()}.${(date.getMonth() + 1)
