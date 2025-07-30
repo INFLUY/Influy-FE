@@ -4,6 +4,7 @@ import {
   ItemOverviewDTO,
   TalkBoxOpenedListDTO,
   TalkBoxOpenStatus,
+  TalkBoxCommentDTO,
 } from '@/types/common/ItemType.types';
 import { SELLER_API_DOMAINS } from '@/constants/api';
 
@@ -27,6 +28,7 @@ export const fetchTalkBoxOpened = async (): Promise<TalkBoxOpenedListDTO> => {
   return response.data.result;
 };
 export interface TalkBoxOpenStatusDTO {
+  // TODO: 이거모임
   itemId: number;
   status: TalkBoxOpenStatus;
 }
@@ -51,4 +53,32 @@ export const postTalkBoxOpenStatus = async ({
   );
 
   return response.data.result;
+};
+
+export const fetchTalkBoxDefaultComment = async (
+  itemId: number
+): Promise<TalkBoxCommentDTO> => {
+  const response = await instance.get(
+    generateApiPath(SELLER_API_DOMAINS.SELLER_TALKBOX_COMMENT, { itemId })
+  );
+  return response.data.result;
+};
+
+interface PatchTalkBoxDefaultCommentRequest {
+  talkBoxComment: string;
+}
+
+export const patchTalkBoxDefaultComment = async ({
+  itemId,
+  data,
+}: {
+  itemId: number;
+  data: PatchTalkBoxDefaultCommentRequest;
+}): Promise<void> => {
+  await instance.patch(
+    generateApiPath(SELLER_API_DOMAINS.PATCH_TALKBOX_DEFAULT_COMMENT, {
+      itemId,
+    }),
+    data
+  );
 };

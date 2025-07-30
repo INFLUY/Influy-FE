@@ -85,3 +85,12 @@ export interface TalkBoxCntInfo {
   waitingCnt: number;
   completedCnt: number;
 }
+
+export interface TalkBoxCommentDTO {
+  sellerId: number;
+  sellerProfileImg: string;
+  sellerUsername: string;
+  sellerNickname: string;
+  createdAt: string; // ISO 8601 datetime string
+  talkBoxComment: string;
+}

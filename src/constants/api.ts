@@ -23,6 +23,9 @@ export const SELLER_API_DOMAINS = {
   ITEM_OVERVIEW: '/seller/:sellerId/items/:itemId/item-overview',
   TALKBOX_OPENED_ITEMS: '/seller/talkbox/opened',
   SELLER_TALKBOX_OPEN_STATUS: '/seller/items/:itemId/talkbox/open-status',
+  SELLER_TALKBOX_COMMENT: '/seller/items/:itemId/talkbox/view-comment',
+  PATCH_TALKBOX_DEFAULT_COMMENT:
+    '/seller/items/:itemId/talkbox/default-comment',
 
   // [톡박스] 질문 관리
   SELLER_ALL_QUESTIONS_IN_CATEGORY:
@@ -60,4 +63,5 @@ export const QUERY_KEYS = {
   SELLER_DELETE_QUESTIONS_IN_CATEGORY: 'sellerDeleteQuestionsInCategory',
   SELLER_QUESTION_TAGS: 'sellerQuestionTags',
   SELLER_TAG_ANSWER_LIST: 'sellerTagAnswerList',
+  SELLER_TALKBOX_COMMENT: 'sellerTalkBoxComment',
 };

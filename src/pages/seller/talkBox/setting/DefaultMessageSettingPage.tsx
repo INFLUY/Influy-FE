@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PATH } from '@/routes/path';
 import {
   PageHeader,
@@ -9,18 +9,42 @@ import {
   TalkBoxBottomSheetLayout,
   TalkBoxSellerProfile,
   FirstChatBubble,
+  DefaultButton,
 } from '@/components';
-import { dummySellerInfo } from '../item/ItemDetailDummyData';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+
+//api
+import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
+import { useGetTalkBoxDefaultComment } from '@/services/sellerItem/query/useGetTalkBoxDefaultComment';
+import { usePatchTalkBoxDefaultComment } from '@/services/sellerItem/mutation/usePatchTalkBoxDefaultComment';
+
 const DefaultMessageSettingPage = () => {
   const [defaultMessage, setDefaultMessage] = useState<string>('');
+
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const navigate = useNavigate();
+  const { itemId } = useParams();
 
-  //임시
-  const sellerInfo = dummySellerInfo;
+  // -- api
+  // 하단 상품 정보
+  const { itemOverview } = useItemOverview({
+    sellerId: 2, // TODO: 수정 필요
+    itemId: Number(itemId),
+  });
+
+  const { data: commentData } = useGetTalkBoxDefaultComment(Number(itemId));
+
+  const { mutate: updateComment } = usePatchTalkBoxDefaultComment(
+    Number(itemId)
+  );
+
+  useEffect(() => {
+    if (commentData?.talkBoxComment) {
+      setDefaultMessage(commentData.talkBoxComment);
+    }
+  }, [commentData?.talkBoxComment]);
 
   return (
     <>
@@ -54,13 +78,19 @@ const DefaultMessageSettingPage = () => {
         <TipTooltip
           text={`고객이 톡박스에 입장했을 때\n가장 먼저 전송되는 안내 문구입니다.`}
         />
+        <DefaultButton
+          onClick={() => updateComment(defaultMessage)}
+          disabled={commentData.talkBoxComment === defaultMessage}
+        />
       </section>
-      <TalkBoxBottomItemCard
-        onCardClick={() => {}}
-        title="[11차] 워크팬츠_navy"
-        tagline="오버핏이 감각적인 워크팬츠, 제작템입니다. 글글글글글글글"
-        imgUrl=""
-      />
+      {itemOverview && (
+        <TalkBoxBottomItemCard
+          onCardClick={() => {}}
+          itemName={itemOverview.itemName}
+          tagline={itemOverview.tagline}
+          mainImg={itemOverview.mainImg}
+        />
+      )}
       {isBottomSheetOpen && (
         <TalkBoxBottomSheetLayout
           onClose={() => setIsBottomSheetOpen(false)}
@@ -69,13 +99,13 @@ const DefaultMessageSettingPage = () => {
         >
           <div className="mt-[2.0625rem] flex w-full flex-col gap-[1.875rem]">
             <TalkBoxSellerProfile
-              profileImg={sellerInfo.profileImg}
-              username={sellerInfo.nickname}
-              nickname={sellerInfo.instagram}
+              profileImg={commentData.sellerProfileImg}
+              username={commentData.sellerUsername}
+              nickname={commentData.sellerNickname}
             />
             <FirstChatBubble
-              profileImg={sellerInfo.profileImg}
-              username={sellerInfo.nickname}
+              profileImg={commentData.sellerProfileImg}
+              username={commentData.sellerUsername}
               defaultMessage={defaultMessage}
             />
           </div>

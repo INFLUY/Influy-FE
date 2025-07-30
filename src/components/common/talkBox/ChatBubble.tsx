@@ -20,9 +20,11 @@ export const FirstChatBubble = ({
           />
         )}
       </div>
-      <div className="border-grey02 bg-grey02 flex w-[16.375rem] shrink-0 flex-col items-start gap-2.5 rounded-lg border border-solid px-3.5 pt-3.5 pb-3">
-        <p className="body2-sb text-[#292929]">{defaultMessage}</p>
-        <div className="text-grey08 caption-m">
+      <div className="border-grey02 bg-grey02 divide-grey03 flex w-[16.375rem] shrink-0 flex-col items-start divide-y-[.0375rem] rounded-lg border border-solid pt-3.5 pb-3">
+        <p className="body2-sb w-full px-3.5 pb-2 text-[#292929]">
+          {defaultMessage}
+        </p>
+        <div className="text-grey08 caption-m w-full px-3.5 pt-2">
           {username}님이 직접 답변을 전송합니다.
         </div>
       </div>

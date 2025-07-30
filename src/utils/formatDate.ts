@@ -34,15 +34,21 @@ export const getTimeLeft = (targetDate: Date) => {
   };
 };
 
+// twoDigitYear: true => 25. 07. 30. (수)
+// twoDigitYear: false => 2025. 07. 30. (수)
+// includeWeekday: true => 2025. 07. 30. (수)
+// includeWeekday: false => 2025. 07. 30.
 export const formatDate = ({
   date,
   includeWeekday = true,
+  twoDigitYear = false,
 }: {
   date: Date;
   includeWeekday?: boolean;
+  twoDigitYear?: boolean;
 }) => {
   return date.toLocaleDateString('ko-KR', {
-    year: 'numeric',
+    ...(twoDigitYear ? { year: '2-digit' } : { year: 'numeric' }),
     month: '2-digit',
     day: '2-digit',
     ...(includeWeekday && { weekday: 'short' }),
