@@ -1,6 +1,7 @@
 import { deleteNotification } from '@/api/notification/handleNotification.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useAuthStore } from '@/store/authStore';
+import { handleReactQueryError } from '@/utils/handleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useDeleteNotification = (onSuccessCallback?: () => void) => {
@@ -11,16 +12,14 @@ export const useDeleteNotification = (onSuccessCallback?: () => void) => {
     mutationFn: ({ announcementId }: { announcementId: number }) =>
       deleteNotification({ announcementId }),
     onSuccess: () => {
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_ANNOUNCEMENT, sellerId],
       });
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_PRIMARY_ANNOUNCEMENT, sellerId],
       });
-      if (onSuccessCallback) onSuccessCallback();
+      onSuccessCallback?.();
     },
-    onError: () => {
-      // TODO
-    },
+    onError: handleReactQueryError,
   });
 };

@@ -1,5 +1,5 @@
 import { API_DOMAINS } from '@/constants/api';
-import { instance } from '@/api/axiosInstance';
+import { axiosBase } from '@/api/axiosInstance';
 
 interface ReissueResponse {
   isSuccess: boolean;
@@ -13,6 +13,6 @@ interface ReissueResponse {
 }
 
 export const getReissue = async () => {
-  const response = await instance.get<ReissueResponse>(API_DOMAINS.REISSUE, {});
+  const response = await axiosBase.get<ReissueResponse>(API_DOMAINS.REISSUE);
   return response.data;
 };

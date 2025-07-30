@@ -34,10 +34,13 @@ export const EditTimeChip = ({
   deadline,
   onClick,
 }: {
-  open: string; // "2025-05-29T06:34:07.837159"
-  deadline: string; // "2025-05-29T06:34:07.837159"
+  open: string | null; // "2025-05-29T06:34:07.837159"
+  deadline: string | null; // "2025-05-29T06:34:07.837159"
   onClick: () => void;
 }) => {
+  if (open === null || deadline === null) {
+    return <EditStatusChip onClick={onClick}>기간 설정 전</EditStatusChip>;
+  }
   const [, forceUpdate] = useState(0); // 강제 리렌더링을 위함
 
   const openTime = parseISOString(open);

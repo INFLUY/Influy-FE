@@ -1,7 +1,8 @@
 import { useAuthStore } from '@/store/authStore';
 import { useEffect, useRef, useState } from 'react';
 
-export const useStrictId = () => {
+/** 토큰 재발급 로직 건너뛰고 싶으면 skip = true */
+export const useStrictId = ({ skip = false } = {}) => {
   const { memberId, sellerId, reissue } = useAuthStore();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [authState, setAuthState] = useState<{
@@ -16,6 +17,7 @@ export const useStrictId = () => {
   const isRefreshingRef = useRef(false);
 
   useEffect(() => {
+    if (skip) return;
     const checkAuth = async () => {
       // 토큰 갱신 중이면 대기
       if (isRefreshingRef.current) return;
@@ -55,7 +57,7 @@ export const useStrictId = () => {
     };
 
     checkAuth();
-  }, []);
+  }, [skip]);
 
   return { isLoading, ...authState };
 };

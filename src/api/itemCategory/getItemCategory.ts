@@ -1,7 +1,12 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { API_DOMAINS } from '@/constants/api';
-import { ItemCategoryResponse } from '@/types/common/CategoryType.types';
+import { ApiResponse } from '@/types/common/ApiResponse.types';
+import { CategoryType } from '@/types/common/CategoryType.types';
+
+type ItemCategoryResponse = ApiResponse<{
+  categoryDtoList: CategoryType[];
+}>;
 
 export const getItemCategory = async (): Promise<ItemCategoryResponse> => {
   const response = await instance.get(

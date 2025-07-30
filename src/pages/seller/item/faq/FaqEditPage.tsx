@@ -5,45 +5,56 @@ import {
   FormWideTextArea,
   FaqItemBanner,
   PageHeader,
-  SnackBar,
   ToggleButton,
   VanillaCategoryMultiSelector,
+  LoadingSpinner,
 } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import {
+  useForm,
+  FormProvider,
+  FieldErrors,
+  useController,
+} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 import { parseDateString } from '@/utils/formatDate';
-import { CategoryType } from '@/types/common/CategoryType.types';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
+import { useSnackbarStore } from '@/store/snackbarStore';
+import { useGetItemFaqCategory } from '@/services/sellerItemFaq/query/useGetItemFaqCategory';
+import { useGetFaqCard } from '@/services/sellerFaqCard/query/useGetFaqCard';
+import { usePatchFaqCard } from '@/services/sellerFaqCard/mutation/usePatchFaqCard';
+import { FaqCardRequestBody } from '@/types/common/FaqCardType.types';
+import { useStrictId } from '@/hooks/auth/useStrictId';
+import { SELLER_ITEM_EDIT_FAQ_TAB_PATH } from '@/utils/generatePath';
 
 const FaqEditPage = () => {
   const navigate = useNavigate();
-  const [faqCategory, setFaqCategory] = useState<number[]>([]);
   const [updatedAt, setUpdatedAt] = useState<string>('');
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
+
+  const { sellerId } = useStrictId();
+  const { itemId, faqId } = useParams();
+
+  const { data: categories } = useGetItemFaqCategory({
+    sellerId: sellerId!,
+    itemId: Number(itemId),
   });
 
-  const CATEGORIES: CategoryType[] = [
-    { id: 1, name: '색상' },
-    { id: 2, name: '구성' },
-    { id: 3, name: '디테일' },
-    { id: 4, name: '사이즈' },
-    { id: 5, name: '가격' },
-    { id: 6, name: '진행일정' },
-    { id: 7, name: '재고/수량' },
-  ];
+  const { data: prevFaq } = useGetFaqCard({
+    sellerId: sellerId!,
+    itemId: Number(itemId),
+    faqCardId: Number(faqId),
+  });
 
   const methods = useForm<FaqFormValues>({
-    resolver: zodResolver(faqSchema(true)),
+    resolver: zodResolver(faqSchema),
     mode: 'onChange',
     reValidateMode: 'onChange',
     shouldFocusError: false,
     defaultValues: {
+      category: undefined,
       question: '',
       answer: '',
       image: '',
@@ -52,72 +63,91 @@ const FaqEditPage = () => {
     },
   });
 
-  const { itemId, faqId } = useParams();
-
   useEffect(() => {
-    console.log('아이템 아이디: ', itemId, 'faq 아이디: ', faqId); // 백 연동
-    const faq = {
-      id: 1,
-      pinned: true,
-      adjustImg: false,
-      questionContent: '모야요??',
-      answerContent: '이건 이거입니당',
-      backgroundImgLink: '',
-      faqCategoryId: 1,
-      updatedAt: '2025-07-02T10:06:38.189Z',
-    };
     methods.reset({
-      question: faq.questionContent || '',
-      answer: faq.answerContent || '',
-      image: faq.backgroundImgLink || '',
-      isPinned: faq.pinned || false,
-      adjustImg: faq.adjustImg || false,
+      category: prevFaq.faqCategoryId,
+      question: prevFaq.questionContent,
+      answer: prevFaq.answerContent,
+      image: prevFaq.backgroundImgLink,
+      isPinned: prevFaq.pinned,
+      adjustImg: prevFaq.adjustImg,
     });
-    setValue('adjustImg', faq.adjustImg);
-    setValue('isPinned', faq.pinned);
-    setFaqCategory([faq.faqCategoryId]);
-    setUpdatedAt(faq.updatedAt);
+    setUpdatedAt(prevFaq.updatedAt);
   }, []);
-
-  const itemData = {
-    itemImgList: ['xxx.png', 'xxxxx.png', 'xxxxxx.png'],
-    name: '제작 원피스',
-    itemCategoryList: ['뷰티', '패션'],
-    startDate: '2025-06-22T08:57:56.040Z',
-    endDate: '2025-06-22T08:57:56.040Z',
-    tagline: '빤짝거리는 원피스입니다',
-    regularPrice: 100000,
-    salePrice: 80000,
-    marketLink: 'xxxx.com',
-    itemPeriod: 1,
-    comment: '이렇게 빤짝이는 드레스 흔하지 않아요 어렵게 구해왔어요',
-    isArchived: false,
-  };
 
   const {
     handleSubmit,
-    getValues,
-    setValue,
     formState: { isSubmitting, isValid },
   } = methods;
 
+  const { showSnackbar } = useSnackbarStore();
+
+  const categoryRef = useRef<HTMLDivElement | null>(null);
+
   const onError = (errors: FieldErrors<FaqFormValues>) => {
-    for (const [fieldName, error] of Object.entries(errors)) {
-      const message =
-        error?.message || fieldName + ' 과정에서 에러가 발생했습니다.';
-      setSnackbar({ open: true, message });
+    if (errors.category) {
+      categoryRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+      showSnackbar(errors.category.message || '카테고리를 확인해 주세요.');
+      return;
+    }
+    if (errors.question) {
+      document.getElementById('question')?.focus();
+      showSnackbar(errors.question.message || '질문을 확인해 주세요.');
+      return;
+    }
+
+    if (errors.answer) {
+      document.getElementById('answer')?.focus();
+      showSnackbar(errors.answer.message || '답변을 확인해 주세요.');
       return;
     }
   };
 
+  const { mutate: patchFaqCard } = usePatchFaqCard(() => {
+    navigate(''); // TODO: 답변 상세?로 이동
+    showSnackbar('답변이 등록되었습니다.');
+  });
+
   const onSubmit = (data: FaqFormValues) => {
-    console.log('폼 제출됨:', data);
+    const formattedData: FaqCardRequestBody = {
+      faqCategoryId: data.category,
+      questionContent: data.question,
+      answerContent: data.answer,
+      backgroundImgLink: data.image,
+      pinned: data.isPinned,
+      adjustImg: data.adjustImg,
+    };
+    patchFaqCard({
+      sellerId: sellerId!,
+      faqCardId: Number(faqId),
+      itemId: Number(itemId),
+      data: formattedData,
+    });
   };
 
   const handleFaqDelete = () => {
     // TODO: 디자인 추가되면 경고 modal 추가해야 함
-    alert('faq가 삭제되었습니다.');
+    navigate(generatePath(SELLER_ITEM_EDIT_FAQ_TAB_PATH, { itemId }));
+    showSnackbar('faq가 삭제되었습니다.');
   };
+
+  const { field: categoryField } = useController({
+    name: 'category',
+    control: methods.control,
+  });
+
+  const { field: adjustImgField } = useController({
+    name: 'adjustImg',
+    control: methods.control,
+  });
+
+  const { field: isPinnedField } = useController({
+    name: 'isPinned',
+    control: methods.control,
+  });
 
   return (
     <FormProvider {...methods}>
@@ -141,10 +171,16 @@ const FaqEditPage = () => {
             <span className="flex px-5">
               등록일자 {parseDateString(updatedAt)}
             </span>
-            <FaqItemBanner name={itemData?.name} tagline={itemData?.tagline} />
+            <Suspense fallback={<LoadingSpinner />}>
+              <FaqItemBanner sellerId={sellerId!} itemId={Number(itemId)} />
+            </Suspense>
           </div>
           <div className="flex flex-col gap-[1.875rem]">
-            <article className="flex h-fit flex-col gap-4 px-5">
+            {/* 카테고리 */}
+            <article
+              className="flex h-fit flex-col gap-4 px-5"
+              ref={categoryRef}
+            >
               <div className="flex w-full justify-between">
                 <h2 className="body1-b text-black">
                   FAQ 카테고리 <span className="text-main">*</span>
@@ -160,9 +196,13 @@ const FaqEditPage = () => {
               </div>
               {/* FAQ 카테고리 */}
               <VanillaCategoryMultiSelector
-                disabled={true}
-                categoryList={CATEGORIES}
-                selectedCategory={faqCategory}
+                categoryList={categories}
+                selectedCategory={
+                  categoryField.value ? [Number(categoryField.value)] : []
+                }
+                setSelectedCategory={(value: number[]) =>
+                  categoryField.onChange(value[0])
+                }
               />
             </article>
             {/* 질문 */}
@@ -193,9 +233,9 @@ const FaqEditPage = () => {
               <h2 className="body1-b px-5 text-black">사진</h2>
               <FaqImageUploader
                 name={'image'}
-                adjustImg={getValues('adjustImg')}
+                adjustImg={adjustImgField.value}
                 setAdjustImg={(value: boolean) =>
-                  setValue('adjustImg', value, { shouldValidate: true })
+                  adjustImgField.onChange(value)
                 }
               />
             </article>
@@ -209,28 +249,16 @@ const FaqEditPage = () => {
               </div>
               <ToggleButton
                 name="핀 버튼"
-                isChecked={getValues('isPinned')}
-                setIsChecked={(value: boolean) =>
-                  setValue('isPinned', value, { shouldValidate: true })
-                }
+                isChecked={isPinnedField.value}
+                setIsChecked={(value: boolean) => isPinnedField.onChange(value)}
               />
             </article>
           </div>
         </section>
-        {snackbar.open && (
-          <SnackBar
-            handleSnackBarClose={() =>
-              setSnackbar({ open: false, message: '' })
-            }
-            additionalStyles="bottom-[5.6875rem]"
-          >
-            {snackbar.message}
-          </SnackBar>
-        )}
         <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">
           <DefaultButton
             type="button"
-            activeTheme="white"
+            activeTheme="borderGrey"
             text="삭제하기"
             disabled={isSubmitting}
             onClick={handleFaqDelete}

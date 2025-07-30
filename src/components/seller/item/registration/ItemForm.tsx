@@ -1,7 +1,7 @@
 import {
   TipTooltip,
   CategoryMultiSelector,
-  FormLinkInput,
+  FormLinkTextarea,
   ItemImageUploader,
   FormPriceInput,
   FormSalePriceInput,
@@ -13,13 +13,13 @@ import {
 } from '@/components';
 import BottomSheet from '@/components/common/BottomSheet';
 import CalendarIcon from '@/assets/icon/common/Calendar.svg?react';
-import PRODUCT_CATEGORIES from '@/constants/productCategories';
 import { useState } from 'react';
 import { useFormContext, useController } from 'react-hook-form';
 import { ItemFormValues } from '@/types/item.types';
 import CheckBoxOnIcon from '@/assets/icon/common/CheckBox24On.svg?react';
 import CheckBoxOffIcon from '@/assets/icon/common/CheckBox24Off.svg?react';
 import cn from '@/utils/cn';
+import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
 
 interface ItemFormProps {
   mode: 'create' | 'edit';
@@ -39,6 +39,8 @@ export const ItemForm = ({
   const [isStartDateTimeSheetOpen, setIsStartDateTimeSheetOpen] =
     useState(false);
   const [isEndDateTimeSheetOpen, setIsEndDateTimeSheetOpen] = useState(false);
+
+  const itemCategories = useGetItemCategory();
 
   const { control } = useFormContext<ItemFormValues>();
 
@@ -147,7 +149,7 @@ export const ItemForm = ({
       >
         <CategoryMultiSelector
           name="selectedCategoryList"
-          categoryList={PRODUCT_CATEGORIES}
+          categoryList={itemCategories?.categoryDtoList || []}
           ref={categoryWrapperRef}
         />
       </ItemSection>
@@ -299,7 +301,7 @@ export const ItemForm = ({
 
       {/* 판매 링크 */}
       <ItemSection label="판매 링크">
-        <FormLinkInput<ItemFormValues> name="linkText" />
+        <FormLinkTextarea<ItemFormValues> name="linkText" />
       </ItemSection>
 
       {/* 진행 회차 */}

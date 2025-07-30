@@ -1,4 +1,5 @@
 import GlobalModal from '@/components/common/GlobalModal';
+import GlobalSnackBar from '@/components/common/GlobalSnackBar';
 
 const GlobalLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -6,6 +7,7 @@ const GlobalLayout = ({ children }: { children: React.ReactNode }) => {
       <main className="scrollbar-hide relative flex flex-1 flex-col overflow-y-auto">
         {children}
         <GlobalModal />
+        <GlobalSnackBar />
       </main>
     </div>
   );

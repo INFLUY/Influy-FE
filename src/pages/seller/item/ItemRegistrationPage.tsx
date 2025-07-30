@@ -6,18 +6,18 @@ import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { itemSchema, requiredFieldsSchema } from '@/schemas/itemSchema';
 import { ItemFormValues } from '@/types/item.types';
 import { DefaultButton, Tab, Tabs } from '@/components';
-import { useState, useRef, RefObject } from 'react';
+import { useRef, RefObject } from 'react';
 import { PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { generatePath, useNavigate } from 'react-router-dom';
-import { SnackBar } from '@/components';
 import { PATH } from '@/routes/path';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { FaqQuestion } from '@/types/common/ItemType.types';
 import { Outlet, useLocation } from 'react-router-dom';
 import cn from '@/utils/cn';
-import { SELLER_ITEM_DEATIL } from '@/utils/generatePath';
+import { SELLER_ITEM_DETAIL } from '@/utils/generatePath';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 export const dummyCategory: CategoryType[] = [
   { id: 0, name: '사이즈' },
@@ -50,10 +50,7 @@ type fieldsToCheck<FieldNames extends string> = {
 };
 
 export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
-  });
+  const { showSnackbar } = useSnackbarStore();
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -205,7 +202,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       const itemId: number = 1;
 
       //if success
-      navigate(generatePath(SELLER_ITEM_DEATIL, { itemId }));
+      navigate(generatePath(SELLER_ITEM_DETAIL, { itemId }));
       // TODO: '상품이 보관되었습니다.' 스낵바 띄우기
     } catch (error) {}
   };
@@ -225,7 +222,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
         }
         const message =
           fieldErrors[field.name]?.message || field.name + ' error';
-        setSnackbar({ open: true, message });
+        showSnackbar(message);
         return;
       }
     }
@@ -236,7 +233,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
         setFocus(field.name);
         const message =
           fieldErrors[field.name]?.message || field.name + ' error';
-        setSnackbar({ open: true, message });
+        showSnackbar(message);
         return;
       }
     }
@@ -253,7 +250,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
     if (!titleValidationResult.success) {
       const message =
         titleValidationResult.error.issues[0].message ?? '제목 오류';
-      setSnackbar({ open: true, message });
+      showSnackbar(message);
       setFocus('titleText');
       return;
     }
@@ -262,7 +259,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
     const itemId: number = 1;
 
     //if success
-    navigate(generatePath(SELLER_ITEM_DEATIL, { itemId }));
+    navigate(generatePath(SELLER_ITEM_DETAIL, { itemId }));
     // TODO: '상품이 게시되었습니다.' 스낵바 띄우기
   };
 
@@ -310,7 +307,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
                 requiredFieldsRef,
                 faqCategory: dummyCategory,
                 faqQuestions: dummyFaqQuestion,
-                itemId: 1,
+                itemId: 5,
               }}
             />
           </div>
@@ -319,6 +316,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
             <DefaultButton
               onClick={onArchive}
               text="보관하기"
+              activeTheme="white"
               disabled={!titleValidationResult.success}
               useDisabled={false}
             />
@@ -331,14 +329,6 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
           </section>
         </form>
       </div>
-
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
     </FormProvider>
   );
 };

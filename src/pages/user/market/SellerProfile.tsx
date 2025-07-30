@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   ExternalLinkChip,
   NoticeBanner,
+  PageHeader,
   SellerProfileCard,
   SellerProfileHeader,
 } from '@/components';
@@ -14,6 +15,8 @@ import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
+import { LinkType } from '@/types/seller/LinkType.types';
+import { useGetMarketLinks } from '@/services/marketLinks/query/useGetMarketLinks';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const SellerNoticeBottomSheet = lazy(
@@ -38,13 +41,16 @@ const SellerView = ({ children }: { children: ReactNode }) => {
 
   return (
     <section className="relative flex w-full flex-1 flex-col">
-      <header className="sticky top-0 z-20 flex h-11 items-center bg-black px-5">
-        <XIcon className="text-white" onClick={() => navigate(-1)} />
-      </header>
-      <h1 className="caption-m text-grey10 bg-grey02 sticky top-11 z-20 flex h-[2.3125rem] items-center justify-center gap-2.5 p-2.5">
+      <PageHeader
+        leftIcons={[
+          <XIcon className="text-white" onClick={() => navigate(-1)} />,
+        ]}
+        additionalStyles="bg-black"
+      />
+      <h1 className="caption-m text-grey10 bg-grey02 fixed top-11 z-20 flex h-[2.3125rem] w-full max-w-[40rem] min-w-[20rem] items-center justify-center gap-2.5 p-2.5 md:w-[28rem]">
         일반 사용자에게 보이는 화면입니다.
       </h1>
-      <article className="pointer-events-none flex w-full flex-1 flex-col">
+      <article className="pointer-events-none flex w-full flex-1 flex-col pt-[5.0625rem]">
         <SellerProfile marketId={sellerId!} seller={true}>
           {children}
         </SellerProfile>
@@ -96,13 +102,9 @@ const SellerProfile = ({
 
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
-  // 임시 링크
-  const LINKS = [
-    { id: 0, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-    { id: 1, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-    { id: 2, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-    { id: 3, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-  ];
+  const { data: links } = useGetMarketLinks({
+    sellerId: Number(marketId),
+  });
 
   const { data: primaryNotice } = useGetPrimaryNotification({
     sellerId: marketId,
@@ -156,15 +158,15 @@ const SellerProfile = ({
       <SellerProfileCard />
       <div className="flex flex-col gap-2">
         {/* 링크 */}
-        {LINKS?.length !== 0 && (
+        {links?.length !== 0 && (
           <div className="scrollbar-hide flex items-start gap-[.625rem] self-stretch overflow-x-auto px-5 py-2">
-            {LINKS.map((link) => (
-              <ExternalLinkChip key={link.id} name={link.name} url={link.url} />
+            {links.map((link: LinkType) => (
+              <ExternalLinkChip key={link.id} link={link} />
             ))}
           </div>
         )}
         {/* 공지 */}
-        {primaryNotice?.totalAnnouncements !== 0 && (
+        {primaryNotice && (
           <div className="bg-grey01 flex w-full px-5 py-3">
             <NoticeBanner
               title={primaryNotice?.title}

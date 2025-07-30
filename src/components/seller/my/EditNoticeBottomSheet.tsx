@@ -4,6 +4,7 @@ import { SellerModal } from '@/components';
 import { useDeleteNotification } from '@/services/notification/mutation/useDeleteNotification';
 import { usePatchNotification } from '@/services/notification/mutation/usePatchNotification';
 import { NoticeType } from '@/types/common/NoticeType.types';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 const EditNoticeBottomSheet = ({
   announcement,
@@ -11,22 +12,22 @@ const EditNoticeBottomSheet = ({
   isOpen,
   setIsOpen,
   setIsEditNoticeOpen,
-  setIsNoticeSavedSnackBarOpen,
 }: {
   announcement: NoticeType;
   isOpen: boolean;
   isPrimary: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
   setIsEditNoticeOpen: React.Dispatch<SetStateAction<boolean>>;
-  setIsNoticeSavedSnackBarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [isUnpinModalOpen, setIsUnpinModalOpen] = useState<boolean>(false);
   const [isNoticeDeleteModalOpen, setIsNoticeDeleteModalOpen] =
     useState<boolean>(false);
 
-  const { mutate: patchNotice } = usePatchNotification(() => {
-    setIsNoticeSavedSnackBarOpen(true);
-  });
+  const { showSnackbar } = useSnackbarStore();
+
+  const { mutate: patchNotice } = usePatchNotification(() =>
+    showSnackbar('변경사항이 저장되었습니다.')
+  );
 
   // 핀 고정 해제
   const handlePin = () => {
@@ -63,7 +64,7 @@ const EditNoticeBottomSheet = ({
   };
 
   const { mutate: deleteNotice } = useDeleteNotification(() =>
-    setIsNoticeSavedSnackBarOpen(true)
+    showSnackbar('변경사항이 저장되었습니다.')
   );
 
   // 공지 삭제 모달 -> 확인

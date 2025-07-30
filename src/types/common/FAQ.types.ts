@@ -1,3 +1,5 @@
+import { CategoryType } from './CategoryType.types';
+
 export interface FAQCardList {
   id: number;
   pinned: boolean;
@@ -16,4 +18,9 @@ export interface FAQListResponse {
   totalElements: number;
   isFirst: boolean;
   isLast: boolean;
+}
+
+export interface FAQCategoryResponse {
+  viewList: CategoryType[];
+  listSize: number;
 }

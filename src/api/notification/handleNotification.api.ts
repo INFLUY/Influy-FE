@@ -1,14 +1,19 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { API_DOMAINS } from '@/constants/api';
-import { BaseNotice, NoticeResponse } from '@/types/common/NoticeType.types';
+import { ApiResponse } from '@/types/common/ApiResponse.types';
+import {
+  BaseNotice,
+  NoticeResponse,
+  PrimaryNoticeResponse,
+} from '@/types/common/NoticeType.types';
 
 export const postNotification = async ({ data }: { data: BaseNotice }) => {
   const response = await instance.post(
     API_DOMAINS.SELLER_MY_ANNOUNCEMENT,
     data
   );
-  return response.data.result;
+  return response.data;
 };
 
 export const patchNotification = async ({
@@ -52,11 +57,11 @@ export const getPrimaryNotification = async ({
   sellerId,
 }: {
   sellerId: number;
-}) => {
+}): Promise<ApiResponse<PrimaryNoticeResponse>> => {
   const response = await instance.get(
     generateApiPath(API_DOMAINS.SELLER_PRIMARY_ANNOUNCEMENT, { sellerId })
   );
-  return response.data.result ?? null;
+  return response.data;
 };
 
 export const deleteNotification = async ({
@@ -69,5 +74,5 @@ export const deleteNotification = async ({
       announcementId,
     })
   );
-  return response.data.result;
+  return response.data;
 };
