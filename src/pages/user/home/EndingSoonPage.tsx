@@ -1,59 +1,37 @@
-import { PageHeader, ItemAlbumCard } from '@/components';
+import { PageHeader, ItemAlbumCard, LoadingSpinner } from '@/components';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
-import { ItemCardType } from '@/types/common/ItemType.types';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { ITEM_DEATIL } from '@/utils/generatePath';
-const itemMockData: ItemCardType[] = [
-  {
-    sellerProfileImg: '/profile.png',
-    sellerUsername: 'user_one',
-    sellerNickname: '유저원',
-    sellerId: 1,
-    itemId: 101,
-    itemMainImg: '/product.png',
-    itemPeriod: 7,
-    itemName: '빈티지 가죽 가방',
-    startDate: '2025-07-25T00:00:00.000Z',
-    endDate: '2025-08-01T00:00:00.000Z',
-    tagline: '한정 수량! 놓치지 마세요',
-    currentStatus: 'DEFAULT',
-    liked: true,
-  },
-  {
-    sellerProfileImg: null,
-    sellerUsername: 'seller_kim',
-    sellerNickname: '김셀러',
-    sellerId: 2,
-    itemId: 102,
-    itemMainImg: '/product.png',
-    itemPeriod: 14,
-    itemName: '모던 아트 포스터',
-    startDate: '2025-07-25T00:00:00.000Z',
-    endDate: '2025-08-01T00:00:00.000Z',
-    tagline: null,
-    currentStatus: 'EXTEND',
-    liked: false,
-  },
-  {
-    sellerProfileImg: '/profile3.png',
-    sellerUsername: 'artlover33',
-    sellerNickname: '아트러버',
-    sellerId: 3,
-    itemId: 103,
-    itemMainImg: '/product.png',
-    itemPeriod: 5,
-    itemName: '수제 도자기 컵 세트',
-    startDate: '2025-07-25T00:00:00.000Z',
-    endDate: '2025-08-01T00:00:00.000Z',
-    tagline: '따뜻한 감성을 담은 작품',
-    currentStatus: 'SOLD_OUT',
-    liked: true,
-  },
-];
+import { useGetCloseDeadlineItem } from '@/services/sellerItem/query/useGetCloseDeadlineItem';
+import { ItemCardType } from '@/types/common/ItemType.types';
+import { useRef } from 'react';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+
 const EndingSoonPage = () => {
   const navigate = useNavigate();
+
+  const {
+    data: expiringItems,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetCloseDeadlineItem({ size: 8 });
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useInfiniteScroll({
+    targetRef: observerRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
+
+  const itemList = expiringItems?.pages
+    .flatMap((page) => page?.result?.itemPreviewList ?? [])
+    .filter(Boolean) as ItemCardType[];
+
   return (
     <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto pt-11">
       <PageHeader
@@ -75,7 +53,7 @@ const EndingSoonPage = () => {
         마감임박
       </PageHeader>
       <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
-        {itemMockData.map((item) => (
+        {itemList?.map((item) => (
           <ItemAlbumCard
             key={item.itemId}
             item={item}
@@ -89,6 +67,15 @@ const EndingSoonPage = () => {
             }
           />
         ))}
+        {hasNextPage && (
+          <div ref={observerRef} className="h-4 w-full">
+            {isFetchingNextPage && (
+              <div className="flex justify-center">
+                <LoadingSpinner />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
