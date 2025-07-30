@@ -50,7 +50,7 @@ export const ProfileImageUploader = ({ name }: { name: string }) => {
         onChange={handleFileChange}
       />
       <img
-        src={value === '' ? ProfileIcon : value}
+        src={value ?? ProfileIcon}
         alt={'프로필 이미지'}
         className="h-full w-full rounded-full object-cover"
       />

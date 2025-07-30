@@ -22,3 +22,15 @@ export interface SellerMarketType {
 export interface SellerMyMarketType extends SellerMarketType {
   privateItemCnt: number;
 }
+
+export interface SellerEditProfileType {
+  profile: {
+    nickname: string;
+    profileUrl?: string;
+  };
+  backgroundImg?: string;
+  email?: string;
+  instagram: string;
+  tiktok?: string;
+  youtube?: string;
+}

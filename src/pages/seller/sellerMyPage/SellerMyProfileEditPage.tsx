@@ -7,11 +7,13 @@ import {
   FormEmailInput,
   BackgroundImageUploader,
   DefaultButton,
-  LoadingSpinner,
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { SellerProfileType } from '@/types/seller/SellerProfile.types';
+import {
+  SellerEditProfileType,
+  SellerProfileType,
+} from '@/types/seller/SellerProfile.types';
 import { sellerProfileSchema } from '@/schemas/sellerProfileSchema';
 import { useForm, FormProvider } from 'react-hook-form';
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
@@ -19,6 +21,8 @@ import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile
 import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
 import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
+import { useEffect } from 'react';
+import { usePatchSellerProfile } from '@/services/seller/mutation/usePatchSellerProfile';
 
 const snsInputs = [
   {
@@ -45,41 +49,70 @@ const SellerMyProfileEditPage = () => {
 
   const { data: sellerMyProfile } = useGetSellerProfile();
 
-  if (!sellerMyProfile) {
-    return (
-      <div>
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
   const methods = useForm<SellerProfileType>({
     resolver: standardSchemaResolver(sellerProfileSchema),
     mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues: {
-      id: sellerMyProfile.id,
-      sellerId: sellerMyProfile.sellerId,
-      username: sellerMyProfile.username,
-      nickname: sellerMyProfile.nickname,
-      backgroundImg: sellerMyProfile.backgroundImg ?? undefined,
-      profileImg: sellerMyProfile.profileImg ?? undefined,
-      instagram: 'https://www.instagram.com/' + sellerMyProfile.instagram,
-      tiktok: sellerMyProfile.tiktok ?? undefined,
-      youtube: sellerMyProfile.youtube ?? undefined,
-      email: sellerMyProfile.email ?? undefined,
+      nickname: '',
+      backgroundImg: undefined,
+      profileImg: undefined,
+      instagram: 'https://www.instagram.com/',
+      tiktok: '',
+      youtube: '',
+      email: '',
     },
   });
+
+  useEffect(() => {
+    if (sellerMyProfile)
+      methods.reset({
+        nickname: sellerMyProfile.nickname,
+        backgroundImg: sellerMyProfile.backgroundImg ?? undefined,
+        profileImg: sellerMyProfile.profileImg ?? undefined,
+        instagram: 'https://www.instagram.com/' + sellerMyProfile.instagram,
+        tiktok: sellerMyProfile.tiktok ?? '',
+        youtube: sellerMyProfile.youtube ?? '',
+        email: sellerMyProfile.email ?? '',
+      });
+  }, [sellerMyProfile]);
 
   const {
     handleSubmit,
     formState: { isSubmitting, isValid },
   } = methods;
 
+  const { mutate: patchSellerProfile } = usePatchSellerProfile();
+
   const handleSubmitSuccess = async (formData: SellerProfileType) => {
-    // 서버 제출용 데이터로 가공
-    console.log('성공: ', formData);
+    const {
+      nickname,
+      profileImg,
+      backgroundImg,
+      email,
+      instagram,
+      tiktok,
+      youtube,
+    } = formData;
+
+    const isValid = (val: unknown): val is string =>
+      val !== undefined && val !== null && val !== '';
+
+    const formattedData: SellerEditProfileType = {
+      profile: {
+        nickname,
+        ...(isValid(profileImg) && { profileUrl: profileImg ?? undefined }),
+      },
+      ...(isValid(backgroundImg) && { backgroundImg }),
+      ...(isValid(email) && { email }),
+      instagram,
+      ...(isValid(tiktok) && { tiktok }),
+      ...(isValid(youtube) && { youtube }),
+    };
+
+    patchSellerProfile({ data: formattedData });
   };
+
   return (
     <FormProvider {...methods}>
       {/* 상단바 */}
@@ -139,7 +172,7 @@ const SellerMyProfileEditPage = () => {
         </div>
 
         {/* 저장하기 버튼 */}
-        <section className="fixed bottom-0 z-20 flex w-screen max-w-[40rem] min-w-[20rem] shrink-0 items-center justify-center gap-[.4375rem] border-0 bg-white px-5 pt-2.5 pb-4 md:w-[28rem]">
+        <section className="fixed bottom-0 z-20 flex w-screen max-w-[640px] min-w-[320px] shrink-0 items-center justify-center gap-[7px] border-0 bg-white px-5 pt-2.5 pb-4 md:w-[448px]">
           <DefaultButton
             type="submit"
             text="저장하기"

@@ -1,4 +1,4 @@
-import { getSellerMyProfile } from '@/api/sellerMyProfile/getSellerMyProfile.api';
+import { getSellerMyProfile } from '@/api/sellerMyProfile/handleSellerMyProfile.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { useQuery } from '@tanstack/react-query';
