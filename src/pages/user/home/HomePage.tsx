@@ -179,7 +179,7 @@ const HomePage = () => {
         )}
         <TopBannerSwiper data={topBannerMockData} />
         <section className="flex w-full flex-col gap-4 pt-7 pb-3">
-          <h1 className="subhead-b px-5 text-black">내 취향의 인플루언서</h1>
+          <h1 className="subhead-b px-5 text-black">요즘 핫한 인플루언서</h1>
           <ul className="scrollbar-hide flex gap-6 overflow-x-scroll px-5">
             {influencerMockData.map((influencer) => (
               <InfluencerCard
@@ -231,7 +231,7 @@ const HomePage = () => {
                   <img
                     src={item.image}
                     className="h-full w-full rounded-[.125rem] object-cover"
-                    alt={item.name ?? '내 취향의 인플루언서 ㅇㅇ님이 픽한 상품'}
+                    alt={item.name ?? 'ㅇㅇ님이 픽한 상품'}
                   />
                 </div>
               ))}
