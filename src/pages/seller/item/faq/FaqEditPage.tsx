@@ -12,7 +12,12 @@ import {
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { Suspense, useEffect, useRef, useState } from 'react';
-import { useForm, FormProvider, FieldErrors } from 'react-hook-form';
+import {
+  useForm,
+  FormProvider,
+  FieldErrors,
+  useController,
+} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 import { parseDateString } from '@/utils/formatDate';
@@ -131,6 +136,21 @@ const FaqEditPage = () => {
     showSnackbar('faq가 삭제되었습니다.');
   };
 
+  const { field: categoryField } = useController({
+    name: 'category',
+    control: methods.control,
+  });
+
+  const { field: adjustImgField } = useController({
+    name: 'adjustImg',
+    control: methods.control,
+  });
+
+  const { field: isPinnedField } = useController({
+    name: 'isPinned',
+    control: methods.control,
+  });
+
   return (
     <FormProvider {...methods}>
       <form
@@ -179,12 +199,11 @@ const FaqEditPage = () => {
               {/* FAQ 카테고리 */}
               <VanillaCategoryMultiSelector
                 categoryList={categories}
-                selectedCategory={(getValues('category')
-                  ? [getValues('category')]
-                  : []
-                ).map(Number)}
+                selectedCategory={
+                  categoryField.value ? [Number(categoryField.value)] : []
+                }
                 setSelectedCategory={(value: number[]) =>
-                  setValue('category', value[0], { shouldValidate: true })
+                  categoryField.onChange(value[0])
                 }
               />
             </article>
@@ -216,9 +235,9 @@ const FaqEditPage = () => {
               <h2 className="body1-b px-5 text-black">사진</h2>
               <FaqImageUploader
                 name={'image'}
-                adjustImg={getValues('adjustImg')}
+                adjustImg={adjustImgField.value}
                 setAdjustImg={(value: boolean) =>
-                  setValue('adjustImg', value, { shouldValidate: true })
+                  adjustImgField.onChange(value)
                 }
               />
             </article>
@@ -232,10 +251,8 @@ const FaqEditPage = () => {
               </div>
               <ToggleButton
                 name="핀 버튼"
-                isChecked={getValues('isPinned')}
-                setIsChecked={(value: boolean) =>
-                  setValue('isPinned', value, { shouldValidate: true })
-                }
+                isChecked={isPinnedField.value}
+                setIsChecked={(value: boolean) => isPinnedField.onChange(value)}
               />
             </article>
           </div>
