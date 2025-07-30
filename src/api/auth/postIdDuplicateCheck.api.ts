@@ -7,7 +7,7 @@ export const postIdDuplicateCheck = async ({
   username: string;
 }) => {
   const response = await instance.post(API_DOMAINS.ID_DUPLICATE_CHECK, {
-    username: '@' + username,
+    username,
   });
   return response.data;
 };
