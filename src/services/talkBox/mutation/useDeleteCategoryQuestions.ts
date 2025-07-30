@@ -19,10 +19,9 @@ export const useDeleteCategoryQuestions = ({
         questionCategoryId,
         questionIdList: payload.questionIdList,
       }),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       if (onSuccessCallback) onSuccessCallback();
 
-      // TODO: SELLER_QUESTIONS_BY_TAG 전체 invalidate 하지 말고 삭제한 질문들의 tag만 invalidate 하기
       const keysToInvalidate = [
         [
           QUERY_KEYS.SELLER_ALL_QUESTIONS_IN_CATEGORY,
@@ -31,11 +30,17 @@ export const useDeleteCategoryQuestions = ({
         ],
         [QUERY_KEYS.SELLER_QUESTION_TAGS, questionCategoryId, false],
         [QUERY_KEYS.SELLER_CATEGORY_QUESTION_COUNTS, questionCategoryId],
-        [QUERY_KEYS.SELLER_QUESTIONS_BY_TAG],
       ];
 
       keysToInvalidate.forEach((key) => {
         queryClient.invalidateQueries({ queryKey: key });
+      });
+
+      // tagIds에 해당하는 쿼리만 invalidate
+      variables.tagIds.forEach((tagId) => {
+        queryClient.refetchQueries({
+          queryKey: [QUERY_KEYS.SELLER_QUESTIONS_BY_TAG, tagId, false],
+        });
       });
     },
     onError: () => {

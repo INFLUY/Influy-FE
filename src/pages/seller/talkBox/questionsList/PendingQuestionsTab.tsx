@@ -169,7 +169,7 @@ export const PendingQuestionsTab = () => {
       new Set(selectedQuestions.map((q) => q.tagId))
     );
     console.log(tagsToInvalidate);
-    deleteQuestions(selectedId);
+    deleteQuestions({ questionIdList: selectedId, tagIds: tagsToInvalidate });
   };
 
   // 일괄 답변하기
