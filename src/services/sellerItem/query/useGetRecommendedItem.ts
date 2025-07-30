@@ -1,7 +1,7 @@
-import { getItemRecommend } from '@/api/sellerItem/getItemRecommend.api';
+import { getRecommendedItem } from '@/api/sellerItem/handleHomeItemList.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useInfiniteQuery } from '@tanstack/react-query';
-export const useGetItemRecommend = ({
+export const useGetRecommendedItem = ({
   categoryId,
   size = 10,
 }: {
@@ -15,7 +15,7 @@ export const useGetItemRecommend = ({
     queryFn: async ({ pageParam = 1, queryKey }) => {
       const [, categoryId, size] = queryKey as [string, number | null, number];
 
-      return getItemRecommend({
+      return getRecommendedItem({
         page: pageParam,
         size,
         categoryId,

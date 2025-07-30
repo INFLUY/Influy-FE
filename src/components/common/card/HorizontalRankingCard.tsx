@@ -1,5 +1,5 @@
 //홈 아카이빙 인기 급상승 카드
-import { HomeItemPreviewList } from '@/types/common/ItemType.types';
+import { ItemCardType } from '@/types/common/ItemType.types';
 import { ScrapButton, TimeChip } from '@/components';
 
 const HorizontalRankingCard = ({
@@ -7,7 +7,7 @@ const HorizontalRankingCard = ({
   onCardClick,
   ranking,
 }: {
-  item: HomeItemPreviewList;
+  item: ItemCardType;
   onCardClick: () => void;
   ranking: number;
 }) => {

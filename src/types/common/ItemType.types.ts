@@ -27,17 +27,19 @@ export type SellerItemsResponse = {
 };
 
 export interface ItemCardType {
-  itemId: number;
-  itemPeriod: number | null;
-  itemName: string;
-  startDate: string | null; // ISO string
-  endDate: string | null; // ISO string
-  tagline: string | null;
-  currentStatus: 'DEFAULT' | 'EXTEND' | 'SOLD_OUT'; // 예시: 상태 enum 확장 가능
-  sellerName: string;
+  sellerProfileImg: string | null;
+  sellerUsername: string;
+  sellerNickname: string;
   sellerId: number;
-  mainImg: string | null;
-  isScrapped: boolean;
+  itemId: number;
+  itemMainImg: string;
+  itemPeriod: number;
+  itemName: string;
+  startDate: string;
+  endDate: string;
+  tagline: string | null;
+  currentStatus: ItemCurrentStatusType;
+  liked: boolean;
 }
 
 export interface ItemDetail {
@@ -84,22 +86,6 @@ export type ItemPreviewList = {
   currentStatus: ItemCurrentStatusType;
   liked: false;
   mainImg: string;
-};
-
-export type HomeItemPreviewList = {
-  sellerProfileImg: string | null;
-  sellerUsername: string;
-  sellerNickname: string;
-  sellerId: number;
-  itemId: number;
-  itemMainImg: string;
-  itemPeriod: number;
-  itemName: string;
-  startDate: string;
-  endDate: string;
-  tagline: string | null;
-  currentStatus: ItemCurrentStatusType;
-  liked: false;
 };
 
 export type ItemCurrentStatusType = 'DEFAULT' | 'EXTEND' | 'SOLD_OUT';

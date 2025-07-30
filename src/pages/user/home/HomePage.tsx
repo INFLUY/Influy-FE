@@ -17,7 +17,7 @@ import { generatePath, useNavigate } from 'react-router-dom';
 import { ITEM_DEATIL, MARKET_DEATIL } from '@/utils/generatePath';
 import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
 import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
-import { useGetItemRecommend } from '@/services/sellerItem/query/useGetItemRecommend';
+import { useGetRecommendedItem } from '@/services/sellerItem/query/useGetRecommendedItem';
 
 interface TopBannerItem {
   image: string;
@@ -139,7 +139,7 @@ const HomePage = () => {
   const itemCategories = useGetItemCategory();
 
   const { data: sellerMyProfile } = useGetSellerProfile();
-  const { data: recommendItems } = useGetItemRecommend({
+  const { data: recommendItems } = useGetRecommendedItem({
     categoryId: selectedCategory === 0 ? null : selectedCategory,
     size: 4,
   });

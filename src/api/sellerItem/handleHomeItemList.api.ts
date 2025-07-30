@@ -1,9 +1,9 @@
 import { API_DOMAINS } from '@/constants/api';
 import { ApiResponse, Pagination } from '@/types/common/ApiResponse.types';
 import { instance } from '@/api/axiosInstance';
-import { HomeItemPreviewList } from '@/types/common/ItemType.types';
+import { ItemCardType } from '@/types/common/ItemType.types';
 
-export const getItemRecommend = async ({
+export const getRecommendedItem = async ({
   page,
   size,
   categoryId,
@@ -12,7 +12,7 @@ export const getItemRecommend = async ({
   size: number;
   categoryId: number | null;
 }): Promise<
-  ApiResponse<Pagination<HomeItemPreviewList[] | [], 'itemPreviewList'>>
+  ApiResponse<Pagination<ItemCardType[] | [], 'itemPreviewList'>>
 > => {
   const params: Record<string, number> = { page, size };
 

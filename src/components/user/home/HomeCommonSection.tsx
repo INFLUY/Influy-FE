@@ -6,7 +6,7 @@ import {
 } from '@/components';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { HomeItemPreviewList } from '@/types/common/ItemType.types';
+import { ItemCardType } from '@/types/common/ItemType.types';
 import { ITEM_DEATIL } from '@/utils/generatePath';
 import { CategoryType } from '@/types/common/CategoryType.types';
 
@@ -18,9 +18,9 @@ const HomeCommonSection = ({
   selectedCategory,
   setSelectedCategory,
 }: {
-  expiringItem: HomeItemPreviewList[] | [];
-  trendingItem: HomeItemPreviewList[] | [];
-  recommendedItem: HomeItemPreviewList[] | [];
+  expiringItem: ItemCardType[] | [];
+  trendingItem: ItemCardType[] | [];
+  recommendedItem: ItemCardType[] | [];
   categoryList: CategoryType[] | [];
   selectedCategory: number;
   setSelectedCategory: (id: number) => void;

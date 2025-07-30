@@ -1,12 +1,12 @@
 // 공통 컴포넌트 상품썸네일/유저뷰_아카이빙/앨범형
-import { HomeItemPreviewList } from '@/types/common/ItemType.types';
+import { ItemCardType } from '@/types/common/ItemType.types';
 import { ScrapButton, SoldOutChip, TimeChip, PeriodChip } from '@/components';
 
 const ItemAlbumCard = ({
   item,
   onCardClick,
 }: {
-  item: HomeItemPreviewList;
+  item: ItemCardType;
   onCardClick: () => void;
 }) => {
   return (
