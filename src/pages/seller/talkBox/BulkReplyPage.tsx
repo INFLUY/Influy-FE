@@ -21,6 +21,7 @@ import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
 
 import { useSelectModeStore } from '@/store/talkBoxStore';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
@@ -32,6 +33,7 @@ const BulkReplyPage = () => {
   const [answerText, setAnswerText] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { tagId } = useLocation().state;
+  const { showSnackbar } = useSnackbarStore();
 
   const { itemId, categoryId } = useParams();
 
@@ -60,7 +62,7 @@ const BulkReplyPage = () => {
   const handleConfirmExit = () => {
     setIsModalOpen(false);
     useSelectModeStore.persist.clearStorage();
-    navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`); // 홈으로 이동
+    navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.home.base}`); // TODO: 수정 홈으로 이동
   };
 
   const { mutate: postBulkAnswer } = usePostBulkAnswer({
@@ -68,9 +70,9 @@ const BulkReplyPage = () => {
     questionCategoryId: Number(categoryId),
     onSuccessCallback: (count) => {
       navigate(`../`, {
-        state: { sentCount: count },
         replace: true,
       });
+      showSnackbar(`${count}개의 답변이 정상적으로 전송되었습니다.`);
     },
   });
 
@@ -132,10 +134,12 @@ const BulkReplyPage = () => {
 
       {/* 하단 이전 답변 및 채팅바 */}
       <section className="bottom-bar flex w-full flex-col overflow-x-clip">
-        <PrevReplyBottomSheet
-          prevAnswers={prevAnswers}
-          handleAnswerSelect={handleAnswerSelect}
-        />
+        {prevAnswers && (
+          <PrevReplyBottomSheet
+            prevAnswers={prevAnswers}
+            handleAnswerSelect={handleAnswerSelect}
+          />
+        )}
         <ChatBarTextArea
           text={answerText}
           setText={setAnswerText}

@@ -19,6 +19,6 @@ export const useGetTagAnswers = ({
       questionTagId,
     ],
     queryFn: () => getTagAnswers({ itemId, questionCategoryId, questionTagId }),
-    enabled: !itemId && !questionCategoryId && !questionTagId,
+    enabled: !!(itemId && questionCategoryId && questionTagId),
   });
 };

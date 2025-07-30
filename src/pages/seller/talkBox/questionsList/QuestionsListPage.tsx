@@ -6,8 +6,9 @@ import {
   SingleQuestionBottomSheet,
 } from '@/components';
 
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { BottomSheetContext } from '@/contexts/TalkBoxCategoryContext';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
@@ -16,16 +17,9 @@ import { useSelectModeStore } from '@/store/talkBoxStore';
 import { QuestionDTO } from '@/types/seller/TalkBox.types';
 
 export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
-  const [snackBarState, setSnackBarState] = useState<{
-    message: string;
-    isOpen: boolean;
-  }>({ message: '', isOpen: false });
   const [singleQuestion, setSingleQuestion] = useState<QuestionDTO | null>(
     null
   );
-
-  const location = useLocation();
-  const sentCount = location.state?.sentCount;
 
   const { itemId, categoryId } = useParams();
 
@@ -39,16 +33,6 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   const { mode, setMode } = useSelectModeStore();
 
   const headerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (sentCount) {
-      const message = sentCount + '개의 답변이 정상적으로 전송되었습니다.';
-      setSnackBarState({
-        isOpen: true,
-        message: message,
-      });
-    }
-  }, [sentCount]);
 
   const category = '색상';
 
@@ -99,15 +83,6 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
           </p>
         </article>
         {children}
-        {snackBarState.isOpen && (
-          <SnackBar
-            handleSnackBarClose={() =>
-              setSnackBarState({ message: '', isOpen: false })
-            }
-          >
-            {snackBarState.message}
-          </SnackBar>
-        )}
       </section>
 
       {/* 질문 하나 선택시 */}

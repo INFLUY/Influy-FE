@@ -12,7 +12,7 @@ export const TalkBoxItemCard = ({ item }: { item: TalkBoxOpenedItem }) => {
       className="flex h-[5.25rem] w-full cursor-pointer gap-[.6875rem]"
       onClick={() =>
         navigate(
-          `${PATH.SELLER.base}/${PATH.SELLER.talkBox.base}/${PATH.SELLER.talkBox.item.base.replace(':itemId', String(item.itemId))}`
+          `../${PATH.SELLER.talkBox.item.base.replace(':itemId', String(item.itemId))}`
         )
       }
     >

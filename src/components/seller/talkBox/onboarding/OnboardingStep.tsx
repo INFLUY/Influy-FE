@@ -7,6 +7,7 @@ import {
 } from '@/components';
 import { useState } from 'react';
 import { CategoryUpsertSheet, SheetMode } from './CategoryItem';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 export const ActivateStep = ({ onNext }: { onNext: () => void }) => {
   const [isActivated, setIsActivated] = useState(false);
@@ -48,20 +49,14 @@ export const CategorizeStep = ({
   const [draftName, setDraftName] = useState('');
   const [editTarget, setEditTarget] = useState<string | null>(null);
 
+  const { showSnackbar } = useSnackbarStore();
+
   // 삭제할 카테고리
   const [categoryToDelete, setCategoryToDelete] = useState<string | null>(null);
-  //스낵바
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
-  });
 
   const onRemove = (categoryName: string) => {
     if (categoryName === '기타') {
-      setSnackbar({
-        open: true,
-        message: '‘기타’ 카테고리는 수정 및 삭제가 불가능합니다.',
-      });
+      showSnackbar('‘기타’ 카테고리는 수정 및 삭제가 불가능합니다.');
       return;
     }
     setCategoryToDelete(categoryName);
@@ -70,20 +65,14 @@ export const CategorizeStep = ({
 
   const onConfirmDelete = () => {
     setCategory(category.filter((c) => c !== categoryToDelete));
-    setSnackbar({
-      open: true,
-      message: '삭제되었습니다',
-    });
+    showSnackbar('삭제되었습니다.');
     setCategoryToDelete(null);
     setSheetMode('none');
   };
 
   const onSingleCategoryEdit = (categoryName: string) => {
     if (categoryName === '기타') {
-      setSnackbar({
-        open: true,
-        message: '‘기타’ 카테고리는 수정 및 삭제가 불가능합니다.',
-      });
+      showSnackbar('‘기타’ 카테고리는 수정 및 삭제가 불가능합니다.');
       return;
     }
     setEditTarget(categoryName);
@@ -97,7 +86,7 @@ export const CategorizeStep = ({
 
     if (!trimmed) return;
     if (category.includes(trimmed)) {
-      setSnackbar({ open: true, message: '이미 존재하는 카테고리입니다' });
+      showSnackbar('이미 존재하는 카테고리입니다.');
       return;
     }
     if (sheetMode === 'add') {
@@ -121,7 +110,7 @@ export const CategorizeStep = ({
       setEditTarget(null);
       setSheetMode('editList');
     }
-    setSnackbar({ open: true, message: '저장되었습니다.' });
+    showSnackbar('저장되었습니다.');
   };
 
   const onClose = () => {
@@ -184,15 +173,6 @@ export const CategorizeStep = ({
             setCategoryToDelete(null);
           }}
         />
-      )}
-
-      {/* 스낵바 */}
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
       )}
     </>
   );
