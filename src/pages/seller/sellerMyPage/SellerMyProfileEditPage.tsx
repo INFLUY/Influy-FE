@@ -7,6 +7,7 @@ import {
   FormEmailInput,
   BackgroundImageUploader,
   DefaultButton,
+  LoadingSpinner,
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
@@ -14,69 +15,64 @@ import { SellerProfileType } from '@/types/seller/SellerProfile.types';
 import { sellerProfileSchema } from '@/schemas/sellerProfileSchema';
 import { useForm, FormProvider } from 'react-hook-form';
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
+import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
+import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
+import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
+import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
 
 const snsInputs = [
   {
     name: 'instagram',
-    placeholder: 'https://instagram.com/',
+    placeholder: 'https://www.instagram.com/',
     icon: (
-      <div
-        className="bg-grey02 h-6 w-6 border-0"
-        aria-label="인스타그램 아이콘"
-      />
+      <InstagramIcon className="text-grey10" aria-label="인스타그램 아이콘" />
     ),
   },
   {
     name: 'youtube',
     placeholder: 'https://www.youtube.com/',
-    icon: (
-      <div className="bg-grey02 h-6 w-6 border-0" aria-label="유튜브 아이콘" />
-    ),
+    icon: <YoutubeIcon className="text-grey10" aria-label="유튜브 아이콘" />,
   },
   {
     name: 'tiktok',
     placeholder: 'https://www.tiktok.com/@',
-    icon: (
-      <div className="bg-grey02 h-6 w-6 border-0" aria-label="틱톡 아이콘" />
-    ),
+    icon: <TiktokIcon className="text-grey10" aria-label="틱톡 아이콘" />,
   },
 ] as const;
 
-const sellerProfileMock: SellerProfileType = {
-  id: 1,
-  sellerId: 1,
-  username: '@sohyeon',
-  nickname: '소현소현',
-  backgroundImg: null,
-  profileImg: '/profile.png',
-  instagram: '@sohyeon',
-  tiktok: 'https://www.tiktok.com/@소현소현',
-  youtube: null,
-  email: null,
-};
 const SellerMyProfileEditPage = () => {
   const navigate = useNavigate();
+
+  const { data: sellerMyProfile } = useGetSellerProfile();
+
+  if (!sellerMyProfile) {
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   const methods = useForm<SellerProfileType>({
     resolver: standardSchemaResolver(sellerProfileSchema),
     mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues: {
-      id: sellerProfileMock.id,
-      sellerId: sellerProfileMock.sellerId,
-      username: sellerProfileMock.username,
-      nickname: sellerProfileMock.nickname,
-      backgroundImg: sellerProfileMock.backgroundImg ?? undefined,
-      profileImg: sellerProfileMock.profileImg ?? undefined,
-      instagram: sellerProfileMock.instagram,
-      tiktok: sellerProfileMock.tiktok,
-      youtube: sellerProfileMock.youtube,
-      email: sellerProfileMock.email,
+      id: sellerMyProfile.id,
+      sellerId: sellerMyProfile.sellerId,
+      username: sellerMyProfile.username,
+      nickname: sellerMyProfile.nickname,
+      backgroundImg: sellerMyProfile.backgroundImg ?? undefined,
+      profileImg: sellerMyProfile.profileImg ?? undefined,
+      instagram: 'https://www.instagram.com/' + sellerMyProfile.instagram,
+      tiktok: sellerMyProfile.tiktok ?? undefined,
+      youtube: sellerMyProfile.youtube ?? undefined,
+      email: sellerMyProfile.email ?? undefined,
     },
   });
+
   const {
     handleSubmit,
-
     formState: { isSubmitting, isValid },
   } = methods;
 
