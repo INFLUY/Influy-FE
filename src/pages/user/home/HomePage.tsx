@@ -9,10 +9,6 @@ import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import { useState } from 'react';
-import {
-  itemMockData,
-  recommendMockData,
-} from '@/pages/user/home/HomeMockData';
 import InfluencerCard, {
   InfluencerCardType,
 } from '@/components/user/home/InfluencerCard';
@@ -21,6 +17,7 @@ import { generatePath, useNavigate } from 'react-router-dom';
 import { ITEM_DEATIL, MARKET_DEATIL } from '@/utils/generatePath';
 import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
 import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
+import { useGetItemRecommend } from '@/services/sellerItem/query/useGetItemRecommend';
 
 interface TopBannerItem {
   image: string;
@@ -132,12 +129,20 @@ export const pickMockData: InfluencerPickItemType[] = [
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState<number>(1);
+  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const allCateogryDto = {
+    id: 0,
+    name: '전체',
+  };
   const [selectedInfluencer, setSelectedInfluencer] = useState<number>(1);
 
   const itemCategories = useGetItemCategory();
 
   const { data: sellerMyProfile } = useGetSellerProfile();
+  const { data: recommendItems } = useGetItemRecommend({
+    categoryId: selectedCategory === 0 ? null : selectedCategory,
+    size: 4,
+  });
 
   return (
     <section className="top-banner-swiper-section bg-grey01 flex w-full flex-1 flex-col pt-11">
@@ -224,10 +229,15 @@ const HomePage = () => {
           </div>
         </section>
         <HomeCommonSection
-          expiringItem={itemMockData}
-          trendingItem={itemMockData}
-          recommendedItem={recommendMockData}
-          categoryList={itemCategories?.categoryDtoList || []}
+          expiringItem={[]}
+          trendingItem={[]}
+          recommendedItem={
+            recommendItems?.pages[0].result?.itemPreviewList || []
+          }
+          categoryList={[
+            allCateogryDto,
+            ...(itemCategories?.categoryDtoList ?? []),
+          ]}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
         />

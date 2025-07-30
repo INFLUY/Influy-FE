@@ -47,7 +47,7 @@ export interface ItemDetail {
   startDate: string | null; // ISO string
   endDate: string | null; // ISO string
   tagline: string | null;
-  currentStatus: 'DEFAULT' | 'ON_SALE' | 'CLOSED'; // 예시: 상태 enum 확장 가능
+  currentStatus: ItemCurrentStatusType; // 예시: 상태 enum 확장 가능
   marketLink: string | null;
   isArchived: boolean;
   itemImgList: string[] | [];
@@ -81,7 +81,25 @@ export type ItemPreviewList = {
   startDate: string;
   endDate: string;
   tagline: string;
-  currentStatus: 'DEFAULT' | 'EXTEND' | 'SOLD_OUT';
+  currentStatus: ItemCurrentStatusType;
   liked: false;
   mainImg: string;
 };
+
+export type HomeItemPreviewList = {
+  sellerProfileImg: string | null;
+  sellerUsername: string;
+  sellerNickname: string;
+  sellerId: number;
+  itemId: number;
+  itemMainImg: string;
+  itemPeriod: number;
+  itemName: string;
+  startDate: string;
+  endDate: string;
+  tagline: string | null;
+  currentStatus: ItemCurrentStatusType;
+  liked: false;
+};
+
+export type ItemCurrentStatusType = 'DEFAULT' | 'EXTEND' | 'SOLD_OUT';

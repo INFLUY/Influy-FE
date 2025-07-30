@@ -4,3 +4,13 @@ export type ApiResponse<T> = {
   message: string;
   result?: T;
 };
+
+export type Pagination<T, K extends string> = {
+  [key in K]: T;
+} & {
+  listSize: number;
+  totalPage: number;
+  totalElements: number;
+  isFirst: boolean;
+  isLast: boolean;
+};

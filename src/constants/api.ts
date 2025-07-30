@@ -31,6 +31,10 @@ export const API_DOMAINS = {
   // user
   USER_JOIN: '/member/register/user',
   USER_MY_PROFILE: '/member/:memberId/profile',
+
+  HOME_RECOMMEND: '/home/recommend',
+  HOME_POPULAR: '/home/popular',
+  HOME_CLOSE_DEADLINE: '/home/close-deadline',
 };
 
 export const SELLER_API_DOMAINS = {
@@ -53,4 +57,8 @@ export const QUERY_KEYS = {
   SELLER_MY_PROFILE: 'sellerMyProfile',
 
   USER_MY_PROFILE: 'userMyProfile',
+
+  HOME_RECOMMEND: 'homeRecommend',
+  HOME_POPULAR: 'homePopular',
+  HOME_CLOSE_DEADLINE: 'closeDeadline',
 };

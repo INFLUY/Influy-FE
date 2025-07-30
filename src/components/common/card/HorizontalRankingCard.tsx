@@ -1,5 +1,5 @@
 //홈 아카이빙 인기 급상승 카드
-import { ItemCardType } from '@/types/common/ItemType.types';
+import { HomeItemPreviewList } from '@/types/common/ItemType.types';
 import { ScrapButton, TimeChip } from '@/components';
 
 const HorizontalRankingCard = ({
@@ -7,7 +7,7 @@ const HorizontalRankingCard = ({
   onCardClick,
   ranking,
 }: {
-  item: ItemCardType;
+  item: HomeItemPreviewList;
   onCardClick: () => void;
   ranking: number;
 }) => {
@@ -16,15 +16,15 @@ const HorizontalRankingCard = ({
       <p className="text-main subhead-sb">{ranking}</p>
       <div className="flex h-[6.75rem] w-full gap-2" onClick={onCardClick}>
         <div className="bg-grey03 relative h-[6.75rem] w-[6.75rem] rounded-[.0625rem]">
-          {item.mainImg && (
+          {item.itemMainImg && (
             <img
               className="h-[6.75rem] w-[6.75rem] rounded-[.0625rem] object-cover"
-              src={item.mainImg}
+              src={item.itemMainImg}
               alt={item.itemName + ' 썸네일'}
             />
           )}
           <ScrapButton
-            scrapped={item?.isScrapped}
+            scrapped={item?.liked}
             handleClickSave={() => {
               console.log('saved');
             }}
@@ -40,9 +40,11 @@ const HorizontalRankingCard = ({
               <img
                 className="h-[1.375rem] w-[1.375rem] rounded-full object-cover"
                 src="/profile.png"
-                alt={item.sellerName + '의 상품'}
+                alt={item.sellerNickname + '의 상품'}
               />
-              <span className="caption-m text-grey09">@{item.sellerName}</span>
+              <span className="caption-m text-grey09">
+                @{item.sellerUsername}
+              </span>
             </div>
             {/* 상품 제목 */}
             <div className="flex w-full flex-col items-start gap-0.5">

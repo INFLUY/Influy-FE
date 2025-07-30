@@ -1,12 +1,12 @@
 // 공통 컴포넌트 상품썸네일/유저뷰_아카이빙/앨범형
-import { ItemCardType } from '@/types/common/ItemType.types';
+import { HomeItemPreviewList } from '@/types/common/ItemType.types';
 import { ScrapButton, SoldOutChip, TimeChip, PeriodChip } from '@/components';
 
 const ItemAlbumCard = ({
   item,
   onCardClick,
 }: {
-  item: ItemCardType;
+  item: HomeItemPreviewList;
   onCardClick: () => void;
 }) => {
   return (
@@ -17,12 +17,12 @@ const ItemAlbumCard = ({
       {/* 상단 사진 부분 */}
       <div className="bg-grey03 relative flex aspect-square w-full shrink-0">
         <img
-          src={item?.mainImg ?? undefined}
+          src={item?.itemMainImg ?? undefined}
           alt={item.itemName + ' 썸네일'}
           className="inset-0 h-full w-full object-cover"
         />
         <ScrapButton
-          scrapped={item?.isScrapped}
+          scrapped={item?.liked}
           handleClickSave={() => {
             console.log('saved');
           }}
@@ -58,9 +58,9 @@ const ItemAlbumCard = ({
           <img
             className="h-[1.375rem] w-[1.375rem] rounded-full object-cover"
             src="/profile.png"
-            alt={item.sellerName + '의 상품'}
+            alt={item.sellerNickname + '님의 상품'}
           />
-          <span className="caption-m text-grey09">@{item.sellerName}</span>
+          <span className="caption-m text-grey09">@{item.sellerUsername}</span>
         </div>
         <div className="flex h-[5.25rem] flex-col gap-1">
           <p className="body2-m line-clamp-2 text-black">{item.itemName}</p>
