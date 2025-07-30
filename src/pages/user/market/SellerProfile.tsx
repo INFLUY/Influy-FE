@@ -18,6 +18,14 @@ import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
 import { LinkType } from '@/types/seller/LinkType.types';
 import { useGetMarketLinks } from '@/services/marketLinks/query/useGetMarketLinks';
 import { useStrictId } from '@/hooks/auth/useStrictId';
+import {
+  SellerMarketType,
+  SellerMyMarketType,
+} from '@/types/seller/SellerProfile.types';
+import {
+  useGetMarket,
+  useGetMyMarket,
+} from '@/services/seller/query/useGetMarket';
 
 const SellerNoticeBottomSheet = lazy(
   () => import('@/components/user/seller/SellerNoticeBottomSheet')
@@ -27,17 +35,29 @@ const SellerProfilePage = ({ children }: { children: ReactNode }) => {
   const { marketId } = useParams();
 
   if (marketId) {
-    return (
-      <SellerProfile marketId={Number(marketId)}>{children}</SellerProfile>
-    );
+    return <UserView>{children}</UserView>;
   }
 
   return <SellerView>{children}</SellerView>;
 };
 
+const UserView = ({ children }: { children: ReactNode }) => {
+  const { marketId } = useParams();
+  const { data: marketData } = useGetMarket({ sellerId: Number(marketId) });
+
+  if (marketId && marketData) {
+    return (
+      <SellerProfile marketId={Number(marketId)} marketInfo={marketData}>
+        {children}
+      </SellerProfile>
+    );
+  }
+};
+
 const SellerView = ({ children }: { children: ReactNode }) => {
   const { sellerId } = useStrictId();
   const navigate = useNavigate();
+  const { data: marketData } = useGetMyMarket();
 
   return (
     <section className="relative flex w-full flex-1 flex-col">
@@ -51,9 +71,15 @@ const SellerView = ({ children }: { children: ReactNode }) => {
         일반 사용자에게 보이는 화면입니다.
       </h1>
       <article className="pointer-events-none flex w-full flex-1 flex-col pt-[5.0625rem]">
-        <SellerProfile marketId={sellerId!} seller={true}>
-          {children}
-        </SellerProfile>
+        {marketData && (
+          <SellerProfile
+            marketId={sellerId!}
+            seller={true}
+            marketInfo={marketData}
+          >
+            {children}
+          </SellerProfile>
+        )}
       </article>
     </section>
   );
@@ -62,10 +88,12 @@ const SellerView = ({ children }: { children: ReactNode }) => {
 const SellerProfile = ({
   children,
   marketId,
+  marketInfo,
   seller = false,
 }: {
   children: ReactNode;
   marketId: number;
+  marketInfo: SellerMarketType | SellerMyMarketType;
   seller?: boolean;
 }) => {
   const navigate = useNavigate();
@@ -110,43 +138,60 @@ const SellerProfile = ({
     sellerId: marketId,
   });
 
-  const sns: { id: number; ariaLabel: string; url: string; icon: ReactNode }[] =
-    [
-      {
-        id: 0,
-        ariaLabel: ' 인스타그램 계정 바로가기',
-        url: 'https://instagram.com/influy_official',
-        icon: <InstagramIcon />,
-      },
-      {
-        id: 1,
-        ariaLabel: ' 유튜브 계정 바로가기',
-        url: 'https://www.youtube.com',
-        icon: <YoutubeIcon />,
-      },
-      {
-        id: 2,
-        ariaLabel: ' 틱톡 계정 바로가기',
-        url: 'https://www.tiktok.com',
-        icon: <TiktokIcon />,
-      },
-      {
-        id: 3,
-        ariaLabel: '에게 이메일 보내기',
-        url: 'https://google.com',
-        icon: <EmailIcon />,
-      },
-    ];
+  const sns: {
+    id: number;
+    ariaLabel: string;
+    url: string | null;
+    icon: ReactNode;
+  }[] = [
+    {
+      id: 0,
+      ariaLabel: ' 인스타그램 계정 바로가기',
+      url: 'https://www.instagram.com/' + marketInfo.sellerProfile.instagram,
+      icon: <InstagramIcon />,
+    },
+    {
+      id: 1,
+      ariaLabel: ' 유튜브 계정 바로가기',
+      url: marketInfo.sellerProfile.youtube,
+      icon: <YoutubeIcon />,
+    },
+    {
+      id: 2,
+      ariaLabel: ' 틱톡 계정 바로가기',
+      url: marketInfo.sellerProfile.tiktok,
+      icon: <TiktokIcon />,
+    },
+    {
+      id: 3,
+      ariaLabel: '에게 이메일 보내기',
+      url: marketInfo.sellerProfile.email
+        ? 'mailto:' + marketInfo.sellerProfile.email
+        : null,
+      icon: <EmailIcon />,
+    },
+  ].filter((s) => !!s.url);
 
   return (
     <div className="flex w-full flex-1 flex-col">
-      <div className="realtive flex h-[7.0625rem] w-full flex-col justify-end bg-[#8B8B8D] pb-[.875rem]">
-        <SellerProfileHeader name={'소현'} id={'xoyeone_'} seller={seller} />
-        <div className="flex shrink-0 items-center justify-end gap-[.625rem] px-5 text-[#F1F1F1CC] opacity-80">
+      <div className="relative flex h-[7.0625rem] w-full flex-col justify-end bg-[#8B8B8D]">
+        <SellerProfileHeader
+          name={marketInfo.sellerProfile.nickname}
+          id={marketInfo.sellerProfile.username}
+          seller={seller}
+        />
+        {marketInfo?.sellerProfile.backgroundImg && (
+          <img
+            src={marketInfo?.sellerProfile.backgroundImg}
+            alt="내 배경사진"
+            className="inset-0 flex h-full w-full object-cover"
+          />
+        )}
+        <div className="absolute bottom-[.875rem] flex w-full shrink-0 items-center justify-end gap-[.625rem] px-5 text-[#F1F1F1CC] opacity-80">
           {sns?.map((s, index) => (
             <a
               key={index}
-              href={s.url}
+              href={s.url!}
               aria-label={'소현' + s.ariaLabel}
               className="cursor-pointer"
             >
@@ -155,7 +200,7 @@ const SellerProfile = ({
           ))}
         </div>
       </div>
-      <SellerProfileCard />
+      <SellerProfileCard sellerInfo={marketInfo.sellerProfile} />
       <div className="flex flex-col gap-2">
         {/* 링크 */}
         {links?.length !== 0 && (

@@ -4,6 +4,7 @@ import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
 import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
+import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 import { formatNumber } from '@/utils/formatNumber';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
@@ -11,13 +12,16 @@ import cn from '@/utils/cn';
 import { ReactNode } from 'react';
 import { useGetSellerLike } from '@/services/likes/query/useGetSellerLikes';
 import { useStrictId } from '@/hooks/auth/useStrictId';
+import { SellerProfileType } from '@/types/seller/SellerProfile.types';
 
-const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
+const SellerProfileCard = ({
+  sellerInfo,
+  seller = false,
+}: {
+  sellerInfo: SellerProfileType;
+  seller?: boolean;
+}) => {
   const navigate = useNavigate();
-  const SellerInfo = {
-    name: '소현',
-    id: 'xoyeone_',
-  };
 
   const { marketId } = useParams();
   const { sellerId } = useStrictId({ skip: !!marketId });
@@ -26,53 +30,57 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
     sellerId: marketId ? Number(marketId) : sellerId!,
   });
 
-  const sns: { id: number; ariaLabel: string; url: string; icon: ReactNode }[] =
-    [
-      {
-        id: 0,
-        ariaLabel: ' 인스타그램 계정 바로가기',
-        url: 'https://instagram.com/influy_official',
-        icon: <InstagramIcon />,
-      },
-      {
-        id: 1,
-        ariaLabel: ' 유튜브 계정 바로가기',
-        url: 'https://www.youtube.com',
-        icon: <YoutubeIcon />,
-      },
-      {
-        id: 2,
-        ariaLabel: ' 틱톡 계정 바로가기',
-        url: 'https://www.tiktok.com',
-        icon: <TiktokIcon />,
-      },
-      {
-        id: 3,
-        ariaLabel: '에게 이메일 보내기',
-        url: 'https://google.com',
-        icon: <EmailIcon />,
-      },
-    ];
+  const sns: {
+    id: number;
+    ariaLabel: string;
+    url: string | null;
+    icon: ReactNode;
+  }[] = [
+    {
+      id: 0,
+      ariaLabel: ' 인스타그램 계정 바로가기',
+      url: 'https://www.instagram.com/' + sellerInfo.instagram,
+      icon: <InstagramIcon />,
+    },
+    {
+      id: 1,
+      ariaLabel: ' 유튜브 계정 바로가기',
+      url: sellerInfo.youtube,
+      icon: <YoutubeIcon />,
+    },
+    {
+      id: 2,
+      ariaLabel: ' 틱톡 계정 바로가기',
+      url: sellerInfo.tiktok,
+      icon: <TiktokIcon />,
+    },
+    {
+      id: 3,
+      ariaLabel: '에게 이메일 보내기',
+      url: sellerInfo.email ? 'mailto:' + sellerInfo.email : null,
+      icon: <EmailIcon />,
+    },
+  ].filter((s) => !!s.url);
 
   return (
     <div className={cn('flex flex-col gap-3 px-5 pb-2', seller && 'pb-3')}>
       <div className="flex shrink-0 gap-2">
         <div className="relative -mt-5 flex h-fit w-fit shrink-0">
           <img
-            src={undefined}
+            src={sellerInfo.profileImg ?? ProfileIcon}
             className="bg-grey03 h-[5.625rem] w-[5.625rem] rounded-full"
           />
-          <div className="absolute top-0 right-0 h-6 w-6 rounded-full bg-black" />
         </div>
         <div className="flex w-full justify-between pt-[.625rem]">
           <span className="flex flex-col">
-            <h1 className="headline3">{SellerInfo.name}</h1>
-            <p className="body2-m text-grey08">@{SellerInfo.id}</p>
+            <h1 className="headline3">{sellerInfo.nickname}</h1>
+            <p className="body2-m text-grey08">@{sellerInfo.username}</p>
           </span>
           <div className="flex h-fit w-fit flex-col items-center justify-center">
             <HeartIcon className="text-grey09 h-6 w-6" onClick={() => {}} />
             <span className="body2-m text-grey07">
-              {marketLikes?.likeCount && formatNumber(marketLikes?.likeCount)}
+              {marketLikes?.likeCnt !== undefined &&
+                formatNumber(marketLikes?.likeCnt)}
             </span>
           </div>
         </div>
@@ -95,7 +103,7 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
             {sns?.map((s, index) => (
               <a
                 key={index}
-                href={s.url}
+                href={s.url!}
                 aria-label={'소현' + s.ariaLabel}
                 className="cursor-pointer"
               >

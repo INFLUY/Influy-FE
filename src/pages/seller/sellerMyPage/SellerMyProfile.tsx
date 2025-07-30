@@ -19,6 +19,7 @@ import { LinkType } from '@/types/seller/LinkType.types';
 import { useDeleteMarketLink } from '@/services/marketLinks/mutation/useDeleteMarketLink';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useStrictId } from '@/hooks/auth/useStrictId';
+import { useGetMyMarket } from '@/services/seller/query/useGetMarket';
 
 const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const [isAddLinkOpen, setIsAddLinkOpen] = useState<boolean>(false);
@@ -44,6 +45,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   };
 
   const { sellerId } = useStrictId();
+  const { data: sellerMyMarket } = useGetMyMarket();
 
   const { data: links } = useGetMarketLinks({
     sellerId: Number(sellerId),
@@ -89,8 +91,20 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
     <div className="flex w-full flex-1 flex-col">
       <div className="realtive flex h-[7.0625rem] w-full flex-col bg-[#8B8B8D]">
         <SellerMyProfileHeader />
+        {sellerMyMarket?.sellerProfile.backgroundImg && (
+          <img
+            src={sellerMyMarket?.sellerProfile.backgroundImg}
+            alt="내 배경사진"
+            className="inset-0 flex h-full w-full object-cover"
+          />
+        )}
       </div>
-      <SellerProfileCard seller={true} />
+      {sellerMyMarket && (
+        <SellerProfileCard
+          sellerInfo={sellerMyMarket?.sellerProfile}
+          seller={true}
+        />
+      )}
       {/* 공지 */}
       <div className="bg-grey02 flex w-full px-5 py-3">
         <NoticeBanner

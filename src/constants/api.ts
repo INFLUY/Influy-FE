@@ -6,6 +6,7 @@ export const API_DOMAINS = {
   OAUTH_KAKAO: '/oauth/kakao',
   REISSUE: '/member/auth/reissue',
   ID_DUPLICATE_CHECK: '/member/register/duplicate-check',
+  SELLER_MARKET: '/user/:sellerId/market',
   SELLER_ANNOUNCEMENT: '/seller/:sellerId/announcements',
   SELLER_PRIMARY_ANNOUNCEMENT:
     '/seller/:sellerId/announcements/primary-announcement',
@@ -39,12 +40,14 @@ export const API_DOMAINS = {
 
 export const SELLER_API_DOMAINS = {
   SELLER_MY_PROFILE: '/seller/profile',
-  SELLR_MY_HOME_QUESTIONS: '/seller/home/questions',
+  SELLER_MY_HOME_QUESTIONS: '/seller/home/questions',
+  SELLER_MY_MARKET: '/seller/my-market',
 };
 
 export const QUERY_KEYS = {
   SELLER_ANNOUNCEMENT: 'sellerAnnouncements',
   SELLER_PRIMARY_ANNOUNCEMENT: 'sellerPrimaryAnnouncement',
+  SELLER_MARKET: 'sellerMarket',
   SELLER_MARKET_LINKS: 'sellerMarketLinks',
   SELLER_MARKET_LIKES: 'sellerMarketLikes',
   SELLER_MARKET_ITEMS: 'sellerMarketItems',
@@ -56,6 +59,7 @@ export const QUERY_KEYS = {
   ITEM_CATEGORIES: 'itemCategories',
 
   SELLER_MY_PROFILE: 'sellerMyProfile',
+  SELLER_MY_MARKET: 'sellerMyMarket',
   SELLER_MY_HOME_QUESTIONS: 'sellerMyHomeQuestions',
 
   USER_MY_PROFILE: 'userMyProfile',

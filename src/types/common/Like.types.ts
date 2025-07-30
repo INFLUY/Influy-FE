@@ -1,5 +1,5 @@
 export interface LikeType {
   targetType: 'SELLER' | 'ITEM';
   targetId: number;
-  likeCount: number;
+  likeCnt: number;
 }

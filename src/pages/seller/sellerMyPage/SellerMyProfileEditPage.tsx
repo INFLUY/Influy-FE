@@ -10,7 +10,7 @@ import {
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { SellerProfileType } from '@/types/seller/SellerProfile';
+import { SellerProfileType } from '@/types/seller/SellerProfile.types';
 import { sellerProfileSchema } from '@/schemas/sellerProfileSchema';
 import { useForm, FormProvider } from 'react-hook-form';
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
@@ -48,7 +48,7 @@ const sellerProfileMock: SellerProfileType = {
   username: '@sohyeon',
   nickname: '소현소현',
   backgroundImg: null,
-  profileImg: null,
+  profileImg: '/profile.png',
   instagram: '@sohyeon',
   tiktok: 'https://www.tiktok.com/@소현소현',
   youtube: null,
@@ -61,7 +61,18 @@ const SellerMyProfileEditPage = () => {
     resolver: standardSchemaResolver(sellerProfileSchema),
     mode: 'onChange',
     reValidateMode: 'onChange',
-    defaultValues: sellerProfileMock,
+    defaultValues: {
+      id: sellerProfileMock.id,
+      sellerId: sellerProfileMock.sellerId,
+      username: sellerProfileMock.username,
+      nickname: sellerProfileMock.nickname,
+      backgroundImg: sellerProfileMock.backgroundImg ?? undefined,
+      profileImg: sellerProfileMock.profileImg ?? undefined,
+      instagram: sellerProfileMock.instagram,
+      tiktok: sellerProfileMock.tiktok,
+      youtube: sellerProfileMock.youtube,
+      email: sellerProfileMock.email,
+    },
   });
   const {
     handleSubmit,
@@ -108,7 +119,7 @@ const SellerMyProfileEditPage = () => {
             <FormLimitedTextInput<SellerProfileType>
               name="nickname"
               maxLength={8}
-              placeHolderContent="기존 nickname"
+              placeHolderContent="닉네임"
               rows={1}
             />
           </ProfileEditWrapper>

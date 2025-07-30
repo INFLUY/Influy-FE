@@ -1,7 +1,7 @@
 import cn from '@/utils/cn';
 import UserTypeToggleButton from '@/components/seller/home/UserTypeToggleButton';
 import MyIcon from '@/assets/icon/seller/MyNavbar.svg';
-import { SellerProfileType } from '@/types/seller/SellerProfile';
+import { SellerProfileType } from '@/types/seller/SellerProfile.types';
 
 const UserTypeSwithBanner = ({
   influencer,

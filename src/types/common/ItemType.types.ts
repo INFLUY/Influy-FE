@@ -10,7 +10,7 @@ export type SellerItemPreviewList = {
   currentStatus: ItemCurrentStatusType;
   liked: false;
   talkBoxInfo: {
-    talkBoxOpenStatus: 'INITIAL' | 'OPENED' | 'CLOSED';
+    talkBoxOpenStatus: TalkBoxOpenStatusType;
     waitingCnt: number;
     completedCnt: number;
   };
@@ -102,3 +102,7 @@ export type SellerHomeItemStatus = {
   newQuestions: number;
   topCategories: string[] | [];
 };
+
+export type ItemSortType = 'END_DATE' | 'CREATE_DATE';
+
+export type TalkBoxOpenStatusType = 'INITIAL' | 'OPENED' | 'CLOSED';
