@@ -6,6 +6,8 @@ import { PATH } from '@/routes/path';
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
 import { useEffect } from 'react';
 
+import { LottieViewer } from '@/components/seller/talkBox/onboarding/LottieViewer';
+
 const OnboardingIntroPage = () => {
   const navigate = useNavigate();
 
@@ -40,6 +42,7 @@ const OnboardingIntroPage = () => {
       >
         질문관리
       </PageHeader>
+      <LottieViewer />
       {itemOverview && (
         <TalkBoxBottomItemCard
           onCardClick={() => {}}
