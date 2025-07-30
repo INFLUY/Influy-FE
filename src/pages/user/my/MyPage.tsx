@@ -1,25 +1,26 @@
-import { BottomNavBar, LoadingSpinner, PageHeader } from '@/components';
+import { BottomNavBar, PageHeader } from '@/components';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { VanillaProfileImageUploader } from '@/components/common/VanillaProfileImageUploader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import ArrowIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 import { PATH } from '@/routes/path';
 import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const [profileImg, setProfileImg] = useState<string | null>(null);
 
-  const { data: userProfile } = useGetUserProfile();
+  const { memberId } = useStrictId({ redirectOnFail: true });
+  const { data: userProfile } = useGetUserProfile({ memberId: memberId! });
 
-  if (!userProfile) {
-    return <LoadingSpinner />;
-  }
-
-  const [profileImg, setProfileImg] = useState<string | null>(
-    userProfile.profileImg
-  );
+  useEffect(() => {
+    if (userProfile) {
+      setProfileImg(userProfile.profileImg);
+    }
+  }, [userProfile]);
 
   const menuItems = [
     { label: '알림 설정', path: `${PATH.MY.NOTIFICATION}` },

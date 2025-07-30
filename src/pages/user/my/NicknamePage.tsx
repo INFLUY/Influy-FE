@@ -5,16 +5,26 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LimitedTextInputWithFocus } from '@/components/common/DetailInput';
 import { nicknameSchema } from '@/schemas/profileSchema';
+import { useSnackbarStore } from '@/store/snackbarStore';
+import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const UsernamePage = () => {
   const navigate = useNavigate();
-
   const [nickname, setNickname] = useState<string>('');
-  const [isDirty, setIsDirty] = useState(false); // 입력값이 한번이라도 바뀌었는지
   const [errorMessage, setErrorMessage] = useState<string>('');
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  // const { showSnackbar } = useSnackbarStore();
+  const { memberId } = useStrictId({ redirectOnFail: true });
+  const { data: userProfile } = useGetUserProfile({ memberId: memberId! });
+
+  const { showSnackbar } = useSnackbarStore();
+
+  useEffect(() => {
+    if (userProfile) {
+      setNickname(userProfile.nickname);
+    }
+  }, [userProfile]);
 
   useEffect(() => {
     const result = nicknameSchema.safeParse(nickname);
@@ -24,13 +34,12 @@ const UsernamePage = () => {
     } else {
       setErrorMessage('');
     }
-  }, [nickname, isDirty]);
+  }, [nickname]);
 
   // 다음 버튼 클릭 핸들러
   const handleClickSave = () => {
-    setIsDirty(true);
     if (errorMessage !== '') {
-      // showSnackbar(errorMessage); // TODO
+      showSnackbar(errorMessage);
       console.error(errorMessage);
       inputRef.current?.focus();
     } else {
@@ -66,7 +75,7 @@ const UsernamePage = () => {
           maxLength={8}
           placeHolderContent="닉네임을 입력해 주세요."
           inputRef={inputRef}
-          error={isDirty && !!errorMessage}
+          error={!!errorMessage}
         />
       </section>
       <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">

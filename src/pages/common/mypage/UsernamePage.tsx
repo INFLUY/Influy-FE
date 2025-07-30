@@ -8,19 +8,29 @@ import { idSchema } from '@/schemas/profileSchema';
 import { useMemo } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useCheckIdDuplicate } from '@/services/auth/useCheckIdDuplicationCheck';
+import { useSnackbarStore } from '@/store/snackbarStore';
+import { useStrictId } from '@/hooks/auth/useStrictId';
+import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';
 
 const UsernamePage = () => {
   const navigate = useNavigate();
-
   const [id, setId] = useState<string>('');
-
-  const [isDirty, setIsDirty] = useState(false); // 입력값이 한번이라도 바뀌었는지
+  const [prevId, setPrevId] = useState<string>('');
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const [errorText, setErrorText] = useState<string>('');
   const [validText, setValidText] = useState<string>('');
-  // const { showSnackbar } = useSnackbarStore();
+  const { showSnackbar } = useSnackbarStore();
+  const { memberId } = useStrictId({ redirectOnFail: true });
+  const { data: userProfile } = useGetUserProfile({ memberId: memberId! });
+
+  useEffect(() => {
+    if (userProfile) {
+      setId(userProfile.username);
+      setPrevId(userProfile.username);
+    }
+  }, [userProfile]);
 
   const isIdValid = () => {
     if (id.length === 0) return false;
@@ -31,7 +41,6 @@ const UsernamePage = () => {
   };
 
   useEffect(() => {
-    if (!isDirty) return;
     const result = idSchema.safeParse(id);
     // 유효성 검사 실패했을 때
     if (!result.success) {
@@ -42,36 +51,29 @@ const UsernamePage = () => {
       setErrorText('');
     }
     setValidText('');
-  }, [id, isDirty]);
-
-  // 아이디 입력 핸들러
-  const handleChangeId = (text: string) => {
-    if (!isDirty) setIsDirty(true);
-    setId(text);
-  };
+  }, [id]);
 
   // 다음 버튼 클릭 핸들러
   const handleClickSave = () => {
-    setIsDirty(true);
-    if (!isIdValid) {
-      // showSnackbar(errorText || '아이디를 입력해 주세요.'); // TODO: 스낵바
+    if (prevId === id) {
+      showSnackbar('이전과 같은 아이디입니다.');
+    } else if (!isIdValid) {
+      showSnackbar(errorText || '아이디를 입력해 주세요.');
       inputRef.current?.focus();
+    } else if (errorText !== '') {
+      return;
     } else {
       // 백 연동
       console.log(id);
-      // showSnackbar('저장되었습니다.'); // TODO: 스낵바
+      showSnackbar('저장되었습니다.');
     }
   };
 
   const debouncedId = useDebounce(id, 300);
   const isDebouncing = id !== debouncedId;
 
-  const shouldCheckDuplicate = useMemo(() => {
-    return debouncedId.length > 0 && isDirty;
-  }, [debouncedId, isDirty]);
-
   const { data: duplicateCheckData, isLoading: isDuplicateLoading } =
-    useCheckIdDuplicate(debouncedId, shouldCheckDuplicate);
+    useCheckIdDuplicate(debouncedId, debouncedId.length > 0);
 
   // 중복 여부 판단
   const isDuplicated = useMemo(() => {
@@ -79,21 +81,17 @@ const UsernamePage = () => {
   }, [duplicateCheckData]);
 
   useEffect(() => {
-    if (!isDirty || isDuplicateLoading || isDebouncing) return;
+    if (isDuplicateLoading || isDebouncing) return;
+    if (prevId === id) {
+      return;
+    }
     if (isDuplicated) {
       setValidText('');
       setErrorText('이미 사용 중인 아이디입니다.');
-    } else if (shouldCheckDuplicate) {
+    } else if (debouncedId.length > 0) {
       setValidText('사용 가능한 아이디입니다.');
     }
-  }, [
-    duplicateCheckData,
-    isDirty,
-    isDuplicateLoading,
-    isDebouncing,
-    shouldCheckDuplicate,
-    isDuplicated,
-  ]);
+  }, [duplicateCheckData, isDuplicateLoading, isDebouncing, isDuplicated]);
 
   return (
     <div className="flex h-full w-full flex-1 flex-col pt-11">
@@ -120,7 +118,7 @@ const UsernamePage = () => {
         <IdInput
           id={'idInput'}
           text={id}
-          handleChange={handleChangeId}
+          handleChange={setId}
           maxLength={30}
           descriptionText="영어 소문자, 숫자, 바(_), 마침표(.)로 구성된 아이디를 입력해주세요."
           errorText={errorText}
@@ -132,9 +130,14 @@ const UsernamePage = () => {
       <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">
         <DefaultButton
           type="button"
+          disabledTheme="base"
           text="다음"
           disabled={
-            !isIdValid || isDuplicated || isDuplicateLoading || isDebouncing
+            !isIdValid ||
+            isDuplicated ||
+            isDuplicateLoading ||
+            isDebouncing ||
+            prevId === id
           }
           useDisabled={false}
           onClick={handleClickSave}
