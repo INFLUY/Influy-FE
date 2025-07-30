@@ -1,50 +1,23 @@
 // 홈 상단 내 상품 현황 컴포넌트
 import { TimeChip, PeriodChip, AddButton, ToolTip } from '@/components';
 import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { A11y, Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import './statusCardSwiper.css';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-const MyProductStatus = () => {
+import { SellerHomeItemStatus } from '@/types/common/ItemType.types';
+import { getDday } from '@/utils/formatDate';
+const MyProductStatus = ({ items }: { items: SellerHomeItemStatus[] | [] }) => {
   const navigate = useNavigate();
 
-  //임시
-  // const item = [{ id: 1 }, { id: 1 }];
-  const item: [] = [];
-
   return (
-    <section className="status-card-swiper-section flex flex-col gap-6">
+    <section className="flex flex-col gap-6">
       <h1 className="subhead-b px-5 text-black">내 상품 현황</h1>
 
-      {item && item.length > 0 ? (
-        <Swiper
-          className="mx-5 w-full overflow-visible"
-          centeredSlides={true}
-          grabCursor={true}
-          modules={[A11y, Navigation, Pagination]}
-          spaceBetween={12}
-          slidesPerView={1}
-          mousewheel={true}
-          navigation
-          pagination={{
-            clickable: true,
-            renderBullet: (index: number, className: string) => {
-              return `<div class="${className} custom-bullet" tabindex=${index}  ></div>`;
-            },
-          }}
-          aria-label="내 상품 현황 슬라이드"
-        >
-          <SwiperSlide>
-            <StatusCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <StatusCard />
-          </SwiperSlide>
-        </Swiper>
+      {items && items.length > 0 ? (
+        <ul className="flex flex-col gap-5 px-5">
+          {items.map((item) => (
+            <StatusCard key={item.itemId} item={item} />
+          ))}
+        </ul>
       ) : (
         <section className="relative flex w-full flex-col gap-2">
           <div className="flex w-full px-5">
@@ -74,9 +47,9 @@ const MyProductStatus = () => {
 
 export default MyProductStatus;
 
-const StatusCard = () => {
+const StatusCard = ({ item }: { item: SellerHomeItemStatus }) => {
   return (
-    <div
+    <li
       role="group"
       aria-label="상품 카드"
       className="flex w-full shrink-0 flex-col items-start gap-5 rounded bg-white p-4 shadow-[0px_0px_8px_0px_rgba(43,43,43,0.10)]"
@@ -91,19 +64,15 @@ const StatusCard = () => {
         />
         {/* 우측 상품 정보 */}
         <div className="flex h-20 flex-1 flex-col justify-between gap-[1.125rem]">
-          <p className="body2-m line-clamp-2 text-black">
-            단돈 40만원대로 방콕 풀패키지 여행 (초특가)로 방콕 풀패키지 여행 s
-            단돈 40만원대로 방콕 풀패키지 여행 (초특가)로 방콕 풀패키지 여행 s
+          <p className="body2-m line-clamp-2 flex h-full items-center text-black">
+            {item.itemTitle}
           </p>
           <div className="flex w-full items-start justify-between">
             <div className="flex">
-              <TimeChip
-                open="2025-07-01T06:34:07.837159"
-                deadline="2025-07-11T06:34:07.837159"
-              />
-              <PeriodChip period={11} />
+              <PeriodChip period={item.itemPeriod} />
+              <TimeChip open={item.startDate} deadline={item.endDate} />
             </div>
-            <span className="caption-m text-grey08">3일 뒤 마감</span>
+            <span className="caption-m text-grey08">{`${getDday(new Date(item.endDate))}일 뒤 마감`}</span>
           </div>
         </div>
       </article>
@@ -112,10 +81,14 @@ const StatusCard = () => {
         {/* 질문 개수 및 오른족 화살표 */}
         <div className="flex w-full items-center justify-between">
           <div className="body2-sb flex items-center gap-1">
-            <div className="bg-main h-1.5 w-1.5 rounded-full" />
-            <span className="text-black">새 질문 3개</span>
+            {item.newQuestions > 0 && (
+              <div className="bg-main h-1.5 w-1.5 rounded-full" />
+            )}
+            <span className="text-black">새 질문 {item.newQuestions}개</span>
             <span className="text-grey09 caption-b mx-0.5">/</span>
-            <span className="text-grey08">전체 12개</span>
+            <span className="text-grey08">
+              전체 {item.totalPendingQuestions}개
+            </span>
           </div>
           <button
             className="cursor-pointer"
@@ -126,17 +99,21 @@ const StatusCard = () => {
           </button>
         </div>
         {/* 아래 흰색 박스 */}
-        <div className="flex flex-col items-center justify-center self-stretch rounded-[.1875rem] bg-white p-3">
-          <div className="flex w-full justify-start gap-1">
-            <span className="text-sub body1-sb">#할인코드</span>
-          </div>
-          <div className="flex w-full justify-start gap-1">
+        {item.topCategories.length > 0 ? (
+          <div className="flex h-[4.5rem] w-full flex-col justify-center gap-1 rounded-[.1875rem] bg-white p-3">
+            <div className="text-sub body1-sb line-clamp-1 w-full overflow-hidden text-ellipsis whitespace-nowrap">
+              {item.topCategories.map((category) => `#${category}`).join(' ')}
+            </div>
             <span className="body1-m text-black">
               질문이 가장 많이 들어오고 있어요!
             </span>
           </div>
-        </div>
+        ) : (
+          <div className="body1-m text-grey08 flex h-[4.5rem] w-full rounded-[.1875rem] bg-white p-3">
+            아직 들어온 질문이 없어요!
+          </div>
+        )}
       </article>
-    </div>
+    </li>
   );
 };

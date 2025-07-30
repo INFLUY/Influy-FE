@@ -7,7 +7,7 @@ export type SellerItemPreviewList = {
   startDate?: string;
   endDate?: string;
   tagline?: string;
-  currentStatus: 'DEFAULT' | 'EXTEND' | 'SOLD_OUT';
+  currentStatus: ItemCurrentStatusType;
   liked: false;
   talkBoxInfo: {
     talkBoxOpenStatus: 'INITIAL' | 'OPENED' | 'CLOSED';
@@ -89,3 +89,16 @@ export type ItemPreviewList = {
 };
 
 export type ItemCurrentStatusType = 'DEFAULT' | 'EXTEND' | 'SOLD_OUT';
+
+export type SellerHomeItemStatus = {
+  itemId: number;
+  imageUrl: string;
+  itemStatus: ItemCurrentStatusType;
+  itemPeriod: number;
+  itemTitle: string;
+  startDate: string;
+  endDate: string;
+  totalPendingQuestions: number;
+  newQuestions: number;
+  topCategories: string[] | [];
+};
