@@ -16,7 +16,7 @@ import { CategoryType } from '@/types/common/CategoryType.types';
 import { FaqQuestion } from '@/types/common/ItemType.types';
 import { Outlet, useLocation } from 'react-router-dom';
 import cn from '@/utils/cn';
-import { SELLER_ITEM_DEATIL } from '@/utils/generatePath';
+import { SELLER_ITEM_DETAIL } from '@/utils/generatePath';
 import { useSnackbarStore } from '@/store/snackbarStore';
 
 export const dummyCategory: CategoryType[] = [
@@ -202,7 +202,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       const itemId: number = 1;
 
       //if success
-      navigate(generatePath(SELLER_ITEM_DEATIL, { itemId }));
+      navigate(generatePath(SELLER_ITEM_DETAIL, { itemId }));
       // TODO: '상품이 보관되었습니다.' 스낵바 띄우기
     } catch (error) {}
   };
@@ -259,7 +259,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
     const itemId: number = 1;
 
     //if success
-    navigate(generatePath(SELLER_ITEM_DEATIL, { itemId }));
+    navigate(generatePath(SELLER_ITEM_DETAIL, { itemId }));
     // TODO: '상품이 게시되었습니다.' 스낵바 띄우기
   };
 

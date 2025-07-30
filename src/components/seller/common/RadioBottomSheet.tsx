@@ -1,31 +1,31 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import RadioInputSelector from '@/components/seller/common/RadioInputSelector';
 import { DefaultButton } from '@/components/seller/common/Button';
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
 
 const RadioBottomSheet = ({
   title,
+  itemId,
   description,
   list,
-  isOpen,
-  setIsOpen,
+  closeModal,
 }: {
   title: string;
+  itemId?: number;
   description?: string;
   list: RadioInputList[];
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<SetStateAction<boolean>>;
+  closeModal: () => void;
 }) => {
   const [sortSelected, setSortSelected] = useState<number>(0);
 
   const handleClickSaveSortBy = () => {
-    console.log(sortSelected);
-    setIsOpen(false);
+    console.log(sortSelected, itemId); // TODO: 백 연동
+    closeModal();
   };
 
   return (
-    <BottomSheet onClose={() => setIsOpen(false)} isBottomSheetOpen={isOpen}>
+    <BottomSheet onClose={closeModal} isBottomSheetOpen>
       <div className="flex flex-col items-center">
         <span className="flex flex-col items-center gap-[.125rem]">
           <h1 className="subhead-b text-grey10 w-full text-center">{title}</h1>
