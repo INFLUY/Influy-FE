@@ -213,28 +213,34 @@ const HomePage = () => {
           </div>
 
           {/* 사진 */}
-          <div className="flex w-full gap-0.5 px-5">
-            {pickMockData.map((item, index) => (
-              <div
-                className="aspect-square flex-1/3"
-                key={index}
-                onClick={() =>
-                  navigate(
-                    generatePath(ITEM_DEATIL, {
-                      marketId: item.sellerId,
-                      itemId: item.itemId,
-                    })
-                  )
-                }
-              >
-                <img
-                  src={item.image}
-                  className="h-full w-full rounded-[.125rem] object-cover"
-                  alt={item.name ?? '내 취향의 인플루언서 ㅇㅇ님이 픽한 상품'}
-                />
-              </div>
-            ))}
-          </div>
+          {pickMockData.length > 0 ? (
+            <div className="flex w-full gap-0.5 px-5">
+              {pickMockData.map((item, index) => (
+                <div
+                  className="aspect-square flex-1/3"
+                  key={index}
+                  onClick={() =>
+                    navigate(
+                      generatePath(ITEM_DEATIL, {
+                        marketId: item.sellerId,
+                        itemId: item.itemId,
+                      })
+                    )
+                  }
+                >
+                  <img
+                    src={item.image}
+                    className="h-full w-full rounded-[.125rem] object-cover"
+                    alt={item.name ?? '내 취향의 인플루언서 ㅇㅇ님이 픽한 상품'}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="body1-sb flex h-[6.875rem] items-center justify-center">
+              아직 등록된 상품이 없어요
+            </div>
+          )}
         </section>
         <HomeCommonSection
           expiringItem={expiringItem?.pages[0].result?.itemPreviewList || []}

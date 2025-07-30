@@ -11,7 +11,7 @@ export const getHomeQuestionList = async ({
   size: number;
 }): Promise<ApiResponse<Pagination<SellerHomeItemStatus | [], 'itemList'>>> => {
   const response = await instance.get(
-    SELLER_API_DOMAINS.SELLR_MY_HOME_QUESTIONS,
+    SELLER_API_DOMAINS.SELLER_MY_HOME_QUESTIONS,
     {
       params: { page, size },
     }
