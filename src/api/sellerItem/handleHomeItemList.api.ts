@@ -25,3 +25,37 @@ export const getRecommendedItem = async ({
   });
   return response.data;
 };
+
+export const getPopularItem = async ({
+  page,
+  size,
+}: {
+  page: number;
+  size: number;
+}): Promise<
+  ApiResponse<Pagination<ItemCardType[] | [], 'itemPreviewList'>>
+> => {
+  const params: Record<string, number> = { page, size };
+
+  const response = await instance.get(API_DOMAINS.HOME_POPULAR, {
+    params,
+  });
+  return response.data;
+};
+
+export const getCloseDeadlineItem = async ({
+  page,
+  size,
+}: {
+  page: number;
+  size: number;
+}): Promise<
+  ApiResponse<Pagination<ItemCardType[] | [], 'itemPreviewList'>>
+> => {
+  const params: Record<string, number> = { page, size };
+
+  const response = await instance.get(API_DOMAINS.HOME_CLOSE_DEADLINE, {
+    params,
+  });
+  return response.data;
+};

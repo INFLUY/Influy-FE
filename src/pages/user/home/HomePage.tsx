@@ -18,6 +18,8 @@ import { ITEM_DEATIL, MARKET_DEATIL } from '@/utils/generatePath';
 import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
 import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
 import { useGetRecommendedItem } from '@/services/sellerItem/query/useGetRecommendedItem';
+import { useGetCloseDeadlineItem } from '@/services/sellerItem/query/useGetCloseDeadlineItem';
+import { useGetPopularItem } from '@/services/sellerItem/query/useGetPopularItem';
 
 interface TopBannerItem {
   image: string;
@@ -139,6 +141,12 @@ const HomePage = () => {
   const itemCategories = useGetItemCategory();
 
   const { data: sellerMyProfile } = useGetSellerProfile();
+  const { data: expiringItem } = useGetCloseDeadlineItem({
+    size: 4,
+  });
+  const { data: trendingItem } = useGetPopularItem({
+    size: 3,
+  });
   const { data: recommendItems } = useGetRecommendedItem({
     categoryId: selectedCategory === 0 ? null : selectedCategory,
     size: 4,
@@ -229,8 +237,8 @@ const HomePage = () => {
           </div>
         </section>
         <HomeCommonSection
-          expiringItem={[]}
-          trendingItem={[]}
+          expiringItem={expiringItem?.pages[0].result?.itemPreviewList || []}
+          trendingItem={trendingItem?.pages[0].result?.itemPreviewList || []}
           recommendedItem={
             recommendItems?.pages[0].result?.itemPreviewList || []
           }
