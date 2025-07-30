@@ -13,7 +13,7 @@ export const usePatchMarketLink = (onSuccessCallback?: () => void) => {
     mutationFn: ({ data, linkId }: { data: BaseLinkType; linkId: number }) =>
       patchMarketLink({ sellerId: sellerId!, data, linkId }),
     onSuccess: () => {
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_MARKET_LINKS, sellerId],
       });
       onSuccessCallback?.();

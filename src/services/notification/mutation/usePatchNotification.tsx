@@ -20,10 +20,10 @@ export const usePatchNotification = (onSuccessCallback?: () => void) => {
       isPrimary?: boolean;
     }) => patchNotification({ data, announcementId, isPrimary }),
     onSuccess: () => {
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_ANNOUNCEMENT, sellerId],
       });
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_PRIMARY_ANNOUNCEMENT, sellerId],
       });
       if (onSuccessCallback) onSuccessCallback();

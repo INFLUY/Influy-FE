@@ -12,7 +12,7 @@ export const usePostMarketLinks = (onSuccessCallback?: () => void) => {
   return useMutation({
     mutationFn: (data: BaseLinkType) => postMarketLink({ data }),
     onSuccess: () => {
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_MARKET_LINKS, sellerId],
       });
       onSuccessCallback?.();

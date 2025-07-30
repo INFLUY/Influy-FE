@@ -11,7 +11,7 @@ export const useDeleteMarketLink = (onSuccessCallback?: () => void) => {
   return useMutation({
     mutationFn: (linkId: number) => deleteMarketLink({ linkId }),
     onSuccess: () => {
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_MARKET_LINKS, sellerId],
       });
       onSuccessCallback?.();

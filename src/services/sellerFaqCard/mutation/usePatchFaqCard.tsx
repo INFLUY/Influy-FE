@@ -18,10 +18,10 @@ export const usePatchFaqCard = (onSuccessCallback?: () => void) => {
     }: FaqCardRequestType & { faqCardId: number }) =>
       patchFaqCard({ sellerId, faqCardId, itemId, data }),
     onSuccess: (_, variables) => {
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, variables.itemId, sellerId],
       });
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, sellerId],
       });
       onSuccessCallback?.();

@@ -18,10 +18,10 @@ export const usePostFaqCard = (onSuccessCallback?: () => void) => {
     }: FaqCardRequestType) =>
       postFaqCard({ sellerId, faqCategoryId, itemId, data }),
     onSuccess: (_, variables) => {
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, variables.itemId, sellerId],
       });
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, sellerId],
       });
       onSuccessCallback?.();

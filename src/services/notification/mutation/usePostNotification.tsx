@@ -12,10 +12,10 @@ export const usePostNotification = (onSuccessCallback?: () => void) => {
   return useMutation({
     mutationFn: (data: BaseNotice) => postNotification({ data }),
     onSuccess: () => {
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_ANNOUNCEMENT, sellerId],
       });
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_PRIMARY_ANNOUNCEMENT, sellerId],
       });
       if (onSuccessCallback) onSuccessCallback();
