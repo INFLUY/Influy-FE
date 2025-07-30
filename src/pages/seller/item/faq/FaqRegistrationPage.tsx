@@ -61,8 +61,6 @@ const FaqRegistrationPage = () => {
 
   const {
     handleSubmit,
-    getValues,
-    setValue,
     formState: { isSubmitting, isValid },
   } = methods;
 

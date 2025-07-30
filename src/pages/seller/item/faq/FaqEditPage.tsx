@@ -77,8 +77,6 @@ const FaqEditPage = () => {
 
   const {
     handleSubmit,
-    getValues,
-    setValue,
     formState: { isSubmitting, isValid },
   } = methods;
 
