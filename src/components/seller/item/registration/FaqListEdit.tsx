@@ -44,7 +44,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import {
   SELLER_ITEM_FAQ_EDIT_PATH,
-  SELLER_ITEM_FAQ_PATH,
+  SELLER_ITEM_FAQ_REGISTER_PATH,
 } from '@/utils/generatePath';
 import { useSnackbarStore } from '@/store/snackbarStore';
 
@@ -206,7 +206,9 @@ const FaqListEdit = ({
               ))}
             <AddButton
               handleOnClick={() =>
-                navigate(generatePath(SELLER_ITEM_FAQ_PATH, { itemId }))
+                navigate(
+                  generatePath(SELLER_ITEM_FAQ_REGISTER_PATH, { itemId })
+                )
               }
             >
               FAQ 추가하기
@@ -467,11 +469,11 @@ const FaqQuestionCard = ({
           <button
             type="button"
             className="text-grey09 flex cursor-pointer items-center justify-center gap-0.5 self-end"
-            onClick={() =>
+            onClick={() => {
               navigate(
                 generatePath(SELLER_ITEM_FAQ_EDIT_PATH, { itemId, faqId: id })
-              )
-            }
+              );
+            }}
           >
             <span className="body2-sb">수정하기</span>
             <RightIcon className="h-3.5 w-3.5" />

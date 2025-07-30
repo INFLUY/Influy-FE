@@ -67,9 +67,6 @@ const FaqEditPage = () => {
       isPinned: prevFaq.pinned,
       adjustImg: prevFaq.adjustImg,
     });
-    setValue('adjustImg', prevFaq.adjustImg);
-    setValue('isPinned', prevFaq.pinned);
-    setValue('category', prevFaq.faqCategoryId);
     setUpdatedAt(prevFaq.updatedAt);
   }, []);
 

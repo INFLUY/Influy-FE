@@ -307,7 +307,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
                 requiredFieldsRef,
                 faqCategory: dummyCategory,
                 faqQuestions: dummyFaqQuestion,
-                itemId: 1,
+                itemId: 5,
               }}
             />
           </div>
