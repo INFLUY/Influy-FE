@@ -30,6 +30,7 @@ export const API_DOMAINS = {
 
   // user
   USER_JOIN: '/member/register/user',
+  USER_MY_PROFILE: '/member/:memberId/profile',
 };
 
 export const SELLER_API_DOMAINS = {
@@ -50,4 +51,6 @@ export const QUERY_KEYS = {
   ITEM_CATEGORIES: 'itemCategories',
 
   SELLER_MY_PROFILE: 'sellerMyProfile',
+
+  USER_MY_PROFILE: 'userMyProfile',
 };

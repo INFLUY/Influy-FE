@@ -1,4 +1,4 @@
-import { BottomNavBar, PageHeader } from '@/components';
+import { BottomNavBar, LoadingSpinner, PageHeader } from '@/components';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { VanillaProfileImageUploader } from '@/components/common/VanillaProfileImageUploader';
@@ -6,20 +6,19 @@ import { useState } from 'react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import ArrowIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 import { PATH } from '@/routes/path';
+import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';
 
 const MyPage = () => {
   const navigate = useNavigate();
 
-  const userProfile = {
-    id: 1,
-    username: '@crazy_dog',
-    nickname: '이민용',
-    profileImg: '',
-    createdAt: '2025-07-06T15:54:43.186Z',
-  };
+  const { data: userProfile } = useGetUserProfile();
 
-  const [profileImg, setProfileImg] = useState<string>(
-    userProfile.profileImg ?? ''
+  if (!userProfile) {
+    return <LoadingSpinner />;
+  }
+
+  const [profileImg, setProfileImg] = useState<string | null>(
+    userProfile.profileImg
   );
 
   const menuItems = [
@@ -61,7 +60,7 @@ const MyPage = () => {
               />
             </div>
             <div aria-label="" className="body2-sb text-grey08">
-              {userProfile?.username}
+              @{userProfile?.username}
             </div>
           </div>
         </article>

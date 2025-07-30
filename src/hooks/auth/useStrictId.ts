@@ -1,8 +1,11 @@
+import { PATH } from '@/routes/path';
 import { useAuthStore } from '@/store/authStore';
 import { useEffect, useRef, useState } from 'react';
 
+// 유저나 셀러가 아니어도 괜찮은 경우, 즉 튕길 필요 없는 경우 사용!!
+
 /** 토큰 재발급 로직 건너뛰고 싶으면 skip = true */
-export const useStrictId = ({ skip = false } = {}) => {
+export const useStrictId = ({ skip = false, redirectOnFail = false } = {}) => {
   const { memberId, sellerId, reissue } = useAuthStore();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [authState, setAuthState] = useState<{
@@ -50,6 +53,10 @@ export const useStrictId = ({ skip = false } = {}) => {
       } catch (e) {
         console.error('토큰 재발급 실패', e);
         setAuthState({ needsLogin: true, memberId, sellerId: null });
+        if (redirectOnFail) {
+          window.location.replace(PATH.LOGIN.BASE);
+          sessionStorage.setItem('lastPath', window.location.pathname);
+        }
       } finally {
         setIsLoading(false);
         isRefreshingRef.current = false;

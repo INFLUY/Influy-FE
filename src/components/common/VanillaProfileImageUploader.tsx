@@ -5,7 +5,7 @@ import CameraCircleIcon from '@/assets/icon/common/CameraCircle.svg?react';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 
 type VanillaProfileImageUploaderProps = {
-  value: string;
+  value: string | null;
   onChange: (value: string) => void;
 };
 
@@ -39,7 +39,7 @@ export const VanillaProfileImageUploader = ({
           className="absolute right-0 bottom-0 cursor-pointer"
         />
         <img
-          src={value === '' ? ProfileIcon : value}
+          src={value ?? ProfileIcon}
           alt={'프로필 이미지'}
           className="h-full w-full rounded-full object-cover"
         />
