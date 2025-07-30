@@ -9,6 +9,7 @@ import { generatePath, useNavigate } from 'react-router-dom';
 import { SELLER_ITEM_DEATIL } from '@/utils/generatePath';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { ItemPreviewList } from '@/types/common/ItemType.types';
+import { formatKrDate } from '@/utils/formatDate';
 
 const RadioBottomSheet = lazy(
   () => import('@/components/seller/common/RadioBottomSheet')
@@ -66,9 +67,12 @@ const SellerMyItem = ({ item }: { item: ItemPreviewList }) => {
             {/* 제목 */}
             <h1 className="body2-m line-clamp-2">{item?.itemName}</h1>
             {/* 기간 */}
-            <p className="caption-m text-grey09 flex">
-              2025.03.12(수)~03.23(토)
-            </p>
+            {item?.startDate && item?.endDate && (
+              <p className="caption-m text-grey09 flex">
+                {formatKrDate(item?.startDate)}~{formatKrDate(item?.endDate)}
+                2025.03.12(수)~03.23(토)
+              </p>
+            )}
 
             {/* 칩 */}
             <span className="caption-m text-grey07 flex items-center gap-1">

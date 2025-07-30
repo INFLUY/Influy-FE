@@ -93,3 +93,18 @@ export const formatFullDateWithDay = ({
 export const parseDateString = (dateString: string) => {
   return dateString.split('T')[0].replace(/-/g, '.');
 };
+
+export const formatKrDate = (DateISO: string) => {
+  const days = ['일', '월', '화', '수', '목', '금', '토'];
+  const date = new Date(DateISO);
+  const startDay = days[date.getDay()];
+
+  const startFormatted = `${date.getFullYear()}.${(date.getMonth() + 1)
+    .toString()
+    .padStart(
+      2,
+      '0'
+    )}.${date.getDate().toString().padStart(2, '0')}(${startDay})`;
+
+  return `${startFormatted}`;
+};
