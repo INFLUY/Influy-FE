@@ -5,38 +5,31 @@ import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import UserTypeSwithBanner from '@/components/seller/home/UserTypeSwitchBanner';
 import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
 import { SellerHomeItemStatus } from '@/types/common/ItemType.types';
+import { useGetHomeQuestions } from '@/services/sellerItem/query/useGetHomeQuestions';
+import { useRef } from 'react';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 
 const SellerHomePage = () => {
   const { data: sellerMyProfile } = useGetSellerProfile();
+  const {
+    data: homeItemData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetHomeQuestions({ size: 8 });
 
-  //임시
-  const items: SellerHomeItemStatus[] | [] = [
-    {
-      itemId: 1,
-      imageUrl: '/image.png',
-      itemStatus: 'DEFAULT',
-      itemPeriod: 2,
-      itemTitle: '신나는 여행 패키지',
-      startDate: '2025-06-30T10:47:28.124Z',
-      endDate: '2025-08-30T10:47:28.124Z',
-      totalPendingQuestions: 12,
-      newQuestions: 3,
-      topCategories: ['일자 조정', '인원 수 문의', '날짜'],
-    },
-    {
-      itemId: 2,
-      imageUrl: '/image.png',
-      itemStatus: 'DEFAULT',
-      itemPeriod: 1,
-      itemTitle:
-        '단돈 40만원대로 방콕 풀패키지 여행 (초특가)로 방콕 풀패키지 여행',
-      startDate: '2025-08-03T10:47:28.124Z',
-      endDate: '2025-09-30T10:47:28.124Z',
-      totalPendingQuestions: 12,
-      newQuestions: 0,
-      topCategories: [],
-    },
-  ];
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useInfiniteScroll({
+    targetRef: observerRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
+
+  const itemList = homeItemData?.pages
+    .flatMap((page) => page?.result?.itemList ?? [])
+    .filter(Boolean) as SellerHomeItemStatus[];
 
   return (
     <section className="bg-grey01 relative mt-11 flex w-full flex-1 flex-col pb-16">
@@ -67,7 +60,7 @@ const SellerHomePage = () => {
           </span>
         )}
 
-        <MyProductStatus items={items} />
+        <MyProductStatus items={itemList} />
 
         <BottomNavBar userType="SELLER" />
       </section>

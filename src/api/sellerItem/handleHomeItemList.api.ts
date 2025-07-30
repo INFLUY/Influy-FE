@@ -35,10 +35,8 @@ export const getPopularItem = async ({
 }): Promise<
   ApiResponse<Pagination<ItemCardType[] | [], 'itemPreviewList'>>
 > => {
-  const params: Record<string, number> = { page, size };
-
   const response = await instance.get(API_DOMAINS.HOME_POPULAR, {
-    params,
+    params: { page, size },
   });
   return response.data;
 };
@@ -52,10 +50,8 @@ export const getCloseDeadlineItem = async ({
 }): Promise<
   ApiResponse<Pagination<ItemCardType[] | [], 'itemPreviewList'>>
 > => {
-  const params: Record<string, number> = { page, size };
-
   const response = await instance.get(API_DOMAINS.HOME_CLOSE_DEADLINE, {
-    params,
+    params: { page, size },
   });
   return response.data;
 };

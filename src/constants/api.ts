@@ -39,6 +39,7 @@ export const API_DOMAINS = {
 
 export const SELLER_API_DOMAINS = {
   SELLER_MY_PROFILE: '/seller/profile',
+  SELLR_MY_HOME_QUESTIONS: '/seller/home/questions',
 };
 
 export const QUERY_KEYS = {
@@ -55,6 +56,7 @@ export const QUERY_KEYS = {
   ITEM_CATEGORIES: 'itemCategories',
 
   SELLER_MY_PROFILE: 'sellerMyProfile',
+  SELLER_MY_HOME_QUESTIONS: 'sellerMyHomeQuestions',
 
   USER_MY_PROFILE: 'userMyProfile',
 
