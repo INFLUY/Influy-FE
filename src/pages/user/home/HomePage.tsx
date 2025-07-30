@@ -12,7 +12,7 @@ import { useState } from 'react';
 import InfluencerCard, {
   InfluencerCardType,
 } from '@/components/user/home/InfluencerCard';
-import UserTypeSwithBanner from '@/components/seller/home/UserTypeSwitchBanner';
+import UserTypeSwitchBanner from '@/components/seller/home/UserTypeSwitchBanner';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { ITEM_DEATIL, MARKET_DEATIL } from '@/utils/generatePath';
 import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
@@ -51,7 +51,7 @@ export const topBannerMockData: TopBannerItem[] = [
 
 export const influencerMockData: InfluencerCardType[] = [
   {
-    id: 1,
+    id: 7,
     nickname: '혜선',
     username: '@thgusth',
     profileImage: '/profile.png',
@@ -136,7 +136,7 @@ const HomePage = () => {
     id: 0,
     name: '전체',
   };
-  const [selectedInfluencer, setSelectedInfluencer] = useState<number>(1);
+  const [selectedInfluencer, setSelectedInfluencer] = useState<number>(7);
 
   const itemCategories = useGetItemCategory();
 
@@ -174,13 +174,16 @@ const HomePage = () => {
       <section className="scrollbar-hide flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
         {sellerMyProfile && (
           <span className="flex w-full px-5 pt-4 pb-7">
-            <UserTypeSwithBanner influencer={sellerMyProfile} userType="user" />
+            <UserTypeSwitchBanner
+              influencer={sellerMyProfile}
+              userType="user"
+            />
           </span>
         )}
         <TopBannerSwiper data={topBannerMockData} />
         <section className="flex w-full flex-col gap-4 pt-7 pb-3">
           <h1 className="subhead-b px-5 text-black">요즘 핫한 인플루언서</h1>
-          <ul className="scrollbar-hide flex gap-6 overflow-x-scroll px-5">
+          <ul className="scrollbar-hide flex gap-6 overflow-x-auto px-5">
             {influencerMockData.map((influencer) => (
               <InfluencerCard
                 key={influencer.id}

@@ -3,7 +3,7 @@ import UserTypeToggleButton from '@/components/seller/home/UserTypeToggleButton'
 import MyIcon from '@/assets/icon/seller/MyNavbar.svg';
 import { SellerProfileType } from '@/types/seller/SellerProfile.types';
 
-const UserTypeSwithBanner = ({
+const UserTypeSwitchBanner = ({
   influencer,
   userType,
 }: {
@@ -40,4 +40,4 @@ const UserTypeSwithBanner = ({
   );
 };
 
-export default UserTypeSwithBanner;
+export default UserTypeSwitchBanner;

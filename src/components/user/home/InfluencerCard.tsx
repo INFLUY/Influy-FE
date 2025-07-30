@@ -16,7 +16,7 @@ const InfluencerCard = ({
 }) => {
   return (
     <li
-      className="flex cursor-pointer flex-col items-center gap-2"
+      className="flex shrink-0 cursor-pointer flex-col items-center gap-2"
       onClick={() => setSelectedInfluencer(influencer.id)}
     >
       <div className="relative h-fit w-fit">

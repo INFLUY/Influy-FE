@@ -2,7 +2,7 @@ import { PageHeader, MyProductStatus, BottomNavBar } from '@/components';
 import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
-import UserTypeSwithBanner from '@/components/seller/home/UserTypeSwitchBanner';
+import UserTypeSwitchBanner from '@/components/seller/home/UserTypeSwitchBanner';
 import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
 import { SellerHomeItemStatus } from '@/types/common/ItemType.types';
 import { useGetHomeQuestions } from '@/services/sellerItem/query/useGetHomeQuestions';
@@ -53,7 +53,7 @@ const SellerHomePage = () => {
       <section className="scrollbar-hide flex w-full flex-1 flex-col gap-4 overflow-x-hidden overflow-y-auto py-4">
         {sellerMyProfile && (
           <span className="w-full px-5">
-            <UserTypeSwithBanner
+            <UserTypeSwitchBanner
               influencer={sellerMyProfile}
               userType="influencer"
             />
