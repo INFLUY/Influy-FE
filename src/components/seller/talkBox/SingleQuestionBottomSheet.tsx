@@ -6,19 +6,14 @@ import {
   SellerReplyBubble,
   TalkBoxBottomSheetLayout,
 } from '@/components';
-import {
-  QuestionDTO,
-  SingleQuestionAnswerDTO,
-} from '@/types/seller/TalkBox.types';
+
 import { generatePath, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
+import { SELLER_ITEM_FAQ_REGISTER_PATH } from '@/utils/generatePath';
 
 import { useModalStore } from '@/store/useModalStore';
 import { useSnackbarStore } from '@/store/snackbarStore';
-import {
-  useSelectModeStore,
-  useTalkBoxQuestionStore,
-} from '@/store/talkBoxStore';
+import { useSelectModeStore } from '@/store/talkBoxStore';
 import { useBottomSheetContext } from '@/contexts/TalkBoxCategoryContext';
 
 import { formatDate } from '@/utils/formatDate';
@@ -117,20 +112,19 @@ const SingleQuestionBottomSheet = ({
     });
   };
 
-  const handleFaqRegister = () => {
+  const handleFaqRegister = (answer: string) => {
     // TODO: 에러 처리
-    // if (!itemId) return;
-    // const path = generatePath(
-    //   `${PATH.SELLER.base}/${PATH.SELLER.items.base}/${PATH.SELLER.items.item.administration.base}/${PATH.SELLER.items.item.administration.faq.base}/${PATH.SELLER.items.item.administration.faq.registration.base}`,
-    //   { itemId: String(itemId) }
-    // );
-    // navigate(path, {
-    //   state: {
-    //     talkBoxQ: question.content,
-    //     talkBoxA: '답변답변',
-    //     talkBoxCategoryId: 1,
-    //   }, // TODO: 답변, 카테고리 수정
-    // });
+    if (!itemId) return;
+    const path = generatePath(SELLER_ITEM_FAQ_REGISTER_PATH, {
+      itemId: String(itemId),
+    });
+    navigate(path, {
+      state: {
+        talkBoxQ: singleQuestion?.questionDto.content,
+        talkBoxA: answer,
+        talkBoxCategoryId: questionCategoryId,
+      },
+    });
   };
 
   const handleBottomSheetClose = () => {
@@ -167,7 +161,7 @@ const SingleQuestionBottomSheet = ({
                 reply={answer.answerContent}
                 date={answer.answerTime}
                 questioner={singleQuestion.questionDto.username}
-                onClickFaq={handleFaqRegister}
+                onClickFaq={() => handleFaqRegister(answer.answerContent)}
                 key={answer.answerId}
                 answerType={answer.answerType}
               />
