@@ -44,7 +44,7 @@ const FaqRegistrationPage = () => {
   const { showSnackbar } = useSnackbarStore();
 
   // 톡박스에서 질문 등록하기로 올 경우 질문, 답변 자동 입력
-  const { talkBoxQ, talkBoxA, talkBoxCategoryId } = useLocation().state;
+  const { talkBoxQ, talkBoxA } = useLocation().state;
 
   const categoryRef = useRef<HTMLDivElement | null>(null);
 
@@ -55,8 +55,8 @@ const FaqRegistrationPage = () => {
     shouldFocusError: false,
     defaultValues: {
       category: undefined,
-      question: '',
-      answer: '',
+      question: talkBoxQ ?? '',
+      answer: talkBoxA ?? '',
       image: '',
       isPinned: false,
       adjustImg: false,

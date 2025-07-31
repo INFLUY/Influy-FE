@@ -113,7 +113,6 @@ const SingleQuestionBottomSheet = ({
   };
 
   const handleFaqRegister = (answer: string) => {
-    // TODO: 에러 처리
     if (!itemId) return;
     const path = generatePath(SELLER_ITEM_FAQ_REGISTER_PATH, {
       itemId: String(itemId),
@@ -122,7 +121,6 @@ const SingleQuestionBottomSheet = ({
       state: {
         talkBoxQ: singleQuestion?.questionDto.content,
         talkBoxA: answer,
-        talkBoxCategoryId: questionCategoryId,
       },
     });
   };
