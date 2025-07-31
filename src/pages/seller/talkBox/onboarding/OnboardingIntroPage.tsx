@@ -6,7 +6,7 @@ import { PATH } from '@/routes/path';
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
 import { useEffect } from 'react';
 
-import { LottieViewer } from '@/components/seller/talkBox/onboarding/LottieViewer';
+import { OnboardingLottieSwiper } from '@/components/seller/talkBox/onboarding/LottieViewer';
 
 const OnboardingIntroPage = () => {
   const navigate = useNavigate();
@@ -22,12 +22,12 @@ const OnboardingIntroPage = () => {
   useEffect(() => {
     if (itemOverview && itemOverview?.talkBoxOpenStatus !== 'INITIAL') {
       //  TODO: 수정 필요
-      navigate(PATH.SELLER.TALK_BOX.BASE, { replace: true });
+      navigate('../', { replace: true });
     }
   }, [itemOverview]);
 
   return (
-    <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+    <section className="bg-grey01 scrollbar-hide relative mt-11 flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
       <PageHeader
         leftIcons={[
           <ArrowLeftIcon
@@ -42,7 +42,7 @@ const OnboardingIntroPage = () => {
       >
         질문관리
       </PageHeader>
-      <LottieViewer />
+      <OnboardingLottieSwiper />
       {itemOverview && itemId && (
         <TalkBoxBottomItemCard
           itemId={itemId}
@@ -52,7 +52,7 @@ const OnboardingIntroPage = () => {
           isClosedItem={itemOverview.talkBoxOpenStatus === 'CLOSED'}
         />
       )}
-      <section className="flex h-screen w-full items-end px-5 pb-[4.8125rem]">
+      <section className="flex w-full px-5 pb-[4.8125rem]">
         <DefaultButton
           text="지금 바로 시작하기"
           onClick={() => {

@@ -7,13 +7,12 @@ import {
   generatePath,
 } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ActivateStep,
   CategorizeStep,
 } from '@/components/seller/talkBox/onboarding/OnboardingStep';
 import { LoadingSpinner } from '@/components';
-import { QuestionCategoryDTO } from '@/types/seller/TalkBox.types';
 
 //api
 import { usePostGenerateQuestionCategory } from '@/services/talkBox/mutation/usePostGenerateQuestionCategory';
