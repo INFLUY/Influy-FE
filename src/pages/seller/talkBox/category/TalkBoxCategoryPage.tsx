@@ -127,7 +127,7 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
         {/* TODO: opened 처리 */}
         {itemOverview && (
           <TalkBoxBottomItemCard
-            onCardClick={() => {}}
+            itemId={itemId}
             itemName={itemOverview.itemName}
             tagline={itemOverview.tagline}
             mainImg={itemOverview.mainImg}

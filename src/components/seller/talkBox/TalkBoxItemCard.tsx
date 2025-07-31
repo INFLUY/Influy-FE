@@ -1,7 +1,8 @@
 import { QuestionCountBadge } from '@/components';
 import { TalkBoxOpenedItem } from '@/types/common/ItemType.types';
-import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
+import { SELLER_ITEM_DETAIL } from '@/utils/generatePath';
+import { useNavigate, generatePath } from 'react-router-dom';
 import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 
 export const TalkBoxItemCard = ({ item }: { item: TalkBoxOpenedItem }) => {
@@ -51,19 +52,25 @@ export const TalkBoxItemCard = ({ item }: { item: TalkBoxOpenedItem }) => {
 };
 
 export const TalkBoxBottomItemCard = ({
-  onCardClick,
+  itemId,
   itemName,
   tagline,
   mainImg,
 }: {
-  onCardClick: () => void;
+  itemId?: string;
   itemName: string;
   tagline: string | null;
   mainImg: string | null;
 }) => {
+  const navigate = useNavigate();
+  const handleItemOverViewClick = () => {
+    if (!itemId) return;
+    const path = generatePath(SELLER_ITEM_DETAIL, { itemId });
+    navigate(path);
+  };
   return (
     <button
-      onClick={onCardClick}
+      onClick={handleItemOverViewClick}
       aria-label={`${itemName} 상세로 이동`}
       className="border-t-grey03 fixed bottom-0 z-1 flex h-fit w-full max-w-[40rem] min-w-[20rem] cursor-pointer items-center gap-[.5625rem] self-stretch border-t border-solid bg-white px-5 py-2 md:w-[28rem]"
     >

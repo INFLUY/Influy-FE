@@ -45,7 +45,7 @@ const OnboardingIntroPage = () => {
       <LottieViewer />
       {itemOverview && (
         <TalkBoxBottomItemCard
-          onCardClick={() => {}}
+          itemId={itemId}
           itemName={itemOverview.itemName}
           tagline={itemOverview.tagline}
           mainImg={itemOverview.mainImg}
