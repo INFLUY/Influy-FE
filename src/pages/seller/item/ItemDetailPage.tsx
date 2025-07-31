@@ -18,6 +18,8 @@ import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { dummyCategory, dummyFaq, dummyItem } from './ItemDetailDummyData';
 import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
 import { CategoryType } from '@/types/common/CategoryType.types';
+import TalkBoxIcon from '@/assets/icon/common/TalkBoxIcon.svg?react';
+import { PATH } from '@/routes/path';
 
 const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/ItemDetailFaqCard')
@@ -185,6 +187,35 @@ const ItemDetailPage = () => {
           <ItemDetailFaqCard faqList={dummyFaq} />
         </Suspense>
       </section>
+
+      {/* 톡박스 플로팅 버튼 */}
+      {/* TODO: 오픈 상태에 따른 버튼 색상 변경 */}
+      <div className="fixed right-5 bottom-20 z-[1] flex flex-col items-end gap-1.5">
+        <div className="top-9 -right-2 flex w-fit flex-col items-end">
+          {/* 본체 말풍선 */}
+          <div className="bg-sub body2-sb flex items-center justify-center self-stretch rounded-[.1875rem] px-3 py-2 text-left text-white">
+            이 제품의 질문에 답변해 주세요.
+          </div>
+          {/* 꼬리 (삼각형) */}
+          <div className="border-t-sub mr-3 h-0 w-0 border-x-[.5rem] border-t-[.5rem] border-x-transparent" />
+        </div>
+        {itemId && (
+          <button
+            type="button"
+            onClick={() => {
+              const path = generatePath(
+                `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}`,
+                { itemId }
+              );
+              navigate(path);
+            }}
+            className="flex aspect-[1/1] h-11 w-11 flex-col items-center justify-center rounded-full bg-black shadow-[0_.25rem_1.125rem_0_rgba(0,0,0,0.25)]"
+          >
+            <TalkBoxIcon className="h-6 w-6 text-white" />
+          </button>
+        )}
+      </div>
+
       <BottomNavBar items={detailBottomNavItems} type="action" />
       {isBottomSheetOpen && (
         <VisibilityBottomSheet
