@@ -31,7 +31,8 @@ export const API_DOMAINS = {
 
   // user
   USER_JOIN: '/member/register/user',
-  USER_MY_PROFILE: '/member/:memberId/profile',
+  USER_PROFILE: '/member/:memberId/profile',
+  USER_MY_PROFILE: '/member/profile',
 
   HOME_RECOMMEND: '/home/recommend',
   HOME_POPULAR: '/home/popular',
@@ -62,7 +63,7 @@ export const QUERY_KEYS = {
   SELLER_MY_MARKET: 'sellerMyMarket',
   SELLER_MY_HOME_QUESTIONS: 'sellerMyHomeQuestions',
 
-  USER_MY_PROFILE: 'userMyProfile',
+  USER_PROFILE: 'userProfile',
 
   HOME_RECOMMEND: 'homeRecommend',
   HOME_POPULAR: 'homePopular',

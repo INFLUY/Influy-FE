@@ -8,6 +8,7 @@ import ArrowIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 import { PATH } from '@/routes/path';
 import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';
 import { useStrictId } from '@/hooks/auth/useStrictId';
+import { usePatchUserProfile } from '@/services/member/mutation/usePatchUserProfile';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -15,6 +16,12 @@ const MyPage = () => {
 
   const { memberId } = useStrictId({ redirectOnFail: true });
   const { data: userProfile } = useGetUserProfile({ memberId: memberId! });
+  const { mutate: patchProfile } = usePatchUserProfile();
+
+  const handleProfileOnchange = (image: string) => {
+    setProfileImg(image);
+    patchProfile({ data: { profileUrl: image } });
+  };
 
   useEffect(() => {
     if (userProfile) {
@@ -44,7 +51,7 @@ const MyPage = () => {
           {/* 프로필 사진 */}
           <VanillaProfileImageUploader
             value={profileImg}
-            onChange={setProfileImg}
+            onChange={handleProfileOnchange}
           />
           <div className="flex flex-col items-center gap-1">
             <div className="flex items-center gap-1">

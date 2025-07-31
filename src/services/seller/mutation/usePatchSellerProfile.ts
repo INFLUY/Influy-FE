@@ -10,13 +10,23 @@ export const usePatchSellerProfile = (onSuccessCallback?: () => void) => {
   return useMutation({
     mutationFn: ({ data }: { data: SellerEditProfileType }) =>
       patchSellerMyProfile({ data }),
-    onSuccess: () => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_MY_PROFILE],
       });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_MY_MARKET],
       });
+      const id = response.result?.id;
+      if (id) {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.USER_PROFILE, id],
+        });
+      } else {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.USER_PROFILE],
+        });
+      }
       onSuccessCallback?.();
     },
     onError: handleReactQueryError,

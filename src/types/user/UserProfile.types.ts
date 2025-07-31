@@ -5,3 +5,8 @@ export interface UserProfileType {
   profileImg: string | null;
   createdAt: string;
 }
+
+export interface UserEditProfileType {
+  nickname?: string;
+  profileUrl?: string;
+}
