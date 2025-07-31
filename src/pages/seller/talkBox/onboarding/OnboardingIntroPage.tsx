@@ -22,7 +22,7 @@ const OnboardingIntroPage = () => {
   useEffect(() => {
     if (itemOverview && itemOverview?.talkBoxOpenStatus !== 'INITIAL') {
       //  TODO: 수정 필요
-      navigate(PATH.SELLER.talkBox.base, { replace: true });
+      navigate(PATH.SELLER.TALKBOX.BASE, { replace: true });
     }
   }, [itemOverview]);
 
@@ -55,7 +55,7 @@ const OnboardingIntroPage = () => {
         <DefaultButton
           text="지금 바로 시작하기"
           onClick={() => {
-            navigate(PATH.SELLER.talkBox.onboarding.start);
+            navigate(PATH.SELLER.TALKBOX.ONBOARDING.START);
           }}
         />
       </section>

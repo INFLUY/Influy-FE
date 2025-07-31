@@ -130,31 +130,31 @@ export const PATH = {
         },
       },
     },
-    talkBox: {
-      base: 'talk-box',
-      list: 'list',
-      item: {
-        base: 'item/:itemId',
-        tabs: {
-          pending: 'pending',
-          answered: 'answered',
+    TALKBOX: {
+      BASE: 'talk-box',
+      LIST: 'list',
+      ITEM: {
+        BASE: 'item/:itemId',
+        TABS: {
+          PENDING: 'pending',
+          ANSWERED: 'answered',
         },
-        category: {
-          base: 'category/:categoryId',
-          tabs: {
-            pending: 'pending',
-            answered: 'answered',
+        CATEGORY: {
+          BASE: 'category/:categoryId',
+          TABS: {
+            PENDING: 'pending',
+            ANSWERED: 'answered',
           },
-          bulkReply: 'bulk-reply',
+          BULK_REPLY: 'bulk-reply',
         },
-        setting: {
-          base: 'setting',
-          defaultMessage: 'default-message',
+        SETTING: {
+          BASE: 'setting',
+          DEFAULT_MESSAGE: 'default-message',
         },
       },
-      onboarding: {
-        base: 'onboarding/:itemId',
-        start: 'start',
+      ONBOARDING: {
+        BASE: 'onboarding/:itemId',
+        START: 'start',
       },
     },
   },

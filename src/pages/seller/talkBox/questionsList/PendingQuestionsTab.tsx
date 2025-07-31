@@ -84,7 +84,7 @@ export const PendingQuestionsTab = () => {
   // 일괄 답변하기
   const handleBulkReply = () => {
     const tagId = getMostFrequentTagId(selectedQuestions);
-    navigate(`../${PATH.SELLER.talkBox.item.category.bulkReply}`, {
+    navigate(`../${PATH.SELLER.TALKBOX.ITEM.CATEGORY.BULK_REPLY}`, {
       state: { tagId: tagId },
       replace: true,
     });

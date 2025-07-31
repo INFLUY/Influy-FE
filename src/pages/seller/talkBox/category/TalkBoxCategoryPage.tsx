@@ -35,12 +35,12 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
     {
       id: 0,
       name: `답변대기(${data.waitingCnt})`,
-      path: PATH.SELLER.talkBox.item.tabs.pending,
+      path: PATH.SELLER.TALKBOX.ITEM.TABS.PENDING,
     },
     {
       id: 1,
       name: `완료한 질답(${data.completedCnt})`,
-      path: PATH.SELLER.talkBox.item.tabs.answered,
+      path: PATH.SELLER.TALKBOX.ITEM.TABS.ANSWERED,
     },
   ];
 
@@ -51,7 +51,7 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
   const isOnboarding = state?.isOnboarding;
 
   const handleSettingClick = () => {
-    const path = generatePath(`${PATH.SELLER.talkBox.item.setting.base}`);
+    const path = generatePath(`${PATH.SELLER.TALKBOX.ITEM.SETTING.BASE}`);
     navigate(path);
   };
 

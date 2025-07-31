@@ -42,7 +42,7 @@ export const QuestionListHeader = ({
 
   const handleSelectMode = () => {
     if (pathname.includes('answered')) {
-      navigate(PATH.SELLER.talkBox.item.tabs.pending, {
+      navigate(PATH.SELLER.TALKBOX.ITEM.TABS.PENDING, {
         replace: true,
       });
     }
@@ -53,12 +53,12 @@ export const QuestionListHeader = ({
     {
       id: 0,
       name: `답변대기(${tabCounts.waitingCnt})`,
-      path: PATH.SELLER.talkBox.item.tabs.pending,
+      path: PATH.SELLER.TALKBOX.ITEM.TABS.PENDING,
     },
     {
       id: 1,
       name: `완료한 질답(${tabCounts.completedCnt})`,
-      path: PATH.SELLER.talkBox.item.tabs.answered,
+      path: PATH.SELLER.TALKBOX.ITEM.TABS.ANSWERED,
     },
   ];
 

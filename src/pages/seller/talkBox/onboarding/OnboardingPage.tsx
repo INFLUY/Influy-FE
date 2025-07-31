@@ -78,7 +78,7 @@ const OnboardingLayout = () => {
     // 톡박스 활성화
     updateStatus();
     const path = generatePath(
-      `../../${PATH.SELLER.talkBox.item.base}/${PATH.SELLER.talkBox.item.tabs.pending}`,
+      `../../${PATH.SELLER.TALKBOX.ITEM.BASE}/${PATH.SELLER.TALKBOX.ITEM.TABS.PENDING}`,
       {
         itemId: String(itemId),
       }

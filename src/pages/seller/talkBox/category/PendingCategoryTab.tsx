@@ -12,7 +12,7 @@ export const PendingCategoryTab = () => {
   const handleCategoryClick = (categoryId: number, categoryName: string) => {
     setSelectedCategoryName(categoryName);
     const path = generatePath(
-      `../${PATH.SELLER.talkBox.item.category.base}/${PATH.SELLER.talkBox.item.category.tabs.pending}`,
+      `../${PATH.SELLER.TALKBOX.ITEM.CATEGORY.BASE}/${PATH.SELLER.TALKBOX.ITEM.CATEGORY.TABS.PENDING}`,
       {
         categoryId: String(categoryId),
       }

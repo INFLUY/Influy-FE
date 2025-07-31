@@ -49,7 +49,7 @@ const TalkBoxSettingPage = () => {
         <article
           className="flex items-center justify-between gap-4"
           onClick={() => {
-            navigate(PATH.SELLER.talkBox.item.setting.defaultMessage);
+            navigate(PATH.SELLER.TALKBOX.ITEM.SETTING.DEFAULT_MESSAGE);
           }}
         >
           <div className="flex flex-col gap-1">
