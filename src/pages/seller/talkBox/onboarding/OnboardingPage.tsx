@@ -7,11 +7,12 @@ import {
   generatePath,
 } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import {
   ActivateStep,
   CategorizeStep,
 } from '@/components/seller/talkBox/onboarding/OnboardingStep';
+import { LoadingSpinner } from '@/components';
 import { QuestionCategoryDTO } from '@/types/seller/TalkBox.types';
 
 //api
@@ -48,7 +49,7 @@ const OnboardingLayout = () => {
   });
 
   // 카테고리 생성 post api
-  const { mutate: postGenerateQuestionCategory } =
+  const { mutate: postGenerateQuestionCategory, isPending: isCategoryPending } =
     usePostGenerateQuestionCategory({
       itemId: Number(itemId),
       onSuccessCallback: (data: string[]) => {
@@ -57,14 +58,25 @@ const OnboardingLayout = () => {
       },
     });
 
-  const { mutate: updateStatus } = usePostTalkBoxOpenStatus({
-    itemId: Number(itemId),
-    openStatus: 'OPENED',
-  });
+  const { mutate: updateStatus, isPending: isUpdateStatusPending } =
+    usePostTalkBoxOpenStatus({
+      itemId: Number(itemId),
+      openStatus: 'OPENED',
+      onSuccessCallback: () => {
+        const path = generatePath(
+          `../../${PATH.SELLER.TALK_BOX.ITEM.BASE}/${PATH.SELLER.TALK_BOX.ITEM.TABS.PENDING}`,
+          {
+            itemId: String(itemId),
+          }
+        );
+        navigate(path, { replace: true, state: { isOnboarding: true } });
+      },
+    });
 
-  const { mutate: addCategories } = usePostAddQuestionCategories({
-    itemId: Number(itemId),
-  });
+  const { mutate: addCategories, isPending: isAddingCategoriesPending } =
+    usePostAddQuestionCategories({
+      itemId: Number(itemId),
+    });
 
   // 다음 단계인 'categorize'로 쿼리 파라미터 변경
   const handleActivateNext = () => {
@@ -72,18 +84,11 @@ const OnboardingLayout = () => {
   };
 
   // 맨 마지막의 '설정 완료' 버튼  클릭 시 호출될 함수
-  const handleCategorizeFinish = async () => {
+  const handleCategorizeFinish = () => {
     // 질문 카테고리 생성
     addCategories(category);
     // 톡박스 활성화
     updateStatus();
-    const path = generatePath(
-      `../../${PATH.SELLER.TALKBOX.ITEM.BASE}/${PATH.SELLER.TALKBOX.ITEM.TABS.PENDING}`,
-      {
-        itemId: String(itemId),
-      }
-    );
-    await navigate(path, { replace: true, state: { isOnboarding: true } });
   };
 
   // step 값에 따라 적절한 화면(컴포넌트)을 렌더링
@@ -103,12 +108,12 @@ const OnboardingLayout = () => {
   };
 
   return (
-    <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+    <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto pt-11">
       <PageHeader
         leftIcons={[
           <XIcon
             className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('..')}
             role="button"
             aria-label="뒤로 가기"
             tabIndex={0}
@@ -149,8 +154,14 @@ const OnboardingLayout = () => {
             )}
           </p>
         </div>
-
         {renderStepComponent()}
+        {(isCategoryPending ||
+          isUpdateStatusPending ||
+          isAddingCategoriesPending) && (
+          <div className="absolute flex h-full w-full justify-center">
+            <LoadingSpinner />
+          </div>
+        )}
       </section>
     </section>
   );
