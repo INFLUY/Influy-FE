@@ -5,6 +5,8 @@ export const API_DOMAINS = {
   PRESIGNED_URL: '/image/presigned-url',
   OAUTH_KAKAO: '/oauth/kakao',
   REISSUE: '/member/auth/reissue',
+  LOGOUT: '/member/logout',
+  DELETE_ACCOUNT: '/member/delete',
   ID_DUPLICATE_CHECK: '/member/register/duplicate-check',
   SELLER_MARKET: '/user/:sellerId/market',
   SELLER_ANNOUNCEMENT: '/seller/:sellerId/announcements',

@@ -5,6 +5,7 @@ import { PATH } from '@/routes/path';
 import { useModalStore } from '@/store/useModalStore';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';
+import { usePostLogout } from '@/services/auth/usePostLogout';
 
 const AccountSettingsPage = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const AccountSettingsPage = () => {
 
   const { memberId } = useStrictId({ redirectOnFail: true });
   const { data: userProfile } = useGetUserProfile({ memberId: memberId! });
+  const { mutate: logout } = usePostLogout(() => navigate(PATH.HOME.BASE));
 
   const handleLogoutClick = () => {
     showModal({
@@ -20,9 +22,7 @@ const AccountSettingsPage = () => {
       leftButtonText: '취소',
       rightButtonText: '확인',
       rightButtonClick: () => {
-        // TODO: 로그아웃 로직
-        console.log('로그아웃 완료');
-        navigate(PATH.HOME.BASE);
+        logout();
       },
     });
   };

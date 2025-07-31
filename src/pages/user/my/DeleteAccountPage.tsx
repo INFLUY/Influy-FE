@@ -3,11 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useModalStore } from '@/store/useModalStore';
 import { PATH } from '@/routes/path';
+import { useDeleteAccount } from '@/services/auth/useDeleteAccount';
 
 const DeleteAccountPage = () => {
   const navigate = useNavigate();
 
   const { showModal } = useModalStore();
+  const { mutate: deleteAccount } = useDeleteAccount(() =>
+    navigate(PATH.HOME.BASE)
+  );
 
   const handleDeleteAccountClick = () => {
     showModal({
@@ -15,9 +19,7 @@ const DeleteAccountPage = () => {
       leftButtonText: '취소',
       rightButtonText: '탈퇴',
       rightButtonClick: () => {
-        // TODO: 삭제 로직
-        console.log('탈퇴 완료');
-        navigate(PATH.HOME.BASE);
+        deleteAccount();
       },
     });
   };
