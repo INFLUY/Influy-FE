@@ -44,11 +44,16 @@ export const PendingQuestionsTab = () => {
   }, []);
 
   // -- api
-  const { questions, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useTalkBoxQuestions({
-      questionCategoryId: Number(categoryId),
-      isAnswered: false,
-    });
+  const {
+    questions,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    newQuestionCnt,
+  } = useTalkBoxQuestions({
+    questionCategoryId: Number(categoryId),
+    isAnswered: false,
+  });
 
   // 질문 삭제
   const { mutate: deleteQuestions } = useDeleteCategoryQuestions({
@@ -141,12 +146,7 @@ export const PendingQuestionsTab = () => {
             <span className="text-grey11">({selectedTag?.totalQuestions})</span>
           </div>
           <span className="body2-sb text-grey11">
-            새 질문 (
-            {/* {questionsByTagData?.pages[questionsByTagData.pages.length - 1]
-              .newQuestionCnt ||
-              allQuestionsData?.pages[allQuestionsData.pages.length - 1]
-                .newQuestionCnt} */}
-            )
+            새 질문 ({newQuestionCnt})
           </span>
         </div>
 

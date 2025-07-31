@@ -23,7 +23,6 @@ export function useTalkBoxQuestions(opts: {
     answeredQuestionsByTag,
     setAnsweredQuestionsByTag,
     selectedTag,
-    setSelectedTag,
   } = useTalkBoxQuestionStore();
 
   // ② 태그 목록 fetch
@@ -51,22 +50,26 @@ export function useTalkBoxQuestions(opts: {
 
   // ③ “전체” 질문 infinite-query
   const allQ = useGetAllQuestions({ questionCategoryId, isAnswered });
-  const allQuestions = useMemo(
-    () => allQ.data?.pages.flatMap((p) => p.questions ?? []) ?? [],
-    [allQ.data]
-  );
+  const allData = useMemo(() => {
+    const pages = allQ.data?.pages ?? [];
+    const allQuestions =
+      allQ.data?.pages.flatMap((p) => p.questions ?? []) ?? [];
+    const newAllQuestionCnt = pages[pages.length - 1]?.newQuestionCnt ?? 0;
+
+    return { allQuestions, newAllQuestionCnt };
+  }, [allQ.data]);
 
   useEffect(() => {
     if (selectedTag?.name !== ALL_KEY) return;
 
     if (!isAnswered) {
       const prev = questionsByTag;
-      setQuestionsByTag({ ...prev, [ALL_KEY]: allQuestions });
+      setQuestionsByTag({ ...prev, [ALL_KEY]: allData.allQuestions });
     } else {
       const prev = answeredQuestionsByTag;
-      setAnsweredQuestionsByTag({ ...prev, [ALL_KEY]: allQuestions });
+      setAnsweredQuestionsByTag({ ...prev, [ALL_KEY]: allData.allQuestions });
     }
-  }, [allQuestions, selectedTag, isAnswered]);
+  }, [allData.allQuestions, selectedTag, isAnswered]);
 
   // ④ 개별 태그 질문 infinite-query
   const byTagQ = useGetQuestionsByTag({
@@ -74,10 +77,13 @@ export function useTalkBoxQuestions(opts: {
     isAnswered,
   });
 
-  const tagQuestions = useMemo(
-    () => byTagQ.data?.pages.flatMap((p) => p.questions ?? []) ?? [],
-    [byTagQ.data]
-  );
+  const tagData = useMemo(() => {
+    const tagQuestions =
+      byTagQ.data?.pages.flatMap((p) => p.questions ?? []) ?? [];
+    const newTagQuestionCnt =
+      byTagQ.data?.pages[byTagQ.data.pages.length - 1]?.newQuestionCnt ?? 0;
+    return { tagQuestions, newTagQuestionCnt };
+  }, [byTagQ.data]);
 
   //첫 로딩
   useEffect(() => {
@@ -98,12 +104,15 @@ export function useTalkBoxQuestions(opts: {
 
     if (!isAnswered) {
       const prev = questionsByTag;
-      setQuestionsByTag({ ...prev, [selectedTag.name]: tagQuestions });
+      setQuestionsByTag({ ...prev, [selectedTag.name]: tagData.tagQuestions });
     } else {
       const prev = answeredQuestionsByTag;
-      setAnsweredQuestionsByTag({ ...prev, [selectedTag.name]: tagQuestions });
+      setAnsweredQuestionsByTag({
+        ...prev,
+        [selectedTag.name]: tagData.tagQuestions,
+      });
     }
-  }, [tagQuestions, selectedTag, isAnswered]);
+  }, [tagData.tagQuestions, selectedTag, isAnswered]);
 
   // ⑤ 리턴
   const questionsMap = isAnswered ? answeredQuestionsByTag : questionsByTag;
@@ -117,11 +126,16 @@ export function useTalkBoxQuestions(opts: {
     selectedTag?.name === ALL_KEY
       ? allQ.isFetchingNextPage
       : byTagQ.isFetchingNextPage;
+  const newQuestionCnt =
+    selectedTag?.name === ALL_KEY
+      ? allData.newAllQuestionCnt
+      : tagData.newTagQuestionCnt;
 
   return {
     questions: currentQuestions,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    newQuestionCnt,
   };
 }

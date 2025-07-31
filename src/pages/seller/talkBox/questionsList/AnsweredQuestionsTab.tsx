@@ -15,14 +15,11 @@ import {
 } from '@/store/talkBoxStore';
 import { useBottomSheetContext } from '@/contexts/TalkBoxCategoryContext';
 
-import { PATH } from '@/routes/path';
-
 // api
 import { useTalkBoxQuestions } from '@/services/talkBox/query/useTalkBoxQuestions';
 
 export const AnsweredQuestionsTab = () => {
   const { categoryId } = useParams();
-  const navigate = useNavigate();
 
   // store 및 context
   const { setMode } = useSelectModeStore();
@@ -75,12 +72,9 @@ export const AnsweredQuestionsTab = () => {
 
       <section className="mt-4 flex w-full flex-col gap-5 pb-22">
         {/* 상단 제목 */}
-        <div className="flex w-full items-center justify-between px-5">
-          <div className="body1-sb flex gap-1">
-            <span className="text-sub">#{selectedTag.name}</span>
-            <span className="text-grey11">({selectedTag?.totalQuestions})</span>
-          </div>
-          <span className="body2-sb text-grey11">새 질문 asdf</span>
+        <div className="body1-sb flex w-full items-center gap-1 px-5">
+          <span className="text-sub">#{selectedTag.name}</span>
+          <span className="text-grey11">({selectedTag?.totalQuestions})</span>
         </div>
         <InfiniteQuestionList
           questions={questions}
