@@ -42,7 +42,7 @@ export const QuestionListHeader = ({
   }, [mode, questionsByTag, selectedTag?.name, selectedQuestions]);
 
   const handleSelectMode = () => {
-    if (mode === 'answered') {
+    if (pathname.includes('answered')) {
       navigate(PATH.SELLER.talkBox.item.tabs.pending, {
         replace: true,
       });
@@ -110,13 +110,13 @@ export const QuestionListHeader = ({
                 aria-label="홈으로 가기"
                 tabIndex={0}
                 onClick={() => {
-                  navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`);
+                  navigate(`${PATH.SELLER}/${PATH.SELLER.home.base}`);
                 }}
               />
             </>
           ),
         ]}
-        additionalStyles="border-0"
+        additionalStyles="border-0 sticky"
       >
         {category}
       </PageHeader>

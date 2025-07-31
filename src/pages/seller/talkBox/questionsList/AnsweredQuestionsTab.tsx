@@ -28,8 +28,11 @@ export const AnsweredQuestionsTab = () => {
   const { setSingleQuestion } = useBottomSheetContext();
 
   useEffect(() => {
-    setMode('default');
-  }, []);
+    const currentTag =
+      answeredQuestionTags.find((tag) => tag.name === selectedTag.name) ??
+      answeredQuestionTags[0];
+    setSelectedTag(currentTag);
+  }, [answeredQuestionTags]);
 
   // -- api
   const { questions, fetchNextPage, hasNextPage, isFetchingNextPage } =

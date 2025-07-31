@@ -55,6 +55,13 @@ export const PendingQuestionsTab = () => {
     isAnswered: false,
   });
 
+  useEffect(() => {
+    const currentTag =
+      questionTags.find((tag) => tag.name === selectedTag.name) ??
+      questionTags[0];
+    setSelectedTag(currentTag);
+  }, [questionTags]);
+
   // 질문 삭제
   const { mutate: deleteQuestions } = useDeleteCategoryQuestions({
     itemId: Number(itemId),
