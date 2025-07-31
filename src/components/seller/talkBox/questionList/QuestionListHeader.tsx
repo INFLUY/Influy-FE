@@ -41,11 +41,6 @@ export const QuestionListHeader = ({
   }, [mode, questionsByTag, selectedTag?.name, selectedQuestions]);
 
   const handleSelectMode = () => {
-    if (pathname.includes('answered')) {
-      navigate(PATH.SELLER.TALK_BOX.ITEM.TABS.PENDING, {
-        replace: true,
-      });
-    }
     setMode('select');
   };
 

@@ -34,6 +34,10 @@ export const AnsweredQuestionsTab = () => {
     setSelectedTag(currentTag);
   }, [answeredQuestionTags]);
 
+  useEffect(() => {
+    setMode('default');
+  }, []);
+
   // -- api
   const { questions, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useTalkBoxQuestions({

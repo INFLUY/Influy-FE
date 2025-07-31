@@ -7,7 +7,7 @@ import {
   DefaultButton,
 } from '@/components';
 
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 
 //store 및 context
@@ -27,6 +27,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   const [singleQuestion, setSingleQuestion] =
     useState<SingleQuestionAnswerDTO | null>(null);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const { itemId, categoryId } = useParams();
 
@@ -137,18 +138,19 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
                 activeTheme="white"
                 disabledTheme="borderGrey"
               />
-              {itemOverview?.talkBoxOpenStatus !== 'CLOSED' && (
-                <DefaultButton
-                  type="submit"
-                  text={
-                    selectedQuestions.length > 0
-                      ? `(${selectedQuestions.length}개) 일괄 답변하기`
-                      : '일괄 답변하기'
-                  }
-                  disabled={selectedQuestions.length === 0}
-                  onClick={handleBulkReply}
-                />
-              )}
+              {itemOverview?.talkBoxOpenStatus !== 'CLOSED' &&
+                pathname.includes('pending') && (
+                  <DefaultButton
+                    type="submit"
+                    text={
+                      selectedQuestions.length > 0
+                        ? `(${selectedQuestions.length}개) 일괄 답변하기`
+                        : '일괄 답변하기'
+                    }
+                    disabled={selectedQuestions.length === 0}
+                    onClick={handleBulkReply}
+                  />
+                )}
             </div>
           )}
         </section>
