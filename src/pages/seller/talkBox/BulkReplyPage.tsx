@@ -5,6 +5,7 @@ import {
   ChatBarTextArea,
   PrevReplyBottomSheet,
   SellerModal,
+  LoadingSpinner,
 } from '@/components';
 
 import { useState, useEffect } from 'react';
@@ -66,11 +67,12 @@ const BulkReplyPage = () => {
     setMode('bulk-reply');
   }, []);
 
-  const { data: prevAnswers } = useGetTagAnswers({
-    itemId: Number(itemId),
-    questionCategoryId: Number(categoryId),
-    questionTagId: Number(tagInfo?.mostFrequentTagId),
-  });
+  const { data: prevAnswers, isPending: isPrevAnswersPending } =
+    useGetTagAnswers({
+      itemId: Number(itemId),
+      questionCategoryId: Number(categoryId),
+      questionTagId: Number(tagInfo?.mostFrequentTagId),
+    });
 
   // 상단 상품 정보
   const { itemOverview } = useItemOverview({
@@ -88,17 +90,18 @@ const BulkReplyPage = () => {
     navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`);
   };
 
-  const { mutate: postBulkAnswer } = usePostBulkAnswer({
-    itemId: Number(itemId),
-    questionCategoryId: Number(categoryId),
-    tagsToInvalidate: tagInfo?.totalTagsList,
-    onSuccessCallback: (count) => {
-      navigate(`../`, {
-        replace: true,
-      });
-      showSnackbar(`${count}개의 답변이 정상적으로 전송되었습니다.`);
-    },
-  });
+  const { mutate: postBulkAnswer, isPending: isAnswerPending } =
+    usePostBulkAnswer({
+      itemId: Number(itemId),
+      questionCategoryId: Number(categoryId),
+      tagsToInvalidate: tagInfo?.totalTagsList,
+      onSuccessCallback: (count) => {
+        navigate(`../`, {
+          replace: true,
+        });
+        showSnackbar(`${count}개의 답변이 정상적으로 전송되었습니다.`);
+      },
+    });
 
   const handleReplySubmit = () => {
     if (answerText.length === 0) return;
@@ -180,6 +183,7 @@ const BulkReplyPage = () => {
           setIsModalOpen={setIsModalOpen}
         />
       )}
+      {(isPrevAnswersPending || isAnswerPending) && <LoadingSpinner />}
     </section>
   );
 };

@@ -1,6 +1,11 @@
 // 내 상품 질문 관리 페이지
-import { PageHeader, BottomNavBar, TalkBoxItemCard } from '@/components';
-
+import {
+  PageHeader,
+  BottomNavBar,
+  TalkBoxItemCard,
+  LoadingSpinner,
+} from '@/components';
+import { Suspense } from 'react';
 //api
 import { useGetTalkBoxOpened } from '@/services/sellerItem/query/useGetTalkBoxOpened';
 
@@ -16,17 +21,18 @@ const TalkBoxItemListPage = () => {
           내 상품 질문 관리
         </p>
       </PageHeader>
-
-      <div className="mt-4 flex flex-col gap-[.875rem] px-5">
-        <h2 className="body2-m text-grey09 w-full">
-          톡박스가 활성화된 상품({openedItems.cnt})
-        </h2>
-        <div className="flex w-full flex-col gap-6">
-          {openedItems.talkBoxOpenedDtoList.map((item) => (
-            <TalkBoxItemCard key={item.itemId} item={item} />
-          ))}
+      <Suspense fallback={<LoadingSpinner />}>
+        <div className="mt-4 flex flex-col gap-[.875rem] px-5">
+          <h2 className="body2-m text-grey09 w-full">
+            톡박스가 활성화된 상품({openedItems.cnt})
+          </h2>
+          <div className="flex w-full flex-col gap-6">
+            {openedItems.talkBoxOpenedDtoList.map((item) => (
+              <TalkBoxItemCard key={item.itemId} item={item} />
+            ))}
+          </div>
         </div>
-      </div>
+      </Suspense>
 
       <BottomNavBar userType="SELLER" />
     </section>

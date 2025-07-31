@@ -104,7 +104,7 @@ export const QuestionListHeader = ({
                 aria-label="홈으로 가기"
                 tabIndex={0}
                 onClick={() => {
-                  navigate(`${PATH.SELLER}/${PATH.SELLER.HOME.BASE}`);
+                  navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`);
                 }}
               />
             </>

@@ -1,10 +1,11 @@
-import { ReactNode, useState, useLayoutEffect, useRef } from 'react';
+import { ReactNode, useState, useLayoutEffect, useRef, Suspense } from 'react';
 import {
   TalkBoxQuestionItemCard,
   QuestionListHeader,
   SingleQuestionBottomSheet,
   ItemClosedBanner,
   DefaultButton,
+  LoadingSpinner,
 } from '@/components';
 
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
@@ -99,61 +100,63 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   return (
     <BottomSheetContext.Provider value={{ singleQuestion, setSingleQuestion }}>
       <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
-        <QuestionListHeader headerRef={headerRef} tabCounts={data} />
-        <article className="flex w-full flex-col gap-2.5 px-5 pt-4">
-          {itemOverview && (
-            <TalkBoxQuestionItemCard
-              itemName={itemOverview.itemName}
-              tagline={itemOverview.tagline}
-              mainImg={itemOverview.mainImg}
-            />
-          )}
-          <p className="subhead-sb py-3">
-            이 상품의 <span className="text-sub">{selectedCategoryName}</span>{' '}
-            관련 질문 중
-            <br />
-            비슷한 질문들끼리 분류했어요.
-          </p>
-        </article>
-        {children}
-
-        {/* 하단 버튼 */}
-        <section className="bottom-bar flex w-full flex-col">
-          {itemOverview?.talkBoxOpenStatus === 'CLOSED' && itemId && (
-            <ItemClosedBanner itemId={itemId} />
-          )}
-          {mode === 'select' && (
-            <div className="flex w-full shrink-0 items-center justify-center gap-[.4375rem] bg-white px-5 py-2">
-              <DefaultButton
-                onClick={() => {
-                  showModal({
-                    text: `해당 질문을 삭제하시겠습니까?\n한 번 삭제한 질문은 되돌릴 수 없습니다.`,
-                    description: '*상대방은 삭제 여부를 알 수 없습니다.',
-                    leftButtonClick: () => hideModal(),
-                    rightButtonClick: () => handleDeleteConfirm(),
-                  });
-                }}
-                text="삭제하기"
-                disabled={selectedQuestions.length === 0}
-                activeTheme="white"
-                disabledTheme="borderGrey"
+        <Suspense fallback={<LoadingSpinner />}>
+          <QuestionListHeader headerRef={headerRef} tabCounts={data} />
+          <article className="flex w-full flex-col gap-2.5 px-5 pt-4">
+            {itemOverview && (
+              <TalkBoxQuestionItemCard
+                itemName={itemOverview.itemName}
+                tagline={itemOverview.tagline}
+                mainImg={itemOverview.mainImg}
               />
-              {itemOverview?.talkBoxOpenStatus !== 'CLOSED' &&
-                pathname.includes('pending') && (
-                  <DefaultButton
-                    type="submit"
-                    text={
-                      selectedQuestions.length > 0
-                        ? `(${selectedQuestions.length}개) 일괄 답변하기`
-                        : '일괄 답변하기'
-                    }
-                    disabled={selectedQuestions.length === 0}
-                    onClick={handleBulkReply}
-                  />
-                )}
-            </div>
-          )}
-        </section>
+            )}
+            <p className="subhead-sb py-3">
+              이 상품의 <span className="text-sub">{selectedCategoryName}</span>{' '}
+              관련 질문 중
+              <br />
+              비슷한 질문들끼리 분류했어요.
+            </p>
+          </article>
+          {children}
+
+          {/* 하단 버튼 */}
+          <section className="bottom-bar flex w-full flex-col">
+            {itemOverview?.talkBoxOpenStatus === 'CLOSED' && itemId && (
+              <ItemClosedBanner itemId={itemId} />
+            )}
+            {mode === 'select' && (
+              <div className="flex w-full shrink-0 items-center justify-center gap-[.4375rem] bg-white px-5 py-2">
+                <DefaultButton
+                  onClick={() => {
+                    showModal({
+                      text: `해당 질문을 삭제하시겠습니까?\n한 번 삭제한 질문은 되돌릴 수 없습니다.`,
+                      description: '*상대방은 삭제 여부를 알 수 없습니다.',
+                      leftButtonClick: () => hideModal(),
+                      rightButtonClick: () => handleDeleteConfirm(),
+                    });
+                  }}
+                  text="삭제하기"
+                  disabled={selectedQuestions.length === 0}
+                  activeTheme="white"
+                  disabledTheme="borderGrey"
+                />
+                {itemOverview?.talkBoxOpenStatus !== 'CLOSED' &&
+                  pathname.includes('pending') && (
+                    <DefaultButton
+                      type="submit"
+                      text={
+                        selectedQuestions.length > 0
+                          ? `(${selectedQuestions.length}개) 일괄 답변하기`
+                          : '일괄 답변하기'
+                      }
+                      disabled={selectedQuestions.length === 0}
+                      onClick={handleBulkReply}
+                    />
+                  )}
+              </div>
+            )}
+          </section>
+        </Suspense>
       </section>
 
       {/* 질문 하나 선택시 */}

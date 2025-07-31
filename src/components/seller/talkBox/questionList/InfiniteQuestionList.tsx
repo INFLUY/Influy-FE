@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import { QuestionChatBubble } from '@/components';
+import { QuestionChatBubble, LoadingSpinner } from '@/components';
 import { QuestionDTO } from '@/types/seller/TalkBox.types';
 
 interface InfiniteQuestionListProps {
@@ -36,6 +36,7 @@ export const InfiniteQuestionList = ({
           onSelectSingle={() => onSelectSingle(q)}
         />
       ))}
+      {isFetchingNextPage && <LoadingSpinner />}
 
       {hasNextPage && <div ref={observerRef} className="h-4 w-full" />}
     </>
