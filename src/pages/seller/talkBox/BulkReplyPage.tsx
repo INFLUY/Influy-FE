@@ -6,20 +6,18 @@ import {
   PrevReplyBottomSheet,
   SellerModal,
 } from '@/components';
-import { QuestionDTO } from '@/types/seller/TalkBox.types';
 
 import { useState, useEffect } from 'react';
-import {
-  useNavigate,
-  useParams,
-  generatePath,
-  useLocation,
-} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
 
+//type
+import { QuestionDTO } from '@/types/seller/TalkBox.types';
+
+//store
 import { useSelectModeStore } from '@/store/talkBoxStore';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useTalkBoxCategoryStore } from '@/store/talkBoxStore';
@@ -33,23 +31,46 @@ const BulkReplyPage = () => {
   const navigate = useNavigate();
   const [answerText, setAnswerText] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { tagId } = useLocation().state;
   const { showSnackbar } = useSnackbarStore();
   const { selectedCategoryName } = useTalkBoxCategoryStore();
 
   const { itemId, categoryId } = useParams();
 
-  const { data: prevAnswers } = useGetTagAnswers({
-    itemId: Number(itemId),
-    questionCategoryId: Number(categoryId),
-    questionTagId: Number(tagId),
-  });
-  // 질문 리스트
+  const getTagInfo = (
+    selectedQuestions: QuestionDTO[]
+  ): { mostFrequentTagId: number; totalTagsList: number[] } | null => {
+    if (selectedQuestions.length === 0) return null;
+
+    const countMap = new Map<number, number>();
+    let mostFrequentTagId: number = 0;
+    let maxCount = 0;
+
+    for (const { tagId } of selectedQuestions) {
+      const currentCount = (countMap.get(tagId) || 0) + 1;
+      countMap.set(tagId, currentCount);
+
+      if (currentCount > maxCount) {
+        maxCount = currentCount;
+        mostFrequentTagId = tagId;
+      }
+    }
+    const totalTagsList = Array.from(countMap.keys());
+
+    return { mostFrequentTagId, totalTagsList };
+  };
+
   const { selectedQuestions, setMode } = useSelectModeStore();
+  const tagInfo = getTagInfo(selectedQuestions);
 
   useEffect(() => {
     setMode('bulk-reply');
   }, []);
+
+  const { data: prevAnswers } = useGetTagAnswers({
+    itemId: Number(itemId),
+    questionCategoryId: Number(categoryId),
+    questionTagId: Number(tagInfo?.mostFrequentTagId),
+  });
 
   // 상단 상품 정보
   const { itemOverview } = useItemOverview({
@@ -64,12 +85,13 @@ const BulkReplyPage = () => {
   const handleConfirmExit = () => {
     setIsModalOpen(false);
     useSelectModeStore.persist.clearStorage();
-    navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`); // TODO: 수정 홈으로 이동
+    navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`);
   };
 
   const { mutate: postBulkAnswer } = usePostBulkAnswer({
     itemId: Number(itemId),
     questionCategoryId: Number(categoryId),
+    tagsToInvalidate: tagInfo?.totalTagsList,
     onSuccessCallback: (count) => {
       navigate(`../`, {
         replace: true,

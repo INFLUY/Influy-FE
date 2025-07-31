@@ -83,33 +83,9 @@ export const PendingQuestionsTab = () => {
 
   // 일괄 답변하기
   const handleBulkReply = () => {
-    const tagId = getMostFrequentTagId(selectedQuestions);
     navigate(`../${PATH.SELLER.TALKBOX.ITEM.CATEGORY.BULK_REPLY}`, {
-      state: { tagId: tagId },
       replace: true,
     });
-  };
-
-  const getMostFrequentTagId = (
-    selectedQuestions: QuestionDTO[]
-  ): number | null => {
-    if (selectedQuestions.length === 0) return null;
-
-    const countMap = new Map<number, number>();
-    let mostFrequentTagId: number | null = null;
-    let maxCount = 0;
-
-    for (const { tagId } of selectedQuestions) {
-      const currentCount = (countMap.get(tagId) || 0) + 1;
-      countMap.set(tagId, currentCount);
-
-      if (currentCount > maxCount) {
-        maxCount = currentCount;
-        mostFrequentTagId = tagId;
-      }
-    }
-
-    return mostFrequentTagId;
   };
 
   // 질문 버블의 오른쪽 화살표 클릭시
