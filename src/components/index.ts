@@ -149,3 +149,4 @@ export { default as PrevReplyBottomSheet } from './seller/talkBox/PrevReplyBotto
 export { default as SingleQuestionBottomSheet } from './seller/talkBox/SingleQuestionBottomSheet';
 export { QuestionListHeader } from './seller/talkBox/questionList/QuestionListHeader';
 export { InfiniteQuestionList } from './seller/talkBox/questionList/InfiniteQuestionList';
+export { ItemClosedBanner } from './seller/talkBox/ItemClosedBanner.tsx';

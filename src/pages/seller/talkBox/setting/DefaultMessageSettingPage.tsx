@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { PATH } from '@/routes/path';
 import {
   PageHeader,
   TalkBoxBottomItemCard,
@@ -61,7 +60,7 @@ const DefaultMessageSettingPage = () => {
       >
         기본멘트 설정
       </PageHeader>
-      <section className="mt-6 flex w-full flex-col gap-[.875rem] px-5">
+      <section className="mt-11 flex w-full flex-col gap-[.875rem] px-5 pt-6">
         {/* 상단 제목 */}
         <div className="flex w-full justify-between">
           <h1 className="body1-b text-black">채팅방 기본멘트</h1>
@@ -85,10 +84,11 @@ const DefaultMessageSettingPage = () => {
       </section>
       {itemOverview && (
         <TalkBoxBottomItemCard
-          onCardClick={() => {}}
+          itemId={itemId}
           itemName={itemOverview.itemName}
           tagline={itemOverview.tagline}
           mainImg={itemOverview.mainImg}
+          isClosedItem={itemOverview.talkBoxOpenStatus === 'CLOSED'}
         />
       )}
       {isBottomSheetOpen && (

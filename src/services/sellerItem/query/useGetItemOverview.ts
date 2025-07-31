@@ -12,12 +12,10 @@ export const useGetItemOverview = ({
   sellerId: number;
   itemId: number;
 }) => {
-  const { itemOverview } = useItemOverviewStore();
-
   return useQuery({
     queryKey: [QUERY_KEYS.SELLER_ITEM_OVERVIEW, sellerId, itemId],
     queryFn: () => fetchItemOverview({ sellerId, itemId }),
-    enabled: !(itemOverview && itemOverview.id === itemId),
+    staleTime: Infinity,
   });
 };
 

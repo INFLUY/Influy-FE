@@ -124,13 +124,13 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
 
         {children}
 
-        {/* TODO: opened 처리 */}
         {itemOverview && (
           <TalkBoxBottomItemCard
             itemId={itemId}
             itemName={itemOverview.itemName}
             tagline={itemOverview.tagline}
             mainImg={itemOverview.mainImg}
+            isClosedItem={itemOverview.talkBoxOpenStatus === 'CLOSED'}
           />
         )}
       </section>

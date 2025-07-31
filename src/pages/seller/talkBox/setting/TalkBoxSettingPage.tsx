@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { PATH } from '@/routes/path';
 import { PageHeader, TalkBoxBottomItemCard, ToggleButton } from '@/components';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
@@ -30,6 +29,10 @@ const TalkBoxSettingPage = () => {
       itemOverview?.talkBoxOpenStatus === 'OPENED' ? 'CLOSED' : 'OPENED',
   });
 
+  console.log(
+    itemOverview?.talkBoxOpenStatus === 'OPENED' ? 'CLOSED' : 'OPENED'
+  );
+
   return (
     <>
       <PageHeader
@@ -45,7 +48,7 @@ const TalkBoxSettingPage = () => {
       >
         톡박스 설정
       </PageHeader>
-      <section className="mt-6 flex w-full flex-col gap-[2.75rem] px-5">
+      <section className="mt-11 flex w-full flex-col gap-[2.75rem] px-5 pt-6">
         <article
           className="flex items-center justify-between gap-4"
           onClick={() => {
@@ -86,6 +89,7 @@ const TalkBoxSettingPage = () => {
           itemName={itemOverview.itemName}
           tagline={itemOverview.tagline}
           mainImg={itemOverview.mainImg}
+          isClosedItem={itemOverview.talkBoxOpenStatus === 'CLOSED'}
         />
       )}
     </>

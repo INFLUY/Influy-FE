@@ -49,6 +49,7 @@ const OnboardingIntroPage = () => {
           itemName={itemOverview.itemName}
           tagline={itemOverview.tagline}
           mainImg={itemOverview.mainImg}
+          isClosedItem={itemOverview.talkBoxOpenStatus === 'CLOSED'}
         />
       )}
       <section className="flex h-screen w-full items-end px-5 pb-[4.8125rem]">
