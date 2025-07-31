@@ -1,6 +1,7 @@
 //홈 아카이빙 인기 급상승 카드
 import { ItemCardType } from '@/types/common/ItemType.types';
 import { ScrapButton, TimeChip } from '@/components';
+import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 
 const HorizontalRankingCard = ({
   item,
@@ -39,7 +40,7 @@ const HorizontalRankingCard = ({
             <div className="flex items-center gap-1">
               <img
                 className="h-[1.375rem] w-[1.375rem] rounded-full object-cover"
-                src="/profile.png"
+                src={item.sellerProfileImg ?? ProfileIcon}
                 alt={item.sellerNickname + '의 상품'}
               />
               <span className="caption-m text-grey09">

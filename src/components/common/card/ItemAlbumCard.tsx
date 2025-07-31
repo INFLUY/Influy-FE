@@ -1,6 +1,7 @@
 // 공통 컴포넌트 상품썸네일/유저뷰_아카이빙/앨범형
 import { ItemCardType } from '@/types/common/ItemType.types';
 import { ScrapButton, SoldOutChip, TimeChip, PeriodChip } from '@/components';
+import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 
 const ItemAlbumCard = ({
   item,
@@ -57,7 +58,7 @@ const ItemAlbumCard = ({
         <div className="flex items-center gap-1">
           <img
             className="h-[1.375rem] w-[1.375rem] rounded-full object-cover"
-            src="/profile.png"
+            src={item.sellerProfileImg ?? ProfileIcon}
             alt={item.sellerNickname + '님의 상품'}
           />
           <span className="caption-m text-grey09">@{item.sellerUsername}</span>
