@@ -109,7 +109,7 @@ const BulkReplyPage = () => {
   };
 
   return (
-    <section className="scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-y-auto bg-white">
+    <section className="scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-y-auto bg-white pt-11">
       <PageHeader
         leftIcons={[
           <ArrowLeftIcon

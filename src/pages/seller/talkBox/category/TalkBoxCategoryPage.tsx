@@ -59,7 +59,7 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
     <TalkBoxCategoryContext.Provider
       value={{ itemId: Number(itemId), categoryData: data }}
     >
-      <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+      <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto pt-11">
         <div className="sticky top-0 z-50">
           {/* TODO 페이지 헤더 분리하기 */}
           <PageHeader
