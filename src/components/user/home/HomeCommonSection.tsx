@@ -6,9 +6,9 @@ import {
 } from '@/components';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { CategoryType } from '@/types/common/CategoryType.types';
 import { ItemCardType } from '@/types/common/ItemType.types';
 import { ITEM_DEATIL } from '@/utils/generatePath';
+import { CategoryType } from '@/types/common/CategoryType.types';
 
 const HomeCommonSection = ({
   expiringItem,
@@ -91,7 +91,7 @@ const HomeCommonSection = ({
               <CategoryChip
                 key={category.id}
                 text={category.name}
-                isSelected={selectedCategory == category.id}
+                isSelected={selectedCategory === category.id}
                 onToggle={() => setSelectedCategory(category.id)}
                 theme="home"
               />

@@ -15,6 +15,10 @@ export const createAxiosInstance = (
   return axios.create(config);
 };
 
+export const axiosBase = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+});
+
 export const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,

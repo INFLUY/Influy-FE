@@ -1,78 +1,49 @@
-import { ItemGrid } from '@/components/user/common/Item';
+import { ItemGridCard } from '@/components/user/common/ItemGridCard';
 import { useState } from 'react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
-import { ItemType } from '@/types/common/ItemType.types';
+import { ItemPreviewList } from '@/types/common/ItemType.types';
 
 const SelectionTab = () => {
-  const PRODUCT_LIST: ItemType[] = [
-    {
-      itemId: 0,
-      title:
-        '[프리따픽] VT 컬러 리들샷 마스크팩 2차 재진행 / 메종마르지엘라 이벤트까지',
-      name: '@dfkjdkfjdkfj',
-      content: '🖤완판 재진행🖤 너무 예쁜 가디건',
-      thumbnail: '/img1.png',
-      open: '2025-07-10T06:34:07.837159',
-      deadline: '2025-07-30T19:00:07.837159',
-      extend: false,
-      scrapped: false,
-      soldOut: false,
-    },
+  const PRODUCT_LIST: ItemPreviewList[] = [
     {
       itemId: 1,
-      title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
-      name: '@dfkjdkfjdkfj',
-      content: '🖤완판 재진행🖤너무 예쁜 가디건',
-      thumbnail: '/img1.png',
-      open: '2025-05-29T06:34:07.837159',
-      deadline: '2025-06-10T19:00:07.837159',
-      extend: true,
-      scrapped: true,
-      soldOut: false,
+      sellerId: 101,
+      itemPeriod: 30,
+      itemName: '빈티지 레코드 플레이어',
+      sellerName: '레트로샵',
+      startDate: '2025-07-01T00:00:00Z',
+      endDate: '2025-07-31T23:59:59Z',
+      tagline: '음악의 감성을 되살리다',
+      currentStatus: 'DEFAULT',
+      liked: false,
+      mainImg: '/img1.png',
     },
     {
       itemId: 2,
-      title: '소현X비비안웨스트우드 가디건 (색상 5가지)소현X비비안웨스트우드',
-      name: '@dfkjdkfjdkfj',
-      content:
-        '🖤완판 재진행🖤 너무 예쁜 가디건🖤완판 재진행🖤 너무 예쁜 가디건🖤완판 재진행🖤 너무 예쁜 가디건',
-      thumbnail: '/img1.png',
-      open: '2025-06-03T23:59:07.837159',
-      deadline: '2025-06-10T19:00:07.837159',
-      scrapped: true,
-      soldOut: true,
+      sellerId: 102,
+      itemPeriod: 15,
+      itemName: '디지털 액자',
+      sellerName: '테크하우스',
+      startDate: '2025-07-10T00:00:00Z',
+      endDate: '2025-07-25T23:59:59Z',
+      tagline: '추억을 담는 새로운 방법',
+      currentStatus: 'EXTEND',
+      liked: false,
+      mainImg: '/product.png',
     },
     {
       itemId: 3,
-      title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
-      name: '@dfkjdkfjdkfj',
-      thumbnail: '/img1.png',
-      open: '2025-05-29T06:34:07.837159',
-      deadline: '2025-05-30T19:00:07.837159',
-      scrapped: false,
-      soldOut: false,
-    },
-    {
-      itemId: 4,
-      title:
-        '소현X비비안웨스트우드 가디건 (색상 5가지/블루/핑크/화이)트트틑트트트트',
-      name: '@dfkjdkfjdkfj',
-      thumbnail: '/img1.png',
-      open: '2025-06-03T23:59:07.837159',
-      deadline: '2025-06-10T19:00:07.837159',
-      scrapped: true,
-      soldOut: false,
-    },
-    {
-      itemId: 5,
-      title: '소현X비비안웨스트우드 가디건 (색상 5가지)',
-      name: '@dfkjdkfjdkfj',
-      thumbnail: '/img1.png',
-      open: '2025-06-02T23:59:07.837159',
-      deadline: '2025-06-04T18:00:07.837159',
-      scrapped: true,
-      soldOut: false,
+      sellerId: 103,
+      itemPeriod: 10,
+      itemName: '한정판 피규어',
+      sellerName: '콜렉터즈존',
+      startDate: '2025-07-10T00:00:00Z',
+      endDate: '2025-07-25T23:59:59Z',
+      tagline: '마니아를 위한 최고의 선택',
+      currentStatus: 'DEFAULT',
+      liked: false,
+      mainImg: '/img1.png',
     },
   ];
 
@@ -105,7 +76,7 @@ const SelectionTab = () => {
       {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 ? (
         <ul className="grid grid-cols-2 content-start items-start gap-x-[.1875rem] gap-y-8">
           {PRODUCT_LIST?.map((item) => (
-            <ItemGrid key={item?.itemId} item={item} />
+            <ItemGridCard key={item?.itemId} item={item} />
           ))}
         </ul>
       ) : (

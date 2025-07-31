@@ -5,18 +5,26 @@ import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
 import EmailIcon from '@/assets/icon/common/sns/EmailIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { formatNumber } from '@/utils/formatNumber';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import cn from '@/utils/cn';
 import { ReactNode } from 'react';
+import { useGetSellerLike } from '@/services/likes/query/useGetSellerLikes';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
   const navigate = useNavigate();
   const SellerInfo = {
     name: '소현',
     id: 'xoyeone_',
-    likes: 3811000,
   };
+
+  const { marketId } = useParams();
+  const { sellerId } = useStrictId({ skip: !!marketId });
+
+  const { data: marketLikes } = useGetSellerLike({
+    sellerId: marketId ? Number(marketId) : sellerId!,
+  });
 
   const sns: { id: number; ariaLabel: string; url: string; icon: ReactNode }[] =
     [
@@ -64,7 +72,7 @@ const SellerProfileCard = ({ seller = false }: { seller?: boolean }) => {
           <div className="flex h-fit w-fit flex-col items-center justify-center">
             <HeartIcon className="text-grey09 h-6 w-6" onClick={() => {}} />
             <span className="body2-m text-grey07">
-              {formatNumber(SellerInfo.likes)}
+              {marketLikes?.likeCount && formatNumber(marketLikes?.likeCount)}
             </span>
           </div>
         </div>

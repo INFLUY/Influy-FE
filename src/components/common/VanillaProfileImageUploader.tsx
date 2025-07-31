@@ -1,6 +1,5 @@
 import { useSingleImageUploader } from '@/hooks/useSingleImageUploader';
 import { useState } from 'react';
-import SnackBar from './SnackBar';
 import BottomSheet from './BottomSheet';
 import CameraCircleIcon from '@/assets/icon/common/CameraCircle.svg?react';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
@@ -16,8 +15,7 @@ export const VanillaProfileImageUploader = ({
 }: VanillaProfileImageUploaderProps) => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
 
-  const { handleFileChange, removeFile, snackbar, setSnackbar } =
-    useSingleImageUploader(onChange);
+  const { handleFileChange, removeFile } = useSingleImageUploader(onChange);
 
   const handleApplyImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleFileChange(e);
@@ -55,13 +53,6 @@ export const VanillaProfileImageUploader = ({
         onChange={handleApplyImage}
       />
 
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
       {isBottomSheetOpen && (
         <BottomSheet
           onClose={() => setIsBottomSheetOpen(false)}

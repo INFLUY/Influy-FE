@@ -15,9 +15,9 @@ import Link2Icon from '@/assets/icon/common/Link2Icon.svg?react';
 import LockIcon from '@/assets/icon/common/LockIcon.svg?react';
 import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
-import { CategoryType } from '@/types/common/CategoryType.types';
 import { dummyCategory, dummyFaq, dummyItem } from './ItemDetailDummyData';
 import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
+import { CategoryType } from '@/types/common/CategoryType.types';
 
 const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/ItemDetailFaqCard')
@@ -185,7 +185,6 @@ const ItemDetailPage = () => {
           <ItemDetailFaqCard faqList={dummyFaq} />
         </Suspense>
       </section>
-
       <BottomNavBar items={detailBottomNavItems} type="action" />
       {isBottomSheetOpen && (
         <VisibilityBottomSheet

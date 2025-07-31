@@ -8,7 +8,6 @@ import {
 import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
-import { dummyCategory } from '@/pages/seller/item/ItemDetailDummyData';
 import { useState } from 'react';
 import {
   itemMockData,
@@ -21,6 +20,7 @@ import UserTypeSwithBanner from '@/components/seller/home/UserTypeSwitchBanner';
 import { useAuthStore } from '@/store/authStore';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { ITEM_DEATIL, MARKET_DEATIL } from '@/utils/generatePath';
+import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
 
 interface TopBannerItem {
   image: string;
@@ -132,10 +132,11 @@ export const pickMockData: InfluencerPickItemType[] = [
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [selectedCategory, setSelectedCategory] = useState<number>(1);
   const [selectedInfluencer, setSelectedInfluencer] = useState<number>(1);
 
   const { sellerId } = useAuthStore();
+  const itemCategories = useGetItemCategory();
 
   const MyProfile = {
     id: 1,
@@ -232,7 +233,7 @@ const HomePage = () => {
           expiringItem={itemMockData}
           trendingItem={itemMockData}
           recommendedItem={recommendMockData}
-          categoryList={dummyCategory}
+          categoryList={itemCategories?.categoryDtoList || []}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
         />

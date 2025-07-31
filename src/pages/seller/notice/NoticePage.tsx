@@ -1,11 +1,10 @@
 import {
+  AddButton,
   AddNoticeBottomSheet,
-  AddNoticeButton,
   EditNoticeBottomSheet,
   LoadingSpinner,
   Notice,
   PageHeader,
-  SnackBar,
 } from '@/components';
 import { useRef, useState } from 'react';
 import { NoticeType } from '@/types/common/NoticeType.types';
@@ -13,6 +12,7 @@ import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useGetNotification } from '@/services/notification/query/useGetNotification';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import NoticeIcon from '@/assets/icon/seller/NoticeIcon.svg?react';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const NoticePage = () => {
@@ -21,8 +21,6 @@ const NoticePage = () => {
   const [isEditNoticeOpen, setIsEditNoticeOpen] = useState<boolean>(false);
   const [selectedNotice, setSelectedNotice] = useState<NoticeType | null>(null);
   const [isSelectedNoticePrimary, setIsSelectedNoticePrimary] =
-    useState<boolean>(false);
-  const [isNoticeSavedSnackBarOpen, setIsNoticeSavedSnackBarOpen] =
     useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -69,14 +67,14 @@ const NoticePage = () => {
         공지사항 편집
       </PageHeader>
       {notices?.pages[0]?.totalElements === 0 && (
-        <div className="flex h-full w-full flex-col items-center justify-center gap-10">
-          <div className="flex flex-col items-center justify-center gap-6 text-center">
-            <div className="bg-grey03 h-[5.6875rem] w-[8.0625rem]" />
+        <div className="flex h-full w-full flex-col items-center justify-center gap-10 px-5">
+          <div className="flex flex-col items-center justify-center gap-4 text-center">
+            <NoticeIcon className="text-grey03" />
             <div className="body1-sb">아직 공지사항이 없어요</div>
           </div>
-          <AddNoticeButton
-            handleAddNoticeClick={() => setIsAddNoticeOpen(true)}
-          />
+          <AddButton handleOnClick={() => setIsAddNoticeOpen(true)} size="base">
+            추가하기
+          </AddButton>
         </div>
       )}
       {notices && notices?.pages[0]?.totalElements > 0 && (
@@ -106,16 +104,20 @@ const NoticePage = () => {
               )}
             </div>
           )}
-          <AddNoticeButton
-            handleAddNoticeClick={() => setIsAddNoticeOpen(true)}
-          />
+          <div className="flex w-full px-5">
+            <AddButton
+              handleOnClick={() => setIsAddNoticeOpen(true)}
+              size="base"
+            >
+              추가하기
+            </AddButton>
+          </div>
         </div>
       )}
       {isAddNoticeOpen && (
         <AddNoticeBottomSheet
           isOpen={isAddNoticeOpen}
           setIsOpen={setIsAddNoticeOpen}
-          setIsNoticeSavedSnackBarOpen={setIsNoticeSavedSnackBarOpen}
         />
       )}
       {isAdminNoticeOpen && selectedNotice !== null && (
@@ -125,7 +127,6 @@ const NoticePage = () => {
           isOpen={isAdminNoticeOpen}
           setIsOpen={setIsAdminNoticeOpen}
           setIsEditNoticeOpen={setIsEditNoticeOpen}
-          setIsNoticeSavedSnackBarOpen={setIsNoticeSavedSnackBarOpen}
         />
       )}
       {isEditNoticeOpen && selectedNotice !== null && (
@@ -133,16 +134,7 @@ const NoticePage = () => {
           announcement={selectedNotice}
           isOpen={isEditNoticeOpen}
           setIsOpen={setIsEditNoticeOpen}
-          setIsNoticeSavedSnackBarOpen={setIsNoticeSavedSnackBarOpen}
         />
-      )}
-      {/* 스낵바 */}
-      {isNoticeSavedSnackBarOpen && (
-        <SnackBar
-          handleSnackBarClose={() => setIsNoticeSavedSnackBarOpen(false)}
-        >
-          변경사항이 저장되었습니다.
-        </SnackBar>
       )}
     </div>
   );

@@ -1,13 +1,9 @@
-export type CategoryType = {
+export interface CategoryType {
   id: number;
   name: string;
-};
+  categoryOrder?: number;
+}
 
-export interface ItemCategoryResponse {
-  isSuccess: boolean;
-  code: string;
-  message: string;
-  result: {
-    categoryDtoList: CategoryType[] | [];
-  };
+export interface CategoryOrderType extends CategoryType {
+  categoryOrder?: number;
 }

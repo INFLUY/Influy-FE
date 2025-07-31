@@ -1,19 +1,14 @@
 import CameraIcon from '@/assets/icon/common/Camera.svg?react';
 import cn from '@/utils/cn';
 import { useFormContext, useController } from 'react-hook-form';
-import SnackBar from '@/components/common/SnackBar';
-import { useState } from 'react';
 import DeleteIcon from '@/assets/icon/common/Delete.svg?react';
+import { useSnackbarStore } from '@/store/snackbarStore';
 interface ItemImageUploaderProps {
   name: string;
 }
 
 export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
   const { control } = useFormContext();
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
-  });
 
   const {
     field: { value: images = [], onChange },
@@ -22,6 +17,8 @@ export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
     control,
   });
 
+  const { showSnackbar } = useSnackbarStore();
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const imageList = Array.from(e.target.files || []);
 
@@ -29,10 +26,7 @@ export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
     const validImage = imageList.filter((file) => {
       const isImage = file.type.startsWith('image/');
       if (!isImage) {
-        setSnackbar({
-          open: true,
-          message: `이미지 파일만 업로드 가능합니다: ${file.name}`,
-        });
+        showSnackbar(`이미지 파일만 업로드 가능합니다: ${file.name}`);
       }
       return isImage;
     });
@@ -46,10 +40,7 @@ export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
 
     const combined = [...images, ...newUrls];
     if (combined.length > 10) {
-      setSnackbar({
-        open: true,
-        message: '이미지는 최대 10개까지 업로드 가능합니다.',
-      });
+      showSnackbar('이미지는 최대 10개까지 업로드 가능합니다.');
     }
     const limited = combined.slice(0, 10);
 
@@ -112,14 +103,6 @@ export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
           </div>
         ))}
       </div>
-
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
-      )}
     </article>
   );
 };

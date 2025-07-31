@@ -12,7 +12,6 @@ import {
   CategoryChip,
   AddButton,
   TextInput,
-  SnackBar,
   EmptyCategoryPlaceholder,
   SellerModal,
 } from '@/components';
@@ -45,8 +44,9 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import {
   SELLER_ITEM_FAQ_EDIT_PATH,
-  SELLER_ITEM_FAQ_PATH,
+  SELLER_ITEM_FAQ_REGISTER_PATH,
 } from '@/utils/generatePath';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 type SheetMode =
   | 'none'
@@ -80,11 +80,7 @@ const FaqListEdit = ({
   // 4) BottomSheet 의 인풋에 바인딩할 임시 텍스트
   const [draftName, setDraftName] = useState('');
 
-  //스낵바
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
-  });
+  const { showSnackbar } = useSnackbarStore();
 
   // 삭제할 카테고리
   const [categoryToDelete, setCategoryToDelete] = useState<number | null>(null);
@@ -115,10 +111,7 @@ const FaqListEdit = ({
         name: draftName.trim(),
       },
     ]);
-    setSnackbar({
-      open: true,
-      message: '저장되었습니다',
-    });
+    showSnackbar('저장되었습니다');
     setDraftName('');
     setSheetMode('editList');
   };
@@ -130,10 +123,7 @@ const FaqListEdit = ({
         c.id === activeCategoryId ? { ...c, category: draftName.trim() } : c
       )
     );
-    setSnackbar({
-      open: true,
-      message: '저장되었습니다',
-    });
+    showSnackbar('저장되었습니다');
     setDraftName('');
     setSheetMode('editList');
   };
@@ -216,7 +206,9 @@ const FaqListEdit = ({
               ))}
             <AddButton
               handleOnClick={() =>
-                navigate(generatePath(SELLER_ITEM_FAQ_PATH, { itemId }))
+                navigate(
+                  generatePath(SELLER_ITEM_FAQ_REGISTER_PATH, { itemId })
+                )
               }
             >
               FAQ 추가하기
@@ -323,10 +315,7 @@ const FaqListEdit = ({
             setCategories((prev) =>
               prev.filter((cat) => cat.id !== categoryToDelete)
             );
-            setSnackbar({
-              open: true,
-              message: '삭제되었습니다',
-            });
+            showSnackbar('삭제되었습니다');
             setSheetMode('none');
             setCategoryToDelete(null);
           }}
@@ -335,15 +324,6 @@ const FaqListEdit = ({
             setCategoryToDelete(null);
           }}
         />
-      )}
-
-      {/* 스낵바 */}
-      {snackbar.open && (
-        <SnackBar
-          handleSnackBarClose={() => setSnackbar({ open: false, message: '' })}
-        >
-          {snackbar.message}
-        </SnackBar>
       )}
     </>
   );
@@ -489,11 +469,11 @@ const FaqQuestionCard = ({
           <button
             type="button"
             className="text-grey09 flex cursor-pointer items-center justify-center gap-0.5 self-end"
-            onClick={() =>
+            onClick={() => {
               navigate(
                 generatePath(SELLER_ITEM_FAQ_EDIT_PATH, { itemId, faqId: id })
-              )
-            }
+              );
+            }}
           >
             <span className="body2-sb">수정하기</span>
             <RightIcon className="h-3.5 w-3.5" />

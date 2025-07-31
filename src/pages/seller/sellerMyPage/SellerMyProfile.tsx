@@ -8,20 +8,26 @@ import {
   Tab,
   Tabs,
   SellerMyProfileHeader,
-  SnackBar,
+  SellerModal,
   BottomNavBar,
 } from '@/components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AddIcon from '@/assets/icon/common/Add2Icon.svg?react';
-import cn from '@/utils/cn';
 import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
+import { useGetMarketLinks } from '@/services/marketLinks/query/useGetMarketLinks';
+import { LinkType } from '@/types/seller/LinkType.types';
+import { useDeleteMarketLink } from '@/services/marketLinks/mutation/useDeleteMarketLink';
+import { useSnackbarStore } from '@/store/snackbarStore';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const SellerMyProfile = ({ children }: { children: ReactNode }) => {
-  const [isLinkSnackBarOpen, setIsLinkSnackBarOpen] = useState<boolean>(false);
   const [isAddLinkOpen, setIsAddLinkOpen] = useState<boolean>(false);
   const [isEditLinkOpen, setIsEditLinkOpen] = useState<boolean>(false);
-  const [selectedLinkId, setSelectedLinkId] = useState<number | null>(null);
+  const [isLinkDeleteModalOpen, setIsLinkDeleteModalOpen] =
+    useState<boolean>(false);
+  const [selectedLink, setSelectedLink] = useState<LinkType | null>(null);
+
+  const { showSnackbar } = useSnackbarStore();
 
   const TABS = [
     { id: 0, name: '상품', path: PATH.SELLER.MY.TABS.SELECTION },
@@ -32,29 +38,48 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  // 임시 링크
-  const LINKS = [
-    { id: 0, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-    { id: 1, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-    { id: 2, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-    { id: 3, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-    { id: 4, name: '크림치즈마켓', url: 'https://m.creamcheese.co.kr/' },
-  ];
-
-  const handleAddLink = () => {
-    if (LINKS.length < 5) {
-      setIsAddLinkOpen(true);
-    } else {
-      setIsLinkSnackBarOpen(true);
-    }
-  };
-
-  const handleEditLink = (linkId: number) => {
-    setSelectedLinkId(linkId);
+  const handleEditLink = (link: LinkType) => {
+    setSelectedLink(link);
     setIsEditLinkOpen(true);
   };
 
   const { sellerId } = useStrictId();
+
+  const { data: links } = useGetMarketLinks({
+    sellerId: Number(sellerId),
+  });
+
+  const handleAddLink = () => {
+    if (links?.length < 5) {
+      setIsAddLinkOpen(true);
+    } else {
+      showSnackbar('링크는 최대 5개까지만 추가할 수 있습니다.');
+    }
+  };
+
+  // 삭제 모달 열기
+  const handleClickDelete = () => {
+    setIsLinkDeleteModalOpen(true);
+  };
+
+  // 삭제 모달 닫기
+  const handleDeleteModalClose = () => {
+    setSelectedLink(null);
+    setIsLinkDeleteModalOpen(false);
+  };
+
+  const { mutate: deleteLink } = useDeleteMarketLink(() =>
+    showSnackbar('링크가 삭제되었습니다.')
+  );
+
+  // 삭제
+  const handleDelete = () => {
+    if (selectedLink?.id !== undefined) {
+      deleteLink(selectedLink?.id);
+    }
+    handleDeleteModalClose();
+    setSelectedLink(null);
+  };
 
   const { data: primaryNotice } = useGetPrimaryNotification({
     sellerId: Number(sellerId),
@@ -70,7 +95,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
       <div className="bg-grey02 flex w-full px-5 py-3">
         <NoticeBanner
           title={primaryNotice?.title}
-          count={primaryNotice?.totalAnnouncements}
+          count={primaryNotice?.totalAnnouncements || 0}
           onClickNotice={() => navigate(`./${PATH.SELLER.MY.NOTICE.BASE}`)}
           seller={true}
         />
@@ -79,21 +104,14 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
       <section className="divide-grey02 flex flex-1 flex-col divide-y-[12px]">
         {/* 링크 */}
         <div className="relative flex w-full">
-          <div
-            className={cn(
-              'scrollbar-hide flex w-full items-center gap-[.625rem] self-stretch overflow-x-auto py-3 pr-[4.5rem] pl-5',
-              {
-                'justify-end': LINKS.length === 0,
-              }
-            )}
-          >
-            {LINKS.map((link) => (
+          <div className="scrollbar-hide flex h-[3.5625rem] w-full items-center gap-[.625rem] self-stretch overflow-x-auto pr-[4.5rem] pl-5">
+            {links?.map((link: LinkType) => (
               <ExternalLinkChip
-                key={link.id}
-                linkId={link.id}
-                name={link.name}
-                url={link.url}
+                key={link?.id}
+                link={link}
                 handleEditLink={handleEditLink}
+                handleClickDelete={handleClickDelete}
+                setSelectedLink={setSelectedLink}
               />
             ))}
           </div>
@@ -108,23 +126,28 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
             </button>
           </div>
         </div>
-        {isLinkSnackBarOpen && (
-          <SnackBar handleSnackBarClose={() => setIsLinkSnackBarOpen(false)}>
-            링크는 최대 5개까지만 추가할 수 있습니다.
-          </SnackBar>
-        )}
+
         {isEditLinkOpen && (
           <ExternalLinkBottomSheet
-            linkId={selectedLinkId}
+            existingLink={selectedLink || undefined}
             isOpen={isEditLinkOpen}
             setIsOpen={setIsEditLinkOpen}
-            setSelectedLinkId={setSelectedLinkId}
+            setSelectedLink={setSelectedLink}
           />
         )}
         {isAddLinkOpen && (
           <ExternalLinkBottomSheet
             isOpen={isAddLinkOpen}
             setIsOpen={setIsAddLinkOpen}
+          />
+        )}
+        {isLinkDeleteModalOpen && (
+          <SellerModal
+            text={`링크를 삭제하시겠습니까?`}
+            leftButtonClick={handleDeleteModalClose}
+            rightButtonClick={handleDelete}
+            onClose={handleDeleteModalClose}
+            setIsModalOpen={setIsLinkDeleteModalOpen}
           />
         )}
         {/* 탭 */}
