@@ -18,8 +18,9 @@ export const patchSellerMyProfile = async ({
 }: {
   data: SellerEditProfileType;
 }) => {
-  const response = await instance.patch(SELLER_API_DOMAINS.SELLER_MY_PROFILE, {
-    data,
-  });
-  return response.data.result;
+  const response = await instance.patch(
+    SELLER_API_DOMAINS.SELLER_MY_PROFILE,
+    data
+  );
+  return response.data;
 };
