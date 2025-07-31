@@ -83,7 +83,7 @@ export const PendingQuestionsTab = () => {
 
   // 일괄 답변하기
   const handleBulkReply = () => {
-    navigate(`../${PATH.SELLER.TALKBOX.ITEM.CATEGORY.BULK_REPLY}`, {
+    navigate(`../${PATH.SELLER.TALK_BOX.ITEM.CATEGORY.BULK_REPLY}`, {
       replace: true,
     });
   };

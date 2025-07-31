@@ -6,9 +6,11 @@ import { QUERY_KEYS } from '@/constants/api';
 export const usePostTalkBoxOpenStatus = ({
   itemId,
   openStatus,
+  onSuccessCallback,
 }: {
   itemId: number;
   openStatus: TalkBoxOpenStatus;
+  onSuccessCallback?: () => void;
 }) => {
   const queryClient = useQueryClient();
 
@@ -18,6 +20,7 @@ export const usePostTalkBoxOpenStatus = ({
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_ITEM_OVERVIEW, itemId],
       });
+      if (onSuccessCallback) onSuccessCallback();
     },
     onError: () => {
       // TODO: 에러 핸들링

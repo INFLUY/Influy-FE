@@ -507,23 +507,23 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: PATH.SELLER.TALKBOX.BASE, // /talk-box
+            path: PATH.SELLER.TALK_BOX.BASE, // /talk-box
             element: <Outlet />,
             children: [
               // 1. /talk-box/list
               {
                 index: true,
-                element: <Navigate to={PATH.SELLER.TALKBOX.LIST} replace />,
+                element: <Navigate to={PATH.SELLER.TALK_BOX.LIST} replace />,
               },
               {
                 index: true,
-                path: PATH.SELLER.TALKBOX.LIST,
+                path: PATH.SELLER.TALK_BOX.LIST,
                 element: <SellerTalkBoxItemListPage />,
               },
 
               // 2. /talk-box/item/:itemId
               {
-                path: PATH.SELLER.TALKBOX.ITEM.BASE, // item/:itemId
+                path: PATH.SELLER.TALK_BOX.ITEM.BASE, // item/:itemId
                 element: <Outlet />,
                 // element: (
 
@@ -540,17 +540,17 @@ const router = createBrowserRouter([
                         index: true,
                         element: (
                           <Navigate
-                            to={PATH.SELLER.TALKBOX.ITEM.TABS.PENDING}
+                            to={PATH.SELLER.TALK_BOX.ITEM.TABS.PENDING}
                             replace
                           />
                         ),
                       },
                       {
-                        path: PATH.SELLER.TALKBOX.ITEM.TABS.PENDING, // pending
+                        path: PATH.SELLER.TALK_BOX.ITEM.TABS.PENDING, // pending
                         element: <PendingCategoryTab />,
                       },
                       {
-                        path: PATH.SELLER.TALKBOX.ITEM.TABS.ANSWERED, // answered
+                        path: PATH.SELLER.TALK_BOX.ITEM.TABS.ANSWERED, // answered
                         element: <AnsweredCategoryTab />,
                       },
                     ],
@@ -558,7 +558,7 @@ const router = createBrowserRouter([
 
                   // /talk-box/item/:itemId/category/:categoryId
                   {
-                    path: PATH.SELLER.TALKBOX.ITEM.CATEGORY.BASE, // category/:categoryId
+                    path: PATH.SELLER.TALK_BOX.ITEM.CATEGORY.BASE, // category/:categoryId
                     element: <Outlet />,
                     children: [
                       {
@@ -573,38 +573,39 @@ const router = createBrowserRouter([
                             element: (
                               <Navigate
                                 to={
-                                  PATH.SELLER.TALKBOX.ITEM.CATEGORY.TABS.PENDING
+                                  PATH.SELLER.TALK_BOX.ITEM.CATEGORY.TABS
+                                    .PENDING
                                 }
                                 replace
                               />
                             ),
                           },
                           {
-                            path: PATH.SELLER.TALKBOX.ITEM.CATEGORY.TABS
+                            path: PATH.SELLER.TALK_BOX.ITEM.CATEGORY.TABS
                               .PENDING,
                             element: <PendingQuestionsTab />,
                           },
                           {
-                            path: PATH.SELLER.TALKBOX.ITEM.CATEGORY.TABS
+                            path: PATH.SELLER.TALK_BOX.ITEM.CATEGORY.TABS
                               .ANSWERED,
                             element: <AnsweredQuestionsTab />,
                           },
                         ],
                       },
                       {
-                        path: PATH.SELLER.TALKBOX.ITEM.CATEGORY.BULK_REPLY,
+                        path: PATH.SELLER.TALK_BOX.ITEM.CATEGORY.BULK_REPLY,
                         element: <BulkReplyPage />,
                       },
                     ],
                   },
                   {
-                    path: PATH.SELLER.TALKBOX.ITEM.SETTING.BASE,
+                    path: PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE,
                     element: <Outlet />,
                     children: [
                       { index: true, element: <TalkBoxSettingPage /> },
                       {
                         index: true,
-                        path: PATH.SELLER.TALKBOX.ITEM.SETTING.DEFAULT_MESSAGE,
+                        path: PATH.SELLER.TALK_BOX.ITEM.SETTING.DEFAULT_MESSAGE,
                         element: <DefaultMessageSettingPage />,
                       },
                     ],
@@ -612,7 +613,7 @@ const router = createBrowserRouter([
                 ],
               },
               {
-                path: PATH.SELLER.TALKBOX.ONBOARDING.BASE,
+                path: PATH.SELLER.TALK_BOX.ONBOARDING.BASE,
                 element: <Outlet />,
                 children: [
                   {
@@ -620,7 +621,7 @@ const router = createBrowserRouter([
                     element: <OnboardingIntroPage />,
                   },
                   {
-                    path: PATH.SELLER.TALKBOX.ONBOARDING.START,
+                    path: PATH.SELLER.TALK_BOX.ONBOARDING.START,
                     element: <OnboardingLayout />,
                   },
                 ],

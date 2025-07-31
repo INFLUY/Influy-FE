@@ -13,7 +13,7 @@ export const usePatchTalkBoxDefaultComment = (
       patchTalkBoxDefaultComment({ itemId, data: { talkBoxComment: comment } }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.SELLER_TALKBOX_COMMENT, itemId],
+        queryKey: [QUERY_KEYS.SELLER_TALK_BOX_COMMENT, itemId],
       });
 
       if (onSuccessCallback) onSuccessCallback();

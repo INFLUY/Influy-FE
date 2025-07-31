@@ -130,7 +130,7 @@ export const PATH = {
         },
       },
     },
-    TALKBOX: {
+    TALK_BOX: {
       BASE: 'talk-box',
       LIST: 'list',
       ITEM: {

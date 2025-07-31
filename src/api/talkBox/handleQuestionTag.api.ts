@@ -13,7 +13,7 @@ export const fetchQuestionTagsByCategory = async ({
   isAnswered: boolean;
 }): Promise<CategoryTagsDTO[]> => {
   const response = await instance.get(
-    generateApiPath(SELLER_API_DOMAINS.SELLER_TALKBOX_CATEGORY_TAGS, {
+    generateApiPath(SELLER_API_DOMAINS.SELLER_TALK_BOX_CATEGORY_TAGS, {
       questionCategoryId,
     }),
     {

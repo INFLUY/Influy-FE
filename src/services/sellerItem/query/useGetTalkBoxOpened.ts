@@ -4,7 +4,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const useGetTalkBoxOpened = () => {
   return useSuspenseQuery({
-    queryKey: [QUERY_KEYS.SELLER_TALKBOX_OPENED_ITEMS],
+    queryKey: [QUERY_KEYS.SELLER_TALK_BOX_OPENED_ITEMS],
     queryFn: () => fetchTalkBoxOpened(),
   });
 };

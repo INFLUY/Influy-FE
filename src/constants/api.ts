@@ -40,10 +40,10 @@ export const SELLER_API_DOMAINS = {
 
   // 셀러 아이템
   ITEM_OVERVIEW: '/seller/:sellerId/items/:itemId/item-overview',
-  TALKBOX_OPENED_ITEMS: '/seller/talkbox/opened',
-  SELLER_TALKBOX_OPEN_STATUS: '/seller/items/:itemId/talkbox/open-status',
-  SELLER_TALKBOX_COMMENT: '/seller/items/:itemId/talkbox/view-comment',
-  PATCH_TALKBOX_DEFAULT_COMMENT:
+  TALK_BOX_OPENED_ITEMS: '/seller/talkbox/opened',
+  SELLER_TALK_BOX_OPEN_STATUS: '/seller/items/:itemId/talkbox/open-status',
+  SELLER_TALK_BOX_COMMENT: '/seller/items/:itemId/talkbox/view-comment',
+  PATCH_TALK_BOX_DEFAULT_COMMENT:
     '/seller/items/:itemId/talkbox/default-comment',
 
   // [톡박스] 질문 관리
@@ -64,7 +64,8 @@ export const SELLER_API_DOMAINS = {
   SELLER_CATEGORY_LIST: '/seller/items/:itemId/talkbox/question-categories',
 
   //[톡박스] 질문태그(소분류)
-  SELLER_TALKBOX_CATEGORY_TAGS: '/seller/item/talkbox/:questionCategoryId/tags',
+  SELLER_TALK_BOX_CATEGORY_TAGS:
+    '/seller/item/talkbox/:questionCategoryId/tags',
 };
 
 export const QUERY_KEYS = {
@@ -81,18 +82,18 @@ export const QUERY_KEYS = {
   ITEM_CATEGORIES: 'itemCategories',
   SELLER_ITEM_OVERVIEW: 'sellerItemOverview',
   SELLER_GENERATE_QUESTION_CATEGORY: 'sellerGenerateQuestionCategory',
-  SELLER_TALKBOX_OPEN_STATUS: 'sellerTalkBoxOpenStatus',
+  SELLER_TALK_BOX_OPEN_STATUS: 'sellerTalkBoxOpenStatus',
   SELLER_ADD_QUESTION_CATEGORIES: 'sellerAddQuestionCategories',
-  SELLER_TALKBOX_OPENED_ITEMS: 'sellerTalkBoxOpenedItems',
+  SELLER_TALK_BOX_OPENED_ITEMS: 'sellerTalkBoxOpenedItems',
   SELLER_ALL_QUESTIONS_IN_CATEGORY: 'sellerAllQuestionsInCategory',
-  SELLER_TALKBOX_CATEGORY_TAGS: 'sellerTalkBoxCategoryTags',
+  SELLER_TALK_BOX_CATEGORY_TAGS: 'sellerTalkBoxCategoryTags',
   SELLER_QUESTIONS_BY_TAG: 'sellerQuestionsByTag',
   SELLER_CATEGORY_QUESTION_COUNTS: 'sellerCategoryQuestionCounts',
   SELLER_CATEGORY_LIST: 'sellerCategoryList',
   SELLER_DELETE_QUESTIONS_IN_CATEGORY: 'sellerDeleteQuestionsInCategory',
   SELLER_QUESTION_TAGS: 'sellerQuestionTags',
   SELLER_TAG_ANSWER_LIST: 'sellerTagAnswerList',
-  SELLER_TALKBOX_COMMENT: 'sellerTalkBoxComment',
+  SELLER_TALK_BOX_COMMENT: 'sellerTalkBoxComment',
   SELLER_POST_INDIVIDUAL_ANSWER: 'sellerPostIndividualAnswer',
   SELLER_SINGLE_QUESTION_ANSWER: 'sellerSingleQuestionAnswer',
 };

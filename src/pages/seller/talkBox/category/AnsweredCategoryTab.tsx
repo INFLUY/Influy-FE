@@ -12,7 +12,7 @@ export const AnsweredCategoryTab = () => {
   const handleCategoryClick = (categoryId: number, categoryName: string) => {
     setSelectedCategoryName(categoryName);
     const path = generatePath(
-      `../${PATH.SELLER.TALKBOX.ITEM.CATEGORY.BASE}/${PATH.SELLER.TALKBOX.ITEM.CATEGORY.TABS.ANSWERED}`,
+      `../${PATH.SELLER.TALK_BOX.ITEM.CATEGORY.BASE}/${PATH.SELLER.TALK_BOX.ITEM.CATEGORY.TABS.ANSWERED}`,
       {
         categoryId: String(categoryId),
       }

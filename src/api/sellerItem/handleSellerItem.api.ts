@@ -64,7 +64,7 @@ export const fetchItemOverview = async ({
 
 export const fetchTalkBoxOpened = async (): Promise<TalkBoxOpenedListDTO> => {
   const response = await instance.get(
-    generateApiPath(SELLER_API_DOMAINS.TALKBOX_OPENED_ITEMS)
+    generateApiPath(SELLER_API_DOMAINS.TALK_BOX_OPENED_ITEMS)
   );
   return response.data.result;
 };
@@ -82,7 +82,7 @@ export const postTalkBoxOpenStatus = async ({
   openStatus: TalkBoxOpenStatus;
 }): Promise<TalkBoxOpenStatusDTO> => {
   const response = await instance.post(
-    generateApiPath(SELLER_API_DOMAINS.SELLER_TALKBOX_OPEN_STATUS, {
+    generateApiPath(SELLER_API_DOMAINS.SELLER_TALK_BOX_OPEN_STATUS, {
       itemId,
     }),
     null,
@@ -100,7 +100,7 @@ export const fetchTalkBoxDefaultComment = async (
   itemId: number
 ): Promise<TalkBoxCommentDTO> => {
   const response = await instance.get(
-    generateApiPath(SELLER_API_DOMAINS.SELLER_TALKBOX_COMMENT, { itemId })
+    generateApiPath(SELLER_API_DOMAINS.SELLER_TALK_BOX_COMMENT, { itemId })
   );
   return response.data.result;
 };
@@ -117,7 +117,7 @@ export const patchTalkBoxDefaultComment = async ({
   data: PatchTalkBoxDefaultCommentRequest;
 }): Promise<void> => {
   await instance.patch(
-    generateApiPath(SELLER_API_DOMAINS.PATCH_TALKBOX_DEFAULT_COMMENT, {
+    generateApiPath(SELLER_API_DOMAINS.PATCH_TALK_BOX_DEFAULT_COMMENT, {
       itemId,
     }),
     data
