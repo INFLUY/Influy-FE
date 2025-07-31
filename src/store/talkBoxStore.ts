@@ -102,3 +102,13 @@ export const useTalkBoxQuestionStore = create<TalkBoxQuestionStore>((set) => ({
   setAnsweredQuestionsByTag: (answeredQuestionsByTag) =>
     set({ answeredQuestionsByTag }),
 }));
+
+interface TalkBoxCategoryState {
+  selectedCategoryName: string;
+  setSelectedCategoryName: (name: string) => void;
+}
+
+export const useTalkBoxCategoryStore = create<TalkBoxCategoryState>((set) => ({
+  selectedCategoryName: '',
+  setSelectedCategoryName: (name) => set({ selectedCategoryName: name }),
+}));

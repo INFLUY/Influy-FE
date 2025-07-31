@@ -79,7 +79,7 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
                 aria-label="홈으로 가기"
                 tabIndex={0}
                 onClick={() => {
-                  navigate(`${PATH.SELLER.base}/${PATH.SELLER.home.base}`);
+                  navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`);
                 }}
               />,
               <div className="relative">

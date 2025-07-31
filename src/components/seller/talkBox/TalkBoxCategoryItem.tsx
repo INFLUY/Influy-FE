@@ -8,7 +8,7 @@ export const TalkBoxCategoryItem = ({
   mode,
 }: {
   category: QuestionCategoryDTO;
-  handleCategoryClick: (categoryId: number) => void;
+  handleCategoryClick: (categoryId: number, categoryName: string) => void;
   mode: 'pending' | 'answered';
 }) => {
   return (
@@ -16,7 +16,10 @@ export const TalkBoxCategoryItem = ({
       className="flex w-full cursor-pointer items-center justify-between px-5 py-0"
       key={category.questionCategoryId}
       onClick={() => {
-        handleCategoryClick(category.questionCategoryId);
+        handleCategoryClick(
+          category.questionCategoryId,
+          category.questionCategoryName
+        );
       }}
     >
       <div className="flex gap-0.5 text-black">

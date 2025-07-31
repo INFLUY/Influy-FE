@@ -22,6 +22,7 @@ import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
 
 import { useSelectModeStore } from '@/store/talkBoxStore';
 import { useSnackbarStore } from '@/store/snackbarStore';
+import { useTalkBoxCategoryStore } from '@/store/talkBoxStore';
 
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
@@ -34,6 +35,7 @@ const BulkReplyPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { tagId } = useLocation().state;
   const { showSnackbar } = useSnackbarStore();
+  const { selectedCategoryName } = useTalkBoxCategoryStore();
 
   const { itemId, categoryId } = useParams();
 
@@ -62,7 +64,7 @@ const BulkReplyPage = () => {
   const handleConfirmExit = () => {
     setIsModalOpen(false);
     useSelectModeStore.persist.clearStorage();
-    navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.home.base}`); // TODO: 수정 홈으로 이동
+    navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`); // TODO: 수정 홈으로 이동
   };
 
   const { mutate: postBulkAnswer } = usePostBulkAnswer({
@@ -117,8 +119,8 @@ const BulkReplyPage = () => {
           />
         )}
         <p className="subhead-sb py-3">
-          이 상품의 <span className="text-sub">색상</span> 관련 질문{' '}
-          {selectedQuestions.length}개에 대한
+          이 상품의 <span className="text-sub">{selectedCategoryName}</span>{' '}
+          관련 질문 {selectedQuestions.length}개에 대한
           <br />
           일괄 답변을 작성해주세요.
         </p>

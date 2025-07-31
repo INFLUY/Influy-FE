@@ -13,12 +13,14 @@ import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview'
 import { useGetCategoryQuestionCounts } from '@/services/talkBox/query/useGetCategoryQuestionCounts';
 import { useSelectModeStore } from '@/store/talkBoxStore';
 import { SingleQuestionAnswerDTO } from '@/types/seller/TalkBox.types';
+import { useTalkBoxCategoryStore } from '@/store/talkBoxStore';
 
 export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   const [singleQuestion, setSingleQuestion] =
     useState<SingleQuestionAnswerDTO | null>(null);
 
   const { itemId, categoryId } = useParams();
+  const { selectedCategoryName } = useTalkBoxCategoryStore();
 
   const { data } = useGetCategoryQuestionCounts(Number(categoryId));
 
@@ -30,8 +32,6 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   const { mode } = useSelectModeStore();
 
   const headerRef = useRef<HTMLDivElement>(null);
-
-  const category = '색상';
 
   // 최초 진입시 상단의 헤더+탭 바 사이즈 계산
   useLayoutEffect(() => {
@@ -60,11 +60,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   return (
     <BottomSheetContext.Provider value={{ singleQuestion, setSingleQuestion }}>
       <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
-        <QuestionListHeader
-          headerRef={headerRef}
-          category={category}
-          tabCounts={data}
-        />
+        <QuestionListHeader headerRef={headerRef} tabCounts={data} />
         <article className="flex w-full flex-col gap-2.5 px-5 pt-4">
           {itemOverview && (
             <TalkBoxQuestionItemCard
@@ -74,7 +70,8 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
             />
           )}
           <p className="subhead-sb py-3">
-            이 상품의 <span className="text-sub">{category}</span> 관련 질문 중
+            이 상품의 <span className="text-sub">{selectedCategoryName}</span>{' '}
+            관련 질문 중
             <br />
             비슷한 질문들끼리 분류했어요.
           </p>

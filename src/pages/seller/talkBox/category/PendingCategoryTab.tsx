@@ -2,12 +2,15 @@ import { useNavigate, generatePath } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { TalkBoxCategoryItem } from '@/components';
 import { useTalkBoxCategoryContext } from '@/contexts/TalkBoxCategoryContext';
+import { useTalkBoxCategoryStore } from '@/store/talkBoxStore';
 
 export const PendingCategoryTab = () => {
   const navigate = useNavigate();
   const { categoryData } = useTalkBoxCategoryContext();
+  const { setSelectedCategoryName } = useTalkBoxCategoryStore();
 
-  const handleCategoryClick = (categoryId: number) => {
+  const handleCategoryClick = (categoryId: number, categoryName: string) => {
+    setSelectedCategoryName(categoryName);
     const path = generatePath(
       `../${PATH.SELLER.talkBox.item.category.base}/${PATH.SELLER.talkBox.item.category.tabs.pending}`,
       {

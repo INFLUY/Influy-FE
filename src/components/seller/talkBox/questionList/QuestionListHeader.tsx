@@ -8,15 +8,13 @@ import {
 import React, { useMemo } from 'react';
 import { PATH } from '@/routes/path';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTalkBoxCategoryStore } from '@/store/talkBoxStore';
 
 export const QuestionListHeader = ({
   headerRef,
-  category,
   tabCounts,
 }: {
   headerRef: React.RefObject<HTMLDivElement | null>;
-
-  category: string;
   tabCounts: {
     waitingCnt: number;
     completedCnt: number;
@@ -26,6 +24,7 @@ export const QuestionListHeader = ({
     useSelectModeStore();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { selectedCategoryName } = useTalkBoxCategoryStore();
 
   const { questionsByTag, selectedTag } = useTalkBoxQuestionStore();
 
@@ -110,7 +109,7 @@ export const QuestionListHeader = ({
                 aria-label="홈으로 가기"
                 tabIndex={0}
                 onClick={() => {
-                  navigate(`${PATH.SELLER}/${PATH.SELLER.home.base}`);
+                  navigate(`${PATH.SELLER}/${PATH.SELLER.HOME.BASE}`);
                 }}
               />
             </>
@@ -118,7 +117,7 @@ export const QuestionListHeader = ({
         ]}
         additionalStyles="border-0 sticky"
       >
-        {category}
+        {selectedCategoryName}
       </PageHeader>
       <Tabs>
         {TABS.map((tab) => (
