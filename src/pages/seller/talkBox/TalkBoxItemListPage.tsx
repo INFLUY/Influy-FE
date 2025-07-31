@@ -28,7 +28,7 @@ const TalkBoxItemListPage = () => {
         </div>
       </div>
 
-      <BottomNavBar />
+      <BottomNavBar userType="SELLER" />
     </section>
   );
 };
