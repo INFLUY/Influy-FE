@@ -43,7 +43,7 @@ const OnboardingIntroPage = () => {
         질문관리
       </PageHeader>
       <LottieViewer />
-      {itemOverview && (
+      {itemOverview && itemId && (
         <TalkBoxBottomItemCard
           itemId={itemId}
           itemName={itemOverview.itemName}

@@ -124,7 +124,7 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
 
         {children}
 
-        {itemOverview && (
+        {itemOverview && itemId && (
           <TalkBoxBottomItemCard
             itemId={itemId}
             itemName={itemOverview.itemName}

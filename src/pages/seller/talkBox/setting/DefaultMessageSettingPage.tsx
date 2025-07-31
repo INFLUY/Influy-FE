@@ -82,7 +82,7 @@ const DefaultMessageSettingPage = () => {
           disabled={commentData.talkBoxComment === defaultMessage}
         />
       </section>
-      {itemOverview && (
+      {itemOverview && itemId && (
         <TalkBoxBottomItemCard
           itemId={itemId}
           itemName={itemOverview.itemName}

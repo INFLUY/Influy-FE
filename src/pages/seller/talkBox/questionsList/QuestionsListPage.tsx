@@ -3,6 +3,7 @@ import {
   TalkBoxQuestionItemCard,
   QuestionListHeader,
   SingleQuestionBottomSheet,
+  ItemClosedBanner,
 } from '@/components';
 
 import { useParams } from 'react-router-dom';
@@ -78,6 +79,12 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
         </article>
         {children}
       </section>
+
+      {itemOverview?.talkBoxOpenStatus === 'CLOSED' && itemId && (
+        <div className="bottom-bar">
+          <ItemClosedBanner itemId={itemId} />
+        </div>
+      )}
 
       {/* 질문 하나 선택시 */}
       {mode === 'single' && singleQuestion && (

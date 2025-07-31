@@ -82,8 +82,8 @@ const TalkBoxSettingPage = () => {
           />
         </article>
       </section>
-      {/* TODO: opened 처리 */}
-      {itemOverview && (
+
+      {itemOverview && itemId && (
         <TalkBoxBottomItemCard
           itemId={itemId}
           itemName={itemOverview.itemName}

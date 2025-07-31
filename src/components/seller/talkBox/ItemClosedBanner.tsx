@@ -1,9 +1,18 @@
 import ArrowRight from '@/assets/icon/common/ArrowRight10.svg?react';
-export const ItemClosedBanner = ({
-  onClickBanner,
-}: {
-  onClickBanner: () => void;
-}) => {
+import { PATH } from '@/routes/path';
+import { useNavigate, generatePath } from 'react-router-dom';
+
+export const ItemClosedBanner = ({ itemId }: { itemId: string }) => {
+  const navigate = useNavigate();
+
+  const handleSettingClick = () => {
+    const path = generatePath(
+      `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}/${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}`,
+      { itemId: itemId }
+    );
+    navigate(path);
+  };
+
   return (
     <div
       role="status"
@@ -18,7 +27,7 @@ export const ItemClosedBanner = ({
         type="button"
         className="text-grey07 flex cursor-pointer items-center gap-0.5"
         aria-label="상품 상태 변경 페이지로 이동"
-        onClick={onClickBanner}
+        onClick={handleSettingClick}
       >
         상태변경
         <ArrowRight />

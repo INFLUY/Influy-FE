@@ -58,7 +58,7 @@ export const TalkBoxBottomItemCard = ({
   mainImg,
   isClosedItem,
 }: {
-  itemId?: string;
+  itemId: string;
   itemName: string;
   tagline: string | null;
   mainImg: string | null;
@@ -72,14 +72,9 @@ export const TalkBoxBottomItemCard = ({
     navigate(path);
   };
 
-  const handleSettingClick = () => {
-    const path = generatePath(`${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}`);
-    navigate(path);
-  };
-
   return (
     <div className="bottom-bar">
-      {isClosedItem && <ItemClosedBanner onClickBanner={handleSettingClick} />}
+      {isClosedItem && <ItemClosedBanner itemId={itemId} />}
       <button
         onClick={handleItemOverViewClick}
         aria-label={`${itemName} 상세로 이동`}
