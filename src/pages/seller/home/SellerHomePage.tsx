@@ -5,7 +5,7 @@ import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import UserTypeSwitchBanner from '@/components/seller/home/UserTypeSwitchBanner';
 import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
 import { SellerHomeItemStatus } from '@/types/common/ItemType.types';
-import { useGetHomeQuestions } from '@/services/sellerItem/query/useGetHomeQuestions';
+import { useGetHomeQuestions } from '@/services/home/query/useGetHomeQuestions';
 import { useRef } from 'react';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 

@@ -5,7 +5,7 @@ import { PATH } from '@/routes/path';
 import { useModalStore } from '@/store/useModalStore';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';
-import { usePostLogout } from '@/services/auth/usePostLogout';
+import { usePostLogout } from '@/services/auth/mutation/usePostLogout';
 
 const AccountSettingsPage = () => {
   const navigate = useNavigate();

@@ -7,7 +7,7 @@ import { IdInput } from '@/components/common/DetailInput';
 import { idSchema } from '@/schemas/profileSchema';
 import { useMemo } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
-import { useCheckIdDuplicate } from '@/services/auth/useCheckIdDuplicationCheck';
+import { useCheckIdDuplicate } from '@/services/auth/mutation/useCheckIdDuplicationCheck';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';

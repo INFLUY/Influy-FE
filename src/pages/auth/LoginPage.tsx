@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { PATH } from '@/routes/path';
 import cn from '@/utils/cn';
 import { CloseComponent } from '@/components';
-import { usePostLogout } from '@/services/auth/usePostLogout';
+import { usePostLogout } from '@/services/auth/mutation/usePostLogout';
 
 const LoginPage = () => {
   const { pathname } = useLocation();

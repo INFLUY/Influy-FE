@@ -1,17 +1,24 @@
-import { getPopularItem } from '@/api/sellerItem/handleHomeItemList.api';
+import { getRecommendedItem } from '@/api/home/handleHomeItemList.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useInfiniteQuery } from '@tanstack/react-query';
-export const useGetPopularItem = ({ size = 10 }: { size?: number }) => {
+export const useGetRecommendedItem = ({
+  categoryId,
+  size = 10,
+}: {
+  categoryId: number | null;
+  size?: number;
+}) => {
   const query = useInfiniteQuery({
-    queryKey: [QUERY_KEYS.HOME_POPULAR, size],
+    queryKey: [QUERY_KEYS.HOME_RECOMMEND, categoryId, size],
     staleTime: 10 * 60 * 1000,
     gcTime: 15 * 60 * 1000,
     queryFn: async ({ pageParam = 1, queryKey }) => {
-      const [, size] = queryKey as [string, number];
+      const [, categoryId, size] = queryKey as [string, number | null, number];
 
-      return getPopularItem({
+      return getRecommendedItem({
         page: pageParam,
         size,
+        categoryId,
       });
     },
     getNextPageParam: (lastPage, allPages) => {

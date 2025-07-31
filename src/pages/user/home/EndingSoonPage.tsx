@@ -4,7 +4,7 @@ import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { ITEM_DEATIL } from '@/utils/generatePath';
-import { useGetCloseDeadlineItem } from '@/services/sellerItem/query/useGetCloseDeadlineItem';
+import { useGetCloseDeadlineItem } from '@/services/home/query/useGetCloseDeadlineItem';
 import { ItemCardType } from '@/types/common/ItemType.types';
 import { useRef } from 'react';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';

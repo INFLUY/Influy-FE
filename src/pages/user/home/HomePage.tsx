@@ -17,9 +17,9 @@ import { generatePath, useNavigate } from 'react-router-dom';
 import { ITEM_DEATIL, MARKET_DEATIL } from '@/utils/generatePath';
 import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
 import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
-import { useGetRecommendedItem } from '@/services/sellerItem/query/useGetRecommendedItem';
-import { useGetCloseDeadlineItem } from '@/services/sellerItem/query/useGetCloseDeadlineItem';
-import { useGetPopularItem } from '@/services/sellerItem/query/useGetPopularItem';
+import { useGetRecommendedItem } from '@/services/home/query/useGetRecommendedItem';
+import { useGetCloseDeadlineItem } from '@/services/home/query/useGetCloseDeadlineItem';
+import { useGetPopularItem } from '@/services/home/query/useGetPopularItem';
 
 interface TopBannerItem {
   image: string;

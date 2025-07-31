@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useModalStore } from '@/store/useModalStore';
 import { PATH } from '@/routes/path';
-import { useDeleteAccount } from '@/services/auth/useDeleteAccount';
+import { useDeleteAccount } from '@/services/auth/mutation/useDeleteAccount';
 
 const DeleteAccountPage = () => {
   const navigate = useNavigate();

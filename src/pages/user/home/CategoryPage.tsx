@@ -12,7 +12,7 @@ import { useRef, useState } from 'react';
 import { ITEM_DEATIL } from '@/utils/generatePath';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
-import { useGetRecommendedItem } from '@/services/sellerItem/query/useGetRecommendedItem';
+import { useGetRecommendedItem } from '@/services/home/query/useGetRecommendedItem';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { ItemCardType } from '@/types/common/ItemType.types';
 

@@ -1,24 +1,19 @@
-import { getRecommendedItem } from '@/api/sellerItem/handleHomeItemList.api';
+import { getCloseDeadlineItem } from '@/api/home/handleHomeItemList.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useInfiniteQuery } from '@tanstack/react-query';
-export const useGetRecommendedItem = ({
-  categoryId,
+export const useGetCloseDeadlineItem = ({
   size = 10,
-}: {
-  categoryId: number | null;
-  size?: number;
-}) => {
+}: { size?: number } = {}) => {
   const query = useInfiniteQuery({
-    queryKey: [QUERY_KEYS.HOME_RECOMMEND, categoryId, size],
+    queryKey: [QUERY_KEYS.HOME_CLOSE_DEADLINE, size],
     staleTime: 10 * 60 * 1000,
     gcTime: 15 * 60 * 1000,
     queryFn: async ({ pageParam = 1, queryKey }) => {
-      const [, categoryId, size] = queryKey as [string, number | null, number];
+      const [, size] = queryKey as [string, number];
 
-      return getRecommendedItem({
+      return getCloseDeadlineItem({
         page: pageParam,
         size,
-        categoryId,
       });
     },
     getNextPageParam: (lastPage, allPages) => {

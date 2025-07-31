@@ -1,4 +1,4 @@
-import { getHomeQuestionList } from '@/api/sellerItem/getHomeQuestionList.api';
+import { getHomeQuestionList } from '@/api/home/getHomeQuestionList.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useInfiniteQuery } from '@tanstack/react-query';
 

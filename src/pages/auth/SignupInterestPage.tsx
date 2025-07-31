@@ -12,7 +12,7 @@ import { useSnackbarStore } from '@/store/snackbarStore';
 import {
   useRegisterSeller,
   useRegisterUser,
-} from '@/services/auth/useRegisterUser';
+} from '@/services/auth/mutation/useRegisterUser';
 import { SnsLinkProps } from '@/types/common/AuthTypes.types';
 import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
 import {
