@@ -1,4 +1,7 @@
 export const PeriodChip = ({ period }: { period: number }) => {
+  if (period === 1) {
+    return null;
+  }
   return (
     <div
       className="bg-grey11 caption-small-m inline-flex items-center justify-center px-2 py-[.1875rem] text-white"
