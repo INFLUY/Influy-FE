@@ -13,7 +13,7 @@ export const useGetItemOverview = ({
   itemId: number;
 }) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.SELLER_ITEM_OVERVIEW, sellerId, itemId],
+    queryKey: [QUERY_KEYS.SELLER_ITEM_OVERVIEW, itemId],
     queryFn: () => fetchItemOverview({ sellerId, itemId }),
     staleTime: Infinity,
   });

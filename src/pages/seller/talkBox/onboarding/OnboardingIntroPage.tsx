@@ -21,7 +21,6 @@ const OnboardingIntroPage = () => {
 
   useEffect(() => {
     if (itemOverview && itemOverview?.talkBoxOpenStatus !== 'INITIAL') {
-      //  TODO: 수정 필요
       navigate('../', { replace: true });
     }
   }, [itemOverview]);

@@ -112,7 +112,7 @@ const OnboardingLayout = () => {
         leftIcons={[
           <XIcon
             className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate('..')}
+            onClick={() => navigate('..', { replace: true })}
             role="button"
             aria-label="뒤로 가기"
             tabIndex={0}

@@ -29,10 +29,6 @@ const TalkBoxSettingPage = () => {
       itemOverview?.talkBoxOpenStatus === 'OPENED' ? 'CLOSED' : 'OPENED',
   });
 
-  console.log(
-    itemOverview?.talkBoxOpenStatus === 'OPENED' ? 'CLOSED' : 'OPENED'
-  );
-
   return (
     <>
       <PageHeader
