@@ -4,10 +4,16 @@ import {
   QuestionListHeader,
   SingleQuestionBottomSheet,
   ItemClosedBanner,
+  DefaultButton,
 } from '@/components';
 
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { PATH } from '@/routes/path';
+
+//store 및 context
 import { BottomSheetContext } from '@/contexts/TalkBoxCategoryContext';
+import { useModalStore } from '@/store/useModalStore';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
@@ -15,13 +21,19 @@ import { useGetCategoryQuestionCounts } from '@/services/talkBox/query/useGetCat
 import { useSelectModeStore } from '@/store/talkBoxStore';
 import { SingleQuestionAnswerDTO } from '@/types/seller/TalkBox.types';
 import { useTalkBoxCategoryStore } from '@/store/talkBoxStore';
+import { useDeleteCategoryQuestions } from '@/services/talkBox/mutation/useDeleteCategoryQuestions';
 
 export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   const [singleQuestion, setSingleQuestion] =
     useState<SingleQuestionAnswerDTO | null>(null);
+  const navigate = useNavigate();
 
   const { itemId, categoryId } = useParams();
+
   const { selectedCategoryName } = useTalkBoxCategoryStore();
+  const { showModal, hideModal } = useModalStore();
+  const { showSnackbar } = useSnackbarStore();
+  const { mode, selectedQuestions, setMode } = useSelectModeStore();
 
   const { data } = useGetCategoryQuestionCounts(Number(categoryId));
 
@@ -30,7 +42,6 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     sellerId: 2, // TODO: 수정 필요
     itemId: Number(itemId),
   });
-  const { mode } = useSelectModeStore();
 
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -56,6 +67,32 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
     return () => ro.disconnect();
   }, []);
 
+  // 질문 삭제
+  const { mutate: deleteQuestions } = useDeleteCategoryQuestions({
+    itemId: Number(itemId),
+    questionCategoryId: Number(categoryId),
+    onSuccessCallback: () => {
+      showSnackbar('질문이 삭제되었습니다.');
+      hideModal();
+      setMode('default');
+    },
+  });
+
+  const handleDeleteConfirm = () => {
+    const selectedId: number[] = selectedQuestions.map((q) => q.questionId);
+    const tagsToInvalidate: number[] = Array.from(
+      new Set(selectedQuestions.map((q) => q.tagId))
+    );
+    deleteQuestions({ questionIdList: selectedId, tagIds: tagsToInvalidate });
+  };
+
+  // 일괄 답변하기
+  const handleBulkReply = () => {
+    navigate(`../${PATH.SELLER.TALK_BOX.ITEM.CATEGORY.BULK_REPLY}`, {
+      replace: true,
+    });
+  };
+
   // TODO: 로컬스토리지에서 삭제 처리
   // useSelectModeStore.persist.clearStorage();
   return (
@@ -78,13 +115,44 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
           </p>
         </article>
         {children}
-      </section>
 
-      {itemOverview?.talkBoxOpenStatus === 'CLOSED' && itemId && (
-        <div className="bottom-bar">
-          <ItemClosedBanner itemId={itemId} />
-        </div>
-      )}
+        {/* 하단 버튼 */}
+        <section className="bottom-bar flex w-full flex-col">
+          {itemOverview?.talkBoxOpenStatus === 'CLOSED' && itemId && (
+            <ItemClosedBanner itemId={itemId} />
+          )}
+          {mode === 'select' && (
+            <div className="flex w-full shrink-0 items-center justify-center gap-[.4375rem] bg-white px-5 py-2">
+              <DefaultButton
+                onClick={() => {
+                  showModal({
+                    text: `해당 질문을 삭제하시겠습니까?\n한 번 삭제한 질문은 되돌릴 수 없습니다.`,
+                    description: '*상대방은 삭제 여부를 알 수 없습니다.',
+                    leftButtonClick: () => hideModal(),
+                    rightButtonClick: () => handleDeleteConfirm(),
+                  });
+                }}
+                text="삭제하기"
+                disabled={selectedQuestions.length === 0}
+                activeTheme="white"
+                disabledTheme="borderGrey"
+              />
+              {itemOverview?.talkBoxOpenStatus !== 'CLOSED' && (
+                <DefaultButton
+                  type="submit"
+                  text={
+                    selectedQuestions.length > 0
+                      ? `(${selectedQuestions.length}개) 일괄 답변하기`
+                      : '일괄 답변하기'
+                  }
+                  disabled={selectedQuestions.length === 0}
+                  onClick={handleBulkReply}
+                />
+              )}
+            </div>
+          )}
+        </section>
+      </section>
 
       {/* 질문 하나 선택시 */}
       {mode === 'single' && singleQuestion && (

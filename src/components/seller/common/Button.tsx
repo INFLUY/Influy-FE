@@ -24,6 +24,8 @@ export const DefaultButton = ({
         {
           'bg-grey05 cursor-default':
             isActuallyDisabled && disabledTheme === 'base',
+          'border-grey05 text-grey05 cursor-default border bg-white':
+            isActuallyDisabled && disabledTheme === 'borderGrey',
 
           'cursor-pointer bg-black text-white':
             !isActuallyDisabled && activeTheme === 'black',

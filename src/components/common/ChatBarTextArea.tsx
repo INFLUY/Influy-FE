@@ -7,10 +7,12 @@ const ChatBarTextArea = ({
   text,
   setText,
   handleReplySubmit,
+  isItemOpened,
 }: {
   text: string;
   setText: (value: string) => void;
   handleReplySubmit: () => void;
+  isItemOpened?: boolean;
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -21,10 +23,13 @@ const ChatBarTextArea = ({
       <textarea
         ref={textareaRef}
         className="bg-grey02 body2-m scrollbar-hide text-grey10 placeholder:text-grey07 flex max-h-[7.875rem] flex-[1_0_0] resize-none items-center rounded-[1.25rem] px-3.5 py-2.5"
-        placeholder="답변 메세지 입력"
+        placeholder={
+          isItemOpened ? '답변 메세지 입력' : '톡박스가 비활성화 상태입니다.'
+        }
         rows={1}
         value={text}
         onChange={(e) => setText(e.target.value)}
+        disabled={!isItemOpened}
       />
       <div className="flex h-[2.5625rem] items-center">
         <SendIcon

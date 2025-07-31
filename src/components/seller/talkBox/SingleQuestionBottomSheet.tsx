@@ -5,16 +5,17 @@ import {
   ChatBarTextArea,
   SellerReplyBubble,
   TalkBoxBottomSheetLayout,
+  ItemClosedBanner,
 } from '@/components';
 
 import { generatePath, useNavigate } from 'react-router-dom';
-import { PATH } from '@/routes/path';
 import { SELLER_ITEM_FAQ_REGISTER_PATH } from '@/utils/generatePath';
 
 import { useModalStore } from '@/store/useModalStore';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useSelectModeStore } from '@/store/talkBoxStore';
 import { useBottomSheetContext } from '@/contexts/TalkBoxCategoryContext';
+import { useItemOverviewStore } from '@/store/item/itemOverviewStore';
 
 import { formatDate } from '@/utils/formatDate';
 //api
@@ -37,6 +38,7 @@ const SingleQuestionBottomSheet = ({
   const { showSnackbar } = useSnackbarStore();
   const { setMode } = useSelectModeStore();
   const { setSingleQuestion, singleQuestion } = useBottomSheetContext();
+  const { itemOverview } = useItemOverviewStore();
 
   const { data: fetchedDetail } = useGetSingleQuestionAnswer({
     itemId,
@@ -165,16 +167,20 @@ const SingleQuestionBottomSheet = ({
               />
             ))}
           <section className="bottom-bar flex w-full flex-col overflow-x-clip">
-            {prevAnswers && (
+            {prevAnswers && itemOverview?.talkBoxOpenStatus !== 'CLOSED' && (
               <PrevReplyBottomSheet
                 prevAnswers={prevAnswers}
                 handleAnswerSelect={handleAnswerSelect}
               />
             )}
+            {itemOverview?.talkBoxOpenStatus === 'CLOSED' && itemId && (
+              <ItemClosedBanner itemId={String(itemId)} />
+            )}
             <ChatBarTextArea
               text={answerText}
               setText={setAnswerText}
               handleReplySubmit={handleReplySubmit}
+              isItemOpened={itemOverview?.talkBoxOpenStatus !== 'CLOSED'}
             />
           </section>
         </div>

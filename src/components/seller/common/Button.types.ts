@@ -4,7 +4,7 @@ export interface DefaultButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
   activeTheme?: 'black' | 'white' | 'grey' | 'borderGrey';
-  disabledTheme?: 'base' | 'greyLine';
+  disabledTheme?: 'base' | 'borderGrey';
   text?: string;
   // 추가적인 테일윈드 요소
   additionalStyles?: string;
