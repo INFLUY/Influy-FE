@@ -8,9 +8,7 @@ export const useGetCloseDeadlineItem = ({
     queryKey: [QUERY_KEYS.HOME_CLOSE_DEADLINE, size],
     staleTime: 10 * 60 * 1000,
     gcTime: 15 * 60 * 1000,
-    queryFn: async ({ pageParam = 1, queryKey }) => {
-      const [, size] = queryKey as [string, number];
-
+    queryFn: async ({ pageParam = 1 }) => {
       return getCloseDeadlineItem({
         page: pageParam,
         size,
