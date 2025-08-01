@@ -1,7 +1,8 @@
 // 공통 컴포넌트 상품썸네일/유저뷰_아카이빙/앨범형
 import { ItemCardType } from '@/types/common/ItemType.types';
-import { ScrapButton, SoldOutChip, TimeChip, PeriodChip } from '@/components';
+import { SoldOutChip, TimeChip, PeriodChip } from '@/components';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
+import { ItemLikeButton } from '@/components';
 
 const ItemAlbumCard = ({
   item,
@@ -18,15 +19,14 @@ const ItemAlbumCard = ({
       {/* 상단 사진 부분 */}
       <div className="bg-grey03 relative flex aspect-square w-full shrink-0">
         <img
-          src={item?.itemMainImg ?? undefined}
+          src={item.itemMainImg ?? undefined}
           alt={item.itemName + ' 썸네일'}
           className="inset-0 h-full w-full object-cover"
         />
-        <ScrapButton
-          scrapped={item?.liked}
-          handleClickSave={() => {
-            console.log('saved');
-          }}
+        <ItemLikeButton
+          liked={item.liked}
+          sellerId={item.sellerId}
+          itemId={item.itemId}
           additionalStyles="absolute top-2 right-3"
         />
         {item.currentStatus === 'SOLD_OUT' && (

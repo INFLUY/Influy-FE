@@ -12,7 +12,7 @@ export { default as NoticeBanner } from './common/NoticeBanner';
 export { default as ExternalLinkChip } from './common/ExternalLinkChip';
 export { Tab, Tabs } from './common/Tab';
 export { default as SnackBar } from './common/SnackBar';
-export { default as ScrapButton } from './common/ScrapButton';
+export { ScrapButton, ItemLikeButton } from './common/ScrapButton';
 export { default as PageHeader } from './common/PageHeader';
 export { default as ToggleButton } from './common/ToggleButton';
 export { BottomNavBar } from './common/BottomNavBar';

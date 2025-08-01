@@ -1,5 +1,17 @@
 export interface LikeType {
-  targetType: 'SELLER' | 'ITEM';
+  targetType: LikeTargetType;
   targetId: number;
   likeCnt: number;
 }
+
+export interface LikeItemResponse {
+  likeId: number;
+  memberId: number;
+  targetType: LikeTargetType;
+  likeStatus: LikeStatusType;
+  itemId: number;
+  itemName: string;
+}
+
+type LikeTargetType = 'SELLER' | 'ITEM';
+type LikeStatusType = 'LIKE' | 'UNLIKE';

@@ -1,6 +1,6 @@
 //홈 아카이빙 인기 급상승 카드
 import { ItemCardType } from '@/types/common/ItemType.types';
-import { ScrapButton, TimeChip } from '@/components';
+import { ItemLikeButton, TimeChip } from '@/components';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 
 const HorizontalRankingCard = ({
@@ -24,11 +24,10 @@ const HorizontalRankingCard = ({
               alt={item.itemName + ' 썸네일'}
             />
           )}
-          <ScrapButton
-            scrapped={item?.liked}
-            handleClickSave={() => {
-              console.log('saved');
-            }}
+          <ItemLikeButton
+            liked={item?.liked}
+            sellerId={item?.sellerId}
+            itemId={item?.itemId}
             additionalStyles="absolute top-1 right-1 h-5 w-5"
           />
         </div>

@@ -100,7 +100,7 @@ export type SellerHomeItemStatus = {
   endDate: string;
   totalPendingQuestions: number;
   newQuestions: number;
-  topCategories: string[] | [];
+  topCategories: string[] | [] | null;
 };
 
 export type ItemSortType = 'END_DATE' | 'CREATE_DATE';

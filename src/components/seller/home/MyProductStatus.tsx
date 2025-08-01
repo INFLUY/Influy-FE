@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { SellerHomeItemStatus } from '@/types/common/ItemType.types';
 import { getDday } from '@/utils/formatDate';
+
 const MyProductStatus = ({ items }: { items: SellerHomeItemStatus[] | [] }) => {
   const navigate = useNavigate();
 
@@ -99,10 +100,12 @@ const StatusCard = ({ item }: { item: SellerHomeItemStatus }) => {
           </button>
         </div>
         {/* 아래 흰색 박스 */}
-        {item.topCategories.length > 0 ? (
+        {(item.topCategories || []).length > 0 ? (
           <div className="flex h-[4.5rem] w-full flex-col justify-center gap-1 rounded-[.1875rem] bg-white p-3">
             <div className="text-sub body1-sb line-clamp-1 w-full overflow-hidden text-ellipsis whitespace-nowrap">
-              {item.topCategories.map((category) => `#${category}`).join(' ')}
+              {(item.topCategories || [])
+                .map((category) => `#${category}`)
+                .join(' ')}
             </div>
             <span className="body1-m text-black">
               질문이 가장 많이 들어오고 있어요!

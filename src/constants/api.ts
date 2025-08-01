@@ -36,11 +36,16 @@ export const API_DOMAINS = {
   USER_PROFILE: '/member/:memberId/profile',
   USER_MY_PROFILE: '/member/profile',
 
+  // home
   HOME_RECOMMEND: '/home/recommend',
   HOME_POPULAR: '/home/popular',
   HOME_CLOSE_DEADLINE: '/home/close-deadline',
   HOME_TRENDING_SELLER: '/home/trending-seller',
   HOME_SELLER_PICK: '/home/:sellerId/pick',
+
+  // like
+  POST_ITEM_LIKE: '/seller/:sellerId/items/:itemId/likes',
+  PATCH_ITEM_LIKE: '/seller/:sellerId/items/:itemId/dislikes',
 };
 
 export const SELLER_API_DOMAINS = {
@@ -74,4 +79,6 @@ export const QUERY_KEYS = {
   HOME_CLOSE_DEADLINE: 'closeDeadline',
   HOME_TRENDING_SELLER: 'trendingSeller',
   HOME_SELLER_PICK: 'sellerPick',
+
+  LIKED_ITEMS: 'likedItems',
 };
