@@ -1,5 +1,5 @@
-import GlobalModal from '@/components/common/GlobalModal';
 import GlobalSnackBar from '@/components/common/GlobalSnackBar';
+import GlobalModal from '@/components/common/GlobalModal';
 
 const GlobalLayout = ({ children }: { children: React.ReactNode }) => {
   return (

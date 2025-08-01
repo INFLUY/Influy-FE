@@ -63,7 +63,14 @@ const SellerMyProfileHeader = () => {
             onClick={copyUrl}
             className="h-6 w-6 cursor-pointer text-white"
           />
-          <SettingsIcon className="h-6 w-6 cursor-pointer text-white" />
+          <SettingsIcon
+            className="h-6 w-6 cursor-pointer text-white"
+            onClick={() =>
+              navigate(
+                `${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}/${PATH.SELLER.MY.SETTING.BASE}`
+              )
+            }
+          />
         </span>
       </header>
     </>

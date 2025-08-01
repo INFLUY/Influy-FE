@@ -15,7 +15,7 @@ const LikePage = ({ children }: { children: ReactNode }) => {
   ];
 
   return (
-    <section className="relative flex flex-col items-center justify-center pt-[5.6875rem] pb-16">
+    <section className="relative flex w-full flex-1 flex-col items-center justify-center pt-[5.6875rem] pb-16">
       <section className="fixed top-0 z-20 w-full max-w-[40rem] min-w-[20rem] bg-white pt-11 md:w-[28rem]">
         <PageHeader
           leftIcons={[<h1 className="subhead-sb text-black">찜</h1>]}
@@ -41,7 +41,7 @@ const LikePage = ({ children }: { children: ReactNode }) => {
           ))}
         </Tabs>
       </section>
-      <article className="flex flex-1 flex-col">{children}</article>
+      <article className="flex w-full flex-1 flex-col">{children}</article>
       <BottomNavBar />
     </section>
   );

@@ -1,14 +1,18 @@
 import { PageHeader, ToggleButton } from '@/components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useState } from 'react';
+import { PATH } from '@/routes/path';
 
 const NotificationSettingsPage = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isSeller = pathname.includes(PATH.SELLER.BASE);
   const [likedProductNotification, setLikedProductNotification] =
     useState<boolean>(false);
   const [chatBotNotification, setChatBotNotification] =
     useState<boolean>(false);
+  const [reviewNotification, setReviewNotification] = useState<boolean>(false);
 
   return (
     <div className="flex h-full w-full flex-1 flex-col pt-11">
@@ -39,6 +43,16 @@ const NotificationSettingsPage = () => {
             setIsChecked={setChatBotNotification}
           />
         </article>
+        {isSeller && (
+          <article className="flex justify-between">
+            <span className="body1-m text-grey10">셀러 후기 등록 시 알림</span>
+            <ToggleButton
+              name="셀러 후기 등록 시 알림"
+              isChecked={reviewNotification}
+              setIsChecked={setReviewNotification}
+            />
+          </article>
+        )}
       </section>
     </div>
   );

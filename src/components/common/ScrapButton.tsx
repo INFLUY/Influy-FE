@@ -17,7 +17,7 @@ const ScrapButton = ({
 
   return (
     <>
-      {scrapped ? (
+      {!scrapped ? (
         <Heart
           className={cn(
             'text-grey03 z-[5] h-6 w-6 cursor-pointer',

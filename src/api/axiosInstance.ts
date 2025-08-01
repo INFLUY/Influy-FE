@@ -17,6 +17,7 @@ export const createAxiosInstance = (
 
 export const axiosBase = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
 });
 
 export const instance = axios.create({

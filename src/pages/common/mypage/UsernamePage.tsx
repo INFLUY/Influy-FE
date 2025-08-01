@@ -1,26 +1,30 @@
-import { DefaultButton, PageHeader } from '@/components';
+import { DefaultButton, PageHeader, TipTooltip } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { IdInput } from '@/components/common/DetailInput';
 import { idSchema } from '@/schemas/profileSchema';
 import { useMemo } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useCheckIdDuplicate } from '@/services/auth/useCheckIdDuplicationCheck';
+import { PATH } from '@/routes/path';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 const UsernamePage = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isSeller = pathname.includes(PATH.SELLER.BASE);
+
+  const { showSnackbar } = useSnackbarStore();
 
   const [id, setId] = useState<string>('');
-
   const [isDirty, setIsDirty] = useState(false); // 입력값이 한번이라도 바뀌었는지
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const [errorText, setErrorText] = useState<string>('');
   const [validText, setValidText] = useState<string>('');
-  // const { showSnackbar } = useSnackbarStore();
 
   const isIdValid = () => {
     if (id.length === 0) return false;
@@ -54,12 +58,12 @@ const UsernamePage = () => {
   const handleClickSave = () => {
     setIsDirty(true);
     if (!isIdValid) {
-      // showSnackbar(errorText || '아이디를 입력해 주세요.'); // TODO: 스낵바
+      showSnackbar(errorText || '아이디를 입력해 주세요.');
       inputRef.current?.focus();
     } else {
       // 백 연동
       console.log(id);
-      // showSnackbar('저장되었습니다.'); // TODO: 스낵바
+      showSnackbar('저장되었습니다.');
     }
   };
 
@@ -96,7 +100,7 @@ const UsernamePage = () => {
   ]);
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col pt-11">
+    <div className="flex h-full w-full flex-1 flex-col gap-6 pt-11">
       <PageHeader
         leftIcons={[
           <ArrowIcon
@@ -128,6 +132,11 @@ const UsernamePage = () => {
           placeHolderContent="아이디를 입력해 주세요."
           ref={inputRef}
         />
+        {isSeller && (
+          <div className="pt-[.875rem]">
+            <TipTooltip text="아이디는 등록하신 상품 썸네일에 표시되며, 타 SNS에서 사용하고 계시는 아이디와 동일하게 사용하시면 좋습니다." />
+          </div>
+        )}
       </section>
       <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">
         <DefaultButton
