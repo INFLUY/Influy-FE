@@ -9,12 +9,10 @@ export const useGetRecommendedItem = ({
   size?: number;
 }) => {
   const query = useInfiniteQuery({
-    queryKey: [QUERY_KEYS.HOME_RECOMMEND, categoryId, size],
+    queryKey: [QUERY_KEYS.HOME_RECOMMEND, categoryId],
     staleTime: 10 * 60 * 1000,
     gcTime: 15 * 60 * 1000,
-    queryFn: async ({ pageParam = 1, queryKey }) => {
-      const [, categoryId, size] = queryKey as [string, number | null, number];
-
+    queryFn: async ({ pageParam = 1 }) => {
       return getRecommendedItem({
         page: pageParam,
         size,

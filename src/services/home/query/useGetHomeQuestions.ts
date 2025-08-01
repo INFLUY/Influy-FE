@@ -4,10 +4,9 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 export const useGetHomeQuestions = ({ size = 10 }: { size?: number } = {}) => {
   const query = useInfiniteQuery({
-    queryKey: [QUERY_KEYS.SELLER_MY_HOME_QUESTIONS, size],
+    queryKey: [QUERY_KEYS.SELLER_MY_HOME_QUESTIONS],
     staleTime: 3 * 60 * 1000,
-    queryFn: async ({ pageParam = 1, queryKey }) => {
-      const [, size] = queryKey as [string, number];
+    queryFn: async ({ pageParam = 1 }) => {
       return getHomeQuestionList({
         page: pageParam,
         size,

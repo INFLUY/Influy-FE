@@ -3,11 +3,9 @@ import { QUERY_KEYS } from '@/constants/api';
 import { useInfiniteQuery } from '@tanstack/react-query';
 export const useGetPopularItem = ({ size = 10 }: { size?: number }) => {
   const query = useInfiniteQuery({
-    queryKey: [QUERY_KEYS.HOME_POPULAR, size],
+    queryKey: [QUERY_KEYS.HOME_POPULAR],
     staleTime: 1 * 60 * 1000,
-    queryFn: async ({ pageParam = 1, queryKey }) => {
-      const [, size] = queryKey as [string, number];
-
+    queryFn: async ({ pageParam = 1 }) => {
       return getPopularItem({
         page: pageParam,
         size,

@@ -6,10 +6,9 @@ export const useGetLikedSellerList = ({
   size = 10,
 }: { size?: number } = {}) => {
   return useInfiniteQuery({
-    queryKey: [QUERY_KEYS.LIKED_SELLERS, size],
+    queryKey: [QUERY_KEYS.LIKED_SELLERS],
     staleTime: 3 * 60 * 1000,
-    queryFn: async ({ pageParam = 1, queryKey }) => {
-      const [, size] = queryKey as [string, number];
+    queryFn: async ({ pageParam = 1 }) => {
       return getLikedSellerList({
         page: pageParam,
         size,
