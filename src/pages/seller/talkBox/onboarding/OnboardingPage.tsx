@@ -55,7 +55,6 @@ const OnboardingLayout = () => {
     usePostGenerateQuestionCategory({
       itemId: Number(itemId),
       onSuccessCallback: (data: string[]) => {
-        console.log(data);
         setCategory(data);
       },
     });

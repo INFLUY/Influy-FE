@@ -7,7 +7,7 @@ import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 
 export const TalkBoxItemCard = ({ item }: { item: TalkBoxOpenedItem }) => {
   const navigate = useNavigate();
-  console.log(item.talkBoxCntInfo.waitingCnt);
+
   return (
     <article
       className="flex h-[5.25rem] w-full cursor-pointer gap-[.6875rem]"

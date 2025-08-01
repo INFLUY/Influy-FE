@@ -82,7 +82,6 @@ export const CategorizeStep = ({
 
   const handleSave = () => {
     const trimmed = draftName.trim();
-    console.log(trimmed);
 
     if (!trimmed) return;
     if (category.includes(trimmed)) {
