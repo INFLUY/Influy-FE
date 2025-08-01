@@ -3,6 +3,8 @@ import { PageHeader, TalkBoxBottomItemCard, ToggleButton } from '@/components';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 
+import { useStrictId } from '@/hooks/auth/useStrictId';
+
 import { useNavigate, useParams } from 'react-router-dom';
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
@@ -15,10 +17,11 @@ const TalkBoxSettingPage = () => {
   };
 
   const { itemId } = useParams();
+  const { sellerId } = useStrictId();
 
   // 하단 상품 정보
   const { itemOverview } = useItemOverview({
-    sellerId: 2, // TODO: 수정 필요
+    sellerId: Number(sellerId),
     itemId: Number(itemId),
   });
 

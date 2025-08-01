@@ -12,6 +12,8 @@ import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
 import SettingsIcon from '@/assets/icon/common/SettingsIcon.svg?react';
 
+import { useStrictId } from '@/hooks/auth/useStrictId';
+
 import {
   useNavigate,
   useLocation,
@@ -27,10 +29,11 @@ import { useGetCategoryList } from '@/services/talkBox/query/useGetCategoryList'
 
 export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
   const { itemId } = useParams();
+  const { sellerId } = useStrictId();
 
   // 하단 상품 정보
   const { itemOverview } = useItemOverview({
-    sellerId: 2, // TODO: 수정 필요
+    sellerId: Number(sellerId),
     itemId: Number(itemId),
   });
 

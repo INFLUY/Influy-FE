@@ -19,10 +19,13 @@ import { usePostGenerateQuestionCategory } from '@/services/talkBox/mutation/use
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
 import { usePostTalkBoxOpenStatus } from '@/services/sellerItem/mutation/usePostTalkBoxOpenStatus';
 import { usePostAddQuestionCategories } from '@/services/talkBox/mutation/usePostAddQuestionCategories';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const OnboardingLayout = () => {
   const navigate = useNavigate();
   const { itemId } = useParams<{ itemId: string }>();
+  const { sellerId } = useStrictId();
+
   const [searchParams, setSearchParams] = useSearchParams();
   const [category, setCategory] = useState<string[]>([]);
 
@@ -43,7 +46,7 @@ const OnboardingLayout = () => {
 
   // 하단 상품 정보 get api
   const { itemOverview } = useItemOverview({
-    sellerId: 2, // TODO: 수정 필요
+    sellerId: Number(sellerId), // TODO: 수정 필요
     itemId: Number(itemId),
   });
 

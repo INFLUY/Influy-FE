@@ -18,6 +18,8 @@ import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
 //type
 import { QuestionDTO } from '@/types/seller/TalkBox.types';
 
+import { useStrictId } from '@/hooks/auth/useStrictId';
+
 //store
 import { useSelectModeStore } from '@/store/talkBoxStore';
 import { useSnackbarStore } from '@/store/snackbarStore';
@@ -36,6 +38,7 @@ const BulkReplyPage = () => {
   const { selectedCategoryName } = useTalkBoxCategoryStore();
 
   const { itemId, categoryId } = useParams();
+  const { sellerId } = useStrictId();
 
   const getTagInfo = (
     selectedQuestions: QuestionDTO[]
@@ -76,7 +79,7 @@ const BulkReplyPage = () => {
 
   // 상단 상품 정보
   const { itemOverview } = useItemOverview({
-    sellerId: 2, // TODO: 수정 필요
+    sellerId: Number(sellerId), // TODO: 수정 필요
     itemId: Number(itemId),
   });
 

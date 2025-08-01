@@ -1,21 +1,26 @@
 import { PageHeader, TalkBoxBottomItemCard, DefaultButton } from '@/components';
+import { OnboardingLottieSwiper } from '@/components/seller/talkBox/onboarding/LottieViewer';
+
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
+
 import { useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
+
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
 import { useEffect } from 'react';
 
-import { OnboardingLottieSwiper } from '@/components/seller/talkBox/onboarding/LottieViewer';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 const OnboardingIntroPage = () => {
   const navigate = useNavigate();
 
   const { itemId } = useParams();
+  const { sellerId } = useStrictId();
 
   // 하단 상품 정보
   const { itemOverview } = useItemOverview({
-    sellerId: 2, // TODO: 수정 필요
+    sellerId: Number(sellerId),
     itemId: Number(itemId),
   });
 

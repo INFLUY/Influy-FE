@@ -24,12 +24,14 @@ import { SingleQuestionAnswerDTO } from '@/types/seller/TalkBox.types';
 import { useTalkBoxCategoryStore } from '@/store/talkBoxStore';
 import { useDeleteCategoryQuestions } from '@/services/talkBox/mutation/useDeleteCategoryQuestions';
 
+import { useStrictId } from '@/hooks/auth/useStrictId';
+
 export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
   const [singleQuestion, setSingleQuestion] =
     useState<SingleQuestionAnswerDTO | null>(null);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
+  const { sellerId } = useStrictId();
   const { itemId, categoryId } = useParams();
 
   const { selectedCategoryName } = useTalkBoxCategoryStore();
@@ -41,7 +43,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
 
   // 상단 상품 정보
   const { itemOverview } = useItemOverview({
-    sellerId: 2, // TODO: 수정 필요
+    sellerId: Number(sellerId),
     itemId: Number(itemId),
   });
 
@@ -90,9 +92,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
 
   // 일괄 답변하기
   const handleBulkReply = () => {
-    navigate(`../${PATH.SELLER.TALK_BOX.ITEM.CATEGORY.BULK_REPLY}`, {
-      replace: true,
-    });
+    navigate(`${PATH.SELLER.TALK_BOX.ITEM.CATEGORY.BULK_REPLY}`);
   };
 
   // TODO: 로컬스토리지에서 삭제 처리
