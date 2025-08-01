@@ -14,3 +14,8 @@ export type Pagination<T, K extends string> = {
   isFirst: boolean;
   isLast: boolean;
 };
+
+export interface PaginationType {
+  page: number;
+  size: number;
+}

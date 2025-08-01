@@ -46,6 +46,7 @@ export const API_DOMAINS = {
   // like
   POST_ITEM_LIKE: '/seller/:sellerId/items/:itemId/likes',
   PATCH_ITEM_LIKE: '/seller/:sellerId/items/:itemId/dislikes',
+  GET_LIKED_ITEM_LIST: '/home/item-likes',
 };
 
 export const SELLER_API_DOMAINS = {

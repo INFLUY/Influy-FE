@@ -1,32 +1,39 @@
-import { ItemAlbumCard } from '@/components';
-import { ItemCardType } from '@/types/common/ItemType.types';
+import { ItemAlbumCard, LoadingSpinner } from '@/components';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { ITEM_DEATIL } from '@/utils/generatePath';
-const itemMockData: ItemCardType[] = [
-  {
-    sellerProfileImg: '/profile.png',
-    sellerUsername: 'daisylooks',
-    sellerNickname: '데이지룩즈',
-    sellerId: 10,
-    itemId: 77,
-    itemMainImg: '/img1.png',
-    itemPeriod: 1,
-    itemName: '[7차] 제목제목',
-    startDate: '2025-07-05T00:00:00.000Z',
-    endDate: '2025-07-12T00:00:00.000Z',
-    tagline: null,
-    currentStatus: 'DEFAULT',
-    liked: false,
-  },
-];
+import { useGetLikedItemList } from '@/services/likes/query/useGetLikedItemList';
+import { useRef } from 'react';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import { ItemCardType } from '@/types/common/ItemType.types';
 
-const EndingSoonPage = () => {
+const LikeItemTab = () => {
   const navigate = useNavigate();
+
+  const {
+    data: likedItemList,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetLikedItemList({ size: 8 });
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useInfiniteScroll({
+    targetRef: observerRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
+
+  const itemList = likedItemList?.pages
+    .flatMap((page) => page?.itemLikeList ?? [])
+    .filter(Boolean) as ItemCardType[];
+
   return (
     <section className="scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
-      {itemMockData?.length > 0 ? (
+      {itemList?.length > 0 ? (
         <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
-          {itemMockData.map((item) => (
+          {itemList.map((item) => (
             <ItemAlbumCard
               key={item.itemId}
               item={item}
@@ -40,6 +47,16 @@ const EndingSoonPage = () => {
               }
             />
           ))}
+
+          {hasNextPage && (
+            <div ref={observerRef} className="h-4 w-full">
+              {isFetchingNextPage && (
+                <div className="flex justify-center">
+                  <LoadingSpinner />
+                </div>
+              )}
+            </div>
+          )}
         </div>
       ) : (
         <div className="flex flex-1 items-center justify-center">
@@ -50,4 +67,4 @@ const EndingSoonPage = () => {
   );
 };
 
-export default EndingSoonPage;
+export default LikeItemTab;

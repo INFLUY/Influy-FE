@@ -1,7 +1,12 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { API_DOMAINS } from '@/constants/api';
-import { ApiResponse } from '@/types/common/ApiResponse.types';
+import {
+  ApiResponse,
+  Pagination,
+  PaginationType,
+} from '@/types/common/ApiResponse.types';
+import { ItemCardType } from '@/types/common/ItemType.types';
 import { LikeItemResponse } from '@/types/common/Like.types';
 
 export const postItemLike = async ({
@@ -27,5 +32,12 @@ export const patchItemLike = async ({
   const response = await instance.patch<ApiResponse<LikeItemResponse>>(
     generateApiPath(API_DOMAINS.PATCH_ITEM_LIKE, { sellerId, itemId })
   );
+  return response.data.result;
+};
+
+export const getLikedItemList = async ({ page, size }: PaginationType) => {
+  const response = await instance.get<
+    ApiResponse<Pagination<ItemCardType[] | [], 'itemLikeList'>>
+  >(API_DOMAINS.GET_LIKED_ITEM_LIST, { params: { page, size } });
   return response.data.result;
 };
