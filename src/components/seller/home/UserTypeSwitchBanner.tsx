@@ -1,7 +1,7 @@
 import cn from '@/utils/cn';
 import UserTypeToggleButton from '@/components/seller/home/UserTypeToggleButton';
-import MyIcon from '@/assets/icon/seller/MyNavbar.svg';
 import { SellerProfileType } from '@/types/seller/SellerProfile.types';
+import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 
 const UserTypeSwitchBanner = ({
   influencer,
@@ -15,7 +15,7 @@ const UserTypeSwitchBanner = ({
       <div className="flex gap-[.625rem]">
         <div className="relative h-[2.875rem] w-[2.875rem]">
           <img
-            src={influencer.profileImg ?? MyIcon}
+            src={influencer.profileImg ?? ProfileIcon}
             alt="프로필 사진"
             className="h-[2.875rem] w-[2.875rem] shrink-0 rounded-full object-cover"
           />

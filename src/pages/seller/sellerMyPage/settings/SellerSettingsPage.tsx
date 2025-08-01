@@ -3,18 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { PATH } from '@/routes/path';
 import { useModalStore } from '@/store/useModalStore';
-import { useStrictId } from '@/hooks/auth/useStrictId';
-import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';
-import { usePostLogout } from '@/services/auth/mutation/usePostLogout';
 
-const AccountSettingsPage = () => {
+const SellerSettingsPage = () => {
   const navigate = useNavigate();
-
   const { showModal } = useModalStore();
-
-  const { memberId } = useStrictId({ redirectOnFail: true });
-  const { data: userProfile } = useGetUserProfile({ memberId: memberId! });
-  const { mutate: logout } = usePostLogout(() => navigate(PATH.HOME.BASE));
 
   const handleLogoutClick = () => {
     showModal({
@@ -22,7 +14,9 @@ const AccountSettingsPage = () => {
       leftButtonText: '취소',
       rightButtonText: '확인',
       rightButtonClick: () => {
-        logout();
+        // TODO: 로그아웃 로직
+        console.log('로그아웃 완료');
+        navigate(PATH.HOME.BASE);
       },
     });
   };
@@ -37,31 +31,33 @@ const AccountSettingsPage = () => {
           />,
         ]}
       >
-        알림 설정
+        설정
       </PageHeader>
       <section className="flex flex-1 flex-col pt-[.5625rem]">
         <AccoutSettingsMenuButton
-          title="아이디 변경"
-          subText={'@' + userProfile?.username}
+          title="알림 설정"
           onClick={() => {
-            navigate(PATH.MY.ACCOUNT_SETTING.ID);
+            navigate(PATH.SELLER.MY.SETTING.NOTIFICATION);
           }}
+        />
+
+        <AccoutSettingsMenuButton
+          title="계정 설정"
+          onClick={() => navigate(PATH.SELLER.MY.SETTING.ACCOUNT_SETTING.BASE)}
+        />
+
+        <AccoutSettingsMenuButton
+          title="INFLUY 고객센터"
+          onClick={() => navigate(PATH.SELLER.MY.SETTING.SUPPORT.BASE)}
         />
 
         <AccoutSettingsMenuButton
           title="로그아웃"
           onClick={() => handleLogoutClick()}
         />
-
-        <AccoutSettingsMenuButton
-          title="회원 탈퇴"
-          onClick={() => {
-            navigate(PATH.MY.ACCOUNT_SETTING.DELETE);
-          }}
-        />
       </section>
     </div>
   );
 };
 
-export default AccountSettingsPage;
+export default SellerSettingsPage;

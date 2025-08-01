@@ -1,8 +1,8 @@
-import { DefaultButton, PageHeader } from '@/components';
+import { DefaultButton, PageHeader, TipTooltip } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { IdInput } from '@/components/common/DetailInput';
 import { idSchema } from '@/schemas/profileSchema';
 import { useMemo } from 'react';
@@ -11,17 +11,21 @@ import { useCheckIdDuplicate } from '@/services/auth/mutation/useCheckIdDuplicat
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';
+import { PATH } from '@/routes/path';
 
 const UsernamePage = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isSeller = pathname.includes(PATH.SELLER.BASE);
   const [id, setId] = useState<string>('');
   const [prevId, setPrevId] = useState<string>('');
+  const [errorText, setErrorText] = useState<string>('');
+  const [validText, setValidText] = useState<string>('');
+
+  const { showSnackbar } = useSnackbarStore();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const [errorText, setErrorText] = useState<string>('');
-  const [validText, setValidText] = useState<string>('');
-  const { showSnackbar } = useSnackbarStore();
   const { memberId } = useStrictId({ redirectOnFail: true });
   const { data: userProfile } = useGetUserProfile({ memberId: memberId! });
 
@@ -94,7 +98,7 @@ const UsernamePage = () => {
   }, [duplicateCheckData, isDuplicateLoading, isDebouncing, isDuplicated]);
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col pt-11">
+    <div className="flex h-full w-full flex-1 flex-col gap-6 pt-11">
       <PageHeader
         leftIcons={[
           <ArrowIcon
@@ -126,6 +130,11 @@ const UsernamePage = () => {
           placeHolderContent="아이디를 입력해 주세요."
           ref={inputRef}
         />
+        {isSeller && (
+          <div className="pt-[.875rem]">
+            <TipTooltip text="아이디는 등록하신 상품 썸네일에 표시되며, 타 SNS에서 사용하고 계시는 아이디와 동일하게 사용하시면 좋습니다." />
+          </div>
+        )}
       </section>
       <div className="sticky bottom-0 z-20 flex gap-[.4375rem] bg-white px-5 pt-[.625rem] pb-4">
         <DefaultButton

@@ -1,6 +1,13 @@
 import { SellerThumbnailType } from '@/types/user/Home.types';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 
+export interface InfluencerCardType {
+  id: number;
+  nickname: string;
+  username: string;
+  profileImage: string;
+}
+
 const InfluencerCard = ({
   influencer,
   selectedInfluencer,
