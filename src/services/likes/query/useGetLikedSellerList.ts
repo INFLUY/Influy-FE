@@ -1,21 +1,24 @@
-import { getPopularItem } from '@/api/home/handleHomeItemList.api';
+import { getLikedSellerList } from '@/api/likes/handleSellerLikes.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useInfiniteQuery } from '@tanstack/react-query';
-export const useGetPopularItem = ({ size = 10 }: { size?: number }) => {
-  const query = useInfiniteQuery({
-    queryKey: [QUERY_KEYS.HOME_POPULAR, size],
-    staleTime: 1 * 60 * 1000,
+
+export const useGetLikedSellerList = ({
+  size = 10,
+}: { size?: number } = {}) => {
+  return useInfiniteQuery({
+    queryKey: [QUERY_KEYS.LIKED_SELLERS, size],
+    staleTime: 3 * 60 * 1000,
     queryFn: async ({ pageParam = 1, queryKey }) => {
       const [, size] = queryKey as [string, number];
-
-      return getPopularItem({
+      return getLikedSellerList({
         page: pageParam,
         size,
       });
     },
+
     getNextPageParam: (lastPage, allPages) => {
       const currentPage = allPages?.length ?? 0;
-      const totalPage = lastPage?.result?.totalPage ?? 0;
+      const totalPage = lastPage?.totalPage ?? 0;
 
       if (currentPage < totalPage) {
         return currentPage + 1;
@@ -24,6 +27,4 @@ export const useGetPopularItem = ({ size = 10 }: { size?: number }) => {
     },
     initialPageParam: 1,
   });
-
-  return query;
 };

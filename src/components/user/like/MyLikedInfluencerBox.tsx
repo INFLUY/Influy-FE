@@ -30,11 +30,7 @@ const MyLikedInfluencerBox = ({
     >
       <div className="flex gap-3">
         <img
-          src={
-            influencer.profileImgLink === ''
-              ? ProfileIcon
-              : influencer.profileImgLink
-          }
+          src={influencer.profileImgLink ?? ProfileIcon}
           alt={influencer.nickName + ' 프로필 이미지'}
           className="h-15 w-15 rounded-full object-cover"
         />
@@ -50,7 +46,7 @@ const MyLikedInfluencerBox = ({
           additionalStyles=""
         />
         <span className="body2-m text-grey07">
-          {formatNumber(influencer.likeCount)}
+          {formatNumber(influencer.likeCnt)}
         </span>
       </div>
     </li>

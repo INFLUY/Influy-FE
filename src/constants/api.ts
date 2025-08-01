@@ -47,6 +47,7 @@ export const API_DOMAINS = {
   POST_ITEM_LIKE: '/seller/:sellerId/items/:itemId/likes',
   PATCH_ITEM_LIKE: '/seller/:sellerId/items/:itemId/dislikes',
   GET_LIKED_ITEM_LIST: '/home/item-likes',
+  GET_LIKED_SELLER_LIST: '/home/seller-likes',
 };
 
 export const SELLER_API_DOMAINS = {
@@ -82,4 +83,5 @@ export const QUERY_KEYS = {
   HOME_SELLER_PICK: 'sellerPick',
 
   LIKED_ITEMS: 'likedItems',
+  LIKED_SELLERS: 'likedSellers',
 };

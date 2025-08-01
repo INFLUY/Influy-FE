@@ -1,6 +1,6 @@
 import { getSellerLikes } from '@/api/likes/handleSellerLikes.api';
 import { QUERY_KEYS } from '@/constants/api';
-import { LikeType } from '@/types/common/Like.types';
+import { LikeType } from '@/types/user/Like.types';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 export const useGetSellerLike = ({

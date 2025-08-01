@@ -7,7 +7,7 @@ import {
   PaginationType,
 } from '@/types/common/ApiResponse.types';
 import { ItemCardType } from '@/types/common/ItemType.types';
-import { LikeItemResponse } from '@/types/common/Like.types';
+import { LikeItemResponse } from '@/types/user/Like.types';
 
 export const postItemLike = async ({
   sellerId,
