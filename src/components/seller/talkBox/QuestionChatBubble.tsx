@@ -59,7 +59,7 @@ const QuestionChatBubble = ({
     <>
       <article
         className={cn(
-          'grid w-full grid-cols-[1fr_auto] items-start gap-x-2.5 gap-y-1 px-5 select-none',
+          'grid w-full grid-cols-[1fr_auto] items-start gap-x-2.5 px-5 select-none',
           mode === 'single'
             ? 'grid-rows-[auto_auto_auto]'
             : 'grid-rows-[auto_auto]',
@@ -72,7 +72,7 @@ const QuestionChatBubble = ({
         aria-label={`질문자 ${chat.username}의 채팅 말풍선, 카테고리: ${chat.tagName}`}
       >
         {/* 상단 유저 및 시간 */}
-        <div className="col-span-1 col-start-1 row-span-1 row-start-1 flex items-center justify-between">
+        <div className="col-span-1 col-start-1 row-span-1 row-start-1 mb-1 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="bg-grey03 flex h-8 w-8 items-center justify-center rounded-full">
               {chat.profileImg && (

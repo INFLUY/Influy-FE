@@ -8,7 +8,7 @@ import {
   LoadingSpinner,
 } from '@/components';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 
@@ -79,7 +79,7 @@ const BulkReplyPage = () => {
 
   // 상단 상품 정보
   const { itemOverview } = useItemOverview({
-    sellerId: Number(sellerId), // TODO: 수정 필요
+    sellerId: Number(sellerId),
     itemId: Number(itemId),
   });
 
@@ -164,12 +164,15 @@ const BulkReplyPage = () => {
 
       {/* 하단 이전 답변 및 채팅바 */}
       <section className="bottom-bar flex w-full flex-col overflow-x-clip">
-        {prevAnswers && (
-          <PrevReplyBottomSheet
-            prevAnswers={prevAnswers}
-            handleAnswerSelect={handleAnswerSelect}
-          />
-        )}
+        <Suspense fallback={<LoadingSpinner />}>
+          {prevAnswers && (
+            <PrevReplyBottomSheet
+              prevAnswers={prevAnswers}
+              handleAnswerSelect={handleAnswerSelect}
+            />
+          )}
+        </Suspense>
+
         <ChatBarTextArea
           text={answerText}
           setText={setAnswerText}

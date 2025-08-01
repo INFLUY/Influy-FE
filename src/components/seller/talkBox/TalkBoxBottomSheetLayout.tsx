@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 import ModalPortal from '@/components/common/ModalPortal';
 import cn from '@/utils/cn';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
@@ -16,7 +16,6 @@ const TalkBoxBottomSheetLayout = ({
 }) => {
   return (
     <ModalPortal>
-      {' '}
       <div className="modal">
         <div
           className="flex h-screen w-screen max-w-[40rem] min-w-[20rem] flex-1 flex-col justify-end overflow-x-clip md:w-[28rem]"
@@ -38,7 +37,9 @@ const TalkBoxBottomSheetLayout = ({
                 className="absolute left-5 h-6 w-6 cursor-pointer"
                 onClick={onClose}
               />
-              <span className="subhead-sb text-grey10">{title}</span>
+              <Suspense fallback={null}>
+                <span className="subhead-sb text-grey10">{title}</span>
+              </Suspense>
             </div>
             {children}
           </div>

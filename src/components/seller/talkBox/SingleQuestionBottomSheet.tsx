@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import {
   QuestionChatBubble,
   PrevReplyBottomSheet,
@@ -6,6 +6,7 @@ import {
   SellerReplyBubble,
   TalkBoxBottomSheetLayout,
   ItemClosedBanner,
+  LoadingSpinner,
 } from '@/components';
 
 import { generatePath, useNavigate } from 'react-router-dom';
@@ -31,12 +32,11 @@ const SingleQuestionBottomSheet = ({
   questionCategoryId: number;
 }) => {
   const navigate = useNavigate();
-  const isBottomSheetOpen = true; //TODO:삭제
   const [answerText, setAnswerText] = useState<string>('');
 
   const { showModal, hideModal } = useModalStore();
   const { showSnackbar } = useSnackbarStore();
-  const { setMode } = useSelectModeStore();
+  const { mode, setMode } = useSelectModeStore();
   const { setSingleQuestion, singleQuestion } = useBottomSheetContext();
   const { itemOverview } = useItemOverviewStore();
 
@@ -138,7 +138,7 @@ const SingleQuestionBottomSheet = ({
     <>
       <TalkBoxBottomSheetLayout
         onClose={handleBottomSheetClose}
-        isBottomSheetOpen={isBottomSheetOpen}
+        isBottomSheetOpen={mode === 'single'}
         title={singleQuestion.questionDto.username + '님의 질문'}
       >
         {/* 바텀 시트 콘텐츠 */}
@@ -150,22 +150,28 @@ const SingleQuestionBottomSheet = ({
                 twoDigitYear: true,
               })}
           </div>
-          <QuestionChatBubble
-            chat={singleQuestion.questionDto}
-            onDelete={handleDelete}
-          />
-          {singleQuestion.answerListDto.answerViewList.length > 0 &&
-            singleQuestion.answerListDto.answerViewList.map((answer) => (
-              <SellerReplyBubble
-                question={singleQuestion.questionDto.content}
-                reply={answer.answerContent}
-                date={answer.answerTime}
-                questioner={singleQuestion.questionDto.username}
-                onClickFaq={() => handleFaqRegister(answer.answerContent)}
-                key={answer.answerId}
-                answerType={answer.answerType}
-              />
-            ))}
+          <Suspense fallback={<LoadingSpinner />}>
+            <QuestionChatBubble
+              chat={singleQuestion.questionDto}
+              onDelete={handleDelete}
+            />
+          </Suspense>
+
+          <Suspense fallback={<LoadingSpinner />}>
+            {singleQuestion.answerListDto.answerViewList.length > 0 &&
+              singleQuestion.answerListDto.answerViewList.map((answer) => (
+                <SellerReplyBubble
+                  question={singleQuestion.questionDto.content}
+                  reply={answer.answerContent}
+                  date={answer.answerTime}
+                  questioner={singleQuestion.questionDto.username}
+                  onClickFaq={() => handleFaqRegister(answer.answerContent)}
+                  key={answer.answerId}
+                  answerType={answer.answerType}
+                />
+              ))}
+          </Suspense>
+
           <section className="bottom-bar flex w-full flex-col overflow-x-clip">
             {prevAnswers && itemOverview?.talkBoxOpenStatus !== 'CLOSED' && (
               <PrevReplyBottomSheet

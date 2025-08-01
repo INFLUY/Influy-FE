@@ -57,7 +57,7 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
   const { pathname, state } = useLocation();
 
   // 온보딩 페이지에서 진입 (처음 진입시) 여부 판단
-  const isOnboarding = state?.isOnboarding;
+  const isOnboarding = state?.isOnboarding; //TODO: 없애는거 추가
 
   const handleSettingClick = () => {
     const path = generatePath(`${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}`);
@@ -71,7 +71,6 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
       <section className="bg-grey01 scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto pt-11">
         <Suspense fallback={<LoadingSpinner />}>
           <div className="sticky top-0 z-50">
-            {/* TODO 페이지 헤더 분리하기 */}
             <PageHeader
               leftIcons={[
                 <ArrowLeftIcon
@@ -133,17 +132,17 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
           </div>
 
           {children}
-
-          {itemOverview && itemId && (
-            <TalkBoxBottomItemCard
-              itemId={itemId}
-              itemName={itemOverview.itemName}
-              tagline={itemOverview.tagline}
-              mainImg={itemOverview.mainImg}
-              isClosedItem={itemOverview.talkBoxOpenStatus === 'CLOSED'}
-            />
-          )}
         </Suspense>
+
+        {itemOverview && itemId && (
+          <TalkBoxBottomItemCard
+            itemId={itemId}
+            itemName={itemOverview.itemName}
+            tagline={itemOverview.tagline}
+            mainImg={itemOverview.mainImg}
+            isClosedItem={itemOverview.talkBoxOpenStatus === 'CLOSED'}
+          />
+        )}
       </section>
     </TalkBoxCategoryContext.Provider>
   );

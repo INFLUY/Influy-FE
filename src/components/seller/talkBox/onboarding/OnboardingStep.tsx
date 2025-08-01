@@ -3,7 +3,6 @@ import {
   DefaultButton,
   CategoryChip,
   SellerModal,
-  SnackBar,
 } from '@/components';
 import { useState } from 'react';
 import { CategoryUpsertSheet, SheetMode } from './CategoryItem';
