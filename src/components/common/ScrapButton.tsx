@@ -56,13 +56,11 @@ export const ItemLikeButton = ({
   const { mutate: patchLike } = usePatchItemLike();
 
   const handleLikeClick = (e: React.MouseEvent) => {
-    console.log('좋아요');
     e.stopPropagation();
     postLike({ sellerId, itemId });
   };
 
   const handleUnlikeClick = (e: React.MouseEvent) => {
-    console.log('좋아요 취소');
     e.stopPropagation();
     patchLike({ sellerId, itemId });
   };
