@@ -36,8 +36,8 @@ const InfluencerCard = ({
       <div className="relative h-fit w-fit">
         <img
           src={influencer.profileImg ?? ProfileIcon}
-          alt="프로필 사진"
-          className="aspect-square h-[3.75rem] rounded-full object-cover"
+          alt={influencer.sellerNickname + '님 프로필 사진'}
+          className="aspect-square h-[3.75rem] rounded-full bg-white object-cover"
         />
         {selectedInfluencer === influencer.sellerId && (
           <span className="border-main absolute top-0 left-0 z-[1] h-full w-full rounded-full border-[1.5px]" />

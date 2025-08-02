@@ -95,7 +95,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
           <img
             src={sellerMyMarket?.sellerProfile.backgroundImg}
             alt="내 배경사진"
-            className="inset-0 flex h-full w-full object-cover"
+            className="inset-0 flex h-full w-full bg-white object-cover"
           />
         )}
       </div>

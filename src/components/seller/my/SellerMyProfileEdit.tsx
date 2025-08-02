@@ -3,8 +3,8 @@ import { useFormContext, useController } from 'react-hook-form';
 import { useSingleImageUploader } from '@/hooks/useSingleImageUploader';
 import CameraIcon from '@/assets/icon/common/Camera.svg?react';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
-import BottomSheet from '@/components/common/BottomSheet';
 import { useState } from 'react';
+import ImageSelectBottomSheet from '@/components/common/profile/ImageSelectBottomSheet';
 
 export const ProfileEditWrapper = ({
   title,
@@ -34,9 +34,9 @@ export const ProfileImageUploader = ({ name }: { name: string }) => {
     control,
   });
 
-  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
-
   const { handleFileChange, removeFile } = useSingleImageUploader(onChange);
+
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
 
   const handleApplyImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleFileChange(e);
@@ -51,7 +51,8 @@ export const ProfileImageUploader = ({ name }: { name: string }) => {
   return (
     <div className="bg-grey03 relative h-[5.625rem] w-[5.625rem] rounded-full">
       <CameraCircleIcon
-        aria-hidden="true"
+        role="button"
+        aria-label="프로필 이미지 업로드"
         className="absolute right-0 bottom-0 cursor-pointer"
         onClick={() => setIsBottomSheetOpen(true)}
       />
@@ -65,38 +66,15 @@ export const ProfileImageUploader = ({ name }: { name: string }) => {
       <img
         src={value ?? ProfileIcon}
         alt={'프로필 이미지'}
-        className="h-full w-full rounded-full object-cover"
+        className="h-full w-full rounded-full bg-white object-cover"
       />
       {isBottomSheetOpen && (
-        <BottomSheet
-          onClose={() => setIsBottomSheetOpen(false)}
+        <ImageSelectBottomSheet
+          id="profile-upload"
           isBottomSheetOpen={isBottomSheetOpen}
-        >
-          <div className="divide-grey02 flex flex-col items-center divide-y px-5 pb-4">
-            <label
-              htmlFor="profile-upload"
-              aria-label="프로필 이미지 업로드"
-              className="body1-b text-grey10 w-full cursor-pointer py-4 text-center"
-            >
-              앨범에서 사진 선택
-            </label>
-
-            <button
-              type="button"
-              className="body1-b text-grey10 w-full cursor-pointer py-4 text-center"
-              onClick={handleApplyBasicImage}
-            >
-              기본 이미지 적용
-            </button>
-            <button
-              type="button"
-              className="body1-b text-error w-full cursor-pointer py-4 text-center"
-              onClick={() => setIsBottomSheetOpen(false)}
-            >
-              취소
-            </button>
-          </div>
-        </BottomSheet>
+          setIsBottomSheetOpen={setIsBottomSheetOpen}
+          handleApplyBasicImage={handleApplyBasicImage}
+        />
       )}
     </div>
   );
@@ -112,29 +90,50 @@ export const BackgroundImageUploader = ({ name }: { name: string }) => {
     control,
   });
 
-  const { handleFileChange } = useSingleImageUploader(onChange);
+  const { handleFileChange, removeFile } = useSingleImageUploader(onChange);
+
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
+
+  const handleApplyImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleFileChange(e);
+    setIsBottomSheetOpen(false);
+  };
+
+  const handleApplyBasicImage = () => {
+    removeFile();
+    setIsBottomSheetOpen(false);
+  };
 
   return (
     <article className="relative flex h-[7.75rem] w-full bg-[rgba(0,0,0,0.20)]">
-      <label
+      <button
+        type="button"
         className="bg-grey02 border-grey04 absolute top-[.75rem] right-[1.0625rem] flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-1"
-        htmlFor="background-upload"
-        aria-label="프로필 이미지 업로드"
+        aria-label="배경 이미지 업로드"
+        onClick={() => setIsBottomSheetOpen(true)}
       >
         <CameraIcon aria-hidden="true" />
-      </label>
+      </button>
       <input
         id="background-upload"
         type="file"
         accept="image/*"
         className="hidden"
-        onChange={handleFileChange}
+        onChange={handleApplyImage}
       />
       {value && (
         <img
           src={value}
           alt={'배경 이미지'}
           className="h-full w-full object-cover"
+        />
+      )}
+      {isBottomSheetOpen && (
+        <ImageSelectBottomSheet
+          id="background-upload"
+          isBottomSheetOpen={isBottomSheetOpen}
+          setIsBottomSheetOpen={setIsBottomSheetOpen}
+          handleApplyBasicImage={handleApplyBasicImage}
         />
       )}
     </article>

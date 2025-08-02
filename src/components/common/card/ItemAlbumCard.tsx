@@ -20,7 +20,7 @@ const ItemAlbumCard = ({
       <div className="bg-grey03 relative flex aspect-square w-full shrink-0">
         <img
           src={item.itemMainImg ?? undefined}
-          alt={item.itemName + ' 썸네일'}
+          alt={item.itemName}
           className="inset-0 h-full w-full object-cover"
         />
         <ItemLikeButton
@@ -57,9 +57,9 @@ const ItemAlbumCard = ({
         {/* 셀러 정보 */}
         <div className="flex items-center gap-1">
           <img
-            className="h-[1.375rem] w-[1.375rem] rounded-full object-cover"
+            className="h-[1.375rem] w-[1.375rem] rounded-full bg-white object-cover"
             src={item.sellerProfileImg ?? ProfileIcon}
-            alt={item.sellerNickname + '님의 상품'}
+            alt={item.sellerNickname}
           />
           <span className="caption-m text-grey09">@{item.sellerUsername}</span>
         </div>

@@ -21,7 +21,7 @@ const HorizontalRankingCard = ({
             <img
               className="h-[6.75rem] w-[6.75rem] rounded-[.0625rem] object-cover"
               src={item.itemMainImg}
-              alt={item.itemName + ' 썸네일'}
+              alt={item.itemName}
             />
           )}
           <ItemLikeButton
@@ -38,9 +38,9 @@ const HorizontalRankingCard = ({
             {/* 셀러 정보 */}
             <div className="flex items-center gap-1">
               <img
-                className="h-[1.375rem] w-[1.375rem] rounded-full object-cover"
+                className="h-[1.375rem] w-[1.375rem] rounded-full bg-white object-cover"
                 src={item.sellerProfileImg ?? ProfileIcon}
-                alt={item.sellerNickname + '의 상품'}
+                alt={item.sellerNickname}
               />
               <span className="caption-m text-grey09">
                 @{item.sellerUsername}

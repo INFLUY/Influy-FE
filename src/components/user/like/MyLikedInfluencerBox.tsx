@@ -31,8 +31,8 @@ const MyLikedInfluencerBox = ({
       <div className="flex gap-3">
         <img
           src={influencer.profileImgLink ?? ProfileIcon}
-          alt={influencer.nickName + ' 프로필 이미지'}
-          className="h-15 w-15 rounded-full object-cover"
+          alt={influencer.nickName + '님 프로필 이미지'}
+          className="h-15 w-15 rounded-full bg-white object-cover"
         />
         <div className="flex flex-col justify-center">
           <p className="body1-b text-black">{influencer.nickName}</p>
