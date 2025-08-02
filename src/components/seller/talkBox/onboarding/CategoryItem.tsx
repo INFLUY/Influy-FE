@@ -65,6 +65,14 @@ export const CategoryUpsertSheet = ({
   category: string[];
   mode: SheetMode;
 }) => {
+  const titles: Record<SheetMode, string> = {
+    add: '질문 카테고리 추가',
+    editText: '질문 카테고리명 수정',
+    editList: '질문 카테고리 수정',
+    delete: '질문 카테고리 삭제',
+    none: '',
+  };
+
   return (
     <BottomSheet onClose={onClose} isBottomSheetOpen={isBottomSheetOpen}>
       <section className="mb-5 flex w-full flex-col gap-4">
@@ -72,11 +80,7 @@ export const CategoryUpsertSheet = ({
           <div className="flex flex-col items-center gap-0.5">
             {/* 제목 */}
             <h2 className="subhead-b w-full text-center text-black">
-              {mode === 'add'
-                ? '질문 카테고리 추가'
-                : mode === 'editText'
-                  ? '질문 카테고리명 수정'
-                  : '질문 카테고리 수정'}
+              {titles[mode]}
             </h2>
             {(mode === 'editList' || mode === 'delete') && (
               <span className="caption-m text-grey07 px-[2.75rem] text-center">
