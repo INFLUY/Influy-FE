@@ -6,7 +6,7 @@ export interface ItemFormValues {
   startISODateTime: string | null;
   hasEndDate: boolean;
   endISODateTime: string | null;
-  summaryText: string | null;
+  summaryText: string;
   price: number;
   salePrice: number;
   linkText: string | null;

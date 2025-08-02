@@ -1,9 +1,10 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
-import { API_DOMAINS } from '@/constants/api';
+import { API_DOMAINS, SELLER_API_DOMAINS } from '@/constants/api';
 import { ApiResponse, Pagination } from '@/types/common/ApiResponse.types';
 import {
   ItemDetail,
+  ItemPostDetail,
   ItemSortType,
   SellerItemPreviewList,
 } from '@/types/common/ItemType.types';
@@ -44,6 +45,14 @@ export const getSellerItems = async ({
   >(generateApiPath(API_DOMAINS.SELLER_MARKET_ITEMS, { sellerId }), {
     params,
   });
+  return response.data.result;
+};
+
+export const postItem = async (data: ItemPostDetail) => {
+  const response = await instance.post<ApiResponse<{ itemId: number }>>(
+    SELLER_API_DOMAINS.SELLER_POST_ITEM,
+    data
+  );
   return response.data.result;
 };
 

@@ -51,6 +51,21 @@ export interface ItemDetail {
   sellerInfo: SellerCard;
 }
 
+export interface ItemPostDetail {
+  itemImgList: string[];
+  name: string;
+  itemCategoryIdList: string[];
+  startDate: string | null;
+  endDate: string | null;
+  tagline: string;
+  regularPrice?: number;
+  salePrice?: number;
+  marketLink?: string;
+  itemPeriod: number;
+  comment?: string;
+  isArchived: boolean;
+}
+
 export interface SellerCard {
   id: number;
   nickname: string;

@@ -16,7 +16,7 @@ export const itemSchema = z
       .max(40, { message: '제목은 40자 이내로 작성해 주세요.' }),
     // 상품 카테고리
     selectedCategoryList: z
-      .array(z.string())
+      .array(z.number())
       .max(CATEGORY_MAX_COUNT)
       .min(1, { message: '카테고리를 1개 이상 선택해 주세요.' }),
     //시작일 여부
@@ -34,10 +34,7 @@ export const itemSchema = z
     // 마감일
     endISODateTime: z.iso.datetime().nullable(),
     // 한 줄 소개
-    summaryText: z
-      .string()
-      .max(18, '한 줄 소개를 18자 이내로 작성해 주세요')
-      .nullable(),
+    summaryText: z.string().max(18, '한 줄 소개를 18자 이내로 작성해 주세요'),
     // 가격 정가
     price: z.union([z.coerce.number().nullable().optional(), z.nan()]),
     // 가격 할인가

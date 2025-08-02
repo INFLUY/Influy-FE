@@ -18,6 +18,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import cn from '@/utils/cn';
 import { SELLER_ITEM_DETAIL } from '@/utils/generatePath';
 import { useSnackbarStore } from '@/store/snackbarStore';
+import { usePostItem } from '@/services/sellerItem/mutation/usePostItem';
 
 export const dummyCategory: CategoryType[] = [
   { id: 0, name: '사이즈' },
@@ -180,31 +181,33 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
     { name: 'linkText' },
   ];
 
+  const { mutate: postItem } = usePostItem(() =>
+    showSnackbar('상품이 게시되었습니다.')
+  );
+
   // 게시하기 활성화: 필수 항목 4개 다 있을 시 실행
   const handleSubmitSuccess = async (formData: ItemFormValues) => {
-    // 서버 제출용 데이터로 가공
+    const isValid = (val: unknown): val is string =>
+      val !== undefined && val !== null && val !== '';
+
     const payload = {
-      itemImgList: JSON.stringify(formData.images),
+      itemImgList: formData.images,
       name: formData.titleText,
-      itemCategoryList: formData.selectedCategoryList,
+      itemCategoryIdList: formData.selectedCategoryList.map(String),
       startDate: formData.startISODateTime,
       endDate: formData.endISODateTime,
       tagline: formData.summaryText,
-      regularPrice: formData.price,
-      salePrice: formData.salePrice,
-      marketLink: formData.linkText,
-      itemPeriod: formData.period,
-      comment: formData.commentText,
+      ...(isValid(formData.price) && { regularPrice: formData.price }),
+      ...(isValid(formData.salePrice) && { salePrice: formData.salePrice }),
+      ...(isValid(formData.linkText) && { marketLink: formData.linkText }),
+      itemPeriod: formData.period ?? 1,
+      ...(isValid(formData.commentText) && { comment: formData.commentText }),
+      isArchived: false,
     };
-    console.log('성공', payload); // declared but its value is never read. 에러 해결을 위함
-    try {
-      // TODO: 실제 API 호출
-      const itemId: number = 1;
 
-      //if success
-      navigate(generatePath(SELLER_ITEM_DETAIL, { itemId }));
-      // TODO: '상품이 보관되었습니다.' 스낵바 띄우기
-    } catch (error) {}
+    postItem(payload);
+
+    // navigate(generatePath(SELLER_ITEM_DETAIL, { itemId }));
   };
 
   // 필수 항목 미입력 / 유효성 조건 미충족 시 실행
@@ -260,7 +263,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
 
     //if success
     navigate(generatePath(SELLER_ITEM_DETAIL, { itemId }));
-    // TODO: '상품이 게시되었습니다.' 스낵바 띄우기
+    showSnackbar('상품이 보관되었습니다.');
   };
 
   return (
