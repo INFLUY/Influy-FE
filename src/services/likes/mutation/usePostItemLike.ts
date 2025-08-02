@@ -29,7 +29,6 @@ export const usePostItemLike = () => {
 
         if (isInfinite) {
           const updatedPages = cached.pages.map((page: any) => {
-            console.log(page);
             if (page.itemLikeList) {
               const updatedItems = page.itemLikeList.map(
                 (item: ItemCardType) =>
