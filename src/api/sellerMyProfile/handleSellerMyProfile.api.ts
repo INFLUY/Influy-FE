@@ -1,6 +1,6 @@
 import { SELLER_API_DOMAINS } from '@/constants/api';
 import { ApiResponse } from '@/types/common/ApiResponse.types';
-import { instance } from '../axiosInstance';
+import { instance } from '@/api/axiosInstance';
 import {
   SellerEditProfileType,
   SellerProfileType,

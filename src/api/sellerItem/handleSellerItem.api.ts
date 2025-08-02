@@ -18,11 +18,23 @@ export const getSellerItems = async ({
 }: {
   sellerId: number;
   archive: boolean;
-  sortType: ItemSortType;
+  sortType?: ItemSortType;
   onGoing: boolean;
   page: number;
   size: number;
 }) => {
+  const params: Record<string, any> = {
+    sellerId,
+    archive,
+    onGoing,
+    page,
+    size,
+  };
+
+  if (sortType !== null) {
+    params.sortType = sortType;
+  }
+
   const response = await instance.get<
     ApiResponse<
       Pagination<SellerItemPreviewList[] | [], 'itemPreviewList'> & {
@@ -30,7 +42,7 @@ export const getSellerItems = async ({
       }
     >
   >(generateApiPath(API_DOMAINS.SELLER_MARKET_ITEMS, { sellerId }), {
-    params: { archive, page, size, sortType, onGoing },
+    params,
   });
   return response.data.result;
 };

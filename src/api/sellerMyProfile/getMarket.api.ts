@@ -8,21 +8,17 @@ import {
 import { generateApiPath } from '@/api/utils';
 
 // 유저의 셀러 마켓 조회
-export const getMarket = async ({
-  sellerId,
-}: {
-  sellerId: number;
-}): Promise<ApiResponse<SellerMarketType>> => {
-  const response = await instance.get(
+export const getMarket = async ({ sellerId }: { sellerId: number }) => {
+  const response = await instance.get<ApiResponse<SellerMarketType>>(
     generateApiPath(API_DOMAINS.SELLER_MARKET, { sellerId })
   );
-  return response.data;
+  return response.data.result;
 };
 
 // 셀러 본인 마켓 조회
-export const getMyMarket = async (): Promise<
-  ApiResponse<SellerMyMarketType>
-> => {
-  const response = await instance.get(SELLER_API_DOMAINS.SELLER_MY_MARKET);
-  return response.data;
+export const getMyMarket = async () => {
+  const response = await instance.get<ApiResponse<SellerMyMarketType>>(
+    SELLER_API_DOMAINS.SELLER_MY_MARKET
+  );
+  return response.data.result;
 };

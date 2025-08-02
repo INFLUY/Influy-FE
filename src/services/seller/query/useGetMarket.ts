@@ -5,12 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 export const useGetMyMarket = () => {
   const query = useQuery({
     queryKey: [QUERY_KEYS.SELLER_MY_MARKET],
-    // staleTime: 30 * 60 * 1000,
-    // gcTime: 40 * 60 * 1000,
-    queryFn: async () => {
-      const response = await getMyMarket();
-      return response?.result;
-    },
+    staleTime: 30 * 60 * 1000,
+    gcTime: 40 * 60 * 1000,
+    queryFn: () => getMyMarket(),
   });
 
   return query;
@@ -21,10 +18,7 @@ export const useGetMarket = ({ sellerId }: { sellerId: number }) => {
     queryKey: [QUERY_KEYS.SELLER_MARKET, sellerId],
     // staleTime: 30 * 60 * 1000,
     // gcTime: 40 * 60 * 1000,
-    queryFn: async () => {
-      const response = await getMarket({ sellerId });
-      return response?.result;
-    },
+    queryFn: () => getMarket({ sellerId }),
   });
 
   return query;

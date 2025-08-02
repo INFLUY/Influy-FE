@@ -6,7 +6,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 export const useGetMarketItems = ({
   sellerId,
   archive = false,
-  sortType = 'END_DATE',
+  sortType,
   onGoing = false,
   size = 10,
 }: {
@@ -17,10 +17,7 @@ export const useGetMarketItems = ({
   size?: number;
 }) => {
   const query = useInfiniteQuery({
-    queryKey: [
-      QUERY_KEYS.SELLER_MARKET_ITEMS,
-      { sellerId, archive, sortType, onGoing },
-    ],
+    queryKey: [QUERY_KEYS.SELLER_MARKET_ITEMS, { sellerId, archive, onGoing }],
     queryFn: ({ pageParam = 1 }) =>
       getSellerItems({
         sellerId,
@@ -41,6 +38,10 @@ export const useGetMarketItems = ({
     },
     initialPageParam: 1,
   });
+  const responseSortType = query.data?.pages?.[0]?.sortType;
 
-  return query;
+  return {
+    ...query,
+    sortType: responseSortType,
+  };
 };

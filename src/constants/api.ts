@@ -54,6 +54,8 @@ export const SELLER_API_DOMAINS = {
   SELLER_MY_PROFILE: '/seller/profile',
   SELLER_MY_HOME_QUESTIONS: '/seller/home/questions',
   SELLER_MY_MARKET: '/seller/my-market',
+  SELLER_ITEM_SORT: '/seller/item-sort',
+  SELLER_ITEM_STATUS: '/seller/items/:itemId/status',
 };
 
 export const QUERY_KEYS = {
