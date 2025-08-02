@@ -43,6 +43,9 @@ import {
   DeleteAccountPage,
   UsernamePage,
   SupportPage,
+  SupportFaqPage,
+  SellerSettingsPage,
+  SellerAccountSettingsPage,
   SellerTalkBoxItemListPage,
   BulkReplyPage,
   QuestionsListPage,
@@ -275,7 +278,6 @@ const router = createBrowserRouter([
           },
 
           // 마이
-          // 마이
           {
             path: PATH.MY.BASE,
             element: <Outlet />,
@@ -285,19 +287,19 @@ const router = createBrowserRouter([
                 element: <MyPage />,
               },
               {
-                path: `${PATH.MY.MY_QUESTION}`,
+                path: PATH.MY.MY_QUESTION,
                 element: <MyQuestion />,
               },
               {
-                path: `${PATH.MY.NOTIFICATION}`,
+                path: PATH.MY.NOTIFICATION,
                 element: <NotificationSettingsPage />,
               },
               {
-                path: `${PATH.MY.NICKNAME}`,
+                path: PATH.MY.NICKNAME,
                 element: <NicknamePage />,
               },
               {
-                path: `${PATH.MY.ACCOUNT_SETTING.BASE}`,
+                path: PATH.MY.ACCOUNT_SETTING.BASE,
                 element: <Outlet />,
                 children: [
                   {
@@ -305,18 +307,28 @@ const router = createBrowserRouter([
                     element: <AccountSettingsPage />,
                   },
                   {
-                    path: `${PATH.MY.ACCOUNT_SETTING.ID}`,
+                    path: PATH.MY.ACCOUNT_SETTING.ID,
                     element: <UsernamePage />,
                   },
                   {
-                    path: `${PATH.MY.ACCOUNT_SETTING.DELETE}`,
+                    path: PATH.MY.ACCOUNT_SETTING.DELETE,
                     element: <DeleteAccountPage />,
                   },
                 ],
               },
               {
-                path: `${PATH.MY.SUPPORT}`,
-                element: <SupportPage />,
+                path: PATH.MY.SUPPORT.BASE,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    element: <SupportPage />,
+                  },
+                  {
+                    path: PATH.MY.SUPPORT.FAQ,
+                    element: <SupportFaqPage />,
+                  },
+                ],
               },
             ],
           },
@@ -412,6 +424,52 @@ const router = createBrowserRouter([
                     index: true,
                     path: PATH.SELLER.MY.PROFILE.EDIT,
                     element: <SellerMyProfileEditPage />,
+                  },
+                ],
+              },
+              {
+                path: PATH.SELLER.MY.SETTING.BASE,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    element: <SellerSettingsPage />,
+                  },
+                  {
+                    path: PATH.SELLER.MY.SETTING.NOTIFICATION,
+                    element: <NotificationSettingsPage />,
+                  },
+                  {
+                    path: PATH.SELLER.MY.SETTING.ACCOUNT_SETTING.BASE,
+                    element: <Outlet />,
+                    children: [
+                      {
+                        index: true,
+                        element: <SellerAccountSettingsPage />,
+                      },
+                      {
+                        path: PATH.SELLER.MY.SETTING.ACCOUNT_SETTING.ID,
+                        element: <UsernamePage />,
+                      },
+                      {
+                        path: PATH.SELLER.MY.SETTING.ACCOUNT_SETTING.DELETE,
+                        element: <DeleteAccountPage />,
+                      },
+                    ],
+                  },
+                  {
+                    path: PATH.SELLER.MY.SETTING.SUPPORT.BASE,
+                    element: <Outlet />,
+                    children: [
+                      {
+                        index: true,
+                        element: <SupportPage />,
+                      },
+                      {
+                        path: PATH.SELLER.MY.SETTING.SUPPORT.FAQ,
+                        element: <SupportFaqPage />,
+                      },
+                    ],
                   },
                 ],
               },

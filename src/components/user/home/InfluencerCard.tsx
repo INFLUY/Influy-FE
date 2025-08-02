@@ -1,3 +1,5 @@
+import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
+
 export interface InfluencerCardType {
   id: number;
   nickname: string;
@@ -21,7 +23,11 @@ const InfluencerCard = ({
     >
       <div className="relative h-fit w-fit">
         <img
-          src={influencer.profileImage}
+          src={
+            influencer.profileImage === ''
+              ? ProfileIcon
+              : influencer.profileImage
+          }
           alt="프로필 사진"
           className="aspect-square h-[3.75rem] rounded-full object-cover"
         />

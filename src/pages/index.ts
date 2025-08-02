@@ -24,19 +24,23 @@ export { default as CalendarPage } from './user/calendar/CalendarPage';
 export { default as MyPage } from './user/my/MyPage';
 export { default as MyQuestion } from './user/my/MyQuestion';
 export { default as AccountSettingsPage } from './user/my/AccountSettingsPage';
-export { default as DeleteAccountPage } from './user/my/DeleteAccountPage';
+export { default as DeleteAccountPage } from './common/mypage/DeleteAccountPage';
 export { default as NicknamePage } from './user/my/NicknamePage';
-export { default as NotificationSettingsPage } from './user/my/NotificationSettingsPage';
+export { default as NotificationSettingsPage } from './common/mypage/NotificationSettingsPage';
 export { default as SupportPage } from './common/mypage/SupportPage';
+export { default as SupportFaqPage } from './common/mypage/SupportFaqPage';
 export { default as UsernamePage } from './common/mypage/UsernamePage';
 
 export { default as SellerProfilePage } from './user/market/SellerProfile';
 
 // 셀러
 export { default as SellerHomePage } from './seller/home/SellerHomePage';
+
 export { default as SellerMyProfile } from './seller/sellerMyPage/SellerMyProfile';
 export { default as Notice } from './seller/notice/NoticePage';
 export { default as SellerMyProfileEditPage } from './seller/sellerMyPage/SellerMyProfileEditPage';
+export { default as SellerSettingsPage } from './seller/sellerMyPage/settings/SellerSettingsPage';
+export { default as SellerAccountSettingsPage } from './seller/sellerMyPage/settings/SellerAccountSettingsPage';
 
 export { default as NotFound } from './error/NotFound';
 export { default as ErrorPage } from './error/ErrorPage';
