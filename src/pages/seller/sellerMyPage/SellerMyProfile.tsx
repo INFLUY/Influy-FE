@@ -30,12 +30,6 @@ const SellerMyProfile = () => {
 
   const { showSnackbar } = useSnackbarStore();
 
-  const TABS = [
-    { id: 0, name: '상품', path: PATH.SELLER.MY.TABS.SELECTION },
-    { id: 2, name: '보관', path: PATH.SELLER.MY.TABS.ARCHIVE },
-    { id: 3, name: '리뷰', path: PATH.SELLER.MY.TABS.REVIEW },
-  ];
-
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -46,6 +40,24 @@ const SellerMyProfile = () => {
 
   const { sellerId } = useStrictId();
   const { data: sellerMyMarket } = useGetMyMarket();
+
+  const TABS = [
+    {
+      id: 0,
+      name: `상품(${sellerMyMarket?.publicItemCnt})`,
+      path: PATH.SELLER.MY.TABS.SELECTION,
+    },
+    {
+      id: 1,
+      name: `보관(${sellerMyMarket?.privateItemCnt})`,
+      path: PATH.SELLER.MY.TABS.ARCHIVE,
+    },
+    {
+      id: 2,
+      name: `리뷰(${sellerMyMarket?.reviews})`,
+      path: PATH.SELLER.MY.TABS.REVIEW,
+    },
+  ];
 
   const { data: links } = useGetMarketLinks({
     sellerId: Number(sellerId),

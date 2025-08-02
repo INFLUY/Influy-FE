@@ -97,12 +97,12 @@ const SellerProfile = ({
   const USER_TABS = [
     {
       id: 0,
-      name: 'SELECTION',
+      name: `SELECTION(${marketInfo?.publicItemCnt})`,
       path: `${PATH.MARKET.BASE}/${marketId}/${PATH.MARKET.DETAIL.TABS.SELECTION}`,
     },
     {
       id: 2,
-      name: 'REVIEW',
+      name: `REVIEW(${marketInfo?.reviews})`,
       path: `${PATH.MARKET.BASE}/${marketId}/${PATH.MARKET.DETAIL.TABS.REVIEW}`,
     },
   ];
@@ -110,12 +110,12 @@ const SellerProfile = ({
   const SELLER_TABS = [
     {
       id: 0,
-      name: 'SELECTION',
+      name: `SELECTION(${marketInfo?.publicItemCnt})`,
       path: `${PATH.SELLER.BASE}/${PATH.SELLER.MY.BASE}/${PATH.SELLER.MY.PREVIEW.BASE}/${PATH.SELLER.MY.PREVIEW.TABS.SELECTION}`,
     },
     {
       id: 2,
-      name: 'REVIEW',
+      name: `REVIEW(${marketInfo?.reviews})`,
       path: `null`,
     },
   ];
