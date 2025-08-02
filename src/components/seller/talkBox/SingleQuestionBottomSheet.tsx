@@ -173,12 +173,14 @@ const SingleQuestionBottomSheet = ({
           </Suspense>
 
           <section className="bottom-bar flex w-full flex-col overflow-x-clip">
-            {prevAnswers && itemOverview?.talkBoxOpenStatus !== 'CLOSED' && (
-              <PrevReplyBottomSheet
-                prevAnswers={prevAnswers}
-                handleAnswerSelect={handleAnswerSelect}
-              />
-            )}
+            {prevAnswers &&
+              prevAnswers.answerList.length > 0 &&
+              itemOverview?.talkBoxOpenStatus !== 'CLOSED' && (
+                <PrevReplyBottomSheet
+                  prevAnswers={prevAnswers}
+                  handleAnswerSelect={handleAnswerSelect}
+                />
+              )}
             {itemOverview?.talkBoxOpenStatus === 'CLOSED' && itemId && (
               <ItemClosedBanner itemId={String(itemId)} />
             )}

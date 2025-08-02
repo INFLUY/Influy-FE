@@ -101,6 +101,15 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
 
   // 일괄 답변하기
   const handleBulkReply = () => {
+    if (selectedQuestions.length === 1) {
+      const singleQuestion: SingleQuestionAnswerDTO = {
+        questionDto: { ...selectedQuestions[0] },
+        answerListDto: { answerViewList: [] },
+      };
+      setSingleQuestion(singleQuestion);
+      setMode('single');
+      return;
+    }
     navigate(`${PATH.SELLER.TALK_BOX.ITEM.CATEGORY.BULK_REPLY}`);
   };
 

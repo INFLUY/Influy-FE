@@ -165,7 +165,7 @@ const BulkReplyPage = () => {
       {/* 하단 이전 답변 및 채팅바 */}
       <section className="bottom-bar flex w-full flex-col overflow-x-clip">
         <Suspense fallback={<LoadingSpinner />}>
-          {prevAnswers && (
+          {prevAnswers && prevAnswers.answerList.length > 0 && (
             <PrevReplyBottomSheet
               prevAnswers={prevAnswers}
               handleAnswerSelect={handleAnswerSelect}
@@ -177,6 +177,7 @@ const BulkReplyPage = () => {
           text={answerText}
           setText={setAnswerText}
           handleReplySubmit={handleReplySubmit}
+          isItemOpened={itemOverview?.talkBoxOpenStatus !== 'CLOSED'}
         />
       </section>
       {isModalOpen && (
