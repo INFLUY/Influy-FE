@@ -4,7 +4,7 @@ import { useStrictId } from '@/hooks/auth/useStrictId';
 import { useQuery } from '@tanstack/react-query';
 
 export const useGetSellerProfile = () => {
-  const { sellerId } = useStrictId();
+  const { sellerId, isLoading } = useStrictId();
   const query = useQuery({
     queryKey: [QUERY_KEYS.SELLER_MY_PROFILE],
     staleTime: 60 * 60 * 1000,
@@ -13,7 +13,7 @@ export const useGetSellerProfile = () => {
       const response = await getSellerMyProfile();
       return response?.result;
     },
-    enabled: sellerId !== null,
+    enabled: sellerId !== null && !isLoading,
   });
 
   return query;
