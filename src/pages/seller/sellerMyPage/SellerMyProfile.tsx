@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { PATH } from '@/routes/path';
 import {
   ExternalLinkBottomSheet,
@@ -11,7 +11,7 @@ import {
   SellerModal,
   BottomNavBar,
 } from '@/components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import AddIcon from '@/assets/icon/common/Add2Icon.svg?react';
 import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
 import { useGetMarketLinks } from '@/services/marketLinks/query/useGetMarketLinks';
@@ -21,7 +21,7 @@ import { useSnackbarStore } from '@/store/snackbarStore';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { useGetMyMarket } from '@/services/seller/query/useGetMarket';
 
-const SellerMyProfile = ({ children }: { children: ReactNode }) => {
+const SellerMyProfile = () => {
   const [isAddLinkOpen, setIsAddLinkOpen] = useState<boolean>(false);
   const [isEditLinkOpen, setIsEditLinkOpen] = useState<boolean>(false);
   const [isLinkDeleteModalOpen, setIsLinkDeleteModalOpen] =
@@ -176,7 +176,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
             </Tab>
           ))}
         </Tabs>
-        {children}
+        <Outlet context={{ sellerId: Number(sellerId) }} />
       </section>
       <BottomNavBar userType="SELLER" />
     </div>

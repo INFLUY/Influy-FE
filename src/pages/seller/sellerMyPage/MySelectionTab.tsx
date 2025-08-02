@@ -1,15 +1,18 @@
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useRef, useState } from 'react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
-import { useNavigate } from 'react-router-dom';
-import { AddButton, SellerMyItemCard } from '@/components';
+import { useNavigate, useOutletContext } from 'react-router-dom';
+import { AddButton, LoadingSpinner, SellerMyItemCard } from '@/components';
 import Arrow from '@/assets/icon/common/Chevron.svg?react';
 import cn from '@/utils/cn';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
 import { PATH } from '@/routes/path';
+import { useGetMarketItems } from '@/services/sellerItem/query/useGetMarketItems';
 import { SellerItemPreviewList } from '@/types/common/ItemType.types';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 
 const MySelectionTab = () => {
+  const { sellerId } = useOutletContext<{ sellerId: number }>();
   const navigate = useNavigate();
   const [inProgress, setInProgress] = useState<boolean>(false);
   const [activeModal, setActiveModal] = useState<{
@@ -32,6 +35,31 @@ const MySelectionTab = () => {
     setActiveModal({ type: null, itemId: null });
   };
 
+  const {
+    data: marketItemList,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetMarketItems({
+    sellerId: sellerId,
+    archive: false,
+    onGoing: inProgress,
+    size: 8,
+  });
+
+  const itemList = marketItemList?.pages
+    .flatMap((page) => page?.itemPreviewList ?? [])
+    .filter(Boolean) as SellerItemPreviewList[];
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useInfiniteScroll({
+    targetRef: observerRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
+
   const RadioBottomSheet = lazy(
     () => import('@/components/seller/common/RadioBottomSheet')
   );
@@ -50,131 +78,6 @@ const MySelectionTab = () => {
       id: 1,
       text: 'SOLD OUT 표기',
       description: '마감 기한 전 완판 되었을 경우, 품절을 표기합니다.',
-    },
-  ];
-
-  const PRODUCT_LIST: SellerItemPreviewList[] = [
-    {
-      itemId: 1,
-      sellerId: 101,
-      itemPeriod: 30,
-      itemName: '빈티지 레코드 플레이어',
-      sellerName: '레트로샵',
-      startDate: '2025-07-01T00:00:00Z',
-      endDate: '2025-07-31T23:59:59Z',
-      tagline: '음악의 감성을 되살리다',
-      currentStatus: 'DEFAULT',
-      liked: false,
-      talkBoxInfo: {
-        talkBoxOpenStatus: 'INITIAL',
-        waitingCnt: 2,
-        completedCnt: 1,
-      },
-      mainImg: '/img1.png',
-    },
-    {
-      itemId: 2,
-      sellerId: 102,
-      itemPeriod: 15,
-      itemName: '디지털 액자',
-      sellerName: '테크하우스',
-      startDate: '2025-07-10T00:00:00Z',
-      endDate: '2025-07-25T23:59:59Z',
-      tagline: '추억을 담는 새로운 방법',
-      currentStatus: 'EXTEND',
-      liked: false,
-      talkBoxInfo: {
-        talkBoxOpenStatus: 'OPENED',
-        waitingCnt: 0,
-        completedCnt: 5,
-      },
-      mainImg: '/img1.png',
-    },
-    {
-      itemId: 3,
-      sellerId: 103,
-      itemPeriod: 10,
-      itemName: '한정판 피규어',
-      sellerName: '콜렉터즈존',
-      tagline: '마니아를 위한 최고의 선택',
-      currentStatus: 'DEFAULT',
-      liked: false,
-      talkBoxInfo: {
-        talkBoxOpenStatus: 'CLOSED',
-        waitingCnt: 3,
-        completedCnt: 10,
-      },
-      mainImg: '/img1.png',
-    },
-    {
-      itemId: 4,
-      sellerId: 104,
-      itemPeriod: 60,
-      itemName: '프리미엄 커피머신',
-      sellerName: '카페기어',
-      startDate: '2025-06-01T00:00:00Z',
-      endDate: '2025-07-30T23:59:59Z',
-      tagline: '집에서도 바리스타처럼',
-      currentStatus: 'DEFAULT',
-      liked: false,
-      talkBoxInfo: {
-        talkBoxOpenStatus: 'OPENED',
-        waitingCnt: 1,
-        completedCnt: 2,
-      },
-      mainImg: '/img1.png',
-    },
-    {
-      itemId: 5,
-      sellerId: 105,
-      itemPeriod: 7,
-      itemName: '무선 이어폰',
-      sellerName: '사운드웨이브',
-      tagline: '자유로운 사운드',
-      currentStatus: 'EXTEND',
-      liked: false,
-      talkBoxInfo: {
-        talkBoxOpenStatus: 'INITIAL',
-        waitingCnt: 5,
-        completedCnt: 1,
-      },
-      mainImg: '/img1.png',
-    },
-    {
-      itemId: 6,
-      sellerId: 106,
-      itemPeriod: 20,
-      itemName: '캠핑용 미니 냉장고',
-      sellerName: '캠프존',
-      startDate: '2025-07-05T00:00:00Z',
-      endDate: '2025-07-25T23:59:59Z',
-      tagline: '야외에서도 시원하게',
-      currentStatus: 'DEFAULT',
-      liked: false,
-      talkBoxInfo: {
-        talkBoxOpenStatus: 'OPENED',
-        waitingCnt: 0,
-        completedCnt: 3,
-      },
-      mainImg: '/img1.png',
-    },
-    {
-      itemId: 7,
-      sellerId: 107,
-      itemPeriod: 45,
-      itemName: '럭셔리 손목시계',
-      sellerName: '타임하우스',
-      startDate: '2025-06-20T00:00:00Z',
-      endDate: '2025-08-04T23:59:59Z',
-      tagline: '시간을 담은 예술',
-      currentStatus: 'SOLD_OUT',
-      liked: false,
-      talkBoxInfo: {
-        talkBoxOpenStatus: 'CLOSED',
-        waitingCnt: 7,
-        completedCnt: 12,
-      },
-      mainImg: '/img1.png',
     },
   ];
 
@@ -235,9 +138,9 @@ const MySelectionTab = () => {
         )}
       </Suspense>
 
-      {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 && (
+      {itemList && itemList?.length !== 0 && (
         <ul className="flex flex-col items-start gap-5 self-stretch pb-1">
-          {PRODUCT_LIST?.map((item) => (
+          {itemList?.map((item) => (
             <SellerMyItemCard
               key={item.itemId}
               item={item}
@@ -245,6 +148,15 @@ const MySelectionTab = () => {
               openEditModal={() => openEditModal(item.itemId)}
             />
           ))}
+          {hasNextPage && (
+            <div ref={observerRef} className="h-4 w-full">
+              {isFetchingNextPage && (
+                <div className="flex justify-center">
+                  <LoadingSpinner />
+                </div>
+              )}
+            </div>
+          )}
         </ul>
       )}
       <Suspense fallback={null}>

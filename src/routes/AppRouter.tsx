@@ -343,11 +343,7 @@ const router = createBrowserRouter([
           // 마이
           {
             path: PATH.SELLER.MY.BASE,
-            element: (
-              <SellerMyProfile>
-                <Outlet />
-              </SellerMyProfile>
-            ),
+            element: <SellerMyProfile />,
             children: [
               {
                 index: true,
