@@ -107,7 +107,7 @@ const BulkReplyPage = () => {
     });
 
   const handleReplySubmit = () => {
-    if (answerText.length === 0) return;
+    if (answerText.length === 0 || answerText.trim().length === 0) return;
     postBulkAnswer({
       questionIdList: selectedQuestions.map((q) => q.questionId),
       answerContent: answerText,

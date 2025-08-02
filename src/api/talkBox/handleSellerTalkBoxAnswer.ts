@@ -2,7 +2,12 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { SELLER_API_DOMAINS } from '@/constants/api';
-import { TagAnswerResponse, AnswerType } from '@/types/seller/TalkBox.types';
+import {
+  TagAnswerResponse,
+  PostIndividualAnswerResponse,
+  PostBulkAnswerResponse,
+  PostBulkAnswerRequest,
+} from '@/types/seller/TalkBox.types';
 
 export const getTagAnswers = async ({
   itemId,
@@ -28,20 +33,6 @@ export const getTagAnswers = async ({
   return response.data.result;
 };
 
-export interface PostBulkAnswerRequest {
-  questionIdList: number[];
-  answerContent: string;
-}
-
-export interface PostBulkAnswerResponse {
-  answeredCnt: number;
-  answerDtoList: {
-    questionId: number;
-    answerId: number;
-    answerType: AnswerType;
-  }[];
-}
-
 export const postBulkAnswer = async ({
   itemId,
   questionCategoryId,
@@ -61,16 +52,6 @@ export const postBulkAnswer = async ({
 
   return response.data.result;
 };
-
-export interface PostIndividualAnswerRequest {
-  answerContent: string;
-}
-
-export interface PostIndividualAnswerResponse {
-  questionId: number;
-  answerId: number;
-  answerType: AnswerType;
-}
 
 export const postIndividualAnswer = async ({
   itemId,

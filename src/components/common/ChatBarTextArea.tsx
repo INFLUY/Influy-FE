@@ -36,8 +36,9 @@ const ChatBarTextArea = ({
           role="button"
           className={cn(
             'h-6 w-6',
-            text.length > 0 ? 'text-black' : 'text-grey06',
-            text.length > 0 && 'cursor-pointer'
+            text.length > 0 && text.trim().length !== 0
+              ? 'cursor-pointer text-black'
+              : 'text-grey06'
           )}
           onClick={handleReplySubmit}
           tabIndex={0}

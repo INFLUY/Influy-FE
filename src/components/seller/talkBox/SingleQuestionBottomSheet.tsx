@@ -64,7 +64,7 @@ const SingleQuestionBottomSheet = ({
   };
 
   const handleReplySubmit = () => {
-    if (!answerText) return;
+    if (!answerText || answerText.trim().length === 0) return;
     postAnswer(answerText);
   };
 

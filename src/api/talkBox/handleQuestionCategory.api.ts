@@ -2,7 +2,7 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { SELLER_API_DOMAINS } from '@/constants/api';
-import { QuestionCategoryDTO } from '@/types/seller/TalkBox.types';
+import { CategoryListResponse } from '@/types/seller/TalkBox.types';
 
 export const postGenerateQuestionCategory = async ({
   itemId,
@@ -36,13 +36,6 @@ export const postAddQuestionCategories = async ({
 
   return response.data.result.viewList;
 };
-
-interface CategoryListResponse {
-  completedCnt: number;
-  waitingCnt: number;
-  completedCategoryList: QuestionCategoryDTO[];
-  waitingCategoryList: QuestionCategoryDTO[];
-}
 
 export const getCategoryList = async ({
   itemId,

@@ -170,7 +170,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
         </section>
       </section>
 
-      {/* 질문 하나 선택시
+      {/* 질문 하나 선택시 */}
       {mode === 'single' && singleQuestion && (
         //TODO: prev answers 정밀하게 suspense 처리
         <Suspense fallback={null}>
@@ -179,7 +179,7 @@ export const QuestionsListPage = ({ children }: { children: ReactNode }) => {
             questionCategoryId={Number(categoryId)}
           />
         </Suspense>
-      )} */}
+      )}
     </BottomSheetContext.Provider>
   );
 };
