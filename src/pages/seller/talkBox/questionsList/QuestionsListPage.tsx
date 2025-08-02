@@ -1,11 +1,4 @@
-import {
-  ReactNode,
-  lazy,
-  useState,
-  useLayoutEffect,
-  useRef,
-  Suspense,
-} from 'react';
+import { ReactNode, useState, useLayoutEffect, useRef, Suspense } from 'react';
 import {
   TalkBoxQuestionItemCard,
   QuestionListHeader,

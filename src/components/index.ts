@@ -146,7 +146,7 @@ export { SubCategoryChip } from './seller/talkBox/SubCategoryChip';
 export { default as QuestionChatBubble } from './seller/talkBox/QuestionChatBubble';
 export { default as SellerReplyBubble } from './seller/talkBox/SellerReplyBubble';
 export { default as TalkBoxBottomSheetLayout } from './seller/talkBox/TalkBoxBottomSheetLayout';
-
+export { OnboardingLottieSwiper } from './seller/talkBox/onboarding/LottieViewer.tsx';
 export { default as PrevReplyBottomSheet } from './seller/talkBox/PrevReplyBottomSheet';
 export { default as SingleQuestionBottomSheet } from './seller/talkBox/SingleQuestionBottomSheet';
 export { QuestionListHeader } from './seller/talkBox/questionList/QuestionListHeader';
