@@ -83,13 +83,21 @@ export const AnsweredQuestionsTab = () => {
           <span className="text-sub">#{selectedTag.name}</span>
           <span className="text-grey11">({selectedTag?.totalQuestions})</span>
         </div>
-        <InfiniteQuestionList
-          questions={questions}
-          fetchNextPage={fetchNextPage}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          onSelectSingle={(q) => handleSelectSingleQuestion(q)}
-        />
+
+        {selectedTag?.totalQuestions === 0 ? (
+          <div className="text-grey09 body2-m w-full pt-12 text-center">
+            아직 답변을 시작하지 않았어요
+            {/* TODO: 문구 확인받기 */}
+          </div>
+        ) : (
+          <InfiniteQuestionList
+            questions={questions}
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            onSelectSingle={(q) => handleSelectSingleQuestion(q)}
+          />
+        )}
       </section>
     </>
   );
