@@ -5,6 +5,7 @@ import {
   CategoryChip,
   VisibilityBottomSheet,
   LoadingSpinner,
+  ToolTip,
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
@@ -186,35 +187,31 @@ const ItemDetailPage = () => {
         <Suspense fallback={<LoadingSpinner />}>
           <ItemDetailFaqCard faqList={dummyFaq} />
         </Suspense>
-      </section>
-
-      {/* 톡박스 플로팅 버튼 */}
-      {/* TODO: 오픈 상태에 따른 버튼 색상 변경 */}
-      <div className="fixed right-5 bottom-20 z-[1] flex flex-col items-end gap-1.5">
-        <div className="top-9 -right-2 flex w-fit flex-col items-end">
-          {/* 본체 말풍선 */}
-          <div className="bg-sub body2-sb flex items-center justify-center self-stretch rounded-[.1875rem] px-3 py-2 text-left text-white">
-            이 제품의 질문에 답변해 주세요.
-          </div>
-          {/* 꼬리 (삼각형) */}
-          <div className="border-t-sub mr-3 h-0 w-0 border-x-[.5rem] border-t-[.5rem] border-x-transparent" />
+        {/* 톡박스 플로팅 버튼 */}
+        {/* TODO: 오픈 상태에 따른 버튼 색상 변경 */}
+        <div className="pointer-events-none fixed right-5 bottom-20 z-[1] flex flex-col items-end gap-1.5">
+          <ToolTip
+            text="이 제품의 질문에 답변해 주세요."
+            position="right"
+            additionalStyles="pointer-events-none"
+          />
+          {itemId && (
+            <button
+              type="button"
+              onClick={() => {
+                const path = generatePath(
+                  `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}`,
+                  { itemId }
+                );
+                navigate(path);
+              }}
+              className="pointer-events-auto flex aspect-[1/1] h-11 w-11 flex-col items-center justify-center rounded-full bg-black shadow-[0_.25rem_1.125rem_0_rgba(0,0,0,0.25)]"
+            >
+              <TalkBoxIcon className="h-6 w-6 text-white" />
+            </button>
+          )}
         </div>
-        {itemId && (
-          <button
-            type="button"
-            onClick={() => {
-              const path = generatePath(
-                `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}`,
-                { itemId }
-              );
-              navigate(path);
-            }}
-            className="flex aspect-[1/1] h-11 w-11 flex-col items-center justify-center rounded-full bg-black shadow-[0_.25rem_1.125rem_0_rgba(0,0,0,0.25)]"
-          >
-            <TalkBoxIcon className="h-6 w-6 text-white" />
-          </button>
-        )}
-      </div>
+      </section>
 
       <BottomNavBar items={detailBottomNavItems} type="action" />
       {isBottomSheetOpen && (

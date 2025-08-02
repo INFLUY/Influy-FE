@@ -95,6 +95,11 @@ export interface ItemOverviewDTO {
 }
 export type TalkBoxOpenStatus = 'INITIAL' | 'OPENED' | 'CLOSED';
 
+export interface TalkBoxOpenStatusResponse {
+  itemId: number;
+  status: TalkBoxOpenStatus;
+}
+
 export interface TalkBoxOpenedListDTO {
   talkBoxOpenedDtoList: TalkBoxOpenedItem[];
   cnt: number;

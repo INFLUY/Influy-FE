@@ -84,3 +84,7 @@ export interface PostBulkAnswerResponse {
     answerType: AnswerType;
   }[];
 }
+
+export interface GeneratedNameList {
+  generatedNameList: string[];
+}

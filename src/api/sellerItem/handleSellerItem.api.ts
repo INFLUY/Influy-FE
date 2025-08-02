@@ -9,6 +9,7 @@ import {
   TalkBoxOpenedListDTO,
   TalkBoxOpenStatus,
   TalkBoxCommentDTO,
+  TalkBoxOpenStatusResponse,
 } from '@/types/common/ItemType.types';
 import { SELLER_API_DOMAINS } from '@/constants/api';
 
@@ -68,11 +69,6 @@ export const getTalkBoxOpened = async (): Promise<TalkBoxOpenedListDTO> => {
   );
   return response.data.result;
 };
-export interface TalkBoxOpenStatusDTO {
-  // TODO: 이거모임
-  itemId: number;
-  status: TalkBoxOpenStatus;
-}
 
 export const postTalkBoxOpenStatus = async ({
   itemId,
@@ -80,7 +76,7 @@ export const postTalkBoxOpenStatus = async ({
 }: {
   itemId: number;
   openStatus: TalkBoxOpenStatus;
-}): Promise<TalkBoxOpenStatusDTO> => {
+}): Promise<TalkBoxOpenStatusResponse> => {
   const response = await instance.post(
     generateApiPath(SELLER_API_DOMAINS.SELLER_TALK_BOX_OPEN_STATUS, {
       itemId,

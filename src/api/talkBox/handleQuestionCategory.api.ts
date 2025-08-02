@@ -2,7 +2,10 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { SELLER_API_DOMAINS } from '@/constants/api';
-import { CategoryListResponse } from '@/types/seller/TalkBox.types';
+import {
+  CategoryListResponse,
+  GeneratedNameList,
+} from '@/types/seller/TalkBox.types';
 
 export const postGenerateQuestionCategory = async ({
   itemId,
@@ -24,7 +27,7 @@ export const postAddQuestionCategories = async ({
 }: {
   itemId: number;
   categoryList: string[];
-}): Promise<string[]> => {
+}): Promise<GeneratedNameList> => {
   const response = await instance.post(
     generateApiPath(SELLER_API_DOMAINS.SELLER_ADD_QUESTION_CATEGORIES, {
       itemId,
@@ -34,7 +37,7 @@ export const postAddQuestionCategories = async ({
     }
   );
 
-  return response.data.result.viewList;
+  return response.data.result;
 };
 
 export const getCategoryList = async ({
