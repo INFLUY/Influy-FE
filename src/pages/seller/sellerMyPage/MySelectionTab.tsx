@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
@@ -92,9 +92,7 @@ const MySelectionTab = () => {
     },
   ];
 
-  const [sortSelected, setSortSelected] = useState<string | undefined>(
-    sortType
-  );
+  const [sortSelected, setSortSelected] = useState<string | undefined>();
   const { mutate: putItemSortType } = usePutSellerItemSortType();
   const { mutate: patchItemStatus } = usePatchItemStatus();
 
@@ -115,6 +113,12 @@ const MySelectionTab = () => {
   const currentItem = itemList?.find(
     (item) => item.itemId === activeModal.itemId
   );
+
+  useEffect(() => {
+    if (sortType) {
+      setSortSelected(sortType);
+    }
+  }, [sortType]);
 
   const currentSortLabel =
     sortTypeList.find((s) => s.type === sortSelected)?.text ?? '';
