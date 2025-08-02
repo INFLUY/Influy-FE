@@ -1,8 +1,12 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { API_DOMAINS } from '@/constants/api';
-import { ApiResponse } from '@/types/common/ApiResponse.types';
-import { ItemDetail, SellerItemsResponse } from '@/types/common/ItemType.types';
+import { ApiResponse, Pagination } from '@/types/common/ApiResponse.types';
+import {
+  ItemDetail,
+  ItemSortType,
+  SellerItemPreviewList,
+} from '@/types/common/ItemType.types';
 
 export const getSellerItems = async ({
   sellerId,
@@ -14,18 +18,21 @@ export const getSellerItems = async ({
 }: {
   sellerId: number;
   archive: boolean;
-  sortType?: 'END_DATE' | 'CREATE_DATE';
+  sortType: ItemSortType;
   onGoing: boolean;
   page: number;
   size: number;
-}): Promise<ApiResponse<SellerItemsResponse>> => {
-  const response = await instance.get(
-    generateApiPath(API_DOMAINS.SELLER_MARKET_ITEMS, { sellerId }),
-    {
-      params: { archive, page, size, sortType, onGoing },
-    }
-  );
-  return response.data;
+}) => {
+  const response = await instance.get<
+    ApiResponse<
+      Pagination<SellerItemPreviewList[] | [], 'itemPreviewList'> & {
+        sortType: ItemSortType;
+      }
+    >
+  >(generateApiPath(API_DOMAINS.SELLER_MARKET_ITEMS, { sellerId }), {
+    params: { archive, page, size, sortType, onGoing },
+  });
+  return response.data.result;
 };
 
 export const getSellerItemDetail = async ({
@@ -34,9 +41,9 @@ export const getSellerItemDetail = async ({
 }: {
   sellerId: number;
   itemId: number;
-}): Promise<ApiResponse<ItemDetail>> => {
-  const response = await instance.get(
+}) => {
+  const response = await instance.get<ApiResponse<ItemDetail>>(
     generateApiPath(API_DOMAINS.SELLER_MARKET_ITEM, { sellerId, itemId })
   );
-  return response.data;
+  return response.data.result;
 };

@@ -17,15 +17,6 @@ export type SellerItemPreviewList = {
   mainImg: string;
 };
 
-export type SellerItemsResponse = {
-  itemPreviewList: SellerItemPreviewList[] | [];
-  listSize: number;
-  totalPage: number;
-  totalElements: number;
-  isFirst: boolean;
-  isLast: boolean;
-};
-
 export interface ItemCardType {
   sellerProfileImg: string | null;
   sellerUsername: string;

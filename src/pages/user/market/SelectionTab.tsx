@@ -1,53 +1,41 @@
 import { ItemGridCard } from '@/components/user/common/ItemGridCard';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import CheckBoxOff from '@/assets/icon/common/CheckBox16Off.svg?react';
 import CheckBoxOn from '@/assets/icon/common/CheckBox16On.svg?react';
 import { ItemPreviewList } from '@/types/common/ItemType.types';
+import { useGetMarketItems } from '@/services/sellerItem/query/useGetMarketItems';
+import { useOutletContext } from 'react-router-dom';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import { LoadingSpinner } from '@/components';
 
 const SelectionTab = () => {
-  const PRODUCT_LIST: ItemPreviewList[] = [
-    {
-      itemId: 1,
-      sellerId: 101,
-      itemPeriod: 30,
-      itemName: '빈티지 레코드 플레이어',
-      sellerName: '레트로샵',
-      startDate: '2025-07-01T00:00:00Z',
-      endDate: '2025-07-31T23:59:59Z',
-      tagline: '음악의 감성을 되살리다',
-      currentStatus: 'DEFAULT',
-      liked: false,
-      mainImg: '/img1.png',
-    },
-    {
-      itemId: 2,
-      sellerId: 102,
-      itemPeriod: 15,
-      itemName: '디지털 액자',
-      sellerName: '테크하우스',
-      startDate: '2025-07-10T00:00:00Z',
-      endDate: '2025-07-25T23:59:59Z',
-      tagline: '추억을 담는 새로운 방법',
-      currentStatus: 'EXTEND',
-      liked: false,
-      mainImg: '/product.png',
-    },
-    {
-      itemId: 3,
-      sellerId: 103,
-      itemPeriod: 10,
-      itemName: '한정판 피규어',
-      sellerName: '콜렉터즈존',
-      startDate: '2025-07-10T00:00:00Z',
-      endDate: '2025-07-25T23:59:59Z',
-      tagline: '마니아를 위한 최고의 선택',
-      currentStatus: 'DEFAULT',
-      liked: false,
-      mainImg: '/img1.png',
-    },
-  ];
+  const { marketId } = useOutletContext<{ marketId: number }>();
+  const [inProgress, setInProgress] = useState<boolean>(false); // 진행 중인 상품만 보기
 
-  const [inProgress, setInProgress] = useState<boolean>(false);
+  const {
+    data: marketItemList,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetMarketItems({
+    sellerId: marketId,
+    archive: false,
+    onGoing: inProgress,
+    size: 8,
+  });
+
+  const itemList = marketItemList?.pages
+    .flatMap((page) => page?.itemPreviewList ?? [])
+    .filter(Boolean) as ItemPreviewList[];
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useInfiniteScroll({
+    targetRef: observerRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInProgress(e.target.checked);
@@ -73,11 +61,20 @@ const SelectionTab = () => {
           </label>
         </span>
       </span>
-      {PRODUCT_LIST && PRODUCT_LIST?.length !== 0 ? (
+      {itemList && itemList?.length !== 0 ? (
         <ul className="grid grid-cols-2 content-start items-start gap-x-[.1875rem] gap-y-8">
-          {PRODUCT_LIST?.map((item) => (
+          {itemList?.map((item) => (
             <ItemGridCard key={item?.itemId} item={item} />
           ))}
+          {hasNextPage && (
+            <div ref={observerRef} className="h-4 w-full">
+              {isFetchingNextPage && (
+                <div className="flex justify-center">
+                  <LoadingSpinner />
+                </div>
+              )}
+            </div>
+          )}
         </ul>
       ) : (
         <span className="text-grey06 body-2-m flex w-full justify-center pt-[5.8125rem]">

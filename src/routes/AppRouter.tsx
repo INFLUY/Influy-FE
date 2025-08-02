@@ -187,11 +187,7 @@ const router = createBrowserRouter([
           },
           {
             path: PATH.MARKET.DETAIL.BASE,
-            element: (
-              <SellerProfilePage>
-                <Outlet />
-              </SellerProfilePage>
-            ),
+            element: <SellerProfilePage />,
             children: [
               {
                 index: true,
@@ -379,11 +375,7 @@ const router = createBrowserRouter([
             children: [
               {
                 path: PATH.SELLER.MY.PREVIEW.BASE,
-                element: (
-                  <SellerProfilePage>
-                    <Outlet />
-                  </SellerProfilePage>
-                ),
+                element: <SellerProfilePage />,
                 children: [
                   {
                     index: true,

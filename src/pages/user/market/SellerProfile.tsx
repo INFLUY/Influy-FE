@@ -1,7 +1,7 @@
 import { lazy, ReactNode, Suspense, useState } from 'react';
 import { Tab, Tabs } from '@/components/common/Tab';
 import { PATH } from '@/routes/path';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   ExternalLinkChip,
   NoticeBanner,
@@ -31,30 +31,28 @@ const SellerNoticeBottomSheet = lazy(
   () => import('@/components/user/seller/SellerNoticeBottomSheet')
 );
 
-const SellerProfilePage = ({ children }: { children: ReactNode }) => {
+const SellerProfilePage = () => {
   const { marketId } = useParams();
 
   if (marketId) {
-    return <UserView>{children}</UserView>;
+    return <UserView />;
   }
 
-  return <SellerView>{children}</SellerView>;
+  return <SellerView />;
 };
 
-const UserView = ({ children }: { children: ReactNode }) => {
+const UserView = () => {
   const { marketId } = useParams();
   const { data: marketData } = useGetMarket({ sellerId: Number(marketId) });
 
   if (marketId && marketData) {
     return (
-      <SellerProfile marketId={Number(marketId)} marketInfo={marketData}>
-        {children}
-      </SellerProfile>
+      <SellerProfile marketId={Number(marketId)} marketInfo={marketData} />
     );
   }
 };
 
-const SellerView = ({ children }: { children: ReactNode }) => {
+const SellerView = () => {
   const { sellerId } = useStrictId();
   const navigate = useNavigate();
   const { data: marketData } = useGetMyMarket();
@@ -76,9 +74,7 @@ const SellerView = ({ children }: { children: ReactNode }) => {
             marketId={sellerId!}
             seller={true}
             marketInfo={marketData}
-          >
-            {children}
-          </SellerProfile>
+          />
         )}
       </article>
     </section>
@@ -86,12 +82,10 @@ const SellerView = ({ children }: { children: ReactNode }) => {
 };
 
 const SellerProfile = ({
-  children,
   marketId,
   marketInfo,
   seller = false,
 }: {
-  children: ReactNode;
   marketId: number;
   marketInfo: SellerMarketType | SellerMyMarketType;
   seller?: boolean;
@@ -131,7 +125,7 @@ const SellerProfile = ({
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const { data: links } = useGetMarketLinks({
-    sellerId: Number(marketId),
+    sellerId: marketId,
   });
 
   const { data: primaryNotice } = useGetPrimaryNotification({
@@ -242,7 +236,7 @@ const SellerProfile = ({
               </Tab>
             ))}
           </Tabs>
-          {children}
+          <Outlet context={{ marketId }} />
         </section>
       </div>
     </div>
