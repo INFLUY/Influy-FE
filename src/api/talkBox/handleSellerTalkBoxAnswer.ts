@@ -2,7 +2,7 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { SELLER_API_DOMAINS } from '@/constants/api';
-import { TagAnswerResponse } from '@/types/seller/TalkBox.types';
+import { TagAnswerResponse, AnswerType } from '@/types/seller/TalkBox.types';
 
 export const getTagAnswers = async ({
   itemId,
@@ -38,7 +38,7 @@ export interface PostBulkAnswerResponse {
   answerDtoList: {
     questionId: number;
     answerId: number;
-    answerType: 'INDIVIDUAL' | 'BULK'; // 타입이 여러 개일 수 있으니 enum 처리 가능
+    answerType: AnswerType;
   }[];
 }
 
@@ -69,7 +69,7 @@ export interface PostIndividualAnswerRequest {
 export interface PostIndividualAnswerResponse {
   questionId: number;
   answerId: number;
-  answerType: 'INDIVIDUAL' | 'COMMON' | 'FAQ';
+  answerType: AnswerType;
 }
 
 export const postIndividualAnswer = async ({

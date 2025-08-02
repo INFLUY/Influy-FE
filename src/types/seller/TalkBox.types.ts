@@ -57,9 +57,10 @@ export interface SingleQuestionAnswerDTO {
   answerListDto: {
     answerViewList: {
       answerId: number;
-      answerType: 'INDIVIDUAL' | 'COMMON' | 'FAQ';
+      answerType: AnswerType;
       answerContent: string;
       answerTime: string;
     }[];
   };
 }
+export type AnswerType = 'INDIVIDUAL' | 'COMMON' | 'FAQ';

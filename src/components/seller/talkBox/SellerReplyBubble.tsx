@@ -1,12 +1,14 @@
 import ReplyIcon from '@/assets/icon/common/ReplyIcon.svg?react';
 import { formatIsoToKoreanLong } from '@/utils/formatDate';
+import { AnswerType } from '@/types/seller/TalkBox.types';
+
 interface SellerReplyBubbleProps {
   questioner: string;
   question: string;
   reply: string;
   date: string;
   onClickFaq: () => void;
-  answerType: 'INDIVIDUAL' | 'COMMON' | 'FAQ';
+  answerType: AnswerType;
 }
 
 const SellerReplyBubble = ({
