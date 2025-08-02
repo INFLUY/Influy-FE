@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '@/constants/api';
-import { fetchQuestionTagsByCategory } from '@/api/talkBox/handleQuestionTag.api';
+import { getQuestionTagsByCategory } from '@/api/talkBox/handleQuestionTag.api';
 
 export const useGetQuestionTags = ({
   questionCategoryId,
@@ -12,7 +12,7 @@ export const useGetQuestionTags = ({
   const { data } = useQuery({
     queryKey: [QUERY_KEYS.SELLER_QUESTION_TAGS, questionCategoryId, isAnswered],
     queryFn: () =>
-      fetchQuestionTagsByCategory({ questionCategoryId, isAnswered }),
+      getQuestionTagsByCategory({ questionCategoryId, isAnswered }),
   });
 
   return { data };

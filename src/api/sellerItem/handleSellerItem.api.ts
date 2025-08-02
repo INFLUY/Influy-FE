@@ -49,7 +49,7 @@ export const getSellerItemDetail = async ({
   return response.data;
 };
 
-export const fetchItemOverview = async ({
+export const getItemOverview = async ({
   sellerId,
   itemId,
 }: {
@@ -62,7 +62,7 @@ export const fetchItemOverview = async ({
   return response.data.result ?? null;
 };
 
-export const fetchTalkBoxOpened = async (): Promise<TalkBoxOpenedListDTO> => {
+export const getTalkBoxOpened = async (): Promise<TalkBoxOpenedListDTO> => {
   const response = await instance.get(
     generateApiPath(SELLER_API_DOMAINS.TALK_BOX_OPENED_ITEMS)
   );
@@ -96,7 +96,7 @@ export const postTalkBoxOpenStatus = async ({
   return response.data.result;
 };
 
-export const fetchTalkBoxDefaultComment = async (
+export const getTalkBoxDefaultComment = async (
   itemId: number
 ): Promise<TalkBoxCommentDTO> => {
   const response = await instance.get(

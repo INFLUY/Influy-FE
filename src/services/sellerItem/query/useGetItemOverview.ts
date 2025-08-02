@@ -1,4 +1,4 @@
-import { fetchItemOverview } from '@/api/sellerItem/handleSellerItem.api';
+import { getItemOverview } from '@/api/sellerItem/handleSellerItem.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -14,7 +14,7 @@ export const useGetItemOverview = ({
 }) => {
   return useQuery({
     queryKey: [QUERY_KEYS.SELLER_ITEM_OVERVIEW, itemId],
-    queryFn: () => fetchItemOverview({ sellerId, itemId }),
+    queryFn: () => getItemOverview({ sellerId, itemId }),
     staleTime: Infinity,
   });
 };

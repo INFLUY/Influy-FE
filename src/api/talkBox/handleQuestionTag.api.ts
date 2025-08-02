@@ -5,7 +5,7 @@ import { generateApiPath } from '@/api/utils';
 import { SELLER_API_DOMAINS } from '@/constants/api';
 import { CategoryTagsDTO } from '@/types/seller/TalkBox.types';
 
-export const fetchQuestionTagsByCategory = async ({
+export const getQuestionTagsByCategory = async ({
   questionCategoryId,
   isAnswered,
 }: {
