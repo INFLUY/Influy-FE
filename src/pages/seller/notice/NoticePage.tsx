@@ -48,11 +48,11 @@ const NoticePage = () => {
   };
 
   const primaryNotice = notices?.pages
-    ?.flatMap((p) => p?.announcements)
-    ?.find((notice: NoticeType) => notice?.isPrimary);
+    ?.flatMap((p) => p?.announcements ?? [])
+    ?.find((announcement: NoticeType) => announcement?.isPrimary);
   const otherNotices = notices?.pages
-    ?.flatMap((p) => p?.announcements)
-    ?.filter((notice: NoticeType) => !notice?.isPrimary);
+    ?.flatMap((p) => p?.announcements ?? [])
+    ?.filter((announcement: NoticeType) => !announcement?.isPrimary);
 
   return (
     <div className="flex h-full w-full flex-1 flex-col pt-11">
@@ -77,7 +77,7 @@ const NoticePage = () => {
           </AddButton>
         </div>
       )}
-      {notices && notices?.pages[0]?.totalElements > 0 && (
+      {notices?.pages[0] && notices?.pages[0]?.totalElements > 0 && (
         <div className="scrollbar-hide flex h-full w-full flex-col items-center gap-4 overflow-y-auto pt-2 pb-24">
           <ul className="flex w-full flex-col items-center">
             {primaryNotice && (
@@ -87,13 +87,14 @@ const NoticePage = () => {
                 handleEditNotice={handleEditNotice}
               />
             )}
-            {otherNotices?.map((notice: NoticeType) => (
-              <Notice
-                key={notice.id}
-                notice={notice}
-                handleEditNotice={handleEditNotice}
-              />
-            ))}
+            {otherNotices &&
+              otherNotices?.map((notice: NoticeType) => (
+                <Notice
+                  key={notice.id}
+                  notice={notice}
+                  handleEditNotice={handleEditNotice}
+                />
+              ))}
           </ul>
           {hasNextPage && (
             <div ref={observerRef} className="h-4 w-full">

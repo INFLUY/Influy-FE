@@ -6,11 +6,11 @@ import {
   SellerProfileType,
 } from '@/types/seller/SellerProfile.types';
 
-export const getSellerMyProfile = async (): Promise<
-  ApiResponse<SellerProfileType>
-> => {
-  const response = await instance.get(SELLER_API_DOMAINS.SELLER_MY_PROFILE);
-  return response.data;
+export const getSellerMyProfile = async () => {
+  const response = await instance.get<ApiResponse<SellerProfileType>>(
+    SELLER_API_DOMAINS.SELLER_MY_PROFILE
+  );
+  return response.data.result;
 };
 
 export const patchSellerMyProfile = async ({
@@ -18,9 +18,9 @@ export const patchSellerMyProfile = async ({
 }: {
   data: SellerEditProfileType;
 }) => {
-  const response = await instance.patch(
+  const response = await instance.patch<ApiResponse<SellerProfileType>>(
     SELLER_API_DOMAINS.SELLER_MY_PROFILE,
     data
   );
-  return response.data;
+  return response.data.result;
 };

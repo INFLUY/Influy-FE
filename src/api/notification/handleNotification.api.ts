@@ -1,11 +1,11 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { API_DOMAINS } from '@/constants/api';
-import { ApiResponse } from '@/types/common/ApiResponse.types';
+import { ApiResponse, Pagination } from '@/types/common/ApiResponse.types';
 import {
   BaseNotice,
-  NoticeResponse,
-  PrimaryNoticeResponse,
+  NoticeType,
+  PrimaryNoticeType,
 } from '@/types/common/NoticeType.types';
 
 export const postNotification = async ({ data }: { data: BaseNotice }) => {
@@ -13,7 +13,7 @@ export const postNotification = async ({ data }: { data: BaseNotice }) => {
     API_DOMAINS.SELLER_MY_ANNOUNCEMENT,
     data
   );
-  return response.data;
+  return response.data.result;
 };
 
 export const patchNotification = async ({
@@ -25,12 +25,16 @@ export const patchNotification = async ({
   announcementId: number;
   isPrimary?: boolean;
 }) => {
+  const params: Record<string, any> = { data, announcementId };
+  if (isPrimary !== undefined) {
+    params.isPrimary = isPrimary;
+  }
   const response = await instance.patch(
     generateApiPath(API_DOMAINS.SELLER_MY_ANNOUNCEMENT_DETAIL, {
       announcementId,
     }),
     data || {},
-    { params: isPrimary !== undefined ? { isPrimary } : undefined }
+    { params }
   );
   return response.data.result;
 };
@@ -43,13 +47,12 @@ export const getNotification = async ({
   sellerId: number;
   page: number;
   size: number;
-}): Promise<NoticeResponse> => {
-  const response = await instance.get(
-    generateApiPath(API_DOMAINS.SELLER_ANNOUNCEMENT, { sellerId }),
-    {
-      params: { page, size },
-    }
-  );
+}) => {
+  const response = await instance.get<
+    ApiResponse<Pagination<NoticeType[] | [], 'announcements'>>
+  >(generateApiPath(API_DOMAINS.SELLER_ANNOUNCEMENT, { sellerId }), {
+    params: { page, size },
+  });
   return response.data.result;
 };
 
@@ -57,11 +60,11 @@ export const getPrimaryNotification = async ({
   sellerId,
 }: {
   sellerId: number;
-}): Promise<ApiResponse<PrimaryNoticeResponse>> => {
-  const response = await instance.get(
+}) => {
+  const response = await instance.get<ApiResponse<PrimaryNoticeType>>(
     generateApiPath(API_DOMAINS.SELLER_PRIMARY_ANNOUNCEMENT, { sellerId })
   );
-  return response.data;
+  return response.data.result;
 };
 
 export const deleteNotification = async ({
@@ -74,5 +77,5 @@ export const deleteNotification = async ({
       announcementId,
     })
   );
-  return response.data;
+  return response.data.result;
 };

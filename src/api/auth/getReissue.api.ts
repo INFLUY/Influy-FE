@@ -1,18 +1,16 @@
 import { API_DOMAINS } from '@/constants/api';
 import { axiosBase } from '@/api/axiosInstance';
+import { ApiResponse } from '@/types/common/ApiResponse.types';
 
 interface ReissueResponse {
-  isSuccess: boolean;
-  code: string;
-  message: string;
-  result?: {
-    sellerId?: number;
-    memberId: number;
-    accessToken: string;
-  };
+  sellerId?: number;
+  memberId: number;
+  accessToken: string;
 }
 
 export const getReissue = async () => {
-  const response = await axiosBase.get<ReissueResponse>(API_DOMAINS.REISSUE);
+  const response = await axiosBase.get<ApiResponse<ReissueResponse>>(
+    API_DOMAINS.REISSUE
+  );
   return response.data;
 };

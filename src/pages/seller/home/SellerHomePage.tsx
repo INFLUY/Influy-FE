@@ -28,7 +28,7 @@ const SellerHomePage = () => {
   });
 
   const itemList = homeItemData?.pages
-    .flatMap((page) => page?.result?.itemList ?? [])
+    .flatMap((page) => page?.itemList ?? [])
     .filter(Boolean) as SellerHomeItemStatus[];
 
   return (

@@ -17,7 +17,7 @@ export const usePatchSellerProfile = (onSuccessCallback?: () => void) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_MY_MARKET],
       });
-      const id = response.result?.id;
+      const id = response?.sellerId;
       if (id) {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.USER_PROFILE, id],

@@ -17,7 +17,7 @@ export const useGetItemFaqCategory = ({
     queryKey: [QUERY_KEYS.SELLER_MARKET_LINKS, sellerId],
     queryFn: async () => {
       const res = await getFaqCategory({ sellerId, itemId });
-      return res.result?.viewList;
+      return res?.viewList;
     },
   });
 };

@@ -16,8 +16,8 @@ export const useRegisterUser = (onSuccessCallback?: () => void) => {
     mutationFn: (data: UserSignup) => postRegisterUser({ data }),
     onSuccess: (data) => {
       setAuthInfo({
-        accessToken: data.result.accessToken,
-        memberId: data.result.memberId,
+        accessToken: data.accessToken,
+        memberId: data.memberId,
         sellerId: null,
       });
 
@@ -38,9 +38,9 @@ export const useRegisterSeller = (onSuccessCallback?: () => void) => {
     mutationFn: (data: SellerSignup) => postRegisterSeller({ data }),
     onSuccess: (data) => {
       setAuthInfo({
-        accessToken: data.result.accessToken,
-        memberId: data.result.memberId,
-        sellerId: data.result?.sellerId,
+        accessToken: data.accessToken,
+        memberId: data.memberId,
+        sellerId: data?.sellerId,
       });
 
       navigate(PATH.WELCOME.BASE);

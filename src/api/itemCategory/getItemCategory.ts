@@ -8,9 +8,9 @@ type ItemCategoryResponse = ApiResponse<{
   categoryDtoList: CategoryType[];
 }>;
 
-export const getItemCategory = async (): Promise<ItemCategoryResponse> => {
-  const response = await instance.get(
+export const getItemCategory = async () => {
+  const response = await instance.get<ItemCategoryResponse>(
     generateApiPath(API_DOMAINS.ITEM_CATEGORIES)
   );
-  return response.data;
+  return response.data.result;
 };

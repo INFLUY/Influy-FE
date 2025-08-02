@@ -8,11 +8,11 @@ export const usePostPresignedUrl = (
   return useMutation({
     mutationFn: async ({ file }: { file: File }) => {
       const response = await postPresignedUrl(file.name);
-      if (!response?.result) {
+      if (!response) {
         throw new Error('presigned URL 요청 실패');
       }
 
-      const { presignedUrl, imgUrl } = response.result;
+      const { presignedUrl, imgUrl } = response;
 
       const res = await fetch(presignedUrl, {
         method: 'PUT',

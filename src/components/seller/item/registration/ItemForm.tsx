@@ -40,7 +40,7 @@ export const ItemForm = ({
     useState(false);
   const [isEndDateTimeSheetOpen, setIsEndDateTimeSheetOpen] = useState(false);
 
-  const itemCategories = useGetItemCategory();
+  const { data: itemCategories } = useGetItemCategory();
 
   const { control } = useFormContext<ItemFormValues>();
 

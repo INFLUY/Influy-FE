@@ -33,10 +33,10 @@ const SellerNoticeBottomSheet = ({
   });
 
   const primaryNotice = notices?.pages
-    ?.flatMap((p) => p?.announcements)
+    ?.flatMap((p) => p?.announcements ?? [])
     ?.find((notice: NoticeType) => notice?.isPrimary);
   const otherNotices = notices?.pages
-    ?.flatMap((p) => p?.announcements)
+    ?.flatMap((p) => p?.announcements ?? [])
     ?.filter((notice: NoticeType) => !notice?.isPrimary);
 
   return (

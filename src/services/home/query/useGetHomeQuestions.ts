@@ -14,7 +14,7 @@ export const useGetHomeQuestions = ({ size = 10 }: { size?: number } = {}) => {
     },
     getNextPageParam: (lastPage, allPages) => {
       const currentPage = allPages?.length ?? 0;
-      const totalPage = lastPage?.result?.totalPage ?? 0;
+      const totalPage = lastPage?.totalPage ?? 0;
 
       if (currentPage < totalPage) {
         return currentPage + 1;

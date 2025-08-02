@@ -9,10 +9,7 @@ export const useGetSellerProfile = () => {
     queryKey: [QUERY_KEYS.SELLER_MY_PROFILE],
     staleTime: 60 * 60 * 1000,
     gcTime: 70 * 60 * 1000,
-    queryFn: async () => {
-      const response = await getSellerMyProfile();
-      return response?.result;
-    },
+    queryFn: async () => getSellerMyProfile(),
     enabled: sellerId !== null && !isLoading,
   });
 

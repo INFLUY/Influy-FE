@@ -23,7 +23,7 @@ export const postFaqCard = async ({
       },
     }
   );
-  return response.data;
+  return response.data.result;
 };
 
 export const patchFaqCard = async ({
@@ -44,7 +44,7 @@ export const patchFaqCard = async ({
       },
     }
   );
-  return response.data;
+  return response.data.result;
 };
 
 export const getFaqCardDetail = async ({
@@ -55,13 +55,13 @@ export const getFaqCardDetail = async ({
   sellerId: number;
   itemId: number;
   faqCardId: number;
-}): Promise<ApiResponse<FaqCardDetailReponse>> => {
-  const response = await instance.get(
+}) => {
+  const response = await instance.get<ApiResponse<FaqCardDetailReponse>>(
     generateApiPath(API_DOMAINS.SELLER_MY_GET_FAQ_CARD_DETAIL, {
       sellerId,
       itemId,
       faqCardId,
     })
   );
-  return response.data;
+  return response.data.result;
 };

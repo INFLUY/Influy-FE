@@ -3,9 +3,7 @@ import { PATH } from '@/routes/path';
 import { useAuthStore } from '@/store/authStore';
 import { useKakaoStore } from '@/store/registerStore';
 import {
-  LoginedUserAuthResponse,
   LoginedUserResult,
-  RegisterAuthResponse,
   RegisterResult,
 } from '@/types/common/AuthTypes.types';
 import { useMutation } from '@tanstack/react-query';
@@ -25,21 +23,21 @@ export const useKakaoLogin = () => {
 
   return useMutation({
     mutationFn: (code: string) => handleKakaoLogin(code, redirectToLocal),
-    onSuccess: (response: RegisterAuthResponse | LoginedUserAuthResponse) => {
-      if (isRegisterResult(response.result)) {
-        setKakaoId(response.result.kakaoId);
+    onSuccess: (response: RegisterResult | LoginedUserResult) => {
+      if (isRegisterResult(response)) {
+        setKakaoId(response.kakaoId);
         navigate(PATH.REGISTER.BASE, { replace: true });
       } else {
         setAuthInfo({
-          accessToken: response.result.accessToken,
-          memberId: response.result.memberId,
-          sellerId: response.result?.sellerId,
+          accessToken: response.accessToken,
+          memberId: response.memberId,
+          sellerId: response?.sellerId,
         });
         const lastPath = sessionStorage.getItem('lastPath');
         if (lastPath) {
           sessionStorage.removeItem('lastPath');
           navigate(lastPath);
-        } else if (response.result?.sellerId === undefined) {
+        } else if (response?.sellerId === undefined) {
           navigate(PATH.HOME.BASE, { replace: true });
         } else {
           navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`, {

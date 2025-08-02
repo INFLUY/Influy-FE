@@ -18,7 +18,7 @@ import { ItemCardType } from '@/types/common/ItemType.types';
 
 const CategoryPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
-  const itemCategories = useGetItemCategory();
+  const { data: itemCategories } = useGetItemCategory();
   const allCateogryDto = {
     id: 0,
     name: '전체',

@@ -83,9 +83,7 @@ const SellerMyProfile = () => {
     setSelectedLink(null);
   };
 
-  const { data: primaryNotice } = useGetPrimaryNotification({
-    sellerId: Number(sellerId),
-  });
+  const { data: primaryNotice } = useGetPrimaryNotification(Number(sellerId));
 
   return (
     <div className="flex w-full flex-1 flex-col">

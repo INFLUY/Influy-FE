@@ -4,12 +4,10 @@ import { API_DOMAINS } from '@/constants/api';
 import { instance } from '@/api/axiosInstance';
 import { PresignedUrlResponse } from '@/types/common/PresignedUrl.types';
 
-export const postPresignedUrl = async (
-  imgName: string
-): Promise<ApiResponse<PresignedUrlResponse>> => {
-  const response = await instance.post(
+export const postPresignedUrl = async (imgName: string) => {
+  const response = await instance.post<ApiResponse<PresignedUrlResponse>>(
     generateApiPath(API_DOMAINS.PRESIGNED_URL),
     { imgName }
   );
-  return response.data;
+  return response.data.result;
 };

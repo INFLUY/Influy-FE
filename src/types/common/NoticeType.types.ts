@@ -9,16 +9,7 @@ export interface NoticeType extends BaseNotice {
   isPrimary: boolean;
 }
 
-export interface NoticeResponse {
-  announcements: NoticeType[];
-  listSize: number;
-  totalPage: number;
-  totalElements: number;
-  isFirst: boolean;
-  isLast: boolean;
-}
-
-export interface PrimaryNoticeResponse {
+export interface PrimaryNoticeType {
   id: number;
   title: string;
   totalAnnouncements: number;

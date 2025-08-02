@@ -46,13 +46,6 @@ export interface SellerSignup {
   tiktok?: string;
 }
 
-interface AuthResponse<T> {
-  isSuccess: boolean;
-  code: string;
-  message: string;
-  result: T;
-}
-
 export interface RegisterResult {
   kakaoId: number;
 }
@@ -62,6 +55,3 @@ export interface LoginedUserResult {
   memberId: number;
   sellerId?: number;
 }
-
-export type RegisterAuthResponse = AuthResponse<RegisterResult>;
-export type LoginedUserAuthResponse = AuthResponse<LoginedUserResult>;

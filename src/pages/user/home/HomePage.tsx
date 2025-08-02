@@ -102,7 +102,7 @@ const HomePage = () => {
     nickname: string;
   }>({ id: null, nickname: '' });
 
-  const itemCategories = useGetItemCategory();
+  const { data: itemCategories } = useGetItemCategory();
 
   const { data: sellerMyProfile } = useGetSellerProfile();
   const { data: trendingSeller } = useGetTrendingSeller();

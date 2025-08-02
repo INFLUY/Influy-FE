@@ -43,7 +43,7 @@ export const SignupInterestPage = () => {
   } = useUserSignupStore();
   const { kakaoId } = useKakaoStore();
 
-  const itemCategory = useGetItemCategory();
+  const { data: itemCategory } = useGetItemCategory();
 
   useEffect(() => {
     if (!kakaoId) {

@@ -12,7 +12,7 @@ export const getSellerLikes = async ({ sellerId }: { sellerId: number }) => {
   const response = await instance.get<ApiResponse<LikeType>>(
     generateApiPath(API_DOMAINS.SELLER_MARKET_LIKES, { sellerId })
   );
-  return response.data;
+  return response.data.result;
 };
 
 export const getLikedSellerList = async ({ page, size }: PaginationType) => {

@@ -128,9 +128,7 @@ const SellerProfile = ({
     sellerId: marketId,
   });
 
-  const { data: primaryNotice } = useGetPrimaryNotification({
-    sellerId: marketId,
-  });
+  const { data: primaryNotice } = useGetPrimaryNotification(marketId);
 
   const sns: {
     id: number;

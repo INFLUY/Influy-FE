@@ -9,12 +9,11 @@ export const getHomeQuestionList = async ({
 }: {
   page: number;
   size: number;
-}): Promise<ApiResponse<Pagination<SellerHomeItemStatus | [], 'itemList'>>> => {
-  const response = await instance.get(
-    SELLER_API_DOMAINS.SELLER_MY_HOME_QUESTIONS,
-    {
-      params: { page, size },
-    }
-  );
-  return response.data;
+}) => {
+  const response = await instance.get<
+    ApiResponse<Pagination<SellerHomeItemStatus | [], 'itemList'>>
+  >(SELLER_API_DOMAINS.SELLER_MY_HOME_QUESTIONS, {
+    params: { page, size },
+  });
+  return response.data.result;
 };
