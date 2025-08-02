@@ -1,9 +1,10 @@
 import ArrowRight from '@/assets/icon/common/ArrowRight10.svg?react';
 import { PATH } from '@/routes/path';
-import { useNavigate, generatePath } from 'react-router-dom';
+import { useNavigate, generatePath, useLocation } from 'react-router-dom';
 
 export const ItemClosedBanner = ({ itemId }: { itemId: string }) => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const handleSettingClick = () => {
     const path = generatePath(
@@ -12,6 +13,10 @@ export const ItemClosedBanner = ({ itemId }: { itemId: string }) => {
     );
     navigate(path);
   };
+
+  const isSettingPage = pathname.includes(
+    PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE
+  );
 
   return (
     <div
@@ -23,15 +28,17 @@ export const ItemClosedBanner = ({ itemId }: { itemId: string }) => {
       <span aria-hidden="true">
         해당 상품의 톡박스가 비활성화 되어있습니다.
       </span>
-      <button
-        type="button"
-        className="text-grey07 flex cursor-pointer items-center gap-0.5"
-        aria-label="상품 상태 변경 페이지로 이동"
-        onClick={handleSettingClick}
-      >
-        상태변경
-        <ArrowRight />
-      </button>
+      {!isSettingPage && (
+        <button
+          type="button"
+          className="text-grey07 flex cursor-pointer items-center gap-0.5"
+          aria-label="상품 상태 변경 페이지로 이동"
+          onClick={handleSettingClick}
+        >
+          상태변경
+          <ArrowRight />
+        </button>
+      )}
     </div>
   );
 };
