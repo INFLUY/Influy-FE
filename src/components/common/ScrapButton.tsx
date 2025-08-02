@@ -55,13 +55,16 @@ export const ItemLikeButton = ({
   const { mutate: postLike } = usePostItemLike();
   const { mutate: patchLike } = usePatchItemLike();
 
-  const handleClickScrapButton = (e: React.MouseEvent) => {
+  const handleLikeClick = (e: React.MouseEvent) => {
+    console.log('좋아요');
     e.stopPropagation();
-    if (liked) {
-      patchLike({ sellerId, itemId });
-    } else {
-      postLike({ sellerId, itemId });
-    }
+    postLike({ sellerId, itemId });
+  };
+
+  const handleUnlikeClick = (e: React.MouseEvent) => {
+    console.log('좋아요 취소');
+    e.stopPropagation();
+    patchLike({ sellerId, itemId });
   };
 
   return (
@@ -72,8 +75,8 @@ export const ItemLikeButton = ({
             'text-main z-[5] h-6 w-6 cursor-pointer',
             additionalStyles
           )}
-          onClick={handleClickScrapButton}
-          aria-label="좋아요 취소 버튼"
+          onClick={handleUnlikeClick}
+          aria-label="찜 취소"
           role="button"
         />
       ) : (
@@ -82,8 +85,8 @@ export const ItemLikeButton = ({
             'text-grey03 z-[5] h-6 w-6 cursor-pointer',
             additionalStyles
           )}
-          onClick={handleClickScrapButton}
-          aria-label="좋아요 버튼"
+          onClick={handleLikeClick}
+          aria-label="찜하기"
           role="button"
         />
       )}
