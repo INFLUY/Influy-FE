@@ -29,7 +29,7 @@ const EndingSoonPage = () => {
   });
 
   const itemList = expiringItems?.pages
-    .flatMap((page) => page?.result?.itemPreviewList ?? [])
+    .flatMap((page) => page?.itemPreviewList ?? [])
     .filter(Boolean) as ItemCardType[];
 
   return (

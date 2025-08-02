@@ -5,7 +5,7 @@ export const useGetCloseDeadlineItem = ({
   size = 10,
 }: { size?: number } = {}) => {
   const query = useInfiniteQuery({
-    queryKey: [QUERY_KEYS.HOME_CLOSE_DEADLINE, size],
+    queryKey: [QUERY_KEYS.HOME_CLOSE_DEADLINE],
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
     queryFn: async ({ pageParam = 1 }) => {
@@ -16,7 +16,7 @@ export const useGetCloseDeadlineItem = ({
     },
     getNextPageParam: (lastPage, allPages) => {
       const currentPage = allPages?.length ?? 0;
-      const totalPage = lastPage?.result?.totalPage ?? 0;
+      const totalPage = lastPage?.totalPage ?? 0;
 
       if (currentPage < totalPage) {
         return currentPage + 1;

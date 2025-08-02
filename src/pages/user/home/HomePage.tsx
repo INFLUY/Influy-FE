@@ -220,11 +220,9 @@ const HomePage = () => {
           )}
         </section>
         <HomeCommonSection
-          expiringItem={expiringItem?.pages[0].result?.itemPreviewList || []}
-          trendingItem={trendingItem?.pages[0].result?.itemPreviewList || []}
-          recommendedItem={
-            recommendItems?.pages[0].result?.itemPreviewList || []
-          }
+          expiringItem={expiringItem?.pages[0]?.itemPreviewList || []}
+          trendingItem={trendingItem?.pages[0]?.itemPreviewList || []}
+          recommendedItem={recommendItems?.pages[0]?.itemPreviewList || []}
           categoryList={[
             allCateogryDto,
             ...(itemCategories?.categoryDtoList ?? []),

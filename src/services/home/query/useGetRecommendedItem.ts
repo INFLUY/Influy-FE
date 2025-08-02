@@ -1,6 +1,7 @@
 import { getRecommendedItem } from '@/api/home/handleHomeItemList.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useInfiniteQuery } from '@tanstack/react-query';
+
 export const useGetRecommendedItem = ({
   categoryId,
   size = 10,
@@ -21,7 +22,7 @@ export const useGetRecommendedItem = ({
     },
     getNextPageParam: (lastPage, allPages) => {
       const currentPage = allPages?.length ?? 0;
-      const totalPage = lastPage?.result?.totalPage ?? 0;
+      const totalPage = lastPage?.totalPage ?? 0;
 
       if (currentPage < totalPage) {
         return currentPage + 1;
