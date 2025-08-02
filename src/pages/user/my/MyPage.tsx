@@ -18,7 +18,7 @@ const MyPage = () => {
   const { data: userProfile } = useGetUserProfile({ memberId: memberId! });
   const { mutate: patchProfile } = usePatchUserProfile();
 
-  const handleProfileOnchange = (image: string) => {
+  const handleProfileOnchange = (image: string | null) => {
     setProfileImg(image);
     patchProfile({ data: { profileUrl: image } });
   };

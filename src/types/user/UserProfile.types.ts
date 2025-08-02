@@ -8,5 +8,5 @@ export interface UserProfileType {
 
 export interface UserEditProfileType {
   nickname?: string;
-  profileUrl?: string;
+  profileUrl: string | null;
 }

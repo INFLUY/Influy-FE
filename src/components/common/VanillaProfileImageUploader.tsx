@@ -6,7 +6,7 @@ import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 
 type VanillaProfileImageUploaderProps = {
   value: string | null;
-  onChange: (value: string) => void;
+  onChange: (value: string | null) => void;
 };
 
 export const VanillaProfileImageUploader = ({

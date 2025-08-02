@@ -2,7 +2,9 @@ import { usePostPresignedUrl } from '@/services/presignedUrl/usePostPresignedUrl
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useEffect, useRef } from 'react';
 
-export const useSingleImageUploader = (onChange: (value: string) => void) => {
+export const useSingleImageUploader = (
+  onChange: (value: string | null) => void
+) => {
   const imageUrlRef = useRef<string | null>(null);
 
   const { mutate: getPresignedUrl } = usePostPresignedUrl((imgUrl: string) => {
@@ -47,7 +49,7 @@ export const useSingleImageUploader = (onChange: (value: string) => void) => {
       URL.revokeObjectURL(imageUrlRef.current);
       imageUrlRef.current = null;
     }
-    onChange('');
+    onChange(null);
   };
 
   return { handleFileChange, removeFile };

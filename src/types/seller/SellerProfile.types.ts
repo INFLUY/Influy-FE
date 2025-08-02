@@ -26,9 +26,9 @@ export interface SellerMyMarketType extends SellerMarketType {
 export interface SellerEditProfileType {
   profile: {
     nickname: string;
-    profileUrl?: string;
+    profileUrl: string | null;
   };
-  backgroundImg?: string;
+  backgroundImg: string | null;
   email?: string;
   instagram: string;
   tiktok?: string;

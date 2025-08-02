@@ -55,8 +55,8 @@ const SellerMyProfileEditPage = () => {
     reValidateMode: 'onChange',
     defaultValues: {
       nickname: '',
-      backgroundImg: undefined,
-      profileImg: undefined,
+      backgroundImg: null,
+      profileImg: null,
       instagram: 'https://www.instagram.com/',
       tiktok: '',
       youtube: '',
@@ -68,8 +68,8 @@ const SellerMyProfileEditPage = () => {
     if (sellerMyProfile)
       methods.reset({
         nickname: sellerMyProfile.nickname,
-        backgroundImg: sellerMyProfile.backgroundImg ?? undefined,
-        profileImg: sellerMyProfile.profileImg ?? undefined,
+        backgroundImg: sellerMyProfile.backgroundImg ?? null,
+        profileImg: sellerMyProfile.profileImg ?? null,
         instagram: 'https://www.instagram.com/' + sellerMyProfile.instagram,
         tiktok: sellerMyProfile.tiktok ?? '',
         youtube: sellerMyProfile.youtube ?? '',
@@ -82,7 +82,9 @@ const SellerMyProfileEditPage = () => {
     formState: { isSubmitting, isValid },
   } = methods;
 
-  const { mutate: patchSellerProfile } = usePatchSellerProfile();
+  const { mutate: patchSellerProfile } = usePatchSellerProfile(() =>
+    navigate(-1)
+  );
 
   const handleSubmitSuccess = async (formData: SellerProfileType) => {
     const {
@@ -101,9 +103,9 @@ const SellerMyProfileEditPage = () => {
     const formattedData: SellerEditProfileType = {
       profile: {
         nickname,
-        ...(isValid(profileImg) && { profileUrl: profileImg ?? undefined }),
+        profileUrl: profileImg,
       },
-      ...(isValid(backgroundImg) && { backgroundImg }),
+      backgroundImg,
       ...(isValid(email) && { email }),
       instagram,
       ...(isValid(tiktok) && { tiktok }),

@@ -2,9 +2,9 @@ import { z } from 'zod/v4';
 
 export const sellerProfileSchema = z.object({
   // 백그라운드 사진
-  backgroundImg: z.string().optional(),
+  backgroundImg: z.string().nullable(),
   // 프로필 사진
-  profileImg: z.string().optional(),
+  profileImg: z.string().nullable(),
   //닉네임
   nickname: z.string().min(1, { message: '닉네임을 입력해 주세요.' }).max(8, {
     message: '8자 이내로 작성해 주세요.',
