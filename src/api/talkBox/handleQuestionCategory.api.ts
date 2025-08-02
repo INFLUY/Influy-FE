@@ -34,7 +34,7 @@ export const postAddQuestionCategories = async ({
     }
   );
 
-  return JSON.parse(response.data.result.viewList);
+  return response.data.result.viewList;
 };
 
 interface CategoryListResponse {
