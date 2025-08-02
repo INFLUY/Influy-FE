@@ -8,10 +8,10 @@ import { useTalkBoxQuestionStore } from '@/store/talkBoxStore';
 const ALL_KEY = '전체';
 
 // TODO: 태그랑 전체 질문 불러오는거 계속 호출됨
-export function useTalkBoxQuestions(opts: {
+export const useTalkBoxQuestions = (opts: {
   questionCategoryId: number;
   isAnswered: boolean;
-}) {
+}) => {
   const { questionCategoryId, isAnswered } = opts;
 
   // ① Zustand 스토어 멤버
@@ -138,4 +138,4 @@ export function useTalkBoxQuestions(opts: {
     isFetchingNextPage,
     newQuestionCnt,
   };
-}
+};
