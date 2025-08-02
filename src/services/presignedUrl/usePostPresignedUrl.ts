@@ -1,4 +1,5 @@
 import { postPresignedUrl } from '@/api/presignedUrl/postPresignedUrl';
+import { putPresignedUrl } from '@/api/presignedUrl/putPresignedUrl';
 import { handleReactQueryError } from '@/utils/handleError';
 import { useMutation } from '@tanstack/react-query';
 
@@ -14,16 +15,7 @@ export const usePostPresignedUrl = (
 
       const { presignedUrl, imgUrl } = response;
 
-      const res = await fetch(presignedUrl, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': file.type,
-        },
-        body: file,
-      });
-      if (!res.ok) {
-        throw new Error('이미지 업로드 실패');
-      }
+      await putPresignedUrl(presignedUrl, file);
       return imgUrl;
     },
     onSuccess: (imgUrl: string) => {
