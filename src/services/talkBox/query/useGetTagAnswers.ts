@@ -19,5 +19,6 @@ export const useGetTagAnswers = ({
       questionTagId,
     ],
     queryFn: () => getTagAnswers({ itemId, questionCategoryId, questionTagId }),
+    staleTime: 5 * 60 * 1000,
   });
 };

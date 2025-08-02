@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteCategoryQuestions } from '@/api/talkBox/handleTalkBox.api';
 import { QUERY_KEYS } from '@/constants/api';
+import { handleReactQueryError } from '@/utils/handleError';
 
 export const useDeleteCategoryQuestions = ({
   itemId,
@@ -30,6 +31,7 @@ export const useDeleteCategoryQuestions = ({
         ],
         [QUERY_KEYS.SELLER_QUESTION_TAGS, questionCategoryId, false],
         [QUERY_KEYS.SELLER_CATEGORY_QUESTION_COUNTS, questionCategoryId],
+        [QUERY_KEYS.SELLER_TALK_BOX_OPENED_ITEMS],
       ];
 
       keysToInvalidate.forEach((key) => {
@@ -43,8 +45,6 @@ export const useDeleteCategoryQuestions = ({
         });
       });
     },
-    onError: () => {
-      // TODO: 에러 핸들링
-    },
+    onError: handleReactQueryError,
   });
 };

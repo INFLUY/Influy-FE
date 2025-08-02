@@ -31,8 +31,9 @@ export const useGetAllQuestions = ({
       if (currentPage < totalPage) {
         return currentPage + 1;
       }
-      return undefined; // hasNextPage: false
+      return undefined;
     },
     initialPageParam: 1,
+    staleTime: 15 * 1000, // 15초
   });
 };

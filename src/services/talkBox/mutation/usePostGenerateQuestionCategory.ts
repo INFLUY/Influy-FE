@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { postGenerateQuestionCategory } from '@/api/talkBox/handleQuestionCategory.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useQueryClient } from '@tanstack/react-query';
+import { handleReactQueryError } from '@/utils/handleError';
 
 export const usePostGenerateQuestionCategory = ({
   itemId,
@@ -16,13 +17,11 @@ export const usePostGenerateQuestionCategory = ({
     mutationFn: () => postGenerateQuestionCategory({ itemId }),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.SELLER_QUESTION_CATEGORY, itemId],
+        queryKey: [QUERY_KEYS.SELLER_GENERATE_QUESTION_CATEGORY, itemId],
       });
 
       if (onSuccessCallback) onSuccessCallback(data);
     },
-    onError: () => {
-      // TODO: 에러 핸들링
-    },
+    onError: handleReactQueryError,
   });
 };

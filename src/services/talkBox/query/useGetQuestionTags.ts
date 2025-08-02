@@ -13,6 +13,7 @@ export const useGetQuestionTags = ({
     queryKey: [QUERY_KEYS.SELLER_QUESTION_TAGS, questionCategoryId, isAnswered],
     queryFn: () =>
       getQuestionTagsByCategory({ questionCategoryId, isAnswered }),
+    staleTime: 15 * 1000, // 15초
   });
 
   return { data };

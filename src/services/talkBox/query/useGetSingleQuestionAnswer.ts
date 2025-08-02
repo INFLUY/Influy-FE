@@ -25,5 +25,6 @@ export const useGetSingleQuestionAnswer = ({
       }),
     enabled:
       !!itemId && !!questionCategoryId && !!questionTagId && !!questionId,
+    staleTime: 5 * 15 * 1000,
   });
 };

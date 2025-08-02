@@ -6,5 +6,6 @@ export const useGetCategoryList = (itemId: number) => {
   return useSuspenseQuery({
     queryKey: [QUERY_KEYS.SELLER_CATEGORY_LIST, itemId],
     queryFn: () => getCategoryList({ itemId }),
+    staleTime: 15 * 1000, // 15초
   });
 };

@@ -31,5 +31,6 @@ export const useGetQuestionsByTag = ({
     },
     initialPageParam: 1,
     enabled: false, // 자동 실행 방지
+    staleTime: 15 * 1000, // 15초
   });
 };
