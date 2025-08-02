@@ -32,7 +32,7 @@ const TalkBoxBottomSheetLayout = ({
             onClick={(e) => e.stopPropagation()}
           >
             {/* 바텀 시트 헤더 */}
-            <div className="border-grey02 relative box-border flex w-full cursor-pointer items-center justify-center border-b px-5 py-[15px]">
+            <div className="border-grey02 relative box-border flex w-full cursor-pointer items-center justify-center border-b px-5 py-[.9375rem]">
               <XIcon
                 className="absolute left-5 h-6 w-6 cursor-pointer"
                 onClick={onClose}
