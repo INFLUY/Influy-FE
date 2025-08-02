@@ -4,20 +4,20 @@ interface SubCategoryChipProps {
   text: string;
   count: number;
   isSelected?: boolean;
-  onToggle?: () => void;
+  onClickChip?: () => void;
   hasNew?: boolean;
 }
 
 export const SubCategoryChip = ({
   text,
   isSelected,
-  onToggle,
+  onClickChip,
   hasNew = false,
   count,
 }: SubCategoryChipProps) => {
   return (
     <button
-      onClick={onToggle}
+      onClick={onClickChip}
       type="button"
       tabIndex={0}
       className={cn(

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { SubCategoryChip, InfiniteQuestionList } from '@/components';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 // type
 import {
@@ -71,7 +71,7 @@ export const AnsweredQuestionsTab = () => {
                 text={c.name}
                 count={c.totalQuestions}
                 isSelected={c.name === selectedTag.name}
-                onToggle={() => setSelectedTag(c)}
+                onClickChip={() => setSelectedTag(c)}
               />
             ))}
         </div>

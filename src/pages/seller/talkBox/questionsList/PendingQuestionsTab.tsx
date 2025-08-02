@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { SubCategoryChip, InfiniteQuestionList } from '@/components';
 
@@ -77,7 +77,7 @@ export const PendingQuestionsTab = () => {
                 count={c.totalQuestions}
                 isSelected={c.name === selectedTag.name}
                 hasNew={c.uncheckedExists}
-                onToggle={() => setSelectedTag(c)}
+                onClickChip={() => setSelectedTag(c)}
               />
             ))}
         </div>
