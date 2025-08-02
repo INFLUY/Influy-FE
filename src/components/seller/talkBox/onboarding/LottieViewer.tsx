@@ -1,4 +1,5 @@
 import Lottie from 'lottie-react';
+import OnboardingLottieIntro from '@/assets/lottie/onboardingLottieIntro.json';
 import OnboardingLottie1 from '@/assets/lottie/onboardingLottie1.json';
 import OnboardingLottie2 from '@/assets/lottie/onboardingLottie2.json';
 import OnboardingLottie3 from '@/assets/lottie/onboardingLottie3.json';
@@ -40,7 +41,7 @@ export const OnboardingLottieSwiper = () => {
   );
 };
 
-const Onboarding1 = () => {
+const OnboardingIntro = () => {
   return (
     <div className="flex h-full w-full flex-col items-center justify-between gap-4">
       <div className="swiper-no-swiping flex w-full shrink-1 flex-col items-center justify-center gap-6">
@@ -64,8 +65,8 @@ const Onboarding1 = () => {
         </div>
       </div>
       <Lottie
-        className="mx-5 h-fit w-fit shrink-0 overflow-hidden rounded-xl"
-        animationData={OnboardingLottie1}
+        className="mx-5 h-fit w-fit overflow-hidden rounded-xl"
+        animationData={OnboardingLottieIntro}
         loop={true}
       />
       <div className="body1-sb text-grey11 flex flex-1 flex-col items-center justify-between gap-[.3125rem]">
@@ -79,7 +80,15 @@ const Onboarding1 = () => {
   );
 };
 
-const Onboarding2 = () => {
+const OnboardingStepOneTwo = ({
+  text1,
+  text2,
+  lottie,
+}: {
+  text1: string;
+  text2: string;
+  lottie: any;
+}) => {
   return (
     <div className="flex h-full w-full flex-col items-center justify-between gap-4">
       <div className="flex w-full flex-col items-center justify-center gap-6">
@@ -91,17 +100,17 @@ const Onboarding2 = () => {
         <div className="body2-sb text-grey10 flex h-full w-fit flex-col justify-center gap-4">
           <div className="flex gap-2.5">
             <CheckBox className="text-sub" />
-            <span>AI로 비슷한 질문 분류</span>
+            <span>{text1}</span>
           </div>
           <div className="flex gap-2.5">
             <CheckBox className="text-sub" />
-            <span>일괄 답변 가능</span>
+            <span>{text2}</span>
           </div>
         </div>
       </div>
       <Lottie
         className="mx-5 overflow-hidden rounded-xl"
-        animationData={OnboardingLottie2}
+        animationData={lottie}
         loop={true}
       />
       <div className="flex flex-1 flex-col items-center justify-end gap-[.3125rem]">
@@ -159,4 +168,21 @@ const Onboarding3 = () => {
   );
 };
 
-const slideComponents = [Onboarding1, Onboarding2, Onboarding3];
+const slideComponents = [
+  OnboardingIntro,
+  () => (
+    <OnboardingStepOneTwo
+      text1="AI로 비슷한 질문 분류"
+      text2="일괄 답변 가능"
+      lottie={OnboardingLottie1}
+    />
+  ),
+  () => (
+    <OnboardingStepOneTwo
+      text1="이전 답변 기반 자동 응답 추천"
+      text2="반복 질문은 FAQ 고정"
+      lottie={OnboardingLottie2}
+    />
+  ),
+  Onboarding3,
+];
