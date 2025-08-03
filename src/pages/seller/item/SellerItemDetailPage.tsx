@@ -1,4 +1,5 @@
-import { generatePath, useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
+
 import {
   PageHeader,
   BottomNavBar,
@@ -7,20 +8,30 @@ import {
   LoadingSpinner,
   ToolTip,
 } from '@/components';
+
+// icon
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
 import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
-import { useState, useEffect, useRef, lazy, Suspense } from 'react';
-import { BottomNavItem } from '@/components/common/BottomNavBar';
 import Link2Icon from '@/assets/icon/common/Link2Icon.svg?react';
 import LockIcon from '@/assets/icon/common/LockIcon.svg?react';
 import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
-import { useScrollToTop } from '@/hooks/useScrollToTop';
-import { dummyCategory, dummyFaq, dummyItem } from './ItemDetailDummyData';
-import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
-import { CategoryType } from '@/types/common/CategoryType.types';
 import TalkBoxIcon from '@/assets/icon/common/TalkBoxIcon.svg?react';
+
+// path
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
+import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
+
+// type
+import { BottomNavItem } from '@/components/common/BottomNavBar';
+import { CategoryType } from '@/types/common/CategoryType.types';
+
+// hooks
+import { useScrollToTop } from '@/hooks/useScrollToTop';
+
+// 임시
+import { dummyCategory, dummyFaq, dummyItem } from './ItemDetailDummyData';
 
 const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/ItemDetailFaqCard')
@@ -30,7 +41,7 @@ const ItemDetailInfo = lazy(
   () => import('@/components/common/item/ItemDetailInfo')
 );
 
-const ItemDetailPage = () => {
+const SellerItemDetailPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
@@ -43,6 +54,7 @@ const ItemDetailPage = () => {
   const categoryAnchorRef = useRef<HTMLDivElement>(null);
   const itemDetailRef = useRef<HTMLDivElement>(null);
 
+  // TODO: 핸드폰에서는 작동 안 함???
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -187,31 +199,32 @@ const ItemDetailPage = () => {
         <Suspense fallback={<LoadingSpinner />}>
           <ItemDetailFaqCard faqList={dummyFaq} />
         </Suspense>
-        {/* 톡박스 플로팅 버튼 */}
-        {/* TODO: 오픈 상태에 따른 버튼 색상 변경 */}
-        <div className="pointer-events-none fixed right-5 bottom-20 z-[1] flex flex-col items-end gap-1.5">
-          <ToolTip
-            text="이 제품의 질문에 답변해 주세요."
-            position="right"
-            additionalStyles="pointer-events-none"
-          />
-          {itemId && (
-            <button
-              type="button"
-              onClick={() => {
-                const path = generatePath(
-                  `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}`,
-                  { itemId }
-                );
-                navigate(path);
-              }}
-              className="pointer-events-auto flex aspect-[1/1] h-11 w-11 flex-col items-center justify-center rounded-full bg-black shadow-[0_.25rem_1.125rem_0_rgba(0,0,0,0.25)]"
-            >
-              <TalkBoxIcon className="h-6 w-6 text-white" />
-            </button>
-          )}
-        </div>
       </section>
+
+      {/* 톡박스 플로팅 버튼 */}
+      {/* TODO: 오픈 상태에 따른 버튼 색상 변경 */}
+      <div className="pointer-events-none fixed right-5 bottom-20 z-[1] flex flex-col items-end gap-1.5">
+        <ToolTip
+          text="이 제품의 질문에 답변해 주세요."
+          position="right"
+          additionalStyles="pointer-events-none"
+        />
+        {itemId && (
+          <button
+            type="button"
+            onClick={() => {
+              const path = generatePath(
+                `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}`,
+                { itemId }
+              );
+              navigate(path);
+            }}
+            className="pointer-events-auto flex aspect-[1/1] h-11 w-11 flex-col items-center justify-center rounded-full bg-black shadow-[0_.25rem_1.125rem_0_rgba(0,0,0,0.25)]"
+          >
+            <TalkBoxIcon className="h-6 w-6 text-white" />
+          </button>
+        )}
+      </div>
 
       <BottomNavBar items={detailBottomNavItems} type="action" />
       {isBottomSheetOpen && (
@@ -224,4 +237,4 @@ const ItemDetailPage = () => {
   );
 };
 
-export default ItemDetailPage;
+export default SellerItemDetailPage;

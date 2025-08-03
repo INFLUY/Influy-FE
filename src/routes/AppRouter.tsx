@@ -30,7 +30,7 @@ import {
   SignupSnsLinkPage,
   WelcomePage,
   SignupEmailPage,
-  ItemDetailPage,
+  SellerItemDetailPage,
   LikePage,
   MyPage,
   KakaoLoginHandler,
@@ -235,7 +235,7 @@ const router = createBrowserRouter([
                   },
                   {
                     path: PATH.MARKET.DETAIL.ITEM.ITEM_ID,
-                    element: <ItemDetailPage />,
+                    element: <SellerItemDetailPage />,
                   },
                 ],
               },
@@ -502,7 +502,7 @@ const router = createBrowserRouter([
                 children: [
                   {
                     index: true,
-                    element: <ItemDetailPage />, // 셀러 상품 상세페이지
+                    element: <SellerItemDetailPage />, // 셀러 상품 상세페이지
                   },
                   {
                     path: PATH.SELLER.ITEM.ITEM_ID.EDIT.BASE,

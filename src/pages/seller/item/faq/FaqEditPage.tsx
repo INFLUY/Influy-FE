@@ -78,6 +78,7 @@ const FaqEditPage = () => {
   const {
     handleSubmit,
     formState: { isSubmitting, isValid },
+    setFocus,
   } = methods;
 
   const { showSnackbar } = useSnackbarStore();
@@ -94,7 +95,7 @@ const FaqEditPage = () => {
       return;
     }
     if (errors.question) {
-      document.getElementById('question')?.focus();
+      setFocus('question');
       showSnackbar(errors.question.message || '질문을 확인해 주세요.');
       return;
     }
