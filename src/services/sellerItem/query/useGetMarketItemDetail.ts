@@ -2,7 +2,13 @@ import { getSellerItemDetail } from '@/api/sellerItem/handleSellerItem.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useQuery } from '@tanstack/react-query';
 
-export const useGetMarketItemDetail = (sellerId?: number, itemId?: number) => {
+export const useGetMarketItemDetail = ({
+  sellerId,
+  itemId,
+}: {
+  sellerId?: number;
+  itemId?: number;
+}) => {
   const isValid = typeof sellerId === 'number' && typeof itemId === 'number';
 
   const query = useQuery({

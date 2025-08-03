@@ -73,10 +73,10 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
   const { itemId } = useParams();
   const numericItemId = itemId ? Number(itemId) : undefined;
 
-  const { data: prevItemData } = useGetMarketItemDetail(
-    sellerId!,
-    numericItemId
-  );
+  const { data: prevItemData } = useGetMarketItemDetail({
+    sellerId: sellerId!,
+    itemId: numericItemId,
+  });
 
   // useForm에 Zod 스키마 적용
   const methods = useForm<ItemFormValues>({
