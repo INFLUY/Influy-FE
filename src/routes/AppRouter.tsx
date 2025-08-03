@@ -59,6 +59,7 @@ import {
   AnsweredCategoryTab,
   OnboardingLayout,
   UserItemDetailPage,
+  UserChatPage,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -236,7 +237,14 @@ const router = createBrowserRouter([
                   },
                   {
                     path: PATH.MARKET.DETAIL.ITEM.ITEM_ID,
-                    element: <UserItemDetailPage />,
+                    children: [
+                      { index: true, element: <UserItemDetailPage /> },
+                      {
+                        index: true,
+                        path: PATH.MARKET.DETAIL.ITEM.TALK_BOX,
+                        element: <UserChatPage />,
+                      },
+                    ],
                   },
                 ],
               },

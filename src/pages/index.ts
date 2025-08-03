@@ -33,6 +33,8 @@ export { default as UsernamePage } from './common/mypage/UsernamePage';
 
 export { default as SellerProfilePage } from './user/market/SellerProfile';
 export { default as UserItemDetailPage } from './user/itemDetail/UserItemDetailPage';
+
+export { default as UserChatPage } from './user/talkBox/UserChatPage';
 // 셀러
 export { default as SellerHomePage } from './seller/home/SellerHomePage';
 

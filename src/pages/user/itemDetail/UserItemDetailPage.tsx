@@ -28,7 +28,7 @@ import { CategoryType } from '@/types/common/CategoryType.types';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 
 // 임시
-import { dummyCategory, dummyFaq, dummyItem } from './ItemDetailDummyData';
+import { dummyCategory, dummyFaq } from './ItemDetailDummyData';
 
 // api
 import { useGetMarketItemDetail } from '@/services/sellerItem/query/useGetMarketItemDetail';

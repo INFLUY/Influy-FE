@@ -4,7 +4,7 @@ export const TalkBoxSellerProfile = ({
   username,
   nickname,
 }: {
-  profileImg: string;
+  profileImg: string | null;
   username: string;
   nickname: string;
 }) => {

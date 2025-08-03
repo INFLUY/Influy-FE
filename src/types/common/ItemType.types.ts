@@ -121,7 +121,7 @@ export interface TalkBoxCntInfo {
 
 export interface TalkBoxCommentDTO {
   sellerId: number;
-  sellerProfileImg: string;
+  sellerProfileImg: string | null;
   sellerUsername: string;
   sellerNickname: string;
   createdAt: string; // ISO 8601 datetime string
