@@ -112,7 +112,7 @@ const SellerMyProfile = () => {
       {sellerMyMarket && (
         <SellerProfileCard
           sellerInfo={sellerMyMarket?.sellerProfile}
-          seller={true}
+          isSeller={true}
         />
       )}
       {/* 공지 */}
@@ -121,7 +121,7 @@ const SellerMyProfile = () => {
           title={primaryNotice?.title}
           count={primaryNotice?.totalAnnouncements || 0}
           onClickNotice={() => navigate(`./${PATH.SELLER.MY.NOTICE.BASE}`)}
-          seller={true}
+          isSeller={true}
         />
       </div>
 

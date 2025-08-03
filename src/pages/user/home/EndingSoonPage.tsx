@@ -3,7 +3,7 @@ import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import { generatePath, useNavigate } from 'react-router-dom';
-import { ITEM_DEATIL } from '@/utils/generatePath';
+import { ITEM_DETAIL } from '@/utils/generatePath';
 import { useGetCloseDeadlineItem } from '@/services/home/query/useGetCloseDeadlineItem';
 import { ItemCardType } from '@/types/common/ItemType.types';
 import { useRef } from 'react';
@@ -59,7 +59,7 @@ const EndingSoonPage = () => {
             item={item}
             onCardClick={() =>
               navigate(
-                generatePath(ITEM_DEATIL, {
+                generatePath(ITEM_DETAIL, {
                   marketId: item.sellerId,
                   itemId: item.itemId,
                 })

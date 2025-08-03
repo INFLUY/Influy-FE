@@ -9,7 +9,7 @@ import { useSnackbarStore } from '@/store/snackbarStore';
 import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 
-const UsernamePage = () => {
+const NicknamePage = () => {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -91,4 +91,4 @@ const UsernamePage = () => {
   );
 };
 
-export default UsernamePage;
+export default NicknamePage;

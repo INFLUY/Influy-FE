@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 import { ScrapButton } from '@/components';
 import { generatePath, useNavigate } from 'react-router-dom';
-import { MARKET_DEATIL } from '@/utils/generatePath';
+import { MARKET_DETAIL } from '@/utils/generatePath';
 
 const MyLikedInfluencerBox = ({
   influencer,
@@ -25,7 +25,7 @@ const MyLikedInfluencerBox = ({
       aria-label={influencer.nickName + '프로필 바로가기'}
       role="button"
       onClick={() =>
-        navigate(generatePath(MARKET_DEATIL, { marketId: influencer.sellerId }))
+        navigate(generatePath(MARKET_DETAIL, { marketId: influencer.sellerId }))
       }
     >
       <div className="flex gap-3">

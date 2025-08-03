@@ -17,7 +17,7 @@ const UserTypeSwitchBanner = ({
           <img
             src={influencer.profileImg ?? ProfileIcon}
             alt="프로필 사진"
-            className="object-cove h-[2.875rem] w-[2.875rem] shrink-0 rounded-full bg-white"
+            className="h-[2.875rem] w-[2.875rem] shrink-0 rounded-full bg-white object-cover"
           />
           <span
             className={cn(

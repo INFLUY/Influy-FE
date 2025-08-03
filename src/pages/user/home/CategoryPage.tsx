@@ -9,7 +9,7 @@ import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
-import { ITEM_DEATIL } from '@/utils/generatePath';
+import { ITEM_DETAIL } from '@/utils/generatePath';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
 import { useGetRecommendedItem } from '@/services/home/query/useGetRecommendedItem';
@@ -19,7 +19,7 @@ import { ItemCardType } from '@/types/common/ItemType.types';
 const CategoryPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const { data: itemCategories } = useGetItemCategory();
-  const allCateogryDto = {
+  const allCategoryDto = {
     id: 0,
     name: '전체',
   };
@@ -69,7 +69,7 @@ const CategoryPage = () => {
         카테고리별 추천
       </PageHeader>
       <div className="scrollbar-hide mt-3 flex w-full shrink-0 flex-nowrap items-center gap-2 overflow-x-scroll px-5 py-2">
-        {[allCateogryDto, ...(itemCategories?.categoryDtoList || [])].map(
+        {[allCategoryDto, ...(itemCategories?.categoryDtoList || [])].map(
           (category: CategoryType) => (
             <CategoryChip
               key={category.id}
@@ -88,7 +88,7 @@ const CategoryPage = () => {
             item={item}
             onCardClick={() =>
               navigate(
-                generatePath(ITEM_DEATIL, {
+                generatePath(ITEM_DETAIL, {
                   marketId: item.sellerId,
                   itemId: item.itemId,
                 })

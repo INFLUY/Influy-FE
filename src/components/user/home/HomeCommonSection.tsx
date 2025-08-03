@@ -7,7 +7,7 @@ import {
 import { generatePath, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { ItemCardType } from '@/types/common/ItemType.types';
-import { ITEM_DEATIL } from '@/utils/generatePath';
+import { ITEM_DETAIL } from '@/utils/generatePath';
 import { CategoryType } from '@/types/common/CategoryType.types';
 
 const HomeCommonSection = ({
@@ -45,7 +45,7 @@ const HomeCommonSection = ({
                 item={item}
                 onCardClick={() => {
                   navigate(
-                    generatePath(ITEM_DEATIL, {
+                    generatePath(ITEM_DETAIL, {
                       marketId: item.sellerId,
                       itemId: item.itemId,
                     })
@@ -73,7 +73,7 @@ const HomeCommonSection = ({
                 ranking={i + 1}
                 onCardClick={() =>
                   navigate(
-                    generatePath(ITEM_DEATIL, {
+                    generatePath(ITEM_DETAIL, {
                       marketId: item.sellerId,
                       itemId: item.itemId,
                     })
@@ -119,7 +119,7 @@ const HomeCommonSection = ({
                 item={item}
                 onCardClick={() =>
                   navigate(
-                    generatePath(ITEM_DEATIL, {
+                    generatePath(ITEM_DETAIL, {
                       marketId: item.sellerId,
                       itemId: item.itemId,
                     })

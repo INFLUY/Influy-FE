@@ -11,7 +11,7 @@ import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import { useEffect, useState } from 'react';
 import UserTypeSwitchBanner from '@/components/seller/home/UserTypeSwitchBanner';
 import { generatePath, useNavigate } from 'react-router-dom';
-import { ITEM_DEATIL, MARKET_DEATIL } from '@/utils/generatePath';
+import { ITEM_DETAIL, MARKET_DETAIL } from '@/utils/generatePath';
 import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
 import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
 import { useGetRecommendedItem } from '@/services/home/query/useGetRecommendedItem';
@@ -93,7 +93,7 @@ export const pickMockData: InfluencerPickItemType[] = [
 const HomePage = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
-  const allCateogryDto = {
+  const allCategoryDto = {
     id: 0,
     name: '전체',
   };
@@ -181,7 +181,7 @@ const HomePage = () => {
             <MoreButton
               onClickMore={() =>
                 navigate(
-                  generatePath(MARKET_DEATIL, {
+                  generatePath(MARKET_DETAIL, {
                     marketId: selectedInfluencer.id,
                   })
                 )
@@ -198,7 +198,7 @@ const HomePage = () => {
                   key={index}
                   onClick={() =>
                     navigate(
-                      generatePath(ITEM_DEATIL, {
+                      generatePath(ITEM_DETAIL, {
                         marketId: sellerPick.sellerId,
                         itemId: item.itemId,
                       })
@@ -207,7 +207,7 @@ const HomePage = () => {
                 >
                   <img
                     src={item.mainImg}
-                    className="aspect-square rounded-[.125rem] object-cover"
+                    className="aspect-square rounded-[.125rem] bg-white object-cover"
                     alt={`${selectedInfluencer.nickname}님이 픽한 상품`}
                   />
                 </div>
@@ -224,7 +224,7 @@ const HomePage = () => {
           trendingItem={trendingItem?.pages[0]?.itemPreviewList || []}
           recommendedItem={recommendItems?.pages[0]?.itemPreviewList || []}
           categoryList={[
-            allCateogryDto,
+            allCategoryDto,
             ...(itemCategories?.categoryDtoList ?? []),
           ]}
           selectedCategory={selectedCategory}

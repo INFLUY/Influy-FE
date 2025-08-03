@@ -15,13 +15,13 @@ import {
   SellerProfileType,
 } from '@/types/seller/SellerProfile.types';
 import { sellerProfileSchema } from '@/schemas/sellerProfileSchema';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, useWatch } from 'react-hook-form';
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
 import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
 import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { usePatchSellerProfile } from '@/services/seller/mutation/usePatchSellerProfile';
 
 const snsInputs = [
@@ -76,6 +76,28 @@ const SellerMyProfileEditPage = () => {
         email: sellerMyProfile.email ?? '',
       });
   }, [sellerMyProfile]);
+
+  const watchedValues = useWatch({ control: methods.control });
+
+  const normalizeInstagram = (val?: string | null) =>
+    val && val !== ''
+      ? `https://www.instagram.com/${val}`
+      : 'https://www.instagram.com/';
+
+  const isFormChanged = useMemo(() => {
+    if (!sellerMyProfile) return false;
+
+    return (
+      watchedValues.nickname !== sellerMyProfile.nickname ||
+      watchedValues.email !== (sellerMyProfile.email ?? '') ||
+      watchedValues.instagram !==
+        normalizeInstagram(sellerMyProfile.instagram) ||
+      watchedValues.tiktok !== (sellerMyProfile.tiktok ?? '') ||
+      watchedValues.youtube !== (sellerMyProfile.youtube ?? '') ||
+      watchedValues.profileImg !== (sellerMyProfile.profileImg ?? null) ||
+      watchedValues.backgroundImg !== (sellerMyProfile.backgroundImg ?? null)
+    );
+  }, [watchedValues, sellerMyProfile]);
 
   const {
     handleSubmit,
@@ -174,12 +196,12 @@ const SellerMyProfileEditPage = () => {
         </div>
 
         {/* 저장하기 버튼 */}
-        <section className="fixed bottom-0 z-20 flex w-screen max-w-[640px] min-w-[320px] shrink-0 items-center justify-center gap-[7px] border-0 bg-white px-5 pt-2.5 pb-4 md:w-[448px]">
+        <section className="fixed bottom-0 z-20 flex w-screen max-w-[40rem] min-w-[20rem] shrink-0 items-center justify-center gap-[.4375rem] border-0 bg-white px-5 pt-2.5 pb-4 md:w-[28rem]">
           <DefaultButton
             type="submit"
             text="저장하기"
-            disabled={isSubmitting || !isValid}
-            useDisabled={false}
+            disabled={isSubmitting || !isValid || !isFormChanged}
+            useDisabled={true}
           />
         </section>
       </form>

@@ -16,10 +16,10 @@ import { SellerProfileType } from '@/types/seller/SellerProfile.types';
 
 const SellerProfileCard = ({
   sellerInfo,
-  seller = false,
+  isSeller = false,
 }: {
   sellerInfo: SellerProfileType;
-  seller?: boolean;
+  isSeller?: boolean;
 }) => {
   const navigate = useNavigate();
 
@@ -63,7 +63,7 @@ const SellerProfileCard = ({
   ].filter((s) => !!s.url);
 
   return (
-    <div className={cn('flex flex-col gap-3 px-5 pb-2', seller && 'pb-3')}>
+    <div className={cn('flex flex-col gap-3 px-5 pb-2', isSeller && 'pb-3')}>
       <div className="flex shrink-0 gap-2">
         <div className="relative -mt-5 flex h-fit w-fit shrink-0">
           <img
@@ -85,7 +85,7 @@ const SellerProfileCard = ({
           </div>
         </div>
       </div>
-      {seller && (
+      {isSeller && (
         <div className="flex w-full justify-between">
           <button
             type="button"

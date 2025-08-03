@@ -1,6 +1,6 @@
 import { ItemAlbumCard, LoadingSpinner } from '@/components';
 import { generatePath, useNavigate } from 'react-router-dom';
-import { ITEM_DEATIL } from '@/utils/generatePath';
+import { ITEM_DETAIL } from '@/utils/generatePath';
 import { useGetLikedItemList } from '@/services/likes/query/useGetLikedItemList';
 import { useRef } from 'react';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
@@ -39,7 +39,7 @@ const LikeItemTab = () => {
               item={item}
               onCardClick={() =>
                 navigate(
-                  generatePath(ITEM_DEATIL, {
+                  generatePath(ITEM_DETAIL, {
                     marketId: item.sellerId,
                     itemId: item.itemId,
                   })

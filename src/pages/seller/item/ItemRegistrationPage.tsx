@@ -365,6 +365,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
               onClick={onArchive}
               text="보관하기"
               activeTheme="white"
+              disabledTheme="borderGrey"
               disabled={!titleValidationResult.success}
               useDisabled={false}
             />

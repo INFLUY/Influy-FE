@@ -4,15 +4,15 @@ const NoticeBanner = ({
   title = '',
   count = 0,
   onClickNotice,
-  seller = false,
+  isSeller = false,
 }: {
   title?: string;
   count: number;
   onClickNotice: () => void;
-  seller?: boolean;
+  isSeller?: boolean;
 }) => {
   // 셀러가 보는 공지
-  if (seller) {
+  if (isSeller) {
     if (count === 0)
       return (
         <article

@@ -1,8 +1,12 @@
 // 공통 컴포넌트 상품썸네일/유저뷰_아카이빙/앨범형
 import { ItemCardType } from '@/types/common/ItemType.types';
-import { SoldOutChip, TimeChip, PeriodChip } from '@/components';
+import {
+  SoldOutChip,
+  TimeChip,
+  PeriodChip,
+  ItemLikeButton,
+} from '@/components';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
-import { ItemLikeButton } from '@/components';
 import { isItemClosed } from '@/utils/dateUtils';
 
 const ItemAlbumCard = ({
