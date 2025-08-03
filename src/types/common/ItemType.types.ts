@@ -103,6 +103,7 @@ export interface TalkBoxOpenStatusResponse {
 export interface TalkBoxOpenedListDTO {
   talkBoxOpenedDtoList: TalkBoxOpenedItem[];
   cnt: number;
+  isItemExist: boolean;
 }
 
 export interface TalkBoxOpenedItem {

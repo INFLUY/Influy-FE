@@ -18,14 +18,13 @@ import { useGetTalkBoxOpened } from '@/services/sellerItem/query/useGetTalkBoxOp
 const TalkBoxItemListPage = () => {
   const navigate = useNavigate();
   const { data: openedItems } = useGetTalkBoxOpened();
-  const isItemExist: boolean = true;
   return (
     <section
       className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto pt-11"
       aria-labelledby="talk-box-item-title"
     >
       <Suspense fallback={<LoadingSpinner />}>
-        {isItemExist ? (
+        {openedItems.isItemExist ? (
           <>
             <PageHeader>
               <p
