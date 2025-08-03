@@ -3,9 +3,9 @@ export interface ItemFormValues {
   titleText: string;
   selectedCategoryList: number[];
   hasStartDate: boolean;
-  startISODateTime: string | undefined;
+  startISODateTime: string | null;
   hasEndDate: boolean;
-  endISODateTime: string | undefined;
+  endISODateTime: string | null;
   summaryText: string;
   price: number | undefined;
   salePrice: number | undefined;

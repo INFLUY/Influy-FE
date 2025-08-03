@@ -73,6 +73,13 @@ export const parseISOString = (isoString: string) => {
   return new Date(isoString.split('.')[0]);
 };
 
+export const parseToKstDate = (utcString: string) => {
+  const date = new Date(utcString);
+  const kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+
+  return kstDate;
+};
+
 // 예시: 2025.07.28. (월) 16:52
 export const formatFullDateWithDay = ({
   isoString,
