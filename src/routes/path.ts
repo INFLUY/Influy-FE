@@ -146,5 +146,32 @@ export const PATH = {
         },
       },
     },
+    TALK_BOX: {
+      BASE: 'talk-box',
+      LIST: 'list',
+      ITEM: {
+        BASE: 'item/:itemId',
+        TABS: {
+          PENDING: 'pending',
+          ANSWERED: 'answered',
+        },
+        CATEGORY: {
+          BASE: 'category/:categoryId',
+          TABS: {
+            PENDING: 'pending',
+            ANSWERED: 'answered',
+          },
+          BULK_REPLY: 'bulk-reply',
+        },
+        SETTING: {
+          BASE: 'setting',
+          DEFAULT_MESSAGE: 'default-message',
+        },
+      },
+      ONBOARDING: {
+        BASE: 'onboarding/:itemId',
+        START: 'start',
+      },
+    },
   },
 } as const;

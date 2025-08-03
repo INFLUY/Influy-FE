@@ -11,6 +11,9 @@ interface InputProps {
     | ((value: string) => void);
   placeHolderContent: string;
 }
+interface LimitedWideTextAreaProps extends InputProps {
+  maxLength: number;
+}
 
 interface TextInputProps extends InputProps {
   inputRef?: React.RefObject<HTMLInputElement | null>;
@@ -192,6 +195,44 @@ export const WideTextArea = ({
           className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
           rows={7}
         />
+      </div>
+    </div>
+  );
+};
+
+export const LimitedWideTextArea = ({
+  maxLength,
+  placeHolderContent,
+  text,
+  setText,
+}: LimitedWideTextAreaProps) => {
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  return (
+    <div className="flex w-full flex-col">
+      <div
+        onClick={() => textareaRef.current?.focus()}
+        className={cn(
+          'relative flex h-fit w-full items-center justify-center gap-2.5 rounded-xs border px-3.5 py-2.5',
+          text.length > maxLength
+            ? 'border-error'
+            : 'border-grey03 focus-within:border-grey05'
+        )}
+      >
+        <textarea
+          ref={textareaRef}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder={placeHolderContent}
+          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
+          rows={7}
+        />
+        <div className="caption-m text-grey06 absolute right-3.5 bottom-2.5 flex h-[1.3125rem] items-center">
+          <span className={cn(text.length > maxLength && 'text-error')}>
+            {text.length}
+          </span>
+          <span>/{maxLength}</span>
+        </div>
       </div>
     </div>
   );

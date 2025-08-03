@@ -5,20 +5,26 @@ export const ToolTip = ({
   text,
   position = 'center',
   direction = 'top',
+  additionalStyles,
 }: {
   text: string;
   position?: 'center' | 'left' | 'right';
   direction?: 'top' | 'bottom';
+  additionalStyles?: string;
 }) => {
   const isTop = direction === 'top';
 
   return (
     <div
-      className={cn('body2-sb text-sub flex h-fit w-fit flex-col', {
-        'items-center': position === 'center',
-        'items-start': position === 'left',
-        'items-end': position === 'right',
-      })}
+      className={cn(
+        'body2-sb text-sub flex h-fit w-fit flex-col',
+        {
+          'items-center': position === 'center',
+          'items-start': position === 'left',
+          'items-end': position === 'right',
+        },
+        additionalStyles
+      )}
     >
       {isTop && (
         <>

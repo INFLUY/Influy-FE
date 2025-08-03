@@ -112,3 +112,45 @@ export type SellerHomeItemStatus = {
 export type ItemSortType = 'END_DATE' | 'CREATE_DATE';
 
 export type TalkBoxOpenStatusType = 'INITIAL' | 'OPENED' | 'CLOSED';
+
+export interface ItemOverviewDTO {
+  id: number;
+  itemName: string;
+  tagline: string;
+  mainImg: string;
+  talkBoxOpenStatus: TalkBoxOpenStatusType;
+}
+
+export interface TalkBoxOpenStatusResponse {
+  itemId: number;
+  status: TalkBoxOpenStatusType;
+}
+
+export interface TalkBoxOpenedListDTO {
+  talkBoxOpenedDtoList: TalkBoxOpenedItem[];
+  cnt: number;
+  isItemExist: boolean;
+}
+
+export interface TalkBoxOpenedItem {
+  itemId: number;
+  itemMainImg: string;
+  itemName: string;
+  talkBoxCntInfo: TalkBoxCntInfo;
+  newCnt: number;
+}
+
+export interface TalkBoxCntInfo {
+  talkBoxOpenStatus: TalkBoxOpenStatusType;
+  waitingCnt: number;
+  completedCnt: number;
+}
+
+export interface TalkBoxCommentDTO {
+  sellerId: number;
+  sellerProfileImg: string;
+  sellerUsername: string;
+  sellerNickname: string;
+  createdAt: string; // ISO 8601 datetime string
+  talkBoxComment: string;
+}

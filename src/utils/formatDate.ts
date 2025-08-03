@@ -34,15 +34,21 @@ export const getTimeLeft = (targetDate: Date) => {
   };
 };
 
+// twoDigitYear: true => 25. 07. 30. (수)
+// twoDigitYear: false => 2025. 07. 30. (수)
+// includeWeekday: true => 2025. 07. 30. (수)
+// includeWeekday: false => 2025. 07. 30.
 export const formatDate = ({
   date,
   includeWeekday = true,
+  twoDigitYear = false,
 }: {
   date: Date;
   includeWeekday?: boolean;
+  twoDigitYear?: boolean;
 }) => {
   return date.toLocaleDateString('ko-KR', {
-    year: 'numeric',
+    ...(twoDigitYear ? { year: '2-digit' } : { year: 'numeric' }),
     month: '2-digit',
     day: '2-digit',
     ...(includeWeekday && { weekday: 'short' }),
@@ -67,6 +73,7 @@ export const parseISOString = (isoString: string) => {
   return new Date(isoString.split('.')[0]);
 };
 
+// 예시: 2025.07.28. (월) 16:52
 export const formatFullDateWithDay = ({
   isoString,
   includeYear = true,
@@ -94,6 +101,7 @@ export const parseDateString = (dateString: string) => {
   return dateString.split('T')[0].replace(/-/g, '.');
 };
 
+// 예시: 2025.07.28(월)
 export const formatKrDate = (dateIso: string) => {
   const days = ['일', '월', '화', '수', '목', '금', '토'];
   const date = new Date(dateIso);
@@ -107,4 +115,43 @@ export const formatKrDate = (dateIso: string) => {
     )}.${date.getDate().toString().padStart(2, '0')}(${startDay})`;
 
   return `${startFormatted}`;
+};
+
+// iso string 받아서 오늘이면 오후 HH:MM 형태로 반환, 아니면 날짜 형식으로 반환
+export const formatIsoToTimeOrDate = (isoString: string): string => {
+  const date = parseISOString(isoString); // 기존 함수 재사용
+
+  if (isToday({ d1: date })) {
+    // 오늘이면 시간 표시
+    return formatTime({ date, hour12: true }); // 오후 4:05
+  } else {
+    // 과거 날짜이면 날짜만 표시
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}.${month}.${day}`; // 2025.02.03
+  }
+};
+
+// iso string을 2025년 6월 19일 오후 4:05 형태로 변환
+export const formatIsoToKoreanLong = ({
+  isoString,
+}: {
+  isoString: string;
+}): string => {
+  const date = parseISOString(isoString);
+
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1; // 0-based
+  const day = date.getDate();
+  let hour = date.getHours();
+  const minute = date.getMinutes();
+
+  const isAfternoon = hour >= 12;
+  const period = isAfternoon ? '오후' : '오전';
+  hour = hour % 12 === 0 ? 12 : hour % 12;
+
+  return `${year}년 ${month}월 ${day}일 ${period} ${hour}:${minute
+    .toString()
+    .padStart(2, '0')}`;
 };

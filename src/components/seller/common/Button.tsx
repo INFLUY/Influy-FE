@@ -1,5 +1,6 @@
 import cn from '@/utils/cn';
 import type { ModalButtonProps, DefaultButtonProps } from './Button.types';
+import EyeIcon from '@/assets/icon/common/EyeIcon.svg?react';
 
 export const DefaultButton = ({
   onClick,
@@ -98,6 +99,24 @@ export const AddButton = ({
         <AddIconBase className="text-grey07 h-[1.0125rem] w-[1.0125rem]" />
       )}
       <span>{children}</span>
+    </button>
+  );
+};
+
+export const PreviewButton = ({
+  onClickPreview,
+}: {
+  onClickPreview: () => void;
+}) => {
+  return (
+    <button
+      type="button"
+      className="bg-grey01 flex cursor-pointer items-center gap-1 rounded-[.125rem] px-2 py-[.1875rem]"
+    >
+      <EyeIcon className="text-grey08 h-[.875rem] w-[.875rem]" />
+      <span className="caption-m text-grey08" onClick={onClickPreview}>
+        미리보기
+      </span>
     </button>
   );
 };

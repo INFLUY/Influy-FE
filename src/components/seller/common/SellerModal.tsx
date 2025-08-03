@@ -34,7 +34,7 @@ const SellerModal = ({
       <div className="modal">
         <div className="modal-bg-layout" onClick={handleOnClose}>
           <div
-            className="flex h-fit w-fit flex-col gap-7 rounded-[.1875rem] bg-white px-4 pt-[2.125rem] pb-4 text-center"
+            className="flex h-fit w-[17.9375rem] flex-col gap-7 rounded-[.1875rem] bg-white px-4 pt-[2.125rem] pb-4 text-center"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-col gap-2 break-words whitespace-break-spaces">

@@ -13,8 +13,9 @@ import {
 } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Suspense, useRef } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useRef, Suspense } from 'react';
+
 import {
   useForm,
   FormProvider,
@@ -42,6 +43,9 @@ const FaqRegistrationPage = () => {
 
   const { showSnackbar } = useSnackbarStore();
 
+  // 톡박스에서 질문 등록하기로 올 경우 질문, 답변 자동 입력
+  const { talkBoxQ, talkBoxA } = useLocation().state;
+
   const categoryRef = useRef<HTMLDivElement | null>(null);
 
   const methods = useForm<FaqFormValues>({
@@ -51,8 +55,8 @@ const FaqRegistrationPage = () => {
     shouldFocusError: false,
     defaultValues: {
       category: undefined,
-      question: '',
-      answer: '',
+      question: talkBoxQ ?? '',
+      answer: talkBoxA ?? '',
       image: '',
       isPinned: false,
       adjustImg: false,

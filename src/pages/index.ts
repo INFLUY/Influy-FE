@@ -52,3 +52,17 @@ export { default as FaqEditPage } from './seller/item/faq/FaqEditPage';
 export { default as ItemDetailPage } from './seller/item/ItemDetailPage';
 
 export { default as SellerCalendarPage } from './seller/calendar/CalendarPage';
+
+export { default as SellerTalkBoxItemListPage } from './seller/talkBox/TalkBoxItemListPage';
+export { default as BulkReplyPage } from './seller/talkBox/BulkReplyPage';
+export { default as TalkBoxSettingPage } from './seller/talkBox/setting/TalkBoxSettingPage';
+export { default as DefaultMessageSettingPage } from './seller/talkBox/setting/DefaultMessageSettingPage';
+export { default as OnboardingIntroPage } from './seller/talkBox/onboarding/OnboardingIntroPage';
+export { default as OnboardingLayout } from './seller/talkBox/onboarding/OnboardingPage';
+
+export { QuestionsListPage } from './seller/talkBox/questionsList/QuestionsListPage';
+export { PendingQuestionsTab } from './seller/talkBox/questionsList/PendingQuestionsTab';
+export { AnsweredQuestionsTab } from './seller/talkBox/questionsList/AnsweredQuestionsTab';
+export { TalkBoxCategoryPage } from './seller/talkBox/category/TalkBoxCategoryPage';
+export { PendingCategoryTab } from './seller/talkBox/category/PendingCategoryTab';
+export { AnsweredCategoryTab } from './seller/talkBox/category/AnsweredCategoryTab';
