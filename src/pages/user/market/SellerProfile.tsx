@@ -4,12 +4,12 @@ import { PATH } from '@/routes/path';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   ExternalLinkChip,
-  NoticeBanner,
+  AnnouncementBanner,
   PageHeader,
   SellerProfileCard,
   SellerProfileHeader,
 } from '@/components';
-import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
+import { useGetPrimaryAnnouncement } from '@/services/announcement/query/useGetPrimaryAnnouncement';
 import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
 import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
@@ -27,8 +27,8 @@ import {
   useGetMyMarket,
 } from '@/services/seller/query/useGetMarket';
 
-const SellerNoticeBottomSheet = lazy(
-  () => import('@/components/user/seller/SellerNoticeBottomSheet')
+const SellerAnnouncementBottomSheet = lazy(
+  () => import('@/components/user/seller/SellerAnnouncementBottomSheet')
 );
 
 const SellerProfilePage = () => {
@@ -128,7 +128,7 @@ const SellerProfile = ({
     sellerId: marketId,
   });
 
-  const { data: primaryNotice } = useGetPrimaryNotification(marketId);
+  const { data: primaryAnnouncement } = useGetPrimaryAnnouncement(marketId);
 
   const sns: {
     id: number;
@@ -203,18 +203,18 @@ const SellerProfile = ({
           </div>
         )}
         {/* 공지 */}
-        {primaryNotice && (
+        {primaryAnnouncement && (
           <div className="bg-grey01 flex w-full px-5 py-3">
-            <NoticeBanner
-              title={primaryNotice?.title}
-              count={primaryNotice?.totalAnnouncements}
-              onClickNotice={() => setIsBottomSheetOpen(true)}
+            <AnnouncementBanner
+              title={primaryAnnouncement?.title}
+              count={primaryAnnouncement?.totalAnnouncements}
+              onClickAnnouncement={() => setIsBottomSheetOpen(true)}
             />
           </div>
         )}
         <Suspense fallback={null}>
           {isBottomSheetOpen && (
-            <SellerNoticeBottomSheet
+            <SellerAnnouncementBottomSheet
               marketId={marketId}
               isBottomSheetOpen={isBottomSheetOpen}
               setIsBottomSheetOpen={setIsBottomSheetOpen}

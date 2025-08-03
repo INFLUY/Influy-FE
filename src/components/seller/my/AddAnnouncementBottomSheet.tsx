@@ -6,34 +6,36 @@ import {
   TextInput,
   WideTextArea,
 } from '@/components';
-import { usePostNotification } from '@/services/notification/mutation/usePostNotification';
-import { NoticeType } from '@/types/common/NoticeType.types';
-import { usePatchNotification } from '@/services/notification/mutation/usePatchNotification';
+import { usePostAnnouncement } from '@/services/announcement/mutation/usePostAnnouncement';
+import { AnnouncementType } from '@/types/common/AnnouncementType.types';
+import { usePatchAnnouncement } from '@/services/announcement/mutation/usePatchAnnouncement';
 import { useSnackbarStore } from '@/store/snackbarStore';
 
-const AddNoticeBottomSheet = ({
+const AddAnnouncementBottomSheet = ({
   announcement,
   isOpen,
   setIsOpen,
 }: {
-  announcement?: NoticeType;
+  announcement?: AnnouncementType;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [title, setTitle] = useState<string>(announcement?.title || '');
   const [content, setContent] = useState<string>(announcement?.content || '');
-  const [isNoticeCancelModalOpen, setIsNoticeCancelModalOpen] =
+  const [isAnnouncementCancelModalOpen, setIsAnnouncementCancelModalOpen] =
     useState<boolean>(false);
-  const [isNoticeEditCancelModalOpen, setIsNoticeEditCancelModalOpen] =
-    useState<boolean>(false);
+  const [
+    isAnnouncementEditCancelModalOpen,
+    setIsAnnouncementEditCancelModalOpen,
+  ] = useState<boolean>(false);
 
   const { showSnackbar } = useSnackbarStore();
 
-  const { mutate: postNotice } = usePostNotification(() => {
+  const { mutate: postAnnouncement } = usePostAnnouncement(() => {
     showSnackbar('변경사항이 저장되었습니다.');
   });
 
-  const { mutate: patchNotice } = usePatchNotification(() => {
+  const { mutate: patchAnnouncement } = usePatchAnnouncement(() => {
     showSnackbar('변경사항이 저장되었습니다.');
   });
 
@@ -41,28 +43,28 @@ const AddNoticeBottomSheet = ({
   const handleClickSave = () => {
     setIsOpen(false);
     if (announcement) {
-      patchNotice({
+      patchAnnouncement({
         data: { title, content },
         announcementId: announcement.id,
       }); // 공지사항 수정
     } else {
-      postNotice({ title, content }); // 공지사항 추가
+      postAnnouncement({ title, content }); // 공지사항 추가
     }
   };
 
   // 공지 작성 취소
   const handleClickCancel = () => {
-    setIsNoticeCancelModalOpen(true); // 삭제 모달
+    setIsAnnouncementCancelModalOpen(true); // 삭제 모달
   };
 
   // 공지 작성 취소 모달 -> 취소
-  const handleCancelNoticeModalClose = () => {
-    setIsNoticeCancelModalOpen(false);
+  const handleCancelAnnouncementModalClose = () => {
+    setIsAnnouncementCancelModalOpen(false);
   };
 
   // 공지 작성 취소 모달 -> 확인
-  const handleNoticeCancelConfirm = () => {
-    setIsNoticeCancelModalOpen(false);
+  const handleAnnouncementCancelConfirm = () => {
+    setIsAnnouncementCancelModalOpen(false);
     setIsOpen(false);
   };
 
@@ -105,28 +107,28 @@ const AddNoticeBottomSheet = ({
       </BottomSheet>
 
       {/* 공지사항 작성 취소 시 모달  */}
-      {isNoticeCancelModalOpen && (
+      {isAnnouncementCancelModalOpen && (
         <SellerModal
           text={`작성을 취소하시겠습니까?\n현재 내용은 모두 삭제됩니다.`}
-          leftButtonClick={handleCancelNoticeModalClose}
-          rightButtonClick={handleNoticeCancelConfirm}
-          onClose={() => setIsNoticeCancelModalOpen(false)}
-          setIsModalOpen={setIsNoticeCancelModalOpen}
+          leftButtonClick={handleCancelAnnouncementModalClose}
+          rightButtonClick={handleAnnouncementCancelConfirm}
+          onClose={() => setIsAnnouncementCancelModalOpen(false)}
+          setIsModalOpen={setIsAnnouncementCancelModalOpen}
         />
       )}
 
       {/* 공지사항 수정 취소 시 모달  */}
-      {isNoticeEditCancelModalOpen && (
+      {isAnnouncementEditCancelModalOpen && (
         <SellerModal
           text={`작성을 취소하시겠습니까?\n수정한 내용은 반영되지 않습니다.`}
-          leftButtonClick={handleCancelNoticeModalClose}
-          rightButtonClick={handleNoticeCancelConfirm}
-          onClose={() => setIsNoticeEditCancelModalOpen(false)}
-          setIsModalOpen={setIsNoticeEditCancelModalOpen}
+          leftButtonClick={handleCancelAnnouncementModalClose}
+          rightButtonClick={handleAnnouncementCancelConfirm}
+          onClose={() => setIsAnnouncementEditCancelModalOpen(false)}
+          setIsModalOpen={setIsAnnouncementEditCancelModalOpen}
         />
       )}
     </>
   );
 };
 
-export default AddNoticeBottomSheet;
+export default AddAnnouncementBottomSheet;

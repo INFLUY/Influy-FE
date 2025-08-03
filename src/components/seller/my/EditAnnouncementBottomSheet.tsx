@@ -1,31 +1,31 @@
 import BottomSheet from '@/components/common/BottomSheet';
 import { SetStateAction, useState } from 'react';
 import { SellerModal } from '@/components';
-import { useDeleteNotification } from '@/services/notification/mutation/useDeleteNotification';
-import { usePatchNotification } from '@/services/notification/mutation/usePatchNotification';
-import { NoticeType } from '@/types/common/NoticeType.types';
+import { useDeleteAnnouncement } from '@/services/announcement/mutation/useDeleteAnnouncement';
+import { usePatchAnnouncement } from '@/services/announcement/mutation/usePatchAnnouncement';
+import { AnnouncementType } from '@/types/common/AnnouncementType.types';
 import { useSnackbarStore } from '@/store/snackbarStore';
 
-const EditNoticeBottomSheet = ({
+const EditAnnouncementBottomSheet = ({
   announcement,
   isPrimary,
   isOpen,
   setIsOpen,
-  setIsEditNoticeOpen,
+  setIsEditAnnouncementOpen,
 }: {
-  announcement: NoticeType;
+  announcement: AnnouncementType;
   isOpen: boolean;
   isPrimary: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
-  setIsEditNoticeOpen: React.Dispatch<SetStateAction<boolean>>;
+  setIsEditAnnouncementOpen: React.Dispatch<SetStateAction<boolean>>;
 }) => {
   const [isUnpinModalOpen, setIsUnpinModalOpen] = useState<boolean>(false);
-  const [isNoticeDeleteModalOpen, setIsNoticeDeleteModalOpen] =
+  const [isAnnouncementDeleteModalOpen, setIsAnnouncementDeleteModalOpen] =
     useState<boolean>(false);
 
   const { showSnackbar } = useSnackbarStore();
 
-  const { mutate: patchNotice } = usePatchNotification(() =>
+  const { mutate: patchAnnouncement } = usePatchAnnouncement(() =>
     showSnackbar('변경사항이 저장되었습니다.')
   );
 
@@ -35,14 +35,14 @@ const EditNoticeBottomSheet = ({
       setIsUnpinModalOpen(true); // 핀 고정 해제 모달
     else {
       // 핀 고정 연동
-      patchNotice({ announcementId: announcement.id, isPrimary: true });
+      patchAnnouncement({ announcementId: announcement.id, isPrimary: true });
       setIsOpen(false);
     }
   };
 
   // 핀 고정 해제 모달 -> 확인
   const handleUnpinConfirm = () => {
-    patchNotice({ announcementId: announcement.id, isPrimary: false });
+    patchAnnouncement({ announcementId: announcement.id, isPrimary: false });
     setIsUnpinModalOpen(false);
     setIsOpen(false);
   };
@@ -53,36 +53,36 @@ const EditNoticeBottomSheet = ({
     setIsOpen(false);
   };
 
-  const handleEditNotice = () => {
-    setIsEditNoticeOpen(true);
+  const handleEditAnnouncement = () => {
+    setIsEditAnnouncementOpen(true);
     setIsOpen(false);
   };
 
   // 공지 삭제
-  const handleDeleteNotice = () => {
-    setIsNoticeDeleteModalOpen(true);
+  const handleDeleteAnnouncement = () => {
+    setIsAnnouncementDeleteModalOpen(true);
   };
 
-  const { mutate: deleteNotice } = useDeleteNotification(() =>
+  const { mutate: deleteAnnouncement } = useDeleteAnnouncement(() =>
     showSnackbar('변경사항이 저장되었습니다.')
   );
 
   // 공지 삭제 모달 -> 확인
-  const handleDeleteNoticeConfirm = () => {
-    setIsNoticeDeleteModalOpen(false);
+  const handleDeleteAnnouncementConfirm = () => {
+    setIsAnnouncementDeleteModalOpen(false);
     setIsOpen(false);
-    deleteNotice({ announcementId: announcement.id });
+    deleteAnnouncement({ announcementId: announcement.id });
   };
 
   // 공지 삭제 모달 -> 취소
-  const handleDeleteNoticeCancel = () => {
-    setIsNoticeDeleteModalOpen(false);
+  const handleDeleteAnnouncementCancel = () => {
+    setIsAnnouncementDeleteModalOpen(false);
     setIsOpen(false);
   };
 
   return (
     <>
-      {!isUnpinModalOpen && !isNoticeDeleteModalOpen && (
+      {!isUnpinModalOpen && !isAnnouncementDeleteModalOpen && (
         <BottomSheet
           onClose={() => setIsOpen(false)}
           isBottomSheetOpen={isOpen}
@@ -98,14 +98,14 @@ const EditNoticeBottomSheet = ({
             <button
               type="button"
               className="body1-b text-grey10 w-full cursor-pointer py-4 text-center"
-              onClick={handleEditNotice}
+              onClick={handleEditAnnouncement}
             >
               수정
             </button>
             <button
               type="button"
               className="body1-b text-error w-full cursor-pointer py-4 text-center"
-              onClick={handleDeleteNotice}
+              onClick={handleDeleteAnnouncement}
             >
               삭제
             </button>
@@ -125,17 +125,17 @@ const EditNoticeBottomSheet = ({
         />
       )}
       {/* 공지 삭제 모달  */}
-      {isNoticeDeleteModalOpen && (
+      {isAnnouncementDeleteModalOpen && (
         <SellerModal
           text="공지사항을 삭제하시겠습니까?"
-          leftButtonClick={handleDeleteNoticeCancel}
-          rightButtonClick={handleDeleteNoticeConfirm}
-          onClose={handleDeleteNoticeCancel}
-          setIsModalOpen={setIsNoticeDeleteModalOpen}
+          leftButtonClick={handleDeleteAnnouncementCancel}
+          rightButtonClick={handleDeleteAnnouncementConfirm}
+          onClose={handleDeleteAnnouncementCancel}
+          setIsModalOpen={setIsAnnouncementDeleteModalOpen}
         />
       )}
     </>
   );
 };
 
-export default EditNoticeBottomSheet;
+export default EditAnnouncementBottomSheet;

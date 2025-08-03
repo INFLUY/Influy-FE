@@ -1,15 +1,15 @@
-export interface BaseNotice {
+export interface BaseAnnouncement {
   title: string;
   content: string;
 }
 
-export interface NoticeType extends BaseNotice {
+export interface AnnouncementType extends BaseAnnouncement {
   id: number;
   createdAt: string;
   isPrimary: boolean;
 }
 
-export interface PrimaryNoticeType {
+export interface PrimaryAnnouncementType {
   id: number;
   title: string;
   totalAnnouncements: number;

@@ -1,14 +1,14 @@
 import Chevron from '@/assets/icon/common/Chevron.svg?react';
 
-const NoticeBanner = ({
+const AnnouncementBanner = ({
   title = '',
   count = 0,
-  onClickNotice,
+  onClickAnnouncement,
   isSeller = false,
 }: {
   title?: string;
   count: number;
-  onClickNotice: () => void;
+  onClickAnnouncement: () => void;
   isSeller?: boolean;
 }) => {
   // 셀러가 보는 공지
@@ -16,7 +16,7 @@ const NoticeBanner = ({
     if (count === 0)
       return (
         <article
-          onClick={onClickNotice}
+          onClick={onClickAnnouncement}
           className="text-grey06 caption-m relative flex h-[2.3125rem] w-full shrink-0 cursor-pointer items-center justify-center rounded-[.1875rem] bg-white text-center"
         >
           아직 공지가 없습니다. 공지를 등록해 주세요!
@@ -26,7 +26,7 @@ const NoticeBanner = ({
     else {
       return (
         <article
-          onClick={onClickNotice}
+          onClick={onClickAnnouncement}
           className="flex h-[2.3125rem] w-full shrink-0 cursor-pointer items-center justify-between gap-2 rounded-[.1875rem] bg-white px-2 text-center"
         >
           <span className="flex items-center gap-[.125rem] truncate">
@@ -43,7 +43,7 @@ const NoticeBanner = ({
   // 일반 유저가 보는 공지
   return (
     <article
-      onClick={onClickNotice}
+      onClick={onClickAnnouncement}
       className="flex h-[2.3125rem] w-full shrink-0 cursor-pointer items-center justify-between rounded-[.1875rem] bg-white px-2 text-center"
     >
       <div className="flex items-center gap-[.125rem] truncate text-center">
@@ -61,4 +61,4 @@ const NoticeBanner = ({
   );
 };
 
-export default NoticeBanner;
+export default AnnouncementBanner;

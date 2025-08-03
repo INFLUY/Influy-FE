@@ -3,7 +3,7 @@ import { PATH } from '@/routes/path';
 import {
   ExternalLinkBottomSheet,
   ExternalLinkChip,
-  NoticeBanner,
+  AnnouncementBanner,
   SellerProfileCard,
   Tab,
   Tabs,
@@ -13,7 +13,7 @@ import {
 } from '@/components';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import AddIcon from '@/assets/icon/common/Add2Icon.svg?react';
-import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
+import { useGetPrimaryAnnouncement } from '@/services/announcement/query/useGetPrimaryAnnouncement';
 import { useGetMarketLinks } from '@/services/marketLinks/query/useGetMarketLinks';
 import { LinkType } from '@/types/seller/LinkType.types';
 import { useDeleteMarketLink } from '@/services/marketLinks/mutation/useDeleteMarketLink';
@@ -95,7 +95,9 @@ const SellerMyProfile = () => {
     setSelectedLink(null);
   };
 
-  const { data: primaryNotice } = useGetPrimaryNotification(Number(sellerId));
+  const { data: primaryAnnouncement } = useGetPrimaryAnnouncement(
+    Number(sellerId)
+  );
 
   return (
     <div className="flex w-full flex-1 flex-col">
@@ -117,10 +119,12 @@ const SellerMyProfile = () => {
       )}
       {/* 공지 */}
       <div className="bg-grey02 flex w-full px-5 py-3">
-        <NoticeBanner
-          title={primaryNotice?.title}
-          count={primaryNotice?.totalAnnouncements || 0}
-          onClickNotice={() => navigate(`./${PATH.SELLER.MY.NOTICE.BASE}`)}
+        <AnnouncementBanner
+          title={primaryAnnouncement?.title}
+          count={primaryAnnouncement?.totalAnnouncements || 0}
+          onClickAnnouncement={() =>
+            navigate(`./${PATH.SELLER.MY.ANNOUNCEMENT.BASE}`)
+          }
           isSeller={true}
         />
       </div>

@@ -1,11 +1,11 @@
-import { patchNotification } from '@/api/notification/handleNotification.api';
+import { patchAnnouncement } from '@/api/announcement/handleAnnouncement.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useStrictId } from '@/hooks/auth/useStrictId';
-import { BaseNotice } from '@/types/common/NoticeType.types';
+import { BaseAnnouncement } from '@/types/common/AnnouncementType.types';
 import { handleReactQueryError } from '@/utils/handleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export const usePatchNotification = (onSuccessCallback?: () => void) => {
+export const usePatchAnnouncement = (onSuccessCallback?: () => void) => {
   const queryClient = useQueryClient();
   const { sellerId } = useStrictId();
 
@@ -15,10 +15,10 @@ export const usePatchNotification = (onSuccessCallback?: () => void) => {
       announcementId,
       isPrimary,
     }: {
-      data?: BaseNotice;
+      data?: BaseAnnouncement;
       announcementId: number;
       isPrimary?: boolean;
-    }) => patchNotification({ data, announcementId, isPrimary }),
+    }) => patchAnnouncement({ data, announcementId, isPrimary }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_ANNOUNCEMENT, sellerId],

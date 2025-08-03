@@ -14,7 +14,7 @@ import {
   ItemRegistrationPage,
   ItemFaqTab,
   ItemInfoTab,
-  Notice,
+  AnnouncementPage,
   ErrorPage,
   SellerMyProfileEditPage,
   FaqRegistrationPage,
@@ -389,8 +389,8 @@ const router = createBrowserRouter([
                 ],
               },
               {
-                path: PATH.SELLER.MY.NOTICE.BASE,
-                element: <Notice />,
+                path: PATH.SELLER.MY.ANNOUNCEMENT.BASE,
+                element: <AnnouncementPage />,
               },
               {
                 path: PATH.SELLER.MY.PROFILE.BASE,

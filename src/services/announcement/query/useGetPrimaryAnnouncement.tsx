@@ -1,12 +1,12 @@
-import { getPrimaryNotification } from '@/api/notification/handleNotification.api';
+import { getPrimaryAnnouncement } from '@/api/announcement/handleAnnouncement.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-export const useGetPrimaryNotification = (sellerId: number) => {
+export const useGetPrimaryAnnouncement = (sellerId: number) => {
   const query = useSuspenseQuery({
     queryKey: [QUERY_KEYS.SELLER_PRIMARY_ANNOUNCEMENT, sellerId],
     queryFn: async () => {
-      const response = await getPrimaryNotification({ sellerId });
+      const response = await getPrimaryAnnouncement({ sellerId });
       return response ?? null;
     },
   });

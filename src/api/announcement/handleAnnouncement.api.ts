@@ -3,12 +3,16 @@ import { generateApiPath } from '@/api/utils';
 import { API_DOMAINS } from '@/constants/api';
 import { ApiResponse, Pagination } from '@/types/common/ApiResponse.types';
 import {
-  BaseNotice,
-  NoticeType,
-  PrimaryNoticeType,
-} from '@/types/common/NoticeType.types';
+  BaseAnnouncement,
+  AnnouncementType,
+  PrimaryAnnouncementType,
+} from '@/types/common/AnnouncementType.types';
 
-export const postNotification = async ({ data }: { data: BaseNotice }) => {
+export const postAnnouncement = async ({
+  data,
+}: {
+  data: BaseAnnouncement;
+}) => {
   const response = await instance.post(
     API_DOMAINS.SELLER_MY_ANNOUNCEMENT,
     data
@@ -16,12 +20,12 @@ export const postNotification = async ({ data }: { data: BaseNotice }) => {
   return response.data.result;
 };
 
-export const patchNotification = async ({
+export const patchAnnouncement = async ({
   data,
   announcementId,
   isPrimary,
 }: {
-  data?: BaseNotice;
+  data?: BaseAnnouncement;
   announcementId: number;
   isPrimary?: boolean;
 }) => {
@@ -39,7 +43,7 @@ export const patchNotification = async ({
   return response.data.result;
 };
 
-export const getNotification = async ({
+export const getAnnouncement = async ({
   sellerId,
   page,
   size,
@@ -49,25 +53,25 @@ export const getNotification = async ({
   size: number;
 }) => {
   const response = await instance.get<
-    ApiResponse<Pagination<NoticeType[] | [], 'announcements'>>
+    ApiResponse<Pagination<AnnouncementType[] | [], 'announcements'>>
   >(generateApiPath(API_DOMAINS.SELLER_ANNOUNCEMENT, { sellerId }), {
     params: { page, size },
   });
   return response.data.result;
 };
 
-export const getPrimaryNotification = async ({
+export const getPrimaryAnnouncement = async ({
   sellerId,
 }: {
   sellerId: number;
 }) => {
-  const response = await instance.get<ApiResponse<PrimaryNoticeType>>(
+  const response = await instance.get<ApiResponse<PrimaryAnnouncementType>>(
     generateApiPath(API_DOMAINS.SELLER_PRIMARY_ANNOUNCEMENT, { sellerId })
   );
   return response.data.result;
 };
 
-export const deleteNotification = async ({
+export const deleteAnnouncement = async ({
   announcementId,
 }: {
   announcementId: number;

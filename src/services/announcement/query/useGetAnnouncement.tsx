@@ -1,12 +1,12 @@
-import { getNotification } from '@/api/notification/handleNotification.api';
+import { getAnnouncement } from '@/api/announcement/handleAnnouncement.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-export const useGetNotification = (sellerId: number) => {
+export const useGetAnnouncement = (sellerId: number) => {
   const query = useInfiniteQuery({
     queryKey: [QUERY_KEYS.SELLER_ANNOUNCEMENT, sellerId],
     queryFn: ({ pageParam = 1 }: { pageParam: number }) =>
-      getNotification({ sellerId, page: pageParam, size: 10 }),
+      getAnnouncement({ sellerId, page: pageParam, size: 10 }),
     getNextPageParam: (lastPage, allPages) => {
       // lastPage: 마지막으로 불러온 페이지의 데이터
       // allPages: 지금까지 불러온 모든 페이지의 배열
