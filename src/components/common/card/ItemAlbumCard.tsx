@@ -22,7 +22,7 @@ const ItemAlbumCard = ({
       className="flex w-full cursor-pointer flex-col gap-1.5"
     >
       {/* 상단 사진 부분 */}
-      <div className="bg-grey03 relative flex aspect-square w-full shrink-0">
+      <div className="bg-grey03 relative flex aspect-square h-fit w-full flex-1/2 shrink-0">
         <img
           src={item.itemMainImg ?? undefined}
           alt={item.itemName}

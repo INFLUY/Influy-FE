@@ -41,7 +41,7 @@ export const VanillaProfileImageUploader = ({
         <img
           src={value ?? ProfileIcon}
           alt={'프로필 이미지'}
-          className="h-full w-full rounded-full bg-white object-cover"
+          className="h-[5.625rem] w-[5.625rem] rounded-full bg-white object-cover"
         />
       </button>
 
