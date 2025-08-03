@@ -1,21 +1,12 @@
 import { getSellerLikes } from '@/api/likes/handleSellerLikes.api';
 import { QUERY_KEYS } from '@/constants/api';
-import { LikeType } from '@/types/common/Like.types';
-import {
-  useSuspenseQuery,
-  UseSuspenseQueryResult,
-} from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
-export const useGetSellerLike = ({
-  sellerId,
-}: {
-  sellerId: number;
-}): UseSuspenseQueryResult<LikeType, Error> => {
-  return useSuspenseQuery({
+export const useGetSellerLike = ({ sellerId }: { sellerId?: number }) => {
+  const query = useQuery({
     queryKey: [QUERY_KEYS.SELLER_MARKET_LIKES, sellerId],
-    queryFn: async () => {
-      const response = await getSellerLikes({ sellerId });
-      return response.result;
-    },
+    queryFn: () => getSellerLikes({ sellerId: sellerId! }),
+    enabled: !!sellerId, // sellerId가 있어야 실행됨
   });
+  return query;
 };

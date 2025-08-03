@@ -5,7 +5,10 @@ export const API_DOMAINS = {
   PRESIGNED_URL: '/image/presigned-url',
   OAUTH_KAKAO: '/oauth/kakao',
   REISSUE: '/member/auth/reissue',
+  LOGOUT: '/member/logout',
+  DELETE_ACCOUNT: '/member/delete',
   ID_DUPLICATE_CHECK: '/member/register/duplicate-check',
+  SELLER_MARKET: '/user/:sellerId/market',
   SELLER_ANNOUNCEMENT: '/seller/:sellerId/announcements',
   SELLER_PRIMARY_ANNOUNCEMENT:
     '/seller/:sellerId/announcements/primary-announcement',
@@ -30,9 +33,31 @@ export const API_DOMAINS = {
 
   // user
   USER_JOIN: '/member/register/user',
+  USER_PROFILE: '/member/:memberId/profile',
+  USER_MY_PROFILE: '/member/profile',
+
+  // home
+  HOME_RECOMMEND: '/home/recommend',
+  HOME_POPULAR: '/home/popular',
+  HOME_CLOSE_DEADLINE: '/home/close-deadline',
+  HOME_TRENDING_SELLER: '/home/trending-seller',
+  HOME_SELLER_PICK: '/home/:sellerId/pick',
+
+  // like
+  POST_ITEM_LIKE: '/seller/:sellerId/items/:itemId/likes',
+  PATCH_ITEM_LIKE: '/seller/:sellerId/items/:itemId/dislikes',
+  GET_LIKED_ITEM_LIST: '/home/item-likes',
+  GET_LIKED_SELLER_LIST: '/home/seller-likes',
 };
 
 export const SELLER_API_DOMAINS = {
+  // [홈] 셀러 홈
+  SELLER_MY_HOME_QUESTIONS: '/seller/home/questions',
+
+  // 셀러 프로필 및 마켓
+  SELLER_MY_PROFILE: '/seller/profile',
+  SELLER_MY_MARKET: '/seller/my-market',
+
   // [톡박스] 셀러 톡박스 답변
   SELLER_ANSWER: '/seller/items/:itemId/talkbox/:questionCategoryId/answers',
   POST_INDIVIDUAL_ANSWER:
@@ -40,6 +65,10 @@ export const SELLER_API_DOMAINS = {
 
   // 셀러 아이템
   ITEM_OVERVIEW: '/seller/:sellerId/items/:itemId/item-overview',
+  SELLER_ITEM_SORT: '/seller/item-sort',
+  SELLER_ITEM_STATUS: '/seller/items/:itemId/status',
+  SELLER_POST_ITEM: '/seller/items',
+  SELLER_HANDLE_ITEM: '/seller/items/:itemId',
   TALK_BOX_OPENED_ITEMS: '/seller/talkbox/opened',
   SELLER_TALK_BOX_OPEN_STATUS: '/seller/items/:itemId/talkbox/open-status',
   SELLER_TALK_BOX_COMMENT: '/seller/items/:itemId/talkbox/view-comment',
@@ -71,6 +100,7 @@ export const SELLER_API_DOMAINS = {
 export const QUERY_KEYS = {
   SELLER_ANNOUNCEMENT: 'sellerAnnouncements',
   SELLER_PRIMARY_ANNOUNCEMENT: 'sellerPrimaryAnnouncement',
+  SELLER_MARKET: 'sellerMarket',
   SELLER_MARKET_LINKS: 'sellerMarketLinks',
   SELLER_MARKET_LIKES: 'sellerMarketLikes',
   SELLER_MARKET_ITEMS: 'sellerMarketItems',
@@ -80,6 +110,22 @@ export const QUERY_KEYS = {
   ID_DUPLICATE_CHECK: 'checkId',
 
   ITEM_CATEGORIES: 'itemCategories',
+
+  SELLER_MY_PROFILE: 'sellerMyProfile',
+  SELLER_MY_MARKET: 'sellerMyMarket',
+  SELLER_MY_HOME_QUESTIONS: 'sellerMyHomeQuestions',
+
+  USER_PROFILE: 'userProfile',
+
+  HOME_RECOMMEND: 'homeRecommend',
+  HOME_POPULAR: 'homePopular',
+  HOME_CLOSE_DEADLINE: 'closeDeadline',
+  HOME_TRENDING_SELLER: 'trendingSeller',
+  HOME_SELLER_PICK: 'sellerPick',
+
+  LIKED_ITEMS: 'likedItems',
+  LIKED_SELLERS: 'likedSellers',
+
   SELLER_ITEM_OVERVIEW: 'sellerItemOverview',
   SELLER_GENERATE_QUESTION_CATEGORY: 'sellerGenerateQuestionCategory',
   SELLER_TALK_BOX_OPEN_STATUS: 'sellerTalkBoxOpenStatus',

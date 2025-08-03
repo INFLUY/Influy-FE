@@ -1,47 +1,49 @@
-import { MyLikedInfluencerBox } from '@/components';
-import { LikedInfluencerListType } from '@/types/user/Like.types';
+import { LoadingSpinner, MyLikedInfluencerBox } from '@/components';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import { useGetLikedSellerList } from '@/services/likes/query/useGetLikedSellerList';
+import { SellerLikeList } from '@/types/user/Like.types';
+import { useRef } from 'react';
 
 const LikeInfluencerTab = () => {
-  const influencers: LikedInfluencerListType[] | [] = [
-    {
-      sellerId: 1,
-      nickName: '서연',
-      userName: 'influy',
-      profileImgLink: '/profile.png',
-      likeCount: 10,
-    },
-    {
-      sellerId: 2,
-      nickName: '샤방샤방',
-      userName: 'iamseller',
-      profileImgLink: '',
-      likeCount: 1,
-    },
-    {
-      sellerId: 3,
-      nickName: '인플루이',
-      userName: 'influy_official',
-      profileImgLink: '/profile2.png',
-      likeCount: 1000,
-    },
-    {
-      sellerId: 4,
-      nickName: '세오스',
-      userName: 'ceos',
-      profileImgLink: '',
-      likeCount: 100,
-    },
-  ];
+  const {
+    data: likedSellerList,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetLikedSellerList({ size: 8 });
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useInfiniteScroll({
+    targetRef: observerRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
+
+  const sellerList = likedSellerList?.pages
+    .flatMap((page) => page?.sellerLikeList ?? [])
+    .filter(Boolean) as SellerLikeList[];
+
   return (
     <section className="scrollbar-hide bg-grey01 relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
-      {influencers?.length > 0 ? (
+      {sellerList?.length > 0 ? (
         <ul className="flex w-full flex-1 flex-col gap-3">
-          {influencers?.map((influencer) => (
+          {sellerList?.map((influencer) => (
             <MyLikedInfluencerBox
               key={influencer.sellerId}
               influencer={influencer}
             />
           ))}
+          {hasNextPage && (
+            <div ref={observerRef} className="h-4 w-full">
+              {isFetchingNextPage && (
+                <div className="flex justify-center">
+                  <LoadingSpinner />
+                </div>
+              )}
+            </div>
+          )}
         </ul>
       ) : (
         <div className="flex flex-1 items-center justify-center">

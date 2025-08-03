@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postTalkBoxOpenStatus } from '@/api/sellerItem/handleSellerItem.api';
-import { TalkBoxOpenStatus } from '@/types/common/ItemType.types';
+import { TalkBoxOpenStatusType } from '@/types/common/ItemType.types';
 import { QUERY_KEYS } from '@/constants/api';
 
 export const usePostTalkBoxOpenStatus = ({
@@ -9,7 +9,7 @@ export const usePostTalkBoxOpenStatus = ({
   onSuccessCallback,
 }: {
   itemId: number;
-  openStatus: TalkBoxOpenStatus;
+  openStatus: TalkBoxOpenStatusType;
   onSuccessCallback?: () => void;
 }) => {
   const queryClient = useQueryClient();

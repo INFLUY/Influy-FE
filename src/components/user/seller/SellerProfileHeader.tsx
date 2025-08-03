@@ -19,9 +19,9 @@ const SellerProfileHeader = ({
   const [scrolled, setScrolled] = useState<boolean>(false);
   const triggerRef = useRef<HTMLDivElement | null>(null);
   const copyUrl = useCopyUrl();
+  const newRootMargin = seller ? '-81px 0px 0px 0px' : '0px';
 
   useEffect(() => {
-    const newRootMargin = seller ? '-11px 0px 0px 0px' : undefined;
     const observer = new IntersectionObserver(
       ([entry]) => {
         setScrolled(!entry.isIntersecting);
@@ -41,20 +41,22 @@ const SellerProfileHeader = ({
 
   return (
     <>
-      <div ref={triggerRef} className="h-2 w-full bg-[#8B8B8D]" />
+      <div ref={triggerRef} className="absolute top-0 h-2 w-full" />
       <header
         className={cn(
           'fixed top-0 z-20 flex w-screen max-w-[40rem] min-w-[20rem] justify-between overflow-visible px-5 py-[.9375rem] text-white md:w-[28rem]',
           {
             'text-grey09 bg-white': scrolled,
-            'top-[5.0625rem]': seller,
+            'top-[5.0625rem] justify-end': seller,
           }
         )}
       >
-        <ArrowIcon
-          className="h-6 w-6 shrink-0 cursor-pointer"
-          onClick={() => navigate(-1)}
-        />
+        {!seller && (
+          <ArrowIcon
+            className="h-6 w-6 shrink-0 cursor-pointer"
+            onClick={() => navigate(-1)}
+          />
+        )}
         {scrolled && (
           <span className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
             <h1 className="body2-m text-grey10 text-center">{name}</h1>

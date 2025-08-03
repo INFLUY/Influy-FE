@@ -3,13 +3,13 @@ export interface ItemFormValues {
   titleText: string;
   selectedCategoryList: number[];
   hasStartDate: boolean;
-  startISODateTime: string | null;
+  startISODateTime: string | undefined;
   hasEndDate: boolean;
-  endISODateTime: string | null;
-  summaryText: string | null;
-  price: number;
-  salePrice: number;
-  linkText: string | null;
-  period: number | null;
-  commentText: string | null;
+  endISODateTime: string | undefined;
+  summaryText: string;
+  price: number | undefined;
+  salePrice: number | undefined;
+  linkText: string | undefined;
+  period: number | undefined;
+  commentText: string | undefined;
 }

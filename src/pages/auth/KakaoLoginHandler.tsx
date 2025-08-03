@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import { LoadingSpinner } from '@/components';
-import { useKakaoLogin } from '@/services/auth/useKakaoLogin';
+import { useKakaoLogin } from '@/services/auth/query/useKakaoLogin';
 
 export const KakaoLoginHandler = () => {
   const [searchParams] = useSearchParams();

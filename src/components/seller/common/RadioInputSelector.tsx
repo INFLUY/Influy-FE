@@ -1,7 +1,6 @@
 import { RadioInputList } from './RadioInput.types';
 import RadioButtonUnChecked from '@/assets/icon/common/RadioButtonUnchecked.svg?react';
 import RadioButtonChecked from '@/assets/icon/common/RadioButtonChecked.svg?react';
-import { SetStateAction } from 'react';
 
 const RadioInput = ({
   name,
@@ -11,14 +10,15 @@ const RadioInput = ({
 }: {
   name: string;
   item: RadioInputList;
-  selected: number;
-  setSelected: React.Dispatch<SetStateAction<number>>;
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const isSelected = selected === item.id;
+  const isSelected = selected === item.type;
+
   return (
     <div
       className="flex w-full cursor-pointer items-start gap-[.625rem] py-4"
-      onClick={() => setSelected(item.id)}
+      onClick={() => setSelected(item.type)}
     >
       <input
         name={name}
@@ -27,7 +27,7 @@ const RadioInput = ({
         type="radio"
         className="hidden"
         checked={isSelected}
-        onChange={() => setSelected(item.id)}
+        onChange={() => setSelected(item.type)}
       />
       {isSelected ? (
         <RadioButtonChecked className="shrink-0" />
@@ -55,8 +55,8 @@ const RadioInputSelector = ({
 }: {
   name: string;
   list: RadioInputList[];
-  selected: number;
-  setSelected: React.Dispatch<SetStateAction<number>>;
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   return (
     <div className="caption-m divide-grey02 flex w-full shrink-0 flex-col items-start justify-center divide-y rounded-[.1875rem]">

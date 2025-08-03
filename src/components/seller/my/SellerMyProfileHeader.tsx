@@ -33,7 +33,7 @@ const SellerMyProfileHeader = () => {
 
   return (
     <>
-      <div ref={triggerRef} className="h-2 w-full bg-[#8B8B8D]" />
+      <div ref={triggerRef} className="absolute h-2 w-full" />
       <header
         className={cn(
           'fixed top-0 z-20 flex w-screen max-w-[40rem] min-w-[20rem] justify-end overflow-visible px-5 py-[.9375rem] text-white md:w-[28rem]',

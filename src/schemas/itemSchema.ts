@@ -16,7 +16,7 @@ export const itemSchema = z
       .max(40, { message: '제목은 40자 이내로 작성해 주세요.' }),
     // 상품 카테고리
     selectedCategoryList: z
-      .array(z.string())
+      .array(z.number())
       .max(CATEGORY_MAX_COUNT)
       .min(1, { message: '카테고리를 1개 이상 선택해 주세요.' }),
     //시작일 여부
@@ -30,14 +30,14 @@ export const itemSchema = z
       message: '마감일을 선택해 주세요.',
     }),
     //시작일
-    startISODateTime: z.iso.datetime().nullable(),
+    startISODateTime: z.iso.datetime().nullable().optional(),
     // 마감일
-    endISODateTime: z.iso.datetime().nullable(),
+    endISODateTime: z.iso.datetime().nullable().optional(),
     // 한 줄 소개
     summaryText: z
       .string()
-      .max(18, '한 줄 소개를 18자 이내로 작성해 주세요')
-      .nullable(),
+      .min(1, { message: '한 줄 소개를 입력해 주세요.' })
+      .max(18, '한 줄 소개를 18자 이내로 작성해 주세요'),
     // 가격 정가
     price: z.union([z.coerce.number().nullable().optional(), z.nan()]),
     // 가격 할인가
@@ -51,7 +51,7 @@ export const itemSchema = z
     //진행 회차
     period: z.number().nullable(),
     // 코멘트
-    commentText: z.string().nullable(),
+    commentText: z.string().nullable().optional(),
   })
   .refine((val) => !(val.salePrice && !val.price), {
     path: ['price'],
@@ -75,6 +75,7 @@ export const requiredFieldsSchema = itemSchema.pick({
   selectedCategoryList: true,
   hasStartDate: true,
   hasEndDate: true,
+  summaryText: true,
 });
 
 export const requiredTitleSchema = itemSchema.pick({

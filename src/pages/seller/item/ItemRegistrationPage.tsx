@@ -6,10 +6,10 @@ import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { itemSchema, requiredFieldsSchema } from '@/schemas/itemSchema';
 import { ItemFormValues } from '@/types/item.types';
 import { DefaultButton, Tab, Tabs } from '@/components';
-import { useRef, RefObject } from 'react';
+import { useRef, RefObject, useEffect } from 'react';
 import { PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import { generatePath, useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { CategoryType } from '@/types/common/CategoryType.types';
@@ -18,6 +18,10 @@ import { Outlet, useLocation } from 'react-router-dom';
 import cn from '@/utils/cn';
 import { SELLER_ITEM_DETAIL } from '@/utils/generatePath';
 import { useSnackbarStore } from '@/store/snackbarStore';
+import { usePostItem } from '@/services/sellerItem/mutation/usePostItem';
+import { usePutItem } from '@/services/sellerItem/mutation/usePutItem';
+import { useGetMarketItemDetail } from '@/services/sellerItem/query/useGetMarketItemDetail';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 export const dummyCategory: CategoryType[] = [
   { id: 0, name: '사이즈' },
@@ -54,6 +58,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { sellerId } = useStrictId();
 
   // 필수 요소 미입력시 스크롤 이동을 위한 ref
   const imagesFieldRef = useRef<HTMLDivElement | null>(null);
@@ -64,26 +69,56 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
   // 페이지 진입시 스크롤 상단으로 이동
   const scrollViewRef = useScrollToTop();
 
+  const isEditMode = mode === 'edit';
+  const { itemId } = useParams();
+  const numericItemId = itemId ? Number(itemId) : undefined;
+
+  const { data: prevItemData } = useGetMarketItemDetail(
+    sellerId!,
+    numericItemId
+  );
+
   // useForm에 Zod 스키마 적용
   const methods = useForm<ItemFormValues>({
     resolver: standardSchemaResolver(itemSchema),
     mode: 'onSubmit',
     reValidateMode: 'onChange',
-    shouldFocusError: false, //에러시 자동 포커스 false -> 수동으로 에러 항목으로 스크롤
+    shouldFocusError: false, // 에러시 자동 포커스 false -> 수동으로 에러 항목으로 스크롤
     defaultValues: {
       images: [],
       titleText: '',
       selectedCategoryList: [],
-      hasStartDate: false,
-      hasEndDate: false,
-      startISODateTime: '',
-      endISODateTime: '',
+      hasStartDate: true,
+      hasEndDate: true,
+      startISODateTime: undefined,
+      endISODateTime: undefined,
       summaryText: '',
+      price: undefined,
+      salePrice: undefined,
       linkText: '',
-      period: null,
+      period: undefined,
       commentText: '',
     },
   });
+
+  useEffect(() => {
+    if (prevItemData)
+      methods.reset({
+        images: prevItemData.itemImgList ?? [],
+        titleText: prevItemData.itemName ?? '',
+        selectedCategoryList: [],
+        hasStartDate: prevItemData.startDate === null ? false : true,
+        hasEndDate: prevItemData.startDate === null ? false : true,
+        startISODateTime: prevItemData.startDate ?? undefined,
+        endISODateTime: prevItemData.endDate ?? undefined,
+        summaryText: prevItemData.tagline ?? '',
+        price: prevItemData.regularPrice ?? undefined,
+        salePrice: prevItemData.salePrice ?? undefined,
+        linkText: prevItemData.marketLink ?? '',
+        period: prevItemData.itemPeriod ?? 1,
+        commentText: prevItemData.comment ?? '',
+      });
+  }, [prevItemData]);
 
   const {
     handleSubmit,
@@ -113,7 +148,6 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       path: `${PATH.SELLER.ITEM.ITEM_ID.EDIT.TABS.FAQ}`,
     },
   ];
-  const isEditMode = mode === 'edit';
 
   const TABS = isEditMode ? EDIT_TABS : REGISTER_TABS;
 
@@ -171,6 +205,9 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       name: 'hasEndDate',
       ref: endDateFieldRef,
     },
+    {
+      name: 'summaryText',
+    },
   ];
 
   const validationFieldsRef: fieldsToCheck<keyof ItemFormValues>[] = [
@@ -180,31 +217,41 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
     { name: 'linkText' },
   ];
 
+  const { mutate: postItem } = usePostItem(() =>
+    showSnackbar('상품이 게시되었습니다.')
+  );
+
+  const { mutate: putItem } = usePutItem(() =>
+    showSnackbar('상품이 수정되었습니다.')
+  );
+
   // 게시하기 활성화: 필수 항목 4개 다 있을 시 실행
   const handleSubmitSuccess = async (formData: ItemFormValues) => {
-    // 서버 제출용 데이터로 가공
-    const payload = {
-      itemImgList: JSON.stringify(formData.images),
-      name: formData.titleText,
-      itemCategoryList: formData.selectedCategoryList,
-      startDate: formData.startISODateTime,
-      endDate: formData.endISODateTime,
-      tagline: formData.summaryText,
-      regularPrice: formData.price,
-      salePrice: formData.salePrice,
-      marketLink: formData.linkText,
-      itemPeriod: formData.period,
-      comment: formData.commentText,
-    };
-    console.log('성공', payload); // declared but its value is never read. 에러 해결을 위함
-    try {
-      // TODO: 실제 API 호출
-      const itemId: number = 1;
+    const isValid = (val: unknown): val is string =>
+      val !== undefined && val !== null && val !== '';
 
-      //if success
-      navigate(generatePath(SELLER_ITEM_DETAIL, { itemId }));
-      // TODO: '상품이 보관되었습니다.' 스낵바 띄우기
-    } catch (error) {}
+    const payload = {
+      itemImgList: formData.images,
+      name: formData.titleText,
+      itemCategoryIdList: formData.selectedCategoryList.map(String),
+      startDate: formData.hasStartDate ? formData.startISODateTime : null,
+      endDate: formData.hasEndDate ? formData.endISODateTime : null,
+      tagline: formData.summaryText,
+      ...(isValid(formData.price) && { regularPrice: formData.price }),
+      ...(isValid(formData.salePrice) && { salePrice: formData.salePrice }),
+      ...(isValid(formData.linkText) && { marketLink: formData.linkText }),
+      ...(isValid(formData.price) && { regularPrice: formData.price }),
+      ...(isValid(formData.salePrice) && { salePrice: formData.salePrice }),
+      itemPeriod: formData.period ?? 1,
+      ...(isValid(formData.commentText) && { comment: formData.commentText }),
+      isArchived: false,
+    };
+
+    if (!isEditMode) {
+      postItem(payload);
+    } else if (isEditMode && itemId !== undefined) {
+      putItem({ data: payload, itemId: Number(itemId) });
+    }
   };
 
   // 필수 항목 미입력 / 유효성 조건 미충족 시 실행
@@ -255,12 +302,13 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       return;
     }
 
+    // TODO: 보관하기 백 연동
     //임시
     const itemId: number = 1;
 
     //if success
     navigate(generatePath(SELLER_ITEM_DETAIL, { itemId }));
-    // TODO: '상품이 게시되었습니다.' 스낵바 띄우기
+    showSnackbar('상품이 보관되었습니다.');
   };
 
   return (
@@ -317,6 +365,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
               onClick={onArchive}
               text="보관하기"
               activeTheme="white"
+              disabledTheme="borderGrey"
               disabled={!titleValidationResult.success}
               useDisabled={false}
             />

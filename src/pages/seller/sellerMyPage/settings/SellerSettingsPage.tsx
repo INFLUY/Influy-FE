@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { PATH } from '@/routes/path';
 import { useModalStore } from '@/store/useModalStore';
+import { usePostLogout } from '@/services/auth/mutation/usePostLogout';
 
 const SellerSettingsPage = () => {
   const navigate = useNavigate();
   const { showModal } = useModalStore();
+  const { mutate: logout } = usePostLogout(() => navigate(PATH.HOME.BASE));
 
   const handleLogoutClick = () => {
     showModal({
@@ -14,9 +16,7 @@ const SellerSettingsPage = () => {
       leftButtonText: '취소',
       rightButtonText: '확인',
       rightButtonClick: () => {
-        // TODO: 로그아웃 로직
-        console.log('로그아웃 완료');
-        navigate(PATH.HOME.BASE);
+        logout();
       },
     });
   };
