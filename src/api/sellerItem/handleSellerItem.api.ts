@@ -56,6 +56,14 @@ export const postItem = async (data: ItemPostDetail) => {
   return response.data.result;
 };
 
+export const patchItem = async (data: ItemPostDetail, itemId: number) => {
+  const response = await instance.put<ApiResponse<{ itemId: number }>>(
+    generateApiPath(SELLER_API_DOMAINS.SELLER_HANDLE_ITEM, { itemId }),
+    data
+  );
+  return response.data.result;
+};
+
 export const getSellerItemDetail = async ({
   sellerId,
   itemId,

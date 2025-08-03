@@ -9,7 +9,7 @@ import { DefaultButton, Tab, Tabs } from '@/components';
 import { useRef, RefObject } from 'react';
 import { PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import { generatePath, useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { CategoryType } from '@/types/common/CategoryType.types';
@@ -19,6 +19,7 @@ import cn from '@/utils/cn';
 import { SELLER_ITEM_DETAIL } from '@/utils/generatePath';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { usePostItem } from '@/services/sellerItem/mutation/usePostItem';
+import { usePutItem } from '@/services/sellerItem/mutation/usePutItem';
 
 export const dummyCategory: CategoryType[] = [
   { id: 0, name: '사이즈' },
@@ -115,6 +116,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
     },
   ];
   const isEditMode = mode === 'edit';
+  const { itemId } = useParams();
 
   const TABS = isEditMode ? EDIT_TABS : REGISTER_TABS;
 
@@ -185,6 +187,10 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
     showSnackbar('상품이 게시되었습니다.')
   );
 
+  const { mutate: putItem } = usePutItem(() =>
+    showSnackbar('상품이 수정되었습니다.')
+  );
+
   // 게시하기 활성화: 필수 항목 4개 다 있을 시 실행
   const handleSubmitSuccess = async (formData: ItemFormValues) => {
     const isValid = (val: unknown): val is string =>
@@ -205,9 +211,11 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       isArchived: false,
     };
 
-    postItem(payload);
-
-    // navigate(generatePath(SELLER_ITEM_DETAIL, { itemId }));
+    if (!isEditMode) {
+      postItem(payload);
+    } else if (isEditMode && itemId !== undefined) {
+      putItem({ data: payload, itemId: Number(itemId) });
+    }
   };
 
   // 필수 항목 미입력 / 유효성 조건 미충족 시 실행
