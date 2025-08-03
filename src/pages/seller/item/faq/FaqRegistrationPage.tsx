@@ -14,8 +14,8 @@ import {
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { useRef, useState, Suspense } from 'react';
-import { CategoryType } from '@/types/common/CategoryType.types';
+import { useRef, Suspense } from 'react';
+
 import {
   useForm,
   FormProvider,
