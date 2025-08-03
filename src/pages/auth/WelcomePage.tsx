@@ -37,13 +37,13 @@ export const WelcomePage = () => {
   };
 
   return (
-    <div className="relative flex h-full w-full flex-1 flex-col">
+    <div className="flex h-full w-full flex-1 flex-col">
       <section className="z-20 flex h-full w-full flex-1 px-5 py-[6rem]">
         <h1 className="headline2 whitespace-pre text-white">
           {`인플루이에 오신 것을\n환영합니다!`}
         </h1>
       </section>
-      <div className="fixed bottom-[2.3125rem] z-20 flex w-full px-5">
+      <div className="fixed bottom-[2.3125rem] z-20 flex w-screen max-w-[40rem] min-w-[20rem] shrink-0 items-center justify-center gap-[.4375rem] border-0 px-5 md:w-[28rem]">
         <DefaultButton
           type="button"
           text="지금 바로 둘러보기"
