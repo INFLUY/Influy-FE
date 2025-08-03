@@ -28,7 +28,7 @@ export { PeriodChip } from './common/chip/PeriodChip.tsx';
 export { default as CloseComponent } from './common/auth/CloseComponent.tsx';
 
 // common/item
-export { ItemDetailProfile } from './common/item/ItemDetailProfile';
+export { ItemDetailProfile } from './common/item/itemDetail/ItemDetailProfile.tsx';
 
 //common/home
 

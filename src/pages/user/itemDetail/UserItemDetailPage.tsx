@@ -8,11 +8,10 @@ import {
   LoadingSpinner,
   ToolTip,
 } from '@/components';
-
+import { UserNav } from '@/components/user/itemDetail/UserNav';
 // icon
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
-import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
 import Link2Icon from '@/assets/icon/common/Link2Icon.svg?react';
 import LockIcon from '@/assets/icon/common/LockIcon.svg?react';
 import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
@@ -41,9 +40,8 @@ const ItemDetailInfo = lazy(
   () => import('@/components/common/item/itemDetail/ItemDetailInfo')
 );
 
-const SellerItemDetailPage = () => {
+const UserItemDetailPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
-  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -88,35 +86,11 @@ const SellerItemDetailPage = () => {
     return () => observer.disconnect();
   }, [isDetailOnScreen]);
 
-  // 하단바
-  const handleGoToPage = () => {};
-  const handleOpenScopeModal = () => {
-    setIsBottomSheetOpen(true);
-  };
-  const detailBottomNavItems: BottomNavItem[] = [
-    {
-      label: '판매 페이지',
-      onClick: handleGoToPage,
-      icon: <Link2Icon className="h-6 w-6" />,
-      aria: '판매 페이지로 이동',
-    },
-    {
-      label: '공개 범위',
-      onClick: handleOpenScopeModal,
-      icon: <LockIcon className="h-6 w-6" />,
-      aria: '공개 범위 설정',
-    },
-    {
-      label: '상품 수정',
-      onClick: () => {
-        navigate(generatePath(SELLER_ITEM_EDIT_PATH, { itemId }));
-      },
-      icon: <EditIcon className="h-6 w-6" />,
-      aria: '상품 수정',
-    },
-  ];
-
   const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
+
+  const onTalkBoxClick = () => {};
+  const onBuyClick = () => {};
+  const onLikeClick = () => {};
 
   return (
     <>
@@ -148,9 +122,7 @@ const SellerItemDetailPage = () => {
             ]}
             rightIcons={[
               <ShareIcon className="h-6 w-6 cursor-pointer text-black" />,
-              <StatisticIcon className="h-6 w-6 cursor-pointer text-black" />,
             ]}
-            additionalStyles="bg-white"
           >
             <div className="h-[1.6875rem]" />
           </PageHeader>
@@ -199,41 +171,15 @@ const SellerItemDetailPage = () => {
           <ItemDetailFaqCard faqList={dummyFaq} />
         </Suspense>
       </section>
-
-      {/* 톡박스 플로팅 버튼 */}
-      {/* TODO: 오픈 상태에 따른 버튼 색상 변경 */}
-      <div className="pointer-events-none fixed right-5 bottom-20 z-[1] flex flex-col items-end gap-1.5">
-        <ToolTip
-          text="이 제품의 질문에 답변해 주세요."
-          position="right"
-          additionalStyles="pointer-events-none"
-        />
-        {itemId && (
-          <button
-            type="button"
-            onClick={() => {
-              const path = generatePath(
-                `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}`,
-                { itemId }
-              );
-              navigate(path);
-            }}
-            className="pointer-events-auto flex aspect-[1/1] h-11 w-11 flex-col items-center justify-center rounded-full bg-black shadow-[0_.25rem_1.125rem_0_rgba(0,0,0,0.25)]"
-          >
-            <TalkBoxIcon className="h-6 w-6 text-white" />
-          </button>
-        )}
-      </div>
-
-      <BottomNavBar items={detailBottomNavItems} type="action" />
-      {isBottomSheetOpen && (
-        <VisibilityBottomSheet
-          setIsOpen={setIsBottomSheetOpen}
-          isOpen={isBottomSheetOpen}
-        />
-      )}
+      <UserNav
+        isTalkBoxOpened={true}
+        likeCount={123}
+        onTalkBoxClick={onTalkBoxClick}
+        onBuyClick={onBuyClick}
+        onLikeClick={onLikeClick}
+      />
     </>
   );
 };
 
-export default SellerItemDetailPage;
+export default UserItemDetailPage;

@@ -58,6 +58,7 @@ import {
   PendingCategoryTab,
   AnsweredCategoryTab,
   OnboardingLayout,
+  UserItemDetailPage,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -235,7 +236,7 @@ const router = createBrowserRouter([
                   },
                   {
                     path: PATH.MARKET.DETAIL.ITEM.ITEM_ID,
-                    element: <SellerItemDetailPage />,
+                    element: <UserItemDetailPage />,
                   },
                 ],
               },
