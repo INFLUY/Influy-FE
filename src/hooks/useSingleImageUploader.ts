@@ -1,12 +1,9 @@
 import { usePostPresignedUrl } from '@/services/presignedUrl/usePostPresignedUrl';
 import { useSnackbarStore } from '@/store/snackbarStore';
-import { useEffect, useRef } from 'react';
 
 export const useSingleImageUploader = (
   onChange: (value: string | null) => void
 ) => {
-  const imageUrlRef = useRef<string | null>(null);
-
   const { mutate: getPresignedUrl } = usePostPresignedUrl((imgUrl: string) => {
     onChange(imgUrl);
   });
@@ -25,30 +22,11 @@ export const useSingleImageUploader = (
       return;
     }
 
-    // 이전 URL revoke
-    if (imageUrlRef.current) {
-      URL.revokeObjectURL(imageUrlRef.current);
-    }
-
-    const newUrl = URL.createObjectURL(selectedImg);
-    imageUrlRef.current = newUrl;
     getPresignedUrl({ file: selectedImg });
     e.target.value = '';
   };
 
-  useEffect(() => {
-    return () => {
-      if (imageUrlRef.current) {
-        URL.revokeObjectURL(imageUrlRef.current);
-      }
-    };
-  }, []);
-
   const removeFile = () => {
-    if (imageUrlRef.current) {
-      URL.revokeObjectURL(imageUrlRef.current);
-      imageUrlRef.current = null;
-    }
     onChange(null);
   };
 
