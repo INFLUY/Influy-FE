@@ -12,32 +12,29 @@ export const DefaultButton = ({
   additionalStyles,
   type = 'button',
 }: DefaultButtonProps) => {
-  const isActuallyDisabled = useDisabled && disabled;
+  const isDisabled = useDisabled ? disabled : false;
 
   return (
     <button
       type={type}
       onClick={onClick}
-      disabled={isActuallyDisabled}
+      disabled={isDisabled}
       className={cn(
         'body2-m box-border flex h-[3.0625rem] w-full items-center justify-center rounded-xs bg-black text-white',
         {
-          'bg-grey05 cursor-default':
-            isActuallyDisabled && disabledTheme === 'base',
-          'border-grey05 text-grey05 cursor-default border bg-white':
-            isActuallyDisabled && disabledTheme === 'borderGrey',
-
-          'cursor-pointer bg-black text-white':
-            !isActuallyDisabled && activeTheme === 'black',
-
-          'cursor-pointer border border-black bg-white text-black':
-            !isActuallyDisabled && activeTheme === 'white',
-
-          'bg-grey04 cursor-pointer text-black':
-            !isActuallyDisabled && activeTheme === 'grey',
+          'bg-grey05 cursor-default': disabled && disabledTheme === 'base',
 
           'text-grey05 border-grey05 cursor-pointer border bg-white':
-            !isActuallyDisabled && activeTheme === 'borderGrey',
+            disabledTheme === 'borderGrey' || activeTheme === 'borderGrey',
+
+          'cursor-pointer bg-black text-white':
+            !disabled && activeTheme === 'black',
+
+          'cursor-pointer border border-black bg-white text-black':
+            !disabled && activeTheme === 'white',
+
+          'bg-grey04 cursor-pointer text-black':
+            !disabled && activeTheme === 'grey',
         },
         additionalStyles
       )}
@@ -77,6 +74,7 @@ import AddIconBase from '@/assets/icon/common/Add1Icon.svg?react';
 // 추가 버튼
 export const AddButton = ({
   handleOnClick,
+
   size = 'base',
   children,
 }: {

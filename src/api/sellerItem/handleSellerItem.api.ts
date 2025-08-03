@@ -1,17 +1,21 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
-import { API_DOMAINS } from '@/constants/api';
-import { ApiResponse } from '@/types/common/ApiResponse.types';
-import { ItemDetail, SellerItemsResponse } from '@/types/common/ItemType.types';
+import { API_DOMAINS, SELLER_API_DOMAINS } from '@/constants/api';
+import { ApiResponse, Pagination } from '@/types/common/ApiResponse.types';
+import {
+  ItemDetail,
+  ItemPostDetail,
+  ItemSortType,
+  SellerItemPreviewList,
+} from '@/types/common/ItemType.types';
 
 import {
   ItemOverviewDTO,
   TalkBoxOpenedListDTO,
-  TalkBoxOpenStatus,
+  TalkBoxOpenStatusType,
   TalkBoxCommentDTO,
   TalkBoxOpenStatusResponse,
 } from '@/types/common/ItemType.types';
-import { SELLER_API_DOMAINS } from '@/constants/api';
 
 export const getSellerItems = async ({
   sellerId,
@@ -23,18 +27,49 @@ export const getSellerItems = async ({
 }: {
   sellerId: number;
   archive: boolean;
-  sortType?: 'END_DATE' | 'CREATE_DATE';
+  sortType?: ItemSortType;
   onGoing: boolean;
   page: number;
   size: number;
-}): Promise<ApiResponse<SellerItemsResponse>> => {
-  const response = await instance.get(
-    generateApiPath(API_DOMAINS.SELLER_MARKET_ITEMS, { sellerId }),
-    {
-      params: { archive, page, size, sortType, onGoing },
-    }
+}) => {
+  const params: Record<string, any> = {
+    sellerId,
+    archive,
+    onGoing,
+    page,
+    size,
+  };
+
+  if (sortType !== null) {
+    params.sortType = sortType;
+  }
+
+  const response = await instance.get<
+    ApiResponse<
+      Pagination<SellerItemPreviewList[] | [], 'itemPreviewList'> & {
+        sortType: ItemSortType;
+      }
+    >
+  >(generateApiPath(API_DOMAINS.SELLER_MARKET_ITEMS, { sellerId }), {
+    params,
+  });
+  return response.data.result;
+};
+
+export const postItem = async (data: ItemPostDetail) => {
+  const response = await instance.post<ApiResponse<{ itemId: number }>>(
+    SELLER_API_DOMAINS.SELLER_POST_ITEM,
+    data
   );
-  return response.data;
+  return response.data.result;
+};
+
+export const patchItem = async (data: ItemPostDetail, itemId: number) => {
+  const response = await instance.put<ApiResponse<{ itemId: number }>>(
+    generateApiPath(SELLER_API_DOMAINS.SELLER_HANDLE_ITEM, { itemId }),
+    data
+  );
+  return response.data.result;
 };
 
 export const getSellerItemDetail = async ({
@@ -43,11 +78,11 @@ export const getSellerItemDetail = async ({
 }: {
   sellerId: number;
   itemId: number;
-}): Promise<ApiResponse<ItemDetail>> => {
-  const response = await instance.get(
+}) => {
+  const response = await instance.get<ApiResponse<ItemDetail>>(
     generateApiPath(API_DOMAINS.SELLER_MARKET_ITEM, { sellerId, itemId })
   );
-  return response.data;
+  return response.data.result;
 };
 
 export const getItemOverview = async ({
@@ -75,7 +110,7 @@ export const postTalkBoxOpenStatus = async ({
   openStatus,
 }: {
   itemId: number;
-  openStatus: TalkBoxOpenStatus;
+  openStatus: TalkBoxOpenStatusType;
 }): Promise<TalkBoxOpenStatusResponse> => {
   const response = await instance.post(
     generateApiPath(SELLER_API_DOMAINS.SELLER_TALK_BOX_OPEN_STATUS, {

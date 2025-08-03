@@ -3,58 +3,75 @@ import cn from '@/utils/cn';
 import { useFormContext, useController } from 'react-hook-form';
 import DeleteIcon from '@/assets/icon/common/Delete.svg?react';
 import { useSnackbarStore } from '@/store/snackbarStore';
+import { useEffect } from 'react';
+import { usePostPresignedUrl } from '@/services/presignedUrl/usePostPresignedUrl';
+import { ItemFormValues } from '@/types/item.types';
+
 interface ItemImageUploaderProps {
-  name: string;
+  name: 'images';
 }
 
 export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
-  const { control } = useFormContext();
+  const { control } = useFormContext<ItemFormValues>();
 
   const {
     field: { value: images = [], onChange },
-  } = useController({
+  } = useController<ItemFormValues, 'images'>({
     name,
     control,
+    defaultValue: [],
   });
 
   const { showSnackbar } = useSnackbarStore();
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const imageList = Array.from(e.target.files || []);
+  const { mutate: getPresignedUrl } = usePostPresignedUrl(
+    (uploadedUrl: string) => {
+      if (!uploadedUrl) return;
+      onChange([...images, uploadedUrl]);
+    }
+  );
 
-    //파일 타입 검증
-    const validImage = imageList.filter((file) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    const validFiles = files.filter((file) => {
       const isImage = file.type.startsWith('image/');
       if (!isImage) {
         showSnackbar(`이미지 파일만 업로드 가능합니다: ${file.name}`);
       }
       return isImage;
     });
-    if (validImage.length === 0) {
-      // 이미지 파일이 하나도 없는 경우 바로 리턴
+
+    if (validFiles.length === 0) {
       e.target.value = '';
       return;
     }
-    //Blob URL 생성
-    const newUrls = validImage.map((img) => URL.createObjectURL(img));
 
-    const combined = [...images, ...newUrls];
-    if (combined.length > 10) {
+    const current = images.length;
+    const combinedCount = current + validFiles.length;
+    if (combinedCount > 10) {
       showSnackbar('이미지는 최대 10개까지 업로드 가능합니다.');
     }
-    const limited = combined.slice(0, 10);
 
-    onChange(limited);
+    const limitedFiles = validFiles.slice(0, 10 - current);
+
+    // presigned URL 요청 (업로드 완료 후에만 이미지 추가됨)
+    limitedFiles.forEach((file) => getPresignedUrl({ file }));
 
     e.target.value = '';
   };
 
   const handleRemoveImage = (index: number) => {
-    const urlToRemove = images[index];
-    URL.revokeObjectURL(urlToRemove);
-    const updated = images.filter((_: string, i: number) => i !== index);
+    const updated = images.filter((_, i) => i !== index);
     onChange(updated);
   };
+
+  useEffect(() => {
+    return () => {
+      // Blob URL 안 쓰므로 revoke 불필요
+    };
+  }, []);
 
   return (
     <article className="flex w-full flex-nowrap items-center gap-x-1.5 pl-5">
@@ -78,7 +95,7 @@ export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
         />
       </label>
 
-      {/* 사진 미리보기 */}
+      {/* 사진 미리보기 (업로드 완료된 URL만 표시) */}
       <div className="scrollbar-hide flex gap-x-1.5 overflow-x-scroll pt-[.875rem] pr-5 pb-4">
         {images.map((url: string, index: number) => (
           <div

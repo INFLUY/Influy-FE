@@ -11,7 +11,6 @@ interface AuthState {
     memberId: number;
     sellerId?: number | null;
   }) => void;
-  logout: () => void;
   clearAuthInfo: () => void;
   reissue: () => Promise<boolean>;
 }
@@ -27,13 +26,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       accessToken,
       memberId,
       sellerId,
-    });
-  },
-  logout: () => {
-    set({
-      accessToken: null,
-      memberId: null,
-      sellerId: null,
     });
   },
   clearAuthInfo: () => {

@@ -3,21 +3,20 @@ import KakaoIcon from '@/assets/icon/common/KakaoIcon.svg?react';
 import Arrow from '@/assets/icon/common/ArrowRight12.svg?react';
 import LoginBg from '@/assets/image/LoginBgImg.svg';
 import { useLocation } from 'react-router-dom';
-import { useAuthStore } from '@/store/authStore';
 import { useEffect } from 'react';
 import { PATH } from '@/routes/path';
 import cn from '@/utils/cn';
 import { CloseComponent } from '@/components';
+import { usePostLogout } from '@/services/auth/mutation/usePostLogout';
 
 const LoginPage = () => {
   const { pathname } = useLocation();
   const isBasicLoginPage = pathname.includes(PATH.LOGIN.BASE);
 
-  const { logout } = useAuthStore();
+  const { mutate: logout } = usePostLogout();
 
   useEffect(() => {
     logout();
-    // TODO: 로그아웃 처리
   }, []);
 
   const handleKakaoLogin = () => {

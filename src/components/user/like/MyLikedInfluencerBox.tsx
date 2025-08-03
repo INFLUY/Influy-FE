@@ -2,9 +2,9 @@ import { LikedInfluencerListType } from '@/types/user/Like.types';
 import { formatNumber } from '@/utils/formatNumber';
 import { useState } from 'react';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
-import ScrapButton from '@/components/common/ScrapButton';
+import { ScrapButton } from '@/components';
 import { generatePath, useNavigate } from 'react-router-dom';
-import { MARKET_DEATIL } from '@/utils/generatePath';
+import { MARKET_DETAIL } from '@/utils/generatePath';
 
 const MyLikedInfluencerBox = ({
   influencer,
@@ -25,18 +25,14 @@ const MyLikedInfluencerBox = ({
       aria-label={influencer.nickName + '프로필 바로가기'}
       role="button"
       onClick={() =>
-        navigate(generatePath(MARKET_DEATIL, { marketId: influencer.sellerId }))
+        navigate(generatePath(MARKET_DETAIL, { marketId: influencer.sellerId }))
       }
     >
       <div className="flex gap-3">
         <img
-          src={
-            influencer.profileImgLink === ''
-              ? ProfileIcon
-              : influencer.profileImgLink
-          }
-          alt={influencer.nickName + ' 프로필 이미지'}
-          className="h-15 w-15 rounded-full object-cover"
+          src={influencer.profileImgLink ?? ProfileIcon}
+          alt={influencer.nickName + '님 프로필 이미지'}
+          className="h-15 w-15 rounded-full bg-white object-cover"
         />
         <div className="flex flex-col justify-center">
           <p className="body1-b text-black">{influencer.nickName}</p>
@@ -50,7 +46,7 @@ const MyLikedInfluencerBox = ({
           additionalStyles=""
         />
         <span className="body2-m text-grey07">
-          {formatNumber(influencer.likeCount)}
+          {formatNumber(influencer.likeCnt)}
         </span>
       </div>
     </li>

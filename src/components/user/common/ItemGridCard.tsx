@@ -1,6 +1,12 @@
-import { ScrapButton, ExtendChip, SoldOutChip, TimeChip } from '@/components';
+import {
+  ExtendChip,
+  SoldOutChip,
+  TimeChip,
+  ItemLikeButton,
+} from '@/components';
 import { ItemPreviewList } from '@/types/common/ItemType.types';
 import cn from '@/utils/cn';
+import { isItemClosed } from '@/utils/dateUtils';
 
 export const ItemGridCard = ({ item }: { item: ItemPreviewList }) => {
   return (
@@ -12,13 +18,12 @@ export const ItemGridCard = ({ item }: { item: ItemPreviewList }) => {
           alt="상품 썸네일"
           className="bg-grey06 absolute inset-0 aspect-square object-cover"
         />
-        <ScrapButton
-          scrapped={item.liked}
-          handleClickSave={() => {
-            console.log('saved');
-          }}
+        <ItemLikeButton
+          liked={item.liked}
+          sellerId={item.sellerId}
+          itemId={item.itemId}
         />
-        {item.currentStatus === 'SOLD_OUT' && (
+        {isItemClosed(item.endDate) && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
             마감
           </div>
@@ -30,7 +35,7 @@ export const ItemGridCard = ({ item }: { item: ItemPreviewList }) => {
           </div>
         ) : (
           <div className="absolute bottom-0 left-0 flex flex-wrap">
-            <TimeChip open={item.startDate!} deadline={item.endDate!} />
+            <TimeChip open={item.startDate} deadline={item.endDate} />
             <ExtendChip
               extend={item.currentStatus === 'EXTEND'}
               deadline={item.endDate!}

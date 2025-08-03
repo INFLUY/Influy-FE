@@ -426,7 +426,7 @@ export const FormEmailInput = <T extends FieldValues>({
           error ? 'border-error' : 'border-grey03 focus:border-grey05'
         )}
         value={value}
-        placeholder="링크 URL을 입력해 주세요."
+        placeholder="이메일 주소를 입력해 주세요."
         onChange={(e) => onChange(e.target.value)}
         aria-label={name}
       />

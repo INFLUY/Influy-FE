@@ -96,8 +96,8 @@ export const PATH = {
           SELECTION: 'selection',
         },
       },
-      NOTICE: {
-        BASE: 'notice',
+      ANNOUNCEMENT: {
+        BASE: 'announcement',
       },
       PROFILE: {
         BASE: 'profile',

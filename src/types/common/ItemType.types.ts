@@ -7,37 +7,30 @@ export type SellerItemPreviewList = {
   startDate?: string;
   endDate?: string;
   tagline?: string;
-  currentStatus: 'DEFAULT' | 'EXTEND' | 'SOLD_OUT';
+  currentStatus: ItemCurrentStatusType;
   liked: false;
   talkBoxInfo: {
-    talkBoxOpenStatus: 'INITIAL' | 'OPENED' | 'CLOSED';
+    talkBoxOpenStatus: TalkBoxOpenStatusType;
     waitingCnt: number;
     completedCnt: number;
   };
-  mainImg: string;
-};
-
-export type SellerItemsResponse = {
-  itemPreviewList: SellerItemPreviewList[] | [];
-  listSize: number;
-  totalPage: number;
-  totalElements: number;
-  isFirst: boolean;
-  isLast: boolean;
+  mainImg: string | null;
 };
 
 export interface ItemCardType {
-  itemId: number;
-  itemPeriod: number | null;
-  itemName: string;
-  startDate: string | null; // ISO string
-  endDate: string | null; // ISO string
-  tagline: string | null;
-  currentStatus: 'DEFAULT' | 'EXTEND' | 'SOLD_OUT'; // 예시: 상태 enum 확장 가능
-  sellerName: string;
+  sellerProfileImg: string | null;
+  sellerUsername: string;
+  sellerNickname: string;
   sellerId: number;
-  mainImg: string | null;
-  isScrapped: boolean;
+  itemId: number;
+  itemMainImg: string;
+  itemPeriod: number;
+  itemName: string;
+  startDate: string;
+  endDate: string;
+  tagline: string | null;
+  currentStatus: ItemCurrentStatusType;
+  liked: boolean;
 }
 
 export interface ItemDetail {
@@ -47,7 +40,7 @@ export interface ItemDetail {
   startDate: string | null; // ISO string
   endDate: string | null; // ISO string
   tagline: string | null;
-  currentStatus: 'DEFAULT' | 'ON_SALE' | 'CLOSED'; // 예시: 상태 enum 확장 가능
+  currentStatus: ItemCurrentStatusType; // 예시: 상태 enum 확장 가능
   marketLink: string | null;
   isArchived: boolean;
   itemImgList: string[] | [];
@@ -55,6 +48,21 @@ export interface ItemDetail {
   comment: string | null;
   regularPrice: number | null;
   salePrice: number | null;
+}
+
+export interface ItemPostDetail {
+  itemImgList: string[];
+  name: string;
+  itemCategoryIdList: string[];
+  startDate: string | undefined | null;
+  endDate: string | undefined | null;
+  tagline: string;
+  regularPrice?: number;
+  salePrice?: number;
+  marketLink?: string;
+  itemPeriod: number;
+  comment?: string;
+  isArchived: boolean;
 }
 
 export interface SellerCard {
@@ -80,23 +88,41 @@ export type ItemPreviewList = {
   startDate: string;
   endDate: string;
   tagline: string;
-  currentStatus: 'DEFAULT' | 'EXTEND' | 'SOLD_OUT';
+  currentStatus: ItemCurrentStatusType;
   liked: false;
   mainImg: string;
 };
+
+export type ItemCurrentStatusType = 'DEFAULT' | 'EXTEND' | 'SOLD_OUT';
+
+export type SellerHomeItemStatus = {
+  itemId: number;
+  imageUrl: string;
+  itemStatus: ItemCurrentStatusType;
+  itemPeriod: number;
+  itemTitle: string;
+  startDate: string;
+  endDate: string;
+  totalPendingQuestions: number;
+  newQuestions: number;
+  topCategories: string[] | [] | null;
+};
+
+export type ItemSortType = 'END_DATE' | 'CREATE_DATE';
+
+export type TalkBoxOpenStatusType = 'INITIAL' | 'OPENED' | 'CLOSED';
 
 export interface ItemOverviewDTO {
   id: number;
   itemName: string;
   tagline: string;
   mainImg: string;
-  talkBoxOpenStatus: TalkBoxOpenStatus;
+  talkBoxOpenStatus: TalkBoxOpenStatusType;
 }
-export type TalkBoxOpenStatus = 'INITIAL' | 'OPENED' | 'CLOSED';
 
 export interface TalkBoxOpenStatusResponse {
   itemId: number;
-  status: TalkBoxOpenStatus;
+  status: TalkBoxOpenStatusType;
 }
 
 export interface TalkBoxOpenedListDTO {
@@ -114,7 +140,7 @@ export interface TalkBoxOpenedItem {
 }
 
 export interface TalkBoxCntInfo {
-  talkBoxOpenStatus: TalkBoxOpenStatus;
+  talkBoxOpenStatus: TalkBoxOpenStatusType;
   waitingCnt: number;
   completedCnt: number;
 }

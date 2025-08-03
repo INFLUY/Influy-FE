@@ -14,7 +14,7 @@ import {
   ItemRegistrationPage,
   ItemFaqTab,
   ItemInfoTab,
-  Notice,
+  AnnouncementPage,
   ErrorPage,
   SellerMyProfileEditPage,
   FaqRegistrationPage,
@@ -201,11 +201,7 @@ const router = createBrowserRouter([
           },
           {
             path: PATH.MARKET.DETAIL.BASE,
-            element: (
-              <SellerProfilePage>
-                <Outlet />
-              </SellerProfilePage>
-            ),
+            element: <SellerProfilePage />,
             children: [
               {
                 index: true,
@@ -368,11 +364,7 @@ const router = createBrowserRouter([
           // 마이
           {
             path: PATH.SELLER.MY.BASE,
-            element: (
-              <SellerMyProfile>
-                <Outlet />
-              </SellerMyProfile>
-            ),
+            element: <SellerMyProfile />,
             children: [
               {
                 index: true,
@@ -400,11 +392,7 @@ const router = createBrowserRouter([
             children: [
               {
                 path: PATH.SELLER.MY.PREVIEW.BASE,
-                element: (
-                  <SellerProfilePage>
-                    <Outlet />
-                  </SellerProfilePage>
-                ),
+                element: <SellerProfilePage />,
                 children: [
                   {
                     index: true,
@@ -422,8 +410,8 @@ const router = createBrowserRouter([
                 ],
               },
               {
-                path: PATH.SELLER.MY.NOTICE.BASE,
-                element: <Notice />,
+                path: PATH.SELLER.MY.ANNOUNCEMENT.BASE,
+                element: <AnnouncementPage />,
               },
               {
                 path: PATH.SELLER.MY.PROFILE.BASE,

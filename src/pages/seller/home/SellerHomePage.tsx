@@ -2,18 +2,37 @@ import { PageHeader, MyProductStatus, BottomNavBar } from '@/components';
 import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
-import UserTypeSwithBanner from '@/components/seller/home/UserTypeSwitchBanner';
+import UserTypeSwitchBanner from '@/components/seller/home/UserTypeSwitchBanner';
+import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
+import { SellerHomeItemStatus } from '@/types/common/ItemType.types';
+import { useGetHomeQuestions } from '@/services/home/query/useGetHomeQuestions';
+import { useRef } from 'react';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 
 const SellerHomePage = () => {
-  const MyProfile = {
-    id: 1,
-    nickname: '혜선',
-    username: '@thgusth',
-    profileImage: '/profile.png',
-  };
+  const { data: sellerMyProfile } = useGetSellerProfile();
+  const {
+    data: homeItemData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetHomeQuestions({ size: 8 });
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useInfiniteScroll({
+    targetRef: observerRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
+
+  const itemList = homeItemData?.pages
+    .flatMap((page) => page?.itemList ?? [])
+    .filter(Boolean) as SellerHomeItemStatus[];
 
   return (
-    <section className="bg-grey01 relative mt-11 flex w-full flex-1 flex-col">
+    <section className="bg-grey01 relative mt-11 flex w-full flex-1 flex-col pb-16">
       <PageHeader
         leftIcons={[
           <InfluyIcon
@@ -32,11 +51,16 @@ const SellerHomePage = () => {
         additionalStyles="border-0 h-11"
       />
       <section className="scrollbar-hide flex w-full flex-1 flex-col gap-4 overflow-x-hidden overflow-y-auto py-4">
-        <span className="w-full px-5">
-          <UserTypeSwithBanner influencer={MyProfile} userType="influencer" />
-        </span>
+        {sellerMyProfile && (
+          <span className="w-full px-5">
+            <UserTypeSwitchBanner
+              influencer={sellerMyProfile}
+              userType="influencer"
+            />
+          </span>
+        )}
 
-        <MyProductStatus />
+        <MyProductStatus items={itemList} />
 
         <BottomNavBar userType="SELLER" />
       </section>

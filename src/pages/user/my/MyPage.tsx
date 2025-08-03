@@ -2,25 +2,32 @@ import { BottomNavBar, PageHeader } from '@/components';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { VanillaProfileImageUploader } from '@/components/common/VanillaProfileImageUploader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import ArrowIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 import { PATH } from '@/routes/path';
+import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';
+import { useStrictId } from '@/hooks/auth/useStrictId';
+import { usePatchUserProfile } from '@/services/member/mutation/usePatchUserProfile';
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const [profileImg, setProfileImg] = useState<string | null>(null);
 
-  const userProfile = {
-    id: 1,
-    username: '@crazy_dog',
-    nickname: '이민용',
-    profileImg: '',
-    createdAt: '2025-07-06T15:54:43.186Z',
+  const { memberId } = useStrictId({ redirectOnFail: true });
+  const { data: userProfile } = useGetUserProfile({ memberId: memberId! });
+  const { mutate: patchProfile } = usePatchUserProfile();
+
+  const handleProfileOnchange = (image: string | null) => {
+    setProfileImg(image);
+    patchProfile({ data: { profileUrl: image } });
   };
 
-  const [profileImg, setProfileImg] = useState<string>(
-    userProfile.profileImg ?? ''
-  );
+  useEffect(() => {
+    if (userProfile) {
+      setProfileImg(userProfile.profileImg);
+    }
+  }, [userProfile]);
 
   const menuItems = [
     { label: '알림 설정', path: `${PATH.MY.NOTIFICATION}` },
@@ -44,7 +51,7 @@ const MyPage = () => {
           {/* 프로필 사진 */}
           <VanillaProfileImageUploader
             value={profileImg}
-            onChange={setProfileImg}
+            onChange={handleProfileOnchange}
           />
           <div className="flex flex-col items-center gap-1">
             <div className="flex items-center gap-1">
@@ -61,7 +68,7 @@ const MyPage = () => {
               />
             </div>
             <div aria-label="" className="body2-sb text-grey08">
-              {userProfile?.username}
+              @{userProfile?.username}
             </div>
           </div>
         </article>

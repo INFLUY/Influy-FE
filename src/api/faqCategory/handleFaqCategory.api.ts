@@ -10,9 +10,9 @@ export const getFaqCategory = async ({
 }: {
   sellerId: number;
   itemId: number;
-}): Promise<ApiResponse<FAQCategoryResponse>> => {
-  const response = await instance.get(
+}) => {
+  const response = await instance.get<ApiResponse<FAQCategoryResponse>>(
     generateApiPath(API_DOMAINS.SELLER_FAQ_CATEGORIES, { sellerId, itemId })
   );
-  return response.data;
+  return response.data.result;
 };

@@ -1,9 +1,9 @@
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { PATH } from '@/routes/path';
 import {
   ExternalLinkBottomSheet,
   ExternalLinkChip,
-  NoticeBanner,
+  AnnouncementBanner,
   SellerProfileCard,
   Tab,
   Tabs,
@@ -11,16 +11,17 @@ import {
   SellerModal,
   BottomNavBar,
 } from '@/components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import AddIcon from '@/assets/icon/common/Add2Icon.svg?react';
-import { useGetPrimaryNotification } from '@/services/notification/query/useGetPrimaryNotification';
+import { useGetPrimaryAnnouncement } from '@/services/announcement/query/useGetPrimaryAnnouncement';
 import { useGetMarketLinks } from '@/services/marketLinks/query/useGetMarketLinks';
 import { LinkType } from '@/types/seller/LinkType.types';
 import { useDeleteMarketLink } from '@/services/marketLinks/mutation/useDeleteMarketLink';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useStrictId } from '@/hooks/auth/useStrictId';
+import { useGetMyMarket } from '@/services/seller/query/useGetMarket';
 
-const SellerMyProfile = ({ children }: { children: ReactNode }) => {
+const SellerMyProfile = () => {
   const [isAddLinkOpen, setIsAddLinkOpen] = useState<boolean>(false);
   const [isEditLinkOpen, setIsEditLinkOpen] = useState<boolean>(false);
   const [isLinkDeleteModalOpen, setIsLinkDeleteModalOpen] =
@@ -28,12 +29,6 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   const [selectedLink, setSelectedLink] = useState<LinkType | null>(null);
 
   const { showSnackbar } = useSnackbarStore();
-
-  const TABS = [
-    { id: 0, name: '상품', path: PATH.SELLER.MY.TABS.SELECTION },
-    { id: 2, name: '보관', path: PATH.SELLER.MY.TABS.ARCHIVE },
-    { id: 3, name: '리뷰', path: PATH.SELLER.MY.TABS.REVIEW },
-  ];
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -44,6 +39,25 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
   };
 
   const { sellerId } = useStrictId();
+  const { data: sellerMyMarket } = useGetMyMarket();
+
+  const TABS = [
+    {
+      id: 0,
+      name: `상품(${sellerMyMarket?.publicItemCnt})`,
+      path: PATH.SELLER.MY.TABS.SELECTION,
+    },
+    {
+      id: 1,
+      name: `보관(${sellerMyMarket?.privateItemCnt})`,
+      path: PATH.SELLER.MY.TABS.ARCHIVE,
+    },
+    {
+      id: 2,
+      name: `리뷰(${sellerMyMarket?.reviews})`,
+      path: PATH.SELLER.MY.TABS.REVIEW,
+    },
+  ];
 
   const { data: links } = useGetMarketLinks({
     sellerId: Number(sellerId),
@@ -81,23 +95,37 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
     setSelectedLink(null);
   };
 
-  const { data: primaryNotice } = useGetPrimaryNotification({
-    sellerId: Number(sellerId),
-  });
+  const { data: primaryAnnouncement } = useGetPrimaryAnnouncement(
+    Number(sellerId)
+  );
 
   return (
     <div className="flex w-full flex-1 flex-col">
       <div className="realtive flex h-[7.0625rem] w-full flex-col bg-[#8B8B8D]">
         <SellerMyProfileHeader />
+        {sellerMyMarket?.sellerProfile.backgroundImg && (
+          <img
+            src={sellerMyMarket?.sellerProfile.backgroundImg}
+            alt="내 배경사진"
+            className="inset-0 flex h-full w-full bg-white object-cover"
+          />
+        )}
       </div>
-      <SellerProfileCard seller={true} />
+      {sellerMyMarket && (
+        <SellerProfileCard
+          sellerInfo={sellerMyMarket?.sellerProfile}
+          isSeller={true}
+        />
+      )}
       {/* 공지 */}
       <div className="bg-grey02 flex w-full px-5 py-3">
-        <NoticeBanner
-          title={primaryNotice?.title}
-          count={primaryNotice?.totalAnnouncements || 0}
-          onClickNotice={() => navigate(`./${PATH.SELLER.MY.NOTICE.BASE}`)}
-          seller={true}
+        <AnnouncementBanner
+          title={primaryAnnouncement?.title}
+          count={primaryAnnouncement?.totalAnnouncements || 0}
+          onClickAnnouncement={() =>
+            navigate(`./${PATH.SELLER.MY.ANNOUNCEMENT.BASE}`)
+          }
+          isSeller={true}
         />
       </div>
 
@@ -162,7 +190,7 @@ const SellerMyProfile = ({ children }: { children: ReactNode }) => {
             </Tab>
           ))}
         </Tabs>
-        {children}
+        <Outlet context={{ sellerId: Number(sellerId) }} />
       </section>
       <BottomNavBar userType="SELLER" />
     </div>

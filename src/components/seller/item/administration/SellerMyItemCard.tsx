@@ -1,12 +1,12 @@
-import {
-  EditSoldOutChip,
-  EditTimeChip,
-} from '@/components/seller/item/administration/EditStatusChip';
 import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
+import ArrowIcon from '@/assets/icon/common/ArrowRight12.svg?react';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { SELLER_ITEM_DETAIL } from '@/utils/generatePath';
 import { SellerItemPreviewList } from '@/types/common/ItemType.types';
 import { formatKrDate } from '@/utils/formatDate';
+import { EditStatusUnifiedChip, PeriodChip } from '@/components';
+import { isItemClosed } from '@/utils/dateUtils';
+import { PATH } from '@/routes/path';
 
 const SellerMyItemCard = ({
   item,
@@ -19,6 +19,38 @@ const SellerMyItemCard = ({
 }) => {
   const navigate = useNavigate();
 
+  const handleNavigateToTalkbox = (e: React.MouseEvent | React.TouchEvent) => {
+    e.stopPropagation();
+    console.log(item.talkBoxInfo.talkBoxOpenStatus);
+    if (item.talkBoxInfo.talkBoxOpenStatus === 'OPENED') {
+      navigate(
+        generatePath(
+          `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}`,
+          { itemId: String(item.itemId) }
+        )
+      );
+      return;
+    }
+    if (item.talkBoxInfo.talkBoxOpenStatus === 'INITIAL') {
+      navigate(
+        generatePath(
+          `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}/${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}`,
+          { itemId: String(item.itemId) }
+        )
+      );
+      return;
+    }
+    if (item.talkBoxInfo.talkBoxOpenStatus === 'CLOSED') {
+      navigate(
+        generatePath(
+          `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}/${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}/${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}`,
+          { itemId: String(item.itemId) }
+        )
+      );
+      return;
+    }
+  };
+
   return (
     <li
       className="flex cursor-pointer items-center justify-center gap-3 self-stretch px-5"
@@ -28,17 +60,28 @@ const SellerMyItemCard = ({
       }}
     >
       {/* 썸네일 */}
-      <div className="relative flex h-[9.125rem] w-30 shrink-0">
-        <img
-          src={item?.mainImg ?? undefined}
-          alt="상품 썸네일"
-          className="bg-grey06 absolute h-[9.125rem] w-30 rounded-[.1875rem] object-cover"
-        />
-        {item.currentStatus === 'SOLD_OUT' && (
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-[.1875rem] bg-black/40 text-white">
+      <div className="relative flex h-[8.3125rem] w-30 shrink-0">
+        {item.mainImg && (
+          <img
+            src={item.mainImg}
+            alt="상품 썸네일"
+            className="h-[8.3125rem] w-30 bg-white object-cover"
+          />
+        )}
+        {!item.mainImg && (
+          <div
+            aria-label="상품 이미지가 없습니다."
+            className="bg-grey06 h-[8.3125rem] w-30"
+          />
+        )}
+        {isItemClosed(item.endDate) && (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
             마감
           </div>
         )}
+        <div className="absolute bottom-0 left-0 flex flex-wrap">
+          <PeriodChip period={item.itemPeriod} />
+        </div>
       </div>
       {/* 상품 정보 */}
       <div className="flex h-full flex-shrink-0 flex-grow basis-0 items-start justify-between">
@@ -56,32 +99,35 @@ const SellerMyItemCard = ({
             {/* 칩 */}
             <span className="caption-m text-grey07 flex items-center gap-1">
               상태 :
-              {item?.currentStatus === 'SOLD_OUT' ? (
-                <EditSoldOutChip onClick={openStatusModal} />
-              ) : (
-                <EditTimeChip
-                  open={item?.startDate ?? null}
-                  deadline={item?.endDate ?? null}
-                  onClick={openStatusModal}
-                />
-              )}
+              <EditStatusUnifiedChip
+                currentStatus={item?.currentStatus}
+                open={item?.startDate ?? undefined}
+                deadline={item?.endDate ?? undefined}
+                onClick={openStatusModal}
+              />
             </span>
           </div>
-          {/* 질문 정보 */}
-          <span className="caption-m text-grey07 divide-grey05 flex gap-1 divide-x">
-            <p>
-              응답대기 :{' '}
-              <span className="text-grey11 pr-1">
-                {item?.talkBoxInfo.waitingCnt}개
+          {/* 톡박스 */}
+          <div
+            className="caption-m text-grey07 flex items-center justify-between"
+            onClick={handleNavigateToTalkbox}
+          >
+            {item?.talkBoxInfo.talkBoxOpenStatus !== 'OPENED' && (
+              <>톡박스가 비활성화되어 있습니다.</>
+            )}
+            {item?.talkBoxInfo.talkBoxOpenStatus === 'OPENED' && (
+              <span className="divide-grey05 flex items-center gap-1 divide-x">
+                <p>
+                  응답대기 :{' '}
+                  <span className="text-grey11 pr-1">
+                    {item?.talkBoxInfo.waitingCnt}개
+                  </span>
+                </p>
+                <p>응답완료 : {item?.talkBoxInfo.completedCnt}개</p>
               </span>
-            </p>
-            <p>
-              응답완료 :{' '}
-              <span className="text-grey11 pr-1">
-                {item?.talkBoxInfo.completedCnt}개
-              </span>
-            </p>
-          </span>
+            )}
+            <ArrowIcon className="text-grey07" />
+          </div>
         </div>
         <KebabIcon
           className="flex shrink-0 cursor-pointer"

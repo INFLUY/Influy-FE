@@ -3,19 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { PATH } from '@/routes/path';
 import { useModalStore } from '@/store/useModalStore';
+import { useStrictId } from '@/hooks/auth/useStrictId';
+import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';
+import { usePostLogout } from '@/services/auth/mutation/usePostLogout';
 
 const AccountSettingsPage = () => {
   const navigate = useNavigate();
 
   const { showModal } = useModalStore();
 
-  const userProfile = {
-    id: 1,
-    username: '@crazy_dog',
-    nickname: '이민용',
-    profileImg: '',
-    createdAt: '2025-07-06T15:54:43.186Z',
-  };
+  const { memberId } = useStrictId({ redirectOnFail: true });
+  const { data: userProfile } = useGetUserProfile({ memberId: memberId! });
+  const { mutate: logout } = usePostLogout(() => navigate(PATH.HOME.BASE));
 
   const handleLogoutClick = () => {
     showModal({
@@ -23,9 +22,7 @@ const AccountSettingsPage = () => {
       leftButtonText: '취소',
       rightButtonText: '확인',
       rightButtonClick: () => {
-        // TODO: 로그아웃 로직
-        console.log('로그아웃 완료');
-        navigate(PATH.HOME.BASE);
+        logout();
       },
     });
   };
@@ -45,7 +42,7 @@ const AccountSettingsPage = () => {
       <section className="flex flex-1 flex-col pt-[.5625rem]">
         <AccoutSettingsMenuButton
           title="아이디 변경"
-          subText={userProfile?.username}
+          subText={'@' + userProfile?.username}
           onClick={() => {
             navigate(PATH.MY.ACCOUNT_SETTING.ID);
           }}

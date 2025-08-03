@@ -10,67 +10,133 @@ import {
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { SellerProfileEditValues } from '@/types/seller/SellerProfile';
+import {
+  SellerEditProfileType,
+  SellerProfileType,
+} from '@/types/seller/SellerProfile.types';
 import { sellerProfileSchema } from '@/schemas/sellerProfileSchema';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, useWatch } from 'react-hook-form';
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
+import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
+import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
+import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
+import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
+import { useEffect, useMemo } from 'react';
+import { usePatchSellerProfile } from '@/services/seller/mutation/usePatchSellerProfile';
 
 const snsInputs = [
   {
     name: 'instagram',
-    placeholder: 'https://instagram.com/',
+    placeholder: 'https://www.instagram.com/',
     icon: (
-      <div
-        className="bg-grey02 h-6 w-6 border-0"
-        aria-label="인스타그램 아이콘"
-      />
+      <InstagramIcon className="text-grey10" aria-label="인스타그램 아이콘" />
     ),
   },
   {
     name: 'youtube',
     placeholder: 'https://www.youtube.com/',
-    icon: (
-      <div className="bg-grey02 h-6 w-6 border-0" aria-label="유튜브 아이콘" />
-    ),
+    icon: <YoutubeIcon className="text-grey10" aria-label="유튜브 아이콘" />,
   },
   {
     name: 'tiktok',
     placeholder: 'https://www.tiktok.com/@',
-    icon: (
-      <div className="bg-grey02 h-6 w-6 border-0" aria-label="틱톡 아이콘" />
-    ),
+    icon: <TiktokIcon className="text-grey10" aria-label="틱톡 아이콘" />,
   },
 ] as const;
 
-const sellerProfileMock: SellerProfileEditValues = {
-  backgroundImg: '',
-  profileImg: '',
-  nickname: '소현소현',
-  instagram: '',
-  youtube: '',
-  tiktok: 'https://www.tiktok.com/@소현소현',
-  email: 'influy@gmail.com',
-  isPublic: true,
-};
 const SellerMyProfileEditPage = () => {
   const navigate = useNavigate();
 
-  const methods = useForm<SellerProfileEditValues>({
+  const { data: sellerMyProfile } = useGetSellerProfile();
+
+  const methods = useForm<SellerProfileType>({
     resolver: standardSchemaResolver(sellerProfileSchema),
     mode: 'onChange',
     reValidateMode: 'onChange',
-    defaultValues: sellerProfileMock,
+    defaultValues: {
+      nickname: '',
+      backgroundImg: null,
+      profileImg: null,
+      instagram: 'https://www.instagram.com/',
+      tiktok: '',
+      youtube: '',
+      email: '',
+    },
   });
+
+  useEffect(() => {
+    if (sellerMyProfile)
+      methods.reset({
+        nickname: sellerMyProfile.nickname,
+        backgroundImg: sellerMyProfile.backgroundImg ?? null,
+        profileImg: sellerMyProfile.profileImg ?? null,
+        instagram: 'https://www.instagram.com/' + sellerMyProfile.instagram,
+        tiktok: sellerMyProfile.tiktok ?? '',
+        youtube: sellerMyProfile.youtube ?? '',
+        email: sellerMyProfile.email ?? '',
+      });
+  }, [sellerMyProfile]);
+
+  const watchedValues = useWatch({ control: methods.control });
+
+  const normalizeInstagram = (val?: string | null) =>
+    val && val !== ''
+      ? `https://www.instagram.com/${val}`
+      : 'https://www.instagram.com/';
+
+  const isFormChanged = useMemo(() => {
+    if (!sellerMyProfile) return false;
+
+    return (
+      watchedValues.nickname !== sellerMyProfile.nickname ||
+      watchedValues.email !== (sellerMyProfile.email ?? '') ||
+      watchedValues.instagram !==
+        normalizeInstagram(sellerMyProfile.instagram) ||
+      watchedValues.tiktok !== (sellerMyProfile.tiktok ?? '') ||
+      watchedValues.youtube !== (sellerMyProfile.youtube ?? '') ||
+      watchedValues.profileImg !== (sellerMyProfile.profileImg ?? null) ||
+      watchedValues.backgroundImg !== (sellerMyProfile.backgroundImg ?? null)
+    );
+  }, [watchedValues, sellerMyProfile]);
+
   const {
     handleSubmit,
-
     formState: { isSubmitting, isValid },
   } = methods;
 
-  const handleSubmitSuccess = async (formData: SellerProfileEditValues) => {
-    // 서버 제출용 데이터로 가공
-    console.log('성공: ', formData);
+  const { mutate: patchSellerProfile } = usePatchSellerProfile(() =>
+    navigate(-1)
+  );
+
+  const handleSubmitSuccess = async (formData: SellerProfileType) => {
+    const {
+      nickname,
+      profileImg,
+      backgroundImg,
+      email,
+      instagram,
+      tiktok,
+      youtube,
+    } = formData;
+
+    const isValid = (val: unknown): val is string =>
+      val !== undefined && val !== null && val !== '';
+
+    const formattedData: SellerEditProfileType = {
+      profile: {
+        nickname,
+        profileUrl: profileImg,
+      },
+      backgroundImg,
+      ...(isValid(email) && { email }),
+      instagram,
+      ...(isValid(tiktok) && { tiktok }),
+      ...(isValid(youtube) && { youtube }),
+    };
+
+    patchSellerProfile({ data: formattedData });
   };
+
   return (
     <FormProvider {...methods}>
       {/* 상단바 */}
@@ -103,10 +169,10 @@ const SellerMyProfileEditPage = () => {
 
           {/* nickname input */}
           <ProfileEditWrapper title="닉네임">
-            <FormLimitedTextInput<SellerProfileEditValues>
+            <FormLimitedTextInput<SellerProfileType>
               name="nickname"
               maxLength={8}
-              placeHolderContent="기존 nickname"
+              placeHolderContent="닉네임"
               rows={1}
             />
           </ProfileEditWrapper>
@@ -114,7 +180,7 @@ const SellerMyProfileEditPage = () => {
           {/* SNS inputs */}
           <ProfileEditWrapper title="SNS 설정">
             {snsInputs.map(({ name, placeholder, icon }) => (
-              <FormSNSInput<SellerProfileEditValues>
+              <FormSNSInput<SellerProfileType>
                 key={name}
                 name={name}
                 placeholder={placeholder}
@@ -125,7 +191,7 @@ const SellerMyProfileEditPage = () => {
 
           {/* email input */}
           <ProfileEditWrapper title="이메일">
-            <FormEmailInput<SellerProfileEditValues> name="email" />
+            <FormEmailInput<SellerProfileType> name="email" />
           </ProfileEditWrapper>
         </div>
 
@@ -134,8 +200,8 @@ const SellerMyProfileEditPage = () => {
           <DefaultButton
             type="submit"
             text="저장하기"
-            disabled={isSubmitting || !isValid}
-            useDisabled={false}
+            disabled={isSubmitting || !isValid || !isFormChanged}
+            useDisabled={true}
           />
         </section>
       </form>

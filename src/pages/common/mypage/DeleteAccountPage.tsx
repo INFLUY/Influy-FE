@@ -4,6 +4,7 @@ import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useModalStore } from '@/store/useModalStore';
 import { PATH } from '@/routes/path';
 import { useSnackbarStore } from '@/store/snackbarStore';
+import { useDeleteAccount } from '@/services/auth/mutation/useDeleteAccount';
 
 const DeleteAccountPage = () => {
   const navigate = useNavigate();
@@ -11,6 +12,10 @@ const DeleteAccountPage = () => {
   const isSeller = pathname.includes(PATH.SELLER.BASE);
   const { showModal } = useModalStore();
   const { showSnackbar } = useSnackbarStore();
+
+  const { mutate: deleteAccount } = useDeleteAccount(() => {
+    navigate(PATH.HOME.BASE);
+  });
 
   const handlePublicProfileClick = () => {
     // TODO: 백 연동
@@ -28,9 +33,7 @@ const DeleteAccountPage = () => {
       leftButtonText: '취소',
       rightButtonText: '탈퇴',
       rightButtonClick: () => {
-        // TODO: 삭제 로직
-        console.log('탈퇴 완료');
-        navigate(PATH.HOME.BASE);
+        deleteAccount();
       },
     });
   };
@@ -48,35 +51,38 @@ const DeleteAccountPage = () => {
         회원 탈퇴
       </PageHeader>
       <section className="flex flex-1 flex-col gap-14 px-5 py-[3.125rem]">
-        <article className="flex flex-col gap-6">
-          <div className="flex flex-col gap-[.5625rem] text-black">
-            <h1 className="subhead-sb">프로필을 비공개로 전환할 수 있어요.</h1>
-            <p className="caption-m">
-              프로필 공개 설정을 변경해 보세요. 비공개된 프로필은 일반 유저가 볼
-              수 없습니다. 언제든 공개로 전환할 수 있습니다.
-            </p>
-          </div>
-          <DefaultButton
-            text="프로필 비공개하기"
-            onClick={handlePublicProfileClick}
-          />
-        </article>
         {isSeller && (
           <article className="flex flex-col gap-6">
             <div className="flex flex-col gap-[.5625rem] text-black">
-              <h1 className="subhead-sb">정말 탈퇴하시겠습니까?</h1>
+              <h1 className="subhead-sb">
+                프로필을 비공개로 전환할 수 있어요.
+              </h1>
               <p className="caption-m">
-                탈퇴하면 현재 모든 정보가 삭제돼요. 다시 가입해도 삭제된 정보는
-                복구할 수 없어요.
+                프로필 공개 설정을 변경해 보세요. 비공개된 프로필은 일반 유저가
+                볼 수 없습니다. 언제든 공개로 전환할 수 있습니다.
               </p>
             </div>
             <DefaultButton
-              activeTheme="grey"
-              text="탈퇴하기"
-              onClick={handleDeleteAccountClick}
+              text="프로필 비공개하기"
+              onClick={handlePublicProfileClick}
             />
           </article>
         )}
+
+        <article className="flex flex-col gap-6">
+          <div className="flex flex-col gap-[.5625rem] text-black">
+            <h1 className="subhead-sb">정말 탈퇴하시겠습니까?</h1>
+            <p className="caption-m">
+              탈퇴하면 현재 모든 정보가 삭제돼요. 다시 가입해도 삭제된 정보는
+              복구할 수 없어요.
+            </p>
+          </div>
+          <DefaultButton
+            activeTheme="grey"
+            text="탈퇴하기"
+            onClick={handleDeleteAccountClick}
+          />
+        </article>
       </section>
     </div>
   );

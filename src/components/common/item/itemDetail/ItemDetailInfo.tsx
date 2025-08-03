@@ -1,5 +1,5 @@
 import { ItemDetail } from '@/types/common/ItemType.types';
-import { ItemDetailProfile } from '@/components';
+import { ItemDetailProfile, TimeChip } from '@/components';
 import { RefObject, useState } from 'react';
 import cn from '@/utils/cn';
 import DowndownArrowIcon from '@/assets/icon/common/DropdownArrow.svg?react';
@@ -10,7 +10,6 @@ import './customSwiper.css';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
-import getTimeChipText from '@/utils/getTimeChipText';
 
 export const ItemDetailInfo = ({
   data,
@@ -75,11 +74,13 @@ export const ItemDetailInfo = ({
       {/* <ItemDetailProfile seller={data.sellerInfo} /> */}
       <article className="border-grey02 mt-5 flex h-fit w-full flex-col gap-4 border-b-1 px-5 pb-6">
         {/* Time chip */}
-        <div className="caption-b flex h-[1.375rem] w-fit items-center justify-center rounded-[.0625rem] bg-[#FFEEEE] px-2.5 text-[#FF6666]">
-          {data.startDate && data.endDate
-            ? getTimeChipText({ open: data.startDate, deadline: data.endDate })
-            : '임시(디자인 수정 필요)'}
-        </div>
+        {data.startDate && data.endDate ? (
+          <TimeChip open={data.startDate} deadline={data.endDate} />
+        ) : (
+          <div className="caption-b flex h-[1.375rem] w-fit items-center justify-center rounded-[.0625rem] bg-[#FFEEEE] px-2.5 text-[#FF6666]">
+            임시(디자인 수정 필요)
+          </div>
+        )}
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col items-start gap-0.5 text-black">

@@ -20,11 +20,11 @@ export const CategoryMultiSelector = memo(
       name,
       control,
     });
-    const handleClickCategory = (category: string) => {
-      if (selectedList.includes(category)) {
-        onChange(selectedList.filter((item: string) => item !== category));
+    const handleClickCategory = (categoryId: number) => {
+      if (selectedList.includes(categoryId)) {
+        onChange(selectedList.filter((item: number) => item !== categoryId));
       } else if (selectedList.length < CATEGORY_MAX_COUNT) {
-        onChange([...selectedList, category]);
+        onChange([...selectedList, categoryId]);
       }
     };
 
@@ -36,8 +36,8 @@ export const CategoryMultiSelector = memo(
             <CategoryChip
               key={category.id}
               text={category.name}
-              isSelected={selectedList.includes(category.name)}
-              onToggle={() => handleClickCategory(category.name)}
+              isSelected={selectedList.includes(category.id)}
+              onToggle={() => handleClickCategory(category.id)}
             />
           ))}
         </div>
@@ -46,8 +46,8 @@ export const CategoryMultiSelector = memo(
             <CategoryChip
               key={category.id}
               text={category.name}
-              isSelected={selectedList.includes(category.name)}
-              onToggle={() => handleClickCategory(category.name)}
+              isSelected={selectedList.includes(category.id)}
+              onToggle={() => handleClickCategory(category.id)}
             />
           ))}
         </div>
@@ -56,8 +56,8 @@ export const CategoryMultiSelector = memo(
             <CategoryChip
               key={category.id}
               text={category.name}
-              isSelected={selectedList.includes(category.name)}
-              onToggle={() => handleClickCategory(category.name)}
+              isSelected={selectedList.includes(category.id)}
+              onToggle={() => handleClickCategory(category.id)}
             />
           ))}
         </div>
