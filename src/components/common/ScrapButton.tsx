@@ -55,12 +55,12 @@ export const ItemLikeButton = ({
   const { mutate: postLike } = usePostItemLike();
   const { mutate: patchLike } = usePatchItemLike();
 
-  const handleLikeClick = (e: React.MouseEvent) => {
+  const handleLikeClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
     postLike({ sellerId, itemId });
   };
 
-  const handleUnlikeClick = (e: React.MouseEvent) => {
+  const handleUnlikeClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
     patchLike({ sellerId, itemId });
   };

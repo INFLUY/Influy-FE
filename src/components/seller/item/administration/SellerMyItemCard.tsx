@@ -6,6 +6,7 @@ import { SellerItemPreviewList } from '@/types/common/ItemType.types';
 import { formatKrDate } from '@/utils/formatDate';
 import { EditStatusUnifiedChip, PeriodChip } from '@/components';
 import { isItemClosed } from '@/utils/dateUtils';
+import { PATH } from '@/routes/path';
 
 const SellerMyItemCard = ({
   item,
@@ -17,6 +18,38 @@ const SellerMyItemCard = ({
   openEditModal: () => void;
 }) => {
   const navigate = useNavigate();
+
+  const handleNavigateToTalkbox = (e: React.MouseEvent | React.TouchEvent) => {
+    e.stopPropagation();
+    console.log(item.talkBoxInfo.talkBoxOpenStatus);
+    if (item.talkBoxInfo.talkBoxOpenStatus === 'OPENED') {
+      navigate(
+        generatePath(
+          `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}`,
+          { itemId: String(item.itemId) }
+        )
+      );
+      return;
+    }
+    if (item.talkBoxInfo.talkBoxOpenStatus === 'INITIAL') {
+      navigate(
+        generatePath(
+          `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}/${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}`,
+          { itemId: String(item.itemId) }
+        )
+      );
+      return;
+    }
+    if (item.talkBoxInfo.talkBoxOpenStatus === 'CLOSED') {
+      navigate(
+        generatePath(
+          `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}/${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}/${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}`,
+          { itemId: String(item.itemId) }
+        )
+      );
+      return;
+    }
+  };
 
   return (
     <li
@@ -77,7 +110,7 @@ const SellerMyItemCard = ({
           {/* 톡박스 */}
           <div
             className="caption-m text-grey07 flex items-center justify-between"
-            onClick={() => {}}
+            onClick={handleNavigateToTalkbox}
           >
             {item?.talkBoxInfo.talkBoxOpenStatus !== 'OPENED' && (
               <>톡박스가 비활성화되어 있습니다.</>
