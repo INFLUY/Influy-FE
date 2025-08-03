@@ -30,9 +30,9 @@ export const itemSchema = z
       message: '마감일을 선택해 주세요.',
     }),
     //시작일
-    startISODateTime: z.string().nullable().optional(),
+    startISODateTime: z.iso.datetime().nullable().optional(),
     // 마감일
-    endISODateTime: z.string().nullable().optional(),
+    endISODateTime: z.iso.datetime().nullable().optional(),
     // 한 줄 소개
     summaryText: z
       .string()
