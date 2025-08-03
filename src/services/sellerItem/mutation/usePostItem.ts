@@ -33,7 +33,9 @@ export const usePostItem = (onSuccessCallback?: () => void) => {
             { sellerId, itemId: res.itemId },
           ],
         });
-        navigate(generatePath(SELLER_ITEM_DETAIL, { itemId: res.itemId }));
+        navigate(generatePath(SELLER_ITEM_DETAIL, { itemId: res.itemId }), {
+          replace: true,
+        });
       }
       onSuccessCallback?.();
     },

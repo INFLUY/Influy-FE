@@ -55,8 +55,8 @@ export interface ItemPostDetail {
   itemImgList: string[];
   name: string;
   itemCategoryIdList: string[];
-  startDate: string | null;
-  endDate: string | null;
+  startDate: string | undefined | null;
+  endDate: string | undefined | null;
   tagline: string;
   regularPrice?: number;
   salePrice?: number;

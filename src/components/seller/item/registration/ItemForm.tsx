@@ -101,7 +101,7 @@ export const ItemForm = ({
     }
   };
 
-  const formatDate = (dateString: string | null) => {
+  const formatDate = (dateString: string | undefined) => {
     if (!dateString) return '달력에서 시작일과 시간을 선택하세요.';
     const date = new Date(dateString);
     return date.toLocaleDateString('ko-KR', {
@@ -187,7 +187,7 @@ export const ItemForm = ({
                 type="button"
                 className="cursor-pointer"
               >
-                {!startISODateTime && hasStartDate ? (
+                {!hasStartDate ? (
                   <CheckBoxOnIcon className="h-4 w-4" />
                 ) : (
                   <CheckBoxOffIcon className="h-4 w-4" />
@@ -225,7 +225,7 @@ export const ItemForm = ({
                 className="cursor-pointer"
                 type="button"
               >
-                {!endISODateTime && hasEndDate ? (
+                {!hasEndDate ? (
                   <CheckBoxOnIcon className="h-4 w-4" />
                 ) : (
                   <CheckBoxOffIcon className="h-4 w-4" />

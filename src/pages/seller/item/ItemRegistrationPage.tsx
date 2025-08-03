@@ -6,7 +6,7 @@ import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { itemSchema, requiredFieldsSchema } from '@/schemas/itemSchema';
 import { ItemFormValues } from '@/types/item.types';
 import { DefaultButton, Tab, Tabs } from '@/components';
-import { useRef, RefObject } from 'react';
+import { useRef, RefObject, useEffect } from 'react';
 import { PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
@@ -20,6 +20,8 @@ import { SELLER_ITEM_DETAIL } from '@/utils/generatePath';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { usePostItem } from '@/services/sellerItem/mutation/usePostItem';
 import { usePutItem } from '@/services/sellerItem/mutation/usePutItem';
+import { useGetMarketItemDetail } from '@/services/sellerItem/query/useGetMarketItemDetail';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
 export const dummyCategory: CategoryType[] = [
   { id: 0, name: '사이즈' },
@@ -56,6 +58,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { sellerId } = useStrictId();
 
   // 필수 요소 미입력시 스크롤 이동을 위한 ref
   const imagesFieldRef = useRef<HTMLDivElement | null>(null);
@@ -66,26 +69,56 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
   // 페이지 진입시 스크롤 상단으로 이동
   const scrollViewRef = useScrollToTop();
 
+  const isEditMode = mode === 'edit';
+  const { itemId } = useParams();
+  const numericItemId = itemId ? Number(itemId) : undefined;
+
+  const { data: prevItemData } = useGetMarketItemDetail(
+    sellerId!,
+    numericItemId
+  );
+
   // useForm에 Zod 스키마 적용
   const methods = useForm<ItemFormValues>({
     resolver: standardSchemaResolver(itemSchema),
     mode: 'onSubmit',
     reValidateMode: 'onChange',
-    shouldFocusError: false, //에러시 자동 포커스 false -> 수동으로 에러 항목으로 스크롤
+    shouldFocusError: false, // 에러시 자동 포커스 false -> 수동으로 에러 항목으로 스크롤
     defaultValues: {
       images: [],
       titleText: '',
       selectedCategoryList: [],
-      hasStartDate: false,
-      hasEndDate: false,
-      startISODateTime: '',
-      endISODateTime: '',
+      hasStartDate: true,
+      hasEndDate: true,
+      startISODateTime: undefined,
+      endISODateTime: undefined,
       summaryText: '',
+      price: undefined,
+      salePrice: undefined,
       linkText: '',
-      period: null,
+      period: undefined,
       commentText: '',
     },
   });
+
+  useEffect(() => {
+    if (prevItemData)
+      methods.reset({
+        images: prevItemData.itemImgList ?? [],
+        titleText: prevItemData.itemName ?? '',
+        selectedCategoryList: [],
+        hasStartDate: prevItemData.startDate === null ? false : true,
+        hasEndDate: prevItemData.startDate === null ? false : true,
+        startISODateTime: prevItemData.startDate ?? undefined,
+        endISODateTime: prevItemData.endDate ?? undefined,
+        summaryText: prevItemData.tagline ?? '',
+        price: prevItemData.regularPrice ?? undefined,
+        salePrice: prevItemData.salePrice ?? undefined,
+        linkText: prevItemData.marketLink ?? '',
+        period: prevItemData.itemPeriod ?? 1,
+        commentText: prevItemData.comment ?? '',
+      });
+  }, [prevItemData]);
 
   const {
     handleSubmit,
@@ -115,8 +148,6 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       path: `${PATH.SELLER.ITEM.ITEM_ID.EDIT.TABS.FAQ}`,
     },
   ];
-  const isEditMode = mode === 'edit';
-  const { itemId } = useParams();
 
   const TABS = isEditMode ? EDIT_TABS : REGISTER_TABS;
 
@@ -174,6 +205,9 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       name: 'hasEndDate',
       ref: endDateFieldRef,
     },
+    {
+      name: 'summaryText',
+    },
   ];
 
   const validationFieldsRef: fieldsToCheck<keyof ItemFormValues>[] = [
@@ -200,12 +234,14 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       itemImgList: formData.images,
       name: formData.titleText,
       itemCategoryIdList: formData.selectedCategoryList.map(String),
-      startDate: formData.startISODateTime,
-      endDate: formData.endISODateTime,
+      startDate: formData.hasStartDate ? formData.startISODateTime : null,
+      endDate: formData.hasEndDate ? formData.endISODateTime : null,
       tagline: formData.summaryText,
       ...(isValid(formData.price) && { regularPrice: formData.price }),
       ...(isValid(formData.salePrice) && { salePrice: formData.salePrice }),
       ...(isValid(formData.linkText) && { marketLink: formData.linkText }),
+      ...(isValid(formData.price) && { regularPrice: formData.price }),
+      ...(isValid(formData.salePrice) && { salePrice: formData.salePrice }),
       itemPeriod: formData.period ?? 1,
       ...(isValid(formData.commentText) && { comment: formData.commentText }),
       isArchived: false,
@@ -266,6 +302,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       return;
     }
 
+    // TODO: 보관하기 백 연동
     //임시
     const itemId: number = 1;
 
