@@ -32,7 +32,10 @@ export const PATH = {
     MORE: {
       ENDING_SOON: 'ending-soon',
       // trending: 'trending',
-      CATEGORY: 'category',
+      CATEGORY: {
+        BASE: 'category',
+        DETAIL: ':categoryId',
+      },
     },
   },
   LIKE: {

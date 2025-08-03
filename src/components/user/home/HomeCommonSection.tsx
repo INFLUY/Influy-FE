@@ -9,6 +9,7 @@ import { PATH } from '@/routes/path';
 import { ItemCardType } from '@/types/common/ItemType.types';
 import { ITEM_DETAIL } from '@/utils/generatePath';
 import { CategoryType } from '@/types/common/CategoryType.types';
+import cn from '@/utils/cn';
 
 const HomeCommonSection = ({
   expiringItem,
@@ -38,7 +39,12 @@ const HomeCommonSection = ({
           }}
         />
         {expiringItem.length > 0 ? (
-          <div className="grid grid-cols-2 grid-rows-2 gap-x-[.1875rem] gap-y-8">
+          <div
+            className={cn(
+              'grid grid-cols-2 gap-x-[.1875rem] gap-y-8',
+              expiringItem.length <= 2 ? 'grid-rows-1' : 'grid-rows-2'
+            )}
+          >
             {expiringItem.map((item) => (
               <ItemAlbumCard
                 key={item.itemId}
@@ -95,7 +101,14 @@ const HomeCommonSection = ({
           title="카테고리별 추천"
           itemLength={recommendedItem.length}
           onClickMore={() => {
-            navigate(PATH.HOME.MORE.CATEGORY);
+            navigate(
+              generatePath(
+                `${PATH.HOME.MORE.CATEGORY.BASE}/${PATH.HOME.MORE.CATEGORY.DETAIL}`,
+                {
+                  categoryId: String(selectedCategory),
+                }
+              )
+            );
           }}
         />
         <div className="scrollbar-hide flex w-full flex-nowrap items-center gap-2 overflow-x-scroll px-5">
@@ -112,7 +125,12 @@ const HomeCommonSection = ({
             ))}
         </div>
         {recommendedItem.length > 0 ? (
-          <div className="grid grid-cols-2 grid-rows-2 gap-x-[.1875rem] gap-y-8">
+          <div
+            className={cn(
+              'grid grid-cols-2 gap-x-[.1875rem] gap-y-8',
+              expiringItem.length <= 2 ? 'grid-rows-1' : 'grid-rows-2'
+            )}
+          >
             {recommendedItem.map((item) => (
               <ItemAlbumCard
                 key={item.itemId}

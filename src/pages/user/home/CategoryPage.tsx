@@ -7,7 +7,7 @@ import {
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
-import { generatePath, useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import { ITEM_DETAIL } from '@/utils/generatePath';
 import { CategoryType } from '@/types/common/CategoryType.types';
@@ -15,15 +15,26 @@ import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
 import { useGetRecommendedItem } from '@/services/home/query/useGetRecommendedItem';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { ItemCardType } from '@/types/common/ItemType.types';
+import NotFound from '@/pages/error/NotFound';
 
 const CategoryPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
-  const { data: itemCategories } = useGetItemCategory();
+  const { categoryId } = useParams();
+  const [selectedCategory, setSelectedCategory] = useState<number>(
+    categoryId ? Number(categoryId) : 0
+  );
+  const { data: itemCategories, isLoading: isCategoryLoading } =
+    useGetItemCategory();
   const allCategoryDto = {
     id: 0,
     name: '전체',
   };
   const navigate = useNavigate();
+
+  const isValidCategory =
+    Number(categoryId) === 0 ||
+    itemCategories?.categoryDtoList?.some(
+      (cat) => cat.id === Number(categoryId)
+    );
 
   const {
     data: recommendItems,
@@ -33,6 +44,7 @@ const CategoryPage = () => {
   } = useGetRecommendedItem({
     categoryId: selectedCategory === 0 ? null : selectedCategory,
     size: 8,
+    enabled: !isCategoryLoading && isValidCategory,
   });
 
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -47,6 +59,10 @@ const CategoryPage = () => {
   const itemList = recommendItems?.pages
     .flatMap((page) => page?.itemPreviewList ?? [])
     .filter(Boolean) as ItemCardType[];
+
+  if (!isCategoryLoading && !isValidCategory) {
+    return <NotFound />;
+  }
 
   return (
     <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col gap-3 overflow-x-hidden overflow-y-auto pt-11">
@@ -75,7 +91,10 @@ const CategoryPage = () => {
               key={category.id}
               text={category.name}
               isSelected={selectedCategory === category.id}
-              onToggle={() => setSelectedCategory(category.id)}
+              onToggle={() => {
+                setSelectedCategory(category.id);
+                navigate(`../${category.id}`, { replace: true });
+              }}
               theme="home"
             />
           )

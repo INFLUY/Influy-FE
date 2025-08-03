@@ -5,14 +5,17 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 export const useGetRecommendedItem = ({
   categoryId,
   size = 10,
+  enabled = true,
 }: {
   categoryId: number | null;
   size?: number;
+  enabled?: boolean;
 }) => {
   const query = useInfiniteQuery({
     queryKey: [QUERY_KEYS.HOME_RECOMMEND, categoryId],
     staleTime: 10 * 60 * 1000,
     gcTime: 15 * 60 * 1000,
+    enabled,
     queryFn: async ({ pageParam = 1 }) => {
       return getRecommendedItem({
         page: pageParam,
