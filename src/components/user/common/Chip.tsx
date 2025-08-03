@@ -39,35 +39,80 @@ export const TimeChip = ({
   open,
   deadline,
 }: {
-  open: string;
-  deadline: string;
+  open: string | null;
+  deadline: string | null;
 }): React.ReactNode | null => {
   const now = new Date();
-  const openTime = parseISOString(open);
-  const closeTime = parseISOString(deadline);
 
-  const timeUntilOpen = openTime.getTime() - now.getTime();
-  const timeUntilClose = closeTime.getTime() - now.getTime();
+  // 시작일, 마감일 모두 없음
+  if (open === null && deadline === null) {
+    return <Chip theme="red">NOW OPEN</Chip>;
+  }
 
-  if (timeUntilOpen <= 0 && timeUntilClose <= 0) return null;
+  // 시작일 없음, 마감일 있음
+  if (open === null && deadline !== null) {
+    const closeTime = parseISOString(deadline);
+    const timeUntilClose = closeTime.getTime() - now.getTime();
+    if (timeUntilClose <= 0) return null;
 
-  // 오픈 전
-  if (timeUntilOpen > 0) {
+    const daysUntilClose = getDday(closeTime) - 1;
+    if (daysUntilClose >= 1) return <Chip theme="red">NOW OPEN</Chip>;
+
+    if (daysUntilClose === 0) {
+      const { hours, minutes, seconds } = getTimeLeft(closeTime);
+      return (
+        <Chip theme="light-red">{`${hours}:${minutes}:${seconds} LEFT`}</Chip>
+      );
+    }
+
+    return null;
+  }
+
+  // 시작일 있음, 마감일 없음
+  if (open !== null && deadline === null) {
+    const openTime = parseISOString(open);
+    if (now.getTime() >= openTime.getTime()) {
+      return <Chip theme="red">NOW OPEN</Chip>;
+    }
+
     const text = isToday({ d1: openTime })
       ? `${formatTime({ date: openTime })} OPEN`
-      : `D-${getDday(closeTime)}`;
+      : `D-${getDday(openTime)}`;
+
     return <Chip theme="blue">{text}</Chip>;
   }
 
-  // 오픈 후
-  const daysUntilClose = getDday(closeTime) - 1;
-  if (daysUntilClose >= 1) return <Chip theme="red">NOW OPEN</Chip>;
+  // 시작일, 마감일 모두 있음
+  if (open !== null && deadline !== null) {
+    const openTime = parseISOString(open);
+    const closeTime = parseISOString(deadline);
 
-  if (daysUntilClose === 0 && timeUntilClose > 0) {
-    const { hours, minutes, seconds } = getTimeLeft(closeTime);
-    return (
-      <Chip theme="light-red">{`${hours}:${minutes}:${seconds} LEFT`}</Chip>
-    );
+    const timeUntilOpen = openTime.getTime() - now.getTime();
+    const timeUntilClose = closeTime.getTime() - now.getTime();
+
+    // 오픈 전
+    if (timeUntilOpen > 0) {
+      const text = isToday({ d1: openTime })
+        ? `${formatTime({ date: openTime })} OPEN`
+        : `D-${getDday(openTime)}`;
+      return <Chip theme="blue">{text}</Chip>;
+    }
+
+    // 마감됨
+    if (timeUntilClose <= 0) return null;
+
+    // 마감 전
+    const daysUntilClose = getDday(closeTime) - 1;
+    if (daysUntilClose >= 1) return <Chip theme="red">NOW OPEN</Chip>;
+
+    if (daysUntilClose === 0) {
+      const { hours, minutes, seconds } = getTimeLeft(closeTime);
+      return (
+        <Chip theme="light-red">{`${hours}:${minutes}:${seconds} LEFT`}</Chip>
+      );
+    }
+
+    return null;
   }
 
   return null;

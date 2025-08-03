@@ -82,10 +82,7 @@ export { ToolTip } from './seller/common/ToolTip.tsx';
 //item
 export { default as EmptyCategoryPlaceholder } from './seller/item/EmptyCategoryPlaceholder';
 export { CategoryMultiSelector } from './seller/item/registration/CategoryMultiSelector';
-export {
-  EditTimeChip,
-  EditSoldOutChip,
-} from './seller/item/administration/EditStatusChip';
+export { EditStatusUnifiedChip } from './seller/item/administration/EditStatusChip';
 export { default as ExternalLinkBottomSheet } from './seller/item/administration/ExternalLinkBottomSheet';
 export { default as AdminItemBottomSheet } from './seller/item/administration/AdminItemBottomSheet';
 export { default as SellerMyItemCard } from './seller/item/administration/SellerMyItemCard.tsx';

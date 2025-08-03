@@ -6,6 +6,7 @@ import {
 } from '@/components';
 import { ItemPreviewList } from '@/types/common/ItemType.types';
 import cn from '@/utils/cn';
+import { isItemClosed } from '@/utils/dateUtils';
 
 export const ItemGridCard = ({ item }: { item: ItemPreviewList }) => {
   return (
@@ -22,7 +23,7 @@ export const ItemGridCard = ({ item }: { item: ItemPreviewList }) => {
           sellerId={item.sellerId}
           itemId={item.itemId}
         />
-        {item.currentStatus === 'SOLD_OUT' && (
+        {isItemClosed(item.endDate) && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
             마감
           </div>
@@ -34,7 +35,7 @@ export const ItemGridCard = ({ item }: { item: ItemPreviewList }) => {
           </div>
         ) : (
           <div className="absolute bottom-0 left-0 flex flex-wrap">
-            <TimeChip open={item.startDate!} deadline={item.endDate!} />
+            <TimeChip open={item.startDate} deadline={item.endDate} />
             <ExtendChip
               extend={item.currentStatus === 'EXTEND'}
               deadline={item.endDate!}

@@ -3,6 +3,7 @@ import { ItemCardType } from '@/types/common/ItemType.types';
 import { SoldOutChip, TimeChip, PeriodChip } from '@/components';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 import { ItemLikeButton } from '@/components';
+import { isItemClosed } from '@/utils/dateUtils';
 
 const ItemAlbumCard = ({
   item,
@@ -29,7 +30,7 @@ const ItemAlbumCard = ({
           itemId={item.itemId}
           additionalStyles="absolute top-2 right-3"
         />
-        {item.currentStatus === 'SOLD_OUT' && (
+        {isItemClosed(item.endDate) && (
           <div className="body2-m pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
             마감
           </div>
@@ -37,15 +38,15 @@ const ItemAlbumCard = ({
 
         <div className="absolute bottom-0 left-0 flex flex-wrap">
           {item.currentStatus === 'SOLD_OUT' ? (
-            // 마감 상품의 경우
+            // 솔드아웃 상품의 경우
             <SoldOutChip />
           ) : (
             // 좌측 하단 회차 및 시간 칩
             <>
-              {item.itemPeriod && <PeriodChip period={item.itemPeriod} />}
+              <PeriodChip period={item.itemPeriod} />
               <TimeChip
-                open={item.startDate || '2025-07-09T00:00:00.000Z'} //추후 수정
-                deadline={item.endDate || '2025-07-31T00:00:00.000Z'}
+                open={item.startDate ?? undefined}
+                deadline={item.endDate ?? undefined}
               />
             </>
           )}
