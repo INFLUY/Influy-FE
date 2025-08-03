@@ -13,7 +13,9 @@ const sellerTabRouteMap: Record<string, string[]> = {
   [`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`]: [
     `${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`,
   ],
-  [`${PATH.SELLER.BASE}/talk-box`]: [`${PATH.SELLER.BASE}/talk-box`],
+  [`${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}`]: [
+    `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.LIST}`,
+  ],
   [`${PATH.SELLER.BASE}/${PATH.SELLER.CALENDER.BASE}`]: [
     `${PATH.SELLER.BASE}/${PATH.SELLER.CALENDER.BASE}`,
   ],
@@ -97,7 +99,7 @@ const sellerNavItems: BottomNavItem[] = [
     aria: '홈',
   },
   {
-    to: `${PATH.SELLER.BASE}/talk-box`,
+    to: `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}`,
     label: '톡박스',
     icon: <TalkBoxIcon className="h-6 w-6" />,
     aria: '톡박스',

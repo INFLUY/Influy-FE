@@ -1,0 +1,21 @@
+.talk-box-swiper-section .swiper-pagination {
+  display: flex !important;
+  justify-content: center !important;
+  margin: 1.125rem 0rem 0.75rem;
+
+  position: relative;
+  gap: 0.25rem;
+  top: 0;
+}
+.talk-box-swiper-section .custom-bullet {
+  display: block;
+  height: 0.125rem !important;
+  width: 0.75rem;
+  border-radius: 0 !important;
+  background-color: #adadad !important;
+  opacity: 1 !important;
+  margin: 0 !important;
+}
+.talk-box-swiper-section .swiper-pagination-bullet-active {
+  background-color: black !important;
+}

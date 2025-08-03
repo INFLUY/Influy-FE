@@ -46,6 +46,18 @@ import {
   SupportFaqPage,
   SellerSettingsPage,
   SellerAccountSettingsPage,
+  SellerTalkBoxItemListPage,
+  BulkReplyPage,
+  QuestionsListPage,
+  PendingQuestionsTab,
+  AnsweredQuestionsTab,
+  TalkBoxCategoryPage,
+  TalkBoxSettingPage,
+  OnboardingIntroPage,
+  DefaultMessageSettingPage,
+  PendingCategoryTab,
+  AnsweredCategoryTab,
+  OnboardingLayout,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -547,6 +559,128 @@ const router = createBrowserRouter([
                         ],
                       },
                     ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            path: PATH.SELLER.TALK_BOX.BASE, // /talk-box
+            element: <Outlet />,
+            children: [
+              // 1. /talk-box/list
+              {
+                index: true,
+                element: <Navigate to={PATH.SELLER.TALK_BOX.LIST} replace />,
+              },
+              {
+                index: true,
+                path: PATH.SELLER.TALK_BOX.LIST,
+                element: <SellerTalkBoxItemListPage />,
+              },
+
+              // 2. /talk-box/item/:itemId
+              {
+                path: PATH.SELLER.TALK_BOX.ITEM.BASE, // item/:itemId
+                element: <Outlet />,
+                // element: (
+
+                // ),
+                children: [
+                  {
+                    element: (
+                      <TalkBoxCategoryPage>
+                        <Outlet />
+                      </TalkBoxCategoryPage>
+                    ),
+                    children: [
+                      {
+                        index: true,
+                        element: (
+                          <Navigate
+                            to={PATH.SELLER.TALK_BOX.ITEM.TABS.PENDING}
+                            replace
+                          />
+                        ),
+                      },
+                      {
+                        path: PATH.SELLER.TALK_BOX.ITEM.TABS.PENDING, // pending
+                        element: <PendingCategoryTab />,
+                      },
+                      {
+                        path: PATH.SELLER.TALK_BOX.ITEM.TABS.ANSWERED, // answered
+                        element: <AnsweredCategoryTab />,
+                      },
+                    ],
+                  },
+
+                  // /talk-box/item/:itemId/category/:categoryId
+                  {
+                    path: PATH.SELLER.TALK_BOX.ITEM.CATEGORY.BASE, // category/:categoryId
+                    element: <Outlet />,
+                    children: [
+                      {
+                        element: (
+                          <QuestionsListPage>
+                            <Outlet />
+                          </QuestionsListPage>
+                        ),
+                        children: [
+                          {
+                            index: true,
+                            element: (
+                              <Navigate
+                                to={
+                                  PATH.SELLER.TALK_BOX.ITEM.CATEGORY.TABS
+                                    .PENDING
+                                }
+                                replace
+                              />
+                            ),
+                          },
+                          {
+                            path: PATH.SELLER.TALK_BOX.ITEM.CATEGORY.TABS
+                              .PENDING,
+                            element: <PendingQuestionsTab />,
+                          },
+                          {
+                            path: PATH.SELLER.TALK_BOX.ITEM.CATEGORY.TABS
+                              .ANSWERED,
+                            element: <AnsweredQuestionsTab />,
+                          },
+                        ],
+                      },
+                      {
+                        path: PATH.SELLER.TALK_BOX.ITEM.CATEGORY.BULK_REPLY,
+                        element: <BulkReplyPage />,
+                      },
+                    ],
+                  },
+                  {
+                    path: PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE,
+                    element: <Outlet />,
+                    children: [
+                      { index: true, element: <TalkBoxSettingPage /> },
+                      {
+                        index: true,
+                        path: PATH.SELLER.TALK_BOX.ITEM.SETTING.DEFAULT_MESSAGE,
+                        element: <DefaultMessageSettingPage />,
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                path: PATH.SELLER.TALK_BOX.ONBOARDING.BASE,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    element: <OnboardingIntroPage />,
+                  },
+                  {
+                    path: PATH.SELLER.TALK_BOX.ONBOARDING.START,
+                    element: <OnboardingLayout />,
                   },
                 ],
               },

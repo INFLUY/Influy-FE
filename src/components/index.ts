@@ -21,7 +21,9 @@ export {
   LimitedTextInput,
   WideTextArea,
   LinkInput,
+  LimitedWideTextArea,
 } from './common/DetailInput.tsx';
+export { default as ChatBarTextArea } from './common/ChatBarTextArea.tsx';
 export { PeriodChip } from './common/chip/PeriodChip.tsx';
 export { default as CloseComponent } from './common/auth/CloseComponent.tsx';
 
@@ -46,6 +48,10 @@ export { default as SellerNoticeBottomSheet } from './user/seller/SellerNoticeBo
 
 // user/home
 export { default as TopBannerSwiper } from './user/home/TopBannerSwiper.tsx';
+
+//common/talkBox
+export { TalkBoxSellerProfile } from './common/talkBox/TalkBoxSellerProfile.tsx';
+export { FirstChatBubble } from './common/talkBox/ChatBubble.tsx';
 export { HomeSectionTitle } from './user/home/HomeSectionTitle.tsx';
 export { default as HomeCommonSection } from './user/home/HomeCommonSection.tsx';
 export { MoreButton } from './user/home/MoreButton.tsx';
@@ -59,7 +65,12 @@ export { default as AccoutSettingsMenuButton } from './user/my/AccoutSettingsMen
   /* seller */
 }
 //common
-export { DefaultButton, ModalButton, AddButton } from './seller/common/Button';
+export {
+  DefaultButton,
+  ModalButton,
+  AddButton,
+  PreviewButton,
+} from './seller/common/Button';
 export { TipTooltip } from './seller/common/TipTooltip';
 export { default as CategoryChip } from './seller/common/CategoryChip';
 export { default as RadioInputSelector } from './seller/common/RadioInputSelector';
@@ -78,6 +89,7 @@ export {
 } from './common/FormTextInput';
 export { default as VisibilityBottomSheet } from './seller/common/VisibilityBottomSheet.tsx';
 export { ToolTip } from './seller/common/ToolTip.tsx';
+export { default as QuestionCountBadge } from './seller/common/QuestionCountBadge';
 
 //item
 export { default as EmptyCategoryPlaceholder } from './seller/item/EmptyCategoryPlaceholder';
@@ -122,3 +134,21 @@ export { ItemForm } from './seller/item/registration/ItemForm.tsx';
 // home
 export { default as MyProductStatus } from './seller/home/MyProductStatus.tsx';
 export { default as UserTypeSwitchBanner } from './seller/home/UserTypeSwitchBanner.tsx';
+
+// talk box
+export {
+  TalkBoxItemCard,
+  TalkBoxBottomItemCard,
+  TalkBoxQuestionItemCard,
+} from './seller/talkBox/TalkBoxItemCard';
+export { TalkBoxCategoryItem } from './seller/talkBox/TalkBoxCategoryItem';
+export { SubCategoryChip } from './seller/talkBox/SubCategoryChip';
+export { default as QuestionChatBubble } from './seller/talkBox/QuestionChatBubble';
+export { default as SellerReplyBubble } from './seller/talkBox/SellerReplyBubble';
+export { default as TalkBoxBottomSheetLayout } from './seller/talkBox/TalkBoxBottomSheetLayout';
+export { OnboardingLottieSwiper } from './seller/talkBox/onboarding/LottieViewer.tsx';
+export { default as PrevReplyBottomSheet } from './seller/talkBox/PrevReplyBottomSheet';
+export { default as SingleQuestionBottomSheet } from './seller/talkBox/SingleQuestionBottomSheet';
+export { QuestionListHeader } from './seller/talkBox/questionList/QuestionListHeader';
+export { InfiniteQuestionList } from './seller/talkBox/questionList/InfiniteQuestionList';
+export { ItemClosedBanner } from './seller/talkBox/ItemClosedBanner.tsx';

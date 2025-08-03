@@ -85,3 +85,46 @@ export type ItemPreviewList = {
   liked: false;
   mainImg: string;
 };
+
+export interface ItemOverviewDTO {
+  id: number;
+  itemName: string;
+  tagline: string;
+  mainImg: string;
+  talkBoxOpenStatus: TalkBoxOpenStatus;
+}
+export type TalkBoxOpenStatus = 'INITIAL' | 'OPENED' | 'CLOSED';
+
+export interface TalkBoxOpenStatusResponse {
+  itemId: number;
+  status: TalkBoxOpenStatus;
+}
+
+export interface TalkBoxOpenedListDTO {
+  talkBoxOpenedDtoList: TalkBoxOpenedItem[];
+  cnt: number;
+  isItemExist: boolean;
+}
+
+export interface TalkBoxOpenedItem {
+  itemId: number;
+  itemMainImg: string;
+  itemName: string;
+  talkBoxCntInfo: TalkBoxCntInfo;
+  newCnt: number;
+}
+
+export interface TalkBoxCntInfo {
+  talkBoxOpenStatus: TalkBoxOpenStatus;
+  waitingCnt: number;
+  completedCnt: number;
+}
+
+export interface TalkBoxCommentDTO {
+  sellerId: number;
+  sellerProfileImg: string;
+  sellerUsername: string;
+  sellerNickname: string;
+  createdAt: string; // ISO 8601 datetime string
+  talkBoxComment: string;
+}

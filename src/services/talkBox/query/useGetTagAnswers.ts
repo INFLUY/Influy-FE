@@ -1,0 +1,24 @@
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { getTagAnswers } from '@/api/talkBox/handleSellerTalkBoxAnswer';
+import { QUERY_KEYS } from '@/constants/api';
+
+export const useGetTagAnswers = ({
+  itemId,
+  questionCategoryId,
+  questionTagId,
+}: {
+  itemId: number;
+  questionCategoryId: number;
+  questionTagId: number;
+}) => {
+  return useSuspenseQuery({
+    queryKey: [
+      QUERY_KEYS.SELLER_TAG_ANSWER_LIST,
+      itemId,
+      questionCategoryId,
+      questionTagId,
+    ],
+    queryFn: () => getTagAnswers({ itemId, questionCategoryId, questionTagId }),
+    staleTime: 5 * 60 * 1000,
+  });
+};

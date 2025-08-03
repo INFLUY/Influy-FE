@@ -5,6 +5,7 @@ import {
   CategoryChip,
   VisibilityBottomSheet,
   LoadingSpinner,
+  ToolTip,
 } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
@@ -18,6 +19,8 @@ import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { dummyCategory, dummyFaq, dummyItem } from './ItemDetailDummyData';
 import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
 import { CategoryType } from '@/types/common/CategoryType.types';
+import TalkBoxIcon from '@/assets/icon/common/TalkBoxIcon.svg?react';
+import { PATH } from '@/routes/path';
 
 const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/ItemDetailFaqCard')
@@ -184,7 +187,32 @@ const ItemDetailPage = () => {
         <Suspense fallback={<LoadingSpinner />}>
           <ItemDetailFaqCard faqList={dummyFaq} />
         </Suspense>
+        {/* 톡박스 플로팅 버튼 */}
+        {/* TODO: 오픈 상태에 따른 버튼 색상 변경 */}
+        <div className="pointer-events-none fixed right-5 bottom-20 z-[1] flex flex-col items-end gap-1.5">
+          <ToolTip
+            text="이 제품의 질문에 답변해 주세요."
+            position="right"
+            additionalStyles="pointer-events-none"
+          />
+          {itemId && (
+            <button
+              type="button"
+              onClick={() => {
+                const path = generatePath(
+                  `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}`,
+                  { itemId }
+                );
+                navigate(path);
+              }}
+              className="pointer-events-auto flex aspect-[1/1] h-11 w-11 flex-col items-center justify-center rounded-full bg-black shadow-[0_.25rem_1.125rem_0_rgba(0,0,0,0.25)]"
+            >
+              <TalkBoxIcon className="h-6 w-6 text-white" />
+            </button>
+          )}
+        </div>
       </section>
+
       <BottomNavBar items={detailBottomNavItems} type="action" />
       {isBottomSheetOpen && (
         <VisibilityBottomSheet
