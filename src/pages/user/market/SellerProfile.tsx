@@ -170,7 +170,8 @@ const SellerProfile = ({
         <SellerProfileHeader
           name={marketInfo.sellerProfile.nickname}
           id={marketInfo.sellerProfile.username}
-          seller={seller}
+          sellerId={marketId}
+          isSeller={seller}
         />
         {marketInfo?.sellerProfile.backgroundImg && (
           <img
