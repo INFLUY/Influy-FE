@@ -14,7 +14,7 @@ export type SellerItemPreviewList = {
     waitingCnt: number;
     completedCnt: number;
   };
-  mainImg: string;
+  mainImg: string | null;
 };
 
 export interface ItemCardType {
