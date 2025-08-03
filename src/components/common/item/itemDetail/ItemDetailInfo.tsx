@@ -72,7 +72,7 @@ export const ItemDetailInfo = ({
           </div>
         )}
       </div>
-      <ItemDetailProfile seller={data.sellerInfo} />
+      {/* <ItemDetailProfile seller={data.sellerInfo} /> */}
       <article className="border-grey02 mt-5 flex h-fit w-full flex-col gap-4 border-b-1 px-5 pb-6">
         {/* Time chip */}
         <div className="caption-b flex h-[1.375rem] w-fit items-center justify-center rounded-[.0625rem] bg-[#FFEEEE] px-2.5 text-[#FF6666]">
@@ -111,7 +111,7 @@ export const ItemDetailInfo = ({
             <div className="flex flex-col items-start">
               {data.salePrice && (
                 <span className="text-grey06 body2-m line-through">
-                  {data.salePrice.toLocaleString()}
+                  {data.regularPrice.toLocaleString()}
                 </span>
               )}
 
@@ -120,7 +120,9 @@ export const ItemDetailInfo = ({
                   <h3 className="text-main">{discountRate}% </h3>
                 )}
                 <h3 className="text-black">
-                  {data.regularPrice.toLocaleString()}원
+                  {data.salePrice?.toLocaleString() ??
+                    data.regularPrice.toLocaleString()}
+                  원
                 </h3>
               </div>
             </div>
@@ -133,9 +135,9 @@ export const ItemDetailInfo = ({
         <article className="w-full px-5 pt-6">
           <p className="body1-b text-grey11">COMMENT</p>
           <div className="flex flex-col items-start gap-2.5 self-stretch">
-            <p className="body2-sb text-sub">
+            {/* <p className="body2-sb text-sub">
               @{data.sellerInfo.instagram}님이 직접 등록한 정보예요!
-            </p>
+            </p> */}
             <p
               className={cn(
                 'body2-m whitespace-pre-line text-black transition-all duration-3000',

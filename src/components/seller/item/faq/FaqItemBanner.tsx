@@ -9,7 +9,7 @@ const FaqItemBanner = ({
   sellerId: number;
   itemId: number;
 }) => {
-  const { data: itemData } = useGetMarketItemDetail(sellerId, itemId);
+  const { data: itemData } = useGetMarketItemDetail({ sellerId, itemId });
   const nameRef = useRef<HTMLSpanElement>(null);
   const [isTwoLines, setIsTwoLines] = useState(false);
 

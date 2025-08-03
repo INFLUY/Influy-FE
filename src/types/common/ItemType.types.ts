@@ -55,7 +55,6 @@ export interface ItemDetail {
   comment: string | null;
   regularPrice: number | null;
   salePrice: number | null;
-  sellerInfo: SellerCard;
 }
 
 export interface SellerCard {

@@ -2,9 +2,7 @@ import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 
 import {
   PageHeader,
-  BottomNavBar,
   CategoryChip,
-  VisibilityBottomSheet,
   LoadingSpinner,
   ToolTip,
 } from '@/components';
@@ -32,6 +30,9 @@ import { useScrollToTop } from '@/hooks/useScrollToTop';
 // 임시
 import { dummyCategory, dummyFaq, dummyItem } from './ItemDetailDummyData';
 
+// api
+import { useGetMarketItemDetail } from '@/services/sellerItem/query/useGetMarketItemDetail';
+
 const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/itemDetail/ItemDetailFaqCard')
 );
@@ -45,12 +46,19 @@ const UserItemDetailPage = () => {
 
   const navigate = useNavigate();
 
-  const { itemId } = useParams();
+  const { itemId, marketId } = useParams();
 
   const [isFaqCategoryTop, setIsFaqCategoryTop] = useState(false);
   const [isDetailOnScreen, setIsDetailOnScreen] = useState(true);
   const categoryAnchorRef = useRef<HTMLDivElement>(null);
   const itemDetailRef = useRef<HTMLDivElement>(null);
+
+  const { data: itemDetailData } = useGetMarketItemDetail({
+    sellerId: Number(marketId),
+    itemId: Number(itemId),
+  });
+
+  console.log(itemDetailData);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -135,7 +143,9 @@ const UserItemDetailPage = () => {
 
       {/* 상단 상품 정보 파트 */}
       <Suspense fallback={<LoadingSpinner />}>
-        <ItemDetailInfo data={dummyItem} ref={itemDetailRef} />
+        {itemDetailData && (
+          <ItemDetailInfo data={itemDetailData} ref={itemDetailRef} />
+        )}
       </Suspense>
 
       {/* FAQ 파트 */}
