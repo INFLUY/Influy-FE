@@ -16,7 +16,7 @@ const UserTypeToggleButton = ({
   };
 
   return (
-    <div className="relative h-[2.0625rem] w-[9.3125rem]">
+    <div className="relative flex h-[2.0625rem] w-[9.3125rem] shrink-0">
       <input
         id="user-type-toggle button"
         type="checkbox"
