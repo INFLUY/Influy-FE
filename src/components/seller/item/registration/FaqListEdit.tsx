@@ -1,5 +1,5 @@
 import { generatePath, useNavigate } from 'react-router-dom';
-import { SetStateAction, useState, useRef } from 'react';
+import { SetStateAction, useState, useRef, useEffect } from 'react';
 
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { FaqQuestion } from '@/types/common/ItemType.types';
@@ -47,6 +47,7 @@ import {
   SELLER_ITEM_FAQ_REGISTER_PATH,
 } from '@/utils/generatePath';
 import { useSnackbarStore } from '@/store/snackbarStore';
+import { usePostItemFaqCategory } from '@/services/sellerItemFaq/mutation/usePostItemFaqCategory';
 
 type SheetMode =
   | 'none'
@@ -71,6 +72,13 @@ const FaqListEdit = ({
   // 2) 선택된 카테고리
   const [selectedCategory, setSelectedCategory] = useState(0);
 
+  useEffect(() => {
+    if (faqCategory) {
+      setCategories(faqCategory);
+      setSelectedCategory(faqCategory[0].id);
+    }
+  }, [faqCategory]);
+
   // 3) 어떤 모드의 시트를 띄울지
   const [sheetMode, setSheetMode] = useState<SheetMode>('none');
 
@@ -86,6 +94,22 @@ const FaqListEdit = ({
   const [categoryToDelete, setCategoryToDelete] = useState<number | null>(null);
 
   const navigate = useNavigate();
+
+  const { mutate: postFaqCategory } = usePostItemFaqCategory({
+    itemId,
+    onSuccessCallback: (response: CategoryType) => {
+      setCategories((prev) => [
+        ...prev,
+        {
+          id: response.id,
+          name: response.name,
+        },
+      ]);
+      showSnackbar('저장되었습니다');
+      setDraftName('');
+      setSheetMode('editList');
+    },
+  });
 
   // --- UI 핸들러 ---
   const openAddSheet = () => {
@@ -104,16 +128,7 @@ const FaqListEdit = ({
   // --- CRUD 핸들러들 ---
   const handleSaveAdd = () => {
     if (!draftName.trim()) return;
-    setCategories((prev) => [
-      ...prev,
-      {
-        id: Math.max(0, ...prev.map((c) => c.id)) + 1,
-        name: draftName.trim(),
-      },
-    ]);
-    showSnackbar('저장되었습니다');
-    setDraftName('');
-    setSheetMode('editList');
+    postFaqCategory({ category: draftName.trim() });
   };
 
   const handleSaveTextEdit = () => {
@@ -155,7 +170,7 @@ const FaqListEdit = ({
 
   return (
     <>
-      {categories.length == 0 ? (
+      {categories.length === 0 ? (
         <EmptyCategoryPlaceholder openAddSheet={openAddSheet} />
       ) : (
         <section className="box-border flex h-full w-full flex-col items-start justify-start gap-6">

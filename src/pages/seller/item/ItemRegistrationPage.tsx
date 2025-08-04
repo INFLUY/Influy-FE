@@ -12,8 +12,6 @@ import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
-import { CategoryType } from '@/types/common/CategoryType.types';
-import { FaqQuestion } from '@/types/common/ItemType.types';
 import { Outlet, useLocation } from 'react-router-dom';
 import cn from '@/utils/cn';
 import { SELLER_ITEM_DETAIL } from '@/utils/generatePath';
@@ -23,30 +21,6 @@ import { usePutItem } from '@/services/sellerItem/mutation/usePutItem';
 import { useGetMarketItemDetail } from '@/services/sellerItem/query/useGetMarketItemDetail';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { parseToKstDate } from '@/utils/formatDate';
-
-export const dummyCategory: CategoryType[] = [
-  { id: 0, name: '사이즈' },
-  { id: 1, name: '색상' },
-  { id: 2, name: '디테일' },
-  { id: 3, name: '배송관련' },
-  { id: 4, name: '색상1' },
-];
-
-const dummyFaqQuestion: FaqQuestion[] = [
-  {
-    id: 1,
-    questionContent: '구성이 어떻게 되나요?',
-    pinned: true,
-    updatedAt: '2025-07-04T04:55:48.736Z',
-  },
-  {
-    id: 2,
-    questionContent:
-      '키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을게 60이면 L사이즈 맞을게 60이면 L사이즈 맞을게 60이면 L사이즈 맞을게 60이면',
-    pinned: true,
-    updatedAt: '2025-07-04T04:55:48.736Z',
-  },
-];
 
 //필수 항목 타입 정의
 type fieldsToCheck<FieldNames extends string> = {
@@ -364,9 +338,6 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
               context={{
                 methods,
                 requiredFieldsRef,
-                faqCategory: dummyCategory,
-                faqQuestions: dummyFaqQuestion,
-                itemId: 5,
               }}
             />
           </div>

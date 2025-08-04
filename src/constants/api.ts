@@ -16,9 +16,12 @@ export const API_DOMAINS = {
   SELLER_MARKET_LIKES: '/seller/:sellerId/count-likes',
   SELLER_MARKET_ITEMS: '/seller/:sellerId/items',
   SELLER_MARKET_ITEM: '/seller/:sellerId/items/:itemId',
-  SELLER_FAQ_CATEGORIES: '/seller/:sellerId/items/:itemId/faq-categories',
 
   ITEM_CATEGORIES: '/categories',
+
+  // FAQ
+  SELLER_HANDLE_FAQ_CATEGORIES: '/seller/items/:itemId/faq-categories',
+  SELLER_GET_FAQ_CATEGORIES: '/seller/:sellerId/items/:itemId/faq-categories',
 
   // seller
   SELLER_MY_JOIN: '/member/register/seller',
