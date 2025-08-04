@@ -5,12 +5,15 @@ import {
   LoadingSpinner,
   TalkBoxSellerProfile,
   FirstChatBubble,
+  UserChatBarTextArea,
 } from '@/components';
 import { TalkBoxBottomItemCard } from '@/components/user/talkBox/TalkBoxItemCard';
 import { CategorySelectWrapper } from '@/components/user/talkBox/CategorySelectWrapper';
 
 // type
 import { TalkBoxCommentDTO } from '@/types/common/ItemType.types';
+import { UserCategoryDTO } from '@/types/seller/TalkBox.types';
+
 //path
 import { useNavigate, useParams } from 'react-router-dom';
 // icon
@@ -20,8 +23,14 @@ import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
 // import { useGetTalkBoxDefaultComment } from '@/services/sellerItem/query/useGetTalkBoxDefaultComment';
+import { usePostUserQuestion } from '@/services/talkBox/mutation/usePostUserQuestion';
+import { useGetUserCategoryList } from '@/services/talkBox/query/useGetUserCategoryList';
+import { Suspense, useState } from 'react';
 
 const UserChatPage = () => {
+  const [questionText, setQuestionText] = useState('');
+  const [selectedCategory, setSelectedCategory] =
+    useState<UserCategoryDTO | null>(null);
   const navigate = useNavigate();
   const { itemId, marketId } = useParams();
 
@@ -29,14 +38,34 @@ const UserChatPage = () => {
     sellerId: Number(marketId),
     itemId: Number(itemId),
   });
-  // const { data: commentData } = useGetTalkBoxDefaultComment(Number(itemId));
   const commentData: TalkBoxCommentDTO = {
     sellerId: 5,
     sellerProfileImg: null,
-    sellerUsername: '@seojunghii',
+    sellerUsername: 'seojunghii',
     sellerNickname: '서정',
     createdAt: '2025-08-03T12:32:48.708228832',
     talkBoxComment: '안녕',
+  };
+
+  const { data: categoryList } = useGetUserCategoryList(Number(itemId));
+
+  // 질문 전송
+  const { mutate: postAnswer } = usePostUserQuestion({
+    itemId: Number(itemId),
+    questionCategoryId: selectedCategory?.questionCategoryId || -1,
+    onSuccessCallback: () => {
+      setQuestionText('');
+    },
+  });
+
+  const handleQuestionSubmit = () => {
+    if (
+      !questionText ||
+      questionText.trim().length === 0 ||
+      selectedCategory === null
+    )
+      return;
+    postAnswer(questionText);
   };
   return (
     <>
@@ -85,7 +114,19 @@ const UserChatPage = () => {
           </div>
         </div>
         <div className="bottom-bar flex w-full flex-col">
-          <CategorySelectWrapper />
+          <Suspense fallback={<LoadingSpinner />}>
+            <CategorySelectWrapper
+              viewList={categoryList.viewList}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+            />
+          </Suspense>
+          <UserChatBarTextArea
+            text={questionText}
+            setText={setQuestionText}
+            handleSubmit={handleQuestionSubmit}
+            isCategorySelected={selectedCategory !== null}
+          />
         </div>
       </section>
     </>

@@ -23,7 +23,10 @@ export {
   LinkInput,
   LimitedWideTextArea,
 } from './common/DetailInput.tsx';
-export { default as ChatBarTextArea } from './common/ChatBarTextArea.tsx';
+export {
+  SellerChatBarTextArea,
+  UserChatBarTextArea,
+} from './common/ChatBarTextArea.tsx';
 export { PeriodChip } from './common/chip/PeriodChip.tsx';
 export { default as CloseComponent } from './common/auth/CloseComponent.tsx';
 

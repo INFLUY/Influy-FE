@@ -48,6 +48,12 @@ export const API_DOMAINS = {
   PATCH_ITEM_LIKE: '/seller/:sellerId/items/:itemId/dislikes',
   GET_LIKED_ITEM_LIST: '/home/item-likes',
   GET_LIKED_SELLER_LIST: '/home/seller-likes',
+
+  // 질문 카테고리
+  GET_TALK_BOX_CATEGORY: '/user/items/:itemId/talkbox/question-categories',
+
+  //질문관리
+  USER_POST_QUESTION: '/user/items/:itemId/talkbox/:questionCategoryId',
 };
 
 export const SELLER_API_DOMAINS = {
@@ -125,6 +131,8 @@ export const QUERY_KEYS = {
 
   LIKED_ITEMS: 'likedItems',
   LIKED_SELLERS: 'likedSellers',
+
+  TALK_BOX_CATEGORY: 'talkBoxCategory',
 
   SELLER_ITEM_OVERVIEW: 'sellerItemOverview',
   SELLER_GENERATE_QUESTION_CATEGORY: 'sellerGenerateQuestionCategory',

@@ -88,3 +88,12 @@ export interface PostBulkAnswerResponse {
 export interface GeneratedNameList {
   generatedNameList: string[];
 }
+
+export interface UserCategoryList {
+  viewList: UserCategoryDTO[];
+}
+
+export interface UserCategoryDTO {
+  questionCategoryId: number;
+  questionCategoryName: string;
+}

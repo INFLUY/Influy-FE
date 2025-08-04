@@ -236,9 +236,9 @@ const router = createBrowserRouter([
                     children: [
                       { index: true, element: <UserItemDetailPage /> },
                       {
-                        index: true,
                         path: PATH.MARKET.DETAIL.ITEM.TALK_BOX,
-                        element: <UserChatPage />,
+                        element: <UserRoute />,
+                        children: [{ index: true, element: <UserChatPage /> }],
                       },
                     ],
                   },

@@ -1,10 +1,11 @@
 //스웨거 질문 카테고리
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
-import { SELLER_API_DOMAINS } from '@/constants/api';
+import { SELLER_API_DOMAINS, API_DOMAINS } from '@/constants/api';
 import {
   CategoryListResponse,
   GeneratedNameList,
+  UserCategoryList,
 } from '@/types/seller/TalkBox.types';
 
 export const postGenerateQuestionCategory = async ({
@@ -64,6 +65,44 @@ export const getCategoryQuestionCounts = async ({
       questionCategoryId,
     })
   );
+
+  return response.data.result;
+};
+
+export const getUserCategoryList = async (
+  itemId: number
+): Promise<UserCategoryList> => {
+  const response = await instance.get(
+    generateApiPath(API_DOMAINS.GET_TALK_BOX_CATEGORY, {
+      itemId,
+    })
+  );
+
+  return response.data.result;
+};
+
+export interface UserQuestionResponse {
+  id: number;
+  content: string;
+  categoryName: string;
+  createdAt: string;
+}
+
+export const postUserQuestion = async ({
+  itemId,
+  questionCategoryId,
+  content,
+}: {
+  itemId: number;
+  questionCategoryId: number;
+  content: string;
+}): Promise<UserQuestionResponse> => {
+  const path = generateApiPath(API_DOMAINS.USER_POST_QUESTION, {
+    itemId,
+    questionCategoryId,
+  });
+
+  const response = await instance.post(path, { content });
 
   return response.data.result;
 };
