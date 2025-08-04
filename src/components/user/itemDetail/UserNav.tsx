@@ -1,18 +1,23 @@
 import TalkBoxIcon from '@/assets/icon/common/TalkBoxIcon.svg?react';
-import { DefaultButton } from '@/components/seller/common/Button';
+import { DefaultButton, ItemLikeButton } from '@/components';
+import { Suspense } from 'react';
 
 export const UserNav = ({
   isTalkBoxOpened,
   likeCount,
-  onLikeClick,
   onTalkBoxClick,
   onBuyClick,
+  sellerId,
+  itemId,
+  liked,
 }: {
   isTalkBoxOpened: boolean;
   likeCount: number;
-  onLikeClick: () => void;
   onTalkBoxClick: () => void;
   onBuyClick: () => void;
+  sellerId: number;
+  itemId: number;
+  liked: boolean;
 }) => {
   return (
     <nav
@@ -21,8 +26,11 @@ export const UserNav = ({
       role="navigation"
     >
       {/* 좋아요 추가 */}
-      <div className="flex flex-col gap-0.5">
-        <span className="body2-m text-grey08">{likeCount}</span>
+      <div className="flex flex-col items-center justify-baseline gap-0.5">
+        <Suspense>
+          <ItemLikeButton sellerId={sellerId} itemId={itemId} liked={liked} />
+          <span className="body2-m text-grey08">{likeCount}</span>
+        </Suspense>
       </div>
       {isTalkBoxOpened && (
         <button

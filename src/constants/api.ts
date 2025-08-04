@@ -12,11 +12,14 @@ export const API_DOMAINS = {
   SELLER_ANNOUNCEMENT: '/seller/:sellerId/announcements',
   SELLER_PRIMARY_ANNOUNCEMENT:
     '/seller/:sellerId/announcements/primary-announcement',
-  SELLER_MARKET_LINKS: '/seller/:sellerId/market-links',
-  SELLER_MARKET_LIKES: '/seller/:sellerId/count-likes',
   SELLER_MARKET_ITEMS: '/seller/:sellerId/items',
   SELLER_MARKET_ITEM: '/seller/:sellerId/items/:itemId',
   SELLER_FAQ_CATEGORIES: '/seller/:sellerId/items/:itemId/faq-categories',
+
+  //찜
+  GET_ITEM_LIKE_COUNTS: '/seller/:sellerId/items/:itemId/count-likes',
+  SELLER_MARKET_LINKS: '/seller/:sellerId/market-links',
+  SELLER_MARKET_LIKES: '/seller/:sellerId/count-likes',
 
   ITEM_CATEGORIES: '/categories',
 
@@ -129,9 +132,12 @@ export const QUERY_KEYS = {
   HOME_TRENDING_SELLER: 'trendingSeller',
   HOME_SELLER_PICK: 'sellerPick',
 
+  //찜
   LIKED_ITEMS: 'likedItems',
   LIKED_SELLERS: 'likedSellers',
+  ITEM_LIKE_COUNTS: 'getItemLikeCounts',
 
+  // 질문 카테고리
   TALK_BOX_CATEGORY: 'talkBoxCategory',
 
   SELLER_ITEM_OVERVIEW: 'sellerItemOverview',
