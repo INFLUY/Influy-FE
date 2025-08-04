@@ -14,7 +14,7 @@ export const postFaqCard = async ({
   itemId,
   data,
 }: FaqCardRequestType) => {
-  const response = await instance.post(
+  const response = await instance.post<ApiResponse<FaqCardDetailReponse>>(
     generateApiPath(API_DOMAINS.SELLER_MY_POST_FAQ_CARD, { itemId }),
     data,
     {
@@ -44,6 +44,22 @@ export const patchFaqCard = async ({
         sellerId,
       },
     }
+  );
+  return response.data.result;
+};
+
+export const deleteFaqCard = async ({
+  itemId,
+  faqCardId,
+}: {
+  itemId: number;
+  faqCardId: number;
+}) => {
+  const response = await instance.delete<ApiResponse<{ id: 'number' }>>(
+    generateApiPath(API_DOMAINS.SELLER_MY_HANDLE_FAQ_CARD, {
+      itemId,
+      faqCardId,
+    })
   );
   return response.data.result;
 };

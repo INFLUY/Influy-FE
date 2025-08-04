@@ -36,7 +36,6 @@ export const ItemFaqTab = () => {
     sellerId: sellerId!,
     itemId: Number(itemId),
   });
-  console.log(faqCategory);
 
   return <FaqListEdit faqCategory={faqCategory} itemId={Number(itemId)} />;
 };

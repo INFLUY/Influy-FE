@@ -18,8 +18,6 @@ export const useGetItemFaqQuestionList = ({
       QUERY_KEYS.SELLER_FAQ_CARD_QUESTION,
       { sellerId, itemId, faqCategoryId },
     ],
-    staleTime: 20 * 1000,
-    gcTime: 1 * 60 * 1000,
     queryFn: async ({ pageParam = 1 }) => {
       return getFaqCardQuestionList({
         page: pageParam,
