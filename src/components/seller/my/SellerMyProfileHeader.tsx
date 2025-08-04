@@ -1,9 +1,10 @@
 import EyeIcon from '@/assets/icon/common/EyeIcon.svg?react';
 import SettingsIcon from '@/assets/icon/common/SettingsIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 import { PATH } from '@/routes/path';
 import cn from '@/utils/cn';
-import useCopyUrl from '@/utils/useCopyUrl';
+import { useCopyMarketUrl } from '@/utils/useCopyUrl';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,7 +12,9 @@ const SellerMyProfileHeader = () => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState<boolean>(false);
   const triggerRef = useRef(null);
-  const copyUrl = useCopyUrl();
+  const { sellerId } = useStrictId();
+
+  const copyUrl = useCopyMarketUrl(sellerId);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

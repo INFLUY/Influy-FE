@@ -2,24 +2,26 @@ import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
 import cn from '@/utils/cn';
+import { useCopyMarketUrl } from '@/utils/useCopyUrl';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useCopyUrl from '@/utils/useCopyUrl';
 
 const SellerProfileHeader = ({
   name,
   id,
-  seller,
+  sellerId,
+  isSeller,
 }: {
   name: string;
   id: string;
-  seller: boolean;
+  sellerId: number;
+  isSeller: boolean;
 }) => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState<boolean>(false);
   const triggerRef = useRef<HTMLDivElement | null>(null);
-  const copyUrl = useCopyUrl();
-  const newRootMargin = seller ? '-81px 0px 0px 0px' : '0px';
+  const copyUrl = useCopyMarketUrl(sellerId);
+  const newRootMargin = isSeller ? '-81px 0px 0px 0px' : '0px';
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -47,11 +49,11 @@ const SellerProfileHeader = ({
           'fixed top-0 z-20 flex w-screen max-w-[40rem] min-w-[20rem] justify-between overflow-visible px-5 py-[.9375rem] text-white md:w-[28rem]',
           {
             'text-grey09 bg-white': scrolled,
-            'top-[5.0625rem] justify-end': seller,
+            'top-[5.0625rem] justify-end': isSeller,
           }
         )}
       >
-        {!seller && (
+        {!isSeller && (
           <ArrowIcon
             className="h-6 w-6 shrink-0 cursor-pointer"
             onClick={() => navigate(-1)}

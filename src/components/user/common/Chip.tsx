@@ -1,11 +1,13 @@
+import { shouldForceSecondUpdate } from '@/utils/checkForceUpdate';
 import cn from '@/utils/cn';
 import {
-  parseISOString,
+  parseToKstDate,
   formatTime,
   getDday,
   getTimeLeft,
   isToday,
 } from '@/utils/formatDate';
+import { useEffect, useState } from 'react';
 
 const Chip = ({
   children,
@@ -42,7 +44,18 @@ export const TimeChip = ({
   open: string | null;
   deadline: string | null;
 }): React.ReactNode | null => {
+  const [, forceUpdate] = useState(0);
+
   const now = new Date();
+  const needsSecondUpdate = shouldForceSecondUpdate({ open, deadline, now });
+
+  useEffect(() => {
+    if (!needsSecondUpdate) return;
+    const interval = setInterval(() => {
+      forceUpdate((prev) => prev + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [needsSecondUpdate]);
 
   // 시작일, 마감일 모두 없음
   if (open === null && deadline === null) {
@@ -51,7 +64,7 @@ export const TimeChip = ({
 
   // 시작일 없음, 마감일 있음
   if (open === null && deadline !== null) {
-    const closeTime = parseISOString(deadline);
+    const closeTime = parseToKstDate(deadline);
     const timeUntilClose = closeTime.getTime() - now.getTime();
     if (timeUntilClose <= 0) return null;
 
@@ -61,7 +74,7 @@ export const TimeChip = ({
     if (daysUntilClose === 0) {
       const { hours, minutes, seconds } = getTimeLeft(closeTime);
       return (
-        <Chip theme="light-red">{`${hours}:${minutes}:${seconds} LEFT`}</Chip>
+        <Chip theme="light-red">{`${hours}:${minutes}:${seconds} 남음`}</Chip>
       );
     }
 
@@ -70,7 +83,7 @@ export const TimeChip = ({
 
   // 시작일 있음, 마감일 없음
   if (open !== null && deadline === null) {
-    const openTime = parseISOString(open);
+    const openTime = parseToKstDate(open);
     if (now.getTime() >= openTime.getTime()) {
       return <Chip theme="red">NOW OPEN</Chip>;
     }
@@ -84,8 +97,8 @@ export const TimeChip = ({
 
   // 시작일, 마감일 모두 있음
   if (open !== null && deadline !== null) {
-    const openTime = parseISOString(open);
-    const closeTime = parseISOString(deadline);
+    const openTime = parseToKstDate(open);
+    const closeTime = parseToKstDate(deadline);
 
     const timeUntilOpen = openTime.getTime() - now.getTime();
     const timeUntilClose = closeTime.getTime() - now.getTime();
@@ -108,7 +121,7 @@ export const TimeChip = ({
     if (daysUntilClose === 0) {
       const { hours, minutes, seconds } = getTimeLeft(closeTime);
       return (
-        <Chip theme="light-red">{`${hours}:${minutes}:${seconds} LEFT`}</Chip>
+        <Chip theme="light-red">{`${hours}:${minutes}:${seconds} 남음`}</Chip>
       );
     }
 
@@ -134,7 +147,7 @@ export const ExtendChip = ({
   deadline: string;
 }) => {
   if (!extend) return;
-  const closeTime = parseISOString(deadline);
+  const closeTime = parseToKstDate(deadline);
 
   const today = new Date();
   const timeLeftUntilClose = closeTime.getTime() - today.getTime();

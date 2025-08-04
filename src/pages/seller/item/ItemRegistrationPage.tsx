@@ -22,6 +22,7 @@ import { usePostItem } from '@/services/sellerItem/mutation/usePostItem';
 import { usePutItem } from '@/services/sellerItem/mutation/usePutItem';
 import { useGetMarketItemDetail } from '@/services/sellerItem/query/useGetMarketItemDetail';
 import { useStrictId } from '@/hooks/auth/useStrictId';
+import { parseToKstDate } from '@/utils/formatDate';
 
 export const dummyCategory: CategoryType[] = [
   { id: 0, name: '사이즈' },
@@ -88,8 +89,8 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       images: [],
       titleText: '',
       selectedCategoryList: [],
-      hasStartDate: true,
-      hasEndDate: true,
+      hasStartDate: false,
+      hasEndDate: false,
       startISODateTime: undefined,
       endISODateTime: undefined,
       summaryText: '',
@@ -107,10 +108,14 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
         images: prevItemData.itemImgList ?? [],
         titleText: prevItemData.itemName ?? '',
         selectedCategoryList: [],
-        hasStartDate: prevItemData.startDate === null ? false : true,
-        hasEndDate: prevItemData.startDate === null ? false : true,
-        startISODateTime: prevItemData.startDate ?? undefined,
-        endISODateTime: prevItemData.endDate ?? undefined,
+        hasStartDate: prevItemData.startDate ? true : false, // TODO: 백 수정되고 받아와야함
+        hasEndDate: prevItemData.endDate ? true : false, // TODO: 백 수정되고 받아와야함
+        startISODateTime: prevItemData.startDate
+          ? parseToKstDate(prevItemData.startDate).toISOString()
+          : undefined,
+        endISODateTime: prevItemData.endDate
+          ? parseToKstDate(prevItemData.endDate).toISOString()
+          : undefined,
         summaryText: prevItemData.tagline ?? '',
         price: prevItemData.regularPrice ?? undefined,
         salePrice: prevItemData.salePrice ?? undefined,
@@ -205,9 +210,6 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       name: 'hasEndDate',
       ref: endDateFieldRef,
     },
-    {
-      name: 'summaryText',
-    },
   ];
 
   const validationFieldsRef: fieldsToCheck<keyof ItemFormValues>[] = [
@@ -234,9 +236,9 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       itemImgList: formData.images,
       name: formData.titleText,
       itemCategoryIdList: formData.selectedCategoryList.map(String),
-      startDate: formData.hasStartDate ? formData.startISODateTime : null,
-      endDate: formData.hasEndDate ? formData.endISODateTime : null,
-      tagline: formData.summaryText,
+      startDate: formData.startISODateTime,
+      endDate: formData.endISODateTime,
+      ...(isValid(formData.summaryText) && { tagline: formData.summaryText }),
       ...(isValid(formData.price) && { regularPrice: formData.price }),
       ...(isValid(formData.salePrice) && { salePrice: formData.salePrice }),
       ...(isValid(formData.linkText) && { marketLink: formData.linkText }),

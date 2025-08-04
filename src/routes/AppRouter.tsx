@@ -186,8 +186,20 @@ const router = createBrowserRouter([
             element: <EndingSoonPage />,
           },
           {
-            path: PATH.HOME.MORE.CATEGORY,
-            element: <CategoryPage />,
+            path: PATH.HOME.MORE.CATEGORY.BASE,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: (
+                  <Navigate to={PATH.HOME.MORE.CATEGORY.DETAIL} replace />
+                ),
+              },
+              {
+                path: PATH.HOME.MORE.CATEGORY.DETAIL,
+                element: <CategoryPage />,
+              },
+            ],
           },
         ],
       },

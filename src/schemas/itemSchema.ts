@@ -34,10 +34,7 @@ export const itemSchema = z
     // 마감일
     endISODateTime: z.iso.datetime().nullable().optional(),
     // 한 줄 소개
-    summaryText: z
-      .string()
-      .min(1, { message: '한 줄 소개를 입력해 주세요.' })
-      .max(18, '한 줄 소개를 18자 이내로 작성해 주세요'),
+    summaryText: z.string().max(18, '한 줄 소개를 18자 이내로 작성해 주세요'),
     // 가격 정가
     price: z.union([z.coerce.number().nullable().optional(), z.nan()]),
     // 가격 할인가
@@ -75,7 +72,6 @@ export const requiredFieldsSchema = itemSchema.pick({
   selectedCategoryList: true,
   hasStartDate: true,
   hasEndDate: true,
-  summaryText: true,
 });
 
 export const requiredTitleSchema = itemSchema.pick({

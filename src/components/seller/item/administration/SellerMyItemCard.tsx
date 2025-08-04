@@ -21,7 +21,6 @@ const SellerMyItemCard = ({
 
   const handleNavigateToTalkbox = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
-    console.log(item.talkBoxInfo.talkBoxOpenStatus);
     if (item.talkBoxInfo.talkBoxOpenStatus === 'OPENED') {
       navigate(
         generatePath(
@@ -34,7 +33,7 @@ const SellerMyItemCard = ({
     if (item.talkBoxInfo.talkBoxOpenStatus === 'INITIAL') {
       navigate(
         generatePath(
-          `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}/${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}`,
+          `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ONBOARDING.BASE}`,
           { itemId: String(item.itemId) }
         )
       );
@@ -43,7 +42,7 @@ const SellerMyItemCard = ({
     if (item.talkBoxInfo.talkBoxOpenStatus === 'CLOSED') {
       navigate(
         generatePath(
-          `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}/${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}/${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}`,
+          `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}/${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}`,
           { itemId: String(item.itemId) }
         )
       );
