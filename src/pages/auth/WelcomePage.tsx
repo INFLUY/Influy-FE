@@ -43,7 +43,7 @@ export const WelcomePage = () => {
           {`인플루이에 오신 것을\n환영합니다!`}
         </h1>
       </section>
-      <div className="fixed bottom-[2.3125rem] z-20 flex w-screen max-w-[40rem] min-w-[20rem] shrink-0 items-center justify-center gap-[.4375rem] border-0 px-5 md:w-[28rem]">
+      <div className="bottom-bar fixed z-20 flex w-screen shrink-0 items-center justify-center gap-[.4375rem] border-0 px-5 pb-[2.3125rem]">
         <DefaultButton
           type="button"
           text="지금 바로 둘러보기"
@@ -52,7 +52,7 @@ export const WelcomePage = () => {
       </div>
       <div className="absolute inset-0 flex">
         <div className="absolute z-[5] h-full w-full bg-[#000000] opacity-50" />
-        <img src={LoginBg} className="object-cover" alt="" />
+        <img src={LoginBg} className="h-full w-full object-cover" alt="" />
       </div>
     </div>
   );

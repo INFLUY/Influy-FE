@@ -275,7 +275,6 @@ export const ItemForm = ({
       {/* 한 줄 소개 */}
       <ItemSection
         label="한 줄 소개"
-        required={true}
         tooltipText="제품의 특징을 간단하게 소개해 주세요!"
       >
         <FormLimitedTextInput<ItemFormValues>
