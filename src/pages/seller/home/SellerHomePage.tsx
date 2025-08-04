@@ -13,6 +13,7 @@ const SellerHomePage = () => {
   const { data: sellerMyProfile } = useGetSellerProfile();
   const {
     data: homeItemData,
+    hasAnyItem,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -60,7 +61,7 @@ const SellerHomePage = () => {
           </span>
         )}
 
-        <MyProductStatus items={itemList} />
+        <MyProductStatus items={itemList} hasAnyItem={hasAnyItem} />
 
         <BottomNavBar userType="SELLER" />
       </section>
