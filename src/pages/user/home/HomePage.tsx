@@ -119,7 +119,7 @@ const HomePage = () => {
   });
 
   useEffect(() => {
-    if (trendingSeller) {
+    if (trendingSeller && trendingSeller.length > 0) {
       setSelectedInfluencer({
         id: trendingSeller[0].sellerId,
         nickname: trendingSeller[0].sellerNickname,
