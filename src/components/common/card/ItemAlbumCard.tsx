@@ -26,7 +26,7 @@ const ItemAlbumCard = ({
         <img
           src={item.itemMainImg ?? undefined}
           alt={item.itemName}
-          className="inset-0 h-full w-full object-cover"
+          className="inset-0 h-full w-full bg-white object-cover"
         />
         <ItemLikeButton
           liked={item.liked}
