@@ -99,7 +99,7 @@ const HomeCommonSection = ({
       <section className="flex flex-col gap-4">
         <HomeSectionTitle
           title="카테고리별 추천"
-          itemLength={recommendedItem.length}
+          itemLength={1}
           onClickMore={() => {
             navigate(
               generatePath(
