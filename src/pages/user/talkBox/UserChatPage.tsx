@@ -50,7 +50,7 @@ const UserChatPage = () => {
   const { data: categoryList } = useGetUserCategoryList(Number(itemId));
 
   // 질문 전송
-  const { mutate: postAnswer } = usePostUserQuestion({
+  const { mutate: postAnswer, isPending } = usePostUserQuestion({
     itemId: Number(itemId),
     questionCategoryId: selectedCategory?.questionCategoryId || -1,
     onSuccessCallback: () => {
@@ -62,7 +62,8 @@ const UserChatPage = () => {
     if (
       !questionText ||
       questionText.trim().length === 0 ||
-      selectedCategory === null
+      selectedCategory === null ||
+      isPending
     )
       return;
     postAnswer(questionText);
@@ -126,6 +127,7 @@ const UserChatPage = () => {
             setText={setQuestionText}
             handleSubmit={handleQuestionSubmit}
             isCategorySelected={selectedCategory !== null}
+            isPending={isPending}
           />
         </div>
       </section>

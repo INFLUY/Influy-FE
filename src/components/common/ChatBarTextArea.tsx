@@ -53,11 +53,13 @@ export const UserChatBarTextArea = ({
   setText,
   handleSubmit,
   isCategorySelected,
+  isPending,
 }: {
   text: string;
   setText: (value: string) => void;
   handleSubmit: () => void;
   isCategorySelected: boolean;
+  isPending: boolean;
 }) => {
   const { showSnackbar } = useSnackbarStore();
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -77,11 +79,11 @@ export const UserChatBarTextArea = ({
         <textarea
           ref={textareaRef}
           className="body2-m scrollbar-hide text-grey10 placeholder:text-grey07 flex max-h-[7.875rem] w-full flex-[1_0_0] resize-none items-center py-2.5"
-          placeholder="답변 메세지 입력"
+          placeholder={'답변 메세지 입력'}
           rows={1}
           value={text}
           onChange={(e) => setText(e.target.value)}
-          readOnly={!isCategorySelected}
+          readOnly={!isCategorySelected || isPending}
         />
         <span className="body2-m text-grey06 mb-2.5">({text.length}/80)</span>
       </div>
@@ -91,7 +93,7 @@ export const UserChatBarTextArea = ({
           role="button"
           className={cn(
             'h-6 w-6',
-            text.length > 0 && text.trim().length !== 0
+            text.length > 0 && text.trim().length !== 0 && !isPending
               ? 'cursor-pointer text-black'
               : 'text-grey06'
           )}
