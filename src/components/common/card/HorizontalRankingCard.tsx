@@ -1,6 +1,6 @@
 //홈 아카이빙 인기 급상승 카드
 import { ItemCardType } from '@/types/common/ItemType.types';
-import { ItemLikeButton, TimeChip } from '@/components';
+import { ItemLikeButton, PeriodChip, TimeChip } from '@/components';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 
 const HorizontalRankingCard = ({
@@ -30,6 +30,9 @@ const HorizontalRankingCard = ({
             itemId={item?.itemId}
             additionalStyles="absolute top-1 right-1 h-5 w-5"
           />
+          <div className="absolute bottom-0 left-0 flex flex-wrap">
+            <PeriodChip period={item.itemPeriod} />
+          </div>
         </div>
 
         {/* 우측 상품 정보 */}
