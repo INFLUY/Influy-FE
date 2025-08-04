@@ -16,7 +16,7 @@ export const ItemDetailInfo = ({
   ref,
 }: {
   data: ItemDetail;
-  ref: RefObject<HTMLElement | null>;
+  ref: RefObject<HTMLDivElement | null>;
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentImgIndex, setCurrentImgIndex] = useState(0);

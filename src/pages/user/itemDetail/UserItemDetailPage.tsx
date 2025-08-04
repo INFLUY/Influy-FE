@@ -10,18 +10,12 @@ import { UserNav } from '@/components/user/itemDetail/UserNav';
 // icon
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
-import Link2Icon from '@/assets/icon/common/Link2Icon.svg?react';
-import LockIcon from '@/assets/icon/common/LockIcon.svg?react';
-import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
-import TalkBoxIcon from '@/assets/icon/common/TalkBoxIcon.svg?react';
 
 // path
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
 
 // type
-import { BottomNavItem } from '@/components/common/BottomNavBar';
 import { CategoryType } from '@/types/common/CategoryType.types';
 
 // hooks
@@ -31,7 +25,7 @@ import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { dummyCategory, dummyFaq } from './ItemDetailDummyData';
 
 // api
-import { useGetMarketItemDetail } from '@/services/sellerItem/query/useGetMarketItemDetail';
+import { useGetMarketItemDetailSuspense } from '@/services/sellerItem/query/useGetMarketItemDetail';
 
 const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/itemDetail/ItemDetailFaqCard')
@@ -53,14 +47,14 @@ const UserItemDetailPage = () => {
   const categoryAnchorRef = useRef<HTMLDivElement>(null);
   const itemDetailRef = useRef<HTMLDivElement>(null);
 
-  const { data: itemDetailData } = useGetMarketItemDetail({
-    sellerId: Number(marketId),
-    itemId: Number(itemId),
-  });
-
-  console.log(itemDetailData);
+  const { data: itemDetailData, isPending: isItemDetailPending } =
+    useGetMarketItemDetailSuspense({
+      sellerId: Number(marketId),
+      itemId: Number(itemId),
+    });
 
   useEffect(() => {
+    if (isItemDetailPending) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -92,7 +86,7 @@ const UserItemDetailPage = () => {
     if (categoryAnchorRef.current) observer.observe(categoryAnchorRef.current);
     if (itemDetailRef.current) observer.observe(itemDetailRef.current);
     return () => observer.disconnect();
-  }, [isDetailOnScreen]);
+  }, [isDetailOnScreen, isItemDetailPending]);
 
   const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
 
