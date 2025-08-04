@@ -5,7 +5,7 @@ import {
   getDday,
   getTimeLeft,
   isToday,
-  parseISOString,
+  parseToKstDate,
 } from '@/utils/formatDate';
 import cn from '@/utils/cn';
 import { ItemCurrentStatusType } from '@/types/common/ItemType.types';
@@ -57,13 +57,13 @@ const EditTimeChip = ({
 
   const needsSecondUpdate = (() => {
     if (deadline) {
-      const closeTime = parseISOString(deadline);
+      const closeTime = parseToKstDate(deadline);
       const daysUntilClose = getDday(closeTime) - 1;
       if (daysUntilClose === 0) return true;
     }
     if (open && deadline) {
-      const openTime = parseISOString(open);
-      const closeTime = parseISOString(deadline);
+      const openTime = parseToKstDate(open);
+      const closeTime = parseToKstDate(deadline);
       const timeUntilOpen = openTime.getTime() - now.getTime();
       const timeUntilClose = closeTime.getTime() - now.getTime();
       if (timeUntilOpen <= 0 && timeUntilClose > 0) {
@@ -105,7 +105,7 @@ const EditTimeChip = ({
 
   // 3. 오픈 시간 없음, 마감 시간만 있음
   else if (open === null && deadline !== null && deadline !== undefined) {
-    const closeTime = parseISOString(deadline);
+    const closeTime = parseToKstDate(deadline);
     const timeLeftUntilClose = closeTime.getTime() - now.getTime();
     const daysLeftUntilClose = getDday(closeTime) - 1;
 
@@ -133,7 +133,7 @@ const EditTimeChip = ({
 
   // 4. 오픈 시간 있음, 마감 시간 없음
   else if (open !== null && open !== undefined && deadline === null) {
-    const openTime = parseISOString(open);
+    const openTime = parseToKstDate(open);
     if (now >= openTime) {
       return (
         <EditStatusChip onClick={onClick} theme="red">
@@ -155,8 +155,8 @@ const EditTimeChip = ({
     deadline !== undefined
   ) {
     // 5. 오픈 시간, 마감 시간 모두 존재
-    const openTime = parseISOString(open);
-    const closeTime = parseISOString(deadline);
+    const openTime = parseToKstDate(open);
+    const closeTime = parseToKstDate(deadline);
     const timeLeftUntilOpen = openTime.getTime() - now.getTime();
     const timeLeftUntilClose = closeTime.getTime() - now.getTime();
 
@@ -225,7 +225,7 @@ export const EditStatusUnifiedChip = ({
 
   if (currentStatus === 'EXTEND') {
     if (deadline === null || deadline === undefined) return null;
-    const closeTime = parseISOString(deadline);
+    const closeTime = parseToKstDate(deadline);
     const now = new Date();
     const timeLeft = closeTime.getTime() - now.getTime();
     if (timeLeft > 0) {

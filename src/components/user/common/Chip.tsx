@@ -1,6 +1,6 @@
 import cn from '@/utils/cn';
 import {
-  parseISOString,
+  parseToKstDate,
   formatTime,
   getDday,
   getTimeLeft,
@@ -49,13 +49,13 @@ export const TimeChip = ({
   // 마감 직전 칩만 리렌더링
   const needsSecondUpdate = (() => {
     if (deadline) {
-      const closeTime = parseISOString(deadline);
+      const closeTime = parseToKstDate(deadline);
       const daysUntilClose = getDday(closeTime) - 1;
       if (daysUntilClose === 0) return true;
     }
     if (open && deadline) {
-      const openTime = parseISOString(open);
-      const closeTime = parseISOString(deadline);
+      const openTime = parseToKstDate(open);
+      const closeTime = parseToKstDate(deadline);
       const timeUntilOpen = openTime.getTime() - now.getTime();
       const timeUntilClose = closeTime.getTime() - now.getTime();
       if (timeUntilOpen <= 0 && timeUntilClose > 0) {
@@ -81,7 +81,7 @@ export const TimeChip = ({
 
   // 시작일 없음, 마감일 있음
   if (open === null && deadline !== null) {
-    const closeTime = parseISOString(deadline);
+    const closeTime = parseToKstDate(deadline);
     const timeUntilClose = closeTime.getTime() - now.getTime();
     if (timeUntilClose <= 0) return null;
 
@@ -100,7 +100,7 @@ export const TimeChip = ({
 
   // 시작일 있음, 마감일 없음
   if (open !== null && deadline === null) {
-    const openTime = parseISOString(open);
+    const openTime = parseToKstDate(open);
     if (now.getTime() >= openTime.getTime()) {
       return <Chip theme="red">NOW OPEN</Chip>;
     }
@@ -114,8 +114,8 @@ export const TimeChip = ({
 
   // 시작일, 마감일 모두 있음
   if (open !== null && deadline !== null) {
-    const openTime = parseISOString(open);
-    const closeTime = parseISOString(deadline);
+    const openTime = parseToKstDate(open);
+    const closeTime = parseToKstDate(deadline);
 
     const timeUntilOpen = openTime.getTime() - now.getTime();
     const timeUntilClose = closeTime.getTime() - now.getTime();
@@ -164,7 +164,7 @@ export const ExtendChip = ({
   deadline: string;
 }) => {
   if (!extend) return;
-  const closeTime = parseISOString(deadline);
+  const closeTime = parseToKstDate(deadline);
 
   const today = new Date();
   const timeLeftUntilClose = closeTime.getTime() - today.getTime();

@@ -1,6 +1,6 @@
-import { parseISOString } from './formatDate';
+import { parseToKstDate } from './formatDate';
 
 export const isItemClosed = (deadline: string | null | undefined): boolean => {
   if (!deadline) return false;
-  return new Date(parseISOString(deadline)).getTime() < Date.now();
+  return new Date(parseToKstDate(deadline)).getTime() < Date.now();
 };
