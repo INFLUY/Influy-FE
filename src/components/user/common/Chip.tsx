@@ -91,7 +91,7 @@ export const TimeChip = ({
     if (daysUntilClose === 0) {
       const { hours, minutes, seconds } = getTimeLeft(closeTime);
       return (
-        <Chip theme="light-red">{`${hours}:${minutes}:${seconds} LEFT`}</Chip>
+        <Chip theme="light-red">{`${hours}:${minutes}:${seconds} 남음`}</Chip>
       );
     }
 
@@ -138,7 +138,7 @@ export const TimeChip = ({
     if (daysUntilClose === 0) {
       const { hours, minutes, seconds } = getTimeLeft(closeTime);
       return (
-        <Chip theme="light-red">{`${hours}:${minutes}:${seconds} LEFT`}</Chip>
+        <Chip theme="light-red">{`${hours}:${minutes}:${seconds} 남음`}</Chip>
       );
     }
 
