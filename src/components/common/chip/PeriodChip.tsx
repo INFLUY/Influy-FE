@@ -1,5 +1,5 @@
-export const PeriodChip = ({ period }: { period: number }) => {
-  if (period === 1) {
+export const PeriodChip = ({ period }: { period: number | null }) => {
+  if (period === 1 || period === null) {
     return null;
   }
   return (
