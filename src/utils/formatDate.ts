@@ -104,20 +104,32 @@ export const parseDateString = (dateString: string) => {
   return dateString.split('T')[0].replace(/-/g, '.');
 };
 
-// 예시: 2025.07.28(월)
-export const formatKrDate = (dateIso: string) => {
+// 예시: 2025.07.28(월)~08.08(금)
+export const formatKrDateRange = (startIso: string, endIso: string) => {
   const days = ['일', '월', '화', '수', '목', '금', '토'];
-  const date = new Date(dateIso);
-  const startDay = days[date.getDay()];
 
-  const startFormatted = `${date.getFullYear()}.${(date.getMonth() + 1)
+  const start = new Date(startIso);
+  const end = new Date(endIso);
+
+  const startDay = days[start.getDay()];
+  const endDay = days[end.getDay()];
+
+  const sameYear = start.getFullYear() === end.getFullYear();
+
+  const startFormatted = `${start.getFullYear()}.${(start.getMonth() + 1)
     .toString()
     .padStart(
       2,
       '0'
-    )}.${date.getDate().toString().padStart(2, '0')}(${startDay})`;
+    )}.${start.getDate().toString().padStart(2, '0')}(${startDay})`;
 
-  return `${startFormatted}`;
+  const endFormatted = `${sameYear ? '' : `${end.getFullYear()}.`}${(
+    end.getMonth() + 1
+  )
+    .toString()
+    .padStart(2, '0')}.${end.getDate().toString().padStart(2, '0')}(${endDay})`;
+
+  return `${startFormatted}~${endFormatted}`;
 };
 
 // iso string 받아서 오늘이면 오후 HH:MM 형태로 반환, 아니면 날짜 형식으로 반환

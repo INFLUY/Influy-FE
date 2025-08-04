@@ -4,7 +4,7 @@ import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { SellerHomeItemStatus } from '@/types/common/ItemType.types';
-import { getDeadlineLabel } from '@/utils/dateUtils';
+import { getDeadlineLabel } from '@/utils/itemDateUtils';
 
 const MyProductStatus = ({
   items,

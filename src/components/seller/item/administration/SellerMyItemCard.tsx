@@ -3,10 +3,10 @@ import ArrowIcon from '@/assets/icon/common/ArrowRight12.svg?react';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { SELLER_ITEM_DETAIL } from '@/utils/generatePath';
 import { SellerItemPreviewList } from '@/types/common/ItemType.types';
-import { formatKrDate } from '@/utils/formatDate';
 import { EditStatusUnifiedChip, PeriodChip } from '@/components';
-import { isItemClosed } from '@/utils/dateUtils';
+import { isItemClosed } from '@/utils/itemDateUtils';
 import { PATH } from '@/routes/path';
+import { formatKrDateRange } from '@/utils/formatDate';
 
 const SellerMyItemCard = ({
   item,
@@ -91,7 +91,7 @@ const SellerMyItemCard = ({
             {/* 기간 */}
             {item?.startDate && item?.endDate && (
               <p className="caption-m text-grey09 flex">
-                {formatKrDate(item?.startDate)}~{formatKrDate(item?.endDate)}
+                {formatKrDateRange(item?.startDate, item?.endDate)}
               </p>
             )}
 

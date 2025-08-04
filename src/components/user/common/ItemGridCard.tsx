@@ -6,7 +6,7 @@ import {
 } from '@/components';
 import { ItemPreviewList } from '@/types/common/ItemType.types';
 import cn from '@/utils/cn';
-import { isItemClosed } from '@/utils/dateUtils';
+import { isItemClosed } from '@/utils/itemDateUtils';
 
 export const ItemGridCard = ({ item }: { item: ItemPreviewList }) => {
   return (
