@@ -68,7 +68,7 @@ const SellerProfileCard = ({
         <div className="relative -mt-5 flex h-fit w-fit shrink-0">
           <img
             src={sellerInfo.profileImg ?? ProfileIcon}
-            className="h-[5.625rem] w-[5.625rem] rounded-full bg-white"
+            className="h-[5.625rem] w-[5.625rem] rounded-full bg-white object-cover"
           />
         </div>
         <div className="flex w-full justify-between pt-[.625rem]">

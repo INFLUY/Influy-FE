@@ -69,8 +69,11 @@ export const formatTime = ({
   });
 };
 
-export const parseISOString = (isoString: string) => {
-  return new Date(isoString.split('.')[0]);
+export const parseToKstDate = (utcString: string) => {
+  const date = new Date(utcString);
+  const kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+
+  return kstDate;
 };
 
 // 예시: 2025.07.28. (월) 16:52
@@ -119,7 +122,7 @@ export const formatKrDate = (dateIso: string) => {
 
 // iso string 받아서 오늘이면 오후 HH:MM 형태로 반환, 아니면 날짜 형식으로 반환
 export const formatIsoToTimeOrDate = (isoString: string): string => {
-  const date = parseISOString(isoString); // 기존 함수 재사용
+  const date = parseToKstDate(isoString); // 기존 함수 재사용
 
   if (isToday({ d1: date })) {
     // 오늘이면 시간 표시
@@ -139,7 +142,7 @@ export const formatIsoToKoreanLong = ({
 }: {
   isoString: string;
 }): string => {
-  const date = parseISOString(isoString);
+  const date = parseToKstDate(isoString);
 
   const year = date.getFullYear();
   const month = date.getMonth() + 1; // 0-based

@@ -1,8 +1,8 @@
 import {
-  ExtendChip,
   SoldOutChip,
   TimeChip,
   ItemLikeButton,
+  PeriodChip,
 } from '@/components';
 import { ItemPreviewList } from '@/types/common/ItemType.types';
 import cn from '@/utils/cn';
@@ -29,19 +29,21 @@ export const ItemGridCard = ({ item }: { item: ItemPreviewList }) => {
           </div>
         )}
         {/* 칩 */}
-        {item.currentStatus === 'SOLD_OUT' ? (
-          <div className="absolute bottom-0 left-0">
+        <div className="absolute bottom-0 left-0 flex flex-wrap">
+          {item.currentStatus === 'SOLD_OUT' ? (
+            // 솔드아웃 상품의 경우
             <SoldOutChip />
-          </div>
-        ) : (
-          <div className="absolute bottom-0 left-0 flex flex-wrap">
-            <TimeChip open={item.startDate} deadline={item.endDate} />
-            <ExtendChip
-              extend={item.currentStatus === 'EXTEND'}
-              deadline={item.endDate!}
-            />
-          </div>
-        )}
+          ) : (
+            // 좌측 하단 회차 및 시간 칩
+            <>
+              <PeriodChip period={item.itemPeriod} />
+              <TimeChip
+                open={item.startDate ?? undefined}
+                deadline={item.endDate ?? undefined}
+              />
+            </>
+          )}
+        </div>
       </div>
       <div
         className={cn('flex flex-col items-start gap-2', {
