@@ -4,7 +4,7 @@ import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { SellerHomeItemStatus } from '@/types/common/ItemType.types';
-import { getDday } from '@/utils/formatDate';
+import { getDeadlineLabel } from '@/utils/dateUtils';
 
 const MyProductStatus = ({ items }: { items: SellerHomeItemStatus[] | [] }) => {
   const navigate = useNavigate();
@@ -73,7 +73,9 @@ const StatusCard = ({ item }: { item: SellerHomeItemStatus }) => {
               <PeriodChip period={item.itemPeriod} />
               <TimeChip open={item.startDate} deadline={item.endDate} />
             </div>
-            <span className="caption-m text-grey08">{`${getDday(new Date(item.endDate))}일 뒤 마감`}</span>
+            <span className="caption-m text-grey08">
+              {getDeadlineLabel(item.endDate)}
+            </span>
           </div>
         </div>
       </article>

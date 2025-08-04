@@ -13,8 +13,8 @@ export const useGetRecommendedItem = ({
 }) => {
   const query = useInfiniteQuery({
     queryKey: [QUERY_KEYS.HOME_RECOMMEND, categoryId],
-    staleTime: 10 * 60 * 1000,
-    gcTime: 15 * 60 * 1000,
+    staleTime: 1 * 60 * 1000,
+    gcTime: 2 * 60 * 1000,
     enabled,
     queryFn: async ({ pageParam = 1 }) => {
       return getRecommendedItem({
