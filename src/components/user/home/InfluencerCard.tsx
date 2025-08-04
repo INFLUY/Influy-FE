@@ -43,7 +43,7 @@ const InfluencerCard = ({
           <span className="border-main absolute top-0 left-0 z-[1] h-full w-full rounded-full border-[1.5px]" />
         )}
       </div>
-      <div className="flex w-[3.75rem] min-w-0 flex-col items-center text-[.8086rem] leading-[150%] tracking-[-0.0008rem]">
+      <div className="flex w-[3.75rem] min-w-0 flex-col items-center text-center text-[.8086rem] leading-[150%] tracking-[-0.0008rem]">
         <p className="text-grey10 line-clamp-1 w-full font-semibold break-words">
           {influencer.sellerNickname}
         </p>
