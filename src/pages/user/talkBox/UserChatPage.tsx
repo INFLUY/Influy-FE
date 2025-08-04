@@ -1,7 +1,5 @@
 import {
   PageHeader,
-  Tab,
-  Tabs,
   LoadingSpinner,
   TalkBoxSellerProfile,
   FirstChatBubble,
@@ -26,7 +24,7 @@ import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview'
 // import { useGetTalkBoxDefaultComment } from '@/services/sellerItem/query/useGetTalkBoxDefaultComment';
 import { usePostUserQuestion } from '@/services/talkBox/mutation/usePostUserQuestion';
 import { useGetUserCategoryList } from '@/services/talkBox/query/useGetUserCategoryList';
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useRef, useEffect } from 'react';
 
 const UserChatPage = () => {
   const [questionText, setQuestionText] = useState('');
@@ -35,6 +33,31 @@ const UserChatPage = () => {
   const navigate = useNavigate();
   const { itemId, marketId } = useParams();
 
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+  const [bottomBarHeight, setBottomBarHeight] = useState<number>(0);
+
+  useEffect(() => {
+    const el = bottomRef.current;
+    if (!el) return;
+
+    const updateHeight = () => {
+      const height = el.getBoundingClientRect().height;
+      setBottomBarHeight(height);
+      document.documentElement.style.setProperty(
+        '--bottomBarHeight',
+        `${height}px`
+      );
+    };
+
+    const resizeObserver = new ResizeObserver(updateHeight);
+    resizeObserver.observe(el);
+
+    updateHeight(); // 초기 설정
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
   const { itemOverview } = useItemOverview({
     sellerId: Number(marketId),
     itemId: Number(itemId),
@@ -101,7 +124,7 @@ const UserChatPage = () => {
             onItemCardClick={() => {}}
           />
         )}
-        <div className="flex flex-col gap-[1.875rem]">
+        <div className="flex flex-col gap-[1.875rem] pb-[var(--bottomBarHeight)]">
           {/* 첫 메세지 */}
           <div className="mt-5 flex w-full flex-col gap-[1.75rem]">
             <TalkBoxSellerProfile
@@ -125,8 +148,17 @@ const UserChatPage = () => {
             isSellerMode={false}
             profileImg="/img1.png"
           />
+          <SellerReplyBubble
+            questioner={commentData.sellerUsername}
+            question={commentData.talkBoxComment}
+            reply={commentData.talkBoxComment}
+            date={commentData.createdAt}
+            answerType="INDIVIDUAL"
+            isSellerMode={false}
+            profileImg="/img1.png"
+          />
         </div>
-        <div className="bottom-bar flex w-full flex-col">
+        <div className="bottom-bar flex w-full flex-col" ref={bottomRef}>
           <Suspense fallback={<LoadingSpinner />}>
             <CategorySelectWrapper
               viewList={categoryList.viewList}

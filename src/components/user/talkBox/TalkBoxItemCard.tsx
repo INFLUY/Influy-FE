@@ -15,7 +15,7 @@ export const TalkBoxBottomItemCard = ({
     <button
       onClick={onItemCardClick}
       aria-label={`${itemName} 상세로 이동`}
-      className="border-b-grey02 bg-grey01 flex h-fit w-full cursor-pointer items-center gap-[.5625rem] self-stretch border-b border-solid px-5 py-[.9375rem]"
+      className="border-b-grey02 bg-grey01 sticky top-0 flex h-fit w-full cursor-pointer items-center gap-[.5625rem] self-stretch border-b border-solid px-5 py-[.9375rem]"
     >
       {/* 좌측 이미지 */}
       <div className="bg-grey03 relative aspect-square h-[3.125rem]">

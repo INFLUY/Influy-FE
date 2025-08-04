@@ -1,6 +1,4 @@
 import { formatIsoToKoreanLong } from '@/utils/formatDate';
-import { AnswerType } from '@/types/seller/TalkBox.types';
-import ReplyIcon from '@/assets/icon/common/ReplyIcon.svg?react';
 
 export const UserChatBubbleUserView = ({ date }: { date: string }) => {
   return (
