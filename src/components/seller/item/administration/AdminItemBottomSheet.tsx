@@ -3,6 +3,7 @@ import { generatePath, useNavigate } from 'react-router-dom';
 import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
 import { useModalStore } from '@/store/useModalStore';
 import { useSnackbarStore } from '@/store/snackbarStore';
+import { useDeleteItem } from '@/services/sellerItem/mutation/useDeleteItem';
 
 const AdminItemBottomSheet = ({
   itemId,
@@ -13,6 +14,12 @@ const AdminItemBottomSheet = ({
 }) => {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbarStore();
+
+  const { mutate: deleteItem } = useDeleteItem(() => {
+    hideModal();
+    closeModal();
+    showSnackbar('상품이 삭제되었습니다.');
+  });
 
   // 상품 수정
   const handleItemEdit = () => {
@@ -27,14 +34,6 @@ const AdminItemBottomSheet = ({
     showSnackbar('상품이 보관함으로 이동했습니다.');
   };
 
-  // 상품 삭제 모달 -> 확인
-  const handleItemDeleteConfirm = () => {
-    // TODO: 삭제 로직 연동 -> 삭제 버튼 클릭 시 itemId 이용하여 삭제
-    hideModal();
-    closeModal();
-    showSnackbar('상품이 삭제되었습니다.');
-  };
-
   const { showModal, hideModal } = useModalStore();
 
   // 삭제 모달
@@ -45,7 +44,7 @@ const AdminItemBottomSheet = ({
         hideModal();
         closeModal();
       },
-      rightButtonClick: () => handleItemDeleteConfirm(),
+      rightButtonClick: () => deleteItem({ itemId }),
     });
   };
 
