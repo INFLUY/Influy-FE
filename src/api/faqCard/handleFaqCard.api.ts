@@ -1,9 +1,9 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { API_DOMAINS } from '@/constants/api';
-import { ApiResponse } from '@/types/common/ApiResponse.types';
+import { ApiResponse, Pagination } from '@/types/common/ApiResponse.types';
 import {
-  FaqCardDetailReponse,
+  FaqCardDetailResponse,
   FaqCardRequestType,
 } from '@/types/common/FaqCardType.types';
 
@@ -56,7 +56,7 @@ export const getFaqCardDetail = async ({
   itemId: number;
   faqCardId: number;
 }) => {
-  const response = await instance.get<ApiResponse<FaqCardDetailReponse>>(
+  const response = await instance.get<ApiResponse<FaqCardDetailResponse>>(
     generateApiPath(API_DOMAINS.SELLER_MY_GET_FAQ_CARD_DETAIL, {
       sellerId,
       itemId,
@@ -64,4 +64,37 @@ export const getFaqCardDetail = async ({
     })
   );
   return response.data.result;
+};
+
+interface FaqCardListParams {
+  sellerId: number;
+  itemId: number;
+  faqCategoryId: number | null;
+  page?: number;
+  size?: number;
+}
+
+export const getFaqCardByCategory = async ({
+  sellerId,
+  itemId,
+  faqCategoryId,
+  page = 1,
+  size = 10,
+}: FaqCardListParams) => {
+  const url = generateApiPath(API_DOMAINS.GET_FAQ_CARDS, {
+    sellerId,
+    itemId,
+  });
+
+  const { data } = await instance.get<
+    ApiResponse<Pagination<FaqCardDetailResponse | [], 'faqCardList'>>
+  >(url, {
+    params: {
+      faqCategoryId,
+      page,
+      size,
+    },
+  });
+
+  return data.result;
 };

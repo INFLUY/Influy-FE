@@ -29,10 +29,13 @@ export const API_DOMAINS = {
   SELLER_MY_ANNOUNCEMENT_DETAIL: '/seller/announcements/:announcementId',
   SELLER_MY_POST_MARKET_LINKS: '/seller/market-links',
   SELLER_MY_HANDLE_MARKET_LINKS: '/seller/market-links/:linkId',
+
+  // [FAQ]셀러 faq 카드
   SELLER_MY_POST_FAQ_CARD: '/seller/items/:itemId/faq',
   SELLER_MY_HANDLE_FAQ_CARD: '/seller/items/:itemId/faq/:faqCardId',
   SELLER_MY_GET_FAQ_CARD_DETAIL:
-    '/seller/:sellerId/items/:itemId/faq/:faqCardId',
+    '/seller/:sellerId/items/:itemId/faq/:faqCardId', //각 faq 카드 조회
+  GET_FAQ_CARDS: '/seller/:sellerId/items/:itemId/faq/faq-cards', // 카테고리별 FAQ 카드 리스트 조회
 
   // user
   USER_JOIN: '/member/register/user',
@@ -161,4 +164,5 @@ export const QUERY_KEYS = {
   SELLER_TALK_BOX_COMMENT: 'sellerTalkBoxComment',
   SELLER_POST_INDIVIDUAL_ANSWER: 'sellerPostIndividualAnswer',
   SELLER_SINGLE_QUESTION_ANSWER: 'sellerSingleQuestionAnswer',
+  FAQ_CARD_LIST: 'faqCardList',
 };

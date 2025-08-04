@@ -14,7 +14,7 @@ export type FaqCardRequestType = {
   data: FaqCardRequestBody;
 };
 
-export type FaqCardDetailReponse = {
+export type FaqCardDetailResponse = {
   id: number;
   pinned: boolean;
   adjustImg: boolean;

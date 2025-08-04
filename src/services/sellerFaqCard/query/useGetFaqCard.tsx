@@ -1,6 +1,6 @@
 import { getFaqCardDetail } from '@/api/faqCard/handleFaqCard.api';
 import { QUERY_KEYS } from '@/constants/api';
-import { FaqCardDetailReponse } from '@/types/common/FaqCardType.types';
+import { FaqCardDetailResponse } from '@/types/common/FaqCardType.types';
 import {
   useSuspenseQuery,
   UseSuspenseQueryResult,
@@ -14,7 +14,7 @@ export const useGetFaqCard = ({
   sellerId: number;
   itemId: number;
   faqCardId: number;
-}): UseSuspenseQueryResult<FaqCardDetailReponse> => {
+}): UseSuspenseQueryResult<FaqCardDetailResponse> => {
   return useSuspenseQuery({
     queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, itemId, sellerId],
     queryFn: () => getFaqCardDetail({ sellerId, itemId, faqCardId }),

@@ -1,11 +1,6 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 
-import {
-  PageHeader,
-  CategoryChip,
-  LoadingSpinner,
-  ToolTip,
-} from '@/components';
+import { PageHeader, CategoryChip, LoadingSpinner } from '@/components';
 import { UserNav } from '@/components/user/itemDetail/UserNav';
 // icon
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
@@ -21,12 +16,11 @@ import { CategoryType } from '@/types/common/CategoryType.types';
 // hooks
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 
-// 임시
-import { dummyCategory, dummyFaq } from './ItemDetailDummyData';
-
 // api
 import { useGetMarketItemDetailSuspense } from '@/services/sellerItem/query/useGetMarketItemDetail';
 import { useGetItemLikeCounts } from '@/services/likes/query/useGetItemLikeCounts';
+import { useGetItemFaqCategory } from '@/services/sellerItemFaq/query/useGetItemFaqCategory';
+import { useGetFaqCardByCategory } from '@/services/sellerFaqCard/query/useGetFaqCardByCategory';
 const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/itemDetail/ItemDetailFaqCard')
 );
@@ -36,7 +30,9 @@ const ItemDetailInfo = lazy(
 );
 
 const UserItemDetailPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null
+  );
 
   const navigate = useNavigate();
 
@@ -102,18 +98,42 @@ const UserItemDetailPage = () => {
   };
   const onBuyClick = () => {};
 
+  const { data: faqCategories } = useGetItemFaqCategory({
+    sellerId: Number(marketId),
+    itemId: Number(itemId),
+  });
+
+  useEffect(() => {
+    setSelectedCategoryId(faqCategories[0].id);
+  }, [faqCategories]);
+
+  const {
+    data: faqCardList,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetFaqCardByCategory({
+    sellerId: Number(marketId),
+    itemId: Number(itemId),
+    faqCategoryId: selectedCategoryId,
+  });
+  console.log(selectedCategoryId !== null);
+  const flattenedFaqCardList = faqCardList?.pages.flatMap(
+    (page) => page?.faqCardList ?? []
+  );
+
   return (
     <>
       {/* 헤더 */}
       {isFaqCategoryTop ? (
         <header className="sticky top-0 z-20 flex w-full flex-nowrap gap-2 bg-[rgba(241,241,241,0.30)]">
           <div className="scrollbar-hide flex items-center gap-2 overflow-x-scroll px-5 pt-2 pb-[.4375rem]">
-            {dummyCategory.map((category: CategoryType) => (
+            {faqCategories.map((category: CategoryType) => (
               <CategoryChip
                 key={category.id}
                 text={category.name}
-                isSelected={selectedCategory == category.id}
-                onToggle={() => setSelectedCategory(category.id)}
+                isSelected={selectedCategoryId == category.id}
+                onToggle={() => setSelectedCategoryId(category.id)}
                 theme="faq"
               />
             ))}
@@ -166,17 +186,18 @@ const UserItemDetailPage = () => {
             />
 
             <article className="flex w-full flex-wrap gap-2">
-              {dummyCategory &&
-                dummyCategory.length > 0 &&
-                dummyCategory.map((category: CategoryType) => (
-                  <CategoryChip
-                    key={category.id}
-                    text={category.name}
-                    isSelected={selectedCategory == category.id}
-                    onToggle={() => setSelectedCategory(category.id)}
-                    theme="faq"
-                  />
-                ))}
+              <Suspense fallback={<LoadingSpinner />}>
+                {faqCategories.length > 0 &&
+                  faqCategories.map((category: CategoryType) => (
+                    <CategoryChip
+                      key={category.id}
+                      text={category.name}
+                      isSelected={selectedCategoryId == category.id}
+                      onToggle={() => setSelectedCategoryId(category.id)}
+                      theme="faq"
+                    />
+                  ))}
+              </Suspense>
             </article>
             {isFaqCategoryTop && (
               <div className="absolute top-0 z-1 h-full w-full bg-white" />
@@ -184,7 +205,9 @@ const UserItemDetailPage = () => {
           </div>
         </article>
         <Suspense fallback={<LoadingSpinner />}>
-          <ItemDetailFaqCard faqList={dummyFaq} />
+          {flattenedFaqCardList && (
+            <ItemDetailFaqCard faqList={flattenedFaqCardList} />
+          )}
         </Suspense>
       </section>
       <UserNav
