@@ -52,16 +52,35 @@ const EditTimeChip = ({
   deadline: string | null | undefined;
   onClick: () => void;
 }) => {
+  const now = new Date();
   const [, forceUpdate] = useState(0);
 
+  const needsSecondUpdate = (() => {
+    if (deadline) {
+      const closeTime = parseISOString(deadline);
+      const daysUntilClose = getDday(closeTime) - 1;
+      if (daysUntilClose === 0) return true;
+    }
+    if (open && deadline) {
+      const openTime = parseISOString(open);
+      const closeTime = parseISOString(deadline);
+      const timeUntilOpen = openTime.getTime() - now.getTime();
+      const timeUntilClose = closeTime.getTime() - now.getTime();
+      if (timeUntilOpen <= 0 && timeUntilClose > 0) {
+        const daysUntilClose = getDday(closeTime) - 1;
+        if (daysUntilClose === 0) return true;
+      }
+    }
+    return false;
+  })();
+
   useEffect(() => {
+    if (!needsSecondUpdate) return;
     const interval = setInterval(() => {
       forceUpdate((prev) => prev + 1);
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
-
-  const now = new Date();
+  }, [needsSecondUpdate]);
 
   // 1. 설정 전
   if (open === undefined && deadline === undefined) {

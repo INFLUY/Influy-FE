@@ -6,6 +6,7 @@ import {
   getTimeLeft,
   isToday,
 } from '@/utils/formatDate';
+import { useEffect, useState } from 'react';
 
 const Chip = ({
   children,
@@ -43,6 +44,35 @@ export const TimeChip = ({
   deadline: string | null;
 }): React.ReactNode | null => {
   const now = new Date();
+  const [, forceUpdate] = useState(0);
+
+  // 마감 직전 칩만 리렌더링
+  const needsSecondUpdate = (() => {
+    if (deadline) {
+      const closeTime = parseISOString(deadline);
+      const daysUntilClose = getDday(closeTime) - 1;
+      if (daysUntilClose === 0) return true;
+    }
+    if (open && deadline) {
+      const openTime = parseISOString(open);
+      const closeTime = parseISOString(deadline);
+      const timeUntilOpen = openTime.getTime() - now.getTime();
+      const timeUntilClose = closeTime.getTime() - now.getTime();
+      if (timeUntilOpen <= 0 && timeUntilClose > 0) {
+        const daysUntilClose = getDday(closeTime) - 1;
+        if (daysUntilClose === 0) return true;
+      }
+    }
+    return false;
+  })();
+
+  useEffect(() => {
+    if (!needsSecondUpdate) return;
+    const interval = setInterval(() => {
+      forceUpdate((prev) => prev + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [needsSecondUpdate]);
 
   // 시작일, 마감일 모두 없음
   if (open === null && deadline === null) {
