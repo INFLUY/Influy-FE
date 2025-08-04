@@ -4,8 +4,10 @@ import RadioInputSelector from '@/components/seller/common/RadioInputSelector';
 import { DefaultButton } from '@/components/seller/common/Button';
 import { RadioInputList } from '@/components/seller/common/RadioInput.types';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
+import cn from '@/utils/cn';
 
 type RadioBottomSheetProps = {
+  disabled?: boolean;
   title: string;
   description?: string;
   list: RadioInputList[];
@@ -15,6 +17,7 @@ type RadioBottomSheetProps = {
 };
 
 const RadioBottomSheet = ({
+  disabled = false,
   title,
   description,
   list,
@@ -40,16 +43,30 @@ const RadioBottomSheet = ({
   return (
     <BottomSheet onClose={closeModal} isBottomSheetOpen>
       <div className="flex flex-col items-center">
-        <span className="flex flex-col items-center gap-[.125rem]">
+        <span className="flex flex-col items-center gap-3">
           <h1 className="subhead-b text-grey10 w-full text-center">{title}</h1>
           {description && (
-            <p className="text-grey07 caption-m text-center">{description}</p>
+            <p
+              className={cn('text-grey07 body2-m text-center', {
+                'text-main': disabled,
+              })}
+            >
+              {description}
+            </p>
           )}
         </span>
 
-        <div className="scrollbar-hide flex w-full flex-col overflow-y-auto px-5 pb-8">
+        <div
+          className={cn(
+            'scrollbar-hide flex w-full flex-col overflow-y-auto px-5 pb-8',
+            {
+              'pointer-events-none': disabled,
+            }
+          )}
+        >
           <div className="flex w-full items-center py-4">
             <RadioInputSelector
+              disabled={disabled}
               name={title}
               list={list}
               selected={localSelected}

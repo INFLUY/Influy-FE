@@ -6,9 +6,11 @@ import { useSnackbarStore } from '@/store/snackbarStore';
 import { useDeleteItem } from '@/services/sellerItem/mutation/useDeleteItem';
 
 const AdminItemBottomSheet = ({
+  isStored = false,
   itemId,
   closeModal,
 }: {
+  isStored?: boolean;
   itemId: number;
   closeModal: () => void;
 }) => {
@@ -59,13 +61,15 @@ const AdminItemBottomSheet = ({
           >
             상품 수정
           </button>
-          <button
-            type="button"
-            className="body1-b text-grey10 w-full cursor-pointer py-4 text-center"
-            onClick={handleItemStore}
-          >
-            보관
-          </button>
+          {!isStored && (
+            <button
+              type="button"
+              className="body1-b text-grey10 w-full cursor-pointer py-4 text-center"
+              onClick={handleItemStore}
+            >
+              보관
+            </button>
+          )}
           <button
             type="button"
             className="body1-b text-error w-full cursor-pointer py-4 text-center"
