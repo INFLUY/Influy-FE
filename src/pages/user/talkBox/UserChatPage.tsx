@@ -21,10 +21,12 @@ import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
 
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
-// import { useGetTalkBoxDefaultComment } from '@/services/sellerItem/query/useGetTalkBoxDefaultComment';
 import { usePostUserQuestion } from '@/services/talkBox/mutation/usePostUserQuestion';
 import { useGetUserCategoryList } from '@/services/talkBox/query/useGetUserCategoryList';
 import { Suspense, useState, useRef, useEffect } from 'react';
+import { useGetUserTalkBoxHistory } from '@/services/talkBox/query/useGetUserTalkBoxHistory';
+import { useGetSellerOverview } from '@/services/seller/query/useGetSellerOverview';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 
 const UserChatPage = () => {
   const [questionText, setQuestionText] = useState('');
@@ -33,11 +35,13 @@ const UserChatPage = () => {
   const navigate = useNavigate();
   const { itemId, marketId } = useParams();
 
-  const bottomRef = useRef<HTMLDivElement | null>(null);
-  const [bottomBarHeight, setBottomBarHeight] = useState<number>(0);
+  const bottomBarRef = useRef<HTMLDivElement | null>(null);
+  const bottomObserverRef = useRef<HTMLDivElement | null>(null);
+  const topObserverRef = useRef<HTMLDivElement | null>(null);
+  const [_, setBottomBarHeight] = useState<number>(0);
 
   useEffect(() => {
-    const el = bottomRef.current;
+    const el = bottomBarRef.current;
     if (!el) return;
 
     const updateHeight = () => {
@@ -62,17 +66,28 @@ const UserChatPage = () => {
     sellerId: Number(marketId),
     itemId: Number(itemId),
   });
-  const commentData: TalkBoxCommentDTO = {
-    sellerId: 5,
-    sellerProfileImg: null,
-    sellerUsername: 'seojunghii',
-    sellerNickname: '서정',
-    createdAt: '2025-08-03T12:32:48.708228832',
-    talkBoxComment: '안녕',
-  };
 
+  // api
+  // 카테고리
   const { data: categoryList } = useGetUserCategoryList(Number(itemId));
 
+  // 이전 질문
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useGetUserTalkBoxHistory(Number(itemId), 4);
+
+  const chatList = data?.pages.flatMap((page) => page?.chatList) ?? [];
+  useInfiniteScroll({
+    targetRef: topObserverRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    threshold: 1,
+  });
+
+  useEffect(() => {
+    if (!bottomObserverRef.current) return;
+    bottomObserverRef.current.scrollIntoView({ behavior: 'smooth' });
+  }, [chatList]);
   // 질문 전송
   const { mutate: postAnswer, isPending } = usePostUserQuestion({
     itemId: Number(itemId),
@@ -82,6 +97,9 @@ const UserChatPage = () => {
       setSelectedCategory(null);
     },
   });
+
+  //셀러 정보
+  const { data: sellerInfo } = useGetSellerOverview(Number(marketId));
 
   const handleQuestionSubmit = () => {
     if (
@@ -109,10 +127,14 @@ const UserChatPage = () => {
         additionalStyles="bg-grey01 border-0"
       >
         <div className="absolute left-[3.75rem] flex flex-col items-start justify-between">
-          <span className="body2-sb text-grey10 leading-[130%]">소현소현</span>
-          <span className="caption-small-m text-grey06 leading-[130%]">
-            @xt
-          </span>
+          <Suspense fallback={null}>
+            <span className="body2-sb text-grey10 leading-[130%]">
+              {sellerInfo?.sellerNickname}
+            </span>
+            <span className="caption-small-m text-grey06 leading-[130%]">
+              @{sellerInfo?.sellerUsername}
+            </span>
+          </Suspense>
         </div>
       </PageHeader>
       <section className="scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto bg-white pt-11">
@@ -124,41 +146,68 @@ const UserChatPage = () => {
             onItemCardClick={() => {}}
           />
         )}
-        <div className="flex flex-col gap-[1.875rem] pb-[var(--bottomBarHeight)]">
-          {/* 첫 메세지 */}
-          <div className="mt-5 flex w-full flex-col gap-[1.75rem]">
-            <TalkBoxSellerProfile
-              profileImg={commentData.sellerProfileImg}
-              username={commentData.sellerUsername}
-              nickname={commentData.sellerNickname}
-            />
-            <FirstChatBubble
-              profileImg={commentData.sellerProfileImg}
-              username={commentData.sellerUsername}
-              defaultMessage={commentData.talkBoxComment}
-            />
-          </div>
-          <UserChatBubbleUserView date="2025-08-03T12:32:48.708228832" />{' '}
-          <SellerReplyBubble
-            questioner={commentData.sellerUsername}
-            question={commentData.talkBoxComment}
-            reply={commentData.talkBoxComment}
-            date={commentData.createdAt}
-            answerType="INDIVIDUAL"
-            isSellerMode={false}
-            profileImg="/img1.png"
-          />
-          <SellerReplyBubble
-            questioner={commentData.sellerUsername}
-            question={commentData.talkBoxComment}
-            reply={commentData.talkBoxComment}
-            date={commentData.createdAt}
-            answerType="INDIVIDUAL"
-            isSellerMode={false}
-            profileImg="/img1.png"
-          />
-        </div>
-        <div className="bottom-bar flex w-full flex-col" ref={bottomRef}>
+        <Suspense fallback={<LoadingSpinner />}>
+          <section className="flex flex-col pb-[var(--bottomBarHeight)]">
+            <div ref={topObserverRef} className="bg-grey07 h-[1px] w-full" />
+            <div className="flex flex-col-reverse gap-[1.875rem] pt-5">
+              {chatList &&
+                chatList.map((chat, index) => {
+                  if (chat?.type === 'Default Message') {
+                    return (
+                      <div
+                        className="flex w-full flex-col gap-[1.875rem]"
+                        key={`default-${index}`}
+                      >
+                        <Suspense fallback={<LoadingSpinner />}>
+                          <TalkBoxSellerProfile
+                            profileImg={sellerInfo?.profileImg || null}
+                            username={sellerInfo?.sellerUsername ?? ''}
+                            nickname={sellerInfo?.sellerNickname ?? ''}
+                          />
+                        </Suspense>
+                        <FirstChatBubble
+                          profileImg={sellerInfo?.profileImg || null}
+                          username={sellerInfo?.sellerUsername ?? ''}
+                          defaultMessage={chat.content}
+                        />
+                      </div>
+                    );
+                  }
+
+                  if (chat?.type === 'Q') {
+                    return (
+                      <UserChatBubbleUserView
+                        key={`question-${chat.id}`}
+                        content={chat.content}
+                        categoryName={chat.categoryName}
+                        date={chat.createdAt}
+                      />
+                    );
+                  }
+
+                  if (chat?.type === 'A') {
+                    return (
+                      <SellerReplyBubble
+                        key={`answer-${chat.id}`}
+                        questioner={sellerInfo?.sellerNickname ?? ''}
+                        question={chat.questionContent}
+                        reply={chat.content}
+                        date={chat.createdAt}
+                        answerType={chat.answerType}
+                        isSellerMode={false}
+                        profileImg={sellerInfo?.profileImg}
+                      />
+                    );
+                  }
+
+                  return null;
+                })}
+            </div>
+            <div ref={bottomObserverRef} className="bg-grey07 h-[1px] w-full" />
+          </section>
+        </Suspense>
+
+        <div className="bottom-bar flex w-full flex-col" ref={bottomBarRef}>
           <Suspense fallback={<LoadingSpinner />}>
             <CategorySelectWrapper
               viewList={categoryList.viewList}

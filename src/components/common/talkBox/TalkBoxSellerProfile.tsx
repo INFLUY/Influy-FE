@@ -25,7 +25,7 @@ export const TalkBoxSellerProfile = ({
         {/* 이름 및 아이디 */}
         <div className="flex flex-col items-center">
           <p className="body1-b text-black">{nickname}</p>
-          <p className="body2-m text-grey08">{username}</p>
+          <p className="body2-m text-grey08">@{username}</p>
         </div>
       </div>
       {/* 날짜 */}

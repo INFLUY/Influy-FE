@@ -1,12 +1,17 @@
 // 스웨거 '질문 관리'
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
-import { SELLER_API_DOMAINS } from '@/constants/api';
+import { SELLER_API_DOMAINS, API_DOMAINS } from '@/constants/api';
 import {
   QuestionResponse,
   SingleQuestionAnswerDTO,
+  UserTalkBoxChat,
 } from '@/types/seller/TalkBox.types';
-
+import {
+  ApiResponse,
+  Pagination,
+  PaginationType,
+} from '@/types/common/ApiResponse.types';
 export const getAllQuestions = async ({
   questionCategoryId,
   isAnswered,
@@ -103,5 +108,21 @@ export const getSingleQuestionAnswer = async ({
       questionId,
     })
   );
+  return response.data.result;
+};
+
+export const getUserTalkBoxHistory = async ({
+  itemId,
+  page,
+  size,
+}: PaginationType & { itemId: number }) => {
+  const url = generateApiPath(API_DOMAINS.GET_USER_TALK_BOX_HISTORY, {
+    itemId,
+  });
+
+  const response = await instance.get<
+    ApiResponse<Pagination<UserTalkBoxChat[] | [], 'chatList'>>
+  >(url, { params: { page, size } });
+
   return response.data.result;
 };

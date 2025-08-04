@@ -97,3 +97,25 @@ export interface UserCategoryDTO {
   questionCategoryId: number;
   questionCategoryName: string;
 }
+export type UserTalkBoxChat =
+  | {
+      type: 'Q';
+      id: number;
+      questionId?: number;
+      categoryName: string;
+      content: string;
+      createdAt: string;
+    }
+  | {
+      type: 'A';
+      id: number;
+      questionId: number;
+      answerType: 'INDIVIDUAL' | 'COMMON' | 'FAQ';
+      questionContent: string;
+      content: string;
+      createdAt: string;
+    }
+  | {
+      type: 'Default Message';
+      content: string;
+    };

@@ -19,21 +19,9 @@ export const usePostUserQuestion = ({
     mutationFn: (content: string) =>
       postUserQuestion({ itemId, questionCategoryId, content }),
     onSuccess: () => {
-      // TODO: invalidate
-      //   queryClient.invalidateQueries([
-      //     QUERY_KEYS.SELLER_ALL_QUESTIONS_IN_CATEGORY,
-      //     questionCategoryId,
-      //     false,
-      //   ]);
-      //   queryClient.invalidateQueries([
-      //     QUERY_KEYS.SELLER_QUESTION_TAGS,
-      //     questionCategoryId,
-      //     false,
-      //   ]);
-      //   queryClient.invalidateQueries([
-      //     QUERY_KEYS.SELLER_CATEGORY_QUESTION_COUNTS,
-      //     questionCategoryId,
-      //   ]);
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.USER_TALK_BOX_HISTORY, itemId],
+      });
 
       onSuccessCallback?.();
     },

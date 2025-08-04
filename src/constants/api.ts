@@ -60,6 +60,7 @@ export const API_DOMAINS = {
 
   //질문관리
   USER_POST_QUESTION: '/user/items/:itemId/talkbox/:questionCategoryId',
+  GET_USER_TALK_BOX_HISTORY: '/user/items/:itemId/talkbox/',
 
   //셀러
   GET_SELLER_OVERVIEW: '/seller/:sellerId/overview',
@@ -165,4 +166,5 @@ export const QUERY_KEYS = {
   SELLER_POST_INDIVIDUAL_ANSWER: 'sellerPostIndividualAnswer',
   SELLER_SINGLE_QUESTION_ANSWER: 'sellerSingleQuestionAnswer',
   FAQ_CARD_LIST: 'faqCardList',
+  USER_TALK_BOX_HISTORY: 'userTalkboxHistory',
 };

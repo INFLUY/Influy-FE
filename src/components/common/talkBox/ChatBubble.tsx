@@ -68,12 +68,16 @@ export const SellerReplyBubble = ({
       )}
       aria-label="답변말풍선"
     >
-      {profileImg && !isSellerMode && (
-        <img
-          src={profileImg}
-          alt={'인플루언서 프로필 사진'}
-          className="bg-grey02 h-8 w-8 rounded-full object-cover"
-        />
+      {!isSellerMode && (
+        <div className="bg-grey02 aspect-square h-8 w-8 shrink-0 rounded-full">
+          {profileImg && (
+            <img
+              src={profileImg}
+              alt={'인플루언서 프로필 사진'}
+              className="bg-grey02 h-8 w-8 rounded-full object-cover"
+            />
+          )}
+        </div>
       )}
       <div className="flex w-full flex-col">
         {/* 채팅 버블 */}
