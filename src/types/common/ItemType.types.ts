@@ -4,9 +4,9 @@ export type SellerItemPreviewList = {
   itemPeriod: number;
   itemName: string;
   sellerName: string;
-  startDate?: string;
-  endDate?: string;
-  tagline?: string;
+  startDate: string | null;
+  endDate: string | null;
+  tagline: string | null;
   currentStatus: ItemCurrentStatusType;
   liked: false;
   talkBoxInfo: {
@@ -15,6 +15,7 @@ export type SellerItemPreviewList = {
     completedCnt: number;
   };
   mainImg: string | null;
+  isDateUndefined: boolean;
 };
 
 export interface ItemCardType {

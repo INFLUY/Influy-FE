@@ -45,12 +45,14 @@ const EditStatusChip = ({
 };
 
 const EditTimeChip = ({
-  open,
-  deadline,
+  open, // startDate
+  deadline, // endDate
+  isDateUndefined,
   onClick,
 }: {
-  open: string | null | undefined;
-  deadline: string | null | undefined;
+  open: string | null;
+  deadline: string | null;
+  isDateUndefined: boolean;
   onClick: () => void;
 }) => {
   const now = new Date();
@@ -66,8 +68,8 @@ const EditTimeChip = ({
     return () => clearInterval(interval);
   }, [needsSecondUpdate]);
 
-  // 1. 설정 전
-  if (open === undefined && deadline === undefined) {
+  // 1. 기간 설정 안 함 (isDateUndefined)
+  if (isDateUndefined) {
     return (
       <EditStatusChip onClick={onClick} theme="base">
         기간 설정 전
@@ -75,11 +77,8 @@ const EditTimeChip = ({
     );
   }
 
-  // 2. 항상 열림
-  else if (
-    (open === null || open === undefined) &&
-    (deadline === null || deadline === undefined)
-  ) {
+  // 2. 기간 없음 (항상 열림)
+  else if (!open && !deadline) {
     return (
       <EditStatusChip onClick={onClick} theme="red">
         NOW OPEN
@@ -87,8 +86,27 @@ const EditTimeChip = ({
     );
   }
 
-  // 3. 오픈 시간 없음, 마감 시간만 있음
-  else if (open === null && deadline !== null && deadline !== undefined) {
+  // 3. 시작일만 설정 (open 있음, deadline 없음)
+  else if (open && !deadline) {
+    const openTime = parseToKstDate(open);
+    if (now >= openTime) {
+      return (
+        <EditStatusChip onClick={onClick} theme="red">
+          NOW OPEN
+        </EditStatusChip>
+      );
+    } else {
+      const dDay = getDday(openTime);
+      return (
+        <EditStatusChip onClick={onClick} theme="blue">
+          D-{dDay}
+        </EditStatusChip>
+      );
+    }
+  }
+
+  // 4. 마감일만 설정 (open 없음, deadline 있음)
+  else if (!open && deadline) {
     const closeTime = parseToKstDate(deadline);
     const timeLeftUntilClose = closeTime.getTime() - now.getTime();
     const daysLeftUntilClose = getDday(closeTime) - 1;
@@ -115,30 +133,8 @@ const EditTimeChip = ({
     }
   }
 
-  // 4. 오픈 시간 있음, 마감 시간 없음
-  else if (open !== null && open !== undefined && deadline === null) {
-    const openTime = parseToKstDate(open);
-    if (now >= openTime) {
-      return (
-        <EditStatusChip onClick={onClick} theme="red">
-          NOW OPEN
-        </EditStatusChip>
-      );
-    } else {
-      const dDay = getDday(openTime);
-      return (
-        <EditStatusChip onClick={onClick} theme="blue">
-          D-{dDay}
-        </EditStatusChip>
-      );
-    }
-  } else if (
-    open !== null &&
-    open !== undefined &&
-    deadline !== null &&
-    deadline !== undefined
-  ) {
-    // 5. 오픈 시간, 마감 시간 모두 존재
+  // 5. 시작일 + 마감일 모두 존재
+  else if (open && deadline) {
     const openTime = parseToKstDate(open);
     const closeTime = parseToKstDate(deadline);
     const timeLeftUntilOpen = openTime.getTime() - now.getTime();
@@ -185,18 +181,22 @@ const EditTimeChip = ({
       }
     }
   }
+
+  return null;
 };
 
 // 실사용 컴포넌트
 export const EditStatusUnifiedChip = ({
   currentStatus,
+  isDateUndefined,
   open,
   deadline,
   onClick,
 }: {
   currentStatus: ItemCurrentStatusType;
-  open: string | null | undefined;
-  deadline: string | null | undefined;
+  isDateUndefined: boolean;
+  open: string | null;
+  deadline: string | null;
   onClick: () => void;
 }) => {
   if (currentStatus === 'SOLD_OUT') {
@@ -228,5 +228,13 @@ export const EditStatusUnifiedChip = ({
   }
 
   // DEFAULT 상태
-  return <EditTimeChip open={open} deadline={deadline} onClick={onClick} />;
+
+  return (
+    <EditTimeChip
+      isDateUndefined={isDateUndefined}
+      open={open}
+      deadline={deadline}
+      onClick={onClick}
+    />
+  );
 };

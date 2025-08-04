@@ -99,9 +99,10 @@ const SellerMyItemCard = ({
             <span className="caption-m text-grey07 flex items-center gap-1">
               상태 :
               <EditStatusUnifiedChip
+                isDateUndefined={item?.isDateUndefined}
                 currentStatus={item?.currentStatus}
-                open={item?.startDate ?? undefined}
-                deadline={item?.endDate ?? undefined}
+                open={item?.startDate}
+                deadline={item?.endDate}
                 onClick={openStatusModal}
               />
             </span>
