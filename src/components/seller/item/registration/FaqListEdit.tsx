@@ -55,6 +55,7 @@ import { useStrictId } from '@/hooks/auth/useStrictId';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { useDeleteFaqCard } from '@/services/sellerFaqCard/mutation/useDeleteFaqCard';
 import { useModalStore } from '@/store/useModalStore';
+import { usePatchFaqPin } from '@/services/sellerFaqCard/mutation/usePatchFaqPin';
 
 type SheetMode =
   | 'none'
@@ -504,6 +505,17 @@ const FaqQuestionCard = ({
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbarStore();
 
+  const { mutate: patchPin } = usePatchFaqPin({
+    faqCategoryId,
+    onSuccessCallback: () => {
+      setSheetMode('none');
+    },
+  });
+
+  const handlePin = () => {
+    patchPin({ itemId, faqCardId: faqCard.id, isPinned: !faqCard.pinned });
+  };
+
   const { mutate: deleteFaqCard } = useDeleteFaqCard(() => {
     navigate(generatePath(SELLER_ITEM_EDIT_FAQ_TAB_PATH, { itemId: itemId! }), {
       replace: true,
@@ -582,7 +594,7 @@ const FaqQuestionCard = ({
             <button
               type="button"
               className="body1-b w-full cursor-pointer py-4 text-center"
-              // onClick={handlePin}
+              onClick={handlePin}
             >
               {faqCard.pinned ? '고정해제' : '맨 앞에 고정'}
             </button>
