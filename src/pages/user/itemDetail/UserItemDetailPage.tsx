@@ -7,7 +7,7 @@ import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
 
 // path
-import { generatePath, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 
 // type
@@ -117,7 +117,8 @@ const UserItemDetailPage = () => {
     itemId: Number(itemId),
     faqCategoryId: selectedCategoryId,
   });
-  console.log(selectedCategoryId !== null);
+  console.log(faqCardList);
+
   const flattenedFaqCardList = faqCardList?.pages.flatMap(
     (page) => page?.faqCardList ?? []
   );
@@ -204,11 +205,18 @@ const UserItemDetailPage = () => {
             )}
           </div>
         </article>
-        <Suspense fallback={<LoadingSpinner />}>
-          {flattenedFaqCardList && (
-            <ItemDetailFaqCard faqList={flattenedFaqCardList} />
-          )}
-        </Suspense>
+        {flattenedFaqCardList && (
+          <ItemDetailFaqCard
+            totalElements={
+              faqCardList?.pages[faqCardList.pages.length - 1]?.totalElements ??
+              0
+            }
+            faqList={flattenedFaqCardList}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            fetchNextPage={fetchNextPage}
+          />
+        )}
       </section>
       <UserNav
         isTalkBoxOpened={true}

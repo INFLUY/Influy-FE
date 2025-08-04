@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation, Pagination } from 'swiper/modules';
 import PinIcon from '@/assets/icon/common/Pin.svg?react';
 import cn from '@/utils/cn';
+import { LoadingSpinner } from '@/components';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -12,11 +13,19 @@ import './customSwiper.css';
 
 const ItemDetailFaqCard = ({
   faqList,
+  hasNextPage,
+  isFetchingNextPage,
+  fetchNextPage,
+  totalElements,
 }: {
   faqList: FaqCardDetailResponse[];
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => void;
+  totalElements: number;
 }) => {
   return (
-    <section className="item-detail-swiper-section mb-[16.375rem] flex w-full flex-col">
+    <section className="item-detail-swiper-section relative mb-[16.375rem] flex w-full flex-col">
       <Swiper
         className="z-0 h-fit w-full"
         centeredSlides={true}
@@ -27,16 +36,32 @@ const ItemDetailFaqCard = ({
         mousewheel={true}
         navigation
         pagination={{
+          el: '.swiper-pagination',
           clickable: true,
-          renderBullet: (index: number, className: string) => {
-            return `<div class="${className} custom-bullet" tabindex=${index}  ></div>`;
+          type: 'custom',
+          // this is where we force exactly totalElements bullets
+          renderCustom: (_swiper, current, _loadedTotal) => {
+            return Array.from({ length: totalElements })
+              .map((_, idx) => {
+                const isActive = idx + 1 === current;
+                return `<span 
+                          class="custom-bullet${isActive ? ' custom-bullet-active' : ''}" 
+                          tabindex="${idx}"
+                        ></span>`;
+              })
+              .join('');
           },
         }}
         aria-label="FAQ 슬라이드"
+        onReachEnd={() => {
+          if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+          }
+        }}
       >
         {faqList.map((faq, i) => (
           <SwiperSlide
-            key={faq.id || i}
+            key={faq.id ?? `placeholder-${i}`}
             role="group"
             aria-roledescription="FAQ 카드"
           >
@@ -68,16 +93,15 @@ const ItemDetailFaqCard = ({
               <div className="flex flex-col gap-6">
                 <p
                   className="body1-sb text-black"
-                  id={`faq-question-${i}`}
+                  id={`faq-question-${faq.id}`}
                   aria-label={`질문: ${faq.questionContent}`}
                 >
                   Q. {faq.questionContent}
                 </p>
                 <p
                   className="body2-m text-grey11"
-                  id={`faq-answer-${i}`}
+                  id={`faq-answer-${faq.id}`}
                   aria-label={`답변: ${faq.answerContent}`}
-                  aria-labelledby={`faq-question-${i} faq-answer-${i}`}
                 >
                   {faq.answerContent}
                 </p>
@@ -86,6 +110,13 @@ const ItemDetailFaqCard = ({
           </SwiperSlide>
         ))}
       </Swiper>
+      {/* this empty div is where Swiper will inject our custom bullets */}
+      <div className="swiper-pagination flex justify-center gap-2"></div>
+      {isFetchingNextPage && (
+        <div className="absolute top-0 left-0 z-[5] flex h-full w-full items-center justify-center">
+          <LoadingSpinner />
+        </div>
+      )}
     </section>
   );
 };

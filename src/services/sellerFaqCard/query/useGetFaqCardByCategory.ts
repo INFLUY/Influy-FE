@@ -33,8 +33,8 @@ export const useGetFaqCardByCategory = ({
       if (currentPage < totalPage) return currentPage + 1;
       return undefined;
     },
-    staleTime: 5 * 60 * 10,
-    gcTime: 10 * 60 * 10,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 10000,
     enabled: faqCategoryId !== null,
   });
 };
