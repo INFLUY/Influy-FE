@@ -1,3 +1,4 @@
+import { shouldForceSecondUpdate } from '@/utils/checkForceUpdate';
 import cn from '@/utils/cn';
 import {
   parseToKstDate,
@@ -43,28 +44,10 @@ export const TimeChip = ({
   open: string | null;
   deadline: string | null;
 }): React.ReactNode | null => {
-  const now = new Date();
   const [, forceUpdate] = useState(0);
 
-  // 마감 직전 칩만 리렌더링
-  const needsSecondUpdate = (() => {
-    if (deadline) {
-      const closeTime = parseToKstDate(deadline);
-      const daysUntilClose = getDday(closeTime) - 1;
-      if (daysUntilClose === 0) return true;
-    }
-    if (open && deadline) {
-      const openTime = parseToKstDate(open);
-      const closeTime = parseToKstDate(deadline);
-      const timeUntilOpen = openTime.getTime() - now.getTime();
-      const timeUntilClose = closeTime.getTime() - now.getTime();
-      if (timeUntilOpen <= 0 && timeUntilClose > 0) {
-        const daysUntilClose = getDday(closeTime) - 1;
-        if (daysUntilClose === 0) return true;
-      }
-    }
-    return false;
-  })();
+  const now = new Date();
+  const needsSecondUpdate = shouldForceSecondUpdate({ open, deadline, now });
 
   useEffect(() => {
     if (!needsSecondUpdate) return;

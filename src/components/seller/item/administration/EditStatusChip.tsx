@@ -9,6 +9,7 @@ import {
 } from '@/utils/formatDate';
 import cn from '@/utils/cn';
 import { ItemCurrentStatusType } from '@/types/common/ItemType.types';
+import { shouldForceSecondUpdate } from '@/utils/checkForceUpdate';
 
 const EditStatusChip = ({
   children,
@@ -55,24 +56,7 @@ const EditTimeChip = ({
   const now = new Date();
   const [, forceUpdate] = useState(0);
 
-  const needsSecondUpdate = (() => {
-    if (deadline) {
-      const closeTime = parseToKstDate(deadline);
-      const daysUntilClose = getDday(closeTime) - 1;
-      if (daysUntilClose === 0) return true;
-    }
-    if (open && deadline) {
-      const openTime = parseToKstDate(open);
-      const closeTime = parseToKstDate(deadline);
-      const timeUntilOpen = openTime.getTime() - now.getTime();
-      const timeUntilClose = closeTime.getTime() - now.getTime();
-      if (timeUntilOpen <= 0 && timeUntilClose > 0) {
-        const daysUntilClose = getDday(closeTime) - 1;
-        if (daysUntilClose === 0) return true;
-      }
-    }
-    return false;
-  })();
+  const needsSecondUpdate = shouldForceSecondUpdate({ open, deadline, now });
 
   useEffect(() => {
     if (!needsSecondUpdate) return;
