@@ -23,12 +23,13 @@ import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 import { parseDateString } from '@/utils/formatDate';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { useSnackbarStore } from '@/store/snackbarStore';
-import { useGetItemFaqCategory } from '@/services/sellerItemFaq/query/useGetItemFaqCategory';
+import { useGetItemFaqCategory } from '@/services/sellerFaqCard/query/useGetItemFaqCategory';
 import { useGetFaqCard } from '@/services/sellerFaqCard/query/useGetFaqCard';
 import { usePatchFaqCard } from '@/services/sellerFaqCard/mutation/usePatchFaqCard';
 import { FaqCardRequestBody } from '@/types/common/FaqCardType.types';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { SELLER_ITEM_EDIT_FAQ_TAB_PATH } from '@/utils/generatePath';
+import { PATH } from '@/routes/path';
 
 const FaqEditPage = () => {
   const navigate = useNavigate();
@@ -107,7 +108,13 @@ const FaqEditPage = () => {
   };
 
   const { mutate: patchFaqCard } = usePatchFaqCard(() => {
-    navigate(''); // TODO: 답변 상세?로 이동
+    navigate(
+      generatePath(
+        `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${PATH.SELLER.ITEM.ITEM_ID.BASE}`,
+        { itemId: itemId! }
+      ),
+      { replace: true }
+    );
     showSnackbar('답변이 등록되었습니다.');
   });
 

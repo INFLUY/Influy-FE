@@ -14,6 +14,7 @@ import {
   TextInput,
   EmptyCategoryPlaceholder,
   SellerModal,
+  LoadingSpinner,
 } from '@/components';
 
 import MinusIcon from '@/assets/icon/common/MinusIcon.svg?react';
@@ -47,7 +48,10 @@ import {
   SELLER_ITEM_FAQ_REGISTER_PATH,
 } from '@/utils/generatePath';
 import { useSnackbarStore } from '@/store/snackbarStore';
-import { usePostItemFaqCategory } from '@/services/sellerItemFaq/mutation/usePostItemFaqCategory';
+import { usePostItemFaqCategory } from '@/services/sellerFaqCard/mutation/usePostItemFaqCategory';
+import { useGetItemFaqQuestionList } from '@/services/sellerFaqCard/query/useGetItemFaqQuestionList';
+import { useStrictId } from '@/hooks/auth/useStrictId';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 
 type SheetMode =
   | 'none'
@@ -59,23 +63,25 @@ type SheetMode =
 
 const FaqListEdit = ({
   faqCategory,
-  faqQuestions,
   itemId,
 }: {
   faqCategory: CategoryType[];
-  faqQuestions: FaqQuestion[];
   itemId: number;
 }) => {
+  const { sellerId } = useStrictId();
+
   // 1) 카테고리 배열
   const [categories, setCategories] = useState<CategoryType[]>(faqCategory);
 
   // 2) 선택된 카테고리
-  const [selectedCategory, setSelectedCategory] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     if (faqCategory) {
       setCategories(faqCategory);
-      setSelectedCategory(faqCategory[0].id);
+      setSelectedCategory(faqCategory[0]?.id);
     }
   }, [faqCategory]);
 
@@ -168,6 +174,32 @@ const FaqListEdit = ({
     setSheetMode('delete');
   };
 
+  // Faq 목록
+  const {
+    data: faqQuestions,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetItemFaqQuestionList({
+    size: 10,
+    sellerId: sellerId,
+    itemId: Number(itemId),
+    faqCategoryId: selectedCategory,
+  });
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useInfiniteScroll({
+    targetRef: observerRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
+
+  const faqQuestionList = faqQuestions?.pages
+    .flatMap((page) => page?.questionCardList ?? [])
+    .filter(Boolean) as FaqQuestion[];
+
   return (
     <>
       {categories.length === 0 ? (
@@ -205,9 +237,8 @@ const FaqListEdit = ({
 
           {/* 질문 */}
           <article className="flex h-fit w-full flex-col gap-[.875rem] px-5">
-            {faqQuestions &&
-              faqQuestions.length > 0 &&
-              faqQuestions.map((data) => (
+            {faqQuestionList &&
+              faqQuestionList.map((data) => (
                 <FaqQuestionCard
                   id={data.id}
                   questionContent={data.questionContent}
@@ -219,6 +250,15 @@ const FaqListEdit = ({
                   setSheetMode={setSheetMode}
                 />
               ))}
+            {hasNextPage && (
+              <div ref={observerRef} className="h-4 w-full">
+                {isFetchingNextPage && (
+                  <div className="flex justify-center">
+                    <LoadingSpinner />
+                  </div>
+                )}
+              </div>
+            )}
             <AddButton
               handleOnClick={() =>
                 navigate(

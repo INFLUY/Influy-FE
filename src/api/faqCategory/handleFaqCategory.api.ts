@@ -1,7 +1,7 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { API_DOMAINS } from '@/constants/api';
-import { CategoryPostType } from '@/services/sellerItemFaq/mutation/usePostItemFaqCategory';
+import { CategoryPostType } from '@/services/sellerFaqCard/mutation/usePostItemFaqCategory';
 import { ApiResponse } from '@/types/common/ApiResponse.types';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { FAQCategoryResponse } from '@/types/common/FAQ.types';

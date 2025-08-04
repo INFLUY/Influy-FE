@@ -4,9 +4,8 @@ import { UseFormReturn } from 'react-hook-form';
 import { ItemForm } from '@/components/seller/item/registration/ItemForm';
 
 import { FaqListEdit } from '@/components';
-import { FaqQuestion } from '@/types/common/ItemType.types';
 import { useStrictId } from '@/hooks/auth/useStrictId';
-import { useGetItemFaqCategory } from '@/services/sellerItemFaq/query/useGetItemFaqCategory';
+import { useGetItemFaqCategory } from '@/services/sellerFaqCard/query/useGetItemFaqCategory';
 
 type InfoContextType = {
   methods: UseFormReturn<ItemFormValues>;
@@ -27,22 +26,6 @@ export const ItemInfoTab = ({ mode }: { mode: 'create' | 'edit' }) => {
   );
 };
 
-const dummyFaqQuestion: FaqQuestion[] = [
-  {
-    id: 1,
-    questionContent: '구성이 어떻게 되나요?',
-    pinned: true,
-    updatedAt: '2025-07-04T04:55:48.736Z',
-  },
-  {
-    id: 2,
-    questionContent:
-      '키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을게 60이면 L사이즈 맞을게 60이면 L사이즈 맞을게 60이면 L사이즈 맞을게 60이면',
-    pinned: true,
-    updatedAt: '2025-07-04T04:55:48.736Z',
-  },
-];
-
 export const ItemFaqTab = () => {
   // Faq
 
@@ -53,12 +36,7 @@ export const ItemFaqTab = () => {
     sellerId: sellerId!,
     itemId: Number(itemId),
   });
+  console.log(faqCategory);
 
-  return (
-    <FaqListEdit
-      faqCategory={faqCategory}
-      faqQuestions={dummyFaqQuestion}
-      itemId={Number(itemId)}
-    />
-  );
+  return <FaqListEdit faqCategory={faqCategory} itemId={Number(itemId)} />;
 };

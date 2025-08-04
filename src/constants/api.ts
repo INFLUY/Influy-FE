@@ -22,6 +22,8 @@ export const API_DOMAINS = {
   // FAQ
   SELLER_HANDLE_FAQ_CATEGORIES: '/seller/items/:itemId/faq-categories',
   SELLER_GET_FAQ_CATEGORIES: '/seller/:sellerId/items/:itemId/faq-categories',
+  SELLER_GET_FAQ_QUESTIONS:
+    '/seller/:sellerId/items/:itemId/faq/question-cards',
 
   // seller
   SELLER_MY_JOIN: '/member/register/seller',
@@ -110,6 +112,7 @@ export const QUERY_KEYS = {
   SELLER_MARKET_ITEM: 'sellerMarketItem',
   SELLER_FAQ_CATEGORIES: 'sellerFaqCategories',
   SELLER_FAQ_CARD: 'sellerFaqCard',
+  SELLER_FAQ_CARD_QUESTION: 'sellerFaqCardQuestionList',
   ID_DUPLICATE_CHECK: 'checkId',
 
   ITEM_CATEGORIES: 'itemCategories',

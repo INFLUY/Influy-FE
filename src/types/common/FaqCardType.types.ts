@@ -24,3 +24,10 @@ export type FaqCardDetailReponse = {
   faqCategoryId: number;
   updatedAt: string;
 };
+
+export interface QuestionCardListType {
+  id: number;
+  questionContent: string;
+  pinned: boolean;
+  updatedAt: string;
+}

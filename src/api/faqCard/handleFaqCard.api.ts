@@ -1,10 +1,11 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { API_DOMAINS } from '@/constants/api';
-import { ApiResponse } from '@/types/common/ApiResponse.types';
+import { ApiResponse, Pagination } from '@/types/common/ApiResponse.types';
 import {
   FaqCardDetailReponse,
   FaqCardRequestType,
+  QuestionCardListType,
 } from '@/types/common/FaqCardType.types';
 
 export const postFaqCard = async ({
@@ -62,6 +63,31 @@ export const getFaqCardDetail = async ({
       itemId,
       faqCardId,
     })
+  );
+  return response.data.result;
+};
+
+export const getFaqCardQuestionList = async ({
+  size,
+  page,
+  sellerId,
+  itemId,
+  faqCategoryId,
+}: {
+  size: number;
+  page: number;
+  sellerId: number;
+  itemId: number;
+  faqCategoryId: number;
+}) => {
+  const response = await instance.get<
+    ApiResponse<Pagination<QuestionCardListType[] | [], 'questionCardList'>>
+  >(
+    generateApiPath(API_DOMAINS.SELLER_GET_FAQ_QUESTIONS, {
+      sellerId,
+      itemId,
+    }),
+    { params: { page, size, faqCategoryId } }
   );
   return response.data.result;
 };

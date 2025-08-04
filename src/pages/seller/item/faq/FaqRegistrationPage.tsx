@@ -13,7 +13,12 @@ import {
 } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import {
+  useNavigate,
+  useParams,
+  useLocation,
+  generatePath,
+} from 'react-router-dom';
 import { useRef, Suspense } from 'react';
 
 import {
@@ -25,10 +30,11 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 import { useSnackbarStore } from '@/store/snackbarStore';
-import { useGetItemFaqCategory } from '@/services/sellerItemFaq/query/useGetItemFaqCategory';
+import { useGetItemFaqCategory } from '@/services/sellerFaqCard/query/useGetItemFaqCategory';
 import { FaqCardRequestBody } from '@/types/common/FaqCardType.types';
 import { usePostFaqCard } from '@/services/sellerFaqCard/mutation/usePostFaqCard';
 import { useStrictId } from '@/hooks/auth/useStrictId';
+import { PATH } from '@/routes/path';
 
 const FaqRegistrationPage = () => {
   const navigate = useNavigate();
@@ -93,7 +99,13 @@ const FaqRegistrationPage = () => {
   };
 
   const { mutate: postFaqCard } = usePostFaqCard(() => {
-    navigate(''); // TODO: 답변 상세?로 이동
+    navigate(
+      generatePath(
+        `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${PATH.SELLER.ITEM.ITEM_ID.BASE}`,
+        { itemId: itemId! }
+      ),
+      { replace: true }
+    );
     showSnackbar('답변이 등록되었습니다.');
   });
 
