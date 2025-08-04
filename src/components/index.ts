@@ -54,7 +54,10 @@ export { default as TopBannerSwiper } from './user/home/TopBannerSwiper.tsx';
 
 //common/talkBox
 export { TalkBoxSellerProfile } from './common/talkBox/TalkBoxSellerProfile.tsx';
-export { FirstChatBubble } from './common/talkBox/ChatBubble.tsx';
+export {
+  FirstChatBubble,
+  SellerReplyBubble,
+} from './common/talkBox/ChatBubble.tsx';
 export { HomeSectionTitle } from './user/home/HomeSectionTitle.tsx';
 export { default as HomeCommonSection } from './user/home/HomeCommonSection.tsx';
 export { MoreButton } from './user/home/MoreButton.tsx';
@@ -144,7 +147,6 @@ export {
 export { TalkBoxCategoryItem } from './seller/talkBox/TalkBoxCategoryItem';
 export { SubCategoryChip } from './seller/talkBox/SubCategoryChip';
 export { default as QuestionChatBubble } from './seller/talkBox/QuestionChatBubble';
-export { default as SellerReplyBubble } from './seller/talkBox/SellerReplyBubble';
 export { default as TalkBoxBottomSheetLayout } from './seller/talkBox/TalkBoxBottomSheetLayout';
 export { OnboardingLottieSwiper } from './seller/talkBox/onboarding/LottieViewer.tsx';
 export { default as PrevReplyBottomSheet } from './seller/talkBox/PrevReplyBottomSheet';

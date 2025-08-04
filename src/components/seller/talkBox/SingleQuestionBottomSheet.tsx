@@ -168,6 +168,7 @@ const SingleQuestionBottomSheet = ({
                   onClickFaq={() => handleFaqRegister(answer.answerContent)}
                   key={answer.answerId}
                   answerType={answer.answerType}
+                  isSellerMode={true}
                 />
               ))}
           </Suspense>

@@ -6,10 +6,11 @@ import {
   TalkBoxSellerProfile,
   FirstChatBubble,
   UserChatBarTextArea,
+  SellerReplyBubble,
 } from '@/components';
 import { TalkBoxBottomItemCard } from '@/components/user/talkBox/TalkBoxItemCard';
 import { CategorySelectWrapper } from '@/components/user/talkBox/CategorySelectWrapper';
-
+import { UserChatBubbleUserView } from '@/components/user/talkBox/ChatBubble';
 // type
 import { TalkBoxCommentDTO } from '@/types/common/ItemType.types';
 import { UserCategoryDTO } from '@/types/seller/TalkBox.types';
@@ -55,6 +56,7 @@ const UserChatPage = () => {
     questionCategoryId: selectedCategory?.questionCategoryId || -1,
     onSuccessCallback: () => {
       setQuestionText('');
+      setSelectedCategory(null);
     },
   });
 
@@ -113,6 +115,16 @@ const UserChatPage = () => {
               defaultMessage={commentData.talkBoxComment}
             />
           </div>
+          <UserChatBubbleUserView date="2025-08-03T12:32:48.708228832" />{' '}
+          <SellerReplyBubble
+            questioner={commentData.sellerUsername}
+            question={commentData.talkBoxComment}
+            reply={commentData.talkBoxComment}
+            date={commentData.createdAt}
+            answerType="INDIVIDUAL"
+            isSellerMode={false}
+            profileImg="/img1.png"
+          />
         </div>
         <div className="bottom-bar flex w-full flex-col">
           <Suspense fallback={<LoadingSpinner />}>
