@@ -34,3 +34,10 @@ export interface SellerEditProfileType {
   tiktok?: string;
   youtube?: string;
 }
+
+export interface SellerOverviewDTO {
+  sellerId: number;
+  profileImg: string;
+  sellerUsername: string;
+  sellerNickname: string;
+}

@@ -27,7 +27,6 @@ import { dummyCategory, dummyFaq } from './ItemDetailDummyData';
 // api
 import { useGetMarketItemDetailSuspense } from '@/services/sellerItem/query/useGetMarketItemDetail';
 import { useGetItemLikeCounts } from '@/services/likes/query/useGetItemLikeCounts';
-
 const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/itemDetail/ItemDetailFaqCard')
 );
@@ -92,6 +91,7 @@ const UserItemDetailPage = () => {
   const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
 
   // -- API
+  // 좋아요수
   const { data: itemLikeCount } = useGetItemLikeCounts({
     itemId: Number(itemId),
     sellerId: Number(marketId),
@@ -101,7 +101,6 @@ const UserItemDetailPage = () => {
     navigate(`${PATH.MARKET.DETAIL.ITEM.TALK_BOX}`);
   };
   const onBuyClick = () => {};
-  const onLikeClick = () => {};
 
   return (
     <>
@@ -147,7 +146,11 @@ const UserItemDetailPage = () => {
       {/* 상단 상품 정보 파트 */}
       <Suspense fallback={<LoadingSpinner />}>
         {itemDetailData && (
-          <ItemDetailInfo data={itemDetailData} ref={itemDetailRef} />
+          <ItemDetailInfo
+            data={itemDetailData}
+            sellerId={Number(marketId)}
+            ref={itemDetailRef}
+          />
         )}
       </Suspense>
 

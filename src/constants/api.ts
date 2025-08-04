@@ -57,13 +57,16 @@ export const API_DOMAINS = {
 
   //질문관리
   USER_POST_QUESTION: '/user/items/:itemId/talkbox/:questionCategoryId',
+
+  //셀러
+  GET_SELLER_OVERVIEW: '/seller/:sellerId/overview',
 };
 
 export const SELLER_API_DOMAINS = {
   // [홈] 셀러 홈
   SELLER_MY_HOME_QUESTIONS: '/seller/home/questions',
 
-  // 셀러 프로필 및 마켓
+  // [셀러] 셀러 프로필 및 마켓
   SELLER_MY_PROFILE: '/seller/profile',
   SELLER_MY_MARKET: '/seller/my-market',
 
@@ -120,9 +123,11 @@ export const QUERY_KEYS = {
 
   ITEM_CATEGORIES: 'itemCategories',
 
+  // 셀러
   SELLER_MY_PROFILE: 'sellerMyProfile',
   SELLER_MY_MARKET: 'sellerMyMarket',
   SELLER_MY_HOME_QUESTIONS: 'sellerMyHomeQuestions',
+  SELLER_OVERVIEW: 'sellerOverview',
 
   USER_PROFILE: 'userProfile',
 
