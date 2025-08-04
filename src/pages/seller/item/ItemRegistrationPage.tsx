@@ -99,6 +99,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       linkText: '',
       period: undefined,
       commentText: '',
+      status: 'DEFAULT',
     },
   });
 
@@ -107,9 +108,11 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       methods.reset({
         images: prevItemData.itemImgList ?? [],
         titleText: prevItemData.itemName ?? '',
-        selectedCategoryList: [],
-        hasStartDate: prevItemData.startDate ? true : false, // TODO: 백 수정되고 받아와야함
-        hasEndDate: prevItemData.endDate ? true : false, // TODO: 백 수정되고 받아와야함
+        selectedCategoryList: prevItemData.itemCategoryList ?? [],
+        hasStartDate:
+          !prevItemData.isDateUndefined && prevItemData.startDate !== undefined,
+        hasEndDate:
+          !prevItemData.isDateUndefined && prevItemData.endDate !== undefined,
         startISODateTime: prevItemData.startDate
           ? parseToKstDate(prevItemData.startDate).toISOString()
           : undefined,
@@ -122,6 +125,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
         linkText: prevItemData.marketLink ?? '',
         period: prevItemData.itemPeriod ?? 1,
         commentText: prevItemData.comment ?? '',
+        status: prevItemData.status,
       });
   }, [prevItemData]);
 
@@ -236,8 +240,12 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       itemImgList: formData.images,
       name: formData.titleText,
       itemCategoryIdList: formData.selectedCategoryList.map(String),
-      startDate: formData.startISODateTime,
-      endDate: formData.endISODateTime,
+      ...(isValid(formData.startISODateTime) && {
+        startDate: formData.startISODateTime,
+      }),
+      ...(isValid(formData.endISODateTime) && {
+        endDate: formData.endISODateTime,
+      }),
       ...(isValid(formData.summaryText) && { tagline: formData.summaryText }),
       ...(isValid(formData.price) && { regularPrice: formData.price }),
       ...(isValid(formData.salePrice) && { salePrice: formData.salePrice }),
@@ -247,6 +255,8 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       itemPeriod: formData.period ?? 1,
       ...(isValid(formData.commentText) && { comment: formData.commentText }),
       isArchived: false,
+      ...(formData.status === 'EXTEND' && { comment: formData.status }),
+      isDateUndefined: !formData.hasStartDate || !formData.hasEndDate,
     };
 
     if (!isEditMode) {
@@ -310,7 +320,6 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
 
     //if success
     navigate(generatePath(SELLER_ITEM_DETAIL, { itemId }));
-    showSnackbar('상품이 보관되었습니다.');
   };
 
   return (
