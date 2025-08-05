@@ -127,8 +127,7 @@ const HomeCommonSection = ({
         {recommendedItem.length > 0 ? (
           <div
             className={cn(
-              'grid grid-cols-2 gap-x-[.1875rem] gap-y-8',
-              expiringItem.length <= 2 ? 'grid-rows-1' : 'grid-rows-2'
+              'grid grid-cols-2 grid-rows-2 gap-x-[.1875rem] gap-y-8'
             )}
           >
             {recommendedItem.map((item) => (
