@@ -19,7 +19,7 @@ const HorizontalRankingCard = ({
         <div className="bg-grey03 relative h-[6.75rem] w-[6.75rem] rounded-[.0625rem]">
           {item.itemMainImg && (
             <img
-              className="h-[6.75rem] w-[6.75rem] rounded-[.0625rem] object-cover"
+              className="h-[6.75rem] w-[6.75rem] rounded-[.0625rem] bg-white object-cover"
               src={item.itemMainImg}
               alt={item.itemName}
             />
