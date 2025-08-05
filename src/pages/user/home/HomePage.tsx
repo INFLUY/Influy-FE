@@ -28,6 +28,7 @@ export interface TopBannerItem {
   image: string;
   path: string;
 }
+
 export const topBanner: TopBannerItem[] = [
   {
     image: Banner1,
@@ -35,7 +36,7 @@ export const topBanner: TopBannerItem[] = [
   },
   {
     image: Banner2,
-    path: '',
+    path: 'https://forms.gle/5rTGW5xF6ZRnJV1u9',
   },
   {
     image: Banner3,
