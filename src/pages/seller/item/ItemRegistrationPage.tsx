@@ -96,7 +96,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
         price: prevItemData.regularPrice ?? undefined,
         salePrice: prevItemData.salePrice ?? undefined,
         linkText: prevItemData.marketLink ?? '',
-        period: prevItemData.itemPeriod ?? 1,
+        period: prevItemData.itemPeriod ?? undefined,
         commentText: prevItemData.comment ?? '',
         status: prevItemData.status,
       });
@@ -222,7 +222,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       ...(isValid(formData.price) && { regularPrice: formData.price }),
       ...(isValid(formData.salePrice) && { salePrice: formData.salePrice }),
       ...(isValid(formData.linkText) && { marketLink: formData.linkText }),
-      itemPeriod: formData.period ?? 1,
+      ...(isValid(formData.period) && { itemPeriod: formData.period }),
       ...(isValid(formData.commentText) && { comment: formData.commentText }),
       isArchived,
       ...(formData.status === 'EXTEND' && { comment: formData.status }),

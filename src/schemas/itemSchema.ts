@@ -46,7 +46,7 @@ export const itemSchema = z
       })
       .nullable(),
     //진행 회차
-    period: z.number().nullable(),
+    period: z.number().nullable().optional(),
     // 코멘트
     commentText: z.string().nullable().optional(),
   })
