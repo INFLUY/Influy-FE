@@ -77,13 +77,13 @@ export const UserTypeSelectPage = () => {
       </PageHeader>
       <section className="flex w-full flex-1 flex-col gap-11 px-5 py-[3.25rem]">
         <h1 className="headline2 text-black">사용자 유형을 선택해 주세요.</h1>
-        <p className="flex gap-[.9375rem]">
+        <p className="flex w-full flex-1 gap-[.9375rem]">
           {userType.map((item) => (
             <button
               key={item.type}
               type="button"
               className={cn(
-                'border-grey03 flex h-[10.9375rem] w-40 shrink-0 cursor-pointer flex-col items-start justify-between gap-2.5 rounded-sm border border-solid bg-white p-5 text-start',
+                'border-grey03 flex h-[10.9375rem] flex-1 shrink-0 cursor-pointer flex-col items-start justify-between gap-2.5 rounded-sm border border-solid bg-white p-5 text-start',
                 { 'bg-black text-white': selectedType === item.type }
               )}
               onClick={() => setSelectedType(item.type)}
