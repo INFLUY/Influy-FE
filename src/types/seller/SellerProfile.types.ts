@@ -39,3 +39,10 @@ export interface SellerPulicResponse {
   sellerId: number;
   isPublic: boolean;
 }
+
+export interface SellerOverviewDTO {
+  sellerId: number;
+  profileImg: string;
+  sellerUsername: string;
+  sellerNickname: string;
+}

@@ -1,4 +1,5 @@
-import { generatePath, useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
+
 import {
   PageHeader,
   BottomNavBar,
@@ -6,44 +7,70 @@ import {
   VisibilityBottomSheet,
   LoadingSpinner,
   ToolTip,
+  // AddButton,
 } from '@/components';
+
+// icon
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
 import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
-import { useState, useEffect, useRef, lazy, Suspense } from 'react';
-import { BottomNavItem } from '@/components/common/BottomNavBar';
 import Link2Icon from '@/assets/icon/common/Link2Icon.svg?react';
 import LockIcon from '@/assets/icon/common/LockIcon.svg?react';
 import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
-import { useScrollToTop } from '@/hooks/useScrollToTop';
-import { dummyCategory, dummyFaq, dummyItem } from './ItemDetailDummyData';
-import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
-import { CategoryType } from '@/types/common/CategoryType.types';
 import TalkBoxIcon from '@/assets/icon/common/TalkBoxIcon.svg?react';
+
+// path
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
+import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
+
+// type
+import { BottomNavItem } from '@/components/common/BottomNavBar';
+import { CategoryType } from '@/types/common/CategoryType.types';
+
+// hooks
+import { useScrollToTop } from '@/hooks/useScrollToTop';
+import { useStrictId } from '@/hooks/auth/useStrictId';
+
+// api
+import { useGetMarketItemDetailSuspense } from '@/services/sellerItem/query/useGetMarketItemDetail';
+import { useGetItemFaqCategory } from '@/services/sellerFaqCard/query/useGetItemFaqCategory';
+import { useGetFaqCardByCategory } from '@/services/sellerFaqCard/query/useGetFaqCardByCategory';
+import cn from '@/utils/cn';
 
 const ItemDetailFaqCard = lazy(
-  () => import('@/components/common/item/ItemDetailFaqCard')
+  () => import('@/components/common/item/itemDetail/ItemDetailFaqCard')
 );
 
 const ItemDetailInfo = lazy(
-  () => import('@/components/common/item/ItemDetailInfo')
+  () => import('@/components/common/item/itemDetail/ItemDetailInfo')
 );
 
-const ItemDetailPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+const SellerItemDetailPage = () => {
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null
+  );
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const navigate = useNavigate();
 
   const { itemId } = useParams();
+  const { sellerId } = useStrictId();
 
   const [isFaqCategoryTop, setIsFaqCategoryTop] = useState(false);
   const [isDetailOnScreen, setIsDetailOnScreen] = useState(true);
   const categoryAnchorRef = useRef<HTMLDivElement>(null);
   const itemDetailRef = useRef<HTMLDivElement>(null);
 
+  const { data: itemDetailData, isPending: isItemDetailPending } =
+    useGetMarketItemDetailSuspense({
+      sellerId: Number(sellerId),
+      itemId: Number(itemId),
+    });
+
   useEffect(() => {
+    if (isItemDetailPending) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -75,13 +102,16 @@ const ItemDetailPage = () => {
     if (categoryAnchorRef.current) observer.observe(categoryAnchorRef.current);
     if (itemDetailRef.current) observer.observe(itemDetailRef.current);
     return () => observer.disconnect();
-  }, [isDetailOnScreen]);
+  }, [isDetailOnScreen, isItemDetailPending]);
 
   // 하단바
-  const handleGoToPage = () => {};
+  const handleGoToPage = () => {
+    window.open(itemDetailData?.marketLink ?? '', '_blank', 'noreferrer');
+  };
   const handleOpenScopeModal = () => {
     setIsBottomSheetOpen(true);
   };
+
   const detailBottomNavItems: BottomNavItem[] = [
     {
       label: '판매 페이지',
@@ -107,18 +137,45 @@ const ItemDetailPage = () => {
 
   const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
 
+  //api : faq 카테고리
+  const { data: faqCategories } = useGetItemFaqCategory({
+    sellerId: Number(sellerId),
+    itemId: Number(itemId),
+  });
+
+  useEffect(() => {
+    setSelectedCategoryId(faqCategories[0].id);
+  }, [faqCategories]);
+
+  const {
+    data: faqCardList,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetFaqCardByCategory({
+    sellerId: Number(sellerId),
+    itemId: Number(itemId),
+    faqCategoryId: selectedCategoryId,
+  });
+
+  const flattenedFaqCardList = faqCardList?.pages.flatMap(
+    (page) => page?.faqCardList ?? []
+  );
+
+  // TODO: 카테고리 바뀌어도 스크롤바 위치 안 바뀌게 하기
+
   return (
     <>
       {/* 헤더 */}
       {isFaqCategoryTop ? (
         <header className="sticky top-0 z-20 flex w-full flex-nowrap gap-2 bg-[rgba(241,241,241,0.30)]">
           <div className="scrollbar-hide flex items-center gap-2 overflow-x-scroll px-5 pt-2 pb-[.4375rem]">
-            {dummyCategory.map((category: CategoryType) => (
+            {faqCategories.map((category: CategoryType) => (
               <CategoryChip
                 key={category.id}
                 text={category.name}
-                isSelected={selectedCategory == category.id}
-                onToggle={() => setSelectedCategory(category.id)}
+                isSelected={selectedCategoryId == category.id}
+                onToggle={() => setSelectedCategoryId(category.id)}
                 theme="faq"
               />
             ))}
@@ -152,7 +209,13 @@ const ItemDetailPage = () => {
 
       {/* 상단 상품 정보 파트 */}
       <Suspense fallback={<LoadingSpinner />}>
-        <ItemDetailInfo data={dummyItem} ref={itemDetailRef} />
+        {itemDetailData && (
+          <ItemDetailInfo
+            data={itemDetailData}
+            sellerId={Number(sellerId)}
+            ref={itemDetailRef}
+          />
+        )}
       </Suspense>
 
       {/* FAQ 파트 */}
@@ -167,51 +230,67 @@ const ItemDetailPage = () => {
             />
 
             <article className="flex w-full flex-wrap gap-2">
-              {dummyCategory &&
-                dummyCategory.length > 0 &&
-                dummyCategory.map((category: CategoryType) => (
-                  <CategoryChip
-                    key={category.id}
-                    text={category.name}
-                    isSelected={selectedCategory == category.id}
-                    onToggle={() => setSelectedCategory(category.id)}
-                    theme="faq"
-                  />
-                ))}
+              <Suspense fallback={<LoadingSpinner />}>
+                {faqCategories.length > 0 &&
+                  faqCategories.map((category: CategoryType) => (
+                    <CategoryChip
+                      key={category.id}
+                      text={category.name}
+                      isSelected={selectedCategoryId == category.id}
+                      onToggle={() => setSelectedCategoryId(category.id)}
+                      theme="faq"
+                    />
+                  ))}
+              </Suspense>
             </article>
-            {isFaqCategoryTop && (
-              <div className="absolute top-0 z-1 h-full w-full bg-white" />
-            )}
           </div>
         </article>
         <Suspense fallback={<LoadingSpinner />}>
-          <ItemDetailFaqCard faqList={dummyFaq} />
+          {flattenedFaqCardList && (
+            <ItemDetailFaqCard
+              totalElements={
+                faqCardList?.pages[faqCardList.pages.length - 1]
+                  ?.totalElements ?? 0
+              }
+              faqList={flattenedFaqCardList}
+              hasNextPage={hasNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+              fetchNextPage={fetchNextPage}
+            />
+          )}
         </Suspense>
-        {/* 톡박스 플로팅 버튼 */}
-        {/* TODO: 오픈 상태에 따른 버튼 색상 변경 */}
-        <div className="pointer-events-none fixed right-5 bottom-20 z-[1] flex flex-col items-end gap-1.5">
+      </section>
+
+      {/* 톡박스 플로팅 버튼 */}
+      <div className="pointer-events-none fixed right-5 bottom-20 z-[1] flex flex-col items-end gap-1.5">
+        {itemDetailData?.talkBoxOpenStatus === 'OPENED' && (
           <ToolTip
             text="이 제품의 질문에 답변해 주세요."
             position="right"
             additionalStyles="pointer-events-none"
           />
-          {itemId && (
-            <button
-              type="button"
-              onClick={() => {
-                const path = generatePath(
-                  `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}`,
-                  { itemId }
-                );
-                navigate(path);
-              }}
-              className="pointer-events-auto flex aspect-[1/1] h-11 w-11 flex-col items-center justify-center rounded-full bg-black shadow-[0_.25rem_1.125rem_0_rgba(0,0,0,0.25)]"
-            >
-              <TalkBoxIcon className="h-6 w-6 text-white" />
-            </button>
-          )}
-        </div>
-      </section>
+        )}
+        {itemId && (
+          <button
+            type="button"
+            onClick={() => {
+              const path = generatePath(
+                `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}`,
+                { itemId }
+              );
+              navigate(path);
+            }}
+            className={cn(
+              'pointer-events-auto flex aspect-[1/1] h-11 w-11 flex-col items-center justify-center rounded-full bg-black shadow-[0_.25rem_1.125rem_0_rgba(0,0,0,0.25)]',
+              itemDetailData?.talkBoxOpenStatus === 'OPENED'
+                ? 'bg-black'
+                : 'bg-grey08'
+            )}
+          >
+            <TalkBoxIcon className="h-6 w-6 text-white" />
+          </button>
+        )}
+      </div>
 
       <BottomNavBar items={detailBottomNavItems} type="action" />
       {isBottomSheetOpen && (
@@ -224,4 +303,4 @@ const ItemDetailPage = () => {
   );
 };
 
-export default ItemDetailPage;
+export default SellerItemDetailPage;

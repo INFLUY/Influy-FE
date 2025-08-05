@@ -1,6 +1,6 @@
 import { ItemDetail } from '@/types/common/ItemType.types';
 import { ItemDetailProfile, TimeChip } from '@/components';
-import { RefObject, useState } from 'react';
+import { RefObject, Suspense, useState } from 'react';
 import cn from '@/utils/cn';
 import DowndownArrowIcon from '@/assets/icon/common/DropdownArrow.svg?react';
 import { formatFullDateWithDay } from '@/utils/formatDate';
@@ -11,12 +11,17 @@ import './customSwiper.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
+// api
+import { useGetSellerOverview } from '@/services/seller/query/useGetSellerOverview';
+
 export const ItemDetailInfo = ({
   data,
   ref,
+  sellerId,
 }: {
   data: ItemDetail;
-  ref: RefObject<HTMLElement | null>;
+  ref: RefObject<HTMLDivElement | null>;
+  sellerId: number;
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
@@ -27,6 +32,10 @@ export const ItemDetailInfo = ({
     Math.round(
       ((data.regularPrice - data.salePrice) / data.regularPrice) * 100
     );
+
+  //셀러 정보
+  const { data: sellerInfo } = useGetSellerOverview(sellerId);
+
   return (
     <section
       className="item-detail-swiper-section flex w-full flex-col pb-[.6875rem]"
@@ -71,7 +80,9 @@ export const ItemDetailInfo = ({
           </div>
         )}
       </div>
-      <ItemDetailProfile seller={data.sellerInfo} />
+      <Suspense>
+        {sellerInfo && <ItemDetailProfile sellerInfo={sellerInfo} />}
+      </Suspense>
       <article className="border-grey02 mt-5 flex h-fit w-full flex-col gap-4 border-b-1 px-5 pb-6">
         {/* Time chip */}
         {data.startDate && data.endDate ? (
@@ -112,7 +123,7 @@ export const ItemDetailInfo = ({
             <div className="flex flex-col items-start">
               {data.salePrice && (
                 <span className="text-grey06 body2-m line-through">
-                  {data.salePrice.toLocaleString()}
+                  {data.regularPrice.toLocaleString()}
                 </span>
               )}
 
@@ -121,7 +132,9 @@ export const ItemDetailInfo = ({
                   <h3 className="text-main">{discountRate}% </h3>
                 )}
                 <h3 className="text-black">
-                  {data.regularPrice.toLocaleString()}원
+                  {data.salePrice?.toLocaleString() ??
+                    data.regularPrice.toLocaleString()}
+                  원
                 </h3>
               </div>
             </div>
@@ -134,9 +147,12 @@ export const ItemDetailInfo = ({
         <article className="w-full px-5 pt-6">
           <p className="body1-b text-grey11">COMMENT</p>
           <div className="flex flex-col items-start gap-2.5 self-stretch">
-            <p className="body2-sb text-sub">
-              @{data.sellerInfo.instagram}님이 직접 등록한 정보예요!
-            </p>
+            <Suspense fallback={null}>
+              <p className="body2-sb text-sub">
+                @{sellerInfo?.sellerUsername}님이 직접 등록한 정보예요!
+              </p>
+            </Suspense>
+
             <p
               className={cn(
                 'body2-m whitespace-pre-line text-black transition-all duration-3000',

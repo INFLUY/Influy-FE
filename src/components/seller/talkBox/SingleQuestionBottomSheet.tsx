@@ -2,7 +2,7 @@ import { useState, useEffect, Suspense } from 'react';
 import {
   QuestionChatBubble,
   PrevReplyBottomSheet,
-  ChatBarTextArea,
+  SellerChatBarTextArea,
   SellerReplyBubble,
   TalkBoxBottomSheetLayout,
   ItemClosedBanner,
@@ -168,6 +168,7 @@ const SingleQuestionBottomSheet = ({
                   onClickFaq={() => handleFaqRegister(answer.answerContent)}
                   key={answer.answerId}
                   answerType={answer.answerType}
+                  isSellerMode={true}
                 />
               ))}
           </Suspense>
@@ -184,7 +185,7 @@ const SingleQuestionBottomSheet = ({
             {itemOverview?.talkBoxOpenStatus === 'CLOSED' && itemId && (
               <ItemClosedBanner itemId={String(itemId)} />
             )}
-            <ChatBarTextArea
+            <SellerChatBarTextArea
               text={answerText}
               setText={setAnswerText}
               handleReplySubmit={handleReplySubmit}

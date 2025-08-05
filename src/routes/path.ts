@@ -74,6 +74,7 @@ export const PATH = {
       ITEM: {
         BASE: 'item',
         ITEM_ID: ':itemId',
+        TALK_BOX: 'talk-box',
       },
     },
   },

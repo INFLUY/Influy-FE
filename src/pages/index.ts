@@ -32,7 +32,9 @@ export { default as SupportFaqPage } from './common/mypage/SupportFaqPage';
 export { default as UsernamePage } from './common/mypage/UsernamePage';
 
 export { default as SellerProfilePage } from './user/market/SellerProfile';
+export { default as UserItemDetailPage } from './user/itemDetail/UserItemDetailPage';
 
+export { default as UserChatPage } from './user/talkBox/UserChatPage';
 // 셀러
 export { default as SellerHomePage } from './seller/home/SellerHomePage';
 
@@ -50,7 +52,7 @@ export { ItemRegistrationPage } from './seller/item/ItemRegistrationPage';
 export { ItemFaqTab, ItemInfoTab } from './seller/item/ItemRegistrationTabs';
 export { default as FaqRegistrationPage } from './seller/item/faq/FaqRegistrationPage';
 export { default as FaqEditPage } from './seller/item/faq/FaqEditPage';
-export { default as ItemDetailPage } from './seller/item/ItemDetailPage';
+export { default as SellerItemDetailPage } from './seller/item/SellerItemDetailPage';
 
 export { default as SellerCalendarPage } from './seller/calendar/CalendarPage';
 

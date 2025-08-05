@@ -3,7 +3,7 @@ import { generateApiPath } from '@/api/utils';
 import { API_DOMAINS, SELLER_API_DOMAINS } from '@/constants/api';
 import { ApiResponse, Pagination } from '@/types/common/ApiResponse.types';
 import {
-  FaqCardDetailReponse,
+  FaqCardDetailResponse,
   FaqCardRequestType,
   QuestionCardListType,
 } from '@/types/common/FaqCardType.types';
@@ -15,7 +15,7 @@ export const postFaqCard = async ({
   itemId,
   data,
 }: FaqCardRequestType) => {
-  const response = await instance.post<ApiResponse<FaqCardDetailReponse>>(
+  const response = await instance.post<ApiResponse<FaqCardDetailResponse>>(
     generateApiPath(SELLER_API_DOMAINS.SELLER_MY_POST_FAQ_CARD, { itemId }),
     data,
     {
@@ -94,7 +94,7 @@ export const getFaqCardDetail = async ({
   itemId: number;
   faqCardId: number;
 }) => {
-  const response = await instance.get<ApiResponse<FaqCardDetailReponse>>(
+  const response = await instance.get<ApiResponse<FaqCardDetailResponse>>(
     generateApiPath(SELLER_API_DOMAINS.SELLER_MY_GET_FAQ_CARD_DETAIL, {
       sellerId,
       itemId,
@@ -127,4 +127,37 @@ export const getFaqCardQuestionList = async ({
     { params: { page, size, faqCategoryId } }
   );
   return response.data.result;
+};
+
+interface FaqCardListParams {
+  sellerId: number;
+  itemId: number;
+  faqCategoryId: number | null;
+  page?: number;
+  size?: number;
+}
+
+export const getFaqCardByCategory = async ({
+  sellerId,
+  itemId,
+  faqCategoryId,
+  page = 1,
+  size = 10,
+}: FaqCardListParams) => {
+  const url = generateApiPath(API_DOMAINS.GET_FAQ_CARDS, {
+    sellerId,
+    itemId,
+  });
+
+  const { data } = await instance.get<
+    ApiResponse<Pagination<FaqCardDetailResponse | [], 'faqCardList'>>
+  >(url, {
+    params: {
+      faqCategoryId,
+      page,
+      size,
+    },
+  });
+
+  return data.result;
 };

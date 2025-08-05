@@ -31,3 +31,118 @@ export const FirstChatBubble = ({
     </article>
   );
 };
+
+import ReplyIcon from '@/assets/icon/common/ReplyIcon.svg?react';
+import { formatIsoToKoreanLong } from '@/utils/formatDate';
+import { AnswerType } from '@/types/seller/TalkBox.types';
+import cn from '@/utils/cn';
+
+interface SellerReplyBubbleProps {
+  questioner: string;
+  question: string;
+  reply: string;
+  date: string;
+  onClickFaq?: () => void;
+  answerType: AnswerType;
+  isSellerMode: boolean;
+  profileImg?: string;
+}
+
+export const SellerReplyBubble = ({
+  questioner,
+  question,
+  reply,
+  date,
+  onClickFaq,
+  answerType,
+  isSellerMode,
+  profileImg,
+}: SellerReplyBubbleProps) => {
+  return (
+    <article
+      className={cn(
+        'flex w-full py-2.5',
+        isSellerMode
+          ? 'items-end pr-5 pl-[5.875rem]'
+          : 'items-start gap-1.5 pr-[5.875rem] pl-3'
+      )}
+      aria-label="답변말풍선"
+    >
+      {!isSellerMode && (
+        <div className="bg-grey02 aspect-square h-8 w-8 shrink-0 rounded-full">
+          {profileImg && (
+            <img
+              src={profileImg}
+              alt={'인플루언서 프로필 사진'}
+              className="bg-grey02 h-8 w-8 rounded-full object-cover"
+            />
+          )}
+        </div>
+      )}
+      <div className="flex w-full flex-col">
+        {/* 채팅 버블 */}
+        <div className="flex w-full flex-col">
+          {/* 상단 질문 */}
+          <div
+            className={cn(
+              'flex flex-col gap-1 rounded-t-[.75rem] px-[.875rem] py-3',
+              isSellerMode ? 'bg-grey02' : 'bg-grey10'
+            )}
+          >
+            <p className="text-grey07 caption-small-m">
+              @{questioner}님의 질문
+            </p>
+            <div
+              className={cn(
+                'body2-m',
+                isSellerMode ? 'text-grey08' : 'text-grey04'
+              )}
+            >
+              <span className="font-semibold">Q. </span>
+              <span>{question}</span>
+            </div>
+          </div>
+
+          {/* 개별답변 */}
+          <div
+            className={cn(
+              'flex w-full gap-1 rounded-b-[.75rem] px-2 pt-3 pb-[1.125rem]',
+              isSellerMode ? 'bg-grey11' : 'bg-grey02'
+            )}
+          >
+            <div className="h-[.8125rem] w-2">
+              <ReplyIcon />
+            </div>
+            <div
+              className={cn(
+                'body2-m',
+                isSellerMode ? 'text-white' : 'text-black'
+              )}
+            >
+              <span className="text-sub font-semibold">
+                {answerType === 'INDIVIDUAL' ? '개별답변 ' : '일괄 답변 '}
+              </span>
+              <span>{reply}</span>
+            </div>
+          </div>
+        </div>
+        {/* 날짜 */}
+        <div className="text-grey08 caption-m mt-1.5">
+          <p>{formatIsoToKoreanLong({ isoString: date })}</p>
+        </div>
+
+        {/* 이 답변 faq 등록하기 버튼 */}
+        {isSellerMode && (
+          <button
+            type="button"
+            className="border-grey03 body2-m mt-2.5 w-full cursor-pointer rounded-lg border py-[.5625rem] text-black"
+            aria-label="이 질문 FAQ 등록하기"
+            onClick={onClickFaq}
+          >
+            이 답변 FAQ 등록하기
+          </button>
+        )}
+      </div>
+    </article>
+  );
+};

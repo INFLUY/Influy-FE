@@ -30,7 +30,7 @@ import {
   SignupSnsLinkPage,
   WelcomePage,
   SignupEmailPage,
-  ItemDetailPage,
+  SellerItemDetailPage,
   LikePage,
   MyPage,
   KakaoLoginHandler,
@@ -59,6 +59,8 @@ import {
   AnsweredCategoryTab,
   OnboardingLayout,
   SellerDeleteAccountPage,
+  UserItemDetailPage,
+  UserChatPage,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -244,7 +246,14 @@ const router = createBrowserRouter([
                   },
                   {
                     path: PATH.MARKET.DETAIL.ITEM.ITEM_ID,
-                    element: <ItemDetailPage />,
+                    children: [
+                      { index: true, element: <UserItemDetailPage /> },
+                      {
+                        path: PATH.MARKET.DETAIL.ITEM.TALK_BOX,
+                        element: <UserRoute />,
+                        children: [{ index: true, element: <UserChatPage /> }],
+                      },
+                    ],
                   },
                 ],
               },
@@ -503,7 +512,7 @@ const router = createBrowserRouter([
                 children: [
                   {
                     index: true,
-                    element: <ItemDetailPage />, // 셀러 상품 상세페이지
+                    element: <SellerItemDetailPage />, // 셀러 상품 상세페이지
                   },
                   {
                     path: PATH.SELLER.ITEM.ITEM_ID.EDIT.BASE,

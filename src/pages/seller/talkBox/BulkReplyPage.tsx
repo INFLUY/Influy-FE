@@ -2,7 +2,7 @@ import {
   PageHeader,
   TalkBoxQuestionItemCard,
   QuestionChatBubble,
-  ChatBarTextArea,
+  SellerChatBarTextArea,
   PrevReplyBottomSheet,
   SellerModal,
   LoadingSpinner,
@@ -173,7 +173,7 @@ const BulkReplyPage = () => {
           )}
         </Suspense>
 
-        <ChatBarTextArea
+        <SellerChatBarTextArea
           text={answerText}
           setText={setAnswerText}
           handleReplySubmit={handleReplySubmit}

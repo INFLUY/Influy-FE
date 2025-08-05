@@ -19,5 +19,10 @@ export const useGetItemFaqCategory = ({
       const res = await getFaqCategory({ sellerId, itemId });
       return res?.viewList;
     },
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
 };

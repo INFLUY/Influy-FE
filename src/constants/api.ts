@@ -12,10 +12,14 @@ export const API_DOMAINS = {
   SELLER_ANNOUNCEMENT: '/seller/:sellerId/announcements',
   SELLER_PRIMARY_ANNOUNCEMENT:
     '/seller/:sellerId/announcements/primary-announcement',
-  SELLER_MARKET_LINKS: '/seller/:sellerId/market-links',
-  SELLER_MARKET_LIKES: '/seller/:sellerId/count-likes',
   SELLER_MARKET_ITEMS: '/seller/:sellerId/items',
   SELLER_MARKET_ITEM: '/seller/:sellerId/items/:itemId',
+  SELLER_FAQ_CATEGORIES: '/seller/:sellerId/items/:itemId/faq-categories',
+
+  //찜
+  GET_ITEM_LIKE_COUNTS: '/seller/:sellerId/items/:itemId/count-likes',
+  SELLER_MARKET_LINKS: '/seller/:sellerId/market-links',
+  SELLER_MARKET_LIKES: '/seller/:sellerId/count-likes',
 
   ITEM_CATEGORIES: '/categories',
 
@@ -31,6 +35,13 @@ export const API_DOMAINS = {
   SELLER_MY_ANNOUNCEMENT_DETAIL: '/seller/announcements/:announcementId',
   SELLER_MY_POST_MARKET_LINKS: '/seller/market-links',
   SELLER_MY_HANDLE_MARKET_LINKS: '/seller/market-links/:linkId',
+
+  // [FAQ]셀러 faq 카드
+  SELLER_MY_POST_FAQ_CARD: '/seller/items/:itemId/faq',
+  SELLER_MY_HANDLE_FAQ_CARD: '/seller/items/:itemId/faq/:faqCardId',
+  SELLER_MY_GET_FAQ_CARD_DETAIL:
+    '/seller/:sellerId/items/:itemId/faq/:faqCardId', //각 faq 카드 조회
+  GET_FAQ_CARDS: '/seller/:sellerId/items/:itemId/faq/faq-cards', // 카테고리별 FAQ 카드 리스트 조회
 
   // user
   USER_JOIN: '/member/register/user',
@@ -51,13 +62,23 @@ export const API_DOMAINS = {
   PATCH_ITEM_LIKE: '/seller/:sellerId/items/:itemId/dislikes',
   GET_LIKED_ITEM_LIST: '/home/item-likes',
   GET_LIKED_SELLER_LIST: '/home/seller-likes',
+
+  // 질문 카테고리
+  GET_TALK_BOX_CATEGORY: '/user/items/:itemId/talkbox/question-categories',
+
+  //질문관리
+  USER_POST_QUESTION: '/user/items/:itemId/talkbox/:questionCategoryId',
+  GET_USER_TALK_BOX_HISTORY: '/user/items/:itemId/talkbox/',
+
+  //셀러
+  GET_SELLER_OVERVIEW: '/seller/:sellerId/overview',
 };
 
 export const SELLER_API_DOMAINS = {
   // [홈] 셀러 홈
   SELLER_MY_HOME_QUESTIONS: '/seller/home/questions',
 
-  // 셀러 프로필 및 마켓
+  // [셀러] 셀러 프로필 및 마켓
   SELLER_MY_PROFILE: '/seller/profile',
   SELLER_MY_MARKET: '/seller/my-market',
   SELLER_HANDLE_PUBLIC: '/seller/isPublic',
@@ -124,9 +145,11 @@ export const QUERY_KEYS = {
 
   ITEM_CATEGORIES: 'itemCategories',
 
+  // 셀러
   SELLER_MY_PROFILE: 'sellerMyProfile',
   SELLER_MY_MARKET: 'sellerMyMarket',
   SELLER_MY_HOME_QUESTIONS: 'sellerMyHomeQuestions',
+  SELLER_OVERVIEW: 'sellerOverview',
 
   USER_PROFILE: 'userProfile',
 
@@ -136,8 +159,13 @@ export const QUERY_KEYS = {
   HOME_TRENDING_SELLER: 'trendingSeller',
   HOME_SELLER_PICK: 'sellerPick',
 
+  //찜
   LIKED_ITEMS: 'likedItems',
   LIKED_SELLERS: 'likedSellers',
+  ITEM_LIKE_COUNTS: 'getItemLikeCounts',
+
+  // 질문 카테고리
+  TALK_BOX_CATEGORY: 'talkBoxCategory',
 
   SELLER_ITEM_OVERVIEW: 'sellerItemOverview',
   SELLER_GENERATE_QUESTION_CATEGORY: 'sellerGenerateQuestionCategory',
@@ -155,5 +183,7 @@ export const QUERY_KEYS = {
   SELLER_TALK_BOX_COMMENT: 'sellerTalkBoxComment',
   SELLER_POST_INDIVIDUAL_ANSWER: 'sellerPostIndividualAnswer',
   SELLER_SINGLE_QUESTION_ANSWER: 'sellerSingleQuestionAnswer',
+  FAQ_CARD_LIST: 'faqCardList',
+  USER_TALK_BOX_HISTORY: 'userTalkboxHistory',
   USER_ITEM_TALKBOX_LIST: 'userTalkboxList',
 };

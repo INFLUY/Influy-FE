@@ -6,6 +6,7 @@ interface UseInfiniteScrollProps {
   hasNextPage?: boolean;
   isFetchingNextPage?: boolean;
   threshold?: number;
+  enabled?: boolean;
 }
 
 const useInfiniteScroll = ({
@@ -14,9 +15,11 @@ const useInfiniteScroll = ({
   hasNextPage = true,
   isFetchingNextPage = false,
   threshold = 0.1,
+  enabled = true,
 }: UseInfiniteScrollProps) => {
   useEffect(() => {
-    if (!targetRef.current || !hasNextPage || isFetchingNextPage) return;
+    if (!targetRef.current || !hasNextPage || isFetchingNextPage || !enabled)
+      return;
 
     const observer = new IntersectionObserver(
       (entries) => {

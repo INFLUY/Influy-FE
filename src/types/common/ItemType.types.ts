@@ -52,6 +52,7 @@ export interface ItemDetail {
   status: ItemCurrentStatusType;
   isDateUndefined: boolean;
   sellerInfo: SellerCard;
+  talkBoxOpenStatus: 'INITIAL' | 'OPENED' | 'CLOSED';
 }
 
 export interface ItemPostDetail {
@@ -153,7 +154,7 @@ export interface TalkBoxCntInfo {
 
 export interface TalkBoxCommentDTO {
   sellerId: number;
-  sellerProfileImg: string;
+  sellerProfileImg: string | null;
   sellerUsername: string;
   sellerNickname: string;
   createdAt: string; // ISO 8601 datetime string
