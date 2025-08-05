@@ -1,10 +1,11 @@
 // 홈 상단 내 상품 현황 컴포넌트
 import { TimeChip, PeriodChip, AddButton, ToolTip } from '@/components';
 import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, generatePath } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { SellerHomeItemStatus } from '@/types/common/ItemType.types';
 import { getDeadlineLabel } from '@/utils/itemDateUtils';
+import { SELLER_TALK_BOX_CATEGORY_PATH } from '@/utils/generatePath';
 
 const MyProductStatus = ({
   items,
@@ -55,6 +56,15 @@ const MyProductStatus = ({
 export default MyProductStatus;
 
 const StatusCard = ({ item }: { item: SellerHomeItemStatus }) => {
+  const navigate = useNavigate();
+
+  const onArrowClick = () => {
+    const path = generatePath(SELLER_TALK_BOX_CATEGORY_PATH, {
+      itemId: item.itemId,
+    });
+    navigate(path);
+  };
+
   return (
     <li
       role="group"
@@ -85,6 +95,7 @@ const StatusCard = ({ item }: { item: SellerHomeItemStatus }) => {
           </div>
         </div>
       </article>
+
       {/* 하단 질문 현황 */}
       <article className="bg-grey01 flex w-full flex-col items-start gap-2.5 rounded-[.1875rem] p-4">
         {/* 질문 개수 및 오른족 화살표 */}
@@ -104,7 +115,7 @@ const StatusCard = ({ item }: { item: SellerHomeItemStatus }) => {
             type="button"
             aria-label="질문 상세 보기"
           >
-            <ArrowRightIcon />
+            <ArrowRightIcon onClick={onArrowClick} />
           </button>
         </div>
         {/* 아래 흰색 박스 */}
