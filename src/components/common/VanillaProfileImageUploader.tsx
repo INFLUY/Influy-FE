@@ -36,7 +36,7 @@ export const VanillaProfileImageUploader = ({
       >
         <CameraCircleIcon
           aria-hidden="true"
-          className="absolute right-0 bottom-0 cursor-pointer"
+          className="text-grey02 absolute right-0 bottom-0 h-6 w-6 cursor-pointer"
         />
         <img
           src={value ?? ProfileIcon}

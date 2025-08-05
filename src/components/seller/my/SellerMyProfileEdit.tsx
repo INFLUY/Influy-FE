@@ -1,7 +1,6 @@
 import CameraCircleIcon from '@/assets/icon/common/CameraCircle.svg?react';
 import { useFormContext, useController } from 'react-hook-form';
 import { useSingleImageUploader } from '@/hooks/useSingleImageUploader';
-import CameraIcon from '@/assets/icon/common/Camera.svg?react';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 import { useState } from 'react';
 import ImageSelectBottomSheet from '@/components/common/profile/ImageSelectBottomSheet';
@@ -53,7 +52,7 @@ export const ProfileImageUploader = ({ name }: { name: string }) => {
       <CameraCircleIcon
         role="button"
         aria-label="프로필 이미지 업로드"
-        className="absolute right-0 bottom-0 cursor-pointer"
+        className="text-grey02 absolute right-0 bottom-0 h-6 w-6 cursor-pointer"
         onClick={() => setIsBottomSheetOpen(true)}
       />
       <input
@@ -112,7 +111,7 @@ export const BackgroundImageUploader = ({ name }: { name: string }) => {
         aria-label="배경 이미지 업로드"
         onClick={() => setIsBottomSheetOpen(true)}
       >
-        <CameraIcon aria-hidden="true" />
+        <CameraCircleIcon className="text-grey02 h-6 w-6" aria-hidden="true" />
       </button>
       <input
         id="background-upload"

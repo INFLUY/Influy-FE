@@ -1,9 +1,8 @@
-import CameraIcon from '@/assets/icon/common/Camera.svg?react';
+import CameraIcon from '@/assets/icon/common/CameraCircle.svg?react';
 import cn from '@/utils/cn';
 import { useFormContext, useController } from 'react-hook-form';
 import DeleteIcon from '@/assets/icon/common/Delete.svg?react';
 import { useSnackbarStore } from '@/store/snackbarStore';
-import { useEffect } from 'react';
 import { usePostPresignedUrl } from '@/services/presignedUrl/usePostPresignedUrl';
 import { ItemFormValues } from '@/types/item.types';
 
@@ -67,21 +66,15 @@ export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
     onChange(updated);
   };
 
-  useEffect(() => {
-    return () => {
-      // Blob URL 안 쓰므로 revoke 불필요
-    };
-  }, []);
-
   return (
     <article className="flex w-full flex-nowrap items-center gap-x-1.5 pl-5">
       {/* 사진 추가 박스 */}
       <label className="bg-grey03 mt-[1.125rem] mb-5 flex h-[3.75rem] w-[3.75rem] shrink-0 cursor-pointer flex-col items-center justify-center rounded-[.1875rem]">
-        <CameraIcon />
+        <CameraIcon className="h-6 w-6 text-transparent" />
         <span
           className={cn(
             'caption-m mt-0.5',
-            images.length == 0 ? 'text-grey07' : 'text-grey10'
+            images.length === 0 ? 'text-grey07' : 'text-grey10'
           )}
         >
           {images.length}/10
