@@ -170,3 +170,38 @@ export const formatIsoToKoreanLong = ({
     .toString()
     .padStart(2, '0')}`;
 };
+
+export const formatRelativeDate = (isoString: string): string => {
+  const date = parseToKstDate(isoString);
+  const now = new Date();
+
+  const dateOnly = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  const nowOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  const diffMs = nowOnly.getTime() - dateOnly.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (isToday({ d1: date })) {
+    // 당일이면 HH:MM (24시간제)
+    return formatTime({ date });
+  }
+
+  if (diffDays < 7) {
+    // 1일 전, 2일 전 ...
+    return `${diffDays}일 전`;
+  }
+
+  if (diffDays < 365) {
+    // 7일 이상 1년 미만 → MM월 DD일
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${month}월 ${day}일`;
+  }
+
+  // 1년 이상 → YYYY.MM.DD
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+};

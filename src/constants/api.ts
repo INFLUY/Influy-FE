@@ -37,6 +37,7 @@ export const API_DOMAINS = {
   USER_PROFILE: '/member/:memberId/profile',
   USER_MY_PROFILE: '/member/profile',
   HANDLE_USERNAME: '/member/username',
+  USER_ITEM_TALKBOX_LIST: '/user/items/talkbox',
 
   // home
   HOME_RECOMMEND: '/home/recommend',
@@ -154,4 +155,5 @@ export const QUERY_KEYS = {
   SELLER_TALK_BOX_COMMENT: 'sellerTalkBoxComment',
   SELLER_POST_INDIVIDUAL_ANSWER: 'sellerPostIndividualAnswer',
   SELLER_SINGLE_QUESTION_ANSWER: 'sellerSingleQuestionAnswer',
+  USER_ITEM_TALKBOX_LIST: 'userTalkboxList',
 };
