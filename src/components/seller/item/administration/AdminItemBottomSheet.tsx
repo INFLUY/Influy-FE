@@ -4,6 +4,7 @@ import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
 import { useModalStore } from '@/store/useModalStore';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useDeleteItem } from '@/services/sellerItem/mutation/useDeleteItem';
+import { usePatchItemArchiveStatus } from '@/services/sellerItem/mutation/usePatchItemArchiveStatus';
 
 const AdminItemBottomSheet = ({
   isStored = false,
@@ -29,12 +30,10 @@ const AdminItemBottomSheet = ({
     navigate(generatePath(SELLER_ITEM_EDIT_PATH, { itemId }));
   };
 
-  // 상품 보관
-  const handleItemStore = () => {
-    // itemId 이용하여 보관
+  const { mutate: patchItemArchivedStatus } = usePatchItemArchiveStatus(() => {
     closeModal();
     showSnackbar('상품이 보관함으로 이동했습니다.');
-  };
+  });
 
   const { showModal, hideModal } = useModalStore();
 
@@ -65,7 +64,9 @@ const AdminItemBottomSheet = ({
             <button
               type="button"
               className="body1-b text-grey10 w-full cursor-pointer py-4 text-center"
-              onClick={handleItemStore}
+              onClick={() =>
+                patchItemArchivedStatus({ itemId, isArchived: true })
+              }
             >
               보관
             </button>

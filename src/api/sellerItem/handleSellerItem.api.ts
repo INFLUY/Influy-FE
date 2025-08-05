@@ -79,6 +79,18 @@ export const deleteItem = async (itemId: number) => {
   return response.data.result;
 };
 
+export const patchItemArchiveStatus = async (
+  itemId: number,
+  isArchived: boolean
+) => {
+  const response = await instance.patch<ApiResponse<{ itemId: number }>>(
+    generateApiPath(SELLER_API_DOMAINS.PATCH_ITEM_ARCHIVE_STATUS, { itemId }),
+    {},
+    { params: { isArchived } }
+  );
+  return response.data.result;
+};
+
 export const getSellerItemDetail = async ({
   sellerId,
   itemId,

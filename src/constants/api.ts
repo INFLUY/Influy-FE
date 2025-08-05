@@ -71,6 +71,7 @@ export const SELLER_API_DOMAINS = {
   SELLER_ITEM_STATUS: '/seller/items/:itemId/status',
   SELLER_POST_ITEM: '/seller/items',
   SELLER_HANDLE_ITEM: '/seller/items/:itemId',
+  PATCH_ITEM_ARCHIVE_STATUS: '/seller/items/:itemId/archive',
   TALK_BOX_OPENED_ITEMS: '/seller/talkbox/opened',
   SELLER_TALK_BOX_OPEN_STATUS: '/seller/items/:itemId/talkbox/open-status',
   SELLER_TALK_BOX_COMMENT: '/seller/items/:itemId/talkbox/view-comment',
