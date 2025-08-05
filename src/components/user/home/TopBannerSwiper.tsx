@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { A11y, Pagination } from 'swiper/modules';
+import { A11y, Pagination, Autoplay } from 'swiper/modules';
 import './topBannerSwiper.css';
 
 import 'swiper/css';
@@ -26,9 +26,14 @@ const TopBannerSwiper = ({ data }: { data: TopBannerItem[] }) => {
     <section className="relative h-fit w-full">
       <Swiper
         className="relative w-full"
-        centeredSlides={true}
+        centeredSlides={false}
         grabCursor={true}
-        modules={[A11y, Pagination]}
+        loop={true}
+        autoplay={{
+          delay: 4000,
+          disableOnInteraction: false,
+        }}
+        modules={[A11y, Pagination, Autoplay]}
         spaceBetween={0}
         slidesPerView={1}
         mousewheel={true}
