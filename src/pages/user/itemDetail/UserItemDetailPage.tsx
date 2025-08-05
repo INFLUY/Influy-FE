@@ -130,15 +130,16 @@ const UserItemDetailPage = () => {
       {isFaqCategoryTop ? (
         <header className="sticky top-0 z-20 flex w-full flex-nowrap gap-2 bg-[rgba(241,241,241,0.30)]">
           <div className="scrollbar-hide flex items-center gap-2 overflow-x-scroll px-5 pt-2 pb-[.4375rem]">
-            {faqCategories.map((category: CategoryType) => (
-              <CategoryChip
-                key={category.id}
-                text={category.name}
-                isSelected={selectedCategoryId == category.id}
-                onToggle={() => setSelectedCategoryId(category.id)}
-                theme="faq"
-              />
-            ))}
+            {faqCategories.length > 0 &&
+              faqCategories.map((category: CategoryType) => (
+                <CategoryChip
+                  key={category.id}
+                  text={category.name}
+                  isSelected={selectedCategoryId == category.id}
+                  onToggle={() => setSelectedCategoryId(category.id)}
+                  theme="faq"
+                />
+              ))}
           </div>
         </header>
       ) : (

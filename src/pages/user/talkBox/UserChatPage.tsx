@@ -171,7 +171,7 @@ const UserChatPage = () => {
             ref={chatWrapperRef}
           >
             {chatList.length > 0 && (
-              <div ref={topObserverRef} className="bg-grey07 h-[1px] w-full" />
+              <div ref={topObserverRef} className="h-[.0625rem] w-full" />
             )}
             <div className="flex w-full flex-col-reverse gap-[1.875rem] pt-5">
               {chatList &&
@@ -227,7 +227,7 @@ const UserChatPage = () => {
                   return null;
                 })}
             </div>
-            <div ref={bottomObserverRef} className="bg-grey07 h-[1px] w-full" />
+            <div ref={bottomObserverRef} className="h-[.0625rem] w-full" />
           </section>
         </Suspense>
 

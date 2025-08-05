@@ -1,5 +1,5 @@
 import { ItemDetail } from '@/types/common/ItemType.types';
-import { ItemDetailProfile, TimeChip } from '@/components';
+import { ItemDetailProfile, TimeChip, SoldOutChip } from '@/components';
 import { RefObject, Suspense, useState } from 'react';
 import cn from '@/utils/cn';
 import DowndownArrowIcon from '@/assets/icon/common/DropdownArrow.svg?react';
@@ -84,13 +84,12 @@ export const ItemDetailInfo = ({
         {sellerInfo && <ItemDetailProfile sellerInfo={sellerInfo} />}
       </Suspense>
       <article className="border-grey02 mt-5 flex h-fit w-full flex-col gap-4 border-b-1 px-5 pb-6">
-        {/* Time chip */}
-        {data.startDate && data.endDate ? (
-          <TimeChip open={data.startDate} deadline={data.endDate} />
+        {data.currentStatus === 'SOLD_OUT' ? (
+          // 솔드아웃 상품의 경우
+          <SoldOutChip />
         ) : (
-          <div className="caption-b flex h-[1.375rem] w-fit items-center justify-center rounded-[.0625rem] bg-[#FFEEEE] px-2.5 text-[#FF6666]">
-            임시(디자인 수정 필요)
-          </div>
+          // 좌측 하단 회차 및 시간 칩
+          <TimeChip open={data.startDate} deadline={data.endDate} />
         )}
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-4">
