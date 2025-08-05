@@ -23,21 +23,31 @@ import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
 import { usePostUserQuestion } from '@/services/talkBox/mutation/usePostUserQuestion';
 import { useGetUserCategoryList } from '@/services/talkBox/query/useGetUserCategoryList';
-import { Suspense, useState, useRef, useEffect } from 'react';
-import { useGetUserTalkBoxHistory } from '@/services/talkBox/query/useGetUserTalkBoxHistory';
 import { useGetSellerOverview } from '@/services/seller/query/useGetSellerOverview';
+import { useGetUserTalkBoxHistory } from '@/services/talkBox/query/useGetUserTalkBoxHistory';
+
+import { Suspense, useState, useRef, useEffect, useLayoutEffect } from 'react';
+
+//hooks store
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import { useSnackbarStore } from '@/store/snackbarStore';
+import { generateApiPath } from '@/api/utils';
 
 const UserChatPage = () => {
   const [questionText, setQuestionText] = useState('');
   const [selectedCategory, setSelectedCategory] =
     useState<UserCategoryDTO | null>(null);
+  const [isFirstEntry, setIsFirstEntry] = useState<boolean>(true);
   const navigate = useNavigate();
   const { itemId, marketId } = useParams();
 
   const bottomBarRef = useRef<HTMLDivElement | null>(null);
   const bottomObserverRef = useRef<HTMLDivElement | null>(null);
   const topObserverRef = useRef<HTMLDivElement | null>(null);
+  const chatWrapperRef = useRef<HTMLDivElement | null>(null);
+
+  const { showSnackbar } = useSnackbarStore();
+
   const [_, setBottomBarHeight] = useState<number>(0);
 
   useEffect(() => {
@@ -73,7 +83,7 @@ const UserChatPage = () => {
 
   // 이전 질문
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetUserTalkBoxHistory(Number(itemId), 4);
+    useGetUserTalkBoxHistory(Number(itemId), 6);
 
   const chatList = data?.pages.flatMap((page) => page?.chatList) ?? [];
   useInfiniteScroll({
@@ -83,11 +93,14 @@ const UserChatPage = () => {
     isFetchingNextPage,
     threshold: 1,
   });
-
-  useEffect(() => {
-    if (!bottomObserverRef.current) return;
-    bottomObserverRef.current.scrollIntoView({ behavior: 'smooth' });
+  // 페이지 첫 진입 및 chatList 변경 시 자동으로 맨 아래로 스크롤
+  useLayoutEffect(() => {
+    if (chatWrapperRef.current && chatList.length > 0 && isFirstEntry) {
+      chatWrapperRef.current.scrollTop = chatWrapperRef.current.scrollHeight;
+      setIsFirstEntry(false);
+    }
   }, [chatList]);
+
   // 질문 전송
   const { mutate: postAnswer, isPending } = usePostUserQuestion({
     itemId: Number(itemId),
@@ -95,11 +108,11 @@ const UserChatPage = () => {
     onSuccessCallback: () => {
       setQuestionText('');
       setSelectedCategory(null);
+      if (chatWrapperRef.current) {
+        chatWrapperRef.current.scrollTop = chatWrapperRef.current.scrollHeight;
+      }
     },
   });
-
-  //셀러 정보
-  const { data: sellerInfo } = useGetSellerOverview(Number(marketId));
 
   const handleQuestionSubmit = () => {
     if (
@@ -111,6 +124,10 @@ const UserChatPage = () => {
       return;
     postAnswer(questionText);
   };
+
+  //셀러 정보
+  const { data: sellerInfo } = useGetSellerOverview(Number(marketId));
+
   return (
     <>
       <PageHeader
@@ -123,7 +140,9 @@ const UserChatPage = () => {
             tabIndex={0}
           />,
         ]}
-        rightIcons={[<KebabIcon />]}
+        rightIcons={[
+          <KebabIcon onClick={() => showSnackbar('준비중입니다')} />,
+        ]}
         additionalStyles="bg-grey01 border-0"
       >
         <div className="absolute left-[3.75rem] flex flex-col items-start justify-between">
@@ -137,19 +156,26 @@ const UserChatPage = () => {
           </Suspense>
         </div>
       </PageHeader>
-      <section className="scrollbar-hide relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto bg-white pt-11">
+      <section className="relative flex h-full w-full flex-1 flex-col bg-white pt-11">
         {itemOverview && (
           <TalkBoxBottomItemCard
             itemName={itemOverview.itemName}
             tagline={itemOverview.tagline}
             mainImg={itemOverview.mainImg}
-            onItemCardClick={() => {}}
+            onItemCardClick={() => {
+              navigate(`..`, { replace: true });
+            }}
           />
         )}
         <Suspense fallback={<LoadingSpinner />}>
-          <section className="flex flex-col pb-[var(--bottomBarHeight)]">
-            <div ref={topObserverRef} className="bg-grey07 h-[1px] w-full" />
-            <div className="flex flex-col-reverse gap-[1.875rem] pt-5">
+          <section
+            className="scrollbar-hide flex w-full flex-col overflow-x-hidden overflow-y-auto pb-[var(--bottomBarHeight)]"
+            ref={chatWrapperRef}
+          >
+            {chatList.length > 0 && (
+              <div ref={topObserverRef} className="bg-grey07 h-[1px] w-full" />
+            )}
+            <div className="flex w-full flex-col-reverse gap-[1.875rem] pt-5">
               {chatList &&
                 chatList.map((chat, index) => {
                   if (chat?.type === 'Default Message') {
