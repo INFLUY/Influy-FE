@@ -221,13 +221,13 @@ const UserItemDetailPage = () => {
         )}
       </section>
       <UserNav
-        isTalkBoxOpened={true}
         likeCount={itemLikeCount?.likeCnt ?? 0}
         onTalkBoxClick={onTalkBoxClick}
-        onBuyClick={onBuyClick}
+        marketLink={itemDetailData?.marketLink}
         sellerId={Number(marketId)}
         itemId={Number(itemId)}
         liked={false} //수정
+        isTalkBoxOpened={itemDetailData?.talkBoxOpenStatus === 'OPENED'}
       />
     </>
   );

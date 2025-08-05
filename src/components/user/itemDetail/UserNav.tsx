@@ -6,7 +6,7 @@ export const UserNav = ({
   isTalkBoxOpened,
   likeCount,
   onTalkBoxClick,
-  onBuyClick,
+  marketLink,
   sellerId,
   itemId,
   liked,
@@ -14,7 +14,7 @@ export const UserNav = ({
   isTalkBoxOpened: boolean;
   likeCount: number;
   onTalkBoxClick: () => void;
-  onBuyClick: () => void;
+  marketLink?: string | null;
   sellerId: number;
   itemId: number;
   liked: boolean;
@@ -41,7 +41,14 @@ export const UserNav = ({
           <TalkBoxIcon />
         </button>
       )}
-      <DefaultButton text="구매하기" onClick={onBuyClick} />
+      <a
+        href={marketLink ?? ''}
+        target="_blank"
+        rel="noreferrer"
+        className="w-full"
+      >
+        <DefaultButton text="구매하기" />
+      </a>
     </nav>
   );
 };

@@ -52,6 +52,7 @@ export interface ItemDetail {
   status: ItemCurrentStatusType;
   isDateUndefined: boolean;
   sellerInfo: SellerCard;
+  talkBoxOpenStatus: 'INITIAL' | 'OPENED' | 'CLOSED';
 }
 
 export interface ItemPostDetail {
