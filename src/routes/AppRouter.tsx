@@ -58,6 +58,7 @@ import {
   PendingCategoryTab,
   AnsweredCategoryTab,
   OnboardingLayout,
+  SellerDeleteAccountPage,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -453,7 +454,7 @@ const router = createBrowserRouter([
                       },
                       {
                         path: PATH.SELLER.MY.SETTING.ACCOUNT_SETTING.DELETE,
-                        element: <DeleteAccountPage />,
+                        element: <SellerDeleteAccountPage />,
                       },
                     ],
                   },
