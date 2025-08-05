@@ -36,6 +36,7 @@ export const API_DOMAINS = {
   USER_JOIN: '/member/register/user',
   USER_PROFILE: '/member/:memberId/profile',
   USER_MY_PROFILE: '/member/profile',
+  HANDLE_USERNAME: '/member/username',
 
   // home
   HOME_RECOMMEND: '/home/recommend',

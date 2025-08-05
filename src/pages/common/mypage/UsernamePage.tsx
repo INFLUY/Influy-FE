@@ -1,6 +1,5 @@
 import { DefaultButton, PageHeader, TipTooltip } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IdInput } from '@/components/common/DetailInput';
@@ -12,6 +11,7 @@ import { useSnackbarStore } from '@/store/snackbarStore';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';
 import { PATH } from '@/routes/path';
+import { usePatchUsername } from '@/services/member/mutation/usePatchUsername';
 
 const UsernamePage = () => {
   const navigate = useNavigate();
@@ -57,6 +57,11 @@ const UsernamePage = () => {
     setValidText('');
   }, [id]);
 
+  const { mutate: patchUsername } = usePatchUsername(() => {
+    showSnackbar('저장되었습니다.');
+    navigate(-1);
+  });
+
   // 다음 버튼 클릭 핸들러
   const handleClickSave = () => {
     if (prevId === id) {
@@ -67,9 +72,7 @@ const UsernamePage = () => {
     } else if (errorText !== '') {
       return;
     } else {
-      // 백 연동
-      console.log(id);
-      showSnackbar('저장되었습니다.');
+      patchUsername({ data: { username: id } });
     }
   };
 
@@ -104,12 +107,6 @@ const UsernamePage = () => {
           <ArrowIcon
             className="h-6 w-6 cursor-pointer text-black"
             onClick={() => navigate(-1)}
-          />,
-        ]}
-        rightIcons={[
-          <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate('')}
           />,
         ]}
       >

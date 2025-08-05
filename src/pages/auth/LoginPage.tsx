@@ -61,7 +61,7 @@ const LoginPage = () => {
             type="button"
             className="body2-r text-grey06 cursor-pointer"
             onClick={() =>
-              (window.location.href = `https://pf.kakao.com/_TXxlmn`)
+              window.location.replace(`https://pf.kakao.com/_TXxlmn`)
             }
           >
             문의하기
