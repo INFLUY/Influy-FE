@@ -58,6 +58,7 @@ export const SELLER_API_DOMAINS = {
   // 셀러 프로필 및 마켓
   SELLER_MY_PROFILE: '/seller/profile',
   SELLER_MY_MARKET: '/seller/my-market',
+  SELLER_HANDLE_PUBLIC: '/seller/isPublic',
 
   // [톡박스] 셀러 톡박스 답변
   SELLER_ANSWER: '/seller/items/:itemId/talkbox/:questionCategoryId/answers',

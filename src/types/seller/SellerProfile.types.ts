@@ -34,3 +34,8 @@ export interface SellerEditProfileType {
   tiktok?: string;
   youtube?: string;
 }
+
+export interface SellerPulicResponse {
+  sellerId: number;
+  isPublic: boolean;
+}
