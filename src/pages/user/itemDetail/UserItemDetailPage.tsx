@@ -19,7 +19,7 @@ import { useScrollToTop } from '@/hooks/useScrollToTop';
 // api
 import { useGetMarketItemDetailSuspense } from '@/services/sellerItem/query/useGetMarketItemDetail';
 import { useGetItemLikeCounts } from '@/services/likes/query/useGetItemLikeCounts';
-import { useGetItemFaqCategory } from '@/services/sellerItemFaq/query/useGetItemFaqCategory';
+import { useGetItemFaqCategory } from '@/services/sellerFaqCard/query/useGetItemFaqCategory';
 import { useGetFaqCardByCategory } from '@/services/sellerFaqCard/query/useGetFaqCardByCategory';
 const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/itemDetail/ItemDetailFaqCard')
@@ -122,6 +122,8 @@ const UserItemDetailPage = () => {
   const flattenedFaqCardList = faqCardList?.pages.flatMap(
     (page) => page?.faqCardList ?? []
   );
+
+  // TODO: 카테고리 바뀌어도 스크롤바 위치 안 바뀌게 하기
 
   return (
     <>
