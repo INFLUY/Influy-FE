@@ -4,13 +4,12 @@ import './topBannerSwiper.css';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-
-interface TopBannerItem {
-  image: string;
-  onClick: () => void;
-}
+import { TopBannerItem } from '@/pages/user/home/HomePage';
+import { useNavigate } from 'react-router-dom';
 
 const TopBannerSwiper = ({ data }: { data: TopBannerItem[] }) => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative h-fit w-full">
       <Swiper
@@ -33,6 +32,7 @@ const TopBannerSwiper = ({ data }: { data: TopBannerItem[] }) => {
               decoding="async"
               role="img"
               alt={'상단 배너 이미지 ' + (i + 1)}
+              onClick={() => navigate(item.path)}
             />
           </SwiperSlide>
         ))}

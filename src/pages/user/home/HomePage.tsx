@@ -20,73 +20,26 @@ import { useGetPopularItem } from '@/services/home/query/useGetPopularItem';
 import { useGetTrendingSeller } from '@/services/home/query/useGetTrendingSeller';
 import InfluencerCard from '@/components/user/home/InfluencerCard';
 import { useGetSellerPick } from '@/services/home/query/useGetSellerPick';
+import Banner1 from '@/assets/image/banner/Banner1.png';
+import Banner2 from '@/assets/image/banner/Banner2.png';
+import Banner3 from '@/assets/image/banner/Banner3.png';
 
-interface TopBannerItem {
+export interface TopBannerItem {
   image: string;
-  onClick: () => void;
+  path: string;
 }
-export const topBannerMockData: TopBannerItem[] = [
+export const topBanner: TopBannerItem[] = [
   {
-    image: '/banner.png',
-    onClick: () => {
-      console.log('🎉 Banner 1 clicked - 신상품 페이지로 이동');
-      // navigate('/new-items'); // 실제 라우팅
-    },
+    image: Banner1,
+    path: '',
   },
   {
-    image: '/banner.png',
-    onClick: () => {
-      console.log('🔥 Banner 2 clicked - 이벤트 페이지로 이동');
-      // navigate('/event/123');
-    },
+    image: Banner2,
+    path: '',
   },
   {
-    image: '/banner.png',
-    onClick: () => {
-      console.log('⭐ Banner 3 clicked - 인플루언서 소개');
-      // navigate('/influencer/thgusth');
-    },
-  },
-];
-
-interface InfluencerPickItemType {
-  name: string;
-  itemId: number;
-  sellerId: number;
-  image: string;
-  onClick: () => void;
-}
-
-export const pickMockData: InfluencerPickItemType[] = [
-  {
-    name: '비누',
-    itemId: 1,
-    sellerId: 1,
-    image: '/product.png',
-    onClick: () => {
-      console.log('🎉 Banner 1 clicked - 신상품 페이지로 이동');
-      // navigate('/new-items'); // 실제 라우팅
-    },
-  },
-  {
-    name: '비누',
-    itemId: 15,
-    sellerId: 2,
-    image: '/banner.png',
-    onClick: () => {
-      console.log('🔥 Banner 2 clicked - 이벤트 페이지로 이동');
-      // navigate('/event/123');
-    },
-  },
-  {
-    name: '비누',
-    itemId: 11,
-    sellerId: 3,
-    image: '/img1.png',
-    onClick: () => {
-      console.log('⭐ Banner 3 clicked - 인플루언서 소개');
-      // navigate('/influencer/thgusth');
-    },
+    image: Banner3,
+    path: '',
   },
 ];
 
@@ -155,7 +108,7 @@ const HomePage = () => {
             />
           </span>
         )}
-        <TopBannerSwiper data={topBannerMockData} />
+        <TopBannerSwiper data={topBanner} />
         <section className="flex w-full flex-col gap-4 pt-7 pb-3">
           <h1 className="subhead-b px-5 text-black">요즘 핫한 인플루언서</h1>
           <ul className="scrollbar-hide flex gap-6 overflow-x-auto px-5">
