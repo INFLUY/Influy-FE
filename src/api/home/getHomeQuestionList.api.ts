@@ -11,7 +11,11 @@ export const getHomeQuestionList = async ({
   size: number;
 }) => {
   const response = await instance.get<
-    ApiResponse<Pagination<SellerHomeItemStatus | [], 'itemList'>>
+    ApiResponse<
+      Pagination<SellerHomeItemStatus[] | [], 'itemList'> & {
+        hasAnyItem: boolean;
+      }
+    >
   >(SELLER_API_DOMAINS.SELLER_MY_HOME_QUESTIONS, {
     params: { page, size },
   });

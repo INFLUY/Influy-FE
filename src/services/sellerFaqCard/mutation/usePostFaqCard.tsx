@@ -17,12 +17,22 @@ export const usePostFaqCard = (onSuccessCallback?: () => void) => {
       data,
     }: FaqCardRequestType) =>
       postFaqCard({ sellerId, faqCategoryId, itemId, data }),
-    onSuccess: (_, variables) => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, variables.itemId, sellerId],
       });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, sellerId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [
+          QUERY_KEYS.SELLER_FAQ_CARD_QUESTION,
+          {
+            sellerId,
+            itemId: variables.itemId,
+            faqCategoryId: data?.faqCategoryId,
+          },
+        ],
       });
       onSuccessCallback?.();
     },

@@ -23,6 +23,12 @@ export const API_DOMAINS = {
 
   ITEM_CATEGORIES: '/categories',
 
+  // FAQ
+  SELLER_HANDLE_FAQ_CATEGORIES: '/seller/items/:itemId/faq-categories',
+  SELLER_GET_FAQ_CATEGORIES: '/seller/:sellerId/items/:itemId/faq-categories',
+  SELLER_GET_FAQ_QUESTIONS:
+    '/seller/:sellerId/items/:itemId/faq/question-cards',
+
   // seller
   SELLER_MY_JOIN: '/member/register/seller',
   SELLER_MY_ANNOUNCEMENT: '/seller/announcements',
@@ -41,6 +47,8 @@ export const API_DOMAINS = {
   USER_JOIN: '/member/register/user',
   USER_PROFILE: '/member/:memberId/profile',
   USER_MY_PROFILE: '/member/profile',
+  HANDLE_USERNAME: '/member/username',
+  USER_ITEM_TALKBOX_LIST: '/user/items/talkbox',
 
   // home
   HOME_RECOMMEND: '/home/recommend',
@@ -73,6 +81,7 @@ export const SELLER_API_DOMAINS = {
   // [셀러] 셀러 프로필 및 마켓
   SELLER_MY_PROFILE: '/seller/profile',
   SELLER_MY_MARKET: '/seller/my-market',
+  SELLER_HANDLE_PUBLIC: '/seller/isPublic',
 
   // [톡박스] 셀러 톡박스 답변
   SELLER_ANSWER: '/seller/items/:itemId/talkbox/:questionCategoryId/answers',
@@ -85,6 +94,7 @@ export const SELLER_API_DOMAINS = {
   SELLER_ITEM_STATUS: '/seller/items/:itemId/status',
   SELLER_POST_ITEM: '/seller/items',
   SELLER_HANDLE_ITEM: '/seller/items/:itemId',
+  PATCH_ITEM_ARCHIVE_STATUS: '/seller/items/:itemId/archive',
   TALK_BOX_OPENED_ITEMS: '/seller/talkbox/opened',
   SELLER_TALK_BOX_OPEN_STATUS: '/seller/items/:itemId/talkbox/open-status',
   SELLER_TALK_BOX_COMMENT: '/seller/items/:itemId/talkbox/view-comment',
@@ -111,6 +121,13 @@ export const SELLER_API_DOMAINS = {
   //[톡박스] 질문태그(소분류)
   SELLER_TALK_BOX_CATEGORY_TAGS:
     '/seller/item/talkbox/:questionCategoryId/tags',
+
+  // FAQ
+  SELLER_MY_POST_FAQ_CARD: '/seller/items/:itemId/faq',
+  SELLER_MY_HANDLE_FAQ_CARD: '/seller/items/:itemId/faq/:faqCardId',
+  SELLER_MY_GET_FAQ_CARD_DETAIL:
+    '/seller/:sellerId/items/:itemId/faq/:faqCardId',
+  SELLER_MY_FAQ_PIN: '/seller/items/:itemId/faq/:faqCardId/pin',
 };
 
 export const QUERY_KEYS = {
@@ -123,6 +140,7 @@ export const QUERY_KEYS = {
   SELLER_MARKET_ITEM: 'sellerMarketItem',
   SELLER_FAQ_CATEGORIES: 'sellerFaqCategories',
   SELLER_FAQ_CARD: 'sellerFaqCard',
+  SELLER_FAQ_CARD_QUESTION: 'sellerFaqCardQuestionList',
   ID_DUPLICATE_CHECK: 'checkId',
 
   ITEM_CATEGORIES: 'itemCategories',
@@ -167,4 +185,5 @@ export const QUERY_KEYS = {
   SELLER_SINGLE_QUESTION_ANSWER: 'sellerSingleQuestionAnswer',
   FAQ_CARD_LIST: 'faqCardList',
   USER_TALK_BOX_HISTORY: 'userTalkboxHistory',
+  USER_ITEM_TALKBOX_LIST: 'userTalkboxList',
 };

@@ -7,7 +7,7 @@ import {
   ItemLikeButton,
 } from '@/components';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
-import { isItemClosed } from '@/utils/dateUtils';
+import { isItemClosed } from '@/utils/itemDateUtils';
 
 const ItemAlbumCard = ({
   item,

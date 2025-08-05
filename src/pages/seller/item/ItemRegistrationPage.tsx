@@ -9,44 +9,17 @@ import { DefaultButton, Tab, Tabs } from '@/components';
 import { useRef, RefObject, useEffect } from 'react';
 import { PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import { generatePath, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
-import { CategoryType } from '@/types/common/CategoryType.types';
-import { FaqQuestion } from '@/types/common/ItemType.types';
 import { Outlet, useLocation } from 'react-router-dom';
 import cn from '@/utils/cn';
-import { SELLER_ITEM_DETAIL } from '@/utils/generatePath';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { usePostItem } from '@/services/sellerItem/mutation/usePostItem';
 import { usePutItem } from '@/services/sellerItem/mutation/usePutItem';
 import { useGetMarketItemDetail } from '@/services/sellerItem/query/useGetMarketItemDetail';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { parseToKstDate } from '@/utils/formatDate';
-
-export const dummyCategory: CategoryType[] = [
-  { id: 0, name: '사이즈' },
-  { id: 1, name: '색상' },
-  { id: 2, name: '디테일' },
-  { id: 3, name: '배송관련' },
-  { id: 4, name: '색상1' },
-];
-
-const dummyFaqQuestion: FaqQuestion[] = [
-  {
-    id: 1,
-    questionContent: '구성이 어떻게 되나요?',
-    pinned: true,
-    updatedAt: '2025-07-04T04:55:48.736Z',
-  },
-  {
-    id: 2,
-    questionContent:
-      '키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을까요?키 160, 몸무게 60이면 L사이즈 맞을게 60이면 L사이즈 맞을게 60이면 L사이즈 맞을게 60이면 L사이즈 맞을게 60이면',
-    pinned: true,
-    updatedAt: '2025-07-04T04:55:48.736Z',
-  },
-];
 
 //필수 항목 타입 정의
 type fieldsToCheck<FieldNames extends string> = {
@@ -99,6 +72,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       linkText: '',
       period: undefined,
       commentText: '',
+      status: 'DEFAULT',
     },
   });
 
@@ -107,9 +81,11 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       methods.reset({
         images: prevItemData.itemImgList ?? [],
         titleText: prevItemData.itemName ?? '',
-        selectedCategoryList: [],
-        hasStartDate: prevItemData.startDate ? true : false, // TODO: 백 수정되고 받아와야함
-        hasEndDate: prevItemData.endDate ? true : false, // TODO: 백 수정되고 받아와야함
+        selectedCategoryList: prevItemData.itemCategoryList ?? [],
+        hasStartDate:
+          !prevItemData.isDateUndefined && prevItemData.startDate !== undefined,
+        hasEndDate:
+          !prevItemData.isDateUndefined && prevItemData.endDate !== undefined,
         startISODateTime: prevItemData.startDate
           ? parseToKstDate(prevItemData.startDate).toISOString()
           : undefined,
@@ -122,6 +98,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
         linkText: prevItemData.marketLink ?? '',
         period: prevItemData.itemPeriod ?? 1,
         commentText: prevItemData.comment ?? '',
+        status: prevItemData.status,
       });
   }, [prevItemData]);
 
@@ -227,27 +204,35 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
     showSnackbar('상품이 수정되었습니다.')
   );
 
-  // 게시하기 활성화: 필수 항목 4개 다 있을 시 실행
-  const handleSubmitSuccess = async (formData: ItemFormValues) => {
-    const isValid = (val: unknown): val is string =>
+  const getItemPayload = (formData: ItemFormValues, isArchived: boolean) => {
+    const isValid = (val: unknown): val is string | number =>
       val !== undefined && val !== null && val !== '';
 
-    const payload = {
+    return {
       itemImgList: formData.images,
       name: formData.titleText,
       itemCategoryIdList: formData.selectedCategoryList.map(String),
-      startDate: formData.startISODateTime,
-      endDate: formData.endISODateTime,
+      ...(isValid(formData.startISODateTime) && {
+        startDate: formData.startISODateTime,
+      }),
+      ...(isValid(formData.endISODateTime) && {
+        endDate: formData.endISODateTime,
+      }),
       ...(isValid(formData.summaryText) && { tagline: formData.summaryText }),
       ...(isValid(formData.price) && { regularPrice: formData.price }),
       ...(isValid(formData.salePrice) && { salePrice: formData.salePrice }),
       ...(isValid(formData.linkText) && { marketLink: formData.linkText }),
-      ...(isValid(formData.price) && { regularPrice: formData.price }),
-      ...(isValid(formData.salePrice) && { salePrice: formData.salePrice }),
       itemPeriod: formData.period ?? 1,
       ...(isValid(formData.commentText) && { comment: formData.commentText }),
-      isArchived: false,
+      isArchived,
+      ...(formData.status === 'EXTEND' && { comment: formData.status }),
+      isDateUndefined: !formData.hasStartDate || !formData.hasEndDate,
     };
+  };
+
+  // 게시하기 활성화: 필수 항목 4개 다 있을 시 실행
+  const handleSubmitSuccess = async (formData: ItemFormValues) => {
+    const payload = getItemPayload(formData, false);
 
     if (!isEditMode) {
       postItem(payload);
@@ -296,6 +281,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
     .safeParse({ titleText });
 
   const onArchive = () => {
+    const formData = methods.getValues();
     if (!titleValidationResult.success) {
       const message =
         titleValidationResult.error.issues[0].message ?? '제목 오류';
@@ -303,14 +289,13 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       setFocus('titleText');
       return;
     }
+    const payload = getItemPayload(formData, true);
 
-    // TODO: 보관하기 백 연동
-    //임시
-    const itemId: number = 1;
-
-    //if success
-    navigate(generatePath(SELLER_ITEM_DETAIL, { itemId }));
-    showSnackbar('상품이 보관되었습니다.');
+    if (!isEditMode) {
+      postItem(payload);
+    } else if (isEditMode && itemId !== undefined) {
+      putItem({ data: payload, itemId: Number(itemId) });
+    }
   };
 
   return (
@@ -355,9 +340,6 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
               context={{
                 methods,
                 requiredFieldsRef,
-                faqCategory: dummyCategory,
-                faqQuestions: dummyFaqQuestion,
-                itemId: 5,
               }}
             />
           </div>

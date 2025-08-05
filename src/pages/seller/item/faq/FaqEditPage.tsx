@@ -23,12 +23,15 @@ import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 import { parseDateString } from '@/utils/formatDate';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { useSnackbarStore } from '@/store/snackbarStore';
-import { useGetItemFaqCategory } from '@/services/sellerItemFaq/query/useGetItemFaqCategory';
+import { useGetItemFaqCategory } from '@/services/sellerFaqCard/query/useGetItemFaqCategory';
 import { useGetFaqCard } from '@/services/sellerFaqCard/query/useGetFaqCard';
 import { usePatchFaqCard } from '@/services/sellerFaqCard/mutation/usePatchFaqCard';
 import { FaqCardRequestBody } from '@/types/common/FaqCardType.types';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { SELLER_ITEM_EDIT_FAQ_TAB_PATH } from '@/utils/generatePath';
+import { PATH } from '@/routes/path';
+import { useDeleteFaqCard } from '@/services/sellerFaqCard/mutation/useDeleteFaqCard';
+import { useModalStore } from '@/store/useModalStore';
 
 const FaqEditPage = () => {
   const navigate = useNavigate();
@@ -108,7 +111,13 @@ const FaqEditPage = () => {
   };
 
   const { mutate: patchFaqCard } = usePatchFaqCard(() => {
-    navigate(''); // TODO: 답변 상세?로 이동
+    navigate(
+      generatePath(
+        `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${PATH.SELLER.ITEM.ITEM_ID.BASE}`,
+        { itemId: itemId! }
+      ),
+      { replace: true }
+    );
     showSnackbar('답변이 등록되었습니다.');
   });
 
@@ -129,10 +138,32 @@ const FaqEditPage = () => {
     });
   };
 
-  const handleFaqDelete = () => {
-    // TODO: 디자인 추가되면 경고 modal 추가해야 함
-    navigate(generatePath(SELLER_ITEM_EDIT_FAQ_TAB_PATH, { itemId }));
+  const { mutate: deleteFaqCard } = useDeleteFaqCard(() => {
+    navigate(generatePath(SELLER_ITEM_EDIT_FAQ_TAB_PATH, { itemId: itemId! }), {
+      replace: true,
+    });
     showSnackbar('faq가 삭제되었습니다.');
+  });
+
+  const { showModal, hideModal } = useModalStore();
+
+  const handleDeleteFaqClick = () => {
+    showModal({
+      text: `FAQ를 삭제하시겠습니까?\n한 번 삭제한 내용은 되돌릴 수 없습니다.`,
+      leftButtonClick: () => {
+        hideModal();
+      },
+      rightButtonClick: () =>
+        deleteFaqCard({
+          itemId: Number(itemId),
+          faqCardId: Number(faqId),
+          faqCategoryId: prevFaq.faqCategoryId,
+        }),
+    });
+  };
+
+  const handleFaqDelete = () => {
+    handleDeleteFaqClick();
   };
 
   const { field: categoryField } = useController({

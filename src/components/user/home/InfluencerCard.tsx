@@ -37,17 +37,17 @@ const InfluencerCard = ({
         <img
           src={influencer.profileImg ?? ProfileIcon}
           alt={influencer.sellerNickname + '님 프로필 사진'}
-          className="aspect-square h-[3.75rem] rounded-full bg-white object-cover"
+          className="aspect-square h-[3.75rem] w-[3.75rem] rounded-full bg-white object-cover"
         />
         {selectedInfluencer === influencer.sellerId && (
           <span className="border-main absolute top-0 left-0 z-[1] h-full w-full rounded-full border-[1.5px]" />
         )}
       </div>
-      <div className="flex w-[3.75rem] flex-col items-center self-stretch text-[.8086rem] leading-[150%] tracking-[-0.0008rem]">
-        <p className="text-grey10 line-clamp-1 font-semibold">
+      <div className="flex w-[3.75rem] min-w-0 flex-col items-center text-center text-[.8086rem] leading-[150%] tracking-[-0.0008rem]">
+        <p className="text-grey10 line-clamp-1 w-full font-semibold break-words">
           {influencer.sellerNickname}
         </p>
-        <p className="text-grey09 line-clamp-1 font-normal">
+        <p className="text-grey09 line-clamp-1 w-full font-normal break-words">
           {influencer.sellerUsername}
         </p>
       </div>

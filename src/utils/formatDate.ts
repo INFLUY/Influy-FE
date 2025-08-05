@@ -104,20 +104,32 @@ export const parseDateString = (dateString: string) => {
   return dateString.split('T')[0].replace(/-/g, '.');
 };
 
-// 예시: 2025.07.28(월)
-export const formatKrDate = (dateIso: string) => {
+// 예시: 2025.07.28(월)~08.08(금)
+export const formatKrDateRange = (startIso: string, endIso: string) => {
   const days = ['일', '월', '화', '수', '목', '금', '토'];
-  const date = new Date(dateIso);
-  const startDay = days[date.getDay()];
 
-  const startFormatted = `${date.getFullYear()}.${(date.getMonth() + 1)
+  const start = new Date(startIso);
+  const end = new Date(endIso);
+
+  const startDay = days[start.getDay()];
+  const endDay = days[end.getDay()];
+
+  const sameYear = start.getFullYear() === end.getFullYear();
+
+  const startFormatted = `${start.getFullYear()}.${(start.getMonth() + 1)
     .toString()
     .padStart(
       2,
       '0'
-    )}.${date.getDate().toString().padStart(2, '0')}(${startDay})`;
+    )}.${start.getDate().toString().padStart(2, '0')}(${startDay})`;
 
-  return `${startFormatted}`;
+  const endFormatted = `${sameYear ? '' : `${end.getFullYear()}.`}${(
+    end.getMonth() + 1
+  )
+    .toString()
+    .padStart(2, '0')}.${end.getDate().toString().padStart(2, '0')}(${endDay})`;
+
+  return `${startFormatted}~${endFormatted}`;
 };
 
 // iso string 받아서 오늘이면 오후 HH:MM 형태로 반환, 아니면 날짜 형식으로 반환
@@ -157,4 +169,39 @@ export const formatIsoToKoreanLong = ({
   return `${year}년 ${month}월 ${day}일 ${period} ${hour}:${minute
     .toString()
     .padStart(2, '0')}`;
+};
+
+export const formatRelativeDate = (isoString: string): string => {
+  const date = parseToKstDate(isoString);
+  const now = new Date();
+
+  const dateOnly = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  const nowOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  const diffMs = nowOnly.getTime() - dateOnly.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (isToday({ d1: date })) {
+    // 당일이면 HH:MM (24시간제)
+    return formatTime({ date });
+  }
+
+  if (diffDays < 7) {
+    // 1일 전, 2일 전 ...
+    return `${diffDays}일 전`;
+  }
+
+  if (diffDays < 365) {
+    // 7일 이상 1년 미만 → MM월 DD일
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${month}월 ${day}일`;
+  }
+
+  // 1년 이상 → YYYY.MM.DD
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 };

@@ -14,7 +14,7 @@ export const useGetItemFaqCategory = ({
   itemId: number;
 }): UseSuspenseQueryResult<CategoryType[] | [], Error> => {
   return useSuspenseQuery({
-    queryKey: [QUERY_KEYS.SELLER_MARKET_LINKS, sellerId],
+    queryKey: [QUERY_KEYS.SELLER_FAQ_CATEGORIES, { sellerId, itemId }],
     queryFn: async () => {
       const res = await getFaqCategory({ sellerId, itemId });
       return res?.viewList;

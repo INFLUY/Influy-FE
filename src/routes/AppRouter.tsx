@@ -58,6 +58,7 @@ import {
   PendingCategoryTab,
   AnsweredCategoryTab,
   OnboardingLayout,
+  SellerDeleteAccountPage,
   UserItemDetailPage,
   UserChatPage,
 } from '@/pages';
@@ -462,7 +463,7 @@ const router = createBrowserRouter([
                       },
                       {
                         path: PATH.SELLER.MY.SETTING.ACCOUNT_SETTING.DELETE,
-                        element: <DeleteAccountPage />,
+                        element: <SellerDeleteAccountPage />,
                       },
                     ],
                   },

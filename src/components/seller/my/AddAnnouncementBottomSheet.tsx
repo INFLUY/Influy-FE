@@ -41,7 +41,17 @@ const AddAnnouncementBottomSheet = ({
 
   // 공지 저장(수정)
   const handleClickSave = () => {
+    if (!isAnnouncementValid()) {
+      if (title.trim() === '') {
+        showSnackbar('제목을 작성해주세요.');
+      } else {
+        showSnackbar('본문을 작성해주세요.');
+      }
+      return;
+    }
+
     setIsOpen(false);
+
     if (announcement) {
       patchAnnouncement({
         data: { title, content },
@@ -66,6 +76,14 @@ const AddAnnouncementBottomSheet = ({
   const handleAnnouncementCancelConfirm = () => {
     setIsAnnouncementCancelModalOpen(false);
     setIsOpen(false);
+  };
+
+  const isAnnouncementValid = () => {
+    if (title.trim() !== '' && content.trim() !== '') {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   return (

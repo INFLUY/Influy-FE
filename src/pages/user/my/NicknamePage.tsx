@@ -1,6 +1,5 @@
-import { DefaultButton, PageHeader } from '@/components';
+import { DefaultButton, LoadingSpinner, PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LimitedTextInputWithFocus } from '@/components/common/DetailInput';
@@ -8,6 +7,7 @@ import { nicknameSchema } from '@/schemas/profileSchema';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useGetUserProfile } from '@/services/member/query/useGetUserProfile';
 import { useStrictId } from '@/hooks/auth/useStrictId';
+import { usePatchUserProfile } from '@/services/member/mutation/usePatchUserProfile';
 
 const NicknamePage = () => {
   const navigate = useNavigate();
@@ -16,7 +16,9 @@ const NicknamePage = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const { memberId } = useStrictId({ redirectOnFail: true });
-  const { data: userProfile } = useGetUserProfile({ memberId: memberId! });
+  const { data: userProfile, isLoading } = useGetUserProfile({
+    memberId: memberId!,
+  });
 
   const { showSnackbar } = useSnackbarStore();
 
@@ -36,6 +38,19 @@ const NicknamePage = () => {
     }
   }, [nickname]);
 
+  const { mutate: patchUserProfile } = usePatchUserProfile(() => {
+    showSnackbar('저장되었습니다.');
+    navigate(-1);
+  });
+
+  if (isLoading || userProfile === undefined) {
+    return (
+      <div className="flex flex-1 items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   // 다음 버튼 클릭 핸들러
   const handleClickSave = () => {
     if (errorMessage !== '') {
@@ -43,7 +58,12 @@ const NicknamePage = () => {
       console.error(errorMessage);
       inputRef.current?.focus();
     } else {
-      console.log(nickname);
+      patchUserProfile({
+        data: {
+          nickname: nickname,
+          profileUrl: userProfile.profileImg,
+        },
+      });
     }
   };
 
@@ -54,12 +74,6 @@ const NicknamePage = () => {
           <ArrowIcon
             className="h-6 w-6 cursor-pointer text-black"
             onClick={() => navigate(-1)}
-          />,
-        ]}
-        rightIcons={[
-          <XIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate('')}
           />,
         ]}
       >

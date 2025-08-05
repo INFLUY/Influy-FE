@@ -20,13 +20,15 @@ export const dummyItem: ItemDetail = {
   marketLink: 'xxxx.com',
   isArchived: false,
   itemImgList: ['/product.png', '/img1.png', '/img1.png'],
-  itemCategoryList: ['뷰티', '패션', '소품'],
+  itemCategoryList: [1, 2, 3],
   sellerInfo: dummySellerInfo,
   //comment, 할인가, 정상가 백에서 넘겨주는 데이터 형식에는 없음. 문의 필요
   comment:
     '10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는 퀄리티로10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는 퀄리티로10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는화점 명품 브랜드에 밀리지 않는 화점 명품 브랜드에 밀리지10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는 퀄리티로10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는 퀄리티로10분만에 품절된 원피스 다시가져왔어요! 백화점 명품 브랜드에 밀리지 않는화점 명품 브랜드에 밀리지 않는 화점 명품 브랜드에 밀리지브랜드에 밀리지브랜드에 밀리지브랜드에 밀리지',
   regularPrice: null,
   salePrice: null,
+  status: 'DEFAULT',
+  isDateUndefined: false,
 };
 
 export const dummyCategory: CategoryType[] = [
