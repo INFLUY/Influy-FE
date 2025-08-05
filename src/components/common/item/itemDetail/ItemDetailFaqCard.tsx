@@ -25,7 +25,7 @@ const ItemDetailFaqCard = ({
   totalElements: number;
 }) => {
   return (
-    <section className="item-detail-swiper-section relative mb-[16.375rem] flex w-full flex-col">
+    <section className="item-detail-swiper-section bg-grey01 relative flex w-full flex-col pb-[16rem]">
       <Swiper
         className="z-0 h-fit w-full"
         centeredSlides={true}
