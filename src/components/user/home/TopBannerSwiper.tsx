@@ -4,13 +4,24 @@ import './topBannerSwiper.css';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-
-interface TopBannerItem {
-  image: string;
-  onClick: () => void;
-}
+import { TopBannerItem } from '@/pages/user/home/HomePage';
+import { useNavigate } from 'react-router-dom';
 
 const TopBannerSwiper = ({ data }: { data: TopBannerItem[] }) => {
+  const navigate = useNavigate();
+
+  const handleBannerClick = (path: string) => {
+    if (!path) return;
+
+    if (/^https?:\/\//.test(path)) {
+      // 외부 링크는 새 창으로 열기
+      window.open(path, '_blank');
+    } else {
+      // 내부 경로는 navigate 사용
+      navigate(path);
+    }
+  };
+
   return (
     <section className="relative h-fit w-full">
       <Swiper
@@ -33,6 +44,7 @@ const TopBannerSwiper = ({ data }: { data: TopBannerItem[] }) => {
               decoding="async"
               role="img"
               alt={'상단 배너 이미지 ' + (i + 1)}
+              onClick={() => handleBannerClick(item.path)}
             />
           </SwiperSlide>
         ))}

@@ -1,11 +1,11 @@
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import { ItemFormValues } from '@/types/item.types';
 import { UseFormReturn } from 'react-hook-form';
 import { ItemForm } from '@/components/seller/item/registration/ItemForm';
 
 import { FaqListEdit } from '@/components';
-import { CategoryType } from '@/types/common/CategoryType.types';
-import { FaqQuestion } from '@/types/common/ItemType.types';
+import { useStrictId } from '@/hooks/auth/useStrictId';
+import { useGetItemFaqCategory } from '@/services/sellerFaqCard/query/useGetItemFaqCategory';
 
 type InfoContextType = {
   methods: UseFormReturn<ItemFormValues>;
@@ -26,22 +26,16 @@ export const ItemInfoTab = ({ mode }: { mode: 'create' | 'edit' }) => {
   );
 };
 
-type FaqContextType = {
-  faqCategory: CategoryType[];
-  faqQuestions: FaqQuestion[];
-  itemId: number;
-  methods: UseFormReturn<ItemFormValues>;
-};
-
 export const ItemFaqTab = () => {
-  const { faqCategory, faqQuestions, itemId } =
-    useOutletContext<FaqContextType>();
+  // Faq
 
-  return (
-    <FaqListEdit
-      faqCategory={faqCategory}
-      faqQuestions={faqQuestions}
-      itemId={itemId}
-    />
-  );
+  const { sellerId } = useStrictId();
+  const { itemId } = useParams();
+
+  const { data: faqCategory } = useGetItemFaqCategory({
+    sellerId: sellerId!,
+    itemId: Number(itemId),
+  });
+
+  return <FaqListEdit faqCategory={faqCategory} itemId={Number(itemId)} />;
 };

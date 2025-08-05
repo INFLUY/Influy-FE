@@ -1,3 +1,5 @@
+import { ItemCurrentStatusType } from './common/ItemType.types';
+
 export interface ItemFormValues {
   images: string[];
   titleText: string;
@@ -12,4 +14,5 @@ export interface ItemFormValues {
   linkText: string | undefined;
   period: number | undefined;
   commentText: string | undefined;
+  status: ItemCurrentStatusType;
 }

@@ -11,9 +11,9 @@ const UserTypeSwitchBanner = ({
   userType: 'influencer' | 'user';
 }) => {
   return (
-    <article className="border-grey03 bg-grey02 flex h-[86px] w-full justify-between gap-2.5 rounded-[3px] border px-3.5 py-5">
-      <div className="flex gap-[.625rem]">
-        <div className="relative h-[2.875rem] w-[2.875rem]">
+    <article className="border-grey03 bg-grey02 flex h-[86px] w-full items-center justify-between gap-2.5 rounded-[3px] border px-3.5">
+      <div className="flex w-full min-w-0 items-center gap-[.625rem]">
+        <div className="relative h-[2.875rem] w-[2.875rem] shrink-0">
           <img
             src={influencer.profileImg ?? ProfileIcon}
             alt="프로필 사진"
@@ -26,11 +26,11 @@ const UserTypeSwitchBanner = ({
             )}
           />
         </div>
-        <div className="flex flex-col justify-between">
+        <div className="flex min-w-0 flex-1 flex-col justify-between">
           <p className="text-grey11 body1-sb line-clamp-1">
             {influencer.nickname}
           </p>
-          <p className="text-grey08 body2-m line-clamp-1">
+          <p className="text-grey08 body2-m break-words">
             @{influencer.username}
           </p>
         </div>

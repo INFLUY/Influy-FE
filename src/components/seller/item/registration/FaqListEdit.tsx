@@ -1,5 +1,5 @@
 import { generatePath, useNavigate } from 'react-router-dom';
-import { SetStateAction, useState, useRef } from 'react';
+import { SetStateAction, useState, useRef, useEffect } from 'react';
 
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { FaqQuestion } from '@/types/common/ItemType.types';
@@ -14,6 +14,7 @@ import {
   TextInput,
   EmptyCategoryPlaceholder,
   SellerModal,
+  LoadingSpinner,
 } from '@/components';
 
 import MinusIcon from '@/assets/icon/common/MinusIcon.svg?react';
@@ -43,10 +44,18 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import {
+  SELLER_ITEM_EDIT_FAQ_TAB_PATH,
   SELLER_ITEM_FAQ_EDIT_PATH,
   SELLER_ITEM_FAQ_REGISTER_PATH,
 } from '@/utils/generatePath';
 import { useSnackbarStore } from '@/store/snackbarStore';
+import { usePostItemFaqCategory } from '@/services/sellerFaqCard/mutation/usePostItemFaqCategory';
+import { useGetItemFaqQuestionList } from '@/services/sellerFaqCard/query/useGetItemFaqQuestionList';
+import { useStrictId } from '@/hooks/auth/useStrictId';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import { useDeleteFaqCard } from '@/services/sellerFaqCard/mutation/useDeleteFaqCard';
+import { useModalStore } from '@/store/useModalStore';
+import { usePatchFaqPin } from '@/services/sellerFaqCard/mutation/usePatchFaqPin';
 
 type SheetMode =
   | 'none'
@@ -58,18 +67,27 @@ type SheetMode =
 
 const FaqListEdit = ({
   faqCategory,
-  faqQuestions,
   itemId,
 }: {
   faqCategory: CategoryType[];
-  faqQuestions: FaqQuestion[];
   itemId: number;
 }) => {
+  const { sellerId } = useStrictId();
+
   // 1) 카테고리 배열
   const [categories, setCategories] = useState<CategoryType[]>(faqCategory);
 
   // 2) 선택된 카테고리
-  const [selectedCategory, setSelectedCategory] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    if (faqCategory) {
+      setCategories(faqCategory);
+      setSelectedCategory(faqCategory[0]?.id);
+    }
+  }, [faqCategory]);
 
   // 3) 어떤 모드의 시트를 띄울지
   const [sheetMode, setSheetMode] = useState<SheetMode>('none');
@@ -86,6 +104,22 @@ const FaqListEdit = ({
   const [categoryToDelete, setCategoryToDelete] = useState<number | null>(null);
 
   const navigate = useNavigate();
+
+  const { mutate: postFaqCategory } = usePostItemFaqCategory({
+    itemId,
+    onSuccessCallback: (response: CategoryType) => {
+      setCategories((prev) => [
+        ...prev,
+        {
+          id: response.id,
+          name: response.name,
+        },
+      ]);
+      showSnackbar('저장되었습니다');
+      setDraftName('');
+      setSheetMode('editList');
+    },
+  });
 
   // --- UI 핸들러 ---
   const openAddSheet = () => {
@@ -104,16 +138,7 @@ const FaqListEdit = ({
   // --- CRUD 핸들러들 ---
   const handleSaveAdd = () => {
     if (!draftName.trim()) return;
-    setCategories((prev) => [
-      ...prev,
-      {
-        id: Math.max(0, ...prev.map((c) => c.id)) + 1,
-        name: draftName.trim(),
-      },
-    ]);
-    showSnackbar('저장되었습니다');
-    setDraftName('');
-    setSheetMode('editList');
+    postFaqCategory({ category: draftName.trim() });
   };
 
   const handleSaveTextEdit = () => {
@@ -153,9 +178,35 @@ const FaqListEdit = ({
     setSheetMode('delete');
   };
 
+  // Faq 목록
+  const {
+    data: faqQuestions,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetItemFaqQuestionList({
+    size: 10,
+    sellerId: sellerId,
+    itemId: Number(itemId),
+    faqCategoryId: selectedCategory,
+  });
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useInfiniteScroll({
+    targetRef: observerRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
+
+  const faqQuestionList = faqQuestions?.pages
+    .flatMap((page) => page?.questionCardList ?? [])
+    .filter(Boolean) as FaqQuestion[];
+
   return (
     <>
-      {categories.length == 0 ? (
+      {categories.length === 0 ? (
         <EmptyCategoryPlaceholder openAddSheet={openAddSheet} />
       ) : (
         <section className="box-border flex h-full w-full flex-col items-start justify-start gap-6">
@@ -180,7 +231,7 @@ const FaqListEdit = ({
                 <CategoryChip
                   key={category.id}
                   text={category.name}
-                  isSelected={selectedCategory == category.id}
+                  isSelected={selectedCategory === category.id}
                   onToggle={() => setSelectedCategory(category.id)}
                   theme="faq"
                 />
@@ -190,20 +241,26 @@ const FaqListEdit = ({
 
           {/* 질문 */}
           <article className="flex h-fit w-full flex-col gap-[.875rem] px-5">
-            {faqQuestions &&
-              faqQuestions.length > 0 &&
-              faqQuestions.map((data) => (
+            {faqQuestionList &&
+              faqQuestionList.map((data) => (
                 <FaqQuestionCard
-                  id={data.id}
-                  questionContent={data.questionContent}
-                  pinned={data.pinned}
-                  updatedAt={data.updatedAt}
+                  faqCard={data}
+                  faqCategoryId={selectedCategory!}
                   itemId={itemId}
                   key={data.id}
                   sheetMode={sheetMode}
                   setSheetMode={setSheetMode}
                 />
               ))}
+            {hasNextPage && (
+              <div ref={observerRef} className="h-4 w-full">
+                {isFetchingNextPage && (
+                  <div className="flex justify-center">
+                    <LoadingSpinner />
+                  </div>
+                )}
+              </div>
+            )}
             <AddButton
               handleOnClick={() =>
                 navigate(
@@ -430,31 +487,72 @@ const SortableCategoryItem = ({
   );
 };
 
-type FaqQuestionCardProps = FaqQuestion & {
+type FaqQuestionCardProps = {
+  faqCard: FaqQuestion;
+  faqCategoryId: number;
   itemId: number;
   sheetMode: SheetMode;
   setSheetMode: React.Dispatch<SetStateAction<SheetMode>>;
 };
 
 const FaqQuestionCard = ({
-  id,
-  questionContent,
-  pinned,
-  updatedAt,
+  faqCard,
+  faqCategoryId,
   itemId,
   sheetMode,
   setSheetMode,
 }: FaqQuestionCardProps) => {
   const navigate = useNavigate();
+  const { showSnackbar } = useSnackbarStore();
+
+  const { mutate: patchPin } = usePatchFaqPin({
+    faqCategoryId,
+    onSuccessCallback: () => {
+      setSheetMode('none');
+    },
+  });
+
+  const handlePin = () => {
+    patchPin({ itemId, faqCardId: faqCard.id, isPinned: !faqCard.pinned });
+  };
+
+  const { mutate: deleteFaqCard } = useDeleteFaqCard(() => {
+    navigate(generatePath(SELLER_ITEM_EDIT_FAQ_TAB_PATH, { itemId: itemId! }), {
+      replace: true,
+    });
+    showSnackbar('FAQ가 삭제되었습니다.');
+    setSheetMode('none');
+  });
+
+  const { showModal, hideModal } = useModalStore();
+
+  const handleDeleteFaqClick = () => {
+    showModal({
+      text: `FAQ를 삭제하시겠습니까?\n한 번 삭제한 내용은 되돌릴 수 없습니다.`,
+      leftButtonClick: () => {
+        hideModal();
+      },
+      rightButtonClick: () =>
+        deleteFaqCard({
+          itemId,
+          faqCardId: Number(faqCard.id),
+          faqCategoryId,
+        }),
+    });
+  };
+
+  const handleFaqDelete = () => {
+    handleDeleteFaqClick();
+  };
   return (
     <>
       <article className="border-grey04 bg-grey01 flex h-fit w-full shrink-0 flex-col items-start gap-3.5 rounded-[.1875rem] border border-solid px-3.5 pt-3 pb-2.5">
         <div className="flex items-start justify-between self-stretch">
           <span className="body2-m text-grey06">
-            {parseDateString(updatedAt)}
+            {parseDateString(faqCard.updatedAt)}
           </span>
           <div className="flex items-center justify-end gap-0.5">
-            {pinned && <DarkPinIcon className="h-5 w-5" />}
+            {faqCard.pinned && <DarkPinIcon className="h-5 w-5" />}
             <button
               type="button"
               className="cursor-pointer"
@@ -465,13 +563,18 @@ const FaqQuestionCard = ({
           </div>
         </div>
         <div className="flex w-full flex-col gap-1.5">
-          <span className="body2-sb w-full text-black">{questionContent}</span>
+          <span className="body2-sb w-full text-black">
+            {faqCard.questionContent}
+          </span>
           <button
             type="button"
             className="text-grey09 flex cursor-pointer items-center justify-center gap-0.5 self-end"
             onClick={() => {
               navigate(
-                generatePath(SELLER_ITEM_FAQ_EDIT_PATH, { itemId, faqId: id })
+                generatePath(SELLER_ITEM_FAQ_EDIT_PATH, {
+                  itemId,
+                  faqId: faqCard.id,
+                })
               );
             }}
           >
@@ -491,16 +594,19 @@ const FaqQuestionCard = ({
             <button
               type="button"
               className="body1-b w-full cursor-pointer py-4 text-center"
-              // onClick={handlePin}
+              onClick={handlePin}
             >
-              {pinned ? '고정해제' : '맨 앞에 고정'}
+              {faqCard.pinned ? '고정해제' : '맨 앞에 고정'}
             </button>
             <button
               type="button"
               className="body1-b w-full cursor-pointer py-4 text-center"
               onClick={() =>
                 navigate(
-                  generatePath(SELLER_ITEM_FAQ_EDIT_PATH, { itemId, faqID: id })
+                  generatePath(SELLER_ITEM_FAQ_EDIT_PATH, {
+                    itemId,
+                    faqID: faqCard.id,
+                  })
                 )
               }
             >
@@ -509,7 +615,7 @@ const FaqQuestionCard = ({
             <button
               type="button"
               className="body1-b text-error w-full cursor-pointer py-4 text-center"
-              // onClick={handleDeleteFaq}
+              onClick={handleFaqDelete}
             >
               삭제
             </button>

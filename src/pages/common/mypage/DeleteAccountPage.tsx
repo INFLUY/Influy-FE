@@ -1,31 +1,17 @@
 import { DefaultButton, PageHeader } from '@/components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import { useModalStore } from '@/store/useModalStore';
 import { PATH } from '@/routes/path';
-import { useSnackbarStore } from '@/store/snackbarStore';
 import { useDeleteAccount } from '@/services/auth/mutation/useDeleteAccount';
 
 const DeleteAccountPage = () => {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const isSeller = pathname.includes(PATH.SELLER.BASE);
   const { showModal } = useModalStore();
-  const { showSnackbar } = useSnackbarStore();
 
   const { mutate: deleteAccount } = useDeleteAccount(() => {
     navigate(PATH.HOME.BASE);
   });
-
-  const handlePublicProfileClick = () => {
-    // TODO: 백 연동
-    // 백 결과에 따라서 스낵바 띄우기
-    if (true) {
-      showSnackbar('계정이 비공개로 전환되었습니다.');
-    } else {
-      showSnackbar('이미 비공개처리 되어있습니다.');
-    }
-  };
 
   const handleDeleteAccountClick = () => {
     showModal({
@@ -51,24 +37,6 @@ const DeleteAccountPage = () => {
         회원 탈퇴
       </PageHeader>
       <section className="flex flex-1 flex-col gap-14 px-5 py-[3.125rem]">
-        {isSeller && (
-          <article className="flex flex-col gap-6">
-            <div className="flex flex-col gap-[.5625rem] text-black">
-              <h1 className="subhead-sb">
-                프로필을 비공개로 전환할 수 있어요.
-              </h1>
-              <p className="caption-m">
-                프로필 공개 설정을 변경해 보세요. 비공개된 프로필은 일반 유저가
-                볼 수 없습니다. 언제든 공개로 전환할 수 있습니다.
-              </p>
-            </div>
-            <DefaultButton
-              text="프로필 비공개하기"
-              onClick={handlePublicProfileClick}
-            />
-          </article>
-        )}
-
         <article className="flex flex-col gap-6">
           <div className="flex flex-col gap-[.5625rem] text-black">
             <h1 className="subhead-sb">정말 탈퇴하시겠습니까?</h1>

@@ -41,6 +41,7 @@ export { default as AnnouncementPage } from './seller/announcement/AnnouncementP
 export { default as SellerMyProfileEditPage } from './seller/sellerMyPage/SellerMyProfileEditPage';
 export { default as SellerSettingsPage } from './seller/sellerMyPage/settings/SellerSettingsPage';
 export { default as SellerAccountSettingsPage } from './seller/sellerMyPage/settings/SellerAccountSettingsPage';
+export { default as SellerDeleteAccountPage } from './seller/sellerMyPage/settings/SellerDeleteAccountPage';
 
 export { default as NotFound } from './error/NotFound';
 export { default as ErrorPage } from './error/ErrorPage';

@@ -25,5 +25,10 @@ export const useGetHomeQuestions = ({ size = 10 }: { size?: number } = {}) => {
     initialPageParam: 1,
   });
 
-  return query;
+  const hasAnyItem = query.data?.pages?.[0]?.hasAnyItem ?? false;
+
+  return {
+    ...query,
+    hasAnyItem,
+  };
 };

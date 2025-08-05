@@ -30,7 +30,7 @@ const LikeItemTab = () => {
     .filter(Boolean) as ItemCardType[];
 
   return (
-    <section className="scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+    <section className="scrollbar-hide bg-grey01 relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
       {itemList?.length > 0 ? (
         <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
           {itemList.map((item) => (

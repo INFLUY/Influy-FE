@@ -6,7 +6,7 @@ export const useCheckIdDuplicate = (username: string, enabled: boolean) => {
   return useQuery({
     queryKey: [QUERY_KEYS.ID_DUPLICATE_CHECK, username],
     queryFn: () => postIdDuplicateCheck({ username }),
-    staleTime: 3 * 60 * 1000,
+    staleTime: 1 * 60 * 1000,
     enabled,
   });
 };

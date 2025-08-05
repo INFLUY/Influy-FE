@@ -29,7 +29,7 @@ export const patchAnnouncement = async ({
   announcementId: number;
   isPrimary?: boolean;
 }) => {
-  const params: Record<string, any> = { data, announcementId };
+  const params: Record<string, any> = { announcementId };
   if (isPrimary !== undefined) {
     params.isPrimary = isPrimary;
   }

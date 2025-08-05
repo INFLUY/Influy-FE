@@ -1,4 +1,4 @@
-import { getDday, parseToKstDate } from './formatDate';
+import { formatFullDateWithDay, getDday, parseToKstDate } from './formatDate';
 
 export const isItemClosed = (deadline: string | null | undefined): boolean => {
   if (!deadline) return false;
@@ -19,4 +19,23 @@ export const getDeadlineLabel = (
   if (dday > 1) return `${dday}일 뒤 마감`;
   if (dday === 1) return `오늘 마감`;
   return `마감`;
+};
+
+export const formatDateRangeWithDay = ({
+  startDate,
+  endDate,
+}: {
+  startDate: string;
+  endDate: string;
+}) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const sameYear = start.getFullYear() === end.getFullYear();
+
+  return `${formatFullDateWithDay({ isoString: startDate })} ~ ${formatFullDateWithDay(
+    {
+      isoString: endDate,
+      includeYear: !sameYear,
+    }
+  )}`;
 };

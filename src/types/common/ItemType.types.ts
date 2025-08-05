@@ -4,9 +4,9 @@ export type SellerItemPreviewList = {
   itemPeriod: number;
   itemName: string;
   sellerName: string;
-  startDate?: string;
-  endDate?: string;
-  tagline?: string;
+  startDate: string | null;
+  endDate: string | null;
+  tagline: string | null;
   currentStatus: ItemCurrentStatusType;
   liked: false;
   talkBoxInfo: {
@@ -15,6 +15,7 @@ export type SellerItemPreviewList = {
     completedCnt: number;
   };
   mainImg: string | null;
+  isDateUndefined: boolean;
 };
 
 export interface ItemCardType {
@@ -40,14 +41,16 @@ export interface ItemDetail {
   startDate: string | null; // ISO string
   endDate: string | null; // ISO string
   tagline: string | null;
-  currentStatus: ItemCurrentStatusType; // 예시: 상태 enum 확장 가능
+  currentStatus: ItemCurrentStatusType;
   marketLink: string | null;
   isArchived: boolean;
   itemImgList: string[] | [];
-  itemCategoryList: string[] | [];
+  itemCategoryList: number[] | [];
   comment: string | null;
   regularPrice: number | null;
   salePrice: number | null;
+  status: ItemCurrentStatusType;
+  isDateUndefined: boolean;
   sellerInfo: SellerCard;
 }
 
@@ -55,8 +58,8 @@ export interface ItemPostDetail {
   itemImgList: string[];
   name: string;
   itemCategoryIdList: string[];
-  startDate: string | null;
-  endDate: string | null;
+  startDate?: string;
+  endDate?: string;
   tagline?: string;
   regularPrice?: number;
   salePrice?: number;
@@ -64,6 +67,8 @@ export interface ItemPostDetail {
   itemPeriod: number;
   comment?: string;
   isArchived: boolean;
+  isDateUndefined: boolean;
+  status?: ItemCurrentStatusType;
 }
 
 export interface SellerCard {

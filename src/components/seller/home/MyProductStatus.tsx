@@ -4,10 +4,20 @@ import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { SellerHomeItemStatus } from '@/types/common/ItemType.types';
-import { getDeadlineLabel } from '@/utils/dateUtils';
+import { getDeadlineLabel } from '@/utils/itemDateUtils';
 
-const MyProductStatus = ({ items }: { items: SellerHomeItemStatus[] | [] }) => {
+const MyProductStatus = ({
+  items,
+  hasAnyItem,
+}: {
+  items: SellerHomeItemStatus[] | [];
+  hasAnyItem: boolean;
+}) => {
   const navigate = useNavigate();
+
+  const tooltipText = hasAnyItem
+    ? '상품을 등록하고 톡박스를 열어보세요!'
+    : '상품을 먼저 등록해보세요!';
 
   return (
     <section className="flex flex-col gap-6">
@@ -34,11 +44,7 @@ const MyProductStatus = ({ items }: { items: SellerHomeItemStatus[] | [] }) => {
             </AddButton>
           </div>
           <div className="relative flex w-full flex-col items-center">
-            <ToolTip
-              text="상품을 먼저 등록해보세요!"
-              position="center"
-              direction="bottom"
-            />
+            <ToolTip text={tooltipText} position="center" direction="bottom" />
           </div>
         </section>
       )}
@@ -60,8 +66,8 @@ const StatusCard = ({ item }: { item: SellerHomeItemStatus }) => {
         {/* 좌측 상품 이미지 */}
         <img
           className="h-20 w-20 object-cover"
-          src="/profile.png"
-          alt="수정수정수정"
+          src={item.imageUrl}
+          alt={item.itemTitle + ' 썸네일'}
         />
         {/* 우측 상품 정보 */}
         <div className="flex h-20 flex-1 flex-col justify-between gap-[1.125rem]">
