@@ -10,7 +10,6 @@ import { TalkBoxBottomItemCard } from '@/components/user/talkBox/TalkBoxItemCard
 import { CategorySelectWrapper } from '@/components/user/talkBox/CategorySelectWrapper';
 import { UserChatBubbleUserView } from '@/components/user/talkBox/ChatBubble';
 // type
-import { TalkBoxCommentDTO } from '@/types/common/ItemType.types';
 import { UserCategoryDTO } from '@/types/seller/TalkBox.types';
 
 //path
@@ -31,7 +30,6 @@ import { Suspense, useState, useRef, useEffect, useLayoutEffect } from 'react';
 //hooks store
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { useSnackbarStore } from '@/store/snackbarStore';
-import { generateApiPath } from '@/api/utils';
 
 const UserChatPage = () => {
   const [questionText, setQuestionText] = useState('');

@@ -7,6 +7,7 @@ import {
   VisibilityBottomSheet,
   LoadingSpinner,
   ToolTip,
+  // AddButton,
 } from '@/components';
 
 // icon
@@ -29,9 +30,13 @@ import { CategoryType } from '@/types/common/CategoryType.types';
 
 // hooks
 import { useScrollToTop } from '@/hooks/useScrollToTop';
+import { useStrictId } from '@/hooks/auth/useStrictId';
 
-// 임시
-import { dummyCategory, dummyFaq, dummyItem } from './ItemDetailDummyData';
+// api
+import { useGetMarketItemDetailSuspense } from '@/services/sellerItem/query/useGetMarketItemDetail';
+import { useGetItemFaqCategory } from '@/services/sellerFaqCard/query/useGetItemFaqCategory';
+import { useGetFaqCardByCategory } from '@/services/sellerFaqCard/query/useGetFaqCardByCategory';
+import cn from '@/utils/cn';
 
 const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/itemDetail/ItemDetailFaqCard')
@@ -42,19 +47,30 @@ const ItemDetailInfo = lazy(
 );
 
 const SellerItemDetailPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null
+  );
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const navigate = useNavigate();
 
   const { itemId } = useParams();
+  const { sellerId } = useStrictId();
 
   const [isFaqCategoryTop, setIsFaqCategoryTop] = useState(false);
   const [isDetailOnScreen, setIsDetailOnScreen] = useState(true);
   const categoryAnchorRef = useRef<HTMLDivElement>(null);
   const itemDetailRef = useRef<HTMLDivElement>(null);
 
+  const { data: itemDetailData, isPending: isItemDetailPending } =
+    useGetMarketItemDetailSuspense({
+      sellerId: Number(sellerId),
+      itemId: Number(itemId),
+    });
+
   useEffect(() => {
+    if (isItemDetailPending) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -86,13 +102,16 @@ const SellerItemDetailPage = () => {
     if (categoryAnchorRef.current) observer.observe(categoryAnchorRef.current);
     if (itemDetailRef.current) observer.observe(itemDetailRef.current);
     return () => observer.disconnect();
-  }, [isDetailOnScreen]);
+  }, [isDetailOnScreen, isItemDetailPending]);
 
   // 하단바
-  const handleGoToPage = () => {};
+  const handleGoToPage = () => {
+    window.open(itemDetailData?.marketLink ?? '', '_blank', 'noreferrer');
+  };
   const handleOpenScopeModal = () => {
     setIsBottomSheetOpen(true);
   };
+
   const detailBottomNavItems: BottomNavItem[] = [
     {
       label: '판매 페이지',
@@ -118,18 +137,45 @@ const SellerItemDetailPage = () => {
 
   const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
 
+  //api : faq 카테고리
+  const { data: faqCategories } = useGetItemFaqCategory({
+    sellerId: Number(sellerId),
+    itemId: Number(itemId),
+  });
+
+  useEffect(() => {
+    setSelectedCategoryId(faqCategories[0].id);
+  }, [faqCategories]);
+
+  const {
+    data: faqCardList,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetFaqCardByCategory({
+    sellerId: Number(sellerId),
+    itemId: Number(itemId),
+    faqCategoryId: selectedCategoryId,
+  });
+
+  const flattenedFaqCardList = faqCardList?.pages.flatMap(
+    (page) => page?.faqCardList ?? []
+  );
+
+  // TODO: 카테고리 바뀌어도 스크롤바 위치 안 바뀌게 하기
+
   return (
     <>
       {/* 헤더 */}
       {isFaqCategoryTop ? (
         <header className="sticky top-0 z-20 flex w-full flex-nowrap gap-2 bg-[rgba(241,241,241,0.30)]">
           <div className="scrollbar-hide flex items-center gap-2 overflow-x-scroll px-5 pt-2 pb-[.4375rem]">
-            {dummyCategory.map((category: CategoryType) => (
+            {faqCategories.map((category: CategoryType) => (
               <CategoryChip
                 key={category.id}
                 text={category.name}
-                isSelected={selectedCategory == category.id}
-                onToggle={() => setSelectedCategory(category.id)}
+                isSelected={selectedCategoryId == category.id}
+                onToggle={() => setSelectedCategoryId(category.id)}
                 theme="faq"
               />
             ))}
@@ -163,7 +209,13 @@ const SellerItemDetailPage = () => {
 
       {/* 상단 상품 정보 파트 */}
       <Suspense fallback={<LoadingSpinner />}>
-        <ItemDetailInfo data={dummyItem} ref={itemDetailRef} />
+        {itemDetailData && (
+          <ItemDetailInfo
+            data={itemDetailData}
+            sellerId={Number(sellerId)}
+            ref={itemDetailRef}
+          />
+        )}
       </Suspense>
 
       {/* FAQ 파트 */}
@@ -178,36 +230,46 @@ const SellerItemDetailPage = () => {
             />
 
             <article className="flex w-full flex-wrap gap-2">
-              {dummyCategory &&
-                dummyCategory.length > 0 &&
-                dummyCategory.map((category: CategoryType) => (
-                  <CategoryChip
-                    key={category.id}
-                    text={category.name}
-                    isSelected={selectedCategory == category.id}
-                    onToggle={() => setSelectedCategory(category.id)}
-                    theme="faq"
-                  />
-                ))}
+              <Suspense fallback={<LoadingSpinner />}>
+                {faqCategories.length > 0 &&
+                  faqCategories.map((category: CategoryType) => (
+                    <CategoryChip
+                      key={category.id}
+                      text={category.name}
+                      isSelected={selectedCategoryId == category.id}
+                      onToggle={() => setSelectedCategoryId(category.id)}
+                      theme="faq"
+                    />
+                  ))}
+              </Suspense>
             </article>
-            {isFaqCategoryTop && (
-              <div className="absolute top-0 z-1 h-full w-full bg-white" />
-            )}
           </div>
         </article>
         <Suspense fallback={<LoadingSpinner />}>
-          <ItemDetailFaqCard faqList={dummyFaq} />
+          {flattenedFaqCardList && (
+            <ItemDetailFaqCard
+              totalElements={
+                faqCardList?.pages[faqCardList.pages.length - 1]
+                  ?.totalElements ?? 0
+              }
+              faqList={flattenedFaqCardList}
+              hasNextPage={hasNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+              fetchNextPage={fetchNextPage}
+            />
+          )}
         </Suspense>
       </section>
 
       {/* 톡박스 플로팅 버튼 */}
-      {/* TODO: 오픈 상태에 따른 버튼 색상 변경 */}
       <div className="pointer-events-none fixed right-5 bottom-20 z-[1] flex flex-col items-end gap-1.5">
-        <ToolTip
-          text="이 제품의 질문에 답변해 주세요."
-          position="right"
-          additionalStyles="pointer-events-none"
-        />
+        {itemDetailData?.talkBoxOpenStatus === 'OPENED' && (
+          <ToolTip
+            text="이 제품의 질문에 답변해 주세요."
+            position="right"
+            additionalStyles="pointer-events-none"
+          />
+        )}
         {itemId && (
           <button
             type="button"
@@ -218,7 +280,12 @@ const SellerItemDetailPage = () => {
               );
               navigate(path);
             }}
-            className="pointer-events-auto flex aspect-[1/1] h-11 w-11 flex-col items-center justify-center rounded-full bg-black shadow-[0_.25rem_1.125rem_0_rgba(0,0,0,0.25)]"
+            className={cn(
+              'pointer-events-auto flex aspect-[1/1] h-11 w-11 flex-col items-center justify-center rounded-full bg-black shadow-[0_.25rem_1.125rem_0_rgba(0,0,0,0.25)]',
+              itemDetailData?.talkBoxOpenStatus === 'OPENED'
+                ? 'bg-black'
+                : 'bg-grey08'
+            )}
           >
             <TalkBoxIcon className="h-6 w-6 text-white" />
           </button>

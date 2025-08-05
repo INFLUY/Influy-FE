@@ -51,6 +51,7 @@ const UserItemDetailPage = () => {
 
   useEffect(() => {
     if (isItemDetailPending) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -96,7 +97,6 @@ const UserItemDetailPage = () => {
   const onTalkBoxClick = () => {
     navigate(`${PATH.MARKET.DETAIL.ITEM.TALK_BOX}`);
   };
-  const onBuyClick = () => {};
 
   const { data: faqCategories } = useGetItemFaqCategory({
     sellerId: Number(marketId),
@@ -117,7 +117,6 @@ const UserItemDetailPage = () => {
     itemId: Number(itemId),
     faqCategoryId: selectedCategoryId,
   });
-  console.log(faqCardList);
 
   const flattenedFaqCardList = faqCardList?.pages.flatMap(
     (page) => page?.faqCardList ?? []
@@ -207,18 +206,20 @@ const UserItemDetailPage = () => {
             )}
           </div>
         </article>
-        {flattenedFaqCardList && (
-          <ItemDetailFaqCard
-            totalElements={
-              faqCardList?.pages[faqCardList.pages.length - 1]?.totalElements ??
-              0
-            }
-            faqList={flattenedFaqCardList}
-            hasNextPage={hasNextPage}
-            isFetchingNextPage={isFetchingNextPage}
-            fetchNextPage={fetchNextPage}
-          />
-        )}
+        <Suspense fallback={<LoadingSpinner />}>
+          {flattenedFaqCardList && (
+            <ItemDetailFaqCard
+              totalElements={
+                faqCardList?.pages[faqCardList.pages.length - 1]
+                  ?.totalElements ?? 0
+              }
+              faqList={flattenedFaqCardList}
+              hasNextPage={hasNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+              fetchNextPage={fetchNextPage}
+            />
+          )}
+        </Suspense>
       </section>
       <UserNav
         likeCount={itemLikeCount?.likeCnt ?? 0}

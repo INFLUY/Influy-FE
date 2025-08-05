@@ -15,7 +15,7 @@ export const postFaqCard = async ({
   itemId,
   data,
 }: FaqCardRequestType) => {
-  const response = await instance.post<ApiResponse<FaqCardDetailReponse>>(
+  const response = await instance.post<ApiResponse<FaqCardDetailResponse>>(
     generateApiPath(SELLER_API_DOMAINS.SELLER_MY_POST_FAQ_CARD, { itemId }),
     data,
     {
@@ -94,7 +94,7 @@ export const getFaqCardDetail = async ({
   itemId: number;
   faqCardId: number;
 }) => {
-  const response = await instance.get<ApiResponse<FaqCardDetailReponse>>(
+  const response = await instance.get<ApiResponse<FaqCardDetailResponse>>(
     generateApiPath(SELLER_API_DOMAINS.SELLER_MY_GET_FAQ_CARD_DETAIL, {
       sellerId,
       itemId,
