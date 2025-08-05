@@ -9,12 +9,11 @@ import { DefaultButton, Tab, Tabs } from '@/components';
 import { useRef, RefObject, useEffect } from 'react';
 import { PageHeader } from '@/components';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import { generatePath, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { Outlet, useLocation } from 'react-router-dom';
 import cn from '@/utils/cn';
-import { SELLER_ITEM_DETAIL } from '@/utils/generatePath';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { usePostItem } from '@/services/sellerItem/mutation/usePostItem';
 import { usePutItem } from '@/services/sellerItem/mutation/usePutItem';
@@ -205,12 +204,11 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
     showSnackbar('상품이 수정되었습니다.')
   );
 
-  // 게시하기 활성화: 필수 항목 4개 다 있을 시 실행
-  const handleSubmitSuccess = async (formData: ItemFormValues) => {
-    const isValid = (val: unknown): val is string =>
+  const getItemPayload = (formData: ItemFormValues, isArchived: boolean) => {
+    const isValid = (val: unknown): val is string | number =>
       val !== undefined && val !== null && val !== '';
 
-    const payload = {
+    return {
       itemImgList: formData.images,
       name: formData.titleText,
       itemCategoryIdList: formData.selectedCategoryList.map(String),
@@ -224,14 +222,17 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       ...(isValid(formData.price) && { regularPrice: formData.price }),
       ...(isValid(formData.salePrice) && { salePrice: formData.salePrice }),
       ...(isValid(formData.linkText) && { marketLink: formData.linkText }),
-      ...(isValid(formData.price) && { regularPrice: formData.price }),
-      ...(isValid(formData.salePrice) && { salePrice: formData.salePrice }),
       itemPeriod: formData.period ?? 1,
       ...(isValid(formData.commentText) && { comment: formData.commentText }),
-      isArchived: false,
+      isArchived,
       ...(formData.status === 'EXTEND' && { comment: formData.status }),
       isDateUndefined: !formData.hasStartDate || !formData.hasEndDate,
     };
+  };
+
+  // 게시하기 활성화: 필수 항목 4개 다 있을 시 실행
+  const handleSubmitSuccess = async (formData: ItemFormValues) => {
+    const payload = getItemPayload(formData, false);
 
     if (!isEditMode) {
       postItem(payload);
@@ -280,6 +281,7 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
     .safeParse({ titleText });
 
   const onArchive = () => {
+    const formData = methods.getValues();
     if (!titleValidationResult.success) {
       const message =
         titleValidationResult.error.issues[0].message ?? '제목 오류';
@@ -287,13 +289,13 @@ export const ItemRegistrationPage = ({ mode }: { mode: 'create' | 'edit' }) => {
       setFocus('titleText');
       return;
     }
+    const payload = getItemPayload(formData, true);
 
-    // TODO: 보관하기 백 연동
-    //임시
-    const itemId: number = 1;
-
-    //if success
-    navigate(generatePath(SELLER_ITEM_DETAIL, { itemId }));
+    if (!isEditMode) {
+      postItem(payload);
+    } else if (isEditMode && itemId !== undefined) {
+      putItem({ data: payload, itemId: Number(itemId) });
+    }
   };
 
   return (
