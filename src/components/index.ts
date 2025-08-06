@@ -35,8 +35,6 @@ export { default as CloseComponent } from './common/auth/CloseComponent.tsx';
 // common/item
 export { ItemDetailProfile } from './common/item/itemDetail/ItemDetailProfile.tsx';
 
-//common/home
-
 //common/card
 export { default as ItemAlbumCard } from './common/card/ItemAlbumCard.tsx';
 export { default as ItemAlbumCardSkeleton } from './common/card/ItemAlbumCardSkeleton.tsx';
@@ -47,6 +45,7 @@ export { default as HorizontalRankingCard } from './common/card/HorizontalRankin
 }
 //common
 export { ItemGridCard } from './user/common/ItemGridCard.tsx';
+export { default as ItemGridCardSkeleton } from './user/common/ItemGridCardSkeleton.tsx';
 export { TimeChip, SoldOutChip, ExtendChip } from './user/common/Chip';
 // user/seller
 export { default as SellerProfileHeader } from './user/seller/SellerProfileHeader';

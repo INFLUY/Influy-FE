@@ -6,7 +6,7 @@ import { ItemPreviewList } from '@/types/common/ItemType.types';
 import { useGetMarketItems } from '@/services/sellerItem/query/useGetMarketItems';
 import { useOutletContext } from 'react-router-dom';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import { ItemAlbumCardSkeleton, LoadingSpinner } from '@/components';
+import { ItemGridCardSkeleton, LoadingSpinner } from '@/components';
 
 const SelectionTab = () => {
   const { marketId } = useOutletContext<{ marketId: number }>();
@@ -64,31 +64,32 @@ const SelectionTab = () => {
       </span>
       {isLoading && (
         <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
-          {Array.from({ length: 4 }).map((_, idx) => (
-            <ItemAlbumCardSkeleton key={idx} />
+          {Array.from({ length: 8 }).map((_, idx) => (
+            <ItemGridCardSkeleton key={idx} />
           ))}
         </div>
       )}
-      {!isLoading && itemList && itemList?.length !== 0 ? (
-        <ul className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
-          {itemList?.map((item) => (
-            <ItemGridCard key={item?.itemId} item={item} />
-          ))}
-          {hasNextPage && (
-            <div ref={observerRef} className="h-4 w-full">
-              {isFetchingNextPage && (
-                <div className="flex justify-center">
-                  <LoadingSpinner />
-                </div>
-              )}
-            </div>
-          )}
-        </ul>
-      ) : (
-        <span className="text-grey06 body-2-m flex w-full justify-center pt-[5.8125rem]">
-          아직 등록된 상품이 없습니다.
-        </span>
-      )}
+      {!isLoading &&
+        (itemList && itemList?.length !== 0 ? (
+          <ul className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
+            {itemList?.map((item) => (
+              <ItemGridCard key={item?.itemId} item={item} />
+            ))}
+            {hasNextPage && (
+              <div ref={observerRef} className="h-4 w-full">
+                {isFetchingNextPage && (
+                  <div className="flex justify-center">
+                    <LoadingSpinner />
+                  </div>
+                )}
+              </div>
+            )}
+          </ul>
+        ) : (
+          <span className="text-grey06 body-2-m flex w-full justify-center pt-[5.8125rem]">
+            아직 등록된 상품이 없습니다.
+          </span>
+        ))}
 
       {hasNextPage && (
         <div
@@ -97,7 +98,7 @@ const SelectionTab = () => {
         >
           {isFetchingNextPage &&
             Array.from({ length: 8 }).map((_, idx) => (
-              <ItemAlbumCardSkeleton key={idx} />
+              <ItemGridCardSkeleton key={idx} />
             ))}
         </div>
       )}
