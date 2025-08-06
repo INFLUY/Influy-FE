@@ -75,7 +75,7 @@ const FaqEditPage = () => {
       adjustImg: prevFaq.adjustImg,
     });
     setUpdatedAt(prevFaq.updatedAt);
-  }, []);
+  }, [prevFaq]);
 
   const {
     handleSubmit,
