@@ -23,13 +23,11 @@ export const usePostItemLike = () => {
         QUERY_KEYS.HOME_CLOSE_DEADLINE,
         QUERY_KEYS.HOME_POPULAR,
       ];
-      // TODO: 셀러 홈 아이템 리스트 캐시 갱신
 
       const previousCache: Record<string, any> = {};
 
       keysToUpdate.forEach((key) => {
         const cached = queryClient.getQueryData<any>([key]);
-        console.log(cached);
 
         if (!cached) return;
 
