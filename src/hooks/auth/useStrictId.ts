@@ -46,6 +46,10 @@ export const useStrictId = ({ skip = false, redirectOnFail = false } = {}) => {
 
         if (!success) {
           setAuthState({ needsLogin: true, memberId: null, sellerId: null });
+          if (redirectOnFail) {
+            sessionStorage.setItem('lastPath', window.location.pathname);
+            window.location.replace(PATH.LOGIN.BASE);
+          }
         } else {
           const { memberId, sellerId } = useAuthStore.getState();
           setAuthState({ needsLogin: false, memberId, sellerId });
@@ -54,8 +58,8 @@ export const useStrictId = ({ skip = false, redirectOnFail = false } = {}) => {
         console.error('토큰 재발급 실패', e);
         setAuthState({ needsLogin: true, memberId, sellerId: null });
         if (redirectOnFail) {
-          window.location.replace(PATH.LOGIN.BASE);
           sessionStorage.setItem('lastPath', window.location.pathname);
+          window.location.replace(PATH.LOGIN.BASE);
         }
       } finally {
         setIsLoading(false);
