@@ -44,9 +44,10 @@ const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/itemDetail/ItemDetailFaqCard')
 );
 
-const ItemDetailInfo = lazy(
-  () => import('@/components/common/item/itemDetail/ItemDetailInfo')
-);
+import ItemDetailInfo from '@/components/common/item/itemDetail/ItemDetailInfo';
+// const FaqCategorySection = lazy(
+//   () => import('@/components/common/item/itemDetail/FaqCategorySection')
+// );
 
 const SellerItemDetailPage = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
@@ -295,10 +296,12 @@ const SellerItemDetailPage = () => {
           <div className="relative px-5">
             <Suspense fallback={<LoadingSpinner />}>
               {/* ref */}
-              <div
-                ref={categoryAnchorRef}
-                className="absolute bottom-0 left-0 z-19 h-[1px] w-60"
-              />
+              {itemDetailRef.current && (
+                <div
+                  ref={categoryAnchorRef}
+                  className="absolute bottom-0 left-0 z-19 h-[1px] w-60"
+                />
+              )}
               <article className="flex w-full flex-wrap gap-2">
                 {faqCategories.length > 0 ? (
                   faqCategories.map((category: CategoryType) => (
