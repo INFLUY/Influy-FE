@@ -355,7 +355,10 @@ const SellerItemDetailPage = () => {
             <div className="mb-[12.1875rem] w-full flex-1 px-5">
               <AddButton
                 handleOnClick={() => {
-                  navigate(SELLER_ITEM_FAQ_REGISTER_PATH);
+                  const path = generatePath(SELLER_ITEM_FAQ_REGISTER_PATH, {
+                    itemId: itemId,
+                  });
+                  navigate(path);
                 }}
               >
                 FAQ 추가하기
