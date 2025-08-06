@@ -129,4 +129,5 @@ export interface UserMyQuestions {
   lastChatContent: string;
   lastChatTime: string;
   uncheckedCnt: number;
+  sellerId: number;
 }
