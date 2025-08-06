@@ -60,6 +60,8 @@ export const API_DOMAINS = {
   // like
   POST_ITEM_LIKE: '/seller/:sellerId/items/:itemId/likes',
   PATCH_ITEM_LIKE: '/seller/:sellerId/items/:itemId/dislikes',
+  POST_SELLER_LIKE: '/seller/:sellerId/likes',
+  PATCH_SELLER_LIKE: '/seller/:sellerId/dislikes',
   GET_LIKED_ITEM_LIST: '/home/item-likes',
   GET_LIKED_SELLER_LIST: '/home/seller-likes',
 

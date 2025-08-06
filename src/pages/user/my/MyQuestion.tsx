@@ -53,7 +53,7 @@ const MyQuestion = () => {
                 key={myQuestion.itemId}
                 aria-label="톡박스로 이동"
                 role="button"
-                className="flex h-[6.25rem] items-center gap-[.625rem] px-3 py-4"
+                className="flex h-[6.25rem] cursor-pointer items-center gap-[.625rem] px-3 py-4"
                 onClick={() => navigate(PATH.HOME.BASE)}
               >
                 <ProfileIcon className="h-[3.75rem] w-[3.75rem] shrink-0" />

@@ -61,7 +61,13 @@ const SellerHomePage = () => {
           </span>
         )}
 
-        <MyProductStatus items={itemList} hasAnyItem={hasAnyItem} />
+        {sellerMyProfile && (
+          <MyProductStatus
+            sellerId={sellerMyProfile?.sellerId}
+            items={itemList}
+            hasAnyItem={hasAnyItem}
+          />
+        )}
 
         <BottomNavBar userType="SELLER" />
       </section>

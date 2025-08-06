@@ -6,7 +6,25 @@ import {
   Pagination,
   PaginationType,
 } from '@/types/common/ApiResponse.types';
-import { LikeType, SellerLikeList } from '@/types/user/Like.types';
+import {
+  LikeSellerResponse,
+  LikeType,
+  SellerLikeList,
+} from '@/types/user/Like.types';
+
+export const postSellerLike = async ({ sellerId }: { sellerId: number }) => {
+  const response = await instance.post<ApiResponse<LikeSellerResponse>>(
+    generateApiPath(API_DOMAINS.POST_SELLER_LIKE, { sellerId })
+  );
+  return response.data.result;
+};
+
+export const patchSellerLike = async ({ sellerId }: { sellerId: number }) => {
+  const response = await instance.patch<ApiResponse<LikeSellerResponse>>(
+    generateApiPath(API_DOMAINS.PATCH_SELLER_LIKE, { sellerId })
+  );
+  return response.data.result;
+};
 
 export const getSellerLikes = async ({ sellerId }: { sellerId: number }) => {
   const response = await instance.get<ApiResponse<LikeType>>(

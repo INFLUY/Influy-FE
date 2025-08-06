@@ -20,7 +20,7 @@ const LoginPage = () => {
   }, []);
 
   const handleKakaoLogin = () => {
-    window.location.href = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+    window.location.replace(import.meta.env.VITE_KAKAO_REDIRECT_URI);
   };
 
   return (

@@ -3,30 +3,40 @@ import ActiveHeart from '@/assets/icon/common/HeartActive.svg?react';
 import cn from '@/utils/cn';
 import { usePostItemLike } from '@/services/likes/mutation/usePostItemLike';
 import { usePatchItemLike } from '@/services/likes/mutation/usePatchItemLike';
+import { usePostSellerLike } from '@/services/likes/mutation/usePostSellerLike';
+import { usePatchSellerLike } from '@/services/likes/mutation/usePatchSellerLike';
 
-export const ScrapButton = ({
-  scrapped,
-  handleClickSave,
+export const SellerLikeButton = ({
+  sellerId,
+  liked,
   additionalStyles = '',
 }: {
-  scrapped: boolean;
-  handleClickSave: () => void;
+  sellerId: number;
+  liked: boolean;
   additionalStyles?: string;
 }) => {
-  const handleClickScrapButton = (e: React.MouseEvent) => {
+  const { mutate: postLike } = usePostSellerLike();
+  const { mutate: patchLike } = usePatchSellerLike();
+
+  const handleLikeClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
-    handleClickSave();
+    postLike({ sellerId });
+  };
+
+  const handleUnlikeClick = (e: React.MouseEvent | React.TouchEvent) => {
+    e.stopPropagation();
+    patchLike({ sellerId });
   };
 
   return (
     <>
-      {scrapped ? (
+      {liked ? (
         <ActiveHeart
           className={cn(
             'text-main z-[5] h-6 w-6 cursor-pointer',
             additionalStyles
           )}
-          onClick={handleClickScrapButton}
+          onClick={handleUnlikeClick}
         />
       ) : (
         <Heart
@@ -34,7 +44,7 @@ export const ScrapButton = ({
             'text-grey03 z-[5] h-6 w-6 cursor-pointer',
             additionalStyles
           )}
-          onClick={handleClickScrapButton}
+          onClick={handleLikeClick}
         />
       )}
     </>

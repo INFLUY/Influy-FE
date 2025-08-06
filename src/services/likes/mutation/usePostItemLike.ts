@@ -1,22 +1,28 @@
 import { postItemLike } from '@/api/likes/handleItemLikes.api';
 import { QUERY_KEYS } from '@/constants/api';
+import { PATH } from '@/routes/path';
+import { useAuthStore } from '@/store/authStore';
 import { ItemCardType } from '@/types/common/ItemType.types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePostItemLike = () => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuthStore();
 
   return useMutation({
     mutationFn: ({ sellerId, itemId }: { sellerId: number; itemId: number }) =>
       postItemLike({ sellerId, itemId }),
-    onMutate: async ({ itemId }) => {
+    onMutate: async ({ itemId, sellerId }) => {
+      if (!accessToken) {
+        sessionStorage.setItem('lastPath', window.location.pathname);
+        window.location.replace(PATH.LOGIN.BASE);
+        return;
+      }
       const keysToUpdate = [
         QUERY_KEYS.LIKED_ITEMS,
         QUERY_KEYS.HOME_CLOSE_DEADLINE,
         QUERY_KEYS.HOME_POPULAR,
-        QUERY_KEYS.HOME_RECOMMEND,
       ];
-      // TODO: 셀러 홈 아이템 리스트 캐시 갱신
 
       const previousCache: Record<string, any> = {};
 
@@ -63,7 +69,7 @@ export const usePostItemLike = () => {
             pages: updatedPages,
           };
 
-          previousCache[key] = cached; // 롤백용 저장
+          previousCache[JSON.stringify(key)] = cached; // 롤백용 저장
           queryClient.setQueryData([key], updatedCache);
         }
 
@@ -73,7 +79,7 @@ export const usePostItemLike = () => {
             item.itemId === itemId ? { ...item, liked: !item.liked } : item
           );
 
-          previousCache[key] = cached;
+          previousCache[JSON.stringify(key)] = cached;
           queryClient.setQueryData([key], updated);
         }
       });
@@ -113,6 +119,48 @@ export const usePostItemLike = () => {
 
           previousCache[JSON.stringify(queryKey)] = cached;
           queryClient.setQueryData(queryKey, updatedCache);
+        }
+      });
+
+      // 셀러 홈 아이템 리스트 캐시
+      const sellerMarketQueries = queryClient.getQueriesData({
+        queryKey: [QUERY_KEYS.SELLER_MARKET_ITEMS],
+      });
+
+      sellerMarketQueries.forEach(([queryKey, cached]) => {
+        if (
+          Array.isArray(queryKey) &&
+          typeof queryKey[1] === 'object' &&
+          queryKey[1]?.sellerId === sellerId
+        ) {
+          const isInfinite = Array.isArray((cached as any).pages);
+
+          if (isInfinite) {
+            const updatedPages = (cached as any).pages.map((page: any) => {
+              if (page.itemPreviewList) {
+                const updatedItems = page.itemPreviewList.map(
+                  (item: ItemCardType) =>
+                    item.itemId === itemId
+                      ? { ...item, liked: !item.liked }
+                      : item
+                );
+
+                return {
+                  ...page,
+                  itemPreviewList: updatedItems,
+                };
+              }
+              return page;
+            });
+
+            const updatedCache = {
+              ...(cached as any),
+              pages: updatedPages,
+            };
+
+            previousCache[JSON.stringify(queryKey)] = cached;
+            queryClient.setQueryData(queryKey, updatedCache);
+          }
         }
       });
 

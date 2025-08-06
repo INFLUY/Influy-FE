@@ -33,10 +33,12 @@ const AddAnnouncementBottomSheet = ({
 
   const { mutate: postAnnouncement } = usePostAnnouncement(() => {
     showSnackbar('변경사항이 저장되었습니다.');
+    setIsOpen(false);
   });
 
   const { mutate: patchAnnouncement } = usePatchAnnouncement(() => {
     showSnackbar('변경사항이 저장되었습니다.');
+    setIsOpen(false);
   });
 
   // 공지 저장(수정)
@@ -49,8 +51,6 @@ const AddAnnouncementBottomSheet = ({
       }
       return;
     }
-
-    setIsOpen(false);
 
     if (announcement) {
       patchAnnouncement({
