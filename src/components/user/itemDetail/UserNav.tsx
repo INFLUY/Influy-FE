@@ -25,7 +25,7 @@ export const UserNav = ({
       aria-label="하단 네비게이션 바"
       role="navigation"
     >
-      {/* 좋아요 추가 */}
+      {/* 좋아요 */}
       <div className="flex flex-col items-center justify-baseline gap-0.5">
         <Suspense>
           <ItemLikeButton sellerId={sellerId} itemId={itemId} liked={liked} />

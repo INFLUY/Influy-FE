@@ -12,7 +12,7 @@ export const useGetMarketItemDetail = ({
   const isValid = typeof sellerId === 'number' && typeof itemId === 'number';
 
   const query = useQuery({
-    queryKey: [QUERY_KEYS.SELLER_MARKET_ITEM, { sellerId, itemId }],
+    queryKey: [QUERY_KEYS.SELLER_MARKET_ITEM, itemId],
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
     enabled: isValid, // sellerId와 itemId가 모두 유효할 때만 실행

@@ -229,7 +229,7 @@ const UserItemDetailPage = () => {
         marketLink={itemDetailData?.marketLink}
         sellerId={Number(marketId)}
         itemId={Number(itemId)}
-        liked={false} //수정
+        liked={itemDetailData?.liked ?? false} //수정
         isTalkBoxOpened={itemDetailData?.talkBoxOpenStatus === 'OPENED'}
       />
     </>

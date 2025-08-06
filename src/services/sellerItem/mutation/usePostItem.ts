@@ -31,10 +31,7 @@ export const usePostItem = (onSuccessCallback?: () => void) => {
 
       if (res?.itemId) {
         queryClient.invalidateQueries({
-          queryKey: [
-            QUERY_KEYS.SELLER_MARKET_ITEM,
-            { sellerId, itemId: res.itemId },
-          ],
+          queryKey: [QUERY_KEYS.SELLER_MARKET_ITEM, res.itemId],
         });
         navigate(generatePath(SELLER_ITEM_DETAIL, { itemId: res.itemId }), {
           replace: true,
