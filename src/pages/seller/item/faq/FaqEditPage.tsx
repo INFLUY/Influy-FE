@@ -60,7 +60,7 @@ const FaqEditPage = () => {
       category: undefined,
       question: '',
       answer: '',
-      image: '',
+      image: undefined,
       isPinned: false,
       adjustImg: false,
     },
@@ -121,12 +121,15 @@ const FaqEditPage = () => {
     showSnackbar('답변이 등록되었습니다.');
   });
 
+  const isEmpty = (val: unknown): val is string =>
+    val !== undefined && val !== null && val !== '';
+
   const onSubmit = (data: FaqFormValues) => {
     const formattedData: FaqCardRequestBody = {
       faqCategoryId: data.category,
       questionContent: data.question,
       answerContent: data.answer,
-      backgroundImgLink: data.image,
+      ...(isEmpty(data.image) && { backgroundImgLink: data.image }),
       pinned: data.isPinned,
       adjustImg: data.adjustImg,
     };

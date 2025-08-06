@@ -109,11 +109,14 @@ const FaqRegistrationPage = () => {
     showSnackbar('답변이 등록되었습니다.');
   });
 
+  const isEmpty = (val: unknown): val is string =>
+    val !== undefined && val !== null && val !== '';
+
   const onSubmit = (data: FaqFormValues) => {
     const formattedData: FaqCardRequestBody = {
       questionContent: data.question,
       answerContent: data.answer,
-      backgroundImgLink: data.image,
+      ...(isEmpty(data.image) && { backgroundImgLink: data.image }),
       pinned: data.isPinned,
       adjustImg: data.adjustImg,
     };
