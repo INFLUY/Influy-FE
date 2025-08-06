@@ -13,8 +13,9 @@ import { PATH } from '@/routes/path';
 // type
 import { CategoryType } from '@/types/common/CategoryType.types';
 
-// hooks
+// hooks & utils
 import { useScrollToTop } from '@/hooks/useScrollToTop';
+import { useCopyMarketUrl } from '@/utils/useCopyUrl';
 
 // api
 import { useGetMarketItemDetailSuspense } from '@/services/sellerItem/query/useGetMarketItemDetail';
@@ -42,6 +43,8 @@ const UserItemDetailPage = () => {
   const [isDetailOnScreen, setIsDetailOnScreen] = useState(true);
   const categoryAnchorRef = useRef<HTMLDivElement>(null);
   const itemDetailRef = useRef<HTMLDivElement>(null);
+
+  const copyUrl = useCopyMarketUrl(Number(marketId));
 
   const { data: itemDetailData, isPending: isItemDetailPending } =
     useGetMarketItemDetailSuspense({
@@ -155,7 +158,10 @@ const UserItemDetailPage = () => {
               />,
             ]}
             rightIcons={[
-              <ShareIcon className="h-6 w-6 cursor-pointer text-black" />,
+              <ShareIcon
+                className="h-6 w-6 cursor-pointer text-black"
+                onClick={() => copyUrl()}
+              />,
             ]}
           >
             <div className="h-[1.6875rem]" />

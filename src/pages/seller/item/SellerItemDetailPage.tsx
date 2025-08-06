@@ -28,9 +28,12 @@ import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
 import { BottomNavItem } from '@/components/common/BottomNavBar';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { TalkBoxOpenStatusType } from '@/types/common/ItemType.types';
-// hooks
+
+// hooks & utils
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { useStrictId } from '@/hooks/auth/useStrictId';
+import { useCopyMarketUrl } from '@/utils/useCopyUrl';
+import { useSnackbarStore } from '@/store/snackbarStore';
 
 // api
 import { useGetMarketItemDetailSuspense } from '@/services/sellerItem/query/useGetMarketItemDetail';
@@ -53,7 +56,7 @@ const SellerItemDetailPage = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const navigate = useNavigate();
-
+  const { showSnackbar } = useSnackbarStore();
   const { itemId } = useParams();
   const { sellerId } = useStrictId();
 
@@ -64,6 +67,8 @@ const SellerItemDetailPage = () => {
 
   const categoryAnchorRef = useRef<HTMLDivElement>(null);
   const itemDetailRef = useRef<HTMLDivElement>(null);
+
+  const copyUrl = useCopyMarketUrl(sellerId);
 
   const { data: itemDetailData, isPending: isItemDetailPending } =
     useGetMarketItemDetailSuspense({
@@ -243,8 +248,14 @@ const SellerItemDetailPage = () => {
               />,
             ]}
             rightIcons={[
-              <ShareIcon className="h-6 w-6 cursor-pointer text-black" />,
-              <StatisticIcon className="h-6 w-6 cursor-pointer text-black" />,
+              <ShareIcon
+                className="h-6 w-6 cursor-pointer text-black"
+                onClick={() => copyUrl()}
+              />,
+              <StatisticIcon
+                className="h-6 w-6 cursor-pointer text-black"
+                onClick={() => showSnackbar('준비중입니다.')}
+              />,
             ]}
             additionalStyles="bg-white"
           >
