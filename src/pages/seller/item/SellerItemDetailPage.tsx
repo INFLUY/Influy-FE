@@ -214,7 +214,7 @@ const SellerItemDetailPage = () => {
   // TODO: 카테고리 바뀌어도 스크롤바 위치 안 바뀌게 하기
 
   return (
-    <>
+    <div className="flex w-full flex-col pb-[4.125rem]">
       {/* 헤더 */}
       {isFaqCategoryTop ? (
         <header className="sticky top-0 z-20 flex w-full flex-nowrap gap-2 bg-[rgba(241,241,241,0.30)]">
@@ -385,7 +385,7 @@ const SellerItemDetailPage = () => {
           isOpen={isBottomSheetOpen}
         />
       )}
-    </>
+    </div>
   );
 };
 

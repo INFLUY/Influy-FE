@@ -133,7 +133,7 @@ const UserItemDetailPage = () => {
   );
 
   return (
-    <>
+    <div className="flex w-full flex-col pb-[4.125rem]">
       {/* 헤더 */}
       {isFaqCategoryTop ? (
         <header className="sticky top-0 z-20 flex w-full flex-nowrap gap-2 bg-[rgba(241,241,241,0.30)]">
@@ -247,7 +247,7 @@ const UserItemDetailPage = () => {
         liked={itemDetailData?.liked ?? false} //수정
         isTalkBoxOpened={itemDetailData?.talkBoxOpenStatus === 'OPENED'}
       />
-    </>
+    </div>
   );
 };
 
