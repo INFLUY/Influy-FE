@@ -11,7 +11,7 @@ export const faqSchema = z.object({
   // 답변
   answer: z.string().min(1, { message: '답변을 입력해 주세요.' }),
   // 사진
-  image: z.string(),
+  image: z.string().optional().nullable(),
   isPinned: z.boolean(),
   adjustImg: z.boolean(),
 });

@@ -9,13 +9,12 @@ export const usePatchItemLike = () => {
   return useMutation({
     mutationFn: ({ sellerId, itemId }: { sellerId: number; itemId: number }) =>
       patchItemLike({ sellerId, itemId }),
-    onMutate: async ({ itemId }) => {
+    onMutate: async ({ itemId, sellerId }) => {
       const keysToUpdate = [
         QUERY_KEYS.LIKED_ITEMS,
         QUERY_KEYS.HOME_CLOSE_DEADLINE,
         QUERY_KEYS.HOME_POPULAR,
       ];
-      // TODO: 셀러 홈 아이템 리스트 캐시 갱신
 
       const previousCache: Record<string, any> = {};
 
@@ -112,6 +111,48 @@ export const usePatchItemLike = () => {
 
           previousCache[JSON.stringify(queryKey)] = cached;
           queryClient.setQueryData(queryKey, updatedCache);
+        }
+      });
+
+      // 셀러 홈 아이템 리스트 캐시
+      const sellerMarketQueries = queryClient.getQueriesData({
+        queryKey: [QUERY_KEYS.SELLER_MARKET_ITEMS],
+      });
+
+      sellerMarketQueries.forEach(([queryKey, cached]) => {
+        if (
+          Array.isArray(queryKey) &&
+          typeof queryKey[1] === 'object' &&
+          queryKey[1]?.sellerId === sellerId
+        ) {
+          const isInfinite = Array.isArray((cached as any).pages);
+
+          if (isInfinite) {
+            const updatedPages = (cached as any).pages.map((page: any) => {
+              if (page.itemPreviewList) {
+                const updatedItems = page.itemPreviewList.map(
+                  (item: ItemCardType) =>
+                    item.itemId === itemId
+                      ? { ...item, liked: !item.liked }
+                      : item
+                );
+
+                return {
+                  ...page,
+                  itemPreviewList: updatedItems,
+                };
+              }
+              return page;
+            });
+
+            const updatedCache = {
+              ...(cached as any),
+              pages: updatedPages,
+            };
+
+            previousCache[JSON.stringify(queryKey)] = cached;
+            queryClient.setQueryData(queryKey, updatedCache);
+          }
         }
       });
 

@@ -7,6 +7,7 @@ import { useRef } from 'react';
 const LikeInfluencerTab = () => {
   const {
     data: likedSellerList,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -26,8 +27,8 @@ const LikeInfluencerTab = () => {
     .filter(Boolean) as SellerLikeList[];
 
   return (
-    <section className="scrollbar-hide bg-grey01 relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
-      {sellerList?.length > 0 ? (
+    <section className="scrollbar-hide bg-grey01 relative flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
+      {!isLoading && sellerList?.length > 0 ? (
         <ul className="flex w-full flex-1 flex-col gap-3">
           {sellerList?.map((influencer) => (
             <MyLikedInfluencerBox

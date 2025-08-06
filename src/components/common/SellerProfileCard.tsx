@@ -1,4 +1,3 @@
-import HeartIcon from '@/assets/icon/common/HeartIcon.svg?react';
 import InstagramIcon from '@/assets/icon/common/sns/InstagramIcon.svg?react';
 import YoutubeIcon from '@/assets/icon/common/sns/YoutubeIcon.svg?react';
 import TiktokIcon from '@/assets/icon/common/sns/TiktokIcon.svg?react';
@@ -13,6 +12,7 @@ import { ReactNode } from 'react';
 import { useGetSellerLike } from '@/services/likes/query/useGetSellerLikes';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { SellerProfileType } from '@/types/seller/SellerProfile.types';
+import { SellerLikeButton } from '@/components';
 
 const SellerProfileCard = ({
   sellerInfo,
@@ -77,7 +77,10 @@ const SellerProfileCard = ({
             <p className="body2-m text-grey08">@{sellerInfo.username}</p>
           </span>
           <div className="flex h-fit w-fit flex-col items-center justify-center">
-            <HeartIcon className="text-grey09 h-6 w-6" onClick={() => {}} />
+            <SellerLikeButton
+              sellerId={sellerInfo.sellerId}
+              liked={marketLikes?.liked ?? false}
+            />
             <span className="body2-m text-grey07">
               {marketLikes?.likeCnt !== undefined &&
                 formatNumber(marketLikes?.likeCnt)}

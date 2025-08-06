@@ -1,10 +1,9 @@
-import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
+import { BackButton } from '@/components/common/BackButton';
 import cn from '@/utils/cn';
 import { useCopyMarketUrl } from '@/utils/useCopyUrl';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const SellerProfileHeader = ({
   name,
@@ -17,7 +16,6 @@ const SellerProfileHeader = ({
   sellerId: number;
   isSeller: boolean;
 }) => {
-  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState<boolean>(false);
   const triggerRef = useRef<HTMLDivElement | null>(null);
   const copyUrl = useCopyMarketUrl(sellerId);
@@ -53,12 +51,7 @@ const SellerProfileHeader = ({
           }
         )}
       >
-        {!isSeller && (
-          <ArrowIcon
-            className="h-6 w-6 shrink-0 cursor-pointer"
-            onClick={() => navigate(-1)}
-          />
-        )}
+        {!isSeller && <BackButton />}
         {scrolled && (
           <span className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
             <h1 className="body2-m text-grey10 text-center">{name}</h1>

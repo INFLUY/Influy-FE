@@ -71,7 +71,7 @@ const SellerAnnouncementBottomSheet = ({
                       {parseDateString(primaryAnnouncement.createdAt)}
                     </span>
                   </div>
-                  <p className="body2-r text-grey09">
+                  <p className="body2-r text-grey09 break-words whitespace-break-spaces">
                     {primaryAnnouncement.content}
                   </p>
                 </li>
@@ -89,7 +89,9 @@ const SellerAnnouncementBottomSheet = ({
                       {parseDateString(announcement.createdAt)}
                     </span>
                   </div>
-                  <p className="body2-r text-grey09">{announcement.content}</p>
+                  <p className="body2-r text-grey09 break-words whitespace-break-spaces">
+                    {announcement.content}
+                  </p>
                 </li>
               ))}
             </ul>

@@ -74,6 +74,7 @@ const MyQuestion = () => {
                     itemId: myQuestion.itemId,
                   })
                 }
+
               >
                 <ProfileIcon className="h-[3.75rem] w-[3.75rem] shrink-0" />
                 <span className="flex w-full flex-col gap-[.1563rem]">

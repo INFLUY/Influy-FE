@@ -5,12 +5,17 @@ import { useNavigate, generatePath } from 'react-router-dom';
 import { PATH } from '@/routes/path';
 import { SellerHomeItemStatus } from '@/types/common/ItemType.types';
 import { getDeadlineLabel } from '@/utils/itemDateUtils';
-import { SELLER_TALK_BOX_CATEGORY_PATH } from '@/utils/generatePath';
+import {
+  ITEM_DETAIL,
+  SELLER_TALK_BOX_CATEGORY_PATH,
+} from '@/utils/generatePath';
 
 const MyProductStatus = ({
+  sellerId,
   items,
   hasAnyItem,
 }: {
+  sellerId: number;
   items: SellerHomeItemStatus[] | [];
   hasAnyItem: boolean;
 }) => {
@@ -27,7 +32,7 @@ const MyProductStatus = ({
       {items && items.length > 0 ? (
         <ul className="flex flex-col gap-5 px-5">
           {items.map((item) => (
-            <StatusCard key={item.itemId} item={item} />
+            <StatusCard key={item.itemId} sellerId={sellerId} item={item} />
           ))}
         </ul>
       ) : (
@@ -55,10 +60,17 @@ const MyProductStatus = ({
 
 export default MyProductStatus;
 
-const StatusCard = ({ item }: { item: SellerHomeItemStatus }) => {
+const StatusCard = ({
+  item,
+  sellerId,
+}: {
+  item: SellerHomeItemStatus;
+  sellerId: number;
+}) => {
   const navigate = useNavigate();
 
-  const onArrowClick = () => {
+  const onArrowClick = (e: React.MouseEvent | React.TouchEvent) => {
+    e.stopPropagation();
     const path = generatePath(SELLER_TALK_BOX_CATEGORY_PATH, {
       itemId: item.itemId,
     });
@@ -69,7 +81,12 @@ const StatusCard = ({ item }: { item: SellerHomeItemStatus }) => {
     <li
       role="group"
       aria-label="상품 카드"
-      className="flex w-full shrink-0 flex-col items-start gap-5 rounded bg-white p-4 shadow-[0px_0px_8px_0px_rgba(43,43,43,0.10)]"
+      className="flex w-full shrink-0 cursor-pointer flex-col items-start gap-5 rounded bg-white p-4 shadow-[0px_0px_8px_0px_rgba(43,43,43,0.10)]"
+      onClick={() =>
+        navigate(
+          generatePath(ITEM_DETAIL, { marketId: sellerId, itemId: item.itemId })
+        )
+      }
     >
       {/* 상단 상품 정보 */}
       <article className="flex h-fit w-full items-center justify-between gap-2.5">
@@ -97,7 +114,10 @@ const StatusCard = ({ item }: { item: SellerHomeItemStatus }) => {
       </article>
 
       {/* 하단 질문 현황 */}
-      <article className="bg-grey01 flex w-full flex-col items-start gap-2.5 rounded-[.1875rem] p-4">
+      <article
+        className="bg-grey01 flex w-full cursor-pointer flex-col items-start gap-2.5 rounded-[.1875rem] p-4"
+        onClick={onArrowClick}
+      >
         {/* 질문 개수 및 오른족 화살표 */}
         <div className="flex w-full items-center justify-between">
           <div className="body2-sb flex items-center gap-1">
@@ -115,7 +135,7 @@ const StatusCard = ({ item }: { item: SellerHomeItemStatus }) => {
             type="button"
             aria-label="질문 상세 보기"
           >
-            <ArrowRightIcon onClick={onArrowClick} />
+            <ArrowRightIcon />
           </button>
         </div>
         {/* 아래 흰색 박스 */}

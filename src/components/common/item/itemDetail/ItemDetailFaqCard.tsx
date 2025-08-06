@@ -67,7 +67,7 @@ const ItemDetailFaqCard = ({
           >
             <article className="relative flex w-full flex-col bg-black">
               <img
-                src={faq.backgroundImgLink}
+                src={faq.backgroundImgLink ?? undefined}
                 className={cn(
                   'h-[23.4375rem] w-full object-cover',
                   faq.adjustImg ? 'object-cover' : 'object-contain'
