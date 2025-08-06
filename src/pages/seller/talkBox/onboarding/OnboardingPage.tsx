@@ -46,7 +46,7 @@ const OnboardingLayout = () => {
 
   // 하단 상품 정보 get api
   const { itemOverview } = useItemOverview({
-    sellerId: Number(sellerId), // TODO: 수정 필요
+    sellerId: Number(sellerId),
     itemId: Number(itemId),
   });
 
@@ -81,7 +81,7 @@ const OnboardingLayout = () => {
 
   // 다음 단계인 'categorize'로 쿼리 파라미터 변경
   const handleActivateNext = () => {
-    setSearchParams({ step: 'categorize' });
+    setSearchParams({ step: 'categorize' }, { replace: true });
   };
 
   // 맨 마지막의 '설정 완료' 버튼  클릭 시 호출될 함수
@@ -103,6 +103,7 @@ const OnboardingLayout = () => {
             onFinish={handleCategorizeFinish}
             category={category}
             setCategory={setCategory}
+            isCategoryPending={isCategoryPending}
           />
         );
     }

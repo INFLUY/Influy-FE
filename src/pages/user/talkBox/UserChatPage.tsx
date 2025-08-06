@@ -10,7 +10,7 @@ import { TalkBoxBottomItemCard } from '@/components/user/talkBox/TalkBoxItemCard
 import { CategorySelectWrapper } from '@/components/user/talkBox/CategorySelectWrapper';
 import { UserChatBubbleUserView } from '@/components/user/talkBox/ChatBubble';
 // type
-import { UserCategoryDTO } from '@/types/seller/TalkBox.types';
+import { UserCategoryDTO } from '@/types/common/TalkBox.types';
 
 //path
 import { useNavigate, useParams } from 'react-router-dom';
@@ -40,7 +40,6 @@ const UserChatPage = () => {
   const { itemId, marketId } = useParams();
 
   const bottomBarRef = useRef<HTMLDivElement | null>(null);
-  const bottomObserverRef = useRef<HTMLDivElement | null>(null);
   const topObserverRef = useRef<HTMLDivElement | null>(null);
   const chatWrapperRef = useRef<HTMLDivElement | null>(null);
 
@@ -48,9 +47,44 @@ const UserChatPage = () => {
 
   const [_, setBottomBarHeight] = useState<number>(0);
 
+  const { itemOverview } = useItemOverview({
+    sellerId: Number(marketId),
+    itemId: Number(itemId),
+  });
+
+  // api
+  // 카테고리
+  const { data: categoryList } = useGetUserCategoryList(Number(itemId));
+
+  // 이전 질문
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useGetUserTalkBoxHistory(Number(itemId));
+
+  const chatList = data?.pages.flatMap((page) => page?.chatList) ?? [];
+  useInfiniteScroll({
+    targetRef: topObserverRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    threshold: 1,
+  });
+  // 페이지 첫 진입 및 chatList 변경 시 자동으로 맨 아래로 스크롤
+  useLayoutEffect(() => {
+    if (
+      chatWrapperRef.current &&
+      chatList.length > 0 &&
+      isFirstEntry &&
+      categoryList.viewList.length > 0
+    ) {
+      chatWrapperRef.current.scrollTop = chatWrapperRef.current.scrollHeight;
+
+      setIsFirstEntry(false);
+    }
+  }, []);
+
   useEffect(() => {
     const el = bottomBarRef.current;
-    if (!el) return;
+    if (!el || categoryList.viewList.length === 0) return;
 
     const updateHeight = () => {
       const height = el.getBoundingClientRect().height;
@@ -69,35 +103,7 @@ const UserChatPage = () => {
     return () => {
       resizeObserver.disconnect();
     };
-  }, []);
-  const { itemOverview } = useItemOverview({
-    sellerId: Number(marketId),
-    itemId: Number(itemId),
-  });
-
-  // api
-  // 카테고리
-  const { data: categoryList } = useGetUserCategoryList(Number(itemId));
-
-  // 이전 질문
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetUserTalkBoxHistory(Number(itemId), 6);
-
-  const chatList = data?.pages.flatMap((page) => page?.chatList) ?? [];
-  useInfiniteScroll({
-    targetRef: topObserverRef,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    threshold: 1,
-  });
-  // 페이지 첫 진입 및 chatList 변경 시 자동으로 맨 아래로 스크롤
-  useLayoutEffect(() => {
-    if (chatWrapperRef.current && chatList.length > 0 && isFirstEntry) {
-      chatWrapperRef.current.scrollTop = chatWrapperRef.current.scrollHeight;
-      setIsFirstEntry(false);
-    }
-  }, [chatList]);
+  }, [categoryList]);
 
   // 질문 전송
   const { mutate: postAnswer, isPending } = usePostUserQuestion({
@@ -167,13 +173,13 @@ const UserChatPage = () => {
         )}
         <Suspense fallback={<LoadingSpinner />}>
           <section
-            className="scrollbar-hide flex w-full flex-col overflow-x-hidden overflow-y-auto pb-[var(--bottomBarHeight)]"
+            className="scrollbar-hide flex h-fit w-full flex-col overflow-x-hidden overflow-y-auto pb-[var(--bottomBarHeight)]"
             ref={chatWrapperRef}
           >
             {chatList.length > 0 && (
               <div ref={topObserverRef} className="h-[.0625rem] w-full" />
             )}
-            <div className="flex w-full flex-col-reverse gap-[1.875rem] pt-5">
+            <div className="flex h-fit w-full flex-col-reverse gap-[1.875rem] py-5">
               {chatList &&
                 chatList.map((chat, index) => {
                   if (chat?.type === 'Default Message') {
@@ -227,7 +233,6 @@ const UserChatPage = () => {
                   return null;
                 })}
             </div>
-            <div ref={bottomObserverRef} className="h-[.0625rem] w-full" />
           </section>
         </Suspense>
 

@@ -34,6 +34,9 @@ export const usePostFaqCard = (onSuccessCallback?: () => void) => {
           },
         ],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.FAQ_CARD_LIST, variables.faqCategoryId],
+      });
       onSuccessCallback?.();
     },
     onError: handleReactQueryError,

@@ -3,7 +3,7 @@
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { SELLER_API_DOMAINS } from '@/constants/api';
-import { CategoryTagsDTO } from '@/types/seller/TalkBox.types';
+import { CategoryTagsDTO } from '@/types/common/TalkBox.types';
 
 export const getQuestionTagsByCategory = async ({
   questionCategoryId,

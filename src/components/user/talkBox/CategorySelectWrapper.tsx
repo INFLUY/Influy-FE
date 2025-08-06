@@ -1,5 +1,5 @@
 import { CategoryChip } from '@/components';
-import { UserCategoryDTO } from '@/types/seller/TalkBox.types';
+import { UserCategoryDTO } from '@/types/common/TalkBox.types';
 export const CategorySelectWrapper = ({
   viewList,
   selectedCategory,

@@ -35,6 +35,9 @@ export const useDeleteFaqCard = (onSuccessCallback?: () => void) => {
           },
         ],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.FAQ_CARD_LIST, variables.faqCategoryId],
+      });
     },
     onError: handleReactQueryError,
   });

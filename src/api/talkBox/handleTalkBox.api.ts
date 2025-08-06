@@ -6,7 +6,7 @@ import {
   QuestionResponse,
   SingleQuestionAnswerDTO,
   UserTalkBoxChat,
-} from '@/types/seller/TalkBox.types';
+} from '@/types/common/TalkBox.types';
 import {
   ApiResponse,
   Pagination,

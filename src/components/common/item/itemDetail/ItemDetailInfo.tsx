@@ -118,7 +118,7 @@ export const ItemDetailInfo = ({
           </div>
 
           {/* 가격 */}
-          {data.regularPrice && (
+          {!!data.regularPrice && (
             <div className="flex flex-col items-start">
               {data.salePrice && (
                 <span className="text-grey06 body2-m line-through">

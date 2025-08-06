@@ -13,9 +13,10 @@ import { PATH } from '@/routes/path';
 // type
 import { CategoryType } from '@/types/common/CategoryType.types';
 
-// hooks
+// hooks & utils
 import { useScrollToTop } from '@/hooks/useScrollToTop';
-
+import { useCopyMarketUrl } from '@/utils/useCopyUrl';
+import cn from '@/utils/cn';
 // api
 import { useGetMarketItemDetailSuspense } from '@/services/sellerItem/query/useGetMarketItemDetail';
 import { useGetItemLikeCounts } from '@/services/likes/query/useGetItemLikeCounts';
@@ -43,11 +44,37 @@ const UserItemDetailPage = () => {
   const categoryAnchorRef = useRef<HTMLDivElement>(null);
   const itemDetailRef = useRef<HTMLDivElement>(null);
 
+  const copyUrl = useCopyMarketUrl(Number(marketId));
+
   const { data: itemDetailData, isPending: isItemDetailPending } =
     useGetMarketItemDetailSuspense({
       sellerId: Number(marketId),
       itemId: Number(itemId),
     });
+
+  const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
+
+  // -- API
+  // 좋아요수
+  const { data: itemLikeCount } = useGetItemLikeCounts({
+    itemId: Number(itemId),
+    sellerId: Number(marketId),
+  });
+
+  const onTalkBoxClick = () => {
+    navigate(`${PATH.MARKET.DETAIL.ITEM.TALK_BOX}`);
+  };
+
+  const { data: faqCategories, isPending: isFaqCategoryPending } =
+    useGetItemFaqCategory({
+      sellerId: Number(marketId),
+      itemId: Number(itemId),
+    });
+
+  useEffect(() => {
+    if (faqCategories && faqCategories.length > 0)
+      setSelectedCategoryId(faqCategories[0].id);
+  }, [faqCategories]);
 
   useEffect(() => {
     if (isItemDetailPending) return;
@@ -83,29 +110,7 @@ const UserItemDetailPage = () => {
     if (categoryAnchorRef.current) observer.observe(categoryAnchorRef.current);
     if (itemDetailRef.current) observer.observe(itemDetailRef.current);
     return () => observer.disconnect();
-  }, [isDetailOnScreen, isItemDetailPending]);
-
-  const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
-
-  // -- API
-  // 좋아요수
-  const { data: itemLikeCount } = useGetItemLikeCounts({
-    itemId: Number(itemId),
-    sellerId: Number(marketId),
-  });
-
-  const onTalkBoxClick = () => {
-    navigate(`${PATH.MARKET.DETAIL.ITEM.TALK_BOX}`);
-  };
-
-  const { data: faqCategories } = useGetItemFaqCategory({
-    sellerId: Number(marketId),
-    itemId: Number(itemId),
-  });
-
-  useEffect(() => {
-    setSelectedCategoryId(faqCategories[0].id);
-  }, [faqCategories]);
+  }, [isDetailOnScreen, isItemDetailPending, isFaqCategoryPending]);
 
   const {
     data: faqCardList,
@@ -121,8 +126,6 @@ const UserItemDetailPage = () => {
   const flattenedFaqCardList = faqCardList?.pages.flatMap(
     (page) => page?.faqCardList ?? []
   );
-
-  // TODO: 카테고리 바뀌어도 스크롤바 위치 안 바뀌게 하기
 
   return (
     <>
@@ -154,7 +157,10 @@ const UserItemDetailPage = () => {
               />,
             ]}
             rightIcons={[
-              <ShareIcon className="h-6 w-6 cursor-pointer text-black" />,
+              <ShareIcon
+                className="h-6 w-6 cursor-pointer text-black"
+                onClick={() => copyUrl()}
+              />,
             ]}
           >
             <div className="h-[1.6875rem]" />
@@ -178,57 +184,78 @@ const UserItemDetailPage = () => {
       </Suspense>
 
       {/* FAQ 파트 */}
-      <section className="mt-8 flex w-full flex-col gap-4">
-        <article className="flex flex-col gap-[1.125rem]">
-          <h2 className="text-grey11 body1-b px-5">FAQ</h2>
-          <div className="relative px-5">
-            {/* ref */}
-            <div
-              ref={categoryAnchorRef}
-              className="absolute bottom-0 left-0 z-19 h-[1px] w-60"
-            />
+      {faqCategories && faqCategories.length > 0 && (
+        <section className="mt-8 flex w-full flex-col gap-4">
+          <article className="flex flex-col gap-[1.125rem]">
+            <h2 className="text-grey11 body1-b px-5">FAQ</h2>
+            <div className="relative px-5">
+              {/* ref */}
+              <div
+                ref={categoryAnchorRef}
+                className="absolute bottom-0 left-0 z-19 h-[1px] w-60"
+              />
 
-            <article className="flex w-full flex-wrap gap-2">
-              <Suspense fallback={<LoadingSpinner />}>
-                {faqCategories.length > 0 &&
-                  faqCategories.map((category: CategoryType) => (
-                    <CategoryChip
-                      key={category.id}
-                      text={category.name}
-                      isSelected={selectedCategoryId == category.id}
-                      onToggle={() => setSelectedCategoryId(category.id)}
-                      theme="faq"
-                    />
-                  ))}
-              </Suspense>
-            </article>
-            {isFaqCategoryTop && (
-              <div className="absolute top-0 z-1 h-full w-full bg-white" />
+              <article className="flex w-full flex-wrap gap-2">
+                <Suspense fallback={<LoadingSpinner />}>
+                  {faqCategories.length > 0 &&
+                    faqCategories.map((category: CategoryType) => (
+                      <CategoryChip
+                        key={category.id}
+                        text={category.name}
+                        isSelected={selectedCategoryId == category.id}
+                        onToggle={() => setSelectedCategoryId(category.id)}
+                        theme="faq"
+                      />
+                    ))}
+                </Suspense>
+              </article>
+              {isFaqCategoryTop && (
+                <div className="absolute top-0 z-1 h-full w-full bg-white" />
+              )}
+            </div>
+          </article>
+
+          {/* faq 카드 */}
+          <div
+            className={cn(
+              'flex min-h-screen w-full flex-col gap-4',
+              flattenedFaqCardList &&
+                flattenedFaqCardList.length > 0 &&
+                'bg-grey01'
             )}
+          >
+            <Suspense fallback={<LoadingSpinner />}>
+              {flattenedFaqCardList && flattenedFaqCardList.length > 0 ? (
+                <ItemDetailFaqCard
+                  totalElements={
+                    faqCardList?.pages[faqCardList.pages.length - 1]
+                      ?.totalElements ?? 0
+                  }
+                  faqList={flattenedFaqCardList}
+                  hasNextPage={hasNextPage}
+                  isFetchingNextPage={isFetchingNextPage}
+                  fetchNextPage={fetchNextPage}
+                />
+              ) : (
+                <div className="flex w-full justify-center pt-15">
+                  <p className="body2-m text-grey09 text-center">
+                    아직 해당 카테고리에
+                    <br />
+                    FAQ가 등록되지 않았어요.
+                  </p>
+                </div>
+              )}
+            </Suspense>
           </div>
-        </article>
-        <Suspense fallback={<LoadingSpinner />}>
-          {flattenedFaqCardList && (
-            <ItemDetailFaqCard
-              totalElements={
-                faqCardList?.pages[faqCardList.pages.length - 1]
-                  ?.totalElements ?? 0
-              }
-              faqList={flattenedFaqCardList}
-              hasNextPage={hasNextPage}
-              isFetchingNextPage={isFetchingNextPage}
-              fetchNextPage={fetchNextPage}
-            />
-          )}
-        </Suspense>
-      </section>
+        </section>
+      )}
       <UserNav
         likeCount={itemLikeCount?.likeCnt ?? 0}
         onTalkBoxClick={onTalkBoxClick}
         marketLink={itemDetailData?.marketLink}
         sellerId={Number(marketId)}
         itemId={Number(itemId)}
-        liked={false} //수정
+        liked={itemDetailData?.liked ?? false} //수정
         isTalkBoxOpened={itemDetailData?.talkBoxOpenStatus === 'OPENED'}
       />
     </>
