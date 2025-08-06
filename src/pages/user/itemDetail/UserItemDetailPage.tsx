@@ -214,8 +214,10 @@ const UserItemDetailPage = () => {
             )}
           </div>
         </article>
+
+        {/* faq 카드 */}
         <Suspense fallback={<LoadingSpinner />}>
-          {flattenedFaqCardList && (
+          {flattenedFaqCardList && flattenedFaqCardList.length > 0 ? (
             <ItemDetailFaqCard
               totalElements={
                 faqCardList?.pages[faqCardList.pages.length - 1]
@@ -226,6 +228,14 @@ const UserItemDetailPage = () => {
               isFetchingNextPage={isFetchingNextPage}
               fetchNextPage={fetchNextPage}
             />
+          ) : (
+            <div className="flex h-screen w-full justify-center pt-15">
+              <p className="body2-m text-grey09 text-center">
+                아직 해당 카테고리에
+                <br />
+                FAQ가 등록되지 않았어요.
+              </p>
+            </div>
           )}
         </Suspense>
       </section>

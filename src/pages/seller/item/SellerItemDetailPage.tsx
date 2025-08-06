@@ -299,28 +299,30 @@ const SellerItemDetailPage = () => {
         </article>
 
         {/* faq 카드 */}
-        <Suspense fallback={<LoadingSpinner />}>
-          {flattenedFaqCardList && flattenedFaqCardList.length > 0 ? (
-            <ItemDetailFaqCard
-              totalElements={
-                faqCardList?.pages[faqCardList.pages.length - 1]
-                  ?.totalElements ?? 0
-              }
-              faqList={flattenedFaqCardList}
-              hasNextPage={hasNextPage}
-              isFetchingNextPage={isFetchingNextPage}
-              fetchNextPage={fetchNextPage}
-            />
-          ) : (
-            <div className="flex h-[34.125rem] w-full justify-center pt-15">
-              <p className="body2-m text-grey09 text-center">
-                아직 해당 카테고리에
-                <br />
-                FAQ가 등록되지 않았어요.
-              </p>
-            </div>
-          )}
-        </Suspense>
+        <div className="bg-grey01 flex h-fit w-full flex-col gap-4 pb-[16rem]">
+          <Suspense fallback={<LoadingSpinner />}>
+            {flattenedFaqCardList && flattenedFaqCardList.length > 0 ? (
+              <ItemDetailFaqCard
+                totalElements={
+                  faqCardList?.pages[faqCardList.pages.length - 1]
+                    ?.totalElements ?? 0
+                }
+                faqList={flattenedFaqCardList}
+                hasNextPage={hasNextPage}
+                isFetchingNextPage={isFetchingNextPage}
+                fetchNextPage={fetchNextPage}
+              />
+            ) : (
+              <div className="flex h-svw w-full justify-center pt-15">
+                <p className="body2-m text-grey09 text-center">
+                  아직 해당 카테고리에
+                  <br />
+                  FAQ가 등록되지 않았어요.
+                </p>
+              </div>
+            )}
+          </Suspense>
+        </div>
       </section>
 
       {/* 톡박스 플로팅 버튼 */}
