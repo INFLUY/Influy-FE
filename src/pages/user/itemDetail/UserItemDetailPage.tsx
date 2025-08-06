@@ -26,10 +26,10 @@ const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/itemDetail/ItemDetailFaqCard')
 );
 
-const ItemDetailInfo = lazy(
-  () => import('@/components/common/item/itemDetail/ItemDetailInfo')
+import ItemDetailInfo from '@/components/common/item/itemDetail/ItemDetailInfo';
+const FaqCategorySection = lazy(
+  () => import('@/components/common/item/itemDetail/FaqCategorySection')
 );
-
 const UserItemDetailPage = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
@@ -77,7 +77,7 @@ const UserItemDetailPage = () => {
   }, [faqCategories]);
 
   useEffect(() => {
-    if (isItemDetailPending) return;
+    if (isItemDetailPending || isFaqCategoryPending || !itemDetailData) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -110,7 +110,12 @@ const UserItemDetailPage = () => {
     if (categoryAnchorRef.current) observer.observe(categoryAnchorRef.current);
     if (itemDetailRef.current) observer.observe(itemDetailRef.current);
     return () => observer.disconnect();
-  }, [isDetailOnScreen, isItemDetailPending, isFaqCategoryPending]);
+  }, [
+    isDetailOnScreen,
+    isItemDetailPending,
+    isFaqCategoryPending,
+    itemDetailData,
+  ]);
 
   const {
     data: faqCardList,
@@ -128,7 +133,7 @@ const UserItemDetailPage = () => {
   );
 
   return (
-    <>
+    <div className="flex w-full flex-col pb-[4.125rem]">
       {/* 헤더 */}
       {isFaqCategoryTop ? (
         <header className="sticky top-0 z-20 flex w-full flex-nowrap gap-2 bg-[rgba(241,241,241,0.30)]">
@@ -188,33 +193,17 @@ const UserItemDetailPage = () => {
         <section className="mt-8 flex w-full flex-col gap-4">
           <article className="flex flex-col gap-[1.125rem]">
             <h2 className="text-grey11 body1-b px-5">FAQ</h2>
-            <div className="relative px-5">
-              {/* ref */}
-              <div
-                ref={categoryAnchorRef}
-                className="absolute bottom-0 left-0 z-19 h-[1px] w-60"
-              />
-
-              <article className="flex w-full flex-wrap gap-2">
-                <Suspense fallback={<LoadingSpinner />}>
-                  {faqCategories.length > 0 &&
-                    faqCategories.map((category: CategoryType) => (
-                      <CategoryChip
-                        key={category.id}
-                        text={category.name}
-                        isSelected={selectedCategoryId == category.id}
-                        onToggle={() => setSelectedCategoryId(category.id)}
-                        theme="faq"
-                      />
-                    ))}
-                </Suspense>
-              </article>
-              {isFaqCategoryTop && (
-                <div className="absolute top-0 z-1 h-full w-full bg-white" />
-              )}
-            </div>
           </article>
-
+          <Suspense fallback={<LoadingSpinner />}>
+            <FaqCategorySection
+              faqCategories={faqCategories}
+              selectedCategoryId={selectedCategoryId}
+              setSelectedCategoryId={setSelectedCategoryId}
+              isFaqCategoryTop={isFaqCategoryTop}
+              itemDetailRef={itemDetailRef}
+              categoryAnchorRef={categoryAnchorRef}
+            />
+          </Suspense>
           {/* faq 카드 */}
           <div
             className={cn(
@@ -258,7 +247,7 @@ const UserItemDetailPage = () => {
         liked={itemDetailData?.liked ?? false} //수정
         isTalkBoxOpened={itemDetailData?.talkBoxOpenStatus === 'OPENED'}
       />
-    </>
+    </div>
   );
 };
 

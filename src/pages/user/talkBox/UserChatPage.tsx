@@ -219,7 +219,6 @@ const UserChatPage = () => {
                     return (
                       <SellerReplyBubble
                         key={`answer-${chat.id}`}
-                        questioner={sellerInfo?.sellerNickname ?? ''}
                         question={chat.questionContent}
                         reply={chat.content}
                         date={chat.createdAt}

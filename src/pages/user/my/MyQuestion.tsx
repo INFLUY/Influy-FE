@@ -1,5 +1,5 @@
 import { PageHeader } from '@/components';
-import { useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate } from 'react-router-dom';
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg?react';
 import { PATH } from '@/routes/path';
@@ -33,6 +33,20 @@ const MyQuestion = () => {
     .flatMap((page) => page?.talkboxList ?? [])
     .filter(Boolean) as UserMyQuestions[];
 
+  const handleQuestionClick = ({
+    sellerId,
+    itemId,
+  }: {
+    sellerId: number;
+    itemId: number;
+  }) => {
+    const path = generatePath(
+      `${PATH.MARKET.BASE}/${PATH.MARKET.DETAIL.BASE}/${PATH.MARKET.DETAIL.ITEM.BASE}/${PATH.MARKET.DETAIL.ITEM.ITEM_ID}/${PATH.MARKET.DETAIL.ITEM.TALK_BOX}`,
+      { marketId: String(sellerId), itemId: String(itemId) }
+    );
+    navigate(path);
+  };
+
   return (
     <div className="flex h-full w-full flex-1 flex-col pt-11">
       <PageHeader
@@ -53,8 +67,14 @@ const MyQuestion = () => {
                 key={myQuestion.itemId}
                 aria-label="톡박스로 이동"
                 role="button"
-                className="flex h-[6.25rem] cursor-pointer items-center gap-[.625rem] px-3 py-4"
-                onClick={() => navigate(PATH.HOME.BASE)}
+                className="flex h-[6.25rem] items-center gap-[.625rem] px-3 py-4"
+                onClick={() =>
+                  handleQuestionClick({
+                    sellerId: myQuestion.sellerId,
+                    itemId: myQuestion.itemId,
+                  })
+                }
+
               >
                 <ProfileIcon className="h-[3.75rem] w-[3.75rem] shrink-0" />
                 <span className="flex w-full flex-col gap-[.1563rem]">

@@ -38,7 +38,7 @@ import { AnswerType } from '@/types/common/TalkBox.types';
 import cn from '@/utils/cn';
 
 interface SellerReplyBubbleProps {
-  questioner: string;
+  questioner?: string;
   question: string;
   reply: string;
   date: string;
@@ -88,7 +88,7 @@ export const SellerReplyBubble = ({
             )}
           >
             <p className="text-grey07 caption-small-m">
-              @{questioner}님의 질문
+              {isSellerMode ? '@' + questioner + '님의 질문' : '나의 질문'}
             </p>
             <div
               className={cn(
