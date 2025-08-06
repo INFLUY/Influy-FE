@@ -70,7 +70,7 @@ const TrendingSellerSection = ({
         </div>
 
         {/* 사진 or 스켈레톤 */}
-        {isSellerPickLoading ? (
+        {isTrendingSellerLoading || isSellerPickLoading ? (
           <div className="flex w-full gap-0.5 px-5">
             {Array.from({ length: 3 }).map((_, i) => (
               <div
