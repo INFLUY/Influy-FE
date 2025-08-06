@@ -14,6 +14,7 @@ export const usePatchItemLike = () => {
         QUERY_KEYS.LIKED_ITEMS,
         QUERY_KEYS.HOME_CLOSE_DEADLINE,
         QUERY_KEYS.HOME_POPULAR,
+        QUERY_KEYS.HOME_RECOMMEND,
       ];
       // TODO: 셀러 홈 아이템 리스트 캐시 갱신
 

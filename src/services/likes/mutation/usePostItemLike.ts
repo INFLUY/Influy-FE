@@ -1,15 +1,23 @@
 import { postItemLike } from '@/api/likes/handleItemLikes.api';
 import { QUERY_KEYS } from '@/constants/api';
+import { PATH } from '@/routes/path';
+import { useAuthStore } from '@/store/authStore';
 import { ItemCardType } from '@/types/common/ItemType.types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePostItemLike = () => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuthStore();
 
   return useMutation({
     mutationFn: ({ sellerId, itemId }: { sellerId: number; itemId: number }) =>
       postItemLike({ sellerId, itemId }),
     onMutate: async ({ itemId }) => {
+      if (!accessToken) {
+        sessionStorage.setItem('lastPath', window.location.pathname);
+        window.location.replace(PATH.LOGIN.BASE);
+        return;
+      }
       const keysToUpdate = [
         QUERY_KEYS.LIKED_ITEMS,
         QUERY_KEYS.HOME_CLOSE_DEADLINE,
