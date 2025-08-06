@@ -104,7 +104,8 @@ const UserItemDetailPage = () => {
   });
 
   useEffect(() => {
-    setSelectedCategoryId(faqCategories[0].id);
+    if (faqCategories && faqCategories.length > 0)
+      setSelectedCategoryId(faqCategories[0].id);
   }, [faqCategories]);
 
   const {

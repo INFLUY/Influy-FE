@@ -20,6 +20,9 @@ export const usePostTalkBoxOpenStatus = ({
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_ITEM_OVERVIEW, itemId],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.SELLER_MARKET_ITEM, itemId],
+      });
       if (onSuccessCallback) onSuccessCallback();
     },
     onError: () => {

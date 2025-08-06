@@ -27,7 +27,7 @@ import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
 // type
 import { BottomNavItem } from '@/components/common/BottomNavBar';
 import { CategoryType } from '@/types/common/CategoryType.types';
-
+import { TalkBoxOpenStatusType } from '@/types/common/ItemType.types';
 // hooks
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { useStrictId } from '@/hooks/auth/useStrictId';
@@ -59,6 +59,9 @@ const SellerItemDetailPage = () => {
 
   const [isFaqCategoryTop, setIsFaqCategoryTop] = useState(false);
   const [isDetailOnScreen, setIsDetailOnScreen] = useState(true);
+  // 툴팁 표시 여부
+  const [showTooltip, setShowTooltip] = useState(false);
+
   const categoryAnchorRef = useRef<HTMLDivElement>(null);
   const itemDetailRef = useRef<HTMLDivElement>(null);
 
@@ -104,6 +107,16 @@ const SellerItemDetailPage = () => {
     return () => observer.disconnect();
   }, [isDetailOnScreen, isItemDetailPending]);
 
+  useEffect(() => {
+    setShowTooltip(true);
+    const timer = window.setTimeout(() => {
+      setShowTooltip(false);
+    }, 3000);
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [itemDetailData?.talkBoxOpenStatus]);
+
   // 하단바
   const handleGoToPage = () => {
     window.open(itemDetailData?.marketLink ?? '', '_blank', 'noreferrer');
@@ -144,7 +157,8 @@ const SellerItemDetailPage = () => {
   });
 
   useEffect(() => {
-    setSelectedCategoryId(faqCategories[0].id);
+    if (faqCategories && faqCategories.length > 0)
+      setSelectedCategoryId(faqCategories[0].id);
   }, [faqCategories]);
 
   const {
@@ -162,6 +176,41 @@ const SellerItemDetailPage = () => {
     (page) => page?.faqCardList ?? []
   );
 
+  const handleTalkBoxClick = ({
+    itemId,
+    talkBoxOpenStatus,
+  }: {
+    itemId: string;
+    talkBoxOpenStatus?: TalkBoxOpenStatusType;
+  }) => {
+    if (talkBoxOpenStatus === 'OPENED') {
+      navigate(
+        generatePath(
+          `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}`,
+          { itemId: String(itemId) }
+        )
+      );
+      return;
+    }
+    if (talkBoxOpenStatus === 'INITIAL') {
+      navigate(
+        generatePath(
+          `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ONBOARDING.BASE}`,
+          { itemId: String(itemId) }
+        )
+      );
+      return;
+    }
+    if (talkBoxOpenStatus === 'CLOSED') {
+      navigate(
+        generatePath(
+          `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}/${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}`,
+          { itemId: String(itemId) }
+        )
+      );
+      return;
+    }
+  };
   // TODO: 카테고리 바뀌어도 스크롤바 위치 안 바뀌게 하기
 
   return (
@@ -170,15 +219,16 @@ const SellerItemDetailPage = () => {
       {isFaqCategoryTop ? (
         <header className="sticky top-0 z-20 flex w-full flex-nowrap gap-2 bg-[rgba(241,241,241,0.30)]">
           <div className="scrollbar-hide flex items-center gap-2 overflow-x-scroll px-5 pt-2 pb-[.4375rem]">
-            {faqCategories.map((category: CategoryType) => (
-              <CategoryChip
-                key={category.id}
-                text={category.name}
-                isSelected={selectedCategoryId == category.id}
-                onToggle={() => setSelectedCategoryId(category.id)}
-                theme="faq"
-              />
-            ))}
+            {faqCategories.length > 0 &&
+              faqCategories.map((category: CategoryType) => (
+                <CategoryChip
+                  key={category.id}
+                  text={category.name}
+                  isSelected={selectedCategoryId == category.id}
+                  onToggle={() => setSelectedCategoryId(category.id)}
+                  theme="faq"
+                />
+              ))}
           </div>
         </header>
       ) : (
@@ -262,35 +312,42 @@ const SellerItemDetailPage = () => {
       </section>
 
       {/* 톡박스 플로팅 버튼 */}
-      <div className="pointer-events-none fixed right-5 bottom-20 z-[1] flex flex-col items-end gap-1.5">
-        {itemDetailData?.talkBoxOpenStatus === 'OPENED' && (
+      <Suspense fallback={<LoadingSpinner />}>
+        <div className="pointer-events-none sticky bottom-20 z-[1] flex w-full flex-col items-end gap-1.5 pr-5">
           <ToolTip
-            text="이 제품의 질문에 답변해 주세요."
-            position="right"
-            additionalStyles="pointer-events-none"
-          />
-        )}
-        {itemId && (
-          <button
-            type="button"
-            onClick={() => {
-              const path = generatePath(
-                `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}`,
-                { itemId }
-              );
-              navigate(path);
-            }}
-            className={cn(
-              'pointer-events-auto flex aspect-[1/1] h-11 w-11 flex-col items-center justify-center rounded-full bg-black shadow-[0_.25rem_1.125rem_0_rgba(0,0,0,0.25)]',
+            text={
               itemDetailData?.talkBoxOpenStatus === 'OPENED'
-                ? 'bg-black'
-                : 'bg-grey08'
+                ? '이 제품의 질문에 답변해 주세요.'
+                : '이 상품의 톡박스를 활성화해보세요.'
+            }
+            position="right"
+            additionalStyles={cn(
+              'pointer-events-none transition-opacity duration-500',
+              showTooltip ? 'opacity-100' : 'opacity-0'
             )}
-          >
-            <TalkBoxIcon className="h-6 w-6 text-white" />
-          </button>
-        )}
-      </div>
+          />
+
+          {itemId && (
+            <button
+              type="button"
+              onClick={() => {
+                handleTalkBoxClick({
+                  itemId: String(itemId),
+                  talkBoxOpenStatus: itemDetailData?.talkBoxOpenStatus,
+                });
+              }}
+              className={cn(
+                'pointer-events-auto flex aspect-[1/1] h-11 w-11 cursor-pointer flex-col items-center justify-center rounded-full bg-black shadow-[0_.25rem_1.125rem_0_rgba(0,0,0,0.25)]',
+                itemDetailData?.talkBoxOpenStatus === 'OPENED'
+                  ? 'bg-black'
+                  : 'bg-grey08'
+              )}
+            >
+              <TalkBoxIcon className="h-6 w-6 text-white" />
+            </button>
+          )}
+        </div>
+      </Suspense>
 
       <BottomNavBar items={detailBottomNavItems} type="action" />
       {isBottomSheetOpen && (

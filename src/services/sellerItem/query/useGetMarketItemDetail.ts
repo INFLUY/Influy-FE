@@ -31,7 +31,7 @@ export const useGetMarketItemDetailSuspense = ({
   itemId: number;
 }) => {
   const query = useSuspenseQuery({
-    queryKey: [QUERY_KEYS.SELLER_MARKET_ITEM, { sellerId, itemId }],
+    queryKey: [QUERY_KEYS.SELLER_MARKET_ITEM, itemId],
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
     queryFn: async () =>
