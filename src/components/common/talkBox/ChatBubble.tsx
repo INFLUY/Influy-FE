@@ -25,7 +25,7 @@ export const FirstChatBubble = ({
           {defaultMessage}
         </p>
         <div className="text-grey08 caption-m w-full px-3.5 pt-2">
-          {username}님이 직접 답변을 전송합니다.
+          @{username}님이 직접 답변을 전송합니다.
         </div>
       </div>
     </article>
@@ -62,9 +62,7 @@ export const SellerReplyBubble = ({
     <article
       className={cn(
         'flex w-full py-2.5',
-        isSellerMode
-          ? 'items-end pr-5 pl-[5.875rem]'
-          : 'items-start gap-1.5 pr-[5.875rem] pl-3'
+        isSellerMode ? 'justify-end pr-5' : 'justify-start gap-1.5 pl-3'
       )}
       aria-label="답변말풍선"
     >
@@ -79,9 +77,9 @@ export const SellerReplyBubble = ({
           )}
         </div>
       )}
-      <div className="flex w-full flex-col">
+      <div className="flex flex-col">
         {/* 채팅 버블 */}
-        <div className="flex w-full flex-col">
+        <div className="flex w-[16.375rem] flex-col">
           {/* 상단 질문 */}
           <div
             className={cn(

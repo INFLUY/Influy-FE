@@ -89,7 +89,7 @@ const QuestionChatBubble = ({
               className="body2-m text-grey10"
               aria-label={`질문자: ${chat.username}`}
             >
-              {chat.username}
+              @{chat.username}
             </span>
             <div
               className="bg-sub-light text-grey09 caption-m rounded-[.1875rem] px-1.5 py-0.5"
@@ -110,7 +110,7 @@ const QuestionChatBubble = ({
         <div
           onClick={() => handleCheckboxClick()}
           className={cn(
-            'border-grey02 bg-grey02 body2-m relative col-span-1 col-start-1 row-span-1 row-start-2 ml-10 flex h-fit w-full shrink-0 flex-col items-end gap-1 rounded-lg border border-solid px-[.875rem] pt-2 pb-2.5 transition-all duration-50',
+            'border-grey02 bg-grey02 body2-m relative col-span-1 col-start-1 row-span-1 row-start-2 ml-10 flex h-fit flex-1 shrink-0 flex-col items-end gap-1 rounded-lg border border-solid px-[.875rem] pt-2 pb-2.5 transition-all duration-50',
             (mode === 'select' || mode === 'bulk-reply') &&
               isSelected &&
               'bg-grey03 border-black',
@@ -145,7 +145,7 @@ const QuestionChatBubble = ({
             />
           )}
           <p
-            className="line-clamp-4 w-full text-left break-all whitespace-pre-wrap text-[#292929]"
+            className="line-clamp-4 w-full text-left break-words whitespace-pre-wrap text-[#292929]"
             aria-label={`질문 본문: ${chat.content}`}
           >
             {chat.content}
