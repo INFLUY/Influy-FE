@@ -2,7 +2,7 @@ export type FaqCardRequestBody = {
   faqCategoryId?: number;
   questionContent: string;
   answerContent: string;
-  backgroundImgLink: string;
+  backgroundImgLink?: string;
   pinned: boolean;
   adjustImg: boolean;
 };
@@ -20,7 +20,7 @@ export type FaqCardDetailResponse = {
   adjustImg: boolean;
   questionContent: string;
   answerContent: string;
-  backgroundImgLink: string;
+  backgroundImgLink: string | null;
   faqCategoryId: number;
   updatedAt: string;
 };

@@ -31,7 +31,7 @@ const Announcement = ({
           {parseDateString(announcement.createdAt)}
         </div>
       </div>
-      <div className="body2-r break-words whitespace-break-spaces">
+      <div className="body2-r break-words whitespace-pre-line">
         {announcement.content}
       </div>
     </li>

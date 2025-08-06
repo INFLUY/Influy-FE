@@ -45,7 +45,7 @@ const SupportPage = () => {
               className="border-b-grey02 flex w-full cursor-pointer items-center justify-between gap-[.625rem] border-b bg-white px-5 py-6"
               onClick={() => handleFaqClick(faq.id)}
             >
-              <span className="body2-m text-grey07 w-[3.375rem] shrink-0">
+              <span className="body2-m text-grey07 w-[4rem] shrink-0">
                 {faq.category}
               </span>
               <p className="body2-m w-full text-black">{faq.question}</p>

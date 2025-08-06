@@ -59,7 +59,7 @@ export const FormLimitedTextInput = <T extends FieldValues>({
           value={value}
           onChange={onChange}
           placeholder={placeHolderContent}
-          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
+          className="body2-m placeholder:text-grey06 scrollbar-hide flex-1 resize-none overflow-y-auto break-keep"
         />
         <div className="caption-m text-grey06 flex h-[1.3125rem] items-center">
           <span
@@ -121,7 +121,7 @@ export const FormWideTextArea = <T extends FieldValues>({
           value={text}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeHolderContent}
-          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
+          className="body2-m scrollbar-hide placeholder:text-grey06 flex-1 resize-none overflow-y-auto break-keep"
           rows={7}
         />
       </div>
@@ -164,7 +164,7 @@ export const FormLimitedWideTextArea = <T extends FieldValues>({
           value={text}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeHolderContent}
-          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
+          className="body2-m placeholder:text-grey06 scrollbar-hide flex-1 resize-none overflow-y-auto break-keep"
           rows={7}
         />
         <div className="caption-m text-grey06 absolute right-3.5 bottom-2.5 flex h-[1.3125rem] items-center">
@@ -209,7 +209,7 @@ export const FormLinkTextarea = <T extends FieldValues>({
           value={text}
           onChange={(e) => onChange(e.target.value)}
           placeholder="https://"
-          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
+          className="body2-m placeholder:text-grey06 scrollbar-hide flex-1 resize-none overflow-y-auto break-keep"
           rows={2}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
@@ -286,7 +286,7 @@ export const FormPriceInput = <T extends FieldValues>({
         inputMode="numeric"
         onChange={handlePriceChange}
         placeholder="정가를 입력해 주세요."
-        className="body2-m placeholder:text-grey06 overflow-hidden break-keep outline-none"
+        className="body2-m placeholder:text-grey06 scrollbar-hide overflow-y-auto break-keep outline-none"
         style={{ width: `${inputWidth}px` }}
       />
       {price && <span className="body2-m">원</span>}
@@ -377,7 +377,7 @@ export const FormSalePriceInput = <T extends FieldValues>({
           inputMode="numeric"
           onChange={handleChange}
           placeholder="할인가를 입력하면, 자동으로 할인율이 계산됩니다."
-          className="body2-m placeholder:text-grey06 overflow-hidden break-keep outline-none"
+          className="body2-m placeholder:text-grey06 scrollbar-hide overflow-y-auto break-keep outline-none"
           style={{ width: `${inputWidth}px` }}
         />
         {salePrice && <span className="body2-m">원</span>}
@@ -422,7 +422,7 @@ export const FormEmailInput = <T extends FieldValues>({
     <div className="flex w-full flex-col">
       <input
         className={cn(
-          'body2-m placeholder:text-grey06 w-full flex-1 resize-none overflow-hidden rounded-xs border px-3.5 py-2.5 break-keep',
+          'body2-m placeholder:text-grey06 scrollbar-hide w-full flex-1 resize-none overflow-y-auto rounded-xs border px-3.5 py-2.5 break-keep',
           error ? 'border-error' : 'border-grey03 focus:border-grey05'
         )}
         value={value}
@@ -465,7 +465,7 @@ export const FormSNSInput = <T extends FieldValues>({
       {icon}
       <input
         className={cn(
-          'body2-m placeholder:text-grey06 w-full flex-1 resize-none overflow-hidden rounded-xs border px-3.5 py-2.5 break-keep',
+          'body2-m placeholder:text-grey06 scrollbar-hide w-full flex-1 resize-none overflow-y-auto rounded-xs border px-3.5 py-2.5 break-keep',
           error ? 'border-error' : 'border-grey03 focus:border-grey05'
         )}
         value={value}
