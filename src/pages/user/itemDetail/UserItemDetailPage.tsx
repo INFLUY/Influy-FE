@@ -127,8 +127,6 @@ const UserItemDetailPage = () => {
     (page) => page?.faqCardList ?? []
   );
 
-  // TODO: 카테고리 바뀌어도 스크롤바 위치 안 바뀌게 하기
-
   return (
     <>
       {/* 헤더 */}
@@ -186,69 +184,71 @@ const UserItemDetailPage = () => {
       </Suspense>
 
       {/* FAQ 파트 */}
-      <section className="mt-8 flex w-full flex-col gap-4">
-        <article className="flex flex-col gap-[1.125rem]">
-          <h2 className="text-grey11 body1-b px-5">FAQ</h2>
-          <div className="relative px-5">
-            {/* ref */}
-            <div
-              ref={categoryAnchorRef}
-              className="absolute bottom-0 left-0 z-19 h-[1px] w-60"
-            />
-
-            <article className="flex w-full flex-wrap gap-2">
-              <Suspense fallback={<LoadingSpinner />}>
-                {faqCategories.length > 0 &&
-                  faqCategories.map((category: CategoryType) => (
-                    <CategoryChip
-                      key={category.id}
-                      text={category.name}
-                      isSelected={selectedCategoryId == category.id}
-                      onToggle={() => setSelectedCategoryId(category.id)}
-                      theme="faq"
-                    />
-                  ))}
-              </Suspense>
-            </article>
-            {isFaqCategoryTop && (
-              <div className="absolute top-0 z-1 h-full w-full bg-white" />
-            )}
-          </div>
-        </article>
-
-        {/* faq 카드 */}
-        <div
-          className={cn(
-            'flex min-h-screen w-full flex-col gap-4',
-            flattenedFaqCardList &&
-              flattenedFaqCardList.length > 0 &&
-              'bg-grey01'
-          )}
-        >
-          <Suspense fallback={<LoadingSpinner />}>
-            {flattenedFaqCardList && flattenedFaqCardList.length > 0 ? (
-              <ItemDetailFaqCard
-                totalElements={
-                  faqCardList?.pages[faqCardList.pages.length - 1]
-                    ?.totalElements ?? 0
-                }
-                faqList={flattenedFaqCardList}
-                hasNextPage={hasNextPage}
-                isFetchingNextPage={isFetchingNextPage}
-                fetchNextPage={fetchNextPage}
+      {faqCategories && faqCategories.length > 0 && (
+        <section className="mt-8 flex w-full flex-col gap-4">
+          <article className="flex flex-col gap-[1.125rem]">
+            <h2 className="text-grey11 body1-b px-5">FAQ</h2>
+            <div className="relative px-5">
+              {/* ref */}
+              <div
+                ref={categoryAnchorRef}
+                className="absolute bottom-0 left-0 z-19 h-[1px] w-60"
               />
-            ) : (
-              <div className="flex w-full justify-center pt-15">
-                <p className="body2-m text-grey09 text-center">
-                  아직 해당 카테고리에
-                  <br />
-                  FAQ가 등록되지 않았어요.
-                </p>
-              </div>
+
+              <article className="flex w-full flex-wrap gap-2">
+                <Suspense fallback={<LoadingSpinner />}>
+                  {faqCategories.length > 0 &&
+                    faqCategories.map((category: CategoryType) => (
+                      <CategoryChip
+                        key={category.id}
+                        text={category.name}
+                        isSelected={selectedCategoryId == category.id}
+                        onToggle={() => setSelectedCategoryId(category.id)}
+                        theme="faq"
+                      />
+                    ))}
+                </Suspense>
+              </article>
+              {isFaqCategoryTop && (
+                <div className="absolute top-0 z-1 h-full w-full bg-white" />
+              )}
+            </div>
+          </article>
+
+          {/* faq 카드 */}
+          <div
+            className={cn(
+              'flex min-h-screen w-full flex-col gap-4',
+              flattenedFaqCardList &&
+                flattenedFaqCardList.length > 0 &&
+                'bg-grey01'
             )}
-          </Suspense>
-        </div>
-      </section>
+          >
+            <Suspense fallback={<LoadingSpinner />}>
+              {flattenedFaqCardList && flattenedFaqCardList.length > 0 ? (
+                <ItemDetailFaqCard
+                  totalElements={
+                    faqCardList?.pages[faqCardList.pages.length - 1]
+                      ?.totalElements ?? 0
+                  }
+                  faqList={flattenedFaqCardList}
+                  hasNextPage={hasNextPage}
+                  isFetchingNextPage={isFetchingNextPage}
+                  fetchNextPage={fetchNextPage}
+                />
+              ) : (
+                <div className="flex w-full justify-center pt-15">
+                  <p className="body2-m text-grey09 text-center">
+                    아직 해당 카테고리에
+                    <br />
+                    FAQ가 등록되지 않았어요.
+                  </p>
+                </div>
+              )}
+            </Suspense>
+          </div>
+        </section>
+      )}
       <UserNav
         likeCount={itemLikeCount?.likeCnt ?? 0}
         onTalkBoxClick={onTalkBoxClick}
