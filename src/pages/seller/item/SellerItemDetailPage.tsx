@@ -15,17 +15,19 @@ import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
 import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
 import Link2Icon from '@/assets/icon/common/Link2Icon.svg?react';
 import LockIcon from '@/assets/icon/common/LockIcon.svg?react';
-import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
-import AddIcon from '@/assets/icon/common/AddIcon.svg?react';
+import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
+
 // path
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { SELLER_ITEM_EDIT_PATH } from '@/utils/generatePath';
+import {
+  SELLER_ITEM_EDIT_PATH,
+  SELLER_ITEM_FAQ_REGISTER_PATH,
+} from '@/utils/generatePath';
 
 // type
 import { BottomNavItem } from '@/components/common/BottomNavBar';
 import { CategoryType } from '@/types/common/CategoryType.types';
-import { TalkBoxOpenStatusType } from '@/types/common/ItemType.types';
 
 // hooks & utils
 import { useScrollToTop } from '@/hooks/useScrollToTop';
@@ -274,7 +276,21 @@ const SellerItemDetailPage = () => {
       {/* FAQ 파트 */}
       <section className="mt-8 flex w-full flex-col gap-4">
         <article className="flex flex-col gap-[1.125rem]">
-          <h2 className="text-grey11 body1-b px-5">FAQ</h2>
+          <div className="flex w-full items-center justify-between px-5">
+            <h2 className="text-grey11 body1-b">FAQ</h2>
+            <Suspense fallback={null}>
+              {faqCategories.length > 0 && (
+                <button
+                  className="flex items-center gap-1"
+                  type="button"
+                  onClick={() => {}}
+                >
+                  <span className="body2-m text-grey06">카테고리 수정</span>
+                  <EditIcon className="text-grey09 h-3.5 w-3.5" />
+                </button>
+              )}
+            </Suspense>
+          </div>
 
           <div className="relative px-5">
             <Suspense fallback={<LoadingSpinner />}>
@@ -284,7 +300,7 @@ const SellerItemDetailPage = () => {
                 className="absolute bottom-0 left-0 z-19 h-[1px] w-60"
               />
               <article className="flex w-full flex-wrap gap-2">
-                {faqCategories.length > 0 &&
+                {faqCategories.length > 0 ? (
                   faqCategories.map((category: CategoryType) => (
                     <CategoryChip
                       key={category.id}
@@ -293,32 +309,57 @@ const SellerItemDetailPage = () => {
                       onToggle={() => setSelectedCategoryId(category.id)}
                       theme="faq"
                     />
-                  ))}
+                  ))
+                ) : (
+                  <div className="flex w-full flex-col items-center justify-center gap-[1.375rem] pb-[13.9375rem]">
+                    <div className="flex flex-col items-center gap-2 self-stretch">
+                      <p className="body1-sb text-black">
+                        아직 카테고리가 없어요
+                      </p>
+                      <p className="text-grey07 caption-m text-center">
+                        자주 묻는 질문, 재고/수량, 이벤트, 진행 일정, 배송 일정,
+                        <br />
+                        후기 모음, 제작 과정 등의 카테고리를 추가해보세요.
+                      </p>
+                    </div>
+                    <AddButton handleOnClick={() => {}}>
+                      카테고리 추가하기
+                    </AddButton>
+                  </div>
+                )}
               </article>
             </Suspense>
           </div>
         </article>
 
         {/* faq 카드 */}
-        <div className="flex min-h-[calc(100vh-56px)] w-full flex-col justify-start gap-4">
-          <Suspense fallback={<LoadingSpinner />}>
-            {flattenedFaqCardList && flattenedFaqCardList.length > 0 && (
-              <ItemDetailFaqCard
-                totalElements={
-                  faqCardList?.pages[faqCardList.pages.length - 1]
-                    ?.totalElements ?? 0
-                }
-                faqList={flattenedFaqCardList}
-                hasNextPage={hasNextPage}
-                isFetchingNextPage={isFetchingNextPage}
-                fetchNextPage={fetchNextPage}
-              />
-            )}
-          </Suspense>
-          <div className="mb-[12.1875rem] w-full flex-1 px-5">
-            <AddButton handleOnClick={() => {}}>FAQ 추가하기</AddButton>
+        {faqCategories.length > 0 && (
+          <div className="flex min-h-[calc(100vh-56px)] w-full flex-col justify-start gap-4">
+            <Suspense fallback={<LoadingSpinner />}>
+              {flattenedFaqCardList && flattenedFaqCardList.length > 0 && (
+                <ItemDetailFaqCard
+                  totalElements={
+                    faqCardList?.pages[faqCardList.pages.length - 1]
+                      ?.totalElements ?? 0
+                  }
+                  faqList={flattenedFaqCardList}
+                  hasNextPage={hasNextPage}
+                  isFetchingNextPage={isFetchingNextPage}
+                  fetchNextPage={fetchNextPage}
+                />
+              )}
+            </Suspense>
+            <div className="mb-[12.1875rem] w-full flex-1 px-5">
+              <AddButton
+                handleOnClick={() => {
+                  navigate(SELLER_ITEM_FAQ_REGISTER_PATH);
+                }}
+              >
+                FAQ 추가하기
+              </AddButton>
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
       <BottomNavBar items={detailBottomNavItems} type="action" />
