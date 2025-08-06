@@ -1,27 +1,20 @@
-import { LikedInfluencerListType } from '@/types/user/Like.types';
+import { SellerLikeList } from '@/types/user/Like.types';
 import { formatNumber } from '@/utils/formatNumber';
-import { useState } from 'react';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
-import { ScrapButton } from '@/components';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { MARKET_DETAIL } from '@/utils/generatePath';
+import { SellerLikeButton } from '@/components/common/ScrapButton';
 
 const MyLikedInfluencerBox = ({
   influencer,
 }: {
-  influencer: LikedInfluencerListType;
+  influencer: SellerLikeList;
 }) => {
   const navigate = useNavigate();
 
-  const [like, setLike] = useState<boolean>(true);
-
-  const handleLikeClick = () => {
-    setLike((prev) => !prev);
-  };
-
   return (
     <li
-      className="flex w-full justify-between px-5 py-3"
+      className="flex w-full cursor-pointer justify-between px-5 py-3"
       aria-label={influencer.nickName + '프로필 바로가기'}
       role="button"
       onClick={() =>
@@ -40,10 +33,9 @@ const MyLikedInfluencerBox = ({
         </div>
       </div>
       <div className="flex min-w-11 flex-col items-center justify-center gap-[.125rem]">
-        <ScrapButton
-          scrapped={like}
-          handleClickSave={handleLikeClick}
-          additionalStyles=""
+        <SellerLikeButton
+          sellerId={influencer.sellerId}
+          liked={influencer.liked}
         />
         <span className="body2-m text-grey07">
           {formatNumber(influencer.likeCnt)}
