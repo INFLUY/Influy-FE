@@ -16,7 +16,7 @@ export const useGetFaqCard = ({
   faqCardId: number;
 }): UseSuspenseQueryResult<FaqCardDetailResponse> => {
   return useSuspenseQuery({
-    queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, itemId, sellerId],
+    queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, itemId, sellerId, faqCardId],
     staleTime: 0,
     queryFn: () => getFaqCardDetail({ sellerId, itemId, faqCardId }),
   });

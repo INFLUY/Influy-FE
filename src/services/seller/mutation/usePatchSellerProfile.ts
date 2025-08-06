@@ -1,7 +1,7 @@
 import { patchSellerMyProfile } from '@/api/sellerMyProfile/handleSellerMyProfile.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { SellerEditProfileType } from '@/types/seller/SellerProfile.types';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePatchSellerProfile = (onSuccessCallback?: () => void) => {
@@ -29,6 +29,6 @@ export const usePatchSellerProfile = (onSuccessCallback?: () => void) => {
       }
       onSuccessCallback?.();
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

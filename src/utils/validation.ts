@@ -20,6 +20,6 @@
 // $
 // - 이 패턴은 문자열 끝까지 정확히 일치해야 함을 의미합니다.
 export const isValidURL = (url: string): boolean => {
-  const pattern = /^(https?:\/\/)[\w.-]+(\.[\w\.-]+)+([\/\w\.-]*)*\/?(\?.*)?$/;
+  const pattern = /^(https?:\/\/)[\w.-]+(\.[\w.-]+)+([/\w.-]*)*\/?(\?.*)?$/;
   return pattern.test(url.trim());
 };

@@ -2,7 +2,7 @@ import { patchItemStatus } from '@/api/sellerItem/patchItemStatus.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { ItemCurrentStatusType } from '@/types/common/ItemType.types';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePatchItemStatus = (onSuccessCallback?: () => void) => {
@@ -33,6 +33,6 @@ export const usePatchItemStatus = (onSuccessCallback?: () => void) => {
       });
       onSuccessCallback?.();
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

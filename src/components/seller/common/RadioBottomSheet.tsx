@@ -25,15 +25,17 @@ const RadioBottomSheet = ({
   onSave,
   closeModal,
 }: RadioBottomSheetProps) => {
-  if (selected === undefined) {
-    return <LoadingSpinner />;
-  }
-
-  const [localSelected, setLocalSelected] = useState<string>(selected);
-
   useEffect(() => {
     setLocalSelected(selected);
   }, [selected]);
+
+  const [localSelected, setLocalSelected] = useState<string | undefined>(
+    selected
+  );
+
+  if (localSelected === undefined) {
+    return <LoadingSpinner />;
+  }
 
   const handleSave = () => {
     onSave(localSelected);

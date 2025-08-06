@@ -4,7 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 export const useGetLikedItemList = ({ size = 10 }: { size?: number } = {}) => {
   return useInfiniteQuery({
-    queryKey: [QUERY_KEYS.LIKED_ITEMS],
+    queryKey: [QUERY_KEYS.LIKED_ITEMS, size],
     queryFn: async ({ pageParam = 1 }) => {
       return getLikedItemList({
         page: pageParam,

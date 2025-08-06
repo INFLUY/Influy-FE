@@ -10,70 +10,73 @@ export const usePatchItemLike = () => {
     mutationFn: ({ sellerId, itemId }: { sellerId: number; itemId: number }) =>
       patchItemLike({ sellerId, itemId }),
     onMutate: async ({ itemId, sellerId }) => {
+      const previousCache: Record<string, any> = {};
+
       const keysToUpdate = [
         QUERY_KEYS.LIKED_ITEMS,
         QUERY_KEYS.HOME_CLOSE_DEADLINE,
         QUERY_KEYS.HOME_POPULAR,
       ];
 
-      const previousCache: Record<string, any> = {};
+      keysToUpdate.forEach((queryKey) => {
+        const queries = queryClient.getQueriesData({
+          queryKey: [queryKey],
+        });
 
-      keysToUpdate.forEach((key) => {
-        const cached = queryClient.getQueryData<any>([key]);
+        queries.forEach(([fullQueryKey, cached]) => {
+          if (!cached) return;
 
-        if (!cached) return;
+          const isInfinite = Array.isArray((cached as any).pages);
 
-        const isInfinite = Array.isArray(cached.pages);
+          if (isInfinite) {
+            const updatedPages = (cached as any).pages.map((page: any) => {
+              if (page.itemLikeList) {
+                const updatedItems = page.itemLikeList.map(
+                  (item: ItemCardType) =>
+                    item.itemId === itemId
+                      ? { ...item, liked: !item.liked }
+                      : item
+                );
 
-        if (isInfinite) {
-          const updatedPages = cached.pages.map((page: any) => {
-            if (page.itemLikeList) {
-              const updatedItems = page.itemLikeList.map(
-                (item: ItemCardType) =>
-                  item.itemId === itemId
-                    ? { ...item, liked: !item.liked }
-                    : item
-              );
+                return {
+                  ...page,
+                  itemLikeList: updatedItems,
+                };
+              }
+              if (page.itemPreviewList) {
+                const updatedItems = page.itemPreviewList.map(
+                  (item: ItemCardType) =>
+                    item.itemId === itemId
+                      ? { ...item, liked: !item.liked }
+                      : item
+                );
 
-              return {
-                ...page,
-                itemLikeList: updatedItems,
-              };
-            }
-            if (page.itemPreviewList) {
-              const updatedItems = page.itemPreviewList.map(
-                (item: ItemCardType) =>
-                  item.itemId === itemId
-                    ? { ...item, liked: !item.liked }
-                    : item
-              );
+                return {
+                  ...page,
+                  itemPreviewList: updatedItems,
+                };
+              }
+              return page;
+            });
 
-              return {
-                ...page,
-                itemPreviewList: updatedItems,
-              };
-            }
-            return page;
-          });
+            const updatedCache = {
+              ...(cached as any),
+              pages: updatedPages,
+            };
 
-          const updatedCache = {
-            ...cached,
-            pages: updatedPages,
-          };
+            previousCache[JSON.stringify(fullQueryKey)] = cached;
+            queryClient.setQueryData(fullQueryKey, updatedCache);
+          }
+          // 일반 배열 캐시 처리
+          else if (Array.isArray(cached)) {
+            const updated = (cached as ItemCardType[]).map((item) =>
+              item.itemId === itemId ? { ...item, liked: !item.liked } : item
+            );
 
-          previousCache[key] = cached; // 롤백용 저장
-          queryClient.setQueryData([key], updatedCache);
-        }
-
-        // 일반 배열 캐시 처리
-        else if (Array.isArray(cached)) {
-          const updated = cached.map((item) =>
-            item.itemId === itemId ? { ...item, liked: !item.liked } : item
-          );
-
-          previousCache[key] = cached;
-          queryClient.setQueryData([key], updated);
-        }
+            previousCache[JSON.stringify(fullQueryKey)] = cached;
+            queryClient.setQueryData(fullQueryKey, updated);
+          }
+        });
       });
 
       // 카테고리 추천 캐시 처리
@@ -156,7 +159,7 @@ export const usePatchItemLike = () => {
         }
       });
 
-      return { previousCache }; // 롤백용
+      return { previousCache };
     },
     onSuccess: (_, _variables) => {
       // 상품 상세정보

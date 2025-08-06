@@ -1,6 +1,6 @@
 import { postPresignedUrl } from '@/api/presignedUrl/postPresignedUrl';
 import { putPresignedUrl } from '@/api/presignedUrl/putPresignedUrl';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation } from '@tanstack/react-query';
 
 export const usePostPresignedUrl = (
@@ -21,6 +21,6 @@ export const usePostPresignedUrl = (
     onSuccess: (imgUrl: string) => {
       onSuccessCallback?.(imgUrl);
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };
