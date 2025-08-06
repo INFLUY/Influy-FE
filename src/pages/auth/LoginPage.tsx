@@ -70,7 +70,7 @@ const LoginPage = () => {
       </section>
       <div className="absolute inset-0 flex">
         <div className="absolute z-[5] h-full w-full bg-[#000000] opacity-50" />
-        <img src={LoginBg} className="object-cover" alt="" />
+        <img src={LoginBg} className="h-full w-full object-cover" alt="" />
       </div>
     </div>
   );

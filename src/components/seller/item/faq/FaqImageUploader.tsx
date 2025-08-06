@@ -1,6 +1,6 @@
 import { useFormContext, useController } from 'react-hook-form';
 import { useSingleImageUploader } from '@/hooks/useSingleImageUploader';
-import CameraIcon from '@/assets/icon/common/Camera.svg?react';
+import CameraIcon from '@/assets/icon/common/CameraCircle.svg?react';
 import ImageResizeIcon from '@/assets/icon/seller/ImageResizeIcon.svg?react';
 import Delete2Icon from '@/assets/icon/common/Delete2Icon.svg?react';
 import Edit2Icon from '@/assets/icon/common/Edit2Icon.svg?react';
@@ -54,7 +54,7 @@ export const FaqImageUploader = ({
           className="flex h-full w-full cursor-pointer items-center justify-center"
         >
           <CameraIcon
-            className="h-[4.625rem] w-[4.625rem]"
+            className="h-27 w-27 text-transparent"
             aria-hidden="true"
           />
         </label>

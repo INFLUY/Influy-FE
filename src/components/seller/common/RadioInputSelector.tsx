@@ -1,6 +1,4 @@
 import { RadioInputList } from './RadioInput.types';
-import RadioButtonUnChecked from '@/assets/icon/common/RadioButtonUnchecked.svg?react';
-import RadioButtonChecked from '@/assets/icon/common/RadioButtonChecked.svg?react';
 import cn from '@/utils/cn';
 
 const RadioInput = ({
@@ -32,11 +30,14 @@ const RadioInput = ({
         checked={isSelected}
         onChange={() => setSelected(item.type)}
       />
-      {isSelected ? (
-        <RadioButtonChecked className="shrink-0" />
-      ) : (
-        <RadioButtonUnChecked className="shrink-0" />
-      )}
+      <div
+        className={cn(
+          'h-[1.25rem] w-[1.25rem] rounded-full border-1 p-1',
+          isSelected
+            ? 'border-[.3125rem] border-black bg-white'
+            : 'border-grey04 bg-grey02'
+        )}
+      />
       <label
         htmlFor={item.text}
         className="flex cursor-pointer flex-col gap-1 break-words whitespace-break-spaces"

@@ -164,18 +164,16 @@ export const ItemForm = ({
             className="flex w-full flex-col items-start justify-center gap-1.5"
           >
             <p className="caption-m">시작일</p>
-            <div className="body2-m border-grey03 flex h-fit w-full items-center justify-between rounded-xs border px-3.5 py-2.5">
+            <div
+              className="body2-m border-grey03 flex h-fit w-full items-center justify-between rounded-xs border px-3.5 py-2.5"
+              onClick={() => setIsStartDateTimeSheetOpen(true)}
+            >
               <span
                 className={cn(startISODateTime ? 'text-black' : 'text-grey06')}
               >
                 {formatDate(startISODateTime)}
               </span>
-              <button
-                type="button"
-                onClick={() => setIsStartDateTimeSheetOpen(true)}
-              >
-                <CalendarIcon />
-              </button>
+              <CalendarIcon aria-hidden="true" />
             </div>
           </div>
 
@@ -207,13 +205,16 @@ export const ItemForm = ({
             className="flex w-full flex-col items-start justify-center gap-1.5"
           >
             <p className="caption-m">마감일</p>
-            <div className="body2-m border-grey03 flex h-fit w-full items-center justify-between rounded-xs border px-3.5 py-2.5">
+            <div
+              className="body2-m border-grey03 flex h-fit w-full items-center justify-between rounded-xs border px-3.5 py-2.5"
+              onClick={() => setIsEndDateTimeSheetOpen(true)}
+            >
               <span
                 className={cn(endISODateTime ? 'text-black' : 'text-grey06')}
               >
                 {formatDate(endISODateTime)}
               </span>
-              <CalendarIcon onClick={() => setIsEndDateTimeSheetOpen(true)} />
+              <CalendarIcon aria-label="true" />
             </div>
           </div>
 

@@ -6,17 +6,30 @@ import {
 } from '@/components';
 import { ItemPreviewList } from '@/types/common/ItemType.types';
 import cn from '@/utils/cn';
+import { ITEM_DETAIL } from '@/utils/generatePath';
 import { isItemClosed } from '@/utils/itemDateUtils';
+import { generatePath, useNavigate } from 'react-router-dom';
 
 export const ItemGridCard = ({ item }: { item: ItemPreviewList }) => {
+  const navigate = useNavigate();
   return (
-    <li className="flex w-full cursor-pointer flex-col gap-[.625rem] self-start">
+    <li
+      className="flex w-full cursor-pointer flex-col gap-[.625rem] self-start"
+      onClick={() =>
+        navigate(
+          generatePath(ITEM_DETAIL, {
+            marketId: item.sellerId,
+            itemId: item.itemId,
+          })
+        )
+      }
+    >
       {/* 썸네일 */}
       <div className="relative flex aspect-square w-full shrink-0 justify-end p-2">
         <img
           src={item.mainImg ?? undefined}
           alt="상품 썸네일"
-          className="bg-grey06 absolute inset-0 aspect-square object-cover"
+          className="absolute inset-0 aspect-square h-full w-full bg-white object-cover"
         />
         <ItemLikeButton
           liked={item.liked}

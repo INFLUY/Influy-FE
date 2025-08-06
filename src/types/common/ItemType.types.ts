@@ -65,7 +65,7 @@ export interface ItemPostDetail {
   regularPrice?: number;
   salePrice?: number;
   marketLink?: string;
-  itemPeriod: number;
+  itemPeriod?: number;
   comment?: string;
   isArchived: boolean;
   isDateUndefined: boolean;

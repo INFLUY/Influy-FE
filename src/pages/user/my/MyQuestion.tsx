@@ -47,50 +47,53 @@ const MyQuestion = () => {
       </PageHeader>
       <section className="bg-grey01 flex flex-1 flex-col py-[.8125rem]">
         {myQuestions && myQuestions.length > 0 ? (
-          myQuestions?.map((myQuestion) => (
-            <div
-              key={myQuestion.itemId}
-              aria-label="톡박스로 이동"
-              role="button"
-              className="flex h-[6.25rem] items-center gap-[.625rem] px-3 py-4"
-              onClick={() => navigate(PATH.HOME.BASE)}
-            >
-              <ProfileIcon className="h-[3.75rem] w-[3.75rem] shrink-0" />
-              <span className="flex w-full flex-col gap-[.1563rem]">
-                <span className="body2-m line-clamp-1 flex w-full flex-1 items-start justify-between text-black">
-                  {myQuestion.sellerNickname}
-                </span>
-                <span className="text-grey08 body2-r line-clamp-2">
-                  {myQuestion.lastChatContent}
-                </span>
-              </span>
-
+          <>
+            {myQuestions?.map((myQuestion) => (
               <div
-                className={cn(
-                  'flex h-full shrink-0 justify-between gap-[.625rem]',
-                  {
-                    'items-start': myQuestion.uncheckedCnt === 0,
-                  }
-                )}
+                key={myQuestion.itemId}
+                aria-label="톡박스로 이동"
+                role="button"
+                className="flex h-[6.25rem] items-center gap-[.625rem] px-3 py-4"
+                onClick={() => navigate(PATH.HOME.BASE)}
               >
-                <span className="caption-m text-grey07 shrink-0">
-                  {formatRelativeDate(myQuestion.lastChatTime)}
+                <ProfileIcon className="h-[3.75rem] w-[3.75rem] shrink-0" />
+                <span className="flex w-full flex-col gap-[.1563rem]">
+                  <span className="body2-m line-clamp-1 flex w-full flex-1 items-start justify-between text-black">
+                    {myQuestion.sellerNickname}
+                  </span>
+                  <span className="text-grey08 body2-r line-clamp-2">
+                    {myQuestion.lastChatContent}
+                  </span>
                 </span>
-                <div className="flex h-full shrink-0 flex-col items-end justify-between">
-                  <img
-                    src={myQuestion.itemMainPic ?? undefined}
-                    alt={myQuestion.itemTitle + ' 썸네일'}
-                    className="bg-grey03 h-[2.125rem] w-[2.125rem] object-cover"
-                  />
-                  {myQuestion.uncheckedCnt > 0 && (
-                    <div className="bg-main caption-m h-fit w-fit min-w-[1.375rem] rounded-[1.5625rem] px-[.4375rem] py-[.1875rem] text-center text-white">
-                      {myQuestion.uncheckedCnt}
-                    </div>
+
+                <div
+                  className={cn(
+                    'flex h-full shrink-0 justify-between gap-[.625rem]',
+                    {
+                      'items-start': myQuestion.uncheckedCnt === 0,
+                    }
                   )}
+                >
+                  <span className="caption-m text-grey07 shrink-0">
+                    {formatRelativeDate(myQuestion.lastChatTime)}
+                  </span>
+                  <div className="flex h-full shrink-0 flex-col items-end justify-between">
+                    <img
+                      src={myQuestion.itemMainPic ?? undefined}
+                      alt={myQuestion.itemTitle + ' 썸네일'}
+                      className="bg-grey03 h-[2.125rem] w-[2.125rem] object-cover"
+                    />
+                    {myQuestion.uncheckedCnt > 0 && (
+                      <div className="bg-main caption-m h-fit w-fit min-w-[1.375rem] rounded-[1.5625rem] px-[.4375rem] py-[.1875rem] text-center text-white">
+                        {myQuestion.uncheckedCnt}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            ))}
+            {hasNextPage && <div ref={observerRef} className="h-4 w-full" />}
+          </>
         ) : (
           <div className="text-grey09 body2-m flex flex-1 items-center justify-center">
             아직 질문하지 않았어요

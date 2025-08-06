@@ -31,12 +31,12 @@ export interface TopBannerItem {
 
 export const topBanner: TopBannerItem[] = [
   {
-    image: Banner1,
-    path: '',
-  },
-  {
     image: Banner2,
     path: 'https://forms.gle/5rTGW5xF6ZRnJV1u9',
+  },
+  {
+    image: Banner1,
+    path: '',
   },
   {
     image: Banner3,
