@@ -119,3 +119,14 @@ export type UserTalkBoxChat =
       type: 'Default Message';
       content: string;
     };
+
+export interface UserMyQuestions {
+  itemId: number;
+  itemTitle: string;
+  itemMainPic: string;
+  sellerNickname: string;
+  sellerProfilePic: string | null;
+  lastChatContent: string;
+  lastChatTime: string;
+  uncheckedCnt: number;
+}

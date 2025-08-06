@@ -42,7 +42,9 @@ export const usePatchFaqPin = ({
           },
         ],
       });
-
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.FAQ_CARD_LIST, faqCategoryId],
+      });
       onSuccessCallback?.();
     },
     onError: handleReactQueryError,

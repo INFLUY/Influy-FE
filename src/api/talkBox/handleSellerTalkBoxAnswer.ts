@@ -7,7 +7,7 @@ import {
   PostIndividualAnswerResponse,
   PostBulkAnswerResponse,
   PostBulkAnswerRequest,
-} from '@/types/seller/TalkBox.types';
+} from '@/types/common/TalkBox.types';
 
 export const getTagAnswers = async ({
   itemId,

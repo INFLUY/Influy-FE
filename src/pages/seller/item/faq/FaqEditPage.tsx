@@ -29,7 +29,6 @@ import { usePatchFaqCard } from '@/services/sellerFaqCard/mutation/usePatchFaqCa
 import { FaqCardRequestBody } from '@/types/common/FaqCardType.types';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { SELLER_ITEM_EDIT_FAQ_TAB_PATH } from '@/utils/generatePath';
-import { PATH } from '@/routes/path';
 import { useDeleteFaqCard } from '@/services/sellerFaqCard/mutation/useDeleteFaqCard';
 import { useModalStore } from '@/store/useModalStore';
 
@@ -60,7 +59,7 @@ const FaqEditPage = () => {
       category: undefined,
       question: '',
       answer: '',
-      image: '',
+      image: undefined,
       isPinned: false,
       adjustImg: false,
     },
@@ -76,7 +75,7 @@ const FaqEditPage = () => {
       adjustImg: prevFaq.adjustImg,
     });
     setUpdatedAt(prevFaq.updatedAt);
-  }, []);
+  }, [prevFaq]);
 
   const {
     handleSubmit,
@@ -111,22 +110,19 @@ const FaqEditPage = () => {
   };
 
   const { mutate: patchFaqCard } = usePatchFaqCard(() => {
-    navigate(
-      generatePath(
-        `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${PATH.SELLER.ITEM.ITEM_ID.BASE}`,
-        { itemId: itemId! }
-      ),
-      { replace: true }
-    );
+    navigate(-1);
     showSnackbar('답변이 등록되었습니다.');
   });
+
+  const isEmpty = (val: unknown): val is string =>
+    val !== undefined && val !== null && val !== '';
 
   const onSubmit = (data: FaqFormValues) => {
     const formattedData: FaqCardRequestBody = {
       faqCategoryId: data.category,
       questionContent: data.question,
       answerContent: data.answer,
-      backgroundImgLink: data.image,
+      ...(isEmpty(data.image) && { backgroundImgLink: data.image }),
       pinned: data.isPinned,
       adjustImg: data.adjustImg,
     };

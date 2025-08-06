@@ -34,6 +34,9 @@ export const usePatchFaqCard = (onSuccessCallback?: () => void) => {
           },
         ],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.FAQ_CARD_LIST, data?.faqCategoryId],
+      });
       onSuccessCallback?.();
     },
     onError: handleReactQueryError,

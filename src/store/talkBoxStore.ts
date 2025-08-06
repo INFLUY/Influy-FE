@@ -3,7 +3,7 @@ import {
   TALK_BOX_MODE,
   CategoryTagsDTO,
   QuestionDTO,
-} from '@/types/seller/TalkBox.types';
+} from '@/types/common/TalkBox.types';
 import { persist } from 'zustand/middleware';
 
 interface SelectModeState {

@@ -13,12 +13,7 @@ import {
 } from '@/components';
 import XIcon from '@/assets/icon/common/XIcon.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
-import {
-  useNavigate,
-  useParams,
-  useLocation,
-  generatePath,
-} from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useRef, Suspense } from 'react';
 
 import {
@@ -34,7 +29,6 @@ import { useGetItemFaqCategory } from '@/services/sellerFaqCard/query/useGetItem
 import { FaqCardRequestBody } from '@/types/common/FaqCardType.types';
 import { usePostFaqCard } from '@/services/sellerFaqCard/mutation/usePostFaqCard';
 import { useStrictId } from '@/hooks/auth/useStrictId';
-import { PATH } from '@/routes/path';
 
 const FaqRegistrationPage = () => {
   const navigate = useNavigate();
@@ -99,21 +93,18 @@ const FaqRegistrationPage = () => {
   };
 
   const { mutate: postFaqCard } = usePostFaqCard(() => {
-    navigate(
-      generatePath(
-        `${PATH.SELLER.BASE}/${PATH.SELLER.ITEM.BASE}/${PATH.SELLER.ITEM.ITEM_ID.BASE}`,
-        { itemId: itemId! }
-      ),
-      { replace: true }
-    );
+    navigate(-1);
     showSnackbar('답변이 등록되었습니다.');
   });
+
+  const isEmpty = (val: unknown): val is string =>
+    val !== undefined && val !== null && val !== '';
 
   const onSubmit = (data: FaqFormValues) => {
     const formattedData: FaqCardRequestBody = {
       questionContent: data.question,
       answerContent: data.answer,
-      backgroundImgLink: data.image,
+      ...(isEmpty(data.image) && { backgroundImgLink: data.image }),
       pinned: data.isPinned,
       adjustImg: data.adjustImg,
     };

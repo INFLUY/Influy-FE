@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import { useGetCategoryList } from '@/services/talkBox/query/useGetCategoryList';
-import { SingleQuestionAnswerDTO } from '@/types/seller/TalkBox.types';
+import { SingleQuestionAnswerDTO } from '@/types/common/TalkBox.types';
 interface TalkBoxCategoryContextType {
   itemId: number;
   categoryData: Awaited<ReturnType<typeof useGetCategoryList>>['data'] | null;

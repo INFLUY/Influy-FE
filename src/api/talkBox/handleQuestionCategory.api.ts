@@ -6,7 +6,7 @@ import {
   CategoryListResponse,
   GeneratedNameList,
   UserCategoryList,
-} from '@/types/seller/TalkBox.types';
+} from '@/types/common/TalkBox.types';
 
 export const postGenerateQuestionCategory = async ({
   itemId,

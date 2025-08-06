@@ -158,6 +158,12 @@ export const usePatchItemLike = () => {
 
       return { previousCache }; // 롤백용
     },
+    onSuccess: (_, _variables) => {
+      // 상품 상세정보
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.SELLER_MARKET_ITEM, _variables.itemId],
+      });
+    },
     onError: (_error, _variables, context) => {
       if (!context?.previousCache) return;
       // 롤백 처리

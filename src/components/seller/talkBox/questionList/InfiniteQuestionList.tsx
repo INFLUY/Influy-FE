@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { QuestionChatBubble, LoadingSpinner } from '@/components';
-import { QuestionDTO } from '@/types/seller/TalkBox.types';
+import { QuestionDTO } from '@/types/common/TalkBox.types';
 
 interface InfiniteQuestionListProps {
   questions: QuestionDTO[];

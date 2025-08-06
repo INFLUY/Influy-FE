@@ -16,7 +16,7 @@ import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import HomeIcon from '@/assets/icon/common/HomeNavbar.svg?react';
 
 //type
-import { QuestionDTO } from '@/types/seller/TalkBox.types';
+import { QuestionDTO } from '@/types/common/TalkBox.types';
 
 import { useStrictId } from '@/hooks/auth/useStrictId';
 

@@ -2,9 +2,9 @@ import { ApiResponse, Pagination } from '@/types/common/ApiResponse.types';
 import { instance } from '@/api/axiosInstance';
 import { generateApiPath } from '@/api/utils';
 import { API_DOMAINS } from '@/constants/api';
-import { TalkboxType } from '@/types/common/TalkboxType.types';
+import { UserMyQuestions } from '@/types/common/TalkBox.types';
 
-export const getUserQuesionList = async ({
+export const getUserQuestionList = async ({
   page,
   size,
 }: {
@@ -12,7 +12,7 @@ export const getUserQuesionList = async ({
   size: number;
 }) => {
   const response = await instance.get<
-    ApiResponse<Pagination<TalkboxType[] | [], 'talkboxList'>>
+    ApiResponse<Pagination<UserMyQuestions[] | [], 'talkboxList'>>
   >(generateApiPath(API_DOMAINS.USER_ITEM_TALKBOX_LIST), {
     params: { page, size },
   });

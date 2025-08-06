@@ -96,7 +96,7 @@ export const LinkInput = ({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={placeHolderContent}
-          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
+          className="body2-m placeholder:text-grey06 scrollbar-hide flex-1 resize-none overflow-y-auto break-keep"
           rows={1}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
@@ -143,7 +143,7 @@ export const LimitedTextInput = ({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={placeHolderContent}
-          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
+          className="body2-m placeholder:text-grey06 scrollbar-hide flex-1 resize-none overflow-y-auto break-keep"
           rows={1}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
@@ -192,7 +192,7 @@ export const WideTextArea = ({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={placeHolderContent}
-          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
+          className="body2-m placeholder:text-grey06 scrollbar-hide flex-1 resize-none overflow-y-auto break-keep"
           rows={7}
         />
       </div>
@@ -224,7 +224,7 @@ export const LimitedWideTextArea = ({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={placeHolderContent}
-          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
+          className="body2-m placeholder:text-grey06 scrollbar-hide flex-1 resize-none overflow-y-auto break-keep"
           rows={7}
         />
         <div className="caption-m text-grey06 absolute right-3.5 bottom-2.5 flex h-[1.3125rem] items-center">
@@ -325,7 +325,7 @@ export const LimitedTextInputWithFocus = ({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={placeHolderContent}
-          className="body2-m placeholder:text-grey06 flex-1 resize-none overflow-hidden break-keep"
+          className="body2-m placeholder:text-grey06 scrollbar-hide flex-1 resize-none overflow-y-auto break-keep"
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault(); // Enter 키 입력 방지
