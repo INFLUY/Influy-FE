@@ -1,31 +1,53 @@
-import { PageHeader, ToggleButton } from '@/components';
-import { useLocation, useNavigate } from 'react-router-dom';
-import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
-import { useState } from 'react';
+import { BackButton, PageHeader, ToggleButton } from '@/components';
+import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { PATH } from '@/routes/path';
 
+const LOCAL_STORAGE_KEYS = {
+  liked: 'notification_liked',
+  chatbot: 'notification_chatbot',
+  review: 'notification_review',
+};
+
+const getStoredValue = (key: string, defaultValue: boolean) => {
+  const stored = localStorage.getItem(key);
+  return stored !== null ? stored === 'true' : defaultValue;
+};
+
 const NotificationSettingsPage = () => {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
   const isSeller = pathname.includes(PATH.SELLER.BASE);
+
   const [likedProductNotification, setLikedProductNotification] =
-    useState<boolean>(false);
-  const [chatBotNotification, setChatBotNotification] =
-    useState<boolean>(false);
-  const [reviewNotification, setReviewNotification] = useState<boolean>(false);
+    useState<boolean>(() => getStoredValue(LOCAL_STORAGE_KEYS.liked, false));
+  const [chatBotNotification, setChatBotNotification] = useState<boolean>(() =>
+    getStoredValue(LOCAL_STORAGE_KEYS.chatbot, false)
+  );
+  const [reviewNotification, setReviewNotification] = useState<boolean>(() =>
+    getStoredValue(LOCAL_STORAGE_KEYS.review, false)
+  );
+
+  useEffect(() => {
+    localStorage.setItem(
+      LOCAL_STORAGE_KEYS.liked,
+      String(likedProductNotification)
+    );
+  }, [likedProductNotification]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      LOCAL_STORAGE_KEYS.chatbot,
+      String(chatBotNotification)
+    );
+  }, [chatBotNotification]);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.review, String(reviewNotification));
+  }, [reviewNotification]);
 
   return (
     <div className="flex h-full w-full flex-1 flex-col pt-11">
-      <PageHeader
-        leftIcons={[
-          <ArrowIcon
-            className="h-6 w-6 cursor-pointer text-black"
-            onClick={() => navigate(-1)}
-          />,
-        ]}
-      >
-        알림 설정
-      </PageHeader>
+      <PageHeader leftIcons={[<BackButton />]}>알림 설정</PageHeader>
       <section className="flex flex-1 flex-col gap-11 px-5 pt-7">
         <article className="flex justify-between">
           <span className="body1-m text-grey10">찜한 상품 시작 알림</span>
