@@ -13,7 +13,7 @@ export { default as AnnouncementBanner } from './common/AnnouncementBanner.tsx';
 export { default as ExternalLinkChip } from './common/ExternalLinkChip';
 export { Tab, Tabs } from './common/Tab';
 export { default as SnackBar } from './common/SnackBar';
-export { ItemLikeButton } from './common/ScrapButton';
+export { ItemLikeButton, SellerLikeButton } from './common/LikeButton.tsx';
 export { default as PageHeader } from './common/PageHeader';
 export { default as ToggleButton } from './common/ToggleButton';
 export { BottomNavBar } from './common/BottomNavBar';

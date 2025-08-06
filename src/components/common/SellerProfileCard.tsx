@@ -12,7 +12,7 @@ import { ReactNode } from 'react';
 import { useGetSellerLike } from '@/services/likes/query/useGetSellerLikes';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { SellerProfileType } from '@/types/seller/SellerProfile.types';
-import { SellerLikeButton } from './ScrapButton';
+import { SellerLikeButton } from '@/components';
 
 const SellerProfileCard = ({
   sellerInfo,

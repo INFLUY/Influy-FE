@@ -3,7 +3,7 @@ import { formatNumber } from '@/utils/formatNumber';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { MARKET_DETAIL } from '@/utils/generatePath';
-import { SellerLikeButton } from '@/components/common/ScrapButton';
+import { SellerLikeButton } from '@/components';
 
 const MyLikedInfluencerBox = ({
   influencer,
