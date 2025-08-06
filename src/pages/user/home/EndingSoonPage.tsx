@@ -1,7 +1,11 @@
-import { PageHeader, ItemAlbumCard, LoadingSpinner } from '@/components';
+import {
+  PageHeader,
+  ItemAlbumCard,
+  LoadingSpinner,
+  NotificationButton,
+  BackButton,
+} from '@/components';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
-import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
-import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { ITEM_DETAIL } from '@/utils/generatePath';
 import { useGetCloseDeadlineItem } from '@/services/home/query/useGetCloseDeadlineItem';
@@ -35,18 +39,10 @@ const EndingSoonPage = () => {
   return (
     <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto pt-11">
       <PageHeader
-        leftIcons={[
-          <ArrowLeftIcon
-            className="h-6 w-6 cursor-pointer"
-            onClick={() => navigate(-1)}
-          />,
-        ]}
+        leftIcons={[<BackButton />]}
         rightIcons={[
           <SearchIcon className="h-6 w-6 cursor-pointer" />,
-          <button type="button" className="relative">
-            <BellIcon className="h-6 w-6 cursor-pointer" />
-            <div className="bg-main absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full" />
-          </button>,
+          <NotificationButton />,
         ]}
         additionalStyles="bg-white border-0"
       >

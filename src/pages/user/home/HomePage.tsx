@@ -4,10 +4,10 @@ import {
   HomeCommonSection,
   TopBannerSwiper,
   MoreButton,
+  NotificationButton,
 } from '@/components';
 import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
-import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import { useEffect, useState } from 'react';
 import UserTypeSwitchBanner from '@/components/seller/home/UserTypeSwitchBanner';
 import { generatePath, useNavigate } from 'react-router-dom';
@@ -84,19 +84,10 @@ const HomePage = () => {
   return (
     <section className="top-banner-swiper-section bg-grey01 flex w-full flex-1 flex-col pt-11">
       <PageHeader
-        leftIcons={[
-          <InfluyIcon
-            className="h-6 text-black"
-            role="button"
-            aria-label="뒤로 가기"
-          />,
-        ]}
+        leftIcons={[<InfluyIcon className="h-6 text-black" role="button" />]}
         rightIcons={[
           <SearchIcon className="h-6 w-6 cursor-pointer" />,
-          <button type="button" className="relative">
-            <BellIcon className="h-6 w-6 cursor-pointer" />
-            <div className="bg-main absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full" />
-          </button>,
+          <NotificationButton />,
         ]}
         additionalStyles="border-0 h-11"
       />
