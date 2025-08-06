@@ -6,10 +6,9 @@ import {
   CategoryChip,
   VisibilityBottomSheet,
   LoadingSpinner,
-  ToolTip,
   // AddButton,
 } from '@/components';
-
+import { FloatingButton } from '@/components/seller/item/itemDetail/FloatingButton';
 // icon
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
@@ -17,7 +16,6 @@ import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
 import Link2Icon from '@/assets/icon/common/Link2Icon.svg?react';
 import LockIcon from '@/assets/icon/common/LockIcon.svg?react';
 import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
-import TalkBoxIcon from '@/assets/icon/common/TalkBoxIcon.svg?react';
 
 // path
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
@@ -39,7 +37,6 @@ import { useSnackbarStore } from '@/store/snackbarStore';
 import { useGetMarketItemDetailSuspense } from '@/services/sellerItem/query/useGetMarketItemDetail';
 import { useGetItemFaqCategory } from '@/services/sellerFaqCard/query/useGetItemFaqCategory';
 import { useGetFaqCardByCategory } from '@/services/sellerFaqCard/query/useGetFaqCardByCategory';
-import cn from '@/utils/cn';
 
 const ItemDetailFaqCard = lazy(
   () => import('@/components/common/item/itemDetail/ItemDetailFaqCard')
@@ -63,7 +60,7 @@ const SellerItemDetailPage = () => {
   const [isFaqCategoryTop, setIsFaqCategoryTop] = useState(false);
   const [isDetailOnScreen, setIsDetailOnScreen] = useState(true);
   // 툴팁 표시 여부
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
   const categoryAnchorRef = useRef<HTMLDivElement>(null);
   const itemDetailRef = useRef<HTMLDivElement>(null);
@@ -181,14 +178,8 @@ const SellerItemDetailPage = () => {
     (page) => page?.faqCardList ?? []
   );
 
-  const handleTalkBoxClick = ({
-    itemId,
-    talkBoxOpenStatus,
-  }: {
-    itemId: string;
-    talkBoxOpenStatus?: TalkBoxOpenStatusType;
-  }) => {
-    if (talkBoxOpenStatus === 'OPENED') {
+  const handleTalkBoxButtonClick = () => {
+    if (itemDetailData?.talkBoxOpenStatus === 'OPENED') {
       navigate(
         generatePath(
           `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}`,
@@ -197,7 +188,7 @@ const SellerItemDetailPage = () => {
       );
       return;
     }
-    if (talkBoxOpenStatus === 'INITIAL') {
+    if (itemDetailData?.talkBoxOpenStatus === 'INITIAL') {
       navigate(
         generatePath(
           `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ONBOARDING.BASE}`,
@@ -206,7 +197,7 @@ const SellerItemDetailPage = () => {
       );
       return;
     }
-    if (talkBoxOpenStatus === 'CLOSED') {
+    if (itemDetailData?.talkBoxOpenStatus === 'CLOSED') {
       navigate(
         generatePath(
           `${PATH.SELLER.BASE}/${PATH.SELLER.TALK_BOX.BASE}/${PATH.SELLER.TALK_BOX.ITEM.BASE}/${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}`,
@@ -324,40 +315,15 @@ const SellerItemDetailPage = () => {
 
       {/* 톡박스 플로팅 버튼 */}
       <Suspense fallback={<LoadingSpinner />}>
-        <div className="pointer-events-none sticky bottom-20 z-[1] flex w-full flex-col items-end gap-1.5 pr-5">
-          <ToolTip
-            text={
-              itemDetailData?.talkBoxOpenStatus === 'OPENED'
-                ? '이 제품의 질문에 답변해 주세요.'
-                : '이 상품의 톡박스를 활성화해보세요.'
-            }
-            position="right"
-            additionalStyles={cn(
-              'pointer-events-none transition-opacity duration-500',
-              showTooltip ? 'opacity-100' : 'opacity-0'
-            )}
+        {itemDetailData && (
+          <FloatingButton
+            talkBoxOpenStatus={itemDetailData.talkBoxOpenStatus}
+            showTooltip={showTooltip}
+            itemId={Number(itemId)}
+            handleTalkBoxButtonClick={handleTalkBoxButtonClick}
+            unchecked={itemDetailData.unchecked}
           />
-
-          {itemId && (
-            <button
-              type="button"
-              onClick={() => {
-                handleTalkBoxClick({
-                  itemId: String(itemId),
-                  talkBoxOpenStatus: itemDetailData?.talkBoxOpenStatus,
-                });
-              }}
-              className={cn(
-                'pointer-events-auto flex aspect-[1/1] h-11 w-11 cursor-pointer flex-col items-center justify-center rounded-full bg-black shadow-[0_.25rem_1.125rem_0_rgba(0,0,0,0.25)]',
-                itemDetailData?.talkBoxOpenStatus === 'OPENED'
-                  ? 'bg-black'
-                  : 'bg-grey08'
-              )}
-            >
-              <TalkBoxIcon className="h-6 w-6 text-white" />
-            </button>
-          )}
-        </div>
+        )}
       </Suspense>
 
       <BottomNavBar items={detailBottomNavItems} type="action" />
