@@ -54,6 +54,10 @@ export { default as SellerAnnouncementBottomSheet } from './user/seller/SellerAn
 
 // user/home
 export { default as TopBannerSwiper } from './user/home/TopBannerSwiper.tsx';
+export { HomeSectionTitle } from './user/home/HomeSectionTitle.tsx';
+export { default as HomeCommonSection } from './user/home/HomeCommonSection.tsx';
+export { default as TrendingSellerSection } from './user/home/TrendingSellerSection.tsx';
+export { MoreButton } from './user/home/MoreButton.tsx';
 
 //common/talkBox
 export { TalkBoxSellerProfile } from './common/talkBox/TalkBoxSellerProfile.tsx';
@@ -61,9 +65,6 @@ export {
   FirstChatBubble,
   SellerReplyBubble,
 } from './common/talkBox/ChatBubble.tsx';
-export { HomeSectionTitle } from './user/home/HomeSectionTitle.tsx';
-export { default as HomeCommonSection } from './user/home/HomeCommonSection.tsx';
-export { MoreButton } from './user/home/MoreButton.tsx';
 
 // user/like
 export { default as MyLikedInfluencerBox } from './user/like/MyLikedInfluencerBox.tsx';
