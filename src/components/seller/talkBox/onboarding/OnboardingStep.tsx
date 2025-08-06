@@ -143,7 +143,7 @@ export const CategorizeStep = ({
         <DefaultButton
           text="설정 완료"
           onClick={onFinish}
-          disabled={isCategoryPending}
+          disabled={isCategoryPending || category.length === 0}
         />
       </div>
 

@@ -81,7 +81,7 @@ const OnboardingLayout = () => {
 
   // 다음 단계인 'categorize'로 쿼리 파라미터 변경
   const handleActivateNext = () => {
-    setSearchParams({ step: 'categorize' });
+    setSearchParams({ step: 'categorize' }, { replace: true });
   };
 
   // 맨 마지막의 '설정 완료' 버튼  클릭 시 호출될 함수
