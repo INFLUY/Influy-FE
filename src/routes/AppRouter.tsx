@@ -5,7 +5,7 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import { PATH } from '@/routes/path';
-import { GlobalLayout, LoadingSpinner } from '@/components';
+import { GlobalLayout, Loading } from '@/components';
 import {
   NotFound,
   HomePage,
@@ -90,7 +90,7 @@ const router = createBrowserRouter([
     path: PATH.ROOT,
     element: (
       <ErrorBoundary FallbackComponent={ErrorPage}>
-        <Suspense fallback={<LoadingSpinner />}>
+        <Suspense fallback={<Loading />}>
           <GlobalLayout>
             <Outlet />
           </GlobalLayout>
