@@ -15,7 +15,10 @@ const HorizontalRankingCard = ({
   return (
     <article className="flex w-full flex-col items-start justify-start gap-2">
       <p className="text-main subhead-sb">{ranking}</p>
-      <div className="flex h-[6.75rem] w-full gap-2" onClick={onCardClick}>
+      <div
+        className="flex h-[6.75rem] w-full cursor-pointer gap-2"
+        onClick={onCardClick}
+      >
         <div className="bg-grey03 relative h-[6.75rem] w-[6.75rem] rounded-[.0625rem]">
           {item.itemMainImg && (
             <img

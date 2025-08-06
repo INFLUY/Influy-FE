@@ -148,7 +148,7 @@ const HomePage = () => {
             <div className="flex w-full gap-0.5 px-5">
               {sellerPick?.mainImgList.map((item, index) => (
                 <div
-                  className="aspect-square w-1/3"
+                  className="aspect-square w-1/3 cursor-pointer"
                   key={index}
                   onClick={() =>
                     navigate(
