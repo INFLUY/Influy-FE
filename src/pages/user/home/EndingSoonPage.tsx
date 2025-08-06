@@ -1,9 +1,9 @@
 import {
   PageHeader,
   ItemAlbumCard,
-  LoadingSpinner,
   NotificationButton,
   BackButton,
+  ItemAlbumCardSkeleton,
 } from '@/components';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import { generatePath, useNavigate } from 'react-router-dom';
@@ -18,6 +18,7 @@ const EndingSoonPage = () => {
 
   const {
     data: expiringItems,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -49,30 +50,38 @@ const EndingSoonPage = () => {
         마감임박
       </PageHeader>
       <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
-        {itemList?.map((item) => (
-          <ItemAlbumCard
-            key={item.itemId}
-            item={item}
-            onCardClick={() =>
-              navigate(
-                generatePath(ITEM_DETAIL, {
-                  marketId: item.sellerId,
-                  itemId: item.itemId,
-                })
-              )
-            }
-          />
-        ))}
-        {hasNextPage && (
-          <div ref={observerRef} className="h-4 w-full">
-            {isFetchingNextPage && (
-              <div className="flex justify-center">
-                <LoadingSpinner />
-              </div>
-            )}
-          </div>
-        )}
+        {isLoading &&
+          Array.from({ length: 8 }).map((_, idx) => (
+            <ItemAlbumCardSkeleton key={idx} />
+          ))}
+        {!isLoading &&
+          itemList &&
+          itemList?.map((item) => (
+            <ItemAlbumCard
+              key={item.itemId}
+              item={item}
+              onCardClick={() =>
+                navigate(
+                  generatePath(ITEM_DETAIL, {
+                    marketId: item.sellerId,
+                    itemId: item.itemId,
+                  })
+                )
+              }
+            />
+          ))}
       </div>
+      {hasNextPage && (
+        <div
+          className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8"
+          ref={observerRef}
+        >
+          {isFetchingNextPage &&
+            Array.from({ length: 8 }).map((_, idx) => (
+              <ItemAlbumCardSkeleton key={idx} />
+            ))}
+        </div>
+      )}
     </section>
   );
 };

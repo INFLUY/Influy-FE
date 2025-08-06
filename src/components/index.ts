@@ -39,6 +39,7 @@ export { ItemDetailProfile } from './common/item/itemDetail/ItemDetailProfile.ts
 
 //common/card
 export { default as ItemAlbumCard } from './common/card/ItemAlbumCard.tsx';
+export { default as ItemAlbumCardSkeleton } from './common/card/ItemAlbumCardSkeleton.tsx';
 export { default as HorizontalRankingCard } from './common/card/HorizontalRankingCard.tsx';
 
 {

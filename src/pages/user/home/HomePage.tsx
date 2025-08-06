@@ -61,16 +61,15 @@ const HomePage = () => {
   const { data: sellerMyProfile } = useGetSellerProfile();
   const { data: trendingSeller } = useGetTrendingSeller();
   const { data: sellerPick } = useGetSellerPick(selectedInfluencer.id);
-  const { data: expiringItem } = useGetCloseDeadlineItem({
-    size: 4,
-  });
-  const { data: trendingItem } = useGetPopularItem({
-    size: 3,
-  });
-  const { data: recommendItems } = useGetRecommendedItem({
-    categoryId: selectedCategory === 0 ? null : selectedCategory,
-    size: 4,
-  });
+  const { data: expiringItem, isLoading: isLoadingExpiring } =
+    useGetCloseDeadlineItem({ size: 4 });
+  const { data: trendingItem, isLoading: isLoadingTrending } =
+    useGetPopularItem({ size: 3 });
+  const { data: recommendItems, isLoading: isLoadingRecommended } =
+    useGetRecommendedItem({
+      categoryId: selectedCategory === 0 ? null : selectedCategory,
+      size: 4,
+    });
 
   useEffect(() => {
     if (trendingSeller && trendingSeller.length > 0) {
@@ -168,6 +167,9 @@ const HomePage = () => {
           expiringItem={expiringItem?.pages[0]?.itemPreviewList || []}
           trendingItem={trendingItem?.pages[0]?.itemPreviewList || []}
           recommendedItem={recommendItems?.pages[0]?.itemPreviewList || []}
+          isLoadingExpiring={isLoadingExpiring}
+          isLoadingTrending={isLoadingTrending}
+          isLoadingRecommended={isLoadingRecommended}
           categoryList={[
             allCategoryDto,
             ...(itemCategories?.categoryDtoList ?? []),

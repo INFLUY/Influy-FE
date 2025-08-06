@@ -2,9 +2,9 @@ import {
   PageHeader,
   ItemAlbumCard,
   CategoryChip,
-  LoadingSpinner,
   NotificationButton,
   BackButton,
+  ItemAlbumCardSkeleton,
 } from '@/components';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
@@ -58,6 +58,7 @@ const CategoryPage = () => {
 
   const {
     data: recommendItems,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -120,31 +121,41 @@ const CategoryPage = () => {
           )
         )}
       </div>
+      {isLoading && (
+        <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
+          {Array.from({ length: 8 }).map((_, idx) => (
+            <ItemAlbumCardSkeleton key={idx} />
+          ))}
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
-        {itemList?.map((item: ItemCardType) => (
-          <ItemAlbumCard
-            key={item.itemId}
-            item={item}
-            onCardClick={() =>
-              navigate(
-                generatePath(ITEM_DETAIL, {
-                  marketId: item.sellerId,
-                  itemId: item.itemId,
-                })
-              )
-            }
-          />
-        ))}
-        {hasNextPage && (
-          <div ref={observerRef} className="h-4 w-full">
-            {isFetchingNextPage && (
-              <div className="flex justify-center">
-                <LoadingSpinner />
-              </div>
-            )}
-          </div>
-        )}
+        {!isLoading &&
+          itemList?.map((item: ItemCardType) => (
+            <ItemAlbumCard
+              key={item.itemId}
+              item={item}
+              onCardClick={() =>
+                navigate(
+                  generatePath(ITEM_DETAIL, {
+                    marketId: item.sellerId,
+                    itemId: item.itemId,
+                  })
+                )
+              }
+            />
+          ))}
       </div>
+      {hasNextPage && (
+        <div
+          className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8"
+          ref={observerRef}
+        >
+          {isFetchingNextPage &&
+            Array.from({ length: 8 }).map((_, idx) => (
+              <ItemAlbumCardSkeleton key={idx} />
+            ))}
+        </div>
+      )}
     </section>
   );
 };

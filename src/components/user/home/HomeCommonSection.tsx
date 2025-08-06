@@ -3,6 +3,7 @@ import {
   ItemAlbumCard,
   HorizontalRankingCard,
   CategoryChip,
+  ItemAlbumCardSkeleton,
 } from '@/components';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { PATH } from '@/routes/path';
@@ -15,6 +16,9 @@ const HomeCommonSection = ({
   expiringItem,
   trendingItem,
   recommendedItem,
+  isLoadingExpiring,
+  isLoadingTrending,
+  isLoadingRecommended,
   categoryList,
   selectedCategory,
   setSelectedCategory,
@@ -22,6 +26,9 @@ const HomeCommonSection = ({
   expiringItem: ItemCardType[] | [];
   trendingItem: ItemCardType[] | [];
   recommendedItem: ItemCardType[] | [];
+  isLoadingExpiring: boolean;
+  isLoadingTrending: boolean;
+  isLoadingRecommended: boolean;
   categoryList: CategoryType[] | [];
   selectedCategory: number;
   setSelectedCategory: (id: number) => void;
@@ -38,7 +45,14 @@ const HomeCommonSection = ({
             navigate(PATH.HOME.MORE.ENDING_SOON);
           }}
         />
-        {expiringItem.length > 0 ? (
+        {isLoadingExpiring && (
+          <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <ItemAlbumCardSkeleton key={idx} />
+            ))}
+          </div>
+        )}
+        {!isLoadingExpiring && expiringItem.length > 0 ? (
           <div
             className={cn(
               'grid grid-cols-2 gap-x-[.1875rem] gap-y-8',
@@ -70,7 +84,7 @@ const HomeCommonSection = ({
       {/* 인기 급상승 */}
       <section className="flex flex-col gap-2.5">
         <HomeSectionTitle title="인기 급상승" />
-        {trendingItem.length > 0 ? (
+        {!isLoadingTrending && trendingItem.length > 0 ? (
           <div className="flex w-full flex-col gap-3 px-5">
             {trendingItem.slice(0, 3).map((item, i) => (
               <HorizontalRankingCard
@@ -124,12 +138,12 @@ const HomeCommonSection = ({
               />
             ))}
         </div>
-        {recommendedItem.length > 0 ? (
-          <div
-            className={cn(
-              'grid grid-cols-2 grid-rows-2 gap-x-[.1875rem] gap-y-8'
-            )}
-          >
+        {isLoadingRecommended &&
+          Array.from({ length: 4 }).map((_, idx) => (
+            <ItemAlbumCardSkeleton key={idx} />
+          ))}
+        {!isLoadingRecommended && recommendedItem.length > 0 ? (
+          <div className="grid grid-cols-2 grid-rows-2 gap-x-[.1875rem] gap-y-8">
             {recommendedItem.map((item) => (
               <ItemAlbumCard
                 key={item.itemId}
