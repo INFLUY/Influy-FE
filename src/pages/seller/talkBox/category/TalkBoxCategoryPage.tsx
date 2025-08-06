@@ -1,4 +1,4 @@
-import { ReactNode, Suspense } from 'react';
+import { ReactNode, Suspense, useEffect, useState } from 'react';
 import { PATH } from '@/routes/path';
 import {
   PageHeader,
@@ -6,6 +6,7 @@ import {
   Tabs,
   TalkBoxBottomItemCard,
   LoadingSpinner,
+  ToolTip,
 } from '@/components';
 
 import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
@@ -22,7 +23,7 @@ import {
 } from 'react-router-dom';
 
 import { TalkBoxCategoryContext } from '@/contexts/TalkBoxCategoryContext';
-
+import cn from '@/utils/cn';
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';
 import { useGetCategoryList } from '@/services/talkBox/query/useGetCategoryList';
@@ -30,6 +31,7 @@ import { useGetCategoryList } from '@/services/talkBox/query/useGetCategoryList'
 export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
   const { itemId } = useParams();
   const { sellerId } = useStrictId();
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
   // 하단 상품 정보
   const { itemOverview } = useItemOverview({
@@ -57,12 +59,22 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
   const { pathname, state } = useLocation();
 
   // 온보딩 페이지에서 진입 (처음 진입시) 여부 판단
-  const isOnboarding = state?.isOnboarding; //TODO: 없애는거 추가
+  const isOnboarding = state?.isOnboarding;
 
   const handleSettingClick = () => {
     const path = generatePath(`${PATH.SELLER.TALK_BOX.ITEM.SETTING.BASE}`);
     navigate(path);
   };
+
+  useEffect(() => {
+    setShowTooltip(true);
+    const timer = window.setTimeout(() => {
+      setShowTooltip(false);
+    }, 3000);
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [isOnboarding]);
 
   return (
     <TalkBoxCategoryContext.Provider
@@ -101,16 +113,16 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
                   />
 
                   {isOnboarding && (
-                    <div className="absolute top-9 -right-2 w-[14.625rem]">
-                      {/* 꼬리 (삼각형) */}
-                      <div className="border-b-sub absolute -top-2 right-3 h-0 w-0 border-x-[.5rem] border-b-[.5rem] border-x-transparent" />
-
-                      {/* 본체 말풍선 */}
-                      <div className="bg-sub body2-sb flex items-center justify-center self-stretch rounded-[.1875rem] px-3 py-2 text-left text-white">
-                        톡박스 활성화 여부와 기본 채팅 멘트는 이곳에서 설정
-                        가능해요.
-                      </div>
-                    </div>
+                    <ToolTip
+                      text="톡박스 활성화 여부와 기본 채팅 멘트는 이곳에서 설정
+                        가능해요."
+                      additionalStyles={cn(
+                        'pointer-events-none w-[14.625rem] absolute top-8 -right-2 transition-opacity duration-500',
+                        showTooltip ? 'opacity-100' : 'opacity-0'
+                      )}
+                      position="right"
+                      direction="bottom"
+                    />
                   )}
                 </div>,
               ]}
