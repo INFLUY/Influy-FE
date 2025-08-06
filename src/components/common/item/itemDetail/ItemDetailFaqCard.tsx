@@ -99,7 +99,7 @@ const ItemDetailFaqCard = ({
                   Q. {faq.questionContent}
                 </p>
                 <p
-                  className="body2-m text-grey11"
+                  className="body2-m text-grey11 whitespace-break-spaces"
                   id={`faq-answer-${faq.id}`}
                   aria-label={`답변: ${faq.answerContent}`}
                 >
