@@ -19,7 +19,7 @@ import { useSelectModeStore } from '@/store/talkBoxStore';
 import { useTalkBoxCategoryStore } from '@/store/talkBoxStore';
 
 //type
-import { SingleQuestionAnswerDTO } from '@/types/seller/TalkBox.types';
+import { SingleQuestionAnswerDTO } from '@/types/common/TalkBox.types';
 
 //api
 import { useItemOverview } from '@/services/sellerItem/query/useGetItemOverview';

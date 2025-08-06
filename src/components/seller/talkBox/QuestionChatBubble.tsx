@@ -4,7 +4,7 @@ import CheckOff from '@/assets/icon/common/CheckCircleOff.svg?react';
 import { useSelectModeStore } from '@/store/talkBoxStore';
 import cn from '@/utils/cn';
 import { formatIsoToTimeOrDate } from '@/utils/formatDate';
-import { QuestionDTO } from '@/types/seller/TalkBox.types';
+import { QuestionDTO } from '@/types/common/TalkBox.types';
 import { useState } from 'react';
 
 interface SellerChatBubbleProps {

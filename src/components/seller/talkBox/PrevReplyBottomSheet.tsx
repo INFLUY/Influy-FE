@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import ArrowIcon from '@/assets/icon/common/ArrowRight12.svg?react';
 import cn from '@/utils/cn';
-import { TagAnswerResponse } from '@/types/seller/TalkBox.types';
+import { TagAnswerResponse } from '@/types/common/TalkBox.types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Pagination } from 'swiper/modules';
 import 'swiper/css';

@@ -10,7 +10,7 @@ import { TalkBoxBottomItemCard } from '@/components/user/talkBox/TalkBoxItemCard
 import { CategorySelectWrapper } from '@/components/user/talkBox/CategorySelectWrapper';
 import { UserChatBubbleUserView } from '@/components/user/talkBox/ChatBubble';
 // type
-import { UserCategoryDTO } from '@/types/seller/TalkBox.types';
+import { UserCategoryDTO } from '@/types/common/TalkBox.types';
 
 //path
 import { useNavigate, useParams } from 'react-router-dom';

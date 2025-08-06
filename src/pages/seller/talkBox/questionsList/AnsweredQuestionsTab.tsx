@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import {
   QuestionDTO,
   SingleQuestionAnswerDTO,
-} from '@/types/seller/TalkBox.types';
+} from '@/types/common/TalkBox.types';
 
 // store
 import {

@@ -34,7 +34,7 @@ export const FirstChatBubble = ({
 
 import ReplyIcon from '@/assets/icon/common/ReplyIcon.svg?react';
 import { formatIsoToKoreanLong } from '@/utils/formatDate';
-import { AnswerType } from '@/types/seller/TalkBox.types';
+import { AnswerType } from '@/types/common/TalkBox.types';
 import cn from '@/utils/cn';
 
 interface SellerReplyBubbleProps {

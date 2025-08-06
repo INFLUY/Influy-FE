@@ -6,7 +6,7 @@ import { PATH } from '@/routes/path';
 import { useGetUserTalkboxList } from '@/services/talkBox/mutation/useGetUserTalkboxList';
 import { useRef } from 'react';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import { TalkboxType } from '@/types/common/TalkboxType.types';
+import { UserMyQuestions } from '@/types/common/TalkBox.types';
 import { formatRelativeDate } from '@/utils/formatDate';
 import cn from '@/utils/cn';
 
@@ -31,7 +31,7 @@ const MyQuestion = () => {
 
   const myQuestions = talkboxList?.pages
     .flatMap((page) => page?.talkboxList ?? [])
-    .filter(Boolean) as TalkboxType[];
+    .filter(Boolean) as UserMyQuestions[];
 
   return (
     <div className="flex h-full w-full flex-1 flex-col pt-11">

@@ -1,4 +1,4 @@
-import { QuestionCategoryDTO } from '@/types/seller/TalkBox.types';
+import { QuestionCategoryDTO } from '@/types/common/TalkBox.types';
 import { QuestionCountBadge } from '@/components';
 import ArrowRightIcon from '@/assets/icon/common/ArrowRight16.svg?react';
 
