@@ -63,15 +63,16 @@ const SellerMyItemCard = ({
         {item.mainImg && (
           <img
             src={item.mainImg}
-            alt="상품 썸네일"
+            alt={item.itemName + ' 썸네일'}
             className="h-[8.3125rem] w-30 bg-white object-cover"
           />
         )}
         {!item.mainImg && (
-          <div
-            aria-label="상품 이미지가 없습니다."
-            className="bg-grey06 h-[8.3125rem] w-30"
-          />
+          <div className="bg-grey03 text-grey09 body2-m flex h-[8.3125rem] w-30 items-center justify-center text-center">
+            이미지를
+            <br />
+            등록해주세요.
+          </div>
         )}
         {isItemClosed(item.endDate) && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
