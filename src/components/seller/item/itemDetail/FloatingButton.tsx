@@ -24,7 +24,7 @@ export const FloatingButton = ({
     else return '이 상품의 톡박스를 활성화해보세요.';
   };
   return (
-    <div className="pointer-events-none sticky bottom-20 z-[1] flex w-full flex-col items-end gap-1.5 pr-5">
+    <div className="pointer-events-none fixed right-5 bottom-20 z-[1] flex flex-col items-end gap-1.5">
       <ToolTip
         text={toolTipText()}
         position="right"

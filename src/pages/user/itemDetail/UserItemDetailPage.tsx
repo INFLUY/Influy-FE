@@ -16,7 +16,7 @@ import { CategoryType } from '@/types/common/CategoryType.types';
 // hooks & utils
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { useCopyMarketUrl } from '@/utils/useCopyUrl';
-
+import cn from '@/utils/cn';
 // api
 import { useGetMarketItemDetailSuspense } from '@/services/sellerItem/query/useGetMarketItemDetail';
 import { useGetItemLikeCounts } from '@/services/likes/query/useGetItemLikeCounts';
@@ -52,6 +52,30 @@ const UserItemDetailPage = () => {
       itemId: Number(itemId),
     });
 
+  const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
+
+  // -- API
+  // 좋아요수
+  const { data: itemLikeCount } = useGetItemLikeCounts({
+    itemId: Number(itemId),
+    sellerId: Number(marketId),
+  });
+
+  const onTalkBoxClick = () => {
+    navigate(`${PATH.MARKET.DETAIL.ITEM.TALK_BOX}`);
+  };
+
+  const { data: faqCategories, isPending: isFaqCategoryPending } =
+    useGetItemFaqCategory({
+      sellerId: Number(marketId),
+      itemId: Number(itemId),
+    });
+
+  useEffect(() => {
+    if (faqCategories && faqCategories.length > 0)
+      setSelectedCategoryId(faqCategories[0].id);
+  }, [faqCategories]);
+
   useEffect(() => {
     if (isItemDetailPending) return;
 
@@ -86,30 +110,7 @@ const UserItemDetailPage = () => {
     if (categoryAnchorRef.current) observer.observe(categoryAnchorRef.current);
     if (itemDetailRef.current) observer.observe(itemDetailRef.current);
     return () => observer.disconnect();
-  }, [isDetailOnScreen, isItemDetailPending]);
-
-  const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
-
-  // -- API
-  // 좋아요수
-  const { data: itemLikeCount } = useGetItemLikeCounts({
-    itemId: Number(itemId),
-    sellerId: Number(marketId),
-  });
-
-  const onTalkBoxClick = () => {
-    navigate(`${PATH.MARKET.DETAIL.ITEM.TALK_BOX}`);
-  };
-
-  const { data: faqCategories } = useGetItemFaqCategory({
-    sellerId: Number(marketId),
-    itemId: Number(itemId),
-  });
-
-  useEffect(() => {
-    if (faqCategories && faqCategories.length > 0)
-      setSelectedCategoryId(faqCategories[0].id);
-  }, [faqCategories]);
+  }, [isDetailOnScreen, isItemDetailPending, isFaqCategoryPending]);
 
   const {
     data: faqCardList,
@@ -216,28 +217,37 @@ const UserItemDetailPage = () => {
         </article>
 
         {/* faq 카드 */}
-        <Suspense fallback={<LoadingSpinner />}>
-          {flattenedFaqCardList && flattenedFaqCardList.length > 0 ? (
-            <ItemDetailFaqCard
-              totalElements={
-                faqCardList?.pages[faqCardList.pages.length - 1]
-                  ?.totalElements ?? 0
-              }
-              faqList={flattenedFaqCardList}
-              hasNextPage={hasNextPage}
-              isFetchingNextPage={isFetchingNextPage}
-              fetchNextPage={fetchNextPage}
-            />
-          ) : (
-            <div className="flex h-screen w-full justify-center pt-15">
-              <p className="body2-m text-grey09 text-center">
-                아직 해당 카테고리에
-                <br />
-                FAQ가 등록되지 않았어요.
-              </p>
-            </div>
+        <div
+          className={cn(
+            'flex min-h-screen w-full flex-col gap-4',
+            flattenedFaqCardList &&
+              flattenedFaqCardList.length > 0 &&
+              'bg-grey01'
           )}
-        </Suspense>
+        >
+          <Suspense fallback={<LoadingSpinner />}>
+            {flattenedFaqCardList && flattenedFaqCardList.length > 0 ? (
+              <ItemDetailFaqCard
+                totalElements={
+                  faqCardList?.pages[faqCardList.pages.length - 1]
+                    ?.totalElements ?? 0
+                }
+                faqList={flattenedFaqCardList}
+                hasNextPage={hasNextPage}
+                isFetchingNextPage={isFetchingNextPage}
+                fetchNextPage={fetchNextPage}
+              />
+            ) : (
+              <div className="flex w-full justify-center pt-15">
+                <p className="body2-m text-grey09 text-center">
+                  아직 해당 카테고리에
+                  <br />
+                  FAQ가 등록되지 않았어요.
+                </p>
+              </div>
+            )}
+          </Suspense>
+        </div>
       </section>
       <UserNav
         likeCount={itemLikeCount?.likeCnt ?? 0}

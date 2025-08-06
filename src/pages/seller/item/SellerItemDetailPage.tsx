@@ -6,7 +6,7 @@ import {
   CategoryChip,
   VisibilityBottomSheet,
   LoadingSpinner,
-  // AddButton,
+  AddButton,
 } from '@/components';
 import { FloatingButton } from '@/components/seller/item/itemDetail/FloatingButton';
 // icon
@@ -16,7 +16,7 @@ import StatisticIcon from '@/assets/icon/common/StatisticIcon.svg?react';
 import Link2Icon from '@/assets/icon/common/Link2Icon.svg?react';
 import LockIcon from '@/assets/icon/common/LockIcon.svg?react';
 import EditIcon from '@/assets/icon/common/EditIcon.svg?react';
-
+import AddIcon from '@/assets/icon/common/AddIcon.svg?react';
 // path
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '@/routes/path';
@@ -74,42 +74,6 @@ const SellerItemDetailPage = () => {
     });
 
   useEffect(() => {
-    if (isItemDetailPending) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          // 1) itemDetailRef 가 보일 때는 무조건 false
-          if (entry.target === itemDetailRef.current) {
-            if (entry.isIntersecting) {
-              setIsFaqCategoryTop(false);
-              setIsDetailOnScreen(true);
-              return;
-            } else setIsDetailOnScreen(false);
-          }
-          // 2) categoryAnchorRef 가 '56px 선 위로' 벗어났을 때만 true
-          else if (entry.target === categoryAnchorRef.current) {
-            if (isDetailOnScreen) {
-              setIsFaqCategoryTop(false);
-            } else {
-              setIsFaqCategoryTop(!entry.isIntersecting);
-            }
-          }
-        });
-      },
-      {
-        root: null,
-        threshold: 0,
-        rootMargin: '-56px 0px 0px 0px',
-      }
-    );
-
-    if (categoryAnchorRef.current) observer.observe(categoryAnchorRef.current);
-    if (itemDetailRef.current) observer.observe(itemDetailRef.current);
-    return () => observer.disconnect();
-  }, [isDetailOnScreen, isItemDetailPending]);
-
-  useEffect(() => {
     setShowTooltip(true);
     const timer = window.setTimeout(() => {
       setShowTooltip(false);
@@ -153,15 +117,52 @@ const SellerItemDetailPage = () => {
   const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
 
   //api : faq 카테고리
-  const { data: faqCategories } = useGetItemFaqCategory({
-    sellerId: Number(sellerId),
-    itemId: Number(itemId),
-  });
+  const { data: faqCategories, isPending: isFaqCategoryPending } =
+    useGetItemFaqCategory({
+      sellerId: Number(sellerId),
+      itemId: Number(itemId),
+    });
 
   useEffect(() => {
     if (faqCategories && faqCategories.length > 0)
       setSelectedCategoryId(faqCategories[0].id);
   }, [faqCategories]);
+
+  useEffect(() => {
+    if (isItemDetailPending || isFaqCategoryPending) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // 1) itemDetailRef 가 보일 때는 무조건 false
+          if (entry.target === itemDetailRef.current) {
+            if (entry.isIntersecting) {
+              setIsFaqCategoryTop(false);
+              setIsDetailOnScreen(true);
+              return;
+            } else setIsDetailOnScreen(false);
+          }
+          // 2) categoryAnchorRef 가 '56px 선 위로' 벗어났을 때만 true
+          else if (entry.target === categoryAnchorRef.current) {
+            if (isDetailOnScreen) {
+              setIsFaqCategoryTop(false);
+            } else {
+              setIsFaqCategoryTop(!entry.isIntersecting);
+            }
+          }
+        });
+      },
+      {
+        root: null,
+        threshold: 0,
+        rootMargin: '-56px 0px 0px 0px',
+      }
+    );
+
+    if (categoryAnchorRef.current) observer.observe(categoryAnchorRef.current);
+    if (itemDetailRef.current) observer.observe(itemDetailRef.current);
+    return () => observer.disconnect();
+  }, [isDetailOnScreen, isItemDetailPending, isFaqCategoryPending]);
 
   const {
     data: faqCardList,
@@ -274,15 +275,15 @@ const SellerItemDetailPage = () => {
       <section className="mt-8 flex w-full flex-col gap-4">
         <article className="flex flex-col gap-[1.125rem]">
           <h2 className="text-grey11 body1-b px-5">FAQ</h2>
-          <div className="relative px-5">
-            {/* ref */}
-            <div
-              ref={categoryAnchorRef}
-              className="absolute bottom-0 left-0 z-19 h-[1px] w-60"
-            />
 
-            <article className="flex w-full flex-wrap gap-2">
-              <Suspense fallback={<LoadingSpinner />}>
+          <div className="relative px-5">
+            <Suspense fallback={<LoadingSpinner />}>
+              {/* ref */}
+              <div
+                ref={categoryAnchorRef}
+                className="absolute bottom-0 left-0 z-19 h-[1px] w-60"
+              />
+              <article className="flex w-full flex-wrap gap-2">
                 {faqCategories.length > 0 &&
                   faqCategories.map((category: CategoryType) => (
                     <CategoryChip
@@ -293,15 +294,15 @@ const SellerItemDetailPage = () => {
                       theme="faq"
                     />
                   ))}
-              </Suspense>
-            </article>
+              </article>
+            </Suspense>
           </div>
         </article>
 
         {/* faq 카드 */}
-        <div className="bg-grey01 flex h-fit w-full flex-col gap-4 pb-[16rem]">
+        <div className="flex min-h-[calc(100vh-56px)] w-full flex-col justify-start gap-4">
           <Suspense fallback={<LoadingSpinner />}>
-            {flattenedFaqCardList && flattenedFaqCardList.length > 0 ? (
+            {flattenedFaqCardList && flattenedFaqCardList.length > 0 && (
               <ItemDetailFaqCard
                 totalElements={
                   faqCardList?.pages[faqCardList.pages.length - 1]
@@ -312,19 +313,15 @@ const SellerItemDetailPage = () => {
                 isFetchingNextPage={isFetchingNextPage}
                 fetchNextPage={fetchNextPage}
               />
-            ) : (
-              <div className="flex h-svw w-full justify-center pt-15">
-                <p className="body2-m text-grey09 text-center">
-                  아직 해당 카테고리에
-                  <br />
-                  FAQ가 등록되지 않았어요.
-                </p>
-              </div>
             )}
           </Suspense>
+          <div className="mb-[12.1875rem] w-full flex-1 px-5">
+            <AddButton handleOnClick={() => {}}>FAQ 추가하기</AddButton>
+          </div>
         </div>
       </section>
 
+      <BottomNavBar items={detailBottomNavItems} type="action" />
       {/* 톡박스 플로팅 버튼 */}
       <Suspense fallback={<LoadingSpinner />}>
         {itemDetailData && (
@@ -338,7 +335,6 @@ const SellerItemDetailPage = () => {
         )}
       </Suspense>
 
-      <BottomNavBar items={detailBottomNavItems} type="action" />
       {isBottomSheetOpen && (
         <VisibilityBottomSheet
           setIsOpen={setIsBottomSheetOpen}
