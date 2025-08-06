@@ -36,7 +36,7 @@ export const topBanner: TopBannerItem[] = [
   },
   {
     image: Banner1,
-    path: '',
+    path: '../market/9/selection',
   },
   {
     image: Banner3,
