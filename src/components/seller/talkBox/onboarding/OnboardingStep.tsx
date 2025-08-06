@@ -38,10 +38,12 @@ export const CategorizeStep = ({
   onFinish,
   category,
   setCategory,
+  isCategoryPending,
 }: {
   onFinish: () => void;
   category: string[];
   setCategory: React.Dispatch<React.SetStateAction<string[]>>;
+  isCategoryPending: boolean;
 }) => {
   const [sheetMode, setSheetMode] = useState<SheetMode>('none');
 
@@ -138,7 +140,11 @@ export const CategorizeStep = ({
           onClick={() => setSheetMode('editList')}
           activeTheme="white"
         />
-        <DefaultButton text="설정 완료" onClick={onFinish} />
+        <DefaultButton
+          text="설정 완료"
+          onClick={onFinish}
+          disabled={isCategoryPending}
+        />
       </div>
 
       {/* 바텀시트 */}

@@ -46,7 +46,7 @@ const OnboardingLayout = () => {
 
   // 하단 상품 정보 get api
   const { itemOverview } = useItemOverview({
-    sellerId: Number(sellerId), // TODO: 수정 필요
+    sellerId: Number(sellerId),
     itemId: Number(itemId),
   });
 
@@ -103,6 +103,7 @@ const OnboardingLayout = () => {
             onFinish={handleCategorizeFinish}
             category={category}
             setCategory={setCategory}
+            isCategoryPending={isCategoryPending}
           />
         );
     }
