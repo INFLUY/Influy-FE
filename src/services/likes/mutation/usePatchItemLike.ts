@@ -165,6 +165,9 @@ export const usePatchItemLike = () => {
       // 상품 상세정보
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_MARKET_ITEM, _variables.itemId],
+      }); // 상품 좋아요
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.ITEM_LIKE_COUNTS, _variables.itemId],
       });
     },
     onError: (_error, _variables, context) => {
