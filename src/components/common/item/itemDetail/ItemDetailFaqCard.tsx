@@ -2,7 +2,7 @@ import { FaqCardDetailResponse } from '@/types/common/FaqCardType.types';
 import { formatDate } from '@/utils/formatDate';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation, Pagination } from 'swiper/modules';
-import PinIcon from '@/assets/icon/common/Pin.svg?react';
+import PinIcon from '@/assets/icon/common/LightPinIcon24.svg?react';
 import cn from '@/utils/cn';
 import { LoadingSpinner } from '@/components';
 import InfluyLogo from '@/assets/icon/common/InfluyIcon.svg?react';
