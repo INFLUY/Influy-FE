@@ -19,16 +19,17 @@ const OnboardingIntroPage = () => {
   const { sellerId } = useStrictId();
 
   // 하단 상품 정보
-  const { itemOverview } = useItemOverview({
+  const { itemOverview, isFetching } = useItemOverview({
     sellerId: Number(sellerId),
     itemId: Number(itemId),
   });
 
   useEffect(() => {
-    if (itemOverview && itemOverview.talkBoxOpenStatus !== 'INITIAL') {
+    if (isFetching || !itemOverview) return;
+    if (itemOverview.talkBoxOpenStatus !== 'INITIAL') {
       navigate('../', { replace: true });
     }
-  }, [itemOverview]);
+  }, [itemOverview, isFetching, navigate]);
 
   return (
     <section className="bg-grey01 scrollbar-hide relative mt-11 flex h-full w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">
