@@ -67,9 +67,10 @@ const FaqListEdit = ({
   // 4) (수정 모드일 때) 수정 대상 카테고리 ID
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
 
-  // 4) BottomSheet 의 인풋에 바인딩할 임시 텍스트
+  // 5) BottomSheet 의 인풋에 바인딩할 임시 텍스트
   const [draftName, setDraftName] = useState('');
 
+  const [selectedFaqQ, setSelectedFaqQ] = useState<FaqQuestion | null>(null);
   const navigate = useNavigate();
 
   // --- UI 핸들러 ---
@@ -113,6 +114,53 @@ const FaqListEdit = ({
     .flatMap((page) => page?.questionCardList ?? [])
     .filter(Boolean) as FaqQuestion[];
 
+  const { mutate: patchPin } = usePatchFaqPin({
+    faqCategoryId: selectedCategory!,
+    onSuccessCallback: () => {
+      setSheetMode('none');
+    },
+  });
+
+  const { showSnackbar } = useSnackbarStore();
+
+  const { mutate: deleteFaqCard } = useDeleteFaqCard(() => {
+    navigate(generatePath(SELLER_ITEM_EDIT_FAQ_TAB_PATH, { itemId: itemId! }), {
+      replace: true,
+    });
+    showSnackbar('FAQ가 삭제되었습니다.');
+    setSheetMode('none');
+  });
+
+  const { showModal, hideModal } = useModalStore();
+
+  const handleDeleteFaqClick = () => {
+    if (!selectedFaqQ) return;
+    showModal({
+      text: `FAQ를 삭제하시겠습니까?\n한 번 삭제한 내용은 되돌릴 수 없습니다.`,
+      leftButtonClick: () => {
+        hideModal();
+      },
+      rightButtonClick: () =>
+        deleteFaqCard({
+          itemId,
+          faqCardId: Number(selectedFaqQ.id),
+          faqCategoryId: selectedCategory!,
+        }),
+    });
+  };
+
+  const handleFaqDelete = () => {
+    handleDeleteFaqClick();
+  };
+  const handlePin = () => {
+    if (!selectedFaqQ) return;
+    patchPin({
+      itemId,
+      faqCardId: selectedFaqQ.id,
+      isPinned: !selectedFaqQ.pinned,
+    });
+  };
+
   return (
     <>
       {categories.length === 0 ? (
@@ -154,11 +202,10 @@ const FaqListEdit = ({
               faqQuestionList.map((data) => (
                 <FaqQuestionCard
                   faqCard={data}
-                  faqCategoryId={selectedCategory!}
                   itemId={itemId}
                   key={data.id}
-                  sheetMode={sheetMode}
                   setSheetMode={setSheetMode}
+                  setSelectedFaqQ={setSelectedFaqQ}
                 />
               ))}
             {hasNextPage && (
@@ -222,6 +269,46 @@ const FaqListEdit = ({
           isFaqCategoryFetching={isFaqCategoryFetching}
         />
       )}
+
+      {/* 단일 faq 케밥 클릭 */}
+      {/* 질문 수정하기 바텀시트 */}
+      {sheetMode === 'questionEdit' && (
+        <BottomSheet
+          onClose={() => setSheetMode('none')}
+          isBottomSheetOpen={sheetMode === 'questionEdit'}
+        >
+          <div className="divide-grey02 flex flex-col items-center divide-y px-5 pb-4">
+            <button
+              type="button"
+              className="body1-b w-full cursor-pointer py-4 text-center"
+              onClick={handlePin}
+            >
+              {selectedFaqQ?.pinned ? '고정해제' : '맨 앞에 고정'}
+            </button>
+            <button
+              type="button"
+              className="body1-b w-full cursor-pointer py-4 text-center"
+              onClick={() =>
+                navigate(
+                  generatePath(SELLER_ITEM_FAQ_EDIT_PATH, {
+                    itemId,
+                    faqId: selectedFaqQ?.id ?? 0,
+                  })
+                )
+              }
+            >
+              수정
+            </button>
+            <button
+              type="button"
+              className="body1-b text-error w-full cursor-pointer py-4 text-center"
+              onClick={handleFaqDelete}
+            >
+              삭제
+            </button>
+          </div>
+        </BottomSheet>
+      )}
     </>
   );
 };
@@ -229,61 +316,23 @@ export default FaqListEdit;
 
 type FaqQuestionCardProps = {
   faqCard: FaqQuestion;
-  faqCategoryId: number;
   itemId: number;
-  sheetMode: SheetMode;
   setSheetMode: React.Dispatch<SetStateAction<SheetMode>>;
+  setSelectedFaqQ: React.Dispatch<SetStateAction<FaqQuestion | null>>;
 };
 
 const FaqQuestionCard = ({
   faqCard,
-  faqCategoryId,
   itemId,
-  sheetMode,
   setSheetMode,
+  setSelectedFaqQ,
 }: FaqQuestionCardProps) => {
   const navigate = useNavigate();
-  const { showSnackbar } = useSnackbarStore();
-
-  const { mutate: patchPin } = usePatchFaqPin({
-    faqCategoryId,
-    onSuccessCallback: () => {
-      setSheetMode('none');
-    },
-  });
-
-  const handlePin = () => {
-    patchPin({ itemId, faqCardId: faqCard.id, isPinned: !faqCard.pinned });
+  const handleClickKebab = () => {
+    setSelectedFaqQ(faqCard);
+    setSheetMode('questionEdit');
   };
 
-  const { mutate: deleteFaqCard } = useDeleteFaqCard(() => {
-    navigate(generatePath(SELLER_ITEM_EDIT_FAQ_TAB_PATH, { itemId: itemId! }), {
-      replace: true,
-    });
-    showSnackbar('FAQ가 삭제되었습니다.');
-    setSheetMode('none');
-  });
-
-  const { showModal, hideModal } = useModalStore();
-
-  const handleDeleteFaqClick = () => {
-    showModal({
-      text: `FAQ를 삭제하시겠습니까?\n한 번 삭제한 내용은 되돌릴 수 없습니다.`,
-      leftButtonClick: () => {
-        hideModal();
-      },
-      rightButtonClick: () =>
-        deleteFaqCard({
-          itemId,
-          faqCardId: Number(faqCard.id),
-          faqCategoryId,
-        }),
-    });
-  };
-
-  const handleFaqDelete = () => {
-    handleDeleteFaqClick();
-  };
   return (
     <>
       <article className="border-grey04 bg-grey01 flex h-fit w-full shrink-0 flex-col items-start gap-3.5 rounded-[.1875rem] border border-solid px-3.5 pt-3 pb-2.5">
@@ -296,7 +345,7 @@ const FaqQuestionCard = ({
             <button
               type="button"
               className="cursor-pointer"
-              onClick={() => setSheetMode('questionEdit')}
+              onClick={handleClickKebab}
             >
               <KebobIcon className="h-5 w-5" />
             </button>
@@ -323,45 +372,6 @@ const FaqQuestionCard = ({
           </button>
         </div>
       </article>
-
-      {/* 질문 수정하기 바텀시트 */}
-      {sheetMode === 'questionEdit' && (
-        <BottomSheet
-          onClose={() => setSheetMode('none')}
-          isBottomSheetOpen={sheetMode === 'questionEdit'}
-        >
-          <div className="divide-grey02 flex flex-col items-center divide-y px-5 pb-4">
-            <button
-              type="button"
-              className="body1-b w-full cursor-pointer py-4 text-center"
-              onClick={handlePin}
-            >
-              {faqCard.pinned ? '고정해제' : '맨 앞에 고정'}
-            </button>
-            <button
-              type="button"
-              className="body1-b w-full cursor-pointer py-4 text-center"
-              onClick={() =>
-                navigate(
-                  generatePath(SELLER_ITEM_FAQ_EDIT_PATH, {
-                    itemId,
-                    faqID: faqCard.id,
-                  })
-                )
-              }
-            >
-              수정
-            </button>
-            <button
-              type="button"
-              className="body1-b text-error w-full cursor-pointer py-4 text-center"
-              onClick={handleFaqDelete}
-            >
-              삭제
-            </button>
-          </div>
-        </BottomSheet>
-      )}
     </>
   );
 };
