@@ -391,6 +391,7 @@ const SellerItemDetailPage = () => {
         <VisibilityBottomSheet
           setIsOpen={setIsBottomSheetOpen}
           isOpen={isBottomSheetOpen}
+          itemId={Number(itemId)}
         />
       )}
 

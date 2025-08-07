@@ -3,15 +3,31 @@ import { SetStateAction } from 'react';
 import { DefaultButton, ToggleButton } from '@/components';
 import { useState } from 'react';
 
+import { usePatchItemAccess } from '@/services/sellerItem/mutation/usePatchItemAccess';
+
 const VisibilityBottomSheet = ({
   isOpen,
   setIsOpen,
+  itemId,
 }: {
   isOpen: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
+  itemId: number;
 }) => {
   const [archiveRecommended, setArchiveRecommended] = useState(true);
   const [searchAvailable, setSearchAvailable] = useState(true);
+
+  const { mutate: patchItemAccess } = usePatchItemAccess();
+  const handleSave = () => {
+    const data = {
+      archiveRecommended,
+      searchAvailable,
+    };
+    patchItemAccess({
+      itemId,
+      data,
+    });
+  };
 
   return (
     <BottomSheet onClose={() => setIsOpen(false)} isBottomSheetOpen={isOpen}>
@@ -54,7 +70,7 @@ const VisibilityBottomSheet = ({
         </div>
 
         <div className="flex w-full flex-col px-5 pt-2.5 pb-8">
-          <DefaultButton onClick={() => {}} />
+          <DefaultButton onClick={handleSave} />
         </div>
       </div>
     </BottomSheet>
