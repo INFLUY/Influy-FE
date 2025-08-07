@@ -1,0 +1,23 @@
+import { getFaqCardDetail } from '@/api/faqCard/handleFaqCard.api';
+import { QUERY_KEYS } from '@/constants/api';
+import { FaqCardDetailResponse } from '@/types/common/FaqCardType.types';
+import {
+  useSuspenseQuery,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+
+export const useGetFaqCard = ({
+  sellerId,
+  itemId,
+  faqCardId,
+}: {
+  sellerId: number;
+  itemId: number;
+  faqCardId: number;
+}): UseSuspenseQueryResult<FaqCardDetailResponse> => {
+  return useSuspenseQuery({
+    queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, itemId, sellerId, faqCardId],
+    staleTime: 0,
+    queryFn: () => getFaqCardDetail({ sellerId, itemId, faqCardId }),
+  });
+};

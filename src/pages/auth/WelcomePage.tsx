@@ -1,0 +1,61 @@
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/routes/path';
+import { DefaultButton } from '@/components';
+import LoginBg from '@/assets/image/LoginBgImg.svg';
+import { useEffect } from 'react';
+import { useAuthStore } from '@/store/authStore';
+import {
+  useKakaoStore,
+  useSellerSignupStore,
+  useUserSignupStore,
+} from '@/store/registerStore';
+
+export const WelcomePage = () => {
+  const navigate = useNavigate();
+  const { sellerId } = useAuthStore();
+  const { clearKakaoId } = useKakaoStore();
+  const { reset: sellerSignupStateReset } = useSellerSignupStore();
+  const { reset: userSignupStateReset } = useUserSignupStore();
+
+  useEffect(() => {
+    userSignupStateReset();
+    useUserSignupStore.persist.clearStorage();
+    sellerSignupStateReset();
+    useSellerSignupStore.persist.clearStorage();
+    clearKakaoId();
+  }, []);
+
+  // 다음 버튼 클릭 핸들러
+  const handleClickNext = () => {
+    if (sellerId !== null) {
+      navigate(`${PATH.SELLER.BASE}/${PATH.SELLER.HOME.BASE}`, {
+        replace: true,
+      });
+    } else {
+      navigate(PATH.HOME.BASE, { replace: true });
+    }
+  };
+
+  return (
+    <div className="flex h-full w-full flex-1 flex-col">
+      <section className="z-20 flex h-full w-full flex-1 px-5 py-[6rem]">
+        <h1 className="headline2 whitespace-pre text-white">
+          {`인플루이에 오신 것을\n환영합니다!`}
+        </h1>
+      </section>
+      <div className="bottom-bar fixed z-20 flex w-screen shrink-0 items-center justify-center gap-[.4375rem] border-0 px-5 pb-[2.3125rem]">
+        <DefaultButton
+          type="button"
+          text="지금 바로 둘러보기"
+          onClick={handleClickNext}
+        />
+      </div>
+      <div className="absolute inset-0 flex">
+        <div className="absolute z-[5] h-full w-full bg-[#000000] opacity-50" />
+        <img src={LoginBg} className="h-full w-full object-cover" alt="" />
+      </div>
+    </div>
+  );
+};
+
+export default WelcomePage;

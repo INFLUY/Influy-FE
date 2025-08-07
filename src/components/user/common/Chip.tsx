@@ -1,0 +1,159 @@
+import { shouldForceSecondUpdate } from '@/utils/checkForceUpdate';
+import cn from '@/utils/cn';
+import {
+  parseToKstDate,
+  formatTime,
+  getDday,
+  getTimeLeft,
+  isToday,
+} from '@/utils/formatDate';
+import { useEffect, useState } from 'react';
+
+const Chip = ({
+  children,
+  theme,
+  rounded = false,
+}: {
+  children: string;
+  theme: 'grey' | 'blue' | 'red' | 'light-red' | 'purple';
+  rounded?: boolean;
+}) => {
+  return (
+    <div
+      className={cn(
+        'caption-small-m inline-flex w-fit items-center justify-center px-2 py-[.1875rem]',
+        rounded && 'rounded-[.125rem]',
+        {
+          'bg-grey03 text-grey08': theme === 'grey',
+          'bg-sub-light text-sub': theme === 'blue',
+          'bg-main text-white': theme === 'red',
+          'bg-main-light text-main': theme === 'light-red',
+          'bg-[#EBE0FA] text-[#8426FF]': theme === 'purple',
+        }
+      )}
+    >
+      {children}
+    </div>
+  );
+};
+
+export const TimeChip = ({
+  open,
+  deadline,
+}: {
+  open: string | null;
+  deadline: string | null;
+}): React.ReactNode | null => {
+  const [, forceUpdate] = useState(0);
+
+  const now = new Date();
+  const needsSecondUpdate = shouldForceSecondUpdate({ open, deadline, now });
+
+  useEffect(() => {
+    if (!needsSecondUpdate) return;
+    const interval = setInterval(() => {
+      forceUpdate((prev) => prev + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [needsSecondUpdate]);
+
+  // 시작일, 마감일 모두 없음
+  if (open === null && deadline === null) {
+    return <Chip theme="red">NOW OPEN</Chip>;
+  }
+
+  // 시작일 없음, 마감일 있음
+  if (open === null && deadline !== null) {
+    const closeTime = parseToKstDate(deadline);
+    const timeUntilClose = closeTime.getTime() - now.getTime();
+    if (timeUntilClose <= 0) return null;
+
+    const daysUntilClose = getDday(closeTime) - 1;
+    if (daysUntilClose >= 1) return <Chip theme="red">NOW OPEN</Chip>;
+
+    if (daysUntilClose === 0) {
+      const { hours, minutes, seconds } = getTimeLeft(closeTime);
+      return (
+        <Chip theme="light-red">{`${hours}:${minutes}:${seconds} 남음`}</Chip>
+      );
+    }
+
+    return null;
+  }
+
+  // 시작일 있음, 마감일 없음
+  if (open !== null && deadline === null) {
+    const openTime = parseToKstDate(open);
+    if (now.getTime() >= openTime.getTime()) {
+      return <Chip theme="red">NOW OPEN</Chip>;
+    }
+
+    const text = isToday({ d1: openTime })
+      ? `${formatTime({ date: openTime })} OPEN`
+      : `D-${getDday(openTime)}`;
+
+    return <Chip theme="blue">{text}</Chip>;
+  }
+
+  // 시작일, 마감일 모두 있음
+  if (open !== null && deadline !== null) {
+    const openTime = parseToKstDate(open);
+    const closeTime = parseToKstDate(deadline);
+
+    const timeUntilOpen = openTime.getTime() - now.getTime();
+    const timeUntilClose = closeTime.getTime() - now.getTime();
+
+    // 오픈 전
+    if (timeUntilOpen > 0) {
+      const text = isToday({ d1: openTime })
+        ? `${formatTime({ date: openTime })} OPEN`
+        : `D-${getDday(openTime)}`;
+      return <Chip theme="blue">{text}</Chip>;
+    }
+
+    // 마감됨
+    if (timeUntilClose <= 0) return null;
+
+    // 마감 전
+    const daysUntilClose = getDday(closeTime) - 1;
+    if (daysUntilClose >= 1) return <Chip theme="red">NOW OPEN</Chip>;
+
+    if (daysUntilClose === 0) {
+      const { hours, minutes, seconds } = getTimeLeft(closeTime);
+      return (
+        <Chip theme="light-red">{`${hours}:${minutes}:${seconds} 남음`}</Chip>
+      );
+    }
+
+    return null;
+  }
+
+  return null;
+};
+
+export const SoldOutChip = ({ rounded }: { rounded?: boolean }) => {
+  return (
+    <Chip rounded={rounded} theme="grey">
+      SOLDOUT
+    </Chip>
+  );
+};
+
+export const ExtendChip = ({
+  extend,
+  deadline,
+}: {
+  extend: boolean;
+  deadline: string;
+}) => {
+  if (!extend) return;
+  const closeTime = parseToKstDate(deadline);
+
+  const today = new Date();
+  const timeLeftUntilClose = closeTime.getTime() - today.getTime();
+
+  // 데드라인 안 지났을 경우에만 뜸.
+  if (timeLeftUntilClose > 0) {
+    return <Chip theme="purple">기간 연장</Chip>;
+  }
+};
