@@ -12,7 +12,7 @@ export const useGetRecommendedItem = ({
   enabled?: boolean;
 }) => {
   const query = useInfiniteQuery({
-    queryKey: [QUERY_KEYS.HOME_RECOMMEND, categoryId],
+    queryKey: [QUERY_KEYS.HOME_RECOMMEND, size, categoryId],
     staleTime: 1 * 60 * 1000,
     gcTime: 2 * 60 * 1000,
     enabled,

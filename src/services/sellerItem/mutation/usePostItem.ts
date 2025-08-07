@@ -3,7 +3,7 @@ import { QUERY_KEYS } from '@/constants/api';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { ItemPostDetail } from '@/types/common/ItemType.types';
 import { SELLER_ITEM_DETAIL } from '@/utils/generatePath';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { generatePath, useNavigate } from 'react-router-dom';
 
@@ -39,6 +39,6 @@ export const usePostItem = (onSuccessCallback?: () => void) => {
       }
       onSuccessCallback?.();
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

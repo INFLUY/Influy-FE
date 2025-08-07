@@ -2,7 +2,7 @@ import { patchFaqCard } from '@/api/faqCard/handleFaqCard.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { FaqCardRequestType } from '@/types/common/FaqCardType.types';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePatchFaqCard = (onSuccessCallback?: () => void) => {
@@ -19,10 +19,12 @@ export const usePatchFaqCard = (onSuccessCallback?: () => void) => {
       patchFaqCard({ sellerId, faqCardId, itemId, data }),
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, variables.itemId, sellerId],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, sellerId],
+        queryKey: [
+          QUERY_KEYS.SELLER_FAQ_CARD,
+          variables.itemId,
+          sellerId,
+          data?.id,
+        ],
       });
       queryClient.invalidateQueries({
         queryKey: [
@@ -39,6 +41,6 @@ export const usePatchFaqCard = (onSuccessCallback?: () => void) => {
       });
       onSuccessCallback?.();
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

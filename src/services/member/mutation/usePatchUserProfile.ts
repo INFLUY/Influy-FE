@@ -1,7 +1,7 @@
 import { patchUserProfile } from '@/api/member/handleUserProfile';
 import { QUERY_KEYS } from '@/constants/api';
 import { UserEditProfileType } from '@/types/user/UserProfile.types';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePatchUserProfile = (onSuccessCallback?: () => void) => {
@@ -23,6 +23,6 @@ export const usePatchUserProfile = (onSuccessCallback?: () => void) => {
       }
       onSuccessCallback?.();
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

@@ -1,7 +1,7 @@
 import { deleteAccount } from '@/api/auth/deleteAccount.api';
 import { useAuthStore } from '@/store/authStore';
 import { clearAuthQueries } from '@/utils/clearAuthQueries';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useDeleteAccount = (onSuccessCallback?: () => void) => {
@@ -15,6 +15,6 @@ export const useDeleteAccount = (onSuccessCallback?: () => void) => {
       clearAuthQueries(queryClient);
       onSuccessCallback?.();
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

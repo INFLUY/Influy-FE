@@ -1,7 +1,7 @@
 import { postLogout } from '@/api/auth/postLogout.api';
 import { useAuthStore } from '@/store/authStore';
 import { clearAuthQueries } from '@/utils/clearAuthQueries';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePostLogout = (onSuccessCallback?: () => void) => {
@@ -15,6 +15,6 @@ export const usePostLogout = (onSuccessCallback?: () => void) => {
       clearAuthQueries(queryClient);
       onSuccessCallback?.();
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

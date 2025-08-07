@@ -2,7 +2,7 @@ import { postFaqCategory } from '@/api/faqCategory/handleFaqCategory.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { CategoryType } from '@/types/common/CategoryType.types';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export interface CategoryPostType {
@@ -29,6 +29,6 @@ export const usePostItemFaqCategory = ({
         onSuccessCallback?.(res);
       }
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

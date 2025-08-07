@@ -9,7 +9,7 @@ export const Tab = ({
 }: {
   handleClickTab: React.MouseEventHandler<HTMLButtonElement>;
   isTabActive: boolean;
-  children: String;
+  children: string;
   additionalStyles?: string;
 }) => {
   return (

@@ -1,7 +1,7 @@
 import { deleteFaqCard } from '@/api/faqCard/handleFaqCard.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useStrictId } from '@/hooks/auth/useStrictId';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useDeleteFaqCard = (onSuccessCallback?: () => void) => {
@@ -17,13 +17,15 @@ export const useDeleteFaqCard = (onSuccessCallback?: () => void) => {
       faqCardId: number;
       faqCategoryId: number;
     }) => deleteFaqCard({ faqCardId, itemId }),
-    onSuccess: (_, variables) => {
+    onSuccess: (data, variables) => {
       onSuccessCallback?.();
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, variables.itemId, sellerId],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.SELLER_FAQ_CARD, sellerId],
+        queryKey: [
+          QUERY_KEYS.SELLER_FAQ_CARD,
+          variables.itemId,
+          sellerId,
+          data?.id,
+        ],
       });
       queryClient.invalidateQueries({
         queryKey: [
@@ -39,6 +41,6 @@ export const useDeleteFaqCard = (onSuccessCallback?: () => void) => {
         queryKey: [QUERY_KEYS.FAQ_CARD_LIST, variables.faqCategoryId],
       });
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

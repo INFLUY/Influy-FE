@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { postGenerateQuestionCategory } from '@/api/talkBox/handleQuestionCategory.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useQueryClient } from '@tanstack/react-query';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 
 export const usePostGenerateQuestionCategory = ({
   itemId,
@@ -22,6 +22,6 @@ export const usePostGenerateQuestionCategory = ({
 
       if (onSuccessCallback) onSuccessCallback(data);
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

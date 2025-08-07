@@ -1,7 +1,7 @@
 import { deleteMarketLink } from '@/api/marketLink/handleMarketLink.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useStrictId } from '@/hooks/auth/useStrictId';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useDeleteMarketLink = (onSuccessCallback?: () => void) => {
@@ -16,6 +16,6 @@ export const useDeleteMarketLink = (onSuccessCallback?: () => void) => {
       });
       onSuccessCallback?.();
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

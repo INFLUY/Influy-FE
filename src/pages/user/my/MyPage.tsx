@@ -1,5 +1,4 @@
-import { BottomNavBar, PageHeader } from '@/components';
-import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
+import { BottomNavBar, NotificationButton, PageHeader } from '@/components';
 import { useNavigate } from 'react-router-dom';
 import { VanillaProfileImageUploader } from '@/components/common/VanillaProfileImageUploader';
 import { useEffect, useState } from 'react';
@@ -39,12 +38,7 @@ const MyPage = () => {
     <section className="bg-grey01 flex flex-1 justify-center px-5 pt-11 pb-16">
       <PageHeader
         leftIcons={[<h1 className="subhead-sb text-black">마이</h1>]}
-        rightIcons={[
-          <button type="button" className="relative">
-            <BellIcon className="h-6 w-6 cursor-pointer" />
-            <div className="bg-main absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full" />
-          </button>,
-        ]}
+        rightIcons={[<NotificationButton />]}
       />
       <section className="flex flex-1 flex-col items-center gap-10 pt-6">
         <article className="flex flex-col items-center gap-3">

@@ -3,7 +3,7 @@ import { QUERY_KEYS } from '@/constants/api';
 import { useInfiniteQuery } from '@tanstack/react-query';
 export const useGetPopularItem = ({ size = 10 }: { size?: number }) => {
   const query = useInfiniteQuery({
-    queryKey: [QUERY_KEYS.HOME_POPULAR],
+    queryKey: [QUERY_KEYS.HOME_POPULAR, size],
     staleTime: 20 * 1000,
     gcTime: 1 * 60 * 1000,
     queryFn: async ({ pageParam = 1 }) => {

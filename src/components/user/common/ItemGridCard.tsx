@@ -50,10 +50,7 @@ export const ItemGridCard = ({ item }: { item: ItemPreviewList }) => {
             // 좌측 하단 회차 및 시간 칩
             <>
               <PeriodChip period={item.itemPeriod} />
-              <TimeChip
-                open={item.startDate ?? undefined}
-                deadline={item.endDate ?? undefined}
-              />
+              <TimeChip open={item.startDate} deadline={item.endDate} />
             </>
           )}
         </div>

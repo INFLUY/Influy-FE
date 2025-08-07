@@ -1,7 +1,11 @@
-import { PageHeader, MyProductStatus, BottomNavBar } from '@/components';
+import {
+  PageHeader,
+  MyProductStatus,
+  BottomNavBar,
+  NotificationButton,
+} from '@/components';
 import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
-import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import UserTypeSwitchBanner from '@/components/seller/home/UserTypeSwitchBanner';
 import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
 import { SellerHomeItemStatus } from '@/types/common/ItemType.types';
@@ -44,10 +48,7 @@ const SellerHomePage = () => {
         ]}
         rightIcons={[
           <SearchIcon className="h-6 w-6 cursor-pointer" />,
-          <button type="button" className="relative">
-            <BellIcon className="h-6 w-6 cursor-pointer" />
-            <div className="bg-main absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full" />
-          </button>,
+          <NotificationButton />,
         ]}
         additionalStyles="border-0 h-11"
       />

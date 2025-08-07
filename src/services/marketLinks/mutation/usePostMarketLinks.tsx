@@ -2,7 +2,7 @@ import { postMarketLink } from '@/api/marketLink/handleMarketLink.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { BaseLinkType } from '@/types/seller/LinkType.types';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePostMarketLinks = (onSuccessCallback?: () => void) => {
@@ -17,6 +17,6 @@ export const usePostMarketLinks = (onSuccessCallback?: () => void) => {
       });
       onSuccessCallback?.();
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

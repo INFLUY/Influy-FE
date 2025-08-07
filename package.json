@@ -3,10 +3,18 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
   "scripts": {
+    "prepare": "husky && husky install",
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --check .",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -38,18 +46,23 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
-    "@tanstack/eslint-plugin-query": "^5.78.0",
+    "@tanstack/eslint-plugin-query": "^5.83.1",
     "@types/react": "^19.0.10",
     "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.21",
-    "eslint": "^9.22.0",
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^16.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.4",
     "postcss": "^8.5.3",
-    "prettier": "^3.5.3",
+    "prettier": "3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "rollup-plugin-visualizer": "^6.0.3",
     "tailwindcss": "^4.1.4",
