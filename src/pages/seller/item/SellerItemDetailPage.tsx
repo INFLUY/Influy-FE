@@ -418,9 +418,11 @@ const SellerItemDetailPage = () => {
           categoryId={activeCategoryId}
         />
       )}
+
+      {/* 카테고리 및 카테고리 순서 수정 수정 */}
       {sheetMode === 'editList' && faqCategories && (
         <FaqEditListSheet
-          mode="add"
+          mode="editList"
           setDraftName={setDraftName}
           setSheetMode={setSheetMode}
           itemId={Number(itemId)}

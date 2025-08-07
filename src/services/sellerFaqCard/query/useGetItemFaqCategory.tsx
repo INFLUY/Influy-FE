@@ -5,7 +5,6 @@ import {
   useSuspenseQuery,
   useQuery,
   UseSuspenseQueryResult,
-  UseQueryResult,
 } from '@tanstack/react-query';
 
 export const useGetItemFaqCategory = ({

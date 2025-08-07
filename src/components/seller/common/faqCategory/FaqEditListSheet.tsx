@@ -96,6 +96,7 @@ const FaqEditListSheet = ({
   setActiveCategoryId,
   isFaqCategoryFetching,
 }: FaqEditListSheetProps) => {
+  // dnd
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(TouchSensor),
@@ -112,6 +113,10 @@ const FaqEditListSheet = ({
     useState<CategoryType[]>(categories);
 
   const [isDragMode, setIsDragMode] = useState(false);
+
+  useEffect(() => {
+    setPrevCategories(categories);
+  }, [categories]);
 
   const handleDragEnd = ({ active, over }: any) => {
     if (over && active.id !== over.id) {
