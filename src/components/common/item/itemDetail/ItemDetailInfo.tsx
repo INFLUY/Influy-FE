@@ -154,7 +154,7 @@ export const ItemDetailInfo = ({
 
             <p
               className={cn(
-                'body2-m whitespace-pre-line text-black transition-all duration-3000',
+                'body2-m whitespace-break-spaces text-black transition-all duration-3000',
                 !isExpanded && 'line-clamp-4'
               )}
             >

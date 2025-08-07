@@ -84,7 +84,7 @@ export interface SellerCard {
 export type FaqQuestion = {
   id: number;
   questionContent: string;
-  pinned: true;
+  pinned: boolean;
   updatedAt: string;
 };
 

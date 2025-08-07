@@ -138,7 +138,7 @@ const FaqEditPage = () => {
     navigate(generatePath(SELLER_ITEM_EDIT_FAQ_TAB_PATH, { itemId: itemId! }), {
       replace: true,
     });
-    showSnackbar('faq가 삭제되었습니다.');
+    showSnackbar('FAQ가 삭제되었습니다.');
   });
 
   const { showModal, hideModal } = useModalStore();

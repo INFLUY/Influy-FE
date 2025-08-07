@@ -68,7 +68,7 @@ export const CategorizeStep = ({
     setCategory(category.filter((c) => c !== categoryToDelete));
     showSnackbar('삭제되었습니다.');
     setCategoryToDelete(null);
-    setSheetMode('none');
+    setSheetMode('editList');
   };
 
   const onSingleCategoryEdit = (categoryName: string) => {

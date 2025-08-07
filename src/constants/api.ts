@@ -25,6 +25,8 @@ export const API_DOMAINS = {
 
   // FAQ
   SELLER_HANDLE_FAQ_CATEGORIES: '/seller/items/:itemId/faq-categories',
+  SELLER_PATCH_FAQ_CATEGORIES_ORDER:
+    '/seller/items/:itemId/faq-categories/order',
   SELLER_GET_FAQ_CATEGORIES: '/seller/:sellerId/items/:itemId/faq-categories',
   SELLER_GET_FAQ_QUESTIONS:
     '/seller/:sellerId/items/:itemId/faq/question-cards',

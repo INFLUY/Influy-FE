@@ -99,6 +99,8 @@ export {
 export { default as VisibilityBottomSheet } from './seller/common/VisibilityBottomSheet.tsx';
 export { ToolTip } from './seller/common/ToolTip.tsx';
 export { default as QuestionCountBadge } from './seller/common/QuestionCountBadge';
+export { default as FaqEditListSheet } from './seller/common/faqCategory/FaqEditListSheet';
+export { default as CategoryUpsertSheet } from './seller/common/faqCategory/CategoryUpsertSheet';
 
 //item
 export { default as EmptyCategoryPlaceholder } from './seller/item/EmptyCategoryPlaceholder';
