@@ -61,6 +61,7 @@ import {
   SellerDeleteAccountPage,
   UserItemDetailPage,
   UserChatPage,
+  SearchPage,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -201,6 +202,16 @@ const router = createBrowserRouter([
                 element: <CategoryPage />,
               },
             ],
+          },
+        ],
+      },
+      {
+        path: PATH.SEARCH.BASE,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <SearchPage />,
           },
         ],
       },

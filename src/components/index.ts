@@ -58,6 +58,10 @@ export { default as HomeCommonSection } from './user/home/HomeCommonSection.tsx'
 export { default as TrendingSellerSection } from './user/home/TrendingSellerSection.tsx';
 export { MoreButton } from './user/home/MoreButton.tsx';
 
+// user/search
+export { default as SearchButton } from './user/search/SearchButton.tsx';
+export { default as ItemResult } from './user/search/ItemResult.tsx';
+
 //common/talkBox
 export { TalkBoxSellerProfile } from './common/talkBox/TalkBoxSellerProfile.tsx';
 export {

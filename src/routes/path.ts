@@ -38,6 +38,9 @@ export const PATH = {
       },
     },
   },
+  SEARCH: {
+    BASE: '/search',
+  },
   LIKE: {
     BASE: '/like',
     TABS: {

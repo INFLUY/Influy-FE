@@ -15,6 +15,8 @@ export { default as TrendingPage } from './user/home/TrendingPage';
 export { default as CategoryPage } from './user/home/CategoryPage';
 export { default as EndingSoonPage } from './user/home/EndingSoonPage';
 
+export { default as SearchPage } from './user/search/SearchPage.tsx';
+
 export { default as LikePage } from './user/like/LikePage';
 export { default as LikeItemTab } from './user/like/LikeItemTab';
 export { default as LikeInfluencerTab } from './user/like/LikeInfluencerTab';
