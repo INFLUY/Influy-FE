@@ -13,7 +13,7 @@ export const getDeadlineLabel = (
 ): string | null => {
   if (!endDate) return null;
 
-  const targetDate = new Date(endDate);
+  const targetDate = parseToKstDate(endDate);
   const dday = getDday(targetDate);
 
   if (dday > 1) return `${dday}일 뒤 마감`;

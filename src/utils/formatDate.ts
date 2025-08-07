@@ -12,17 +12,21 @@ export const isToday = ({ d1, d2 = new Date() }: isTodayProps) => {
 };
 
 // D-day 반환
-export const getDday = (targetDate: Date) => {
+export const getDday = (targetDate: Date | string) => {
   const now = new Date();
-  return Math.ceil(
-    (targetDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
-  );
+  const target =
+    typeof targetDate === 'string' ? parseToKstDate(targetDate) : targetDate;
+
+  return Math.ceil((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 };
 
 // 남은 시간 (시:분:초) 계산
-export const getTimeLeft = (targetDate: Date) => {
+export const getTimeLeft = (targetDate: Date | string) => {
   const now = new Date();
-  const diff = targetDate.getTime() - now.getTime();
+  const target =
+    typeof targetDate === 'string' ? parseToKstDate(targetDate) : targetDate;
+
+  const diff = target.getTime() - now.getTime();
 
   const hours = Math.floor(diff / (1000 * 60 * 60));
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -84,7 +88,7 @@ export const formatFullDateWithDay = ({
   isoString: string;
   includeYear?: boolean;
 }): string => {
-  const date = new Date(isoString);
+  const date = parseToKstDate(isoString);
 
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0'); // 0-based
@@ -108,8 +112,8 @@ export const parseDateString = (dateString: string) => {
 export const formatKrDateRange = (startIso: string, endIso: string) => {
   const days = ['일', '월', '화', '수', '목', '금', '토'];
 
-  const start = new Date(startIso);
-  const end = new Date(endIso);
+  const start = parseToKstDate(startIso);
+  const end = parseToKstDate(endIso);
 
   const startDay = days[start.getDay()];
   const endDay = days[end.getDay()];
@@ -134,7 +138,7 @@ export const formatKrDateRange = (startIso: string, endIso: string) => {
 
 // iso string 받아서 오늘이면 오후 HH:MM 형태로 반환, 아니면 날짜 형식으로 반환
 export const formatIsoToTimeOrDate = (isoString: string): string => {
-  const date = parseToKstDate(isoString); // 기존 함수 재사용
+  const date = parseToKstDate(isoString);
 
   if (isToday({ d1: date })) {
     // 오늘이면 시간 표시
