@@ -23,14 +23,9 @@ export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
 
   const { showSnackbar } = useSnackbarStore();
 
-  const { mutate: getPresignedUrl } = usePostPresignedUrl(
-    (uploadedUrl: string) => {
-      if (!uploadedUrl) return;
-      onChange([...images, uploadedUrl]);
-    }
-  );
+  const { mutateAsync: uploadImage } = usePostPresignedUrl();
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
 
@@ -55,8 +50,18 @@ export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
 
     const limitedFiles = validFiles.slice(0, 10 - current);
 
-    // presigned URL 요청 (업로드 완료 후에만 이미지 추가됨)
-    limitedFiles.forEach((file) => getPresignedUrl({ file }));
+    try {
+      const uploadedUrls = await Promise.all(
+        limitedFiles.map(
+          (file) => uploadImage({ file }) // mutateAsync 사용
+        )
+      );
+
+      onChange([...images, ...uploadedUrls]);
+    } catch (error) {
+      console.error(error);
+      showSnackbar('이미지 업로드 중 오류가 발생했습니다.');
+    }
 
     e.target.value = '';
   };
