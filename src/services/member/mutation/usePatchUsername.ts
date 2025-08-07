@@ -1,6 +1,6 @@
 import { patchUsername } from '@/api/member/patchUsername';
 import { QUERY_KEYS } from '@/constants/api';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePatchUsername = (onSuccessCallback?: () => void) => {
@@ -35,6 +35,6 @@ export const usePatchUsername = (onSuccessCallback?: () => void) => {
       });
       onSuccessCallback?.();
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

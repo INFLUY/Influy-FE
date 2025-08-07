@@ -23,7 +23,7 @@ const TopBannerSwiper = ({ data }: { data: TopBannerItem[] }) => {
   };
 
   return (
-    <section className="relative h-fit w-full">
+    <section className="relative aspect-square h-fit w-full">
       <Swiper
         className="relative w-full"
         centeredSlides={false}

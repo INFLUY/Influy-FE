@@ -1,7 +1,7 @@
 import { deleteAnnouncement } from '@/api/announcement/handleAnnouncement.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useAuthStore } from '@/store/authStore';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useDeleteAnnouncement = (onSuccessCallback?: () => void) => {
@@ -20,6 +20,6 @@ export const useDeleteAnnouncement = (onSuccessCallback?: () => void) => {
       });
       onSuccessCallback?.();
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

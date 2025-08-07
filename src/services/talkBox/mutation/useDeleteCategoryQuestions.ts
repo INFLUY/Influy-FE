@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteCategoryQuestions } from '@/api/talkBox/handleTalkBox.api';
 import { QUERY_KEYS } from '@/constants/api';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 
 export const useDeleteCategoryQuestions = ({
   itemId,
@@ -45,6 +45,6 @@ export const useDeleteCategoryQuestions = ({
         });
       });
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

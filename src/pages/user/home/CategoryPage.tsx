@@ -2,11 +2,11 @@ import {
   PageHeader,
   ItemAlbumCard,
   CategoryChip,
-  LoadingSpinner,
+  NotificationButton,
+  BackButton,
+  ItemAlbumCardSkeleton,
 } from '@/components';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
-import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
-import ArrowLeftIcon from '@/assets/icon/common/ArrowLeftIcon.svg?react';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { ITEM_DETAIL } from '@/utils/generatePath';
@@ -58,6 +58,7 @@ const CategoryPage = () => {
 
   const {
     data: recommendItems,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -87,18 +88,10 @@ const CategoryPage = () => {
   return (
     <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col gap-3 overflow-x-hidden overflow-y-auto pt-11">
       <PageHeader
-        leftIcons={[
-          <ArrowLeftIcon
-            onClick={() => navigate(-1)}
-            className="h-6 w-6 cursor-pointer"
-          />,
-        ]}
+        leftIcons={[<BackButton />]}
         rightIcons={[
           <SearchIcon className="h-6 w-6 cursor-pointer" />,
-          <button type="button" className="relative">
-            <BellIcon className="h-6 w-6 cursor-pointer" />
-            <div className="bg-main absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full" />
-          </button>,
+          <NotificationButton />,
         ]}
         additionalStyles="bg-white border-0 "
       >
@@ -128,31 +121,41 @@ const CategoryPage = () => {
           )
         )}
       </div>
+      {isLoading && (
+        <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
+          {Array.from({ length: 8 }).map((_, idx) => (
+            <ItemAlbumCardSkeleton key={idx} />
+          ))}
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
-        {itemList?.map((item: ItemCardType) => (
-          <ItemAlbumCard
-            key={item.itemId}
-            item={item}
-            onCardClick={() =>
-              navigate(
-                generatePath(ITEM_DETAIL, {
-                  marketId: item.sellerId,
-                  itemId: item.itemId,
-                })
-              )
-            }
-          />
-        ))}
-        {hasNextPage && (
-          <div ref={observerRef} className="h-4 w-full">
-            {isFetchingNextPage && (
-              <div className="flex justify-center">
-                <LoadingSpinner />
-              </div>
-            )}
-          </div>
-        )}
+        {!isLoading &&
+          itemList?.map((item: ItemCardType) => (
+            <ItemAlbumCard
+              key={item.itemId}
+              item={item}
+              onCardClick={() =>
+                navigate(
+                  generatePath(ITEM_DETAIL, {
+                    marketId: item.sellerId,
+                    itemId: item.itemId,
+                  })
+                )
+              }
+            />
+          ))}
       </div>
+      {hasNextPage && (
+        <div
+          className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8"
+          ref={observerRef}
+        >
+          {isFetchingNextPage &&
+            Array.from({ length: 8 }).map((_, idx) => (
+              <ItemAlbumCardSkeleton key={idx} />
+            ))}
+        </div>
+      )}
     </section>
   );
 };

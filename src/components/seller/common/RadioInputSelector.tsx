@@ -12,7 +12,7 @@ const RadioInput = ({
   name: string;
   item: RadioInputList;
   selected: string;
-  setSelected: React.Dispatch<React.SetStateAction<string>>;
+  setSelected: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) => {
   const isSelected = selected === item.type;
 
@@ -74,7 +74,7 @@ const RadioInputSelector = ({
   name: string;
   list: RadioInputList[];
   selected: string;
-  setSelected: React.Dispatch<React.SetStateAction<string>>;
+  setSelected: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) => {
   return (
     <div className="caption-m divide-grey02 flex w-full shrink-0 flex-col items-start justify-center divide-y rounded-[.1875rem]">

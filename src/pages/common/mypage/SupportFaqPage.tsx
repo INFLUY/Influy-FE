@@ -32,7 +32,7 @@ const SupportFaqPage = () => {
             {faqList[Number(supportFaqId)].question}
           </h1>
         </div>
-        <p className="body2-r flex w-full flex-1 px-5 py-6 whitespace-pre-wrap text-black">
+        <p className="body2-r flex w-full flex-1 px-5 py-6 break-words whitespace-break-spaces text-black">
           {faqList[Number(supportFaqId)].answer}
         </p>
       </section>

@@ -1,7 +1,7 @@
 import { putSellerPublic } from '@/api/sellerMyProfile/putSellerPublic.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { SellerPulicResponse } from '@/types/seller/SellerProfile.types';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePutSellerPublic = (
@@ -21,7 +21,10 @@ export const usePutSellerPublic = (
       ];
 
       homeQueryKeys.forEach((key) =>
-        queryClient.invalidateQueries({ queryKey: [key] })
+        queryClient.invalidateQueries({
+          queryKey: [key],
+          exact: false,
+        })
       );
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_MARKET, data?.sellerId],
@@ -30,6 +33,6 @@ export const usePutSellerPublic = (
         onSuccessCallback?.(data);
       }
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

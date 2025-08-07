@@ -2,7 +2,7 @@ import { postAnnouncement } from '@/api/announcement/handleAnnouncement.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useStrictId } from '@/hooks/auth/useStrictId';
 import { BaseAnnouncement } from '@/types/common/AnnouncementType.types';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePostAnnouncement = (onSuccessCallback?: () => void) => {
@@ -20,6 +20,6 @@ export const usePostAnnouncement = (onSuccessCallback?: () => void) => {
       });
       if (onSuccessCallback) onSuccessCallback();
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

@@ -1,6 +1,6 @@
 import { useSnackbarStore } from '@/store/snackbarStore';
 
-export const handleReactQueryError = (error: unknown) => {
+export const useHandleReactQueryError = (error: unknown) => {
   const { showSnackbar } = useSnackbarStore();
 
   const message =

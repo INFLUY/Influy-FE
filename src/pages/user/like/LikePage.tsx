@@ -1,6 +1,11 @@
-import { BottomNavBar, PageHeader, Tab, Tabs } from '@/components';
+import {
+  BottomNavBar,
+  NotificationButton,
+  PageHeader,
+  Tab,
+  Tabs,
+} from '@/components';
 import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
-import BellIcon from '@/assets/icon/common/BellIcon.svg?react';
 import { ReactNode } from 'react';
 import { PATH } from '@/routes/path';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -21,10 +26,7 @@ const LikePage = ({ children }: { children: ReactNode }) => {
           leftIcons={[<h1 className="subhead-sb text-black">찜</h1>]}
           rightIcons={[
             <SearchIcon className="h-6 w-6 cursor-pointer" />,
-            <button type="button" className="relative">
-              <BellIcon className="h-6 w-6 cursor-pointer" />
-              <div className="bg-main absolute top-0.5 right-[.2188rem] h-1.5 w-1.5 rounded-full" />
-            </button>,
+            <NotificationButton />,
           ]}
         />
 

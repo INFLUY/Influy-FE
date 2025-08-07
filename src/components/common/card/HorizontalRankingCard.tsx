@@ -1,7 +1,13 @@
 //홈 아카이빙 인기 급상승 카드
 import { ItemCardType } from '@/types/common/ItemType.types';
-import { ItemLikeButton, PeriodChip, TimeChip } from '@/components';
+import {
+  ItemLikeButton,
+  PeriodChip,
+  SoldOutChip,
+  TimeChip,
+} from '@/components';
 import ProfileIcon from '@/assets/icon/common/ProfileBasic.svg';
+import { isItemClosed } from '@/utils/itemDateUtils';
 
 const HorizontalRankingCard = ({
   item,
@@ -20,17 +26,20 @@ const HorizontalRankingCard = ({
         onClick={onCardClick}
       >
         <div className="bg-grey03 relative h-[6.75rem] w-[6.75rem] rounded-[.0625rem]">
-          {item.itemMainImg && (
-            <img
-              className="h-[6.75rem] w-[6.75rem] rounded-[.0625rem] bg-white object-cover"
-              src={item.itemMainImg}
-              alt={item.itemName}
-            />
+          <img
+            className="h-[6.75rem] w-[6.75rem] rounded-[.0625rem] bg-white object-cover"
+            src={item.itemMainImg ?? undefined}
+            alt={item.itemName}
+          />
+          {isItemClosed(item.endDate) && (
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
+              마감
+            </div>
           )}
           <ItemLikeButton
-            liked={item?.liked}
-            sellerId={item?.sellerId}
-            itemId={item?.itemId}
+            liked={item.liked}
+            sellerId={item.sellerId}
+            itemId={item.itemId}
             additionalStyles="absolute top-1 right-1 h-5 w-5"
           />
           <div className="absolute bottom-0 left-0 flex flex-wrap">
@@ -63,11 +72,14 @@ const HorizontalRankingCard = ({
             </div>
           </div>
 
-          {/* 시간 칩 및 진행 회차 칩 */}
-          <TimeChip
-            open={item.startDate || '2025-07-09T00:00:00.000Z'} //추후 수정
-            deadline={item.endDate || '2025-07-31T00:00:00.000Z'}
-          />
+          {/* 칩 */}
+          {item.currentStatus === 'SOLD_OUT' ? (
+            // 솔드아웃 상품의 경우
+            <SoldOutChip />
+          ) : (
+            // 시간 칩
+            <TimeChip open={item.startDate} deadline={item.endDate} />
+          )}
         </div>
       </div>
     </article>

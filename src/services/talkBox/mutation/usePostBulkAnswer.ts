@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postBulkAnswer } from '@/api/talkBox/handleSellerTalkBoxAnswer';
 import { QUERY_KEYS } from '@/constants/api';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 
 export const usePostBulkAnswer = ({
   itemId,
@@ -46,6 +46,6 @@ export const usePostBulkAnswer = ({
         onSuccessCallback(res.answeredCnt);
       }
     },
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

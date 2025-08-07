@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { postAddQuestionCategories } from '@/api/talkBox/handleQuestionCategory.api';
-import { handleReactQueryError } from '@/utils/handleError';
+import { useHandleReactQueryError } from '@/hooks/useHandleError';
 
 export const usePostAddQuestionCategories = ({
   itemId,
@@ -13,6 +13,6 @@ export const usePostAddQuestionCategories = ({
       return res.generatedNameList;
     },
     onSuccess: () => {},
-    onError: handleReactQueryError,
+    onError: useHandleReactQueryError,
   });
 };

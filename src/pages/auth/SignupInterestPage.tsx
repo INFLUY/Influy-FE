@@ -94,7 +94,7 @@ export const SignupInterestPage = () => {
     registerSeller({
       userInfo: {
         username: sellerId,
-        kakaoId: kakaoId!!,
+        kakaoId: kakaoId!,
         interestedCategories: selectedCategories,
       },
       instagram: sns.instagram,
@@ -105,7 +105,7 @@ export const SignupInterestPage = () => {
   const handleUserRegister = () => {
     registerUser({
       username: userId,
-      kakaoId: kakaoId!!,
+      kakaoId: kakaoId!,
       interestedCategories: selectedCategories,
     });
   };

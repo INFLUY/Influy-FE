@@ -10,7 +10,7 @@ export const useGetItemLikeCounts = ({
   itemId: number;
 }) => {
   return useSuspenseQuery({
-    queryKey: [QUERY_KEYS.ITEM_LIKE_COUNTS, itemId],
+    queryKey: [QUERY_KEYS.ITEM_LIKE_COUNTS, { sellerId, itemId }],
     queryFn: () => getItemLikeCounts({ sellerId, itemId }),
     staleTime: 3 * 60 * 1000, // 3분
   });

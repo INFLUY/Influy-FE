@@ -252,7 +252,7 @@ export const FormPriceInput = <T extends FieldValues>({
     typeof price === 'number' ? price.toLocaleString() : '';
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let rawValue = e.target.value.replace(/[^0-9]/g, '');
+    const rawValue = e.target.value.replace(/[^0-9]/g, '');
 
     // 자리수 제한
     if (rawValue.length > 12) {
@@ -324,7 +324,7 @@ export const FormSalePriceInput = <T extends FieldValues>({
     typeof salePrice === 'number' ? salePrice.toLocaleString() : '';
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let rawValue = e.target.value.replace(/[^0-9]/g, '');
+    const rawValue = e.target.value.replace(/[^0-9]/g, '');
 
     // 자리수 제한
     if (rawValue.length > 12) {
