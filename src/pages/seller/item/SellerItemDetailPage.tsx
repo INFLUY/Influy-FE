@@ -287,7 +287,7 @@ const SellerItemDetailPage = () => {
             <Suspense fallback={null}>
               {faqCategories && faqCategories.length > 0 && (
                 <button
-                  className="flex items-center gap-1"
+                  className="flex cursor-pointer items-center gap-1"
                   type="button"
                   onClick={() => {
                     setSheetMode('editList');

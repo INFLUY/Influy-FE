@@ -188,7 +188,7 @@ const FaqEditListSheet = ({
     itemId,
     onSuccessCallback: () => {
       showSnackbar('삭제되었습니다.');
-      setSheetMode('none');
+      setSheetMode('editList');
       hideModal();
     },
   });

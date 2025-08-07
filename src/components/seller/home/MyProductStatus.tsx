@@ -6,7 +6,7 @@ import { PATH } from '@/routes/path';
 import { SellerHomeItemStatus } from '@/types/common/ItemType.types';
 import { getDeadlineLabel } from '@/utils/itemDateUtils';
 import {
-  ITEM_DETAIL,
+  SELLER_ITEM_DETAIL,
   SELLER_TALK_BOX_CATEGORY_PATH,
 } from '@/utils/generatePath';
 
@@ -84,7 +84,10 @@ const StatusCard = ({
       className="flex w-full shrink-0 cursor-pointer flex-col items-start gap-5 rounded bg-white p-4 shadow-[0px_0px_8px_0px_rgba(43,43,43,0.10)]"
       onClick={() =>
         navigate(
-          generatePath(ITEM_DETAIL, { marketId: sellerId, itemId: item.itemId })
+          generatePath(SELLER_ITEM_DETAIL, {
+            marketId: sellerId,
+            itemId: item.itemId,
+          })
         )
       }
     >
