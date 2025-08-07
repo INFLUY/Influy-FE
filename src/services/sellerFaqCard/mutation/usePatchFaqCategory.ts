@@ -1,32 +1,35 @@
-import { postFaqCategory } from '@/api/faqCategory/handleFaqCategory.api';
+import { patchFaqCategory } from '@/api/faqCategory/handleFaqCategory.api';
 import { QUERY_KEYS } from '@/constants/api';
 import { useStrictId } from '@/hooks/auth/useStrictId';
-import { CategoryType } from '@/types/common/CategoryType.types';
 import { handleReactQueryError } from '@/utils/handleError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export interface CategoryPostType {
+export interface CategoryPatchType {
+  id: number;
   category: string;
 }
 
-export const usePostItemFaqCategory = ({
+export const usePatchFaqCategory = ({
   itemId,
   onSuccessCallback,
 }: {
   itemId: number;
-  onSuccessCallback?: (response: CategoryType) => void;
+  onSuccessCallback?: () => void;
 }) => {
   const queryClient = useQueryClient();
-  const { sellerId } = useStrictId();
+  const sellerId = useStrictId();
 
   return useMutation({
-    mutationFn: (data: CategoryPostType) => postFaqCategory({ itemId, data }),
+    mutationFn: (data: CategoryPatchType) => patchFaqCategory({ itemId, data }),
     onSuccess: (res) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.SELLER_FAQ_CATEGORIES, { sellerId, itemId }],
+        queryKey: [
+          QUERY_KEYS.SELLER_FAQ_CATEGORIES,
+          { sellerId: sellerId.sellerId, itemId },
+        ],
       });
       if (res) {
-        onSuccessCallback?.(res);
+        onSuccessCallback?.();
       }
     },
     onError: handleReactQueryError,

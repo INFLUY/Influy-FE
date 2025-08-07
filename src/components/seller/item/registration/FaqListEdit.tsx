@@ -56,14 +56,7 @@ import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { useDeleteFaqCard } from '@/services/sellerFaqCard/mutation/useDeleteFaqCard';
 import { useModalStore } from '@/store/useModalStore';
 import { usePatchFaqPin } from '@/services/sellerFaqCard/mutation/usePatchFaqPin';
-
-type SheetMode =
-  | 'none'
-  | 'add'
-  | 'editText'
-  | 'editList'
-  | 'questionEdit'
-  | 'delete';
+import { SheetMode } from '@/types/common/FAQ.types';
 
 const FaqListEdit = ({
   faqCategory,
@@ -122,13 +115,16 @@ const FaqListEdit = ({
   });
 
   // --- UI 핸들러 ---
+
   const openAddSheet = () => {
+    //-------
     setDraftName('');
     setActiveCategoryId(null);
     setSheetMode('add');
   };
 
   const openTextEditSheet = (id: number) => {
+    //-------
     const cat = categories.find((c) => c.id === id);
     setDraftName(cat?.name ?? '');
     setActiveCategoryId(id);
@@ -137,11 +133,13 @@ const FaqListEdit = ({
 
   // --- CRUD 핸들러들 ---
   const handleSaveAdd = () => {
+    //-------
     if (!draftName.trim()) return;
     postFaqCategory({ category: draftName.trim() });
   };
 
   const handleSaveTextEdit = () => {
+    //-------
     if (activeCategoryId === null) return;
     setCategories((prev) =>
       prev.map((c) =>
@@ -153,7 +151,7 @@ const FaqListEdit = ({
     setSheetMode('editList');
   };
 
-  // 드래그 앤 드롭 센서
+  // -------드래그 앤 드롭 센서
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(TouchSensor),
@@ -173,6 +171,7 @@ const FaqListEdit = ({
     }
   };
 
+  //----------
   const onRemoveCategory = (id: number) => {
     setCategoryToDelete(id);
     setSheetMode('delete');

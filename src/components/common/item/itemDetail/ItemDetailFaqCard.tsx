@@ -70,7 +70,7 @@ const ItemDetailFaqCard = ({
                 src={faq.backgroundImgLink ?? undefined}
                 className={cn(
                   'h-[23.4375rem] w-full object-cover',
-                  faq.adjustImg ? 'object-cover' : 'object-contain'
+                  faq.adjustImg ? 'object-contain' : 'object-cover'
                 )}
                 role="img"
               />

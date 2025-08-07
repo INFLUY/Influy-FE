@@ -21,7 +21,7 @@ export const FirstChatBubble = ({
         )}
       </div>
       <div className="border-grey02 bg-grey02 divide-grey03 flex w-[16.375rem] shrink-0 flex-col items-start divide-y-[.0375rem] rounded-lg border border-solid pt-3.5 pb-3">
-        <p className="body2-sb w-full px-3.5 pb-2 text-[#292929]">
+        <p className="body2-sb w-full px-3.5 pb-2 whitespace-pre-wrap text-[#292929]">
           {defaultMessage}
         </p>
         <div className="text-grey08 caption-m w-full px-3.5 pt-2">

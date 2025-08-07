@@ -117,7 +117,7 @@ export const TalkBoxCategoryPage = ({ children }: { children: ReactNode }) => {
                       text="톡박스 활성화 여부와 기본 채팅 멘트는 이곳에서 설정
                         가능해요."
                       additionalStyles={cn(
-                        'pointer-events-none w-[14.625rem] absolute top-8 -right-2 transition-opacity duration-500',
+                        'pointer-events-none w-[14.625rem] text-left absolute top-8 -right-2 transition-opacity duration-500',
                         showTooltip ? 'opacity-100' : 'opacity-0'
                       )}
                       position="right"

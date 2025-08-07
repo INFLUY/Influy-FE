@@ -7,6 +7,8 @@ import {
   VisibilityBottomSheet,
   LoadingSpinner,
   AddButton,
+  CategoryUpsertSheet,
+  FaqEditListSheet,
 } from '@/components';
 import { FloatingButton } from '@/components/seller/item/itemDetail/FloatingButton';
 // icon
@@ -28,7 +30,7 @@ import {
 // type
 import { BottomNavItem } from '@/components/common/BottomNavBar';
 import { CategoryType } from '@/types/common/CategoryType.types';
-
+import { SheetMode } from '@/types/common/FAQ.types';
 // hooks & utils
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { useStrictId } from '@/hooks/auth/useStrictId';
@@ -36,8 +38,8 @@ import { useCopyMarketUrl } from '@/utils/useCopyUrl';
 import { useSnackbarStore } from '@/store/snackbarStore';
 
 // api
-import { useGetMarketItemDetailSuspense } from '@/services/sellerItem/query/useGetMarketItemDetail';
-import { useGetItemFaqCategory } from '@/services/sellerFaqCard/query/useGetItemFaqCategory';
+import { useGetMarketItemDetail } from '@/services/sellerItem/query/useGetMarketItemDetail';
+import { useGetItemFaqCategoryQuery } from '@/services/sellerFaqCard/query/useGetItemFaqCategory';
 import { useGetFaqCardByCategory } from '@/services/sellerFaqCard/query/useGetFaqCardByCategory';
 
 const ItemDetailFaqCard = lazy(
@@ -54,6 +56,8 @@ const SellerItemDetailPage = () => {
     null
   );
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  // 3) 어떤 모드의 시트를 띄울지
+  const [sheetMode, setSheetMode] = useState<SheetMode>('none');
 
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbarStore();
@@ -65,13 +69,17 @@ const SellerItemDetailPage = () => {
   // 툴팁 표시 여부
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
+  // 4) BottomSheet 의 인풋에 바인딩할 임시 텍스트
+  const [draftName, setDraftName] = useState('');
+  const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
+
   const categoryAnchorRef = useRef<HTMLDivElement>(null);
   const itemDetailRef = useRef<HTMLDivElement>(null);
 
   const copyUrl = useCopyMarketUrl(sellerId);
 
-  const { data: itemDetailData, isPending: isItemDetailPending } =
-    useGetMarketItemDetailSuspense({
+  const { data: itemDetailData, isFetching: isItemDetailFetching } =
+    useGetMarketItemDetail({
       sellerId: Number(sellerId),
       itemId: Number(itemId),
     });
@@ -120,8 +128,8 @@ const SellerItemDetailPage = () => {
   const scrollViewRef = useScrollToTop(); // 기본: 상단 스크롤
 
   //api : faq 카테고리
-  const { data: faqCategories, isPending: isFaqCategoryPending } =
-    useGetItemFaqCategory({
+  const { data: faqCategories, isFetching: isFaqCategoryFetching } =
+    useGetItemFaqCategoryQuery({
       sellerId: Number(sellerId),
       itemId: Number(itemId),
     });
@@ -132,7 +140,7 @@ const SellerItemDetailPage = () => {
   }, [faqCategories]);
 
   useEffect(() => {
-    if (isItemDetailPending || isFaqCategoryPending) return;
+    if (isItemDetailFetching || isFaqCategoryFetching) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -165,7 +173,7 @@ const SellerItemDetailPage = () => {
     if (categoryAnchorRef.current) observer.observe(categoryAnchorRef.current);
     if (itemDetailRef.current) observer.observe(itemDetailRef.current);
     return () => observer.disconnect();
-  }, [isDetailOnScreen, isItemDetailPending, isFaqCategoryPending]);
+  }, [isDetailOnScreen, isItemDetailFetching, isFaqCategoryFetching]);
 
   const {
     data: faqCardList,
@@ -211,7 +219,6 @@ const SellerItemDetailPage = () => {
       return;
     }
   };
-  // TODO: 카테고리 바뀌어도 스크롤바 위치 안 바뀌게 하기
 
   return (
     <div className="flex w-full flex-col pb-[4.125rem]">
@@ -219,7 +226,8 @@ const SellerItemDetailPage = () => {
       {isFaqCategoryTop ? (
         <header className="sticky top-0 z-20 flex w-full flex-nowrap gap-2 bg-[rgba(241,241,241,0.30)]">
           <div className="scrollbar-hide flex items-center gap-2 overflow-x-scroll px-5 pt-2 pb-[.4375rem]">
-            {faqCategories.length > 0 &&
+            {faqCategories &&
+              faqCategories.length > 0 &&
               faqCategories.map((category: CategoryType) => (
                 <CategoryChip
                   key={category.id}
@@ -259,10 +267,8 @@ const SellerItemDetailPage = () => {
           <span className="flex h-11 w-full shrink-0" />
         </>
       )}
-
       {/* 상단 스크롤을 위한 ref */}
       <div className="invisible" ref={scrollViewRef} />
-
       {/* 상단 상품 정보 파트 */}
       <Suspense fallback={<LoadingSpinner />}>
         {itemDetailData && (
@@ -273,18 +279,19 @@ const SellerItemDetailPage = () => {
           />
         )}
       </Suspense>
-
       {/* FAQ 파트 */}
       <section className="mt-8 flex w-full flex-col gap-4">
         <article className="flex flex-col gap-[1.125rem]">
           <div className="flex w-full items-center justify-between px-5">
             <h2 className="text-grey11 body1-b">FAQ</h2>
             <Suspense fallback={null}>
-              {faqCategories.length > 0 && (
+              {faqCategories && faqCategories.length > 0 && (
                 <button
                   className="flex items-center gap-1"
                   type="button"
-                  onClick={() => {}}
+                  onClick={() => {
+                    setSheetMode('editList');
+                  }}
                 >
                   <span className="body2-m text-grey06">카테고리 수정</span>
                   <EditIcon className="text-grey09 h-3.5 w-3.5" />
@@ -303,7 +310,7 @@ const SellerItemDetailPage = () => {
                 />
               )}
               <article className="flex w-full flex-wrap gap-2">
-                {faqCategories.length > 0 ? (
+                {faqCategories && faqCategories.length > 0 ? (
                   faqCategories.map((category: CategoryType) => (
                     <CategoryChip
                       key={category.id}
@@ -336,7 +343,7 @@ const SellerItemDetailPage = () => {
         </article>
 
         {/* faq 카드 */}
-        {faqCategories.length > 0 && (
+        {faqCategories && faqCategories.length > 0 && (
           <div className="flex min-h-[calc(100vh-56px)] w-full flex-col justify-start gap-4">
             <Suspense fallback={<LoadingSpinner />}>
               {flattenedFaqCardList && flattenedFaqCardList.length > 0 && (
@@ -367,7 +374,6 @@ const SellerItemDetailPage = () => {
           </div>
         )}
       </section>
-
       <BottomNavBar items={detailBottomNavItems} type="action" />
       {/* 톡박스 플로팅 버튼 */}
       <Suspense fallback={<LoadingSpinner />}>
@@ -381,11 +387,46 @@ const SellerItemDetailPage = () => {
           />
         )}
       </Suspense>
-
       {isBottomSheetOpen && (
         <VisibilityBottomSheet
           setIsOpen={setIsBottomSheetOpen}
           isOpen={isBottomSheetOpen}
+        />
+      )}
+
+      {/* 카테고리 추가하기 바텀시트 */}
+      {sheetMode === 'add' && (
+        <CategoryUpsertSheet
+          mode="add"
+          draftName={draftName}
+          setDraftName={setDraftName}
+          isBottomSheetOpen={true}
+          setSheetMode={setSheetMode}
+          itemId={Number(itemId)}
+        />
+      )}
+
+      {/* 카테고리명 수정하기 바텀시트 */}
+      {sheetMode === 'editText' && (
+        <CategoryUpsertSheet
+          mode="editText"
+          draftName={draftName}
+          setDraftName={setDraftName}
+          isBottomSheetOpen={true}
+          setSheetMode={setSheetMode}
+          itemId={Number(itemId)}
+          categoryId={activeCategoryId}
+        />
+      )}
+      {sheetMode === 'editList' && faqCategories && (
+        <FaqEditListSheet
+          mode="add"
+          setDraftName={setDraftName}
+          setSheetMode={setSheetMode}
+          itemId={Number(itemId)}
+          categories={faqCategories}
+          setActiveCategoryId={setActiveCategoryId}
+          isFaqCategoryFetching={isFaqCategoryFetching}
         />
       )}
     </div>

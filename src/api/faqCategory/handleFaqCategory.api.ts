@@ -5,7 +5,7 @@ import { CategoryPostType } from '@/services/sellerFaqCard/mutation/usePostItemF
 import { ApiResponse } from '@/types/common/ApiResponse.types';
 import { CategoryType } from '@/types/common/CategoryType.types';
 import { FAQCategoryResponse } from '@/types/common/FAQ.types';
-
+import { CategoryPatchType } from '@/services/sellerFaqCard/mutation/usePatchFaqCategory';
 export const getFaqCategory = async ({
   sellerId,
   itemId,
@@ -33,4 +33,52 @@ export const postFaqCategory = async ({
     data
   );
   return response.data.result;
+};
+
+export const patchFaqCategory = async ({
+  itemId,
+  data,
+}: {
+  itemId: number;
+  data: CategoryPatchType;
+}) => {
+  const response = await instance.patch<ApiResponse<CategoryType>>(
+    generateApiPath(API_DOMAINS.SELLER_HANDLE_FAQ_CATEGORIES, {
+      itemId,
+    }),
+    data
+  );
+  return response.data.result;
+};
+
+export const deleteFaqCategory = async ({
+  itemId,
+  id,
+}: {
+  itemId: number;
+  id: number;
+}): Promise<void> => {
+  await instance.delete(
+    generateApiPath(API_DOMAINS.SELLER_HANDLE_FAQ_CATEGORIES, { itemId }),
+    {
+      data: {
+        id,
+      },
+    }
+  );
+};
+
+export const patchFaqCategoryOrder = async ({
+  itemId,
+  ids,
+}: {
+  itemId: number;
+  ids: number[];
+}): Promise<void> => {
+  await instance.patch(
+    generateApiPath(API_DOMAINS.SELLER_PATCH_FAQ_CATEGORIES_ORDER, { itemId }),
+    {
+      ids,
+    }
+  );
 };
