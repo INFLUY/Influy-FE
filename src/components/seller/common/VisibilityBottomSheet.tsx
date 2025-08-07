@@ -1,10 +1,11 @@
 import BottomSheet from '@/components/common/BottomSheet';
-import { SetStateAction } from 'react';
+import { SetStateAction, Suspense } from 'react';
 import { DefaultButton, ToggleButton } from '@/components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { ItemAccessDTO } from '@/types/common/ItemType.types';
 
 import { usePatchItemAccess } from '@/services/sellerItem/mutation/usePatchItemAccess';
-
+import { useGetItemAccess } from '@/services/sellerItem/query/useGetItemAccess';
 const VisibilityBottomSheet = ({
   isOpen,
   setIsOpen,
@@ -14,20 +15,28 @@ const VisibilityBottomSheet = ({
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
   itemId: number;
 }) => {
-  const [archiveRecommended, setArchiveRecommended] = useState(true);
-  const [searchAvailable, setSearchAvailable] = useState(true);
+  const [editedAccessState, setEditedAccessState] = useState<ItemAccessDTO>({
+    archiveRecommended: false,
+    searchAvailable: false,
+  });
 
   const { mutate: patchItemAccess } = usePatchItemAccess();
   const handleSave = () => {
-    const data = {
-      archiveRecommended,
-      searchAvailable,
-    };
+    if (!editedAccessState) return;
+
     patchItemAccess({
       itemId,
-      data,
+      data: editedAccessState,
     });
   };
+  const { data: itemAccess } = useGetItemAccess({
+    itemId,
+  });
+
+  useEffect(() => {
+    if (!itemAccess) return;
+    setEditedAccessState(itemAccess);
+  }, [itemAccess]);
 
   return (
     <BottomSheet onClose={() => setIsOpen(false)} isBottomSheetOpen={isOpen}>
@@ -46,11 +55,18 @@ const VisibilityBottomSheet = ({
                 홈 아카이브 추천 상품으로 게시될 수 있습니다.
               </span>
             </div>
-            <ToggleButton
-              name="공개범위 설정"
-              isChecked={archiveRecommended}
-              setIsChecked={setArchiveRecommended}
-            />
+            <Suspense fallback={null}>
+              <ToggleButton
+                name="공개범위 설정"
+                isChecked={editedAccessState.archiveRecommended}
+                setIsChecked={() =>
+                  setEditedAccessState((prev) => ({
+                    ...prev,
+                    archiveRecommended: !prev.archiveRecommended,
+                  }))
+                }
+              />
+            </Suspense>
           </div>
 
           {/* 서비스 내 검색 허용 */}
@@ -61,11 +77,18 @@ const VisibilityBottomSheet = ({
                 검색 비허용 시 링크로만 접근할 수 있습니다.
               </span>
             </div>
-            <ToggleButton
-              name="서비스 내 검색 허용"
-              isChecked={searchAvailable}
-              setIsChecked={setSearchAvailable}
-            />
+            <Suspense fallback={null}>
+              <ToggleButton
+                name="서비스 내 검색 허용"
+                isChecked={editedAccessState.searchAvailable}
+                setIsChecked={() =>
+                  setEditedAccessState((prev) => ({
+                    ...prev,
+                    searchAvailable: !prev.searchAvailable,
+                  }))
+                }
+              />
+            </Suspense>
           </div>
         </div>
 

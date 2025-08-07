@@ -104,7 +104,7 @@ export type ItemPreviewList = {
 
 export type ItemCurrentStatusType = 'DEFAULT' | 'EXTEND' | 'SOLD_OUT';
 
-export interface ItemAccessRequestType {
+export interface ItemAccessDTO {
   archiveRecommended: boolean;
   searchAvailable: boolean;
 }
