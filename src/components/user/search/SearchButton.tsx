@@ -9,7 +9,7 @@ const SearchButton = () => {
     <SearchIcon
       role="button"
       aria-label="검색창으로 이동하기"
-      className="h-6 w-6 cursor-pointer"
+      className="h-6 w-6 cursor-pointer text-black"
       onClick={() => navigate(PATH.SEARCH.BASE)}
     />
   );
