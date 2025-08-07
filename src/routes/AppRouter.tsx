@@ -61,6 +61,7 @@ import {
   SellerDeleteAccountPage,
   UserItemDetailPage,
   UserChatPage,
+  IntroPage,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -105,6 +106,10 @@ const router = createBrowserRouter([
       {
         path: PATH.LOGIN.BASE,
         element: <LoginPage />,
+      },
+      {
+        path: PATH.INTRO.BASE,
+        element: <IntroPage />,
       },
       {
         path: PATH.OAUTH.BASE,
