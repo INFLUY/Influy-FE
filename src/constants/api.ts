@@ -16,6 +16,10 @@ export const API_DOMAINS = {
   SELLER_MARKET_ITEM: '/seller/:sellerId/items/:itemId',
   SELLER_FAQ_CATEGORIES: '/seller/:sellerId/items/:itemId/faq-categories',
 
+  // 검색
+  GET_SEARCHED_ITEMS: '/search/item',
+  GET_SEARCHED_SELLERS: '/search/seller',
+
   //찜
   GET_ITEM_LIKE_COUNTS: '/seller/:sellerId/items/:itemId/count-likes',
   SELLER_MARKET_LINKS: '/seller/:sellerId/market-links',
@@ -162,6 +166,10 @@ export const QUERY_KEYS = {
   HOME_CLOSE_DEADLINE: 'closeDeadline',
   HOME_TRENDING_SELLER: 'trendingSeller',
   HOME_SELLER_PICK: 'sellerPick',
+
+  // 검색
+  SEARCHED_ITEMS: 'searchedItems',
+  SEARCHED_SELLERS: 'searchedSellers',
 
   //찜
   LIKED_ITEMS: 'likedItems',

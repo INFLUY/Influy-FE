@@ -5,9 +5,9 @@ import {
   TopBannerSwiper,
   NotificationButton,
   TrendingSellerSection,
+  SearchButton,
 } from '@/components';
 import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
-import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import { useEffect, useState } from 'react';
 import UserTypeSwitchBanner from '@/components/seller/home/UserTypeSwitchBanner';
 import { useGetItemCategory } from '@/services/itemCategory/useGetItemCategory';
@@ -87,10 +87,7 @@ const HomePage = () => {
     <section className="top-banner-swiper-section bg-grey01 flex w-full flex-1 flex-col pt-11">
       <PageHeader
         leftIcons={[<InfluyIcon className="h-6 text-black" role="button" />]}
-        rightIcons={[
-          <SearchIcon className="h-6 w-6 cursor-pointer" />,
-          <NotificationButton />,
-        ]}
+        rightIcons={[<SearchButton />, <NotificationButton />]}
         additionalStyles="border-0 h-11"
       />
       <section className="scrollbar-hide flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto">

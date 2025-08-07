@@ -25,6 +25,7 @@ export const usePostItemLike = () => {
         QUERY_KEYS.LIKED_ITEMS,
         QUERY_KEYS.HOME_CLOSE_DEADLINE,
         QUERY_KEYS.HOME_POPULAR,
+        QUERY_KEYS.SEARCHED_ITEMS,
       ];
 
       keysToUpdate.forEach((queryKey) => {

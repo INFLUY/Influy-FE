@@ -5,6 +5,7 @@ import { ItemCardType } from '@/types/common/ItemType.types';
 import { ITEM_DETAIL } from '@/utils/generatePath';
 import { useRef } from 'react';
 import { generatePath, useNavigate } from 'react-router-dom';
+import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 
 const ItemResult = ({
   total,
@@ -77,8 +78,9 @@ const ItemResult = ({
             )}
           </>
         ) : (
-          <div className="text-grey09 body2-m flex flex-1 items-center justify-center">
-            검색된 상품 내역이 없어요
+          <div className="flex flex-1 flex-col items-center justify-center gap-[1.125rem] text-center">
+            <SearchIcon className="text-grey05 h-20 w-20" />
+            <p className="text-grey09 body2-m">검색된 상품 내역이 없어요</p>
           </div>
         ))}
     </article>
