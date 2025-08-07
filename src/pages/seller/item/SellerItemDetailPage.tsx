@@ -332,7 +332,7 @@ const SellerItemDetailPage = () => {
                         후기 모음, 제작 과정 등의 카테고리를 추가해보세요.
                       </p>
                     </div>
-                    <AddButton handleOnClick={() => {}}>
+                    <AddButton handleOnClick={() => setSheetMode('add')}>
                       카테고리 추가하기
                     </AddButton>
                   </div>
@@ -391,6 +391,7 @@ const SellerItemDetailPage = () => {
         <VisibilityBottomSheet
           setIsOpen={setIsBottomSheetOpen}
           isOpen={isBottomSheetOpen}
+          itemId={Number(itemId)}
         />
       )}
 

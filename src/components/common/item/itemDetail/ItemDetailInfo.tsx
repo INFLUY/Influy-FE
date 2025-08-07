@@ -41,7 +41,7 @@ export const ItemDetailInfo = ({
       className="item-detail-swiper-section flex w-full flex-col pb-[.6875rem]"
       ref={ref}
     >
-      <div className="relative h-[23.8125rem] w-full">
+      <div className="aspect-productImg relative w-full">
         {data.itemImgList && (
           <Swiper
             className="z-0 h-full"
@@ -58,7 +58,7 @@ export const ItemDetailInfo = ({
               <SwiperSlide key={i} className="z-0 h-full">
                 <img
                   src={img}
-                  className="h-full w-full object-cover"
+                  className="aspect-productImg w-full object-cover"
                   decoding="async"
                   role="img"
                   alt={'상품 이미지 ' + (i + 1)}

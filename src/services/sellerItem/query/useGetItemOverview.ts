@@ -28,7 +28,7 @@ export const useItemOverview = ({
 }) => {
   const { itemOverview, setItemOverview } = useItemOverviewStore();
 
-  const { data: itemOverviewData } = useGetItemOverview({
+  const { data: itemOverviewData, isFetching } = useGetItemOverview({
     sellerId,
     itemId,
   });
@@ -37,5 +37,5 @@ export const useItemOverview = ({
     if (itemOverviewData) setItemOverview(itemOverviewData);
   }, [itemOverviewData, setItemOverview]);
 
-  return { itemOverview };
+  return { itemOverview, isFetching };
 };

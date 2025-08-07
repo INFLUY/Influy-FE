@@ -40,6 +40,8 @@
 
   /* Fonts */
   --font-pretendard: 'Pretendard', sans-serif;
+
+  --aspect-productImg: 375 / 381;
 }
 
 @layer components {
