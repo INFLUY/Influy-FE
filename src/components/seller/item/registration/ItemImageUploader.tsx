@@ -50,18 +50,19 @@ export const ItemImageUploader = ({ name }: ItemImageUploaderProps) => {
 
     const limitedFiles = validFiles.slice(0, 10 - current);
 
-    try {
-      const uploadedUrls = await Promise.all(
-        limitedFiles.map(
-          (file) => uploadImage({ file }) // mutateAsync 사용
-        )
-      );
+    const uploadedUrls: string[] = [];
 
-      onChange([...images, ...uploadedUrls]);
-    } catch (error) {
-      console.error(error);
-      showSnackbar('이미지 업로드 중 오류가 발생했습니다.');
+    for (const file of limitedFiles) {
+      try {
+        const url = await uploadImage({ file });
+        uploadedUrls.push(url);
+      } catch (e) {
+        console.error(e);
+        showSnackbar(`${file.name} 업로드 실패`);
+      }
     }
+
+    onChange([...images, ...uploadedUrls]);
 
     e.target.value = '';
   };
