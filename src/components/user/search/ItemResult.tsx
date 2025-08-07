@@ -33,7 +33,7 @@ const ItemResult = ({
   });
 
   return (
-    <article className="flex flex-1 flex-col gap-3 py-3">
+    <article className="flex flex-1 flex-col gap-3">
       {isLoading && (
         <div className="flex flex-1 flex-col gap-3">
           <div className="bg-grey04 mx-5 h-5 w-8 animate-pulse" />

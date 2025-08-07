@@ -1,5 +1,12 @@
 import { BackButton, ItemResult, NotificationButton } from '@/components';
+import {
+  getRecentKeywords,
+  addRecentKeyword,
+  removeRecentKeyword,
+  clearRecentKeywords,
+} from '@/utils/localStorage/searchKeywords';
 import XIcon from '@/assets/icon/common/XIcon2.svg?react';
+import XIcon2 from '@/assets/icon/common/XMiniIcon.svg?react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ItemCardType } from '@/types/common/ItemType.types';
@@ -14,10 +21,29 @@ const SearchPage = () => {
   const navigate = useNavigate();
   const query = useQuery().get('q') || '';
   const [keyword, setKeyword] = useState('');
+  const [recentKeywords, setRecentKeywords] = useState<string[]>([]);
 
   useEffect(() => {
     setKeyword(query);
+    if (query) {
+      addRecentKeyword(query);
+      setRecentKeywords(getRecentKeywords());
+    }
   }, [query]);
+
+  useEffect(() => {
+    setRecentKeywords(getRecentKeywords());
+  }, []);
+
+  const handleDeleteKeyword = (keyword: string) => {
+    removeRecentKeyword(keyword);
+    setRecentKeywords(getRecentKeywords());
+  };
+
+  const handleClearAll = () => {
+    clearRecentKeywords();
+    setRecentKeywords([]);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && keyword.trim()) {
@@ -33,6 +59,7 @@ const SearchPage = () => {
 
   const handleClear = () => {
     setKeyword('');
+    navigate(PATH.SEARCH.BASE);
   };
 
   const {
@@ -73,9 +100,49 @@ const SearchPage = () => {
         </div>
       </header>
       <article className="flex flex-1">
+        {!query && recentKeywords.length > 0 && (
+          <div className="flex w-full flex-col gap-4 px-5 py-5">
+            <div className="flex justify-between">
+              <p className="body2-sb text-black">최근 검색어</p>
+              <button
+                type="button"
+                className="text-grey07 caption-m cursor-pointer"
+                onClick={handleClearAll}
+              >
+                모두 지우기
+              </button>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {recentKeywords.map((word) => (
+                <div
+                  key={word}
+                  className="text-grey09 border-grey04 flex h-fit w-fit max-w-40 items-center gap-1 rounded-[.1875rem] border px-[.625rem] py-2"
+                >
+                  <span
+                    className="body2-m line-clamp-1 cursor-pointer"
+                    onClick={() =>
+                      navigate(
+                        `${PATH.SEARCH.BASE}?q=${encodeURIComponent(word)}`
+                      )
+                    }
+                  >
+                    {word}
+                  </span>
+                  <XIcon2
+                    className="h-3 w-3 shrink-0 cursor-pointer"
+                    aria-label="검색어 삭제"
+                    role="button"
+                    onClick={() => handleDeleteKeyword(word)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {query && (
-          <div className="flex flex-1 gap-3">
-            {/* 검색 결과 렌더링 자리 */}
+          <div className="flex flex-1 flex-col gap-3">
             <ItemResult
               isLoading={isItemResultLoading}
               itemList={itemList}
