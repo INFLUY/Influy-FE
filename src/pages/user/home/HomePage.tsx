@@ -20,6 +20,7 @@ import { useGetSellerPick } from '@/services/home/query/useGetSellerPick';
 import Banner1 from '@/assets/image/banner/Banner1.png';
 import Banner2 from '@/assets/image/banner/Banner2.png';
 import Banner3 from '@/assets/image/banner/Banner3.png';
+import { useAuthStore } from '@/store/authStore';
 
 export interface TopBannerItem {
   image: string;
@@ -47,6 +48,8 @@ export const topBanner: TopBannerItem[] = [
 ];
 
 const HomePage = () => {
+  const { reissue } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const allCategoryDto = {
     id: 0,
@@ -83,6 +86,14 @@ const HomePage = () => {
     }
   }, [trendingSeller]);
 
+  useEffect(() => {
+    const checkToken = async () => {
+      await reissue();
+      setIsLoading(false);
+    };
+    checkToken();
+  }, [reissue]);
+
   return (
     <section className="top-banner-swiper-section bg-grey01 flex w-full flex-1 flex-col pt-11">
       <PageHeader
@@ -113,9 +124,9 @@ const HomePage = () => {
           expiringItem={expiringItem?.pages[0]?.itemPreviewList || []}
           trendingItem={trendingItem?.pages[0]?.itemPreviewList || []}
           recommendedItem={recommendItems?.pages[0]?.itemPreviewList || []}
-          isLoadingExpiring={isLoadingExpiring}
-          isLoadingTrending={isLoadingTrending}
-          isLoadingRecommended={isLoadingRecommended}
+          isLoadingExpiring={isLoadingExpiring || isLoading}
+          isLoadingTrending={isLoadingTrending || isLoading}
+          isLoadingRecommended={isLoadingRecommended || isLoading}
           categoryList={[
             allCategoryDto,
             ...(itemCategories?.categoryDtoList ?? []),

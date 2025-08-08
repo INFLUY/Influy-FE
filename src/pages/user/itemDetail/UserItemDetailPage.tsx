@@ -1,6 +1,11 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 
-import { PageHeader, CategoryChip, LoadingSpinner } from '@/components';
+import {
+  PageHeader,
+  CategoryChip,
+  LoadingSpinner,
+  Loading,
+} from '@/components';
 import { UserNav } from '@/components/user/itemDetail/UserNav';
 // icon
 import ArrowIcon from '@/assets/icon/common/ArrowIcon.svg?react';
@@ -27,6 +32,7 @@ const ItemDetailFaqCard = lazy(
 );
 
 import ItemDetailInfo from '@/components/common/item/itemDetail/ItemDetailInfo';
+import { useAuthStore } from '@/store/authStore';
 const FaqCategorySection = lazy(
   () => import('@/components/common/item/itemDetail/FaqCategorySection')
 );
@@ -34,6 +40,8 @@ const UserItemDetailPage = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );
+  const { reissue } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -131,6 +139,18 @@ const UserItemDetailPage = () => {
   const flattenedFaqCardList = faqCardList?.pages.flatMap(
     (page) => page?.faqCardList ?? []
   );
+
+  useEffect(() => {
+    const checkToken = async () => {
+      await reissue();
+      setIsLoading(false);
+    };
+    checkToken();
+  }, [reissue]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex w-full flex-col pb-[4.125rem]">

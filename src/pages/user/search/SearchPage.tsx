@@ -12,12 +12,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ItemCardType } from '@/types/common/ItemType.types';
 import { PATH } from '@/routes/path';
 import { useGetSearchedItems } from '@/services/search/useGetSearchedItems';
+import { useAuthStore } from '@/store/authStore';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
 
 const SearchPage = () => {
+  const { reissue } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const query = useQuery().get('q') || '';
   const [keyword, setKeyword] = useState('');
@@ -61,6 +64,14 @@ const SearchPage = () => {
     setKeyword('');
     navigate(PATH.SEARCH.BASE);
   };
+
+  useEffect(() => {
+    const checkToken = async () => {
+      await reissue();
+      setIsLoading(false);
+    };
+    checkToken();
+  }, [reissue]);
 
   const {
     data: itemResult,
@@ -144,7 +155,7 @@ const SearchPage = () => {
         {query && (
           <div className="flex flex-1 flex-col gap-3">
             <ItemResult
-              isLoading={isItemResultLoading}
+              isLoading={isLoading || isItemResultLoading}
               itemList={itemList}
               fetchNextPage={fetchItemNextPage}
               hasNextPage={hasItemNextPage}
