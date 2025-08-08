@@ -13,6 +13,7 @@ import 'swiper/css/navigation';
 
 // api
 import { useGetSellerOverview } from '@/services/seller/query/useGetSellerOverview';
+import { isItemClosed } from '@/utils/itemDateUtils';
 
 export const ItemDetailInfo = ({
   data,
@@ -66,6 +67,11 @@ export const ItemDetailInfo = ({
               </SwiperSlide>
             ))}
           </Swiper>
+        )}
+        {isItemClosed(data.endDate) && (
+          <div className="subhead-m pointer-events-none absolute inset-0 z-[5] flex items-center justify-center bg-black/40 text-white">
+            마감
+          </div>
         )}
 
         {/* 진행 회차 뱃지 */}
