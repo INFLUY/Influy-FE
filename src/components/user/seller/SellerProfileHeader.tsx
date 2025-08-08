@@ -59,7 +59,7 @@ const SellerProfileHeader = ({
           </span>
         )}
         <span className="flex shrink-0 gap-3">
-          <SearchButton />
+          <SearchButton color="white" />
           <ShareIcon
             onClick={() => copyUrl()}
             className="h-6 w-6 cursor-pointer"

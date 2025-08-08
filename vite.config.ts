@@ -24,12 +24,12 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // 15MB
       },
       manifest: {
-        name: 'Influy',
-        short_name: 'Influy',
+        name: 'INFLUY',
+        short_name: 'INFLUY',
         description: '인플루언서의 상품 판매를 간편화하는 퍼스널 셀렉트 스토어',
         theme_color: '#ffffff',
         orientation: 'portrait',
-        display: 'fullscreen',
+        display: 'standalone',
         start_url: '/',
         background_color: '#ffffff',
         lang: 'ko',
