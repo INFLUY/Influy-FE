@@ -8,6 +8,7 @@ export { SignupSnsLinkPage } from './auth/SignupSnsLinkPage';
 export { SignupInterestPage } from './auth/SignupInterestPage';
 export { SignupEmailPage } from './auth/SignupEmailPage';
 export { WelcomePage } from './auth/WelcomePage';
+export { IntroPage } from './common/IntroPage';
 
 // 유저
 export { default as HomePage } from './user/home/HomePage';

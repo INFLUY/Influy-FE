@@ -2,7 +2,7 @@ import InfluyLogo from '@/assets/icon/common/InfluyIcon.svg?react';
 import KakaoIcon from '@/assets/icon/common/KakaoIcon.svg?react';
 import Arrow from '@/assets/icon/common/ArrowRight12.svg?react';
 import LoginBg from '@/assets/image/LoginBgImg.svg';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { PATH } from '@/routes/path';
 import cn from '@/utils/cn';
@@ -10,6 +10,7 @@ import { CloseComponent } from '@/components';
 import { usePostLogout } from '@/services/auth/mutation/usePostLogout';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const isBasicLoginPage = pathname.includes(PATH.LOGIN.BASE);
 
@@ -44,6 +45,7 @@ const LoginPage = () => {
             <button
               type="button"
               className="flex cursor-pointer items-center gap-[.125rem] text-center"
+              onClick={() => navigate(PATH.INTRO.BASE)}
             >
               <span>소개보기</span>
               <Arrow />

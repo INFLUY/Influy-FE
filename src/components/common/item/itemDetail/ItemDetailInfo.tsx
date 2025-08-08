@@ -13,6 +13,7 @@ import 'swiper/css/navigation';
 
 // api
 import { useGetSellerOverview } from '@/services/seller/query/useGetSellerOverview';
+import { isItemClosed } from '@/utils/itemDateUtils';
 
 export const ItemDetailInfo = ({
   data,
@@ -41,7 +42,7 @@ export const ItemDetailInfo = ({
       className="item-detail-swiper-section flex w-full flex-col pb-[.6875rem]"
       ref={ref}
     >
-      <div className="relative h-[23.8125rem] w-full">
+      <div className="aspect-productImg relative w-full">
         {data.itemImgList && (
           <Swiper
             className="z-0 h-full"
@@ -58,7 +59,7 @@ export const ItemDetailInfo = ({
               <SwiperSlide key={i} className="z-0 h-full">
                 <img
                   src={img}
-                  className="h-full w-full object-cover"
+                  className="aspect-productImg w-full object-cover"
                   decoding="async"
                   role="img"
                   alt={'상품 이미지 ' + (i + 1)}
@@ -66,6 +67,11 @@ export const ItemDetailInfo = ({
               </SwiperSlide>
             ))}
           </Swiper>
+        )}
+        {isItemClosed(data.endDate) && (
+          <div className="subhead-m pointer-events-none absolute inset-0 z-[5] flex items-center justify-center bg-black/40 text-white">
+            마감
+          </div>
         )}
 
         {/* 진행 회차 뱃지 */}

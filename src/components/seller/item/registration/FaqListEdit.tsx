@@ -19,7 +19,7 @@ import {
 import RightIcon from '@/assets/icon/common/ArrowRight10.svg?react';
 import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import KebobIcon from '@/assets/icon/common/KebabIcon.svg?react';
-import DarkPinIcon from '@/assets/icon/common/DarkPinIcon.svg?react';
+import LightPinIcon from '@/assets/icon/common/LightPinIcon20.svg?react';
 
 import {
   SELLER_ITEM_EDIT_FAQ_TAB_PATH,
@@ -341,7 +341,7 @@ const FaqQuestionCard = ({
             {parseDateString(faqCard.updatedAt)}
           </span>
           <div className="flex items-center justify-end gap-0.5">
-            {faqCard.pinned && <DarkPinIcon className="h-5 w-5" />}
+            {faqCard.pinned && <LightPinIcon className="h-5 w-5" />}
             <button
               type="button"
               className="cursor-pointer"

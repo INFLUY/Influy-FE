@@ -5,7 +5,7 @@ import { useGetAnnouncement } from '@/services/announcement/query/useGetAnnounce
 import { AnnouncementType } from '@/types/common/AnnouncementType.types';
 import { parseDateString } from '@/utils/formatDate';
 import { SetStateAction, useRef } from 'react';
-import PinIcon from '@/assets/icon/user/PinIcon.svg?react';
+import PinIcon from '@/assets/icon/common/LightPinIcon16.svg?react';
 
 const SellerAnnouncementBottomSheet = ({
   marketId,
@@ -65,7 +65,7 @@ const SellerAnnouncementBottomSheet = ({
                       <h2 className="body1-m text-grey10">
                         {primaryAnnouncement.title}
                       </h2>
-                      <PinIcon className="h-6 w-6 shrink-0 text-black" />
+                      <PinIcon className="h-4 w-4 shrink-0 text-black" />
                     </span>
                     <span className="caption-m text-grey05">
                       {parseDateString(primaryAnnouncement.createdAt)}
