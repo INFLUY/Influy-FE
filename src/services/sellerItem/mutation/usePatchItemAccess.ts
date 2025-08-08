@@ -14,6 +14,17 @@ export const usePatchItemAccess = (onSuccessCallback?: () => void) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_ITEM_ACCESS, _variable.itemId],
       });
+      const keysToInvalidate = [
+        [QUERY_KEYS.HOME_POPULAR],
+        [QUERY_KEYS.HOME_RECOMMEND],
+        [QUERY_KEYS.HOME_CLOSE_DEADLINE],
+        [QUERY_KEYS.HOME_TRENDING_SELLER],
+      ];
+
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          keysToInvalidate.some((key) => query.queryKey.includes(key)),
+      });
 
       onSuccessCallback?.();
     },
