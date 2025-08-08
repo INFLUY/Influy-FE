@@ -16,8 +16,12 @@ import { useGetRecommendedItem } from '@/services/home/query/useGetRecommendedIt
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { ItemCardType } from '@/types/common/ItemType.types';
 import NotFound from '@/pages/error/NotFound';
+import { getReissue } from '@/api/auth/getReissue.api';
+import { useAuthStore } from '@/store/authStore';
 
 const CategoryPage = () => {
+  const { reissue } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(true);
   const { categoryId } = useParams();
   const [selectedCategory, setSelectedCategory] = useState<number>(
     categoryId ? Number(categoryId) : 0
@@ -58,7 +62,7 @@ const CategoryPage = () => {
 
   const {
     data: recommendItems,
-    isLoading,
+    isLoading: isItemLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -80,6 +84,14 @@ const CategoryPage = () => {
   const itemList = recommendItems?.pages
     .flatMap((page) => page?.itemPreviewList ?? [])
     .filter(Boolean) as ItemCardType[];
+
+  useEffect(() => {
+    const checkToken = async () => {
+      await getReissue();
+      setIsLoading(false);
+    };
+    checkToken();
+  }, [reissue]);
 
   if (!isCategoryLoading && !isValidCategory) {
     return <NotFound />;
@@ -118,7 +130,7 @@ const CategoryPage = () => {
           )
         )}
       </div>
-      {isLoading && (
+      {(isLoading || isItemLoading) && (
         <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
           {Array.from({ length: 8 }).map((_, idx) => (
             <ItemAlbumCardSkeleton key={idx} />
@@ -127,6 +139,7 @@ const CategoryPage = () => {
       )}
       <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
         {!isLoading &&
+          !isItemLoading &&
           itemList?.map((item: ItemCardType) => (
             <ItemAlbumCard
               key={item.itemId}

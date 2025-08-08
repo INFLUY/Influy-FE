@@ -10,15 +10,18 @@ import { generatePath, useNavigate } from 'react-router-dom';
 import { ITEM_DETAIL } from '@/utils/generatePath';
 import { useGetCloseDeadlineItem } from '@/services/home/query/useGetCloseDeadlineItem';
 import { ItemCardType } from '@/types/common/ItemType.types';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import { useAuthStore } from '@/store/authStore';
 
 const EndingSoonPage = () => {
+  const { reissue } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   const {
     data: expiringItems,
-    isLoading,
+    isLoading: isItemLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -37,6 +40,14 @@ const EndingSoonPage = () => {
     .flatMap((page) => page?.itemPreviewList ?? [])
     .filter(Boolean) as ItemCardType[];
 
+  useEffect(() => {
+    const checkToken = async () => {
+      await reissue();
+      setIsLoading(false);
+    };
+    checkToken();
+  }, [reissue]);
+
   return (
     <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto pt-11">
       <PageHeader
@@ -47,11 +58,12 @@ const EndingSoonPage = () => {
         마감임박
       </PageHeader>
       <div className="grid grid-cols-2 gap-x-[.1875rem] gap-y-8">
-        {isLoading &&
+        {(isItemLoading || isLoading) &&
           Array.from({ length: 8 }).map((_, idx) => (
             <ItemAlbumCardSkeleton key={idx} />
           ))}
-        {!isLoading &&
+        {!isItemLoading &&
+          !isLoading &&
           itemList &&
           itemList?.map((item) => (
             <ItemAlbumCard
