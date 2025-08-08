@@ -35,7 +35,7 @@ const ItemAlbumCard = ({
           additionalStyles="absolute top-2 right-3"
         />
         {isItemClosed(item.endDate) && (
-          <div className="body2-m pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
+          <div className="body2-m body2-m pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 text-white">
             마감
           </div>
         )}

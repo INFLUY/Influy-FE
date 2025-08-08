@@ -1,5 +1,6 @@
 import TalkBoxIcon from '@/assets/icon/common/TalkBoxIcon.svg?react';
 import { DefaultButton, ItemLikeButton } from '@/components';
+import { useSnackbarStore } from '@/store/snackbarStore';
 import { Suspense } from 'react';
 
 export const UserNav = ({
@@ -19,6 +20,15 @@ export const UserNav = ({
   itemId: number;
   liked: boolean;
 }) => {
+  const { showSnackbar } = useSnackbarStore();
+  const handlePurchaseOnclick = () => {
+    if (!marketLink) {
+      showSnackbar('아직 판매 링크가 등록되지 않았습니다.');
+      return;
+    } else {
+      window.open(marketLink, '_blank', 'noopener,noreferrer');
+    }
+  };
   return (
     <nav
       className="border-t-grey03 bg-grey01 bottom-bar flex items-start gap-3 border-t border-solid px-5 py-2"
@@ -41,14 +51,7 @@ export const UserNav = ({
           <TalkBoxIcon />
         </button>
       )}
-      <a
-        href={marketLink ?? ''}
-        target="_blank"
-        rel="noreferrer"
-        className="w-full"
-      >
-        <DefaultButton text="구매하기" />
-      </a>
+      <DefaultButton text="구매하기" onClick={handlePurchaseOnclick} />
     </nav>
   );
 };
