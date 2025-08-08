@@ -289,7 +289,7 @@ export const FormPriceInput = <T extends FieldValues>({
         className="body2-m placeholder:text-grey06 scrollbar-hide overflow-y-auto break-keep outline-none"
         style={{ width: `${inputWidth}px` }}
       />
-      {price && <span className="body2-m">원</span>}
+      {price !== undefined && <span className="body2-m">원</span>}
 
       {/* 숨겨진 span으로 width 측정 */}
       <span ref={spanRef} className="body2-m invisible absolute whitespace-pre">
@@ -320,6 +320,7 @@ export const FormSalePriceInput = <T extends FieldValues>({
   const regularPrice = watch('price');
 
   // 숫자 세개마다 컴마
+  console.log(typeof salePrice === 'number');
   const formattedPrice =
     typeof salePrice === 'number' ? salePrice.toLocaleString() : '';
 
@@ -380,7 +381,7 @@ export const FormSalePriceInput = <T extends FieldValues>({
           className="body2-m placeholder:text-grey06 scrollbar-hide overflow-y-auto break-keep outline-none"
           style={{ width: `${inputWidth}px` }}
         />
-        {salePrice && <span className="body2-m">원</span>}
+        {salePrice !== undefined && <span className="body2-m">원</span>}
 
         {/* 숨겨진 span으로 width 측정 */}
         <span
