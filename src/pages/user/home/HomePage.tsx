@@ -38,11 +38,11 @@ export const topBanner: TopBannerItem[] = [
   },
   {
     image: Banner1,
-    path: '../market/9/selection',
+    path: '../market/1/selection',
   },
   {
     image: Banner3,
-    path: '',
+    path: '../market/3/selection',
   },
 ];
 
