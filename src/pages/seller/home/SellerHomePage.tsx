@@ -3,9 +3,9 @@ import {
   MyProductStatus,
   BottomNavBar,
   NotificationButton,
+  SearchButton,
 } from '@/components';
 import InfluyIcon from '@/assets/icon/common/InfluyIcon.svg?react';
-import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import UserTypeSwitchBanner from '@/components/seller/home/UserTypeSwitchBanner';
 import { useGetSellerProfile } from '@/services/seller/query/useGetSellerProfile';
 import { SellerHomeItemStatus } from '@/types/common/ItemType.types';
@@ -46,10 +46,7 @@ const SellerHomePage = () => {
             aria-label="뒤로 가기"
           />,
         ]}
-        rightIcons={[
-          <SearchIcon className="h-6 w-6 cursor-pointer" />,
-          <NotificationButton />,
-        ]}
+        rightIcons={[<SearchButton />, <NotificationButton />]}
         additionalStyles="border-0 h-11"
       />
       <section className="scrollbar-hide flex w-full flex-1 flex-col gap-4 overflow-x-hidden overflow-y-auto py-4">

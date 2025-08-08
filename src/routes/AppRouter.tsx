@@ -61,6 +61,7 @@ import {
   SellerDeleteAccountPage,
   UserItemDetailPage,
   UserChatPage,
+  SearchPage,
   IntroPage,
 } from '@/pages';
 import { lazy, Suspense } from 'react';
@@ -206,6 +207,16 @@ const router = createBrowserRouter([
                 element: <CategoryPage />,
               },
             ],
+          },
+        ],
+      },
+      {
+        path: PATH.SEARCH.BASE,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <SearchPage />,
           },
         ],
       },
