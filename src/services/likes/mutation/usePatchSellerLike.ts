@@ -85,6 +85,20 @@ export const usePatchSellerLike = () => {
 
       return { previousCache }; // 롤백용
     },
+    onSuccess: (_, _variables) => {
+      const keysToInvalidate = [
+        [QUERY_KEYS.LIKED_SELLERS],
+        [QUERY_KEYS.SELLER_MARKET_LIKES],
+      ];
+
+      keysToInvalidate.forEach((key) => {
+        queryClient.invalidateQueries({
+          predicate: (query) => {
+            return JSON.stringify(query.queryKey) === JSON.stringify(key);
+          },
+        });
+      });
+    },
     onError: (_error, _variables, context) => {
       if (!context?.previousCache) return;
       // 롤백 처리

@@ -163,6 +163,21 @@ export const usePatchItemLike = () => {
       return { previousCache };
     },
     onSuccess: (_, _variables) => {
+      const keysToInvalidate = [
+        [QUERY_KEYS.LIKED_ITEMS],
+        [QUERY_KEYS.HOME_CLOSE_DEADLINE],
+        [QUERY_KEYS.HOME_POPULAR],
+        [QUERY_KEYS.SEARCHED_ITEMS],
+        [QUERY_KEYS.HOME_RECOMMEND],
+      ];
+
+      keysToInvalidate.forEach((key) => {
+        queryClient.invalidateQueries({
+          predicate: (query) => {
+            return JSON.stringify(query.queryKey) === JSON.stringify(key);
+          },
+        });
+      });
       // 상품 상세정보
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SELLER_MARKET_ITEM, _variables.itemId],
