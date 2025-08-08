@@ -4,8 +4,8 @@ import {
   NotificationButton,
   BackButton,
   ItemAlbumCardSkeleton,
+  SearchButton,
 } from '@/components';
-import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { ITEM_DETAIL } from '@/utils/generatePath';
 import { useGetCloseDeadlineItem } from '@/services/home/query/useGetCloseDeadlineItem';
@@ -41,10 +41,7 @@ const EndingSoonPage = () => {
     <section className="bg-grey01 scrollbar-hide relative flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto pt-11">
       <PageHeader
         leftIcons={[<BackButton />]}
-        rightIcons={[
-          <SearchIcon className="h-6 w-6 cursor-pointer" />,
-          <NotificationButton />,
-        ]}
+        rightIcons={[<SearchButton />, <NotificationButton />]}
         additionalStyles="bg-white border-0"
       >
         마감임박

@@ -1,9 +1,9 @@
-import SearchIcon from '@/assets/icon/common/SearchIcon.svg?react';
 import ShareIcon from '@/assets/icon/common/ShareIcon.svg?react';
 import { BackButton } from '@/components/common/BackButton';
 import cn from '@/utils/cn';
 import { useCopyMarketUrl } from '@/utils/useCopyUrl';
 import { useEffect, useRef, useState } from 'react';
+import SearchButton from '../search/SearchButton';
 
 const SellerProfileHeader = ({
   name,
@@ -59,7 +59,7 @@ const SellerProfileHeader = ({
           </span>
         )}
         <span className="flex shrink-0 gap-3">
-          <SearchIcon className="h-6 w-6 cursor-pointer" />
+          <SearchButton />
           <ShareIcon
             onClick={() => copyUrl()}
             className="h-6 w-6 cursor-pointer"
