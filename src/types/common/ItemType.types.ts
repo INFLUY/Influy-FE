@@ -104,6 +104,11 @@ export type ItemPreviewList = {
 
 export type ItemCurrentStatusType = 'DEFAULT' | 'EXTEND' | 'SOLD_OUT';
 
+export interface ItemAccessDTO {
+  archiveRecommended: boolean;
+  searchAvailable: boolean;
+}
+
 export type SellerHomeItemStatus = {
   itemId: number;
   imageUrl: string;

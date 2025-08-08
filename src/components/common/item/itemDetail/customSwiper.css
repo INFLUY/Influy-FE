@@ -11,9 +11,9 @@
 }
 
 .item-detail-swiper-section .swiper-pagination {
-  top: 22.6875rem !important;
-  left: 0;
   width: 100% !important;
+  top: 10px !important;
+  left: 0;
   display: flex !important;
   justify-content: center !important;
   /* gap: auto; */
@@ -30,10 +30,11 @@
   border-radius: 0.1875rem !important;
   background-color: #ababab;
   transition: #ababab 0.3s ease;
-  opacity: 1 !important;
+  opacity: 0.7 !important;
 }
 
 /* active bullet (highlight) */
 .item-detail-swiper-section .custom-bullet-active {
   background-color: white !important;
+  opacity: 1 !important;
 }

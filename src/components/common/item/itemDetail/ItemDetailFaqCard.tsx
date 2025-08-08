@@ -2,9 +2,10 @@ import { FaqCardDetailResponse } from '@/types/common/FaqCardType.types';
 import { formatDate } from '@/utils/formatDate';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation, Pagination } from 'swiper/modules';
-import PinIcon from '@/assets/icon/common/Pin.svg?react';
+import PinIcon from '@/assets/icon/common/LightPinIcon24.svg?react';
 import cn from '@/utils/cn';
 import { LoadingSpinner } from '@/components';
+import InfluyLogo from '@/assets/icon/common/InfluyIcon.svg?react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -65,15 +66,32 @@ const ItemDetailFaqCard = ({
             role="group"
             aria-roledescription="FAQ 카드"
           >
-            <article className="relative flex w-full flex-col bg-black">
-              <img
-                src={faq.backgroundImgLink ?? undefined}
-                className={cn(
-                  'h-[23.4375rem] w-full object-cover',
-                  faq.adjustImg ? 'object-contain' : 'object-cover'
-                )}
-                role="img"
-              />
+            <article className="relative flex w-full flex-col items-center overflow-hidden">
+              {faq.backgroundImgLink ? (
+                <>
+                  {/* 배경으로 들어갈 블러 이미지 레이어 */}
+                  <span
+                    className="absolute inset-0 scale-105 overflow-hidden bg-cover bg-center opacity-80 blur-lg filter"
+                    style={{ backgroundImage: `url(${faq.backgroundImgLink})` }}
+                  />
+                  {/* 실제 보여질 포그라운드 이미지 */}
+                  <img
+                    src={faq.backgroundImgLink}
+                    className={cn(
+                      'aspect-productImg relative w-full',
+                      faq.adjustImg ? 'object-contain' : 'object-cover'
+                    )}
+                    role="img"
+                  />
+                </>
+              ) : (
+                <div className="aspect-productImg from-grey05 to-sub-light/40 flex w-full flex-col items-center justify-center bg-gradient-to-bl object-cover">
+                  <InfluyLogo className="w-1/3 text-white opacity-65" />
+                  <p className="caption-m text-white">
+                    해당 FAQ 이미지가 없습니다.
+                  </p>
+                </div>
+              )}
             </article>
             <article className="border-grey02 bg-grey01 flex h-full w-full flex-col gap-2.5 px-5 py-2.5">
               <div className="flex w-full justify-between">

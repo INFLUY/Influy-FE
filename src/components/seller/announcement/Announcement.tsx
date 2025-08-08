@@ -1,6 +1,6 @@
 import { AnnouncementType } from '@/types/common/AnnouncementType.types';
 import KebabIcon from '@/assets/icon/common/KebabIcon.svg?react';
-import PinIcon from '@/assets/icon/common/DarkPinIcon.svg?react';
+import PinIcon from '@/assets/icon/common/LightPinIcon.svg?react';
 import { parseDateString } from '@/utils/formatDate';
 
 const Announcement = ({

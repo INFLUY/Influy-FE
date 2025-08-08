@@ -21,7 +21,6 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faqSchema, FaqFormValues } from '@/schemas/faqSchema';
 import { parseDateString } from '@/utils/formatDate';
-import EditIcon from '@/assets/icon/common/Edit1Icon.svg?react';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useGetItemFaqCategory } from '@/services/sellerFaqCard/query/useGetItemFaqCategory';
 import { useGetFaqCard } from '@/services/sellerFaqCard/query/useGetFaqCard';
@@ -213,14 +212,6 @@ const FaqEditPage = () => {
                 <h2 className="body1-b text-black">
                   FAQ 카테고리 <span className="text-main">*</span>
                 </h2>
-                {/* 카테고리 수정 버튼 */}
-                <button
-                  type="button"
-                  className="text-grey06 body2-m flex cursor-pointer items-center gap-1"
-                >
-                  <span>카테고리 수정</span>
-                  <EditIcon className="text-grey09 h-3.5 w-3.5" />
-                </button>
               </div>
               {/* FAQ 카테고리 */}
               <VanillaCategoryMultiSelector

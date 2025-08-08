@@ -114,6 +114,7 @@ export const SELLER_API_DOMAINS = {
     '/seller/items/:itemId/talkbox/:questionCategoryId/questions',
   GET_SINGLE_QUESTION_ANSWER:
     '/seller/items/:itemId/talkbox/:questionCategoryId/questions/:questionTagId/:questionId',
+  SELLER_ITEM_ACCESS: '/seller/items/:itemId/access',
 
   // [톡박스] 질문 카테고리
   SELLER_GENERATE_QUESTION_CATEGORY:
@@ -190,4 +191,5 @@ export const QUERY_KEYS = {
   FAQ_CARD_LIST: 'faqCardList',
   USER_TALK_BOX_HISTORY: 'userTalkboxHistory',
   USER_ITEM_TALKBOX_LIST: 'userTalkboxList',
+  SELLER_ITEM_ACCESS: 'sellerItemAccess',
 };
